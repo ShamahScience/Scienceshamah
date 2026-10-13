@@ -1,0 +1,915 @@
+<title>دورة حياة الحزازيات</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f1f14">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;800&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: full-bleed 3D film stage; translucent "leaf-glass" panels float over it —
+   caption at top, microscope inset and stage chips in the corners, transport controls at the bottom. */
+:root{
+  --moss-ink:#0d1c12;      /* deep shade under the cushion */
+  --glass:rgba(10,30,17,.66);
+  --glass-edge:rgba(190,240,150,.28);
+  --leaf:#8fdc55;          /* fresh gametophyte green */
+  --spore:#f0b448;         /* ripe spore gold */
+  --seta:#b8562f;          /* sporophyte stalk red-brown */
+  --water:#8fd6ff;
+  --cream:#f3f8e8;
+  --muted:#c4d8b8;
+  --gold:#ffd34a;
+  --f-display:"Baloo Bhaijaan 2","Tajawal","Geeza Pro","Segoe UI",system-ui,sans-serif;
+  --f-body:"Tajawal","Geeza Pro","Segoe UI",system-ui,sans-serif;
+  --pad:clamp(8px,2vmin,16px);
+  color-scheme:dark;
+}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--moss-ink);color:var(--cream);font-family:var(--f-body);-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+#app{position:fixed;inset:0;direction:rtl}
+#stage{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+
+/* top bar */
+.top{position:absolute;top:calc(env(safe-area-inset-top,0px) + var(--pad));inset-inline:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.brand{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.brand h1{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(18px,3.4vmin,30px);line-height:1.1;color:var(--cream);text-shadow:0 2px 10px rgba(0,0,0,.55)}
+.chip{font-size:clamp(11px,1.7vmin,14px);padding:3px 10px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-edge);color:var(--muted);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.caption{max-width:min(92vw,820px);background:var(--glass);border:1px solid var(--glass-edge);border-radius:18px;padding:10px 18px 12px;text-align:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.35);transition:opacity .5s,transform .5s}
+.caption.swap{opacity:0;transform:translateY(-10px)}
+.caption .step{font-size:clamp(11px,1.8vmin,14px);color:var(--leaf);font-weight:700;letter-spacing:.02em}
+.caption .txt{font-family:var(--f-display);font-weight:800;font-size:clamp(17px,3.6vmin,34px);line-height:1.35;text-wrap:balance;margin-top:2px}
+.caption .txt b{color:var(--spore);font-weight:800}
+
+/* labels with animated leader arrows */
+#arrows{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+#arrows path{fill:none;stroke:#fff;stroke-width:2.2;stroke-dasharray:7 6;animation:dash 1s linear infinite;filter:drop-shadow(0 1px 2px rgba(0,0,0,.7))}
+#arrows circle{fill:var(--gold);stroke:#fff;stroke-width:1.5}
+@keyframes dash{to{stroke-dashoffset:-13}}
+#labels{position:absolute;inset:0;pointer-events:none}
+.lbl{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;font-size:clamp(12px,2.2vmin,19px);padding:4px 12px 5px;border-radius:12px;background:rgba(255,255,255,.93);color:#17321c;box-shadow:0 4px 14px rgba(0,0,0,.35);border-bottom:3px solid var(--leaf)}
+.lbl.gold{border-bottom-color:var(--spore)}
+.lbl.water{border-bottom-color:var(--water)}
+.lbl.red{border-bottom-color:var(--seta)}
+
+/* wind banner */
+#wind{position:absolute;top:52%;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:800;font-size:clamp(16px,3vmin,26px);color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.6);opacity:0;pointer-events:none}
+#wind svg{width:clamp(90px,18vmin,170px);height:auto;animation:blow 1.6s ease-in-out infinite}
+@keyframes blow{0%{transform:translateX(-14px);opacity:.4}50%{opacity:1}100%{transform:translateX(18px);opacity:.4}}
+
+/* microscope inset */
+.micro{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 118px);width:clamp(150px,34vmin,300px);aspect-ratio:1;max-width:44vw;opacity:0;transform:scale(.85);transition:opacity .4s,transform .4s;pointer-events:none}
+.micro.on{opacity:1;transform:scale(1)}
+.micro canvas{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 0 0 6px rgba(20,40,26,.9),0 0 0 8px rgba(190,240,150,.45),0 14px 30px rgba(0,0,0,.5)}
+.micro span{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:clamp(11px,1.8vmin,14px);font-weight:700;background:var(--glass);border:1px solid var(--glass-edge);padding:2px 10px;border-radius:999px;white-space:nowrap}
+
+/* cycle diagram */
+#cycle{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;transition:opacity .8s}
+#cycle.on{opacity:1}
+#cycle svg{width:min(70vmin,560px);height:auto;max-width:92vw;filter:drop-shadow(0 8px 24px rgba(0,0,0,.5))}
+#cycle .ring{fill:none;stroke:rgba(255,255,255,.85);stroke-width:5;stroke-dasharray:14 10;animation:spin 1.2s linear infinite}
+@keyframes spin{to{stroke-dashoffset:-24}}
+#cycle .node circle{fill:rgba(10,30,17,.85);stroke:var(--leaf);stroke-width:3}
+#cycle text{fill:#fff;font-family:var(--f-body);font-weight:800;text-anchor:middle;dominant-baseline:middle}
+#cycle .center{font-family:var(--f-display);font-size:30px;fill:var(--gold)}
+
+/* bottom controls */
+.bottom{position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 6px);inset-inline:max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;align-items:center;gap:6px}
+.steps{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.steps button{font:inherit;font-size:clamp(14px,2.4vmin,20px);width:clamp(30px,5.4vmin,42px);height:clamp(30px,5.4vmin,42px);border-radius:50%;border:2px solid var(--glass-edge);background:var(--glass);color:#fff;cursor:pointer;position:relative;overflow:hidden;padding:0;transition:transform .2s,border-color .2s}
+.steps button.on{border-color:var(--gold);transform:scale(1.12)}
+.steps button.done{border-color:var(--leaf)}
+.steps button i{position:absolute;inset:auto 0 0 0;height:0;background:rgba(255,211,74,.35);transition:height .1s linear}
+.ctrls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;background:var(--glass);border:1px solid var(--glass-edge);border-radius:999px;padding:6px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ctrls button{font-family:var(--f-body);font-weight:800;font-size:clamp(13px,2.3vmin,18px);border:0;border-radius:999px;padding:8px 14px;color:#10240f;background:var(--cream);cursor:pointer;transition:transform .15s,background .2s;white-space:nowrap}
+.ctrls button:active{transform:scale(.94)}
+.ctrls button.primary{background:var(--leaf)}
+.ctrls button.icon{padding:8px 11px;background:rgba(255,255,255,.18);color:#fff}
+.ctrls button:focus-visible,.steps button:focus-visible,.opt:focus-visible,.big:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.credit{font-family:var(--f-display);font-weight:800;font-size:clamp(12px,2vmin,16px);color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.8);letter-spacing:.01em}
+
+/* overlays */
+.overlay{position:absolute;inset:0;display:grid;place-items:center;padding:16px;background:radial-gradient(ellipse at center,rgba(8,24,12,.35),rgba(8,24,12,.85));transition:opacity .6s}
+.overlay[hidden]{display:none!important}
+.card{max-width:min(560px,92vw);text-align:center;background:var(--glass);border:1px solid var(--glass-edge);border-radius:26px;padding:clamp(16px,4vmin,34px);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 20px 50px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:clamp(8px,1.8vmin,14px);align-items:center}
+.card h2{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(26px,6vmin,52px);line-height:1.15}
+.card .meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.card p{margin:0;color:var(--muted);font-size:clamp(13px,2.2vmin,17px);line-height:1.6}
+.big{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,4vmin,30px);border:0;border-radius:999px;padding:10px 36px;background:var(--leaf);color:#10240f;cursor:pointer;box-shadow:0 8px 24px rgba(143,220,85,.4);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.06)}}
+.q{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,4.4vmin,36px);margin:0;line-height:1.3}
+.opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%}
+.opt{flex:1 1 120px;font-family:var(--f-display);font-weight:800;font-size:clamp(18px,3.4vmin,28px);border:2px solid var(--glass-edge);border-radius:18px;padding:10px 12px;background:rgba(255,255,255,.1);color:#fff;cursor:pointer;transition:transform .15s,background .2s,border-color .2s}
+.opt:hover{background:rgba(255,255,255,.18)}
+.opt.right{background:#3d8f2b;border-color:var(--gold)}
+.opt.wrong{background:#8f3b2b;animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.fb{min-height:1.6em;font-weight:800;font-size:clamp(15px,2.8vmin,22px)}
+.fb.win{font-family:var(--f-display);font-size:clamp(22px,5vmin,40px);color:var(--gold);text-shadow:0 0 18px rgba(255,211,74,.6);animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+#stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;left:50%;top:45%;font-size:var(--s);color:var(--gold);text-shadow:0 0 12px rgba(255,200,40,.9);animation:burst 1.8s cubic-bezier(.15,.8,.3,1) forwards}
+@keyframes burst{0%{transform:translate(-50%,-50%) scale(.2) rotate(0);opacity:1}80%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1) rotate(var(--r));opacity:0}}
+#flash{position:absolute;inset:0;background:#fffbe6;opacity:0;pointer-events:none}
+#flash.go{animation:flash .7s ease-out}
+@keyframes flash{0%{opacity:.55}100%{opacity:0}}
+.toast{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:80vw;text-align:center;background:var(--glass);border:1px solid var(--glass-edge);padding:12px 18px;border-radius:16px;font-weight:700;font-size:clamp(13px,2.2vmin,17px);line-height:1.6;opacity:0;transition:opacity .4s;pointer-events:none}
+.toast.on{opacity:1}
+
+/* compact landscape phones (projector-friendly sideways view) */
+@media (max-height:500px){
+  .top{gap:4px}
+  .brand .chip{display:none}
+  .caption{padding:5px 14px 7px;border-radius:14px}
+  .caption .txt{font-size:clamp(15px,4.6vh,22px)}
+  .ctrls{padding:4px;gap:5px}
+  .ctrls button{padding:5px 11px;font-size:13px}
+  .steps button{width:28px;height:28px;font-size:14px}
+  .bottom{gap:3px}
+  .micro{bottom:calc(env(safe-area-inset-bottom,0px) + 86px);width:min(36vh,180px)}
+  .credit{font-size:12px}
+}
+@media (max-width:520px) and (min-height:501px){
+  .micro{bottom:calc(env(safe-area-inset-bottom,0px) + 150px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .big,#wind svg,#cycle .ring,#arrows path{animation:none}
+}
+</style>
+
+<div id="app">
+  <canvas id="stage" aria-label="مشهد ثلاثي الأبعاد لدورة حياة الحزازيات"></canvas>
+  <svg id="arrows" aria-hidden="true">
+    <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#fff" stroke="none" style="animation:none;stroke-dasharray:none"></path></marker></defs>
+    <g id="arrowLines"></g>
+  </svg>
+  <div id="labels"></div>
+
+  <div id="wind" aria-hidden="true">
+    <span>الرياح</span>
+    <svg viewBox="0 0 170 60"><path d="M5 20 C40 5,70 35,110 20 S150 10,160 20" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"></path><path d="M20 42 C55 30,85 52,140 40" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".7"></path><path d="M148 8 L164 20 L148 32" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+  </div>
+
+  <div class="micro" id="microWrap"><canvas id="micro" width="300" height="300"></canvas><span>منظر مكبَّر بالمجهر</span></div>
+
+  <div id="cycle" aria-hidden="true">
+    <svg viewBox="-200 -200 400 400" id="cycleSvg"></svg>
+  </div>
+
+  <header class="top">
+    <div class="brand">
+      <h1>🌿 دورة حياة الحزازيات 🌿</h1>
+      <span class="chip">العلوم · الصف الرابع الابتدائي</span>
+    </div>
+    <div class="caption" id="caption" aria-live="polite">
+      <div class="step" id="capStep">مشهد طبيعي</div>
+      <div class="txt" id="capTxt">حزازيات خضراء فوق صخرة رطبة</div>
+    </div>
+  </header>
+
+  <footer class="bottom">
+    <div class="steps" id="steps" role="group" aria-label="مراحل الدورة"></div>
+    <div class="ctrls" role="toolbar" aria-label="التحكم">
+      <button id="btnStart" class="primary">▶ ابدئي</button>
+      <button id="btnNext">⏭ التالي</button>
+      <button id="btnPause">⏸ إيقاف مؤقت</button>
+      <button id="btnReset">🔄 إعادة</button>
+      <button id="btnSound" class="icon" aria-label="الصوت" title="المؤثرات الصوتية">🔊</button>
+      <button id="btnFull" class="icon" aria-label="ملء الشاشة" title="ملء الشاشة">⛶</button>
+    </div>
+    <div class="credit">إعداد المعلمة / شامه البقمي</div>
+  </footer>
+
+  <div class="overlay" id="intro">
+    <div class="card">
+      <h2>🌿 دورة حياة الحزازيات 🌿</h2>
+      <div class="meta"><span class="chip">المادة: العلوم</span><span class="chip">الصف: الرابع الابتدائي</span></div>
+      <p>رحلة في ست مراحل: من المحفظة البوغية، إلى انتشار الأبواغ، فالخيط الأولي، فنباتات جديدة، ثم الإخصاب، ونبات بوغي جديد.</p>
+      <button class="big" id="btnIntro">▶ ابدئي</button>
+      <p style="font-weight:700;color:var(--cream)">إعداد المعلمة / شامه البقمي</p>
+    </div>
+  </div>
+
+  <div class="overlay" id="quiz" hidden>
+    <div class="card">
+      <span class="chip">سؤال تفاعلي</span>
+      <p class="q">بماذا تتكاثر الحزازيات وتنتشر؟</p>
+      <div class="opts">
+        <button class="opt" id="optA" data-k="a">أ- البذور</button>
+        <button class="opt" id="optB" data-k="b">ب- الأبواغ</button>
+        <button class="opt" id="optC" data-k="c">ج- الأزهار</button>
+      </div>
+      <div class="fb" id="fb" aria-live="assertive"></div>
+      <button class="big" id="btnAgain" hidden style="animation:none">🔄 إعادة المشاهدة</button>
+    </div>
+    <div id="stars"></div>
+  </div>
+
+  <div id="flash"></div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+
+/* ---------- helpers ---------- */
+function mulberry(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const R = mulberry(41027);
+const rr=(a,b)=>a+(b-a)*R();
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const sstep=(a,b,x)=>{const t=clamp((x-a)/(b-a));return t*t*(3-2*t);};
+const win=(a,b,x,f=0.04)=>sstep(a,a+f,x)*(1-sstep(b-f,b,x));
+const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
+const AR=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+const ar=n=>String(n).replace(/\d/g,d=>AR[d]);
+
+function hash3(x,y,z){let h=Math.imul(x,374761393)+Math.imul(y,668265263)+Math.imul(z,1274126177);h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967295;}
+function noise3(x,y,z){
+  const xi=Math.floor(x),yi=Math.floor(y),zi=Math.floor(z);
+  const xf=x-xi,yf=y-yi,zf=z-zi;
+  const u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf),w=zf*zf*(3-2*zf);
+  const c=(a,b,d)=>hash3(xi+a,yi+b,zi+d);
+  const x00=lerp(c(0,0,0),c(1,0,0),u),x10=lerp(c(0,1,0),c(1,1,0),u);
+  const x01=lerp(c(0,0,1),c(1,0,1),u),x11=lerp(c(0,1,1),c(1,1,1),u);
+  return lerp(lerp(x00,x10,v),lerp(x01,x11,v),w);
+}
+function fbm(x,y,z,o=4){let s=0,a=.5,f=1;for(let i=0;i<o;i++){s+=a*noise3(x*f+i*7.1,y*f,z*f);f*=2.03;a*=.5;}return s/(1-Math.pow(.5,o));}
+
+/* ---------- renderer / scene ---------- */
+const canvas=$('#stage');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+renderer.outputEncoding=THREE.sRGBEncoding;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=0.92;
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const scene=new THREE.Scene();
+scene.fog=new THREE.Fog(0xa8c9a0,7,32);
+const camera=new THREE.PerspectiveCamera(45,1,0.004,90);
+
+function canvasTex(w,h,draw,srgb=true){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new THREE.CanvasTexture(c);if(srgb)t.encoding=THREE.sRGBEncoding;return t;}
+
+/* sky dome with forest horizon */
+const skyTex=canvasTex(2048,1024,(g,w,h)=>{
+  const gr=g.createLinearGradient(0,0,0,h);
+  gr.addColorStop(0,'#5ea3d6');gr.addColorStop(.32,'#a9d4ea');gr.addColorStop(.47,'#e6f1d6');
+  gr.addColorStop(.52,'#9cbc84');gr.addColorStop(.62,'#7c9a64');gr.addColorStop(1,'#5d7848');
+  g.fillStyle=gr;g.fillRect(0,0,w,h);
+  // soft clouds
+  for(let i=0;i<40;i++){const x=R()*w,y=h*rr(.08,.3),r=rr(30,110);const cg=g.createRadialGradient(x,y,0,x,y,r);cg.addColorStop(0,'rgba(255,255,255,.55)');cg.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=cg;g.beginPath();g.ellipse(x,y,r*2.2,r*.7,0,0,7);g.fill();}
+  // tree line layers
+  const layers=[['rgba(130,165,125,.55)',.43,60],['rgba(100,140,92,.75)',.46,45],['rgba(78,116,66,.9)',.49,34]];
+  layers.forEach(([col,base,size])=>{g.fillStyle=col;for(let x=-20;x<w+20;x+=size*rr(.4,.9)){const th=size*rr(1.4,3.4);g.beginPath();g.ellipse(x,h*base-th*.3,size*rr(.5,.9),th,0,0,7);g.fill();}g.fillRect(0,h*base,w,h*.08);});
+  {const hz=g.createLinearGradient(0,h*.4,0,h*.53);hz.addColorStop(0,'rgba(168,201,160,0)');hz.addColorStop(.7,'rgba(168,201,160,.55)');hz.addColorStop(1,'rgba(168,201,160,1)');g.fillStyle=hz;g.fillRect(0,h*.4,w,h*.13);g.fillStyle='#a8c9a0';g.fillRect(0,h*.53,w,h*.47);}
+  // sun glow
+  const sg=g.createRadialGradient(w*.36,h*.2,0,w*.36,h*.2,260);sg.addColorStop(0,'rgba(255,248,220,.95)');sg.addColorStop(1,'rgba(255,248,220,0)');g.fillStyle=sg;g.fillRect(0,0,w,h);
+});
+skyTex.wrapS=THREE.RepeatWrapping;
+const skyGeo=new THREE.SphereGeometry(45,48,24);
+const skyMat=new THREE.MeshBasicMaterial({map:skyTex,side:THREE.BackSide,fog:false,depthWrite:false});
+const sky=new THREE.Mesh(skyGeo,skyMat);scene.add(sky);
+{ // environment lighting from the sky
+  const envScene=new THREE.Scene();envScene.add(new THREE.Mesh(skyGeo,skyMat));
+  const pm=new THREE.PMREMGenerator(renderer);scene.environment=pm.fromScene(envScene,0.04).texture;pm.dispose();
+}
+
+const hemi=new THREE.HemisphereLight(0xe3f4ff,0x40502a,0.32);scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff0d2,1.55);
+sun.position.set(-3.5,6,3.2);sun.target.position.set(1,0,0.4);
+sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);
+Object.assign(sun.shadow.camera,{left:-3,right:4.5,top:3.2,bottom:-3.2,near:1,far:16});
+sun.shadow.bias=-0.0004;sun.shadow.normalBias=0.015;
+scene.add(sun,sun.target);
+const rim=new THREE.DirectionalLight(0xd8ffb0,0.35);rim.position.set(3,2.5,-4);scene.add(rim);
+
+/* ---------- ground ---------- */
+const S=V(2.35,0,0.95); // moist soil where the spore lands
+const soilTex=canvasTex(512,512,(g,w,h)=>{
+  g.fillStyle='#4a3626';g.fillRect(0,0,w,h);
+  for(let i=0;i<9000;i++){const l=rr(18,42);g.fillStyle=`hsla(${rr(20,36)},${rr(25,45)}%,${l}%,${rr(.25,.7)})`;const s=rr(1,3.4);g.fillRect(R()*w,R()*h,s,s);}
+  for(let i=0;i<120;i++){g.fillStyle=`hsl(30,8%,${rr(40,62)}%)`;g.beginPath();g.ellipse(R()*w,R()*h,rr(2,5),rr(1.5,4),R()*3,0,7);g.fill();}
+  for(let i=0;i<60;i++){g.strokeStyle='rgba(120,90,40,.5)';g.lineWidth=rr(1,2);g.beginPath();const x=R()*w,y=R()*h;g.moveTo(x,y);g.lineTo(x+rr(-14,14),y+rr(-14,14));g.stroke();}
+});
+soilTex.wrapS=soilTex.wrapT=THREE.RepeatWrapping;soilTex.repeat.set(26,26);soilTex.anisotropy=4;
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(90,90).rotateX(-Math.PI/2),new THREE.MeshStandardMaterial({map:soilTex,roughness:.95,metalness:0,envMapIntensity:.35}));
+ground.receiveShadow=true;scene.add(ground);
+
+const radialAlpha=canvasTex(256,256,(g,w,h)=>{const gr=g.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);gr.addColorStop(0,'#fff');gr.addColorStop(.55,'#bbb');gr.addColorStop(1,'#000');g.fillStyle=gr;g.fillRect(0,0,w,h);},false);
+function decal(pos,r,color,rough,op=1){const m=new THREE.Mesh(new THREE.CircleGeometry(r,48).rotateX(-Math.PI/2),new THREE.MeshStandardMaterial({color,roughness:rough,metalness:0,alphaMap:radialAlpha,transparent:true,opacity:op,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2}));m.position.copy(pos);m.position.y=0.002;m.receiveShadow=true;scene.add(m);return m;}
+decal(S,0.75,0x1a100a,0.22).material.envMapIntensity=0.3; // wet soil, glossy
+
+/* ---------- the rock ---------- */
+const ROCK_C=V(0,0.22,0), ROCK_S=V(1.38,0.82,1.18);
+function mossMask(dx,dy,dz){return dy*1.25+(fbm(dx*2.1+3,dy*2.1,dz*2.1)-.5)*1.5-0.22;}
+const rockGeo=new THREE.SphereGeometry(1,170,110);
+{
+  const p=rockGeo.attributes.position,col=[];
+  const d=V();
+  for(let i=0;i<p.count;i++){
+    d.set(p.getX(i),p.getY(i),p.getZ(i)).normalize();
+    let r=1+0.2*(fbm(d.x*1.2,d.y*1.2,d.z*1.2)-.5)+0.05*(fbm(d.x*5,d.y*5,d.z*5)-.5)+0.012*(noise3(d.x*22,d.y*22,d.z*22)-.5);
+    const m=mossMask(d.x,d.y,d.z);
+    if(m>0) r+=0.03*sstep(0,.25,m);
+    let y=d.y*r; if(y<-0.35) y=-0.35+(y+0.35)*0.2;
+    p.setXYZ(i,d.x*r*ROCK_S.x,y*ROCK_S.y,d.z*r*ROCK_S.z);
+    const n=fbm(d.x*3+9,d.y*3,d.z*3);
+    const wet=sstep(0.1,-0.5,d.y);
+    let c=[0.46+n*0.18,0.46+n*0.17,0.43+n*0.15].map(v=>v*(1-wet*0.45));
+    const lich=sstep(.62,.72,fbm(d.x*4,d.y*4+5,d.z*4));c=c.map((v,k)=>lerp(v,[0.62,0.66,0.48][k],lich*.5));
+    if(m>-0.12){const t=sstep(-0.12,0.15,m);const mc=[0.10+n*0.06,0.20+n*0.1,0.05];c=c.map((v,k)=>lerp(v,mc[k],t));}
+    col.push(c[0],c[1],c[2]);
+  }
+  rockGeo.setAttribute('color',new THREE.Float32BufferAttribute(col,3));
+  rockGeo.computeVertexNormals();
+}
+const rock=new THREE.Mesh(rockGeo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:.62,metalness:0,envMapIntensity:.45}));
+rock.position.copy(ROCK_C);rock.castShadow=rock.receiveShadow=true;scene.add(rock);
+rock.updateMatrixWorld();
+const ray=new THREE.Raycaster();
+function onRock(x,z){ray.set(V(x,6,z),V(0,-1,0));const h=ray.intersectObject(rock)[0];if(!h)return null;const n=h.face.normal.clone().transformDirection(rock.matrixWorld);const d=h.point.clone().sub(ROCK_C);d.set(d.x/ROCK_S.x,d.y/ROCK_S.y,d.z/ROCK_S.z).normalize();return{p:h.point,n,d};}
+
+/* small stones and grass for a living ground */
+{
+  const sg=new THREE.IcosahedronGeometry(1,2);const sm=new THREE.MeshStandardMaterial({color:0x7a756a,roughness:.8,envMapIntensity:.4});
+  for(let i=0;i<46;i++){const a=R()*6.28,r=rr(1.6,6);const x=Math.cos(a)*r,z=Math.sin(a)*r;if(Math.hypot(x-S.x,z-S.z)<0.7)continue;const s=new THREE.Mesh(sg,sm);const k=rr(.03,.13);s.scale.set(k*rr(1,1.6),k*rr(.5,.8),k);s.position.set(x,k*.2,z);s.rotation.y=R()*3;s.castShadow=s.receiveShadow=true;scene.add(s);}
+  const bl=new THREE.PlaneGeometry(0.03,1,1,4);bl.translate(0,.5,0);
+  {const p=bl.attributes.position;for(let i=0;i<p.count;i++){const y=p.getY(i);p.setX(i,p.getX(i)*(1-y));p.setZ(i,y*y*0.25);}bl.computeVertexNormals();}
+  const N=1400;const gm=new THREE.InstancedMesh(bl,new THREE.MeshStandardMaterial({color:0xffffff,side:THREE.DoubleSide,roughness:.7,envMapIntensity:.4}),N);
+  const m=new THREE.Matrix4(),q=new THREE.Quaternion(),e=new THREE.Euler(),c=new THREE.Color();let k=0;
+  for(let i=0;i<N*3&&k<N;i++){const a=R()*6.28,r=rr(1.9,11);const x=Math.cos(a)*r,z=Math.sin(a)*r;if(Math.hypot(x-S.x,z-S.z)<1.1||(z>2&&Math.abs(x-1)<2.8&&z<6))continue;const h=rr(.12,.42)*(r>4?1.6:1);e.set(rr(-.3,.3),R()*6.28,rr(-.3,.3));q.setFromEuler(e);m.compose(V(x,0,z),q,V(1,h,1));gm.setMatrixAt(k,m);c.setHSL(rr(.2,.29),rr(.45,.7),rr(.25,.42));gm.setColorAt(k,c);k++;}
+  gm.count=k;gm.frustumCulled=false;gm.castShadow=true;scene.add(gm);
+}
+
+/* ---------- moss shoot geometry (haircap-moss style gametophyte) ---------- */
+function makeLeafGeo(){
+  const N=7,pos=[],col=[],idx=[];
+  for(let i=0;i<=N;i++){
+    const y=i/N;const w=0.16*Math.pow(Math.sin(Math.PI*Math.min(1,Math.pow(y,0.72))),0.85)+(i===0?0.035:0);
+    const zm=y*y*0.3,ze=zm-w*0.55;pos.push(-w,y,ze,0,y,zm,w,y,ze);
+    const b=lerp(0.5,1.05,y);col.push(b*.88,b,b*.72,b*.8,b*.94,b*.6,b*.88,b,b*.72);
+  }
+  for(let i=0;i<N;i++){const a=i*3;idx.push(a,a+3,a+1,a+1,a+3,a+4,a+1,a+4,a+2,a+2,a+4,a+5);}
+  const g=new THREE.BufferGeometry();g.setIndex(idx);g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(col,3));g.computeVertexNormals();return g;
+}
+const leafGeo=makeLeafGeo();
+const leafMat=new THREE.MeshStandardMaterial({vertexColors:true,side:THREE.DoubleSide,roughness:.5,metalness:0,emissive:0x0c2a08,emissiveIntensity:.35,envMapIntensity:.45});
+const stemGeo=new THREE.CylinderGeometry(1,1,1,5,1).translate(0,.5,0);
+const stemMat=new THREE.MeshStandardMaterial({color:0x6b7d2c,roughness:.6});
+
+const _m=new THREE.Matrix4(),_t=new THREE.Matrix4(),_r=new THREE.Matrix4(),_r2=new THREE.Matrix4(),_s=new THREE.Matrix4(),_q=new THREE.Quaternion(),_c=new THREE.Color();
+const Y=V(0,1,0);
+function shootBase(pos,up){_q.setFromUnitVectors(Y,up.clone().normalize());return new THREE.Matrix4().compose(pos,_q.clone(),V(1,1,1));}
+/* writes leaf matrices of one shoot; returns number written */
+function writeShoot(im,start,sp,g){
+  const n=sp.n;let k=0;const H=sp.h*g;
+  for(let j=0;j<n;j++){
+    const f=j/(n-1);
+    const lg=clamp((g-f*0.8)/0.2);
+    let L=sp.L*(0.55+0.5*Math.sin(Math.PI*(0.2+0.62*f)))*lg;
+    let tilt=lerp(1.05,0.38,f*f);
+    if(sp.cup&&f>0.7){tilt=lerp(1.0,1.45,(f-0.7)/0.3);L*=1.25;}
+    const h=H*(0.04+0.96*Math.pow(f,0.85));
+    _m.copy(sp.m).multiply(_t.makeTranslation(0,h,0)).multiply(_r.makeRotationY(j*2.39996+sp.ph)).multiply(_r2.makeRotationX(tilt)).multiply(_s.makeScale(L+1e-5,L+1e-5,L+1e-5));
+    im.setMatrixAt(start+k,_m);k++;
+  }
+  return k;
+}
+function writeStem(im,i,sp,g){_m.copy(sp.m).multiply(_s.makeScale(sp.r,sp.h*g+1e-5,sp.r));im.setMatrixAt(i,_m);}
+
+const specs=[];
+function addSpec(pos,up,h,extra={}){const sp=Object.assign({m:shootBase(pos,up),pos:pos.clone(),up:up.clone().normalize(),h,n:Math.max(10,Math.round(h/0.0145)),L:rr(.052,.068)*(h>0.2?1:0.85),ph:R()*6.28,r:rr(.0045,.006),hue:rr(.22,.3),sat:rr(.55,.78),lit:rr(.3,.44)},extra);specs.push(sp);return sp;}
+
+// cushion on the rock top
+let hero=null;
+{
+  const want=V(-0.12,0,0.42);
+  const hh=onRock(want.x,want.z);
+  hero=addSpec(hh.p.clone().addScaledVector(hh.n,-0.01),hh.n.clone().lerp(Y,.8),0.3,{L:.062,hue:.25,lit:.4});
+  for(let i=0;i<5200&&specs.length<620;i++){
+    const x=rr(-1.45,1.45),z=rr(-1.25,1.25);
+    const o=onRock(x,z);if(!o)continue;
+    const mk=mossMask(o.d.x,o.d.y,o.d.z);if(mk<0.04)continue;
+    if(Math.hypot(x-want.x,z-want.z)<0.05)continue;
+    const up=o.n.clone().lerp(Y,.55);up.x+=rr(-.18,.18);up.z+=rr(-.18,.18);
+    addSpec(o.p.clone().addScaledVector(o.n,-0.012),up,rr(.15,.3)*(0.6+0.4*sstep(0,.3,mk)));
+  }
+}
+// moss patches on the ground around the rock (away from the moist soil spot)
+{
+  const centers=[];
+  for(let i=0;i<9;i++){const a=rr(0,6.28),r=rr(1.55,2.6);const c=V(Math.cos(a)*r,0,Math.sin(a)*r);if(c.distanceTo(S)<1.1)continue;centers.push([c,rr(.18,.38)]);}
+  centers.forEach(([c,rad])=>{decal(c,rad*1.25,0x1f3a12,.8);const n=Math.round(rad*rad*500);for(let i=0;i<n;i++){const a=R()*6.28,r=Math.sqrt(R())*rad;const p=V(c.x+Math.cos(a)*r,-0.004,c.z+Math.sin(a)*r);if(p.distanceTo(ROCK_C)<1.2)continue;addSpec(p,V(rr(-.2,.2),1,rr(-.2,.2)),rr(.1,.24)*(1-0.5*r/rad));}});
+}
+const colonyLeafCount=specs.reduce((a,s)=>a+s.n,0);
+const colonyLeaves=new THREE.InstancedMesh(leafGeo,leafMat,colonyLeafCount);
+const colonyStems=new THREE.InstancedMesh(stemGeo,stemMat,specs.length);
+{
+  let k=0;specs.forEach((sp,i)=>{const n=writeShoot(colonyLeaves,k,sp,1);_c.setHSL(sp.hue,sp.sat,sp.lit);for(let j=0;j<n;j++){const c2=_c.clone().offsetHSL(rr(-.01,.01),0,rr(-.04,.04)+j/n*0.06);colonyLeaves.setColorAt(k+j,c2);}k+=n;writeStem(colonyStems,i,sp,1);});
+}
+[colonyLeaves,colonyStems].forEach(m=>{m.frustumCulled=false;m.castShadow=true;m.receiveShadow=true;scene.add(m);});
+
+/* ---------- sporophyte (stalk + capsule + lid + hood) ---------- */
+const setaGeo=new THREE.CylinderGeometry(0.75,1,1,7,1).translate(0,.5,0);
+const capGeo=new THREE.LatheGeometry([[0,0],[.09,.02],[.15,.1],[.2,.22],[.28,.36],[.31,.52],[.3,.7],[.25,.84],[.21,.9],[.2,.92]].map(p=>new THREE.Vector2(p[0],p[1])),28);
+const lidGeo=new THREE.LatheGeometry([[.215,0],[.2,.05],[.13,.1],[.05,.16],[.02,.26],[0,.28]].map(p=>new THREE.Vector2(p[0],p[1])),24).translate(0,.9,0);
+const calyGeo=new THREE.LatheGeometry([[.27,.45],[.33,.62],[.32,.86],[.24,1.04],[.1,1.2],[.03,1.36],[0,1.38]].map(p=>new THREE.Vector2(p[0],p[1])),24);
+const toothGeo=new THREE.ConeGeometry(.03,.09,4).translate(0,.045,0);
+const hairTex=canvasTex(64,256,(g,w,h)=>{g.fillStyle='#fff';g.fillRect(0,0,w,h);for(let i=0;i<70;i++){g.strokeStyle=`rgba(150,120,70,${rr(.2,.6)})`;g.lineWidth=rr(.5,1.6);const x=R()*w;g.beginPath();g.moveTo(x,0);g.bezierCurveTo(x+rr(-8,8),h*.3,x+rr(-8,8),h*.7,x+rr(-6,6),h);g.stroke();}});
+const C_SETA_Y=new THREE.Color(0x9fbf4a),C_SETA_M=new THREE.Color(0x8a2f17),C_CAP_Y=new THREE.Color(0x77b33e),C_CAP_M=new THREE.Color(0xa0702c);
+function makeSporophyte(setaLen,capLen,lean,capTilt){
+  const g=new THREE.Group();g.matrixAutoUpdate=false;
+  const inner=new THREE.Group();inner.rotation.z=lean;g.add(inner);
+  const setaMat=new THREE.MeshStandardMaterial({color:C_SETA_M.clone(),roughness:.32,envMapIntensity:.5});
+  const seta=new THREE.Mesh(setaGeo,setaMat);seta.castShadow=true;inner.add(seta);
+  const cap=new THREE.Group();cap.rotation.z=capTilt;inner.add(cap);
+  const bodyMat=new THREE.MeshStandardMaterial({color:C_CAP_M.clone(),roughness:.38,envMapIntensity:.5,transparent:true,opacity:1});
+  const body=new THREE.Mesh(capGeo,bodyMat);body.castShadow=true;cap.add(body);
+  const lidMat=new THREE.MeshStandardMaterial({color:0xc4782e,roughness:.35,transparent:true});
+  const lid=new THREE.Mesh(lidGeo,lidMat);cap.add(lid);
+  const caly=new THREE.Mesh(calyGeo,new THREE.MeshStandardMaterial({color:0xd8c38a,map:hairTex,roughness:.85,transparent:true,opacity:.97,side:THREE.DoubleSide}));caly.visible=false;cap.add(caly);
+  const teeth=new THREE.Group();const tm=new THREE.MeshStandardMaterial({color:0xd06a24,roughness:.5});
+  for(let i=0;i<16;i++){const t=new THREE.Mesh(toothGeo,tm);const a=i/16*6.283;t.position.set(Math.cos(a)*.17,.9,Math.sin(a)*.17);t.rotation.set(Math.sin(a)*-.5,0,Math.cos(a)*.5);teeth.add(t);}
+  teeth.visible=false;cap.add(teeth);
+  const sp={group:g,inner,seta,cap,body,lid,caly,teeth,setaLen,capLen,lidOff:0};
+  sp.set=(sg,cg,mat)=>{
+    seta.visible=cap.visible=sg>0.001;
+    const L=setaLen*sg;seta.scale.set(0.0042,L+1e-5,0.0042);
+    cap.position.y=L;const s=capLen*(0.25+0.75*cg);cap.scale.set(s*(0.45+0.55*cg),s,s*(0.45+0.55*cg));
+    setaMat.color.copy(C_SETA_Y).lerp(C_SETA_M,mat);bodyMat.color.copy(C_CAP_Y).lerp(C_CAP_M,mat);
+  };
+  sp.set(1,1,1);
+  return sp;
+}
+function attachToShoot(sp,shoot,h){sp.group.matrix.copy(shoot.m).multiply(_t.makeTranslation(0,h??shoot.h,0));scene.add(sp.group);sp.group.updateMatrixWorld(true);}
+
+// hero sporophyte (camera star of scene 1 and 2)
+const heroSp=makeSporophyte(0.42,0.082,-0.05,-0.75);attachToShoot(heroSp,hero);
+// other mature sporophytes on the cushion
+{
+  const cands=specs.filter(s=>s!==hero&&s.h>0.21&&s.pos.y>0.5&&s.pos.distanceTo(hero.pos)>0.16);
+  for(let i=0;i<16&&cands.length;i++){const s=cands.splice(Math.floor(R()*cands.length),1)[0];const sp=makeSporophyte(rr(.3,.46),rr(.055,.07),rr(-.15,.15),rr(-1.1,1.1));sp.inner.rotation.y=R()*6;const mt=rr(.4,1);sp.set(1,1,mt);attachToShoot(sp,s);}
+}
+
+/* ---------- soft point sprites (spores, dust, sperm, splashes) ---------- */
+function makePoints(n,color,additive=false,size=0.006){
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.Float32BufferAttribute(new Float32Array(n*3),3));
+  g.setAttribute('alpha',new THREE.Float32BufferAttribute(new Float32Array(n),1));
+  const sz=new Float32Array(n).fill(size);g.setAttribute('size',new THREE.Float32BufferAttribute(sz,1));
+  const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:additive?THREE.AdditiveBlending:THREE.NormalBlending,
+    uniforms:{uColor:{value:new THREE.Color(color)},uScale:{value:500}},
+    vertexShader:`attribute float alpha;attribute float size;varying float vA;uniform float uScale;void main(){vA=alpha;vec4 mv=modelViewMatrix*vec4(position,1.);gl_PointSize=max(1.5,size*uScale/-mv.z);gl_Position=projectionMatrix*mv;}`,
+    fragmentShader:`uniform vec3 uColor;varying float vA;void main(){vec2 p=gl_PointCoord-.5;float d=length(p);if(d>.5)discard;float a=smoothstep(.5,.25,d)*vA;vec3 c=mix(uColor*1.25,uColor*.75,smoothstep(0.,.45,length(p+vec2(.12,.12))));gl_FragColor=vec4(c,a);}`});
+  const pts=new THREE.Points(g,mat);pts.frustumCulled=false;scene.add(pts);pointSets.push(mat);
+  return{pts,pos:g.attributes.position,alpha:g.attributes.alpha,size:g.attributes.size,n};
+}
+const pointSets=[];
+
+// spores waiting inside the capsule (seen when the wall turns see-through)
+const innerSp=(()=>{const g=new THREE.BufferGeometry();const n=180;const p=[],a=[],s=[];for(let i=0;i<n;i++){const t=rr(.2,.85),r=Math.sqrt(R())*0.2*Math.sin(Math.PI*clamp((t-.05)/.85));const an=R()*6.28;p.push(Math.cos(an)*r,t,Math.sin(an)*r);a.push(0);s.push(0.0035);}
+  g.setAttribute('position',new THREE.Float32BufferAttribute(p,3));g.setAttribute('alpha',new THREE.Float32BufferAttribute(a,1));g.setAttribute('size',new THREE.Float32BufferAttribute(s,1));
+  const pts=new THREE.Points(g,null);return{g,pts,n};})();
+
+const spores=makePoints(420,0xf0b448,false,0.0075);
+const sporeSeed=[];for(let i=0;i<spores.n;i++)sporeSeed.push({r:Math.pow(R(),1.4)*3.6,a:R(),b:rr(.6,1.4),c:R(),ph:R()*6.28,ph2:R()*6.28,s:rr(.6,1.3)});
+spores.pts.renderOrder=3;
+{ // inner spores reuse the same shader
+  innerSp.pts.material=spores.pts.material.clone();innerSp.pts.material.uniforms={uColor:{value:new THREE.Color(0xffc75a)},uScale:{value:500}};pointSets.push(innerSp.pts.material);
+  innerSp.pts.frustumCulled=false;innerSp.pts.renderOrder=4;innerSp.pts.material.depthTest=false;heroSp.cap.add(innerSp.pts);
+}
+const dust=makePoints(220,0xfff2c8,true,0.012);
+const dustSeed=[];for(let i=0;i<dust.n;i++){const p=V(rr(-2.5,4),rr(.2,2.4),rr(-1.5,2.6));dustSeed.push({p,ph:R()*6.28,sp:rr(.1,.3)});}
+
+const glowTex=canvasTex(128,128,(g,w,h)=>{const gr=g.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.25,'rgba(255,240,180,.7)');gr.addColorStop(1,'rgba(255,220,120,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);});
+function glow(color,scale){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true}));s.scale.set(scale,scale,1);scene.add(s);return s;}
+
+// the one spore we follow
+const heroSpore=new THREE.Mesh(new THREE.SphereGeometry(0.0065,20,14),new THREE.MeshStandardMaterial({color:0xe8a838,roughness:.45,emissive:0x3a2200}));
+heroSpore.castShadow=true;scene.add(heroSpore);
+const heroGlow=glow(0xffd36a,0.07);
+
+// wind ribbons
+const windRibbons=[];
+{const mat=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0,depthWrite:false,fog:false});
+ for(let i=0;i<9;i++){const pts=[];for(let k=0;k<=24;k++){const x=k/24*1.4;pts.push(V(x,Math.sin(x*4+i)*0.06,Math.cos(x*3+i)*0.04));}
+  const m=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),48,0.0035,4,false),mat.clone());
+  m.userData={y:rr(1.0,1.9),z:rr(-0.2,1.2),x0:rr(-1.5,1.5),sp:rr(.5,.8)};scene.add(m);windRibbons.push(m);}}
+
+/* ---------- droplets ---------- */
+const dropMat=new THREE.MeshPhysicalMaterial({color:0xe8f7ff,roughness:0.02,metalness:0,transparent:true,opacity:.42,clearcoat:1,clearcoatRoughness:0,envMapIntensity:2.4});
+const dropGeo=new THREE.SphereGeometry(1,20,14);
+function addDrop(p,r){const d=new THREE.Mesh(dropGeo,dropMat);d.position.copy(p);d.scale.set(r,r*.72,r);scene.add(d);return d;}
+for(let i=0;i<70;i++){const x=rr(-1.3,1.3),z=rr(-1.1,1.15);const o=onRock(x,z);if(!o)continue;addDrop(o.p.clone().addScaledVector(o.n,0.006),rr(.008,.022));}
+// beads on leaf tips around the hero
+for(let i=0;i<40;i++){const sp=specs[1+Math.floor(R()*Math.min(400,specs.length-1))];if(sp.pos.distanceTo(hero.pos)>0.6)continue;addDrop(sp.pos.clone().addScaledVector(sp.up,sp.h*rr(.85,1.05)).add(V(rr(-.02,.02),0,rr(-.02,.02))),rr(.005,.009));}
+for(let i=0;i<14;i++){const a=R()*6.28,r=rr(.05,.4);addDrop(V(S.x+Math.cos(a)*r,0.004,S.z+Math.sin(a)*r),rr(.006,.016));}
+
+/* ---------- protonema (green branching thread) ---------- */
+const protoSegs=[];
+{
+  const PR=mulberry(77);const pr=(a,b)=>a+(b-a)*PR();
+  function grow(p,ang,depth,t0,n){
+    let a=ang;
+    for(let i=0;i<n;i++){
+      a+=pr(-.35,.35);const L=0.017*pr(.85,1.15);
+      const q=V(p.x+Math.cos(a)*L,0.0045,p.z+Math.sin(a)*L);
+      protoSegs.push({a:p.clone(),b:q,t:t0+i,depth});
+      if(depth<3&&i>1&&PR()<0.34)grow(q,a+(PR()<.5?1:-1)*pr(.6,1.2),depth+1,t0+i+1,Math.round(n*pr(.4,.65)));
+      p=q;
+    }
+  }
+  const s0=V(S.x,0.0045,S.z);
+  [0.3,2.3,4.2,5.4].forEach((a,i)=>grow(s0,a,0,i*0.6,13+i%2*2));
+  const tm=Math.max(...protoSegs.map(s=>s.t))+1;protoSegs.forEach(s=>{s.t/=tm;});
+}
+const protoGeo=new THREE.CylinderGeometry(1,1,1,6,1).translate(0,.5,0);
+const protoMat=new THREE.MeshStandardMaterial({color:0x5cc23a,roughness:.4,emissive:0x0c3a06,emissiveIntensity:.6});
+const protoIM=new THREE.InstancedMesh(protoGeo,protoMat,protoSegs.length);
+const jointIM=new THREE.InstancedMesh(new THREE.SphereGeometry(1,8,6),new THREE.MeshStandardMaterial({color:0x2f7d1c,roughness:.5}),protoSegs.length);
+[protoIM,jointIM].forEach(m=>{m.frustumCulled=false;m.castShadow=true;m.instanceMatrix.setUsage(THREE.DynamicDrawUsage);scene.add(m);});
+
+/* buds and young moss plants */
+function nearestSegEnd(target,used){let best=null,bd=1e9;protoSegs.forEach(s=>{if(s.depth>1)return;const d=s.b.distanceTo(target);if(d<bd&&!used.some(u=>u.distanceTo(s.b)<0.05)){bd=d;best=s;}});return best;}
+const used=[];
+const maleSeg=nearestSegEnd(V(S.x-0.07,0,S.z+0.05),used);used.push(maleSeg.b);
+const femSeg=nearestSegEnd(V(S.x+0.065,0,S.z+0.04),used);used.push(femSeg.b);
+const budSegs=[maleSeg,femSeg];
+[[-.13,-.06],[.15,-.05],[.02,-.13],[-.09,-.16],[.11,-.15]].forEach(([dx,dz])=>{const s=nearestSegEnd(V(S.x+dx,0,S.z+dz),used);if(s){used.push(s.b);budSegs.push(s);}});
+const buds=budSegs.map(()=>{const b=new THREE.Mesh(new THREE.SphereGeometry(1,14,10),new THREE.MeshStandardMaterial({color:0x7fd34a,roughness:.45,emissive:0x143a08}));b.castShadow=true;scene.add(b);return b;});
+const young=budSegs.map((s,i)=>{const up=V(rr(-.08,.08),1,rr(-.08,.08));const h=i===0?0.27:i===1?0.3:rr(.2,.29);
+  return{m:shootBase(s.b.clone().setY(0),up),pos:s.b.clone().setY(0),up:up.normalize(),h,n:Math.round(h/0.015)+(i===0?3:0),L:i===0?.06:.058,ph:R()*6.28,r:.0052,cup:i===0,
+    hue:i===0?.2:.27,sat:.7,lit:.4,birth:3.3+i*0.035};});
+const youngLeafN=young.reduce((a,s)=>a+s.n,0);
+const youngLeaves=new THREE.InstancedMesh(leafGeo,leafMat,youngLeafN);
+const youngStems=new THREE.InstancedMesh(stemGeo,stemMat,young.length);
+{let k=0;young.forEach(sp=>{for(let j=0;j<sp.n;j++){_c.setHSL(sp.hue,sp.sat,sp.lit+j/sp.n*.08);if(sp.cup&&j>sp.n*.7)_c.setHSL(.06,.6,.42);youngLeaves.setColorAt(k++,_c);}});}
+[youngLeaves,youngStems].forEach(m=>{m.frustumCulled=false;m.castShadow=true;m.receiveShadow=true;m.instanceMatrix.setUsage(THREE.DynamicDrawUsage);scene.add(m);});
+const male=young[0],fem=young[1];
+const topOf=sp=>sp.pos.clone().addScaledVector(sp.up,sp.h);
+const Mt=topOf(male),Ft=topOf(fem),Mid=Mt.clone().add(Ft).multiplyScalar(.5);
+
+// male splash-cup: antheridia cluster
+const antheridia=new THREE.Group();
+{const g=new THREE.SphereGeometry(1,12,8);const m=new THREE.MeshStandardMaterial({color:0xe8892c,roughness:.4,emissive:0x3a1400});
+ for(let i=0;i<13;i++){const a=i*2.4,r=Math.sqrt(i/13)*0.016;const s=new THREE.Mesh(g,m);s.position.set(Math.cos(a)*r,0.004-r*.25,Math.sin(a)*r);s.scale.set(.0045,.009,.0045);s.rotation.set(Math.sin(a)*r*30,0,Math.cos(a)*r*30);antheridia.add(s);}
+ antheridia.matrixAutoUpdate=false;antheridia.matrix.copy(male.m).multiply(_t.makeTranslation(0,male.h-0.006,0));scene.add(antheridia);}
+// female apex: archegonia (tiny flasks)
+const archegonia=new THREE.Group();
+{const fg=new THREE.LatheGeometry([[0,0],[.5,.1],[.6,.35],[.35,.6],[.18,.75],[.16,1.6],[.24,1.75],[0,1.76]].map(p=>new THREE.Vector2(p[0],p[1])),12);const m=new THREE.MeshStandardMaterial({color:0xb5543c,roughness:.45,emissive:0x2a0800});
+ for(let i=0;i<5;i++){const a=i*1.26;const s=new THREE.Mesh(fg,m);s.position.set(Math.cos(a)*.006,0,Math.sin(a)*.006);s.scale.setScalar(.0075);s.rotation.set(Math.sin(a)*.4,0,Math.cos(a)*-.4);archegonia.add(s);}
+ archegonia.matrixAutoUpdate=false;archegonia.matrix.copy(fem.m).multiply(_t.makeTranslation(0,fem.h-0.004,0));scene.add(archegonia);}
+
+/* rain drop, splash, water film, swimming sperm, fertilization glow */
+const rainDrop=new THREE.Mesh(dropGeo,new THREE.MeshPhysicalMaterial({color:0xdff4ff,roughness:0,transparent:true,opacity:.6,clearcoat:1,envMapIntensity:3}));scene.add(rainDrop);
+const splash=makePoints(28,0xcfefff,false,0.006);const splashSeed=[];for(let i=0;i<28;i++){const a=R()*6.28;splashSeed.push(V(Math.cos(a)*rr(.15,.45),rr(.35,.8),Math.sin(a)*rr(.15,.45)));}
+const film=new THREE.Mesh(dropGeo,new THREE.MeshPhysicalMaterial({color:0x9fd8ff,roughness:.03,transparent:true,opacity:0,clearcoat:1,envMapIntensity:2.5,depthWrite:false}));
+film.position.copy(Mid).add(V(0,-0.006,0));film.scale.set(Mt.distanceTo(Ft)/2+0.035,0.022,0.045);film.lookAt(Ft.clone().setY(film.position.y));film.rotateY(Math.PI/2);scene.add(film);
+const sperm=makePoints(14,0xfffbe0,true,0.01);const spermSeed=[];for(let i=0;i<14;i++)spermSeed.push({d:i*0.022+rr(0,.01),ph:R()*6.28,o:rr(-1,1)});
+const fertGlow=glow(0xffe08a,0.0);
+
+// new sporophyte growing out of the female
+const newSp=makeSporophyte(0.27,0.07,0.06,-0.35);attachToShoot(newSp,fem);newSp.caly.visible=true;
+
+/* ---------- labels ---------- */
+const tmpV=V();
+const capC=()=>heroSp.cap.localToWorld(tmpV.set(0,.5,0)).clone();
+const capMouth=()=>heroSp.cap.localToWorld(V(0,.95,0));
+const heroApex=topOf(hero);
+const LABELS=[
+  {t:'النبات الحزازي',a:()=>heroApex.clone().addScaledVector(hero.up,-0.08),r:[0.2,0.82],o:[-150,70]},
+  {t:'النبات البوغي',a:()=>heroSp.seta.localToWorld(V(0,.55,0)),r:[0.3,0.95],o:[150,30],c:'red'},
+  {t:'المحفظة البوغية',a:()=>capC(),r:[0.5,1.06],o:[-130,-80],c:'gold'},
+  {t:'الأبواغ',a:()=>capC(),r:[0.72,1.06],o:[120,90],c:'gold'},
+  {t:'الأبواغ',a:()=>sporeCentroid,r:[1.16,1.9],o:[-60,-80],c:'gold'},
+  {t:'البوغ',a:()=>heroSpore.position,r:[1.92,2.42],o:[-70,-70],c:'gold'},
+  {t:'تربة رطبة',a:()=>V(S.x+0.12,0.004,S.z+0.08),r:[2.12,2.6],o:[90,70],c:'water'},
+  {t:'الخيط الأولي',a:()=>protoSegs[Math.floor(protoSegs.length*0.2)].b,r:[2.55,3.12],o:[110,-70]},
+  {t:'برعم',a:()=>budSegs[2].b,r:[3.05,3.4],o:[-90,-70]},
+  {t:'برعم',a:()=>budSegs[1].b,r:[3.08,3.4],o:[90,-90]},
+  {t:'نبات حزازي جديد',a:()=>topOf(young[4]).addScaledVector(young[4].up,-0.08),r:[3.6,4.02],o:[-110,-60]},
+  {t:'نبات ذكري',a:()=>Mt.clone().add(V(0,-0.03,0)),r:[4.05,4.97],o:[-90,80]},
+  {t:'نبات أنثوي',a:()=>Ft.clone().add(V(0,-0.03,0)),r:[4.05,4.97],o:[90,80]},
+  {t:'ماء',a:()=>film.position.clone().add(V(0,0.016,0)),r:[4.2,4.95],o:[0,-95],c:'water'},
+  {t:'النبات الحزازي الأنثوي',a:()=>fem.pos.clone().addScaledVector(fem.up,fem.h*.6),r:[5.03,5.5],o:[-120,60]},
+  {t:'نبات بوغي جديد',a:()=>newSp.seta.localToWorld(V(0,.5,0)),r:[5.3,5.82],o:[120,20],c:'red'},
+  {t:'محفظة بوغية جديدة',a:()=>newSp.cap.localToWorld(V(0,.5,0)),r:[5.55,5.86],o:[-120,-60],c:'gold'},
+];
+const labelLayer=$('#labels'),arrowLayer=$('#arrowLines');
+const NS='http://www.w3.org/2000/svg';
+LABELS.forEach(L=>{L.el=document.createElement('div');L.el.className='lbl'+(L.c?' '+L.c:'');L.el.textContent=L.t;L.el.style.opacity=0;labelLayer.appendChild(L.el);
+  L.path=document.createElementNS(NS,'path');L.path.setAttribute('marker-end','url(#ah)');arrowLayer.appendChild(L.path);
+  L.dot=document.createElementNS(NS,'circle');L.dot.setAttribute('r','4');arrowLayer.appendChild(L.dot);});
+let sporeCentroid=V();
+
+/* ---------- story ---------- */
+const DUR=[11,11,12,11,14,15];
+const SCENES=[
+  {i:'🌱',s:'المرحلة ١ من ٦ · المحفظة البوغية',t:'تتكون <b>الأبواغ</b> داخل المحفظة البوغية'},
+  {i:'🌬️',s:'المرحلة ٢ من ٦ · انتشار الأبواغ',t:'تنتشر <b>الأبواغ</b> بواسطة الرياح'},
+  {i:'💧',s:'المرحلة ٣ من ٦ · إنبات البوغ',t:'يسقط البوغ على تربة رطبة، فينبت مكوّنًا <b>خيطًا أوليًا</b> أخضر'},
+  {i:'🌿',s:'المرحلة ٤ من ٦ · نباتات جديدة',t:'تنمو <b>براعم</b> على الخيط الأولي، وتتحول إلى نباتات حزازية خضراء جديدة'},
+  {i:'💦',s:'المرحلة ٥ من ٦ · الإخصاب',t:'تنتقل الخلايا التكاثرية الذكرية عبر <b>الماء</b> إلى الخلية الأنثوية، فيحدث <b>الإخصاب</b>'},
+  {i:'🔄',s:'المرحلة ٦ من ٦ · نبات بوغي جديد',t:'ينمو <b>نبات بوغي</b> جديد فوق النبات الأنثوي، وتتكون محفظة بوغية جديدة… ثم تتكرر الدورة'},
+];
+const stepsEl=$('#steps');
+SCENES.forEach((sc,i)=>{const b=document.createElement('button');b.innerHTML=sc.i+'<i></i>';b.setAttribute('aria-label','المرحلة '+ar(i+1));b.addEventListener('click',()=>{if(!started)begin();jumpTo(i);});stepsEl.appendChild(b);});
+const stepBtns=[...stepsEl.children];
+
+/* cycle diagram */
+{
+  const svg=$('#cycleSvg');const items=[['🌱','محفظة بوغية'],['🌬️','أبواغ'],['💧','خيط أولي'],['🌿','نبات جديد'],['💦','إخصاب'],['🌾','نبات بوغي']];
+  let h=`<circle class="ring" r="135"></circle><text class="center" y="-8">تتكرر</text><text class="center" y="28">الدورة</text>`;
+  items.forEach(([e,t],i)=>{const a=-Math.PI/2-i*Math.PI/3;const x=Math.cos(a)*135,y=Math.sin(a)*135;
+    const a2=a-Math.PI/6;const ax=Math.cos(a2)*135,ay=Math.sin(a2)*135,deg=a2*180/Math.PI-90;
+    h+=`<path d="M-9,-8 L5,0 L-9,8" transform="translate(${ax.toFixed(1)},${ay.toFixed(1)}) rotate(${deg.toFixed(1)})" fill="none" stroke="#ffd34a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>`;
+    h+=`<g class="node" transform="translate(${x.toFixed(1)},${y.toFixed(1)})"><circle r="40"></circle><text y="-11" style="font-size:24px">${e}</text><text y="17" style="font-size:13px">${t}</text></g>`;});
+  svg.innerHTML=h;
+}
+
+/* ---------- camera path ---------- */
+const C0=capC();
+const KF=[
+  [0.00,V(3.4,2.2,4.4),V(0.2,0.9,0.2)],
+  [0.35,heroApex.clone().add(V(0.95,0.32,1.45)),heroApex.clone().add(V(0,0.18,0))],
+  [0.80,C0.clone().add(V(0.17,0.04,0.27)),C0.clone()],
+  [1.02,C0.clone().add(V(0.15,0.03,0.24)),C0.clone()],
+  [1.14,C0.clone().add(V(0.26,0.06,0.4)),C0.clone().add(V(0.05,0,0))],
+  [1.45,C0.clone().add(V(0.85,0.22,1.5)),C0.clone().add(V(0.55,-0.12,0.2))],
+  [1.85,S.clone().add(V(0.55,0.95,1.95)),S.clone().add(V(0,0.38,0))],
+  [2.00,S.clone().add(V(0.32,0.5,1.0)),S.clone().add(V(0,0.22,0))],
+  [2.18,S.clone().add(V(0.1,0.13,0.26)),S.clone().add(V(0,0.012,0))],
+  [2.45,S.clone().add(V(0.09,0.15,0.25)),S.clone().add(V(0,0.005,0))],
+  [2.95,S.clone().add(V(0.15,0.3,0.42)),S.clone()],
+  [3.30,S.clone().add(V(0.18,0.24,0.42)),S.clone().add(V(0,0.03,0))],
+  [3.95,S.clone().add(V(0.42,0.36,0.85)),S.clone().add(V(0,0.15,0))],
+  [4.07,Mid.clone().add(V(0.02,0.07,0.29)),Mid.clone().add(V(0,0.012,0))],
+  [4.90,Mid.clone().add(V(0.05,0.09,0.35)),Mid.clone()],
+  [5.06,Ft.clone().add(V(0.24,0.12,0.55)),Ft.clone().add(V(0,0.1,0))],
+  [5.72,Ft.clone().add(V(0.2,0.26,0.6)),Ft.clone().add(V(0,0.22,0))],
+  [6.00,V(S.x+1.4,1.5,S.z+3.1),V(1.0,0.5,0.45)],
+];
+const camPos=V(),camTgt=V(),wantPos=V(),wantTgt=V();
+function sampleCam(P,t){
+  if(!started){const a=t*0.07+0.6;wantTgt.set(0.4,0.8,0.3);wantPos.set(Math.cos(a)*4.6+0.4,2.2,Math.sin(a)*4.6+0.3);return;}
+  let k=0;while(k<KF.length-2&&P>KF[k+1][0])k++;
+  const [p0,a0,b0]=KF[k],[p1,a1,b1]=KF[k+1];const u=sstep(p0,p1,P);
+  wantPos.lerpVectors(a0,a1,u);wantTgt.lerpVectors(b0,b1,u);
+  const d=wantPos.distanceTo(wantTgt);wantPos.x+=Math.sin(t*.5)*d*.03;wantPos.y+=Math.sin(t*.37)*d*.015;
+}
+
+/* ---------- world state as a pure function of story time P ---------- */
+let P=0,started=false,playing=false,finished=false;
+const tv=V(),tq=V();
+function bez(a,b,c,d,t){const u=1-t;return V(u*u*u*a.x+3*u*u*t*b.x+3*u*t*t*c.x+t*t*t*d.x,u*u*u*a.y+3*u*u*t*b.y+3*u*t*t*c.y+t*t*t*d.y,u*u*u*a.z+3*u*u*t*b.z+3*u*t*t*c.z+t*t*t*d.z);}
+const M0=capMouth();
+const mouthDir=heroSp.cap.localToWorld(V(0,2,0)).sub(M0).normalize();
+const sporeEnd=S.clone().add(V(0.02,0.36,0.02));
+const sporeC1=M0.clone().add(V(0.7,0.4,0.25)),sporeC2=sporeEnd.clone().add(V(-0.9,0.5,-0.1));
+
+function updateWorld(P,time){
+  // scene 1: capsule wall turns see-through to show spores forming inside
+  const see=win(0.6,1.08,P,0.08);
+  heroSp.body.material.opacity=1-0.62*see;heroSp.body.material.depthWrite=see<0.05;
+  const ia=innerSp.g.attributes.alpha;for(let i=0;i<innerSp.n;i++)ia.setX(i,see*(0.75+0.25*Math.sin(time*3+i)));ia.needsUpdate=true;
+  // scene 2: lid pops, teeth show, spores ride the wind
+  const lo=sstep(1.07,1.12,P);
+  heroSp.lid.position.set(lo*0.5,lo*0.55-sstep(1.12,1.3,P)*1.6,lo*0.1);heroSp.lid.rotation.z=lo*-2.2;heroSp.lid.material.opacity=1-sstep(1.16,1.3,P);heroSp.lid.visible=P<1.3;
+  heroSp.teeth.visible=P>1.08;
+  const T=(P-1.1)*DUR[1];
+  sporeCentroid.set(0,0,0);let cn=0;
+  for(let i=0;i<spores.n;i++){
+    const s=sporeSeed[i],tau=T-s.r;let a=0;
+    if(tau>0&&P<2.35){
+      const puff=0.09*(1-Math.exp(-tau*4));
+      const x=M0.x+mouthDir.x*puff+tau*(0.24+0.12*s.a)+0.035*Math.sin(tau*1.7+s.ph);
+      const y=M0.y+mouthDir.y*puff+0.07*tau*s.b-0.012*tau*tau+0.03*Math.sin(tau*2.3+s.ph2);
+      const z=M0.z+mouthDir.z*puff+(s.c-0.5)*0.16*tau+0.03*Math.cos(tau*1.9+s.ph);
+      spores.pos.setXYZ(i,x,Math.max(0.01,y),z);a=sstep(0,0.12,tau)*(1-sstep(7.5,10,tau))*(1-sstep(2.15,2.35,P));
+      if(a>0.5){sporeCentroid.x+=x;sporeCentroid.y+=y;sporeCentroid.z+=z;cn++;}
+    } else spores.pos.setXYZ(i,M0.x,M0.y,M0.z);
+    spores.alpha.setX(i,a);spores.size.setX(i,0.0075*s.s);
+  }
+  if(cn)sporeCentroid.multiplyScalar(1/cn);
+  spores.pos.needsUpdate=spores.alpha.needsUpdate=spores.size.needsUpdate=true;
+  // wind ribbons
+  const wa=win(1.1,1.95,P,0.06);
+  windRibbons.forEach((m,i)=>{const d=m.userData;const x=((d.x0+time*d.sp+i*0.7)%3.6+3.6)%3.6-1.6;m.position.set(x,d.y,d.z);m.material.opacity=wa*0.32*Math.sin(clamp((x+1.6)/3.6)*Math.PI);});
+  // hero spore journey
+  heroSpore.visible=heroGlow.visible=P>1.12&&P<3.4;
+  if(P<=2.0){const u=sstep(1.12,2.0,P);heroSpore.position.copy(bez(M0,sporeC1,sporeC2,sporeEnd,u));heroSpore.position.y+=Math.sin(P*40)*0.02*(1-u);}
+  else if(P<2.18){const u=(P-2.0)/0.18;const e=1-Math.pow(1-u,1.6);heroSpore.position.set(sporeEnd.x+Math.sin(u*9)*0.05*(1-u)-0.02*e,lerp(sporeEnd.y,0.0065,e),sporeEnd.z+Math.cos(u*7)*0.03*(1-u)-0.02*e);}
+  else heroSpore.position.set(S.x,0.0065,S.z);
+  const swell=sstep(2.2,2.34,P);heroSpore.scale.setScalar(1+0.6*swell);
+  heroSpore.material.color.setHex(0xe8a838).lerp(_c.setHex(0x9ccf3c),swell);
+  heroGlow.position.copy(heroSpore.position);heroGlow.material.opacity=0.85*(1-sstep(2.4,2.7,P));heroGlow.scale.setScalar(P<2.0?0.09:0.05);
+  // protonema
+  const g=sstep(2.3,3.02,P),fade=sstep(3.7,4.05,P);
+  protoIM.visible=jointIM.visible=P>2.28&&P<4.08;
+  protoMat.color.setHex(0x5cc23a).lerp(_c.setHex(0x7a6a3a),fade);
+  if(protoIM.visible){
+    protoSegs.forEach((s,i)=>{const k=clamp((g-s.t)/0.06);const dir=tv.copy(s.b).sub(s.a);const L=dir.length();
+      _q.setFromUnitVectors(Y,dir.normalize());const r=0.0028*(1-fade*0.6)*(s.depth?0.85:1);
+      _m.compose(s.a,_q,tq.set(k>0?r:1e-5,L*k+1e-5,k>0?r:1e-5));protoIM.setMatrixAt(i,_m);
+      const jr=k>0.02?0.0036*(1-fade*0.6):1e-5;_m.compose(s.a,_q.identity(),tq.set(jr,jr,jr));jointIM.setMatrixAt(i,_m);});
+    protoIM.instanceMatrix.needsUpdate=jointIM.instanceMatrix.needsUpdate=true;
+  }
+  // buds and young plants
+  let k=0;
+  young.forEach((sp,i)=>{
+    const bg=sstep(3.02+i*0.02,3.25+i*0.02,P),sg=sstep(sp.birth,3.95,P);
+    const b=buds[i];b.visible=bg>0&&sg<0.6;b.position.copy(budSegs[i].b);b.scale.set(.011*bg,.013*bg,.011*bg);
+    k+=writeShoot(youngLeaves,k,sp,sg);writeStem(youngStems,i,sp,sg);
+  });
+  youngLeaves.instanceMatrix.needsUpdate=youngStems.instanceMatrix.needsUpdate=true;
+  youngLeaves.visible=youngStems.visible=P>3.25;
+  const ag=sstep(3.8,3.98,P);antheridia.visible=archegonia.visible=ag>0;
+  antheridia.children.forEach(c=>c.visible=ag>0.3);archegonia.children.forEach(c=>c.visible=ag>0.3);
+  // scene 5: rain drop → splash → water film → sperm swim → fertilization
+  const fall=clamp((P-4.04)/0.09);rainDrop.visible=P>4.04&&P<4.13;
+  rainDrop.position.copy(Mt).add(V(0,0.32*(1-fall*fall)+0.012,0));rainDrop.scale.set(0.014,0.02,0.014);
+  const st=clamp((P-4.13)/0.12);
+  for(let i=0;i<splash.n;i++){const v=splashSeed[i];splash.pos.setXYZ(i,Mt.x+v.x*st*0.12,Mt.y+0.01+(v.y*st-1.6*st*st)*0.12,Mt.z+v.z*st*0.12);splash.alpha.setX(i,st>0&&st<1?1-st:0);}
+  splash.pos.needsUpdate=splash.alpha.needsUpdate=true;
+  film.material.opacity=0.24*sstep(4.13,4.2,P)*(1-sstep(4.95,5.1,P));film.visible=film.material.opacity>0.005;
+  for(let i=0;i<sperm.n;i++){const s=spermSeed[i];const u=clamp((P-4.24-s.d)/(0.55-s.d*0.6));let a=0;
+    if(u>0&&P<4.95){const w=Math.sin(u*Math.PI);const p=V().lerpVectors(Mt,Ft,u);p.y+=0.006+0.004*Math.sin(u*20+s.ph)*w;p.z+=s.o*0.012*w+0.003*Math.cos(u*25+s.ph);sperm.pos.setXYZ(i,p.x,p.y,p.z);a=(u<1?1:0.4)*(1-sstep(4.86,4.95,P));}
+    sperm.alpha.setX(i,a);}
+  sperm.pos.needsUpdate=sperm.alpha.needsUpdate=true;
+  const fz=win(4.83,5.2,P,0.05);fertGlow.position.copy(Ft).add(V(0,0.004,0));fertGlow.scale.setScalar(0.03+0.05*fz+0.01*Math.sin(time*8)*fz);fertGlow.material.opacity=fz;fertGlow.visible=fz>0.01;
+  // scene 6: new sporophyte
+  const ns=sstep(5.02,5.6,P),nc=sstep(5.35,5.78,P),nm=sstep(5.6,5.95,P);
+  newSp.set(ns,nc,nm);newSp.caly.visible=nc>0.05;newSp.caly.material.opacity=0.97*(1-sstep(5.88,5.98,P));
+  newSp.caly.position.y=sstep(5.86,5.98,P)*0.6;
+  // dust motes
+  for(let i=0;i<dust.n;i++){const d=dustSeed[i];dust.pos.setXYZ(i,d.p.x+Math.sin(time*d.sp+d.ph)*0.15,d.p.y+Math.sin(time*d.sp*.7+d.ph*2)*0.1,d.p.z+Math.cos(time*d.sp+d.ph)*0.15);dust.alpha.setX(i,0.35+0.3*Math.sin(time*1.3+d.ph));}
+  dust.pos.needsUpdate=dust.alpha.needsUpdate=true;
+}
+
+/* ---------- microscope inset (scene 5) ---------- */
+const micro=$('#micro'),mctx=micro.getContext('2d'),microWrap=$('#microWrap');
+function sizeMicro(){const r=microWrap.getBoundingClientRect();const d=Math.min(2,window.devicePixelRatio||1);const s=Math.max(150,Math.round(r.width*d));if(micro.width!==s){micro.width=micro.height=s;}}
+function qb(p0,p1,p2,p3,t){const u=1-t;return[u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]];}
+function drawMicro(u,time){
+  const W=micro.width,c=mctx;c.save();c.clearRect(0,0,W,W);
+  c.beginPath();c.arc(W/2,W/2,W/2,0,7);c.clip();
+  const bg=c.createRadialGradient(W*.45,W*.4,W*.05,W/2,W/2,W*.6);bg.addColorStop(0,'#e4f7ff');bg.addColorStop(1,'#7cc2e4');c.fillStyle=bg;c.fillRect(0,0,W,W);
+  for(let i=0;i<9;i++){const x=(i*97%100)/100*W,y=((i*53+time*6*(1+i%3))%120)/120*W;c.strokeStyle='rgba(255,255,255,.55)';c.lineWidth=W*.004;c.beginPath();c.arc(x,W-y,W*(.008+i%3*.005),0,7);c.stroke();}
+  // antheridium (left)
+  c.save();c.translate(W*.24,W*.7);c.rotate(-0.25);
+  const ag=c.createLinearGradient(-W*.08,0,W*.08,0);ag.addColorStop(0,'#f6b45c');ag.addColorStop(1,'#c4621e');
+  c.fillStyle=ag;c.strokeStyle='#8a3f10';c.lineWidth=W*.008;c.beginPath();c.ellipse(0,0,W*.075,W*.15,0,0,7);c.fill();c.stroke();
+  c.fillStyle='rgba(90,40,10,.45)';for(let i=0;i<18;i++){c.beginPath();c.arc(Math.sin(i*2.1)*W*.04,(i/18-.5)*W*.22,W*.008,0,7);c.fill();}
+  c.restore();
+  // archegonium (right): swollen base + long neck
+  const vx=W*.74,vy=W*.76;
+  c.fillStyle='#c46a52';c.strokeStyle='#7e3524';c.lineWidth=W*.009;
+  c.beginPath();c.moveTo(vx-W*.03,vy-W*.11);c.bezierCurveTo(vx-W*.06,W*.45,W*.6,W*.32,W*.56,W*.2);c.lineTo(W*.62,W*.18);c.bezierCurveTo(W*.66,W*.32,vx+W*.04,W*.45,vx+W*.04,vy-W*.11);
+  c.bezierCurveTo(vx+W*.16,vy-W*.06,vx+W*.14,vy+W*.14,vx,vy+W*.14);c.bezierCurveTo(vx-W*.15,vy+W*.14,vx-W*.15,vy-W*.06,vx-W*.03,vy-W*.11);c.closePath();c.fill();c.stroke();
+  c.strokeStyle='rgba(255,230,200,.7)';c.lineWidth=W*.012;c.beginPath();c.moveTo(W*.59,W*.2);c.bezierCurveTo(W*.62,W*.32,vx,W*.45,vx,vy-W*.06);c.stroke();
+  // egg cell
+  const fert=sstep(0.8,0.9,u);
+  if(fert>0){const fg=c.createRadialGradient(vx,vy+W*.02,0,vx,vy+W*.02,W*.16);fg.addColorStop(0,`rgba(255,230,120,${.9*fert})`);fg.addColorStop(1,'rgba(255,230,120,0)');c.fillStyle=fg;c.beginPath();c.arc(vx,vy+W*.02,W*.16,0,7);c.fill();}
+  c.fillStyle='#ffe8cf';c.strokeStyle='#d0906a';c.lineWidth=W*.006;c.beginPath();c.arc(vx,vy+W*.02,W*.06,0,7);c.fill();c.stroke();
+  c.fillStyle=fert>0.5?'#e0a030':'#d98a5f';c.beginPath();c.arc(vx+W*.01,vy+W*.015,W*.02,0,7);c.fill();
+  if(fert>0){c.strokeStyle=`rgba(255,215,80,${1-sstep(0.9,1,u)})`;c.lineWidth=W*.01;c.beginPath();c.arc(vx,vy+W*.02,W*(.07+fert*.08),0,7);c.stroke();}
+  // sperm cells swimming
+  const A=[W*.27,W*.53],B=[W*.4,W*.3],Cc=[W*.5,W*.05],D=[W*.59,W*.19];
+  for(let k=0;k<7;k++){
+    let s=clamp((u-k*0.035)/0.62);if(s<=0)continue;let p,q;
+    const lead=k===0;
+    if(lead){if(s<0.72){const t=s/0.72;p=qb(A,B,Cc,D,t);q=qb(A,B,Cc,D,Math.max(0,t-.03));}else{const t=clamp((s-.72)/.28);const N0=D,N1=[W*.62,W*.32],N2=[vx,W*.45],N3=[vx,vy-W*.03];p=qb(N0,N1,N2,N3,t);q=qb(N0,N1,N2,N3,Math.max(0,t-.04));if(u>0.84)continue;}}
+    else{const t=Math.min(s,0.9);p=qb(A,[B[0]+k*W*.02,B[1]+k*W*.03],[Cc[0]-k*W*.02,Cc[1]+k*W*.04],[D[0]-W*.05+Math.sin(time*3+k)*W*.03,D[1]-W*.02+Math.cos(time*2+k)*W*.03],t);q=qb(A,[B[0]+k*W*.02,B[1]+k*W*.03],[Cc[0]-k*W*.02,Cc[1]+k*W*.04],[D[0]-W*.05,D[1]-W*.02],Math.max(0,t-.03));}
+    const ang=Math.atan2(p[1]-q[1],p[0]-q[0]);
+    c.save();c.translate(p[0],p[1]);c.rotate(ang);
+    c.strokeStyle='rgba(30,60,90,.8)';c.lineWidth=W*.004;
+    for(const sg of [-1,1]){c.beginPath();c.moveTo(-W*.01,sg*W*.004);for(let x=0;x<=10;x++){const xx=-W*.01-x*W*.006;c.lineTo(xx,sg*W*.006+Math.sin(time*18+x*.9+k)*W*.006*(x/10)+sg*x*W*.0015);}c.stroke();}
+    c.fillStyle='#2f5f86';c.beginPath();c.ellipse(0,0,W*.014,W*.006,0,0,7);c.fill();
+    c.restore();
+  }
+  // captions inside the view
+  c.direction='rtl';c.textAlign='center';c.textBaseline='middle';
+  const fs=Math.round(W*.058);c.font=`800 ${fs}px Tajawal, sans-serif`;
+  const tag=(t,x,y,col)=>{const w=c.measureText(t).width+W*.05;c.fillStyle='rgba(255,255,255,.9)';c.beginPath();c.roundRect?c.roundRect(x-w/2,y-fs*.75,w,fs*1.5,fs*.5):c.rect(x-w/2,y-fs*.75,w,fs*1.5);c.fill();c.fillStyle=col;c.fillText(t,x,y);};
+  tag('خلايا ذكرية',W*.25,W*.43,'#9a4a10');
+  tag('خلية أنثوية',vx-W*.02,vy+W*.2,'#7e3524');
+  tag('ماء',W*.5,W*.1,'#1f6a92');
+  if(fert>0.5)tag('حدث الإخصاب ✨',W*.36,W*.88,'#7a5a00');
+  c.restore();
+  // lens rim
+  const rg=c.createRadialGradient(W/2,W/2,W*.42,W/2,W/2,W*.5);rg.addColorStop(0,'rgba(0,0,0,0)');rg.addColorStop(1,'rgba(0,20,10,.55)');c.fillStyle=rg;c.beginPath();c.arc(W/2,W/2,W/2,0,7);c.fill();
+}
+
+/* ---------- labels projection ---------- */
+function updateLabels(P){
+  const W=innerWidth,H=innerHeight,k=clamp(Math.min(W,H)/620,0.55,1.15);
+  LABELS.forEach(L=>{
+    let a=win(L.r[0],L.r[1],P,0.05);if(!started)a=0;
+    if(a<0.01){L.el.style.opacity=0;L.path.style.opacity=0;L.dot.style.opacity=0;return;}
+    const p=L.a().clone().project(camera);
+    if(p.z>1||Math.abs(p.x)>1.05||Math.abs(p.y)>1.05){L.el.style.opacity=0;L.path.style.opacity=0;L.dot.style.opacity=0;return;}
+    const sx=(p.x*.5+.5)*W,sy=(-p.y*.5+.5)*H;
+    let lx=sx+L.o[0]*k,ly=sy+L.o[1]*k;
+    const ew=L.el.offsetWidth/2+8;lx=clamp(lx,ew,W-ew);ly=clamp(ly,90,H-120);
+    L.el.style.transform=`translate(${lx}px,${ly}px) translate(-50%,-50%)`;L.el.style.opacity=a;
+    const dx=sx-lx,dy=sy-ly,len=Math.hypot(dx,dy)||1;const ex=sx-dx/len*9,ey=sy-dy/len*9;
+    const mx=(lx+ex)/2-dy*0.12,my=(ly+ey)/2+dx*0.12;
+    L.path.setAttribute('d',`M${lx.toFixed(1)},${ly.toFixed(1)} Q${mx.toFixed(1)},${my.toFixed(1)} ${ex.toFixed(1)},${ey.toFixed(1)}`);
+    L.path.style.opacity=a;L.dot.setAttribute('cx',sx.toFixed(1));L.dot.setAttribute('cy',sy.toFixed(1));L.dot.style.opacity=a;
+  });
+}
+
+/* ---------- sound (all synthesized, optional) ---------- */
+let actx=null,master=null,soundOn=true,noiseBuf=null,ambient=null;
+function initAudio(){
+  if(actx)return;try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return;}
+  master=actx.createGain();master.gain.value=soundOn?0.8:0;master.connect(actx.destination);
+  noiseBuf=actx.createBuffer(1,actx.sampleRate*2,actx.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+  // gentle forest bed
+  const n=actx.createBufferSource();n.buffer=noiseBuf;n.loop=true;const f=actx.createBiquadFilter();f.type='lowpass';f.frequency.value=500;const g=actx.createGain();g.gain.value=0.035;n.connect(f).connect(g).connect(master);n.start();ambient=g;
+  const bird=()=>{if(actx&&soundOn&&playing){const t=actx.currentTime;for(let i=0;i<3;i++){const o=actx.createOscillator(),gg=actx.createGain();o.type='sine';const t0=t+i*0.14;o.frequency.setValueAtTime(2600,t0);o.frequency.exponentialRampToValueAtTime(3900,t0+0.08);gg.gain.setValueAtTime(0,t0);gg.gain.linearRampToValueAtTime(0.04,t0+0.02);gg.gain.exponentialRampToValueAtTime(0.0001,t0+0.11);o.connect(gg).connect(master);o.start(t0);o.stop(t0+0.13);}}setTimeout(bird,4000+Math.random()*6000);};
+  setTimeout(bird,3000);
+}
+function noiseHit(type,freq,q,peak,attack,dur){if(!actx)return;const t=actx.currentTime;const s=actx.createBufferSource();s.buffer=noiseBuf;s.loop=true;const f=actx.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;const g=actx.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(peak,t+attack);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);s.connect(f).connect(g).connect(master);s.start(t);s.stop(t+dur+0.05);return f;}
+const SFX={
+  wind(){const f=noiseHit('bandpass',500,0.8,0.32,1.2,7);if(f){f.frequency.linearRampToValueAtTime(900,actx.currentTime+3);f.frequency.linearRampToValueAtTime(400,actx.currentTime+7);}},
+  pop(){if(!actx)return;noiseHit('lowpass',1800,1,0.4,0.005,0.15);const t=actx.currentTime,o=actx.createOscillator(),g=actx.createGain();o.frequency.setValueAtTime(420,t);o.frequency.exponentialRampToValueAtTime(120,t+0.12);g.gain.setValueAtTime(0.3,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.15);o.connect(g).connect(master);o.start(t);o.stop(t+0.2);},
+  drip(){if(!actx)return;const t=actx.currentTime,o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.setValueAtTime(1400,t);o.frequency.exponentialRampToValueAtTime(380,t+0.16);g.gain.setValueAtTime(0.35,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.25);o.connect(g).connect(master);o.start(t);o.stop(t+0.3);},
+  chime(notes=[1047,1319,1568,2093],gap=0.11,vol=0.16){if(!actx)return;const t=actx.currentTime;notes.forEach((fq,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=fq;const t0=t+i*gap;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vol,t0+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t0+1.1);o.connect(g).connect(master);o.start(t0);o.stop(t0+1.2);});},
+  grow(){SFX.chime([523,659,784],0.25,0.08);},
+  buzz(){if(!actx)return;const t=actx.currentTime,o=actx.createOscillator(),g=actx.createGain();o.type='square';o.frequency.value=150;g.gain.setValueAtTime(0.08,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.3);o.connect(g).connect(master);o.start(t);o.stop(t+0.32);},
+};
+const EVENTS=[[1.08,()=>{SFX.pop();SFX.wind();}],[2.17,SFX.drip],[2.32,SFX.grow],[3.3,SFX.grow],[4.12,SFX.drip],[4.84,()=>SFX.chime([1568,2093,2637],0.08,0.12)],[5.85,()=>SFX.chime()]];
+
+/* ---------- UI wiring ---------- */
+const capEl=$('#caption'),capStep=$('#capStep'),capTxt=$('#capTxt');
+let shownScene=-1;
+function setCaption(i){if(i===shownScene)return;shownScene=i;capEl.classList.add('swap');setTimeout(()=>{capStep.textContent=SCENES[i].s;capTxt.innerHTML=SCENES[i].t;capEl.classList.remove('swap');},350);}
+const btnPause=$('#btnPause');
+function setPlaying(v){playing=v;btnPause.textContent=v?'⏸ إيقاف مؤقت':'▶ متابعة';}
+function flash(){const f=$('#flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');}
+function toast(t,ms=3200){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),ms);}
+let prevP=0,quizTimer=0;
+function begin(){started=true;finished=false;$('#intro').hidden=true;initAudio();if(actx&&actx.state==='suspended')actx.resume();P=0;prevP=0;setPlaying(true);flash();}
+function jumpTo(i){hideQuiz();finished=false;P=i;prevP=P;setPlaying(true);flash();}
+function finish(){if(finished)return;finished=true;setPlaying(false);clearTimeout(quizTimer);quizTimer=setTimeout(showQuiz,2600);}
+function showQuiz(){const q=$('#quiz');q.hidden=false;$('#fb').textContent='';$('#fb').className='fb';$('#btnAgain').hidden=true;document.querySelectorAll('.opt').forEach(b=>{b.className='opt';b.disabled=false;});}
+function hideQuiz(){clearTimeout(quizTimer);$('#quiz').hidden=true;$('#stars').innerHTML='';}
+$('#btnIntro').addEventListener('click',begin);
+$('#btnStart').addEventListener('click',()=>{if(!started)begin();else if(finished){hideQuiz();jumpTo(0);}else setPlaying(true);});
+$('#btnNext').addEventListener('click',()=>{if(!started){begin();return;}if(finished)return;const n=Math.floor(P)+1;if(n>=6){P=6;prevP=6;flash();finish();}else jumpTo(n);});
+btnPause.addEventListener('click',()=>{if(!started){begin();return;}if(finished)return;setPlaying(!playing);});
+$('#btnReset').addEventListener('click',()=>{if(!started){begin();return;}hideQuiz();jumpTo(0);});
+$('#btnAgain').addEventListener('click',()=>{hideQuiz();jumpTo(0);});
+$('#btnSound').addEventListener('click',e=>{soundOn=!soundOn;e.currentTarget.textContent=soundOn?'🔊':'🔇';initAudio();if(master)master.gain.value=soundOn?0.8:0;});
+$('#btnFull').addEventListener('click',async()=>{
+  const el=document.documentElement;
+  try{
+    if(document.fullscreenElement||document.webkitFullscreenElement){(document.exitFullscreen||document.webkitExitFullscreen).call(document);return;}
+    const rq=el.requestFullscreen||el.webkitRequestFullscreen;if(!rq)throw 0;await rq.call(el);
+    try{await screen.orientation.lock('landscape');}catch(e){}
+  }catch(e){toast('على الآيفون: أديري الجهاز أفقيًا، ومن زر المشاركة اختاري «إضافة إلى الشاشة الرئيسية» للعرض بملء الشاشة.',5000);}
+});
+const WRONG={a:'الحزازيات لا تكوّن بذورًا. حاولي مرة أخرى 🌱',c:'الحزازيات لا تحمل أزهارًا. حاولي مرة أخرى 🌱'};
+document.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+  const fb=$('#fb');
+  if(b.dataset.k==='b'){b.classList.add('right');document.querySelectorAll('.opt').forEach(o=>o.disabled=true);fb.className='fb win';fb.textContent='رائعة يا عالمة المستقبل! 🌟';$('#btnAgain').hidden=false;burstStars();SFX.chime([1047,1319,1568,2093,2637],0.09,0.18);}
+  else{b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong');fb.className='fb';fb.textContent=WRONG[b.dataset.k];SFX.buzz();}
+}));
+function burstStars(){const box=$('#stars');for(let w=0;w<3;w++)setTimeout(()=>{for(let i=0;i<34;i++){const s=document.createElement('span');s.className='star';s.textContent=R()<.75?'★':'✦';const a=R()*6.283,d=rr(120,Math.max(innerWidth,innerHeight)*0.55);s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',Math.sin(a)*d+'px');s.style.setProperty('--r',rr(-360,360)+'deg');s.style.setProperty('--s',rr(18,46)+'px');s.style.animationDelay=rr(0,.25)+'s';box.appendChild(s);setTimeout(()=>s.remove(),2400);}},w*500);}
+window.addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();btnPause.click();}else if(e.key==='ArrowLeft')$('#btnNext').click();});
+
+/* ---------- loop ---------- */
+function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w/h<1?58:45;camera.updateProjectionMatrix();
+  const sc=renderer.getDrawingBufferSize(new THREE.Vector2()).y/(2*Math.tan(camera.fov*Math.PI/360));pointSets.forEach(m=>m.uniforms.uScale.value=sc);sizeMicro();}
+window.addEventListener('resize',resize);resize();
+let last=performance.now(),time=0,firstFrame=true;
+const windEl=$('#wind'),cycleEl=$('#cycle');
+function frame(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;time+=dt;
+  if(playing&&started){const s=Math.min(5,Math.floor(P));P+=dt/DUR[s];if(P>=6){P=6;finish();}}
+  if(P-prevP>0&&P-prevP<0.1)EVENTS.forEach(([p,f])=>{if(prevP<p&&P>=p&&soundOn)f();});
+  prevP=P;
+  updateWorld(P,time);
+  sampleCam(P,time);
+  const asp=camera.aspect,f=asp<1.25?1+(1.25-asp)*0.75:1;
+  tv.copy(wantPos).sub(wantTgt).multiplyScalar(f);wantPos.copy(wantTgt).add(tv);
+  if(firstFrame){camPos.copy(wantPos);camTgt.copy(wantTgt);firstFrame=false;}
+  const k=1-Math.exp(-dt*3.2);camPos.lerp(wantPos,k);camTgt.lerp(wantTgt,k);
+  camera.position.copy(camPos);camera.lookAt(camTgt);
+  const si=Math.min(5,Math.floor(P));
+  if(started)setCaption(si);
+  stepBtns.forEach((b,i)=>{b.classList.toggle('on',started&&i===si);b.classList.toggle('done',started&&i<si);b.firstElementChild.style.height=(started&&i===si?clamp(P-si)*100:(started&&i<si?100:0))+'%';});
+  windEl.style.opacity=started?win(1.14,1.92,P,0.05):0;
+  const mOn=started&&P>4.18&&P<5.0;microWrap.classList.toggle('on',mOn);if(mOn)drawMicro(clamp((P-4.2)/0.72),time);
+  cycleEl.classList.toggle('on',started&&P>5.84);
+  updateLabels(P);
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame);
+}
+window.__moss={seek(p){if(!started)begin();hideQuiz();finished=false;P=p;prevP=p;setPlaying(false);firstFrame=true;}};
+requestAnimationFrame(frame);
+})();
+</script>
