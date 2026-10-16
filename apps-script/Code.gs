@@ -3,6 +3,7 @@
  *
  * طريقة التركيب (مرة واحدة):
  * 1) افتحي Google Sheet جديد ← الإضافات (Extensions) ← Apps Script.
+ *    (أو افتحي script.google.com/create مباشرة، وسيُنشأ ملف البيانات تلقائيًا في Drive)
  * 2) احذفي الموجود والصقي هذا الملف كاملًا ← حفظ.
  * 3) من القائمة العلوية اختاري الدالة setup ثم «تشغيل» (Run) ووافقي على الأذونات.
  * 4) نشر (Deploy) ← نشر جديد (New deployment) ← النوع: تطبيق ويب (Web app)
@@ -18,8 +19,20 @@ const SHEETS = {
   responses:  ['time', 'activity', 'class', 'name', 'answers', 'score', 'total']
 };
 
+// يعمل سواء فُتح الكود من داخل Google Sheet أو مباشرة من script.google.com
+function getSS() {
+  const active = SpreadsheetApp.getActiveSpreadsheet();
+  if (active) return active;
+  const props = PropertiesService.getScriptProperties();
+  const id = props.getProperty('SHEET_ID');
+  if (id) return SpreadsheetApp.openById(id);
+  const ss = SpreadsheetApp.create('منصة شامه للعلوم — البيانات');
+  props.setProperty('SHEET_ID', ss.getId());
+  return ss;
+}
+
 function setup() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = getSS();
   Object.keys(SHEETS).forEach(function (name) {
     let sh = ss.getSheetByName(name);
     if (!sh) sh = ss.insertSheet(name);
@@ -48,7 +61,7 @@ function respond(p) {
 
 // ---------- helpers ----------
 function sheet(name) {
-  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(name);
+  const sh = getSS().getSheetByName(name);
   if (!sh) throw new Error('شغّلي الدالة setup أولًا من محرر Apps Script');
   return sh;
 }
