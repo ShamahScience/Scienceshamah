@@ -238,7 +238,7 @@ function canvasTex(w,h,draw,srgb=true){const c=document.createElement('canvas');
 /* ---------- renderer ---------- */
 const canvas=$('#stage');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)||navigator.maxTouchPoints>1?1.5:2));
 renderer.outputEncoding=THREE.sRGBEncoding;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure=1.0;
@@ -285,7 +285,7 @@ macro.environment=envFrom(mDome);
 const mHemi=new THREE.HemisphereLight(0xfff1dc,0x4a3420,0.45);macro.add(mHemi);
 const mKey=new THREE.DirectionalLight(0xfff0d8,1.55);
 mKey.position.set(-1.6,3.2,1.8);mKey.target.position.set(0,0,0);
-mKey.castShadow=true;mKey.shadow.mapSize.set(2048,2048);
+mKey.castShadow=true;mKey.shadow.mapSize.set(navigator.maxTouchPoints>1?1024:2048,navigator.maxTouchPoints>1?1024:2048);
 Object.assign(mKey.shadow.camera,{left:-1.4,right:1.4,top:1.4,bottom:-1.4,near:.5,far:8});
 mKey.shadow.bias=-0.0004;mKey.shadow.normalBias=0.01;
 macro.add(mKey,mKey.target);
@@ -469,7 +469,7 @@ const uDome=new THREE.Mesh(new THREE.SphereGeometry(40,48,24),new THREE.MeshBasi
 micro.add(uDome);
 micro.environment=envFrom(uDome);
 micro.add(new THREE.HemisphereLight(0xfffaf0,0x8a7448,0.55));
-const uKey=new THREE.DirectionalLight(0xfff2dc,1.35);uKey.position.set(-4,8,6);uKey.castShadow=true;uKey.shadow.mapSize.set(2048,2048);
+const uKey=new THREE.DirectionalLight(0xfff2dc,1.35);uKey.position.set(-4,8,6);uKey.castShadow=true;uKey.shadow.mapSize.set(navigator.maxTouchPoints>1?1024:2048,navigator.maxTouchPoints>1?1024:2048);
 Object.assign(uKey.shadow.camera,{left:-6,right:6,top:6,bottom:-6,near:1,far:30});uKey.shadow.bias=-0.0006;micro.add(uKey,uKey.target);
 const uRim=new THREE.DirectionalLight(0xe6ffee,0.45);uRim.position.set(5,3,-5);micro.add(uRim);
 
@@ -617,12 +617,13 @@ function sampleCam(P,t){
 
 /* ---------- world state as a pure function of story time P ---------- */
 let P=0,started=false,playing=false,finished=false;
-let lastPaintKey='';
+let lastPaintKey='',lastPaintT=-1;
+const MOBILE=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.userAgent));
 function updateWorld(P,time){
   const G=6*clamp((P-2.05)/0.88);
   // macro ---------------------------------------------------------
-  const key=(P<2.4?P.toFixed(3):'w')+'|'+G.toFixed(3);
-  if(key!==lastPaintKey){paintBread(P,G);updateFuzz(G);lastPaintKey=key;}
+  const key=(P<2.4?(Math.round(P*60)/60).toFixed(3):'w')+'|'+(Math.round(G*20)/20).toFixed(2);
+  if(key!==lastPaintKey&&(time-lastPaintT>0.08||Math.abs(time-lastPaintT)>1||!playing)){paintBread(P,G);updateFuzz(G);lastPaintKey=key;lastPaintT=time;}
   // dropper and drops
   const dIn=sstep(0.02,0.1,P),dOut=sstep(0.8,0.92,P);dropper.visible=P>0.01&&P<0.93;
   const q=clamp((P-0.1)/0.09,0,7.6),j=Math.min(7,Math.floor(q)),fr=q-j,nx=Math.min(7,j+1);
@@ -797,6 +798,7 @@ function frame(now){
   renderer.render(sc===1?micro:macro,camera);
   requestAnimationFrame(frame);
 }
+document.addEventListener('visibilitychange',()=>{last=performance.now();});
 window.__mold={seek(p){if(!started)begin();hideQuiz();finished=false;P=p;prevP=p;setPlaying(false);firstFrame=true;}};
 requestAnimationFrame(frame);
 })();
