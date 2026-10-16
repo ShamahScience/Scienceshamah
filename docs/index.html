@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>منصة شامه للعلوم</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+.wrap{max-width:720px}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding-block:8px}
+.hero .logo{width:64px;height:64px;font-size:34px;border-radius:20px}
+.act-list{display:flex;flex-direction:column;gap:10px}
+.act{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:start;border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:16px;font-weight:700;font-size:18px;width:100%}
+.act:hover{border-color:var(--teal)}
+.names{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.name{border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 10px;font-weight:700;text-align:center}
+.name[aria-pressed="true"]{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 14%,var(--surface))}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:12px;font-weight:700;font-size:17px}
+.seg button[aria-pressed="true"]{border-color:var(--teal);background:var(--teal);color:var(--teal-ink)}
+.progress{height:10px;border-radius:99px;background:var(--soft);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--teal);transition:width .3s}
+.tbar{height:6px;border-radius:99px;background:var(--soft);overflow:hidden}
+.tbar i{display:block;height:100%;background:var(--accent)}
+.qtext{font-size:clamp(20px,5vw,26px);font-weight:700;line-height:1.7;margin:0}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:start;border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:14px;font-size:19px;font-weight:700;min-height:62px;width:100%}
+.opt b{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--soft);font-family:var(--display)}
+.opt[aria-pressed="true"]{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,var(--surface))}
+.opt[aria-pressed="true"] b{background:var(--teal);color:var(--teal-ink)}
+.score{font-family:var(--display);font-size:64px;color:var(--teal);line-height:1}
+.stars{font-size:36px;letter-spacing:4px}
+.review{display:flex;flex-direction:column;gap:10px}
+.rv{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--surface)}
+.rv p{margin:0 0 6px;font-weight:700}
+.rv .ok{color:var(--ok);font-weight:700}
+.rv .no{color:var(--bad);font-weight:700}
+footer{text-align:center;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="brand"><div class="logo">ش</div></div>
+    <h1 id="pname"></h1>
+    <p class="muted" style="margin:0" id="pteacher"></p>
+  </div>
+  <main id="app"><div class="spinner" aria-label="جارٍ التحميل"></div></main>
+  <footer id="foot"></footer>
+</div>
+<script src="assets/common.js"></script>
+<script>
+document.getElementById('pname').textContent = PLATFORM.name;
+document.getElementById('pteacher').textContent = 'معلمة المادة: ' + PLATFORM.teacher;
+document.getElementById('foot').textContent = PLATFORM.name + ' · ' + PLATFORM.teacher;
+const app = document.getElementById('app');
+const show = (...els) => { app.textContent = ''; app.append(...els); window.scrollTo(0, 0); };
+const errorBox = (text, retry) => h('div', { class: 'panel', style: 'text-align:center' },
+  h('h2', {}, 'تعذّر الفتح'), h('p', { class: 'muted', style: 'margin:0' }, text),
+  retry ? h('div', { class: 'row', style: 'justify-content:center' }, h('button', { class: 'btn teal', onclick: retry }, 'إعادة المحاولة')) : null);
+
+let A = null, STUDENTS = {}, me = { cls: '', name: '' }, answers = [], qi = 0, timer = null;
+
+async function portal() {
+  show(h('div', { class: 'spinner' }));
+  try {
+    const { activities } = await api({ action: 'portal' });
+    if (!activities.length) return show(h('div', { class: 'panel', style: 'text-align:center' }, h('h2', {}, 'لا يوجد نشاط مفتوح الآن'), h('p', { class: 'muted', style: 'margin:0' }, 'انتظري حتى تفتح المعلمة النشاط ثم حدّثي الصفحة.'), h('button', { class: 'btn teal', onclick: portal }, 'تحديث')));
+    show(h('div', { class: 'panel' }, h('h2', {}, 'اختاري النشاط'),
+      h('div', { class: 'act-list' }, activities.map(a => h('button', { class: 'act', onclick: () => openActivity(a.id) },
+        h('span', {}, a.title), h('span', { class: 'pill' }, a.count + ' أسئلة'))))));
+  } catch (e) { show(errorBox(e.message, portal)); }
+}
+
+async function openActivity(id) {
+  show(h('div', { class: 'spinner' }));
+  try {
+    const r = await api({ action: 'activity', id });
+    A = r.activity; STUDENTS = r.students;
+    const saved = store.get('me', null);
+    me = saved && A.classes.includes(saved.cls) ? saved : { cls: A.classes.length === 1 ? A.classes[0] : '', name: '' };
+    const done = store.get('done:' + A.id, null);
+    if (done) return result(done, true);
+    pickName();
+  } catch (e) { show(errorBox(e.message, () => openActivity(id))); }
+}
+
+function pickName() {
+  const box = h('div', { class: 'panel' });
+  const render = () => {
+    box.textContent = '';
+    box.append(h('h2', {}, A.title), h('p', { class: 'muted', style: 'margin:0' }, `${A.questions.length} أسئلة${A.timer ? ` · ${A.timer} ثانية لكل سؤال` : ''}`));
+    if (A.classes.length > 1) box.append(h('h3', {}, 'فصلك'), h('div', { class: 'seg' }, A.classes.map(c => h('button', { 'aria-pressed': me.cls === c, onclick: () => { me = { cls: c, name: '' }; render(); } }, className(c)))));
+    if (me.cls) {
+      const list = (STUDENTS[me.cls] || []).slice().sort((a, b) => a.localeCompare(b, 'ar'));
+      box.append(h('h3', {}, 'اختاري اسمك'));
+      if (!list.length) box.append(h('p', { class: 'muted' }, 'لا توجد أسماء لهذا الفصل بعد. أخبري المعلمة.'));
+      box.append(h('div', { class: 'names' }, list.map(n => h('button', { class: 'name', 'aria-pressed': me.name === n, onclick: () => { me.name = n; render(); } }, n))));
+    }
+    box.append(h('button', { class: 'btn primary big', disabled: !(me.cls && me.name), onclick: start }, me.name ? `ابدئي يا ${me.name.split(' ')[0]} 🚀` : 'ابدئي'));
+  };
+  render(); show(box);
+}
+
+function start() {
+  store.set('me', me);
+  answers = new Array(A.questions.length).fill(null); qi = 0; question();
+}
+
+function question() {
+  clearInterval(timer);
+  const q = A.questions[qi], last = qi === A.questions.length - 1;
+  const bar = h('i', { style: 'width:100%' });
+  const panel = h('div', { class: 'panel' },
+    h('div', { class: 'row between' }, h('span', { class: 'pill' }, `سؤال ${qi + 1} من ${A.questions.length}`), h('span', { class: 'small muted' }, me.name)),
+    h('div', { class: 'progress' }, h('i', { style: `width:${(qi / A.questions.length) * 100}%` })),
+    A.timer ? h('div', { class: 'tbar' }, bar) : null,
+    h('p', { class: 'qtext' }, q.t),
+    h('div', { class: 'opts' }, q.o.map((o, k) => h('button', { class: 'opt', 'aria-pressed': answers[qi] === k, onclick: () => { answers[qi] = k; setTimeout(next, 250); question.refresh(k); } }, h('b', {}, LETTERS[k]), h('span', {}, o)))),
+    h('div', { class: 'row between' },
+      qi > 0 && !A.timer ? h('button', { class: 'btn', onclick: () => { qi--; question(); } }, 'السابق') : h('span'),
+      last ? h('button', { class: 'btn teal', onclick: submit }, 'تسليم الإجابات ✅') : h('button', { class: 'btn', onclick: next }, 'التالي'))
+  );
+  question.refresh = k => panel.querySelectorAll('.opt').forEach((b, j) => b.setAttribute('aria-pressed', j === k));
+  show(panel);
+  if (A.timer) {
+    const t0 = Date.now();
+    timer = setInterval(() => {
+      const left = A.timer - (Date.now() - t0) / 1000;
+      bar.style.width = Math.max(0, left / A.timer * 100) + '%';
+      if (left <= 0) { clearInterval(timer); next(); }
+    }, 100);
+  }
+}
+function next() {
+  clearInterval(timer);
+  if (qi < A.questions.length - 1) { qi++; question(); }
+  else if (A.timer) submit();
+}
+
+async function submit() {
+  clearInterval(timer);
+  const blank = answers.filter(a => a === null).length;
+  if (blank && !A.timer && !submit.confirmed) {
+    submit.confirmed = true;
+    return toast(`بقي ${blank} سؤال بدون إجابة. اضغطي «تسليم» مرة ثانية للتأكيد`);
+  }
+  show(h('div', { class: 'spinner' }), h('p', { class: 'muted', style: 'text-align:center' }, 'جارٍ التسليم…'));
+  try {
+    const r = await api({ action: 'submit', id: A.id, cls: me.cls, name: me.name, answers });
+    const rec = { score: r.score, total: r.total, answers: r.answers, key: r.key, name: me.name, already: r.already };
+    store.set('done:' + A.id, rec);
+    result(rec, false);
+  } catch (e) {
+    show(errorBox(e.message, submit));
+  }
+}
+
+function result(r, fromCache) {
+  const pct = r.total ? r.score / r.total : 0;
+  const stars = pct >= .9 ? 3 : pct >= .6 ? 2 : pct > 0 ? 1 : 0;
+  const msg = pct === 1 ? 'ممتازة! علامة كاملة 🌟' : pct >= .8 ? 'رائعة! أداء متميز' : pct >= .5 ? 'أحسنتِ! استمري في التقدم' : 'لا بأس، راجعي الدرس وستتحسنين';
+  const review = h('div', { class: 'review' }, A.questions.map((q, i) => {
+    const mine = r.answers[i], right = r.key[i];
+    return h('div', { class: 'rv' }, h('p', {}, `${i + 1}) ${q.t}`),
+      mine === right ? h('div', { class: 'ok' }, `✓ إجابتك صحيحة: ${q.o[right]}`)
+        : h('div', {}, h('div', { class: 'no' }, mine >= 0 && mine !== null ? `✗ إجابتك: ${q.o[mine]}` : '✗ لم تجيبي'), h('div', { class: 'ok' }, `الإجابة الصحيحة: ${q.o[right]}`)));
+  }));
+  show(h('div', { class: 'panel', style: 'text-align:center;align-items:center' },
+    (r.already || fromCache) ? h('span', { class: 'pill' }, 'سلّمتِ هذا النشاط من قبل') : null,
+    h('h2', {}, r.name || me.name),
+    h('div', { class: 'score' }, `${r.score} من ${r.total}`),
+    h('div', { class: 'stars', 'aria-label': `${stars} نجوم` }, '⭐'.repeat(stars) + '☆'.repeat(3 - stars)),
+    h('p', { style: 'margin:0;font-weight:700;font-size:20px' }, msg),
+    h('button', { class: 'btn', onclick: portal }, 'الأنشطة الأخرى')),
+    h('div', { class: 'panel' }, h('h3', {}, 'مراجعة الإجابات'), review));
+}
+
+const aid = params.get('a');
+if (!getApi()) show(errorBox('الرابط غير مكتمل. اطلبي من المعلمة رابط المنصة أو امسحي الباركود.'));
+else if (aid) openActivity(aid); else portal();
+</script>
+</body>
+</html>

@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>عجلة المتميزات — منصة شامه للعلوم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+<style>
+/* Layout: projector-friendly class console — class tabs on top, the wheel owns the stage, panels beside it; stacks on phones */
+:root{
+  --bg:#f3f6f4; --surface:#ffffff; --ink:#123033; --muted:#5b6f6f; --line:#d8e2df; --soft:#e9f1ef;
+  --accent:#e2a22b; --accent-ink:#3a2600; --teal:#14666b; --coral:#e0634f; --ok:#1f8a5b; --bad:#c8463a;
+  --display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  --script:"Aref Ruqaa","Reem Kufi",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d1f21; --surface:#142c2f; --ink:#eaf3f1; --muted:#9db3b1; --line:#24423f; --soft:#1a3639;
+  --accent:#f0b443; --accent-ink:#2b1c00; --teal:#3fb3b0; --coral:#f07a66; --ok:#4cc38a; --bad:#f07a66; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1f21; --surface:#142c2f; --ink:#eaf3f1; --muted:#9db3b1; --line:#24423f; --soft:#1a3639;
+  --accent:#f0b443; --accent-ink:#2b1c00; --teal:#3fb3b0; --coral:#f07a66; --ok:#4cc38a; --bad:#f07a66; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);direction:rtl;font-size:16px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 32px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,44px);margin:0;line-height:1.1}
+h1 span{color:var(--accent)}
+.sub{margin:4px 0 0;color:var(--muted)}
+.teacher{font-family:var(--display);background:var(--teal);color:#fff;border-radius:999px;padding:8px 20px;font-size:18px;white-space:nowrap}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;background:var(--soft);border-radius:14px;padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:10px;padding:8px 16px;font-weight:700;color:var(--muted)}
+.seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.seg.classes button[aria-selected="true"]{background:var(--teal);color:#fff}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:20px;align-items:start}
+@media (max-width:920px){.stage{grid-template-columns:minmax(0,1fr)}}
+.wheel-box{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
+.wheel-holder{position:relative;width:min(100%,620px);aspect-ratio:1;max-width:100%}
+#wheel{width:100%;height:100%;display:block;filter:drop-shadow(0 10px 24px rgba(0,0,0,.18))}
+.pointer{position:absolute;top:-6px;left:50%;width:46px;height:58px;transform:translateX(-50%);transform-origin:50% 12px;z-index:2;transition:transform .08s}
+.pointer.tick{transform:translateX(-50%) rotate(-14deg)}
+.hub{position:absolute;inset:0;margin:auto;width:21%;height:21%;border-radius:50%;border:6px solid var(--surface);
+  background:var(--accent);color:var(--accent-ink);font-family:var(--display);font-weight:700;font-size:clamp(16px,2.6vw,26px);box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.btn{border-radius:14px;padding:11px 20px;font-weight:700;background:var(--surface);color:var(--ink);border:2px solid var(--line)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-family:var(--display);font-size:22px;padding:12px 34px}
+.btn.teal{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn.small{padding:6px 12px;font-size:14px;border-radius:10px}
+.btn.danger{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 50%,var(--line))}
+.btn:disabled{opacity:.5;cursor:default}
+.hint{color:var(--muted);font-size:14px;margin:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel h2{font-family:var(--display);font-size:20px;margin:0;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.count{font-family:var(--body);font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:500}
+.toggle{display:flex;align-items:center;gap:8px;font-size:15px}
+.toggle input{width:20px;height:20px;accent-color:var(--teal)}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted)}
+select,textarea,input[type=text],input[type=search]{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px;width:100%}
+textarea{min-height:240px;resize:vertical;line-height:1.7}
+.mini-board{display:flex;flex-direction:column;gap:6px}
+.rank{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:var(--soft)}
+.rank .pos{font-family:var(--display);font-weight:700;text-align:center;font-size:18px;color:var(--muted)}
+.rank.top1{background:color-mix(in srgb,var(--accent) 26%,var(--surface))}
+.rank.top2{background:color-mix(in srgb,#9fb3b8 30%,var(--surface))}
+.rank.top3{background:color-mix(in srgb,#c98a5a 26%,var(--surface))}
+.rank .nm{font-weight:700;overflow-wrap:anywhere}
+.rank .nm small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.pts{font-family:var(--display);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums;color:var(--teal)}
+.empty{color:var(--muted);font-size:14px;margin:0}
+/* board page */
+.board-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px}
+@media (max-width:420px){.board-grid{grid-template-columns:minmax(0,1fr)}}
+.rank-actions{display:flex;gap:6px;align-items:center}
+.rank-actions button{border:1px solid var(--line);background:var(--surface);border-radius:8px;min-width:34px;height:34px;font-weight:700}
+.rank-actions .cert{background:var(--teal);color:#fff;border-color:var(--teal);padding:0 10px}
+/* bank */
+.bank-tools{display:grid;grid-template-columns:240px minmax(0,1fr) auto;gap:10px;align-items:end}
+@media (max-width:700px){.bank-tools{grid-template-columns:minmax(0,1fr)}}
+.qlist{display:flex;flex-direction:column;gap:10px}
+.qitem{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--surface)}
+.qitem .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:6px}
+.tag{background:var(--soft);border-radius:999px;padding:2px 10px}
+.qitem p{margin:0 0 10px;font-weight:700;line-height:1.7}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media (max-width:600px){.opts{grid-template-columns:1fr}}
+.opt{padding:6px 10px;border-radius:10px;background:var(--bg);font-size:15px}
+.opt{border:2px solid transparent;text-align:start;cursor:pointer;color:inherit;width:100%}
+.opt:hover{border-color:var(--teal)}
+.opt.wrong{background:color-mix(in srgb,var(--bad) 16%,var(--surface));font-weight:700;color:var(--bad)}
+.qitem .row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.opt.right{background:color-mix(in srgb,var(--ok) 18%,var(--surface));font-weight:700;color:var(--ok)}
+/* students */
+.cls-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.note{font-size:14px;color:var(--ok);margin:0;min-height:1.4em}
+.note.warn{color:var(--coral)}
+/* overlays */
+.overlay{position:fixed;inset:0;z-index:20;background:rgba(6,20,22,.74);display:flex;align-items:center;justify-content:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.card{background:var(--surface);color:var(--ink);border-radius:24px;padding:26px;width:min(860px,100%);max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:14px;animation:pop .35s cubic-bezier(.2,1.4,.4,1)}
+.card.center{text-align:center;align-items:center;width:min(640px,100%)}
+.eyebrow{font-family:var(--display);color:var(--teal);font-size:20px;margin:0}
+.who{font-family:var(--script);font-size:clamp(38px,6.5vw,68px);line-height:1.3;margin:0;text-wrap:balance}
+.q-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.q-head .eyebrow{margin-bottom:6px}
+.q-who{font-family:var(--script);font-size:clamp(28px,4vw,42px);color:var(--teal);margin:0}
+.timer{position:relative;width:78px;height:78px;flex:none}
+.timer svg{width:100%;height:100%;transform:rotate(-90deg)}
+.timer span{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:26px;font-variant-numeric:tabular-nums}
+.q-text{font-size:clamp(22px,2.8vw,32px);font-weight:700;line-height:1.6;margin:0;text-wrap:pretty}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.answers{grid-template-columns:1fr}}
+.ans{display:flex;align-items:center;gap:12px;text-align:start;border:2px solid var(--line);background:var(--bg);border-radius:16px;padding:14px 16px;font-size:clamp(18px,2.2vw,24px);font-weight:700;min-height:64px}
+.ans b{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:#fff;font-family:var(--display)}
+.ans:hover:not(:disabled){border-color:var(--teal)}
+.ans.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,var(--surface))}
+.ans.right b{background:var(--ok)}
+.ans.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--surface))}
+.ans.wrong b{background:var(--bad)}
+.ans:disabled{cursor:default}
+.verdict{font-family:var(--display);font-size:28px;margin:0;text-align:center;min-height:1.3em}
+.verdict.ok{color:var(--ok)} .verdict.no{color:var(--bad)}
+.card.cert{width:min(1100px,100%);align-items:center;text-align:center}
+#certImg{width:auto;max-height:60vh;height:auto;border-radius:10px;border:1px solid var(--line);max-width:100%}
+.cert-tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;text-align:start}
+@media (max-width:600px){.cert-tools{grid-template-columns:1fr}}
+.msg{min-height:1.4em;margin:0;color:var(--ok);font-weight:700}
+.msg.err{color:var(--coral)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:30;width:100%;height:100%}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.card{animation:none}.pointer{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>عجلة <span>المتميزات</span></h1>
+      <p class="sub">العجلة تختار الطالبة، والسؤال من بنك أسئلة نافس، والنقاط تصنع المتميزة.</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><a class="btn small" href="teacher.html">→ لوحة المعلمة</a><div class="teacher">أ/ شامه البقمي</div></div>
+  </header>
+
+  <div class="bar">
+    <div class="seg classes" role="tablist" aria-label="الفصل" id="classTabs"></div>
+    <div class="seg" role="tablist" aria-label="الأقسام" id="viewTabs">
+      <button role="tab" data-view="play" aria-selected="true">الحصة</button>
+      <button role="tab" data-view="board" aria-selected="false">الصدارة</button>
+      <button role="tab" data-view="bank" aria-selected="false">بنك الأسئلة</button>
+      
+    </div>
+  </div>
+
+  <!-- PLAY -->
+  <section class="stage" id="view-play">
+    <div class="wheel-box">
+      <div class="wheel-holder">
+        <svg class="pointer" id="pointer" viewBox="0 0 46 58" aria-hidden="true">
+          <path d="M23 56 L4 14 A20 20 0 1 1 42 14 Z" fill="var(--coral)" stroke="var(--surface)" stroke-width="3"/>
+          <circle cx="23" cy="16" r="6" fill="var(--surface)"/>
+        </svg>
+        <canvas id="wheel" aria-label="عجلة أسماء الطالبات"></canvas>
+        <button class="hub" id="hubBtn" aria-label="دوّري العجلة">دوّري</button>
+      </div>
+      <div class="controls">
+        <button class="btn primary" id="spinBtn">دوّري العجلة</button>
+        <button class="btn" id="soundBtn">🔊 الصوت</button>
+        <button class="btn" id="fsBtn">ملء الشاشة</button>
+      </div>
+      <p class="hint">زر المسافة (Space) يدوّر العجلة.</p>
+    </div>
+    <div class="panel">
+      <h2>إعدادات الحصة</h2>
+      <label class="toggle"><input type="checkbox" id="withQ" checked> اعرضي سؤالاً للطالبة بعد ظهور اسمها</label>
+      <label class="f" for="topicSel">موضوع الأسئلة
+        <select id="topicSel"></select>
+      </label>
+      <label class="f" for="timeSel">وقت الإجابة
+        <select id="timeSel">
+          <option value="20">20 ثانية</option><option value="30" selected>30 ثانية</option><option value="45">45 ثانية</option><option value="60">دقيقة</option><option value="0">بدون مؤقت</option>
+        </select>
+      </label>
+      <label class="f" for="ptsSel">نقاط الإجابة الصحيحة
+        <select id="ptsSel"><option value="1">نقطة واحدة</option><option value="5">5 نقاط</option><option value="10" selected>10 نقاط</option></select>
+      </label>
+      <label class="toggle"><input type="checkbox" id="removeAfter" checked> لا يتكرر اسم الطالبة حتى تمر كل البنات</label>
+      <div class="controls" style="justify-content:flex-start">
+        <button class="btn small" id="resetWheel">إرجاع كل الأسماء للعجلة</button>
+      </div>
+      <p class="count" id="wheelInfo"></p>
+      <h2>الصدارة <span class="count" id="clsName"></span></h2>
+      <div class="mini-board" id="miniBoard"></div>
+    </div>
+  </section>
+
+  <!-- BOARD -->
+  <section class="panel" id="view-board" hidden>
+    <h2>لوحة الصدارة <span class="count" id="boardCount"></span></h2>
+    <p class="hint">النقاط تزيد تلقائيًا مع كل إجابة صحيحة. تقدرين تضيفين أو تنقصين نقطة يدويًا، وتصدرين شهادة لأي طالبة.</p>
+    <div class="board-grid" id="boardList"></div>
+    <div class="controls" style="justify-content:flex-start">
+      <button class="btn teal" id="certTop">شهادة الأولى في الصدارة</button>
+      <button class="btn danger" id="resetPts">تصفير نقاط هذا الفصل</button>
+      <span class="note warn" id="resetConfirm" hidden>متأكدة؟ <button class="btn small danger" id="resetYes">نعم، صفّري</button> <button class="btn small" id="resetNo">إلغاء</button></span>
+    </div>
+  </section>
+
+  <!-- BANK -->
+  <section class="panel" id="view-bank" hidden>
+    <h2>بنك أسئلة نافس — علوم سادس <span class="count" id="bankCount"></span></h2>
+    <div class="bank-tools">
+      <label class="f" for="bankTopic">الموضوع<select id="bankTopic"></select></label>
+      <label class="f" for="bankSearch">بحث<input type="search" id="bankSearch" placeholder="اكتبي كلمة من السؤال"></label>
+      <label class="toggle"><input type="checkbox" id="showAns"> إظهار الإجابات</label>
+    </div>
+    <div class="qlist" id="qlist"></div>
+  </section>
+
+  <!-- STUDENTS -->
+  <section class="panel" id="view-students" hidden>
+    <h2>أسماء الطالبات</h2>
+    <p class="hint">اسم واحد في كل سطر. أي اسم مكرر داخل الفصل أو موجود في الفصل الآخر يُحذف تلقائيًا عند الحفظ.</p>
+    <div class="cls-grid" id="clsEditors"></div>
+  </section>
+</div>
+
+<!-- question -->
+<div class="overlay" id="qOverlay" hidden>
+  <div class="card" role="dialog" aria-labelledby="qText">
+    <div class="q-head">
+      <div>
+        <p class="eyebrow" id="qMeta"></p>
+        <p class="q-who" id="qWho"></p>
+      </div>
+      <div class="timer" id="timerBox"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--line)" stroke-width="8"/><circle id="timerArc" cx="40" cy="40" r="34" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="0"/></svg><span id="timerTxt"></span></div>
+    </div>
+    <p class="q-text" id="qText"></p>
+    <div class="answers" id="answers"></div>
+    <p class="verdict" id="verdict"></p>
+    <div class="controls">
+      <button class="btn primary" id="qNext">التالي</button>
+      <button class="btn" id="qSkip">سؤال آخر</button>
+      <button class="btn teal" id="qCert" hidden>شهادة لها</button>
+    </div>
+  </div>
+</div>
+
+<!-- winner only -->
+<div class="overlay" id="winOverlay" hidden>
+  <div class="card center" role="dialog" aria-labelledby="winName">
+    <p class="eyebrow">⭐ المتميزة اليوم ⭐</p>
+    <p class="who" id="winName"></p>
+    <div class="controls">
+      <button class="btn primary" id="toCert">إصدار الشهادة</button>
+      <button class="btn" id="again">تدوير مرة ثانية</button>
+    </div>
+  </div>
+</div>
+
+<!-- certificate -->
+<div class="overlay" id="certOverlay" hidden>
+  <div class="card cert" role="dialog" aria-label="شهادة التميز">
+    <img id="certImg" alt="شهادة التميز">
+    <div class="cert-tools">
+      <label class="f" for="reasonSel">سبب التميّز<select id="reasonSel"></select></label>
+      <label class="f" for="reasonTxt">أو اكتبي سببًا خاصًا<input type="text" id="reasonTxt" placeholder="مثال: تميّزها في درس الجهاز التنفسي"></label>
+    </div>
+    <div class="controls">
+      <button class="btn primary" id="saveCert">حفظ الشهادة صورة</button>
+      <button class="btn" id="closeCert">إغلاق</button>
+    </div>
+    <p class="msg" id="certMsg"></p>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+const TEACHER = 'أ/ شامه البقمي';
+const CLASSES = [{id:'6a', name:'سادس أول'}, {id:'6b', name:'سادس ثاني'}];
+const DEFAULT_NAMES = { '6a': [], '6b': [] };
+// [topic, question, a, b, c, d, correct(1-4), skill]
+const QUESTIONS = [["الخلية", "أي من المخلوقات الحية التالية يعتبر مثالاً على مخلوق عديد الخلايا؟", "البكتيريا", "الإنسان", "البراميسيوم", "اليوجلينا", 2, "تحليل"], ["الخلية", "ما الذي تشكله مجموعة من الأعضاء مثل القلب والمعدة والأمعاء التي تعمل معاً؟", "نسيج", "عنصر", "جهاز حيوي", "خلية", 3, "تركيب"], ["الخلية", "ماذا يحدث لو فقدت الخلية الميتوكوندريا الخاصة بها؟", "لن تتمكن من تخزين الماء والغذاء", "ستفقد شكلها المميز", "لن تتمكن من حماية نفسها", "لن تتمكن من تحويل الغذاء إلى طاقة", 4, "تنبؤ"], ["الخلية", "إذا لاحظت مخلوقاً مجهرياً تحت المجهر يتكون من خلية واحدة، أي مما يلي يمكن أن يكون؟", "نسيج عضلي", "جهاز هضمي", "جلد إنسان", "براميسيوم", 4, "تطبيق"], ["الخلية", "أي من التراكيب التالية مسؤول عن إعطاء الخلية النباتية شكلها الثابت وحمايتها؟", "الجدار الخلوي", "الفجوات", "النواة", "السيتوبلازم", 1, "تحليل"], ["الخلية", "ما التسلسل الصحيح لمستويات التنظيم في المخلوقات الحية عديدة الخلايا، من الأصغر إلى الأكبر؟", "نسيج ← خلية ← عضو ← جهاز", "خلية ← نسيج ← عضو ← جهاز", "عضو ← نسيج ← خلية ← جهاز", "جهاز ← عضو ← نسيج ← خلية", 2, "تركيب"], ["الخلية", "ماذا يمكن أن يحدث لنبات إذا اختفت البلاستيدات الخضراء من خلاياه؟", "سينمو بشكل أسرع", "لن يتمكن من صنع غذائه", "سيصبح أكثر قدرة على امتصاص الماء", "سيزداد سمك جداره الخلوي", 2, "استنتاج"], ["الخلية", "ما الوظيفة الرئيسية للجدار الخلوي؟", "صنع الغذاء", "امتصاص الطاقة الشمسية", "الدعم والحماية للخلية", "تنظيم الأنشطة الخلوية", 3, "تركيب"], ["الخلية", "أي من التراكيب التالية يعتبر مسؤولاً بشكل مباشر عن إعطاء الخلية النباتية لونها الأخضر؟", "الغشاء البلازمي", "الكلوروفيل", "النواة", "الجدار الخلوي", 2, "تحليل"], ["الخلية", "لماذا تحتاج الخلية النباتية إلى وجود كل من الغشاء البلازمي والجدار الخلوي معاً؟", "لتنظيم حركة المواد وتوفير الصلابة والحماية", "يقومان بنفس الوظيفة", "الجدار الخلوي يحل محل الغشاء البلازمي", "الغشاء البلازمي يحمي الخلية", 1, "تحليل"], ["الخلية النباتية والحيوانية", "ما نوع النقل الذي لا يستخدم طاقة الخلية؟", "الإخراج الخلوي", "البلعمة", "النقل السلبي", "النقل النشط", 3, "استنتاج"], ["الخلية النباتية والحيوانية", "إذا انتقلت جسيمات الماء من تركيز مرتفع إلى منخفض، فما نوع النقل؟", "الخاصية الأسموزية", "النقل النشط", "النقل العام", "الانتشار", 1, "تطبيق"], ["الخلية النباتية والحيوانية", "ما العملية التي تستخدمها الخلية للتخلص من الفضلات؟", "النقل النشط", "النقل السلبي", "الإخراج الخلوي", "الانتشار", 3, "تحليل"], ["الخلية النباتية والحيوانية", "ما الفرق بين الانتشار والنقل النشط؟", "الانتشار يحتاج طاقة، والنقل النشط لا يحتاج", "كلاهما ينقل الماء فقط", "كلاهما لا يحتاج إلى طاقة", "النقل النشط يحتاج طاقة، والانتشار لا يحتاج", 4, "تحليل"], ["الخلية النباتية والحيوانية", "أي مما يلي مثال على النقل السلبي؟", "إخراج المواد عبر الطاقة", "انتقال الأكسجين", "إدخال البروتينات الكبيرة", "التخلص من الفضلات", 2, "تطبيق"], ["الخلية النباتية والحيوانية", "أين يحدث البناء الضوئي؟", "البلاستيدات الخضراء", "جدار الخلية", "النواة", "السيتوبلازم", 1, "معرفة"], ["الخلية النباتية والحيوانية", "ماذا يحدث أثناء التنفس الخلوي؟", "يُستهلك الضوء", "يُنتج الجلوكوز", "يُنتج الأكسجين", "تُحرر الطاقة من الغذاء", 4, "معرفة"], ["الخلية النباتية والحيوانية", "كيف يساعد الماء في البناء الضوئي؟", "يُنتج ثاني أكسيد الكربون", "يمنع امتصاص الضوء", "يُنتج الطاقة", "يُستخدم لإنتاج الغذاء", 4, "تحليل"], ["الخلية النباتية والحيوانية", "ما الذي يمكن استنتاجه من أن النبات ينتج الأكسجين؟", "النبات لا يحتاج إلى ضوء", "النبات لا يحتاج إلى ماء", "يساعد الحيوانات في التنفس", "النبات لا يحتاج الأكسجين", 3, "استنتاج"], ["الخلية النباتية والحيوانية", "ما الذي يُستخدم في التنفس الخلوي؟", "الضوء", "الجلوكوز فقط", "الكلوروفيل", "الأكسجين", 4, "تطبيق"], ["الوراثة", "ما الوحدة الأساسية التي تحمل الصفات الوراثية؟", "الكروموسوم", "الجين", "البروتين", "الخلية", 2, "معرفة"], ["الوراثة", "إذا كان لون العيون البنية صفة سائدة، والزرقاء صفة متنحية، فما لون عيون طفل ورث جيناً بنياً وآخر أزرق؟", "بنية", "زرقاء", "خضراء", "رمادية", 1, "تطبيق"], ["الوراثة", "في مخطط سلالة يظهر مربع أبيض (غير مظلل)، ماذا يعني ذلك؟", "ذكر يحمل صفة متنحية", "ذكر يحمل صفة سائدة", "ذكر مكتسب الصفة", "أنثى تحمل صفة متنحية", 2, "تحليل"], ["الوراثة", "إذا أردنا أن نمثل الصفة السائدة بالحرف الكبير (A) والمتنحية بالحرف الصغير (a)، فأي تركيب وراثي يعطي صفة سائدة؟", "aa", "Aa", "ab", "AB", 2, "تركيب"], ["الوراثة", "لاحظ العلماء أن إخوة في عائلة واحدة يختلفون في الطول ولون العيون. ما السبب الرئيسي لذلك؟", "نوع البيئة", "اختلاف الغذاء", "التباين الوراثي", "ممارسة الرياضة", 3, "استنتاج"], ["الوراثة", "أي من الصفات التالية تُعد صفة مكتسبة؟", "تعلم ركوب الدراجة", "ملامح الوجه", "لون الشعر", "لون العيون", 1, "معرفة"], ["الوراثة", "الشخص الذي ينقل جين الصفة ولكنها لا تظهر عليه يسمَّى:", "سائد", "وارث", "متنحي", "حاملاً للصفة", 4, "تطبيق"], ["الوراثة", "أي من الخيارات التالية مثال على الغريزة؟", "ولد يستعمل الهاتف", "طائر يبني عشه", "السباحة", "ركوب الخيل", 2, "تحليل"], ["الوراثة", "في مخطط السلالة استُخدمت خطوط أفقية في ربط الآباء بعضهم ببعض، فالخطوط العمودية فيمَ استُخدمت؟", "ربط الإخوة", "ربط الآباء والأبناء", "الأفراد التي تظهر شكلاً لصفة معينة", "ربط الآباء بالأمهات", 2, "تركيب"], ["الوراثة", "طيور صغيرة تخرج من البيض وتبدأ بالطيران بعد فترة قصيرة. ما نوع هذه المهارة؟", "مهارة مكتسبة", "غريزة", "صفة متنحية", "صفة سائدة", 2, "استنتاج"], ["أجهزة الجسم", "أي جهاز في جسم الإنسان مسؤول عن ضخ الدم إلى جميع أجزاء الجسم؟", "الجهاز الدوري", "الجهاز التنفسي", "الجهاز الهضمي", "الجهاز العضلي", 1, "معرفة"], ["أجهزة الجسم", "ما العملية التي تقوم بها الأوراق عند تعرضها لأشعة الشمس؟", "الجذور", "البناء الضوئي", "الساق", "القلنسوة", 2, "تطبيق"], ["أجهزة الجسم", "إذا توقف عمل الرئتين، فما النتيجة التي تحدث لبقية أجهزة الجسم؟", "تعمل بشكل أفضل", "يقل الأكسجين فلا تعمل بكفاءة", "تستمر بالعمل كالمعتاد", "تزداد عملية الهضم", 2, "تحليل"], ["أجهزة الجسم", "أي تركيب لأعضاء الجسم معاً يحافظ على حياة الإنسان؟", "القلب + المعدة", "الكبد + المثانة", "الدماغ + الأعصاب + الحواس", "الكبد + القلب", 3, "تركيب"], ["أجهزة الجسم", "نبات ذابل. ماذا يمكن أن تستنتج عن سبب ذبوله؟", "قام بعملية البناء الضوئي", "حصل على أكسجين كثير", "لم يحصل على ماء أو ضوء كافٍ", "حصل على غذاء كثير", 3, "استنتاج"], ["أجهزة الجسم", "إلى أي جهاز تنتمي المعدة؟", "الجهاز الدوري", "الجهاز التنفسي", "الجهاز الهضمي", "الجهاز العضلي", 3, "معرفة"], ["أجهزة الجسم", "نبات لم يتعرض لضوء الشمس فترة طويلة، ما الذي سيتأثر فيه مباشرة؟", "الجذور", "الأوراق", "الساق", "القلنسوة", 2, "تطبيق"], ["أجهزة الجسم", "ماذا يحدث إذا توقف عمل المعدة في الجهاز الهضمي؟", "لا يُهضم الطعام", "يزداد تدفق الدم", "يزداد التنفس", "تزداد عملية الهضم", 1, "تحليل"], ["أجهزة الجسم", "ما الوظيفة المشتركة للدماغ والأعصاب معاً؟", "التحكم في الحركة والحواس", "إنتاج الغذاء", "التكاثر", "التخلص من الفضلات", 1, "استنتاج"], ["أجهزة الجسم", "ما وسيلة تنفس صغار البرمائيات؟", "الرئات", "القصيبات", "الخياشيم والجلد", "فتحات صغيرة", 3, "معرفة"], ["أجهزة الجسم", "ما تركيب الأسماك الذي يؤدي وظيفة الرئتين نفسها؟", "الخياشيم", "الأوردة", "القصبات", "الزعانف", 1, "تطبيق"], ["أجهزة الجسم", "ما الفرق بين أجهزة الدوران المفتوحة والمغلقة؟", "المغلقة لا تحتوي على أوعية دموية", "المغلقة لا تنقل الأكسجين", "المفتوحة لا تحتوي على قلب", "المفتوحة تدفع الدم مباشرة للأنسجة", 4, "تحليل"], ["أجهزة الجسم", "ما الذي تشترك فيه الطيور والثدييات؟", "تستخدم الأجنحة في الطيران", "تعيش في الماء", "لها ريش يغطي أجسامها", "تستخدم الرئات في التنفس", 4, "تركيب"], ["أجهزة الجسم", "لماذا تحتاج المخلوقات إلى جهاز دوران؟", "للتكاثر", "لنقل الأكسجين والفضلات", "للهضم", "للتنفس فقط", 2, "استنتاج"], ["أجهزة الجسم", "ما وظيفة الجمجمة؟", "تحمي القلب", "تحمي القلب والرئتين", "تحمي الدماغ", "تساعد على التنفس", 3, "معرفة"], ["أجهزة الجسم", "كيف يساعد القفص الصدري الجسم؟", "يحمي الدماغ", "ينقل الدم", "يحمي القلب والرئتين", "يساعد على الهضم", 3, "تطبيق"], ["أجهزة الجسم", "تقوم العضلات بالعمل في أزواج متقابلة. ماذا سيحدث إذا انقبضت العضلة الأولى في الزوج دون أن تنبسط العضلة المقابلة لها؟", "ستصبح الحركة أكثر مرونة", "ستنكسر العظمة بسبب الشد", "ستنقلب العظمة في الاتجاه المعاكس", "ستبقى العظمة ثابتة ولا تتحرك", 4, "تحليل"], ["أجهزة الجسم", "الديدان المفلطحة والحلازين والبزّاقات تتبادل الغازات عن طريق:", "القشور", "الانتشار", "القصيبات", "الرئات", 2, "تركيب"], ["أجهزة الجسم", "أي من الحيوانات التالية تمتلك رئات تشبه صفحات الكتاب؟", "العنكبوت", "السمك", "الطيور", "الضفدع", 1, "استنتاج"], ["أجهزة النبات", "أي نوع من الجذور ينمو إلى أعماق التربة؟", "الجذور المتسلقة", "الجذور الوتدية", "الجذور الليفية", "الجذور الهوائية", 2, "معرفة"], ["أجهزة النبات", "ما وظيفة الشعيرات الجذرية؟", "زيادة مساحة سطح الجذر", "حماية قمة الجذر", "تخزين الغذاء", "صنع الغذاء", 1, "تطبيق"], ["أجهزة النبات", "أي جزء في ورقة النباتات يُنظّم كمية الهواء الداخل لها وكمية الماء المفقود منها؟", "البشرة", "العروق", "اللحاء", "الثغور", 4, "تحليل"], ["أجهزة النبات", "أي من العبارات التالية يُظهر فهماً صحيحاً لدور الخشب واللحاء في النباتات؟", "الخشب ينقل الغذاء من الأوراق إلى الجذور", "اللحاء ينقل الماء من التربة إلى الأوراق", "اللحاء ينقل الغذاء، والخشب ينقل الماء", "الخشب ينقل الغذاء واللحاء ينقل الماء", 3, "تحليل"], ["أجهزة النبات", "لماذا تغلق الثغور في ورقة النبات عند ارتفاع الحرارة؟", "لمنع دخول الضوء", "لمنع خروج الغذاء", "لتقليل فقد الماء", "لزيادة امتصاص الغذاء", 3, "استنتاج"], ["دورات الحياة", "أي الحيوانات يزداد حجمها تدريجياً عند النمو؟", "الفراشة", "الجرادة", "الحرباء", "النحل", 3, "معرفة"], ["دورات الحياة", "إذا وجدت حيواناً يمر بمراحل (بويضة ← يرقة ← عذراء ← بالغ)، فما نوع التحوّل الذي يمر به؟", "تحول ناقص", "تحول كامل", "تحول تدريجي", "تحول مباشر", 2, "تطبيق"], ["دورات الحياة", "أي من المراحل التالية لا تظهر في التحوّل الناقص؟", "بويضة", "يرقة", "حورية", "حيوان بالغ", 2, "تحليل"], ["دورات الحياة", "إذا أردنا تصميم مخطط لمراحل نمو الجرادة، فأي المراحل يجب أن نضعها؟", "بويضة – حورية – بالغ", "بويضة – يرقة – عذراء – بالغ", "بويضة – عذراء – بالغ", "بويضة – يرقة – بالغ", 1, "تركيب"], ["دورات الحياة", "إذا وُجد حيوان يمر بمراحل (بويضة – يرقة – عذراء – بالغ)، فما الحيوان الأقرب أن يكون؟", "الجرادة", "الطائر", "الحرباء", "الفراشة", 4, "استنتاج"], ["دورات الحياة", "أيّ الحيوانات التالية يستعمل الإخصاب الداخلي؟", "الزواحف", "الأسماك", "البرمائيات", "المرجان", 1, "معرفة"], ["دورات الحياة", "إذا شاهدت ضفدعاً يتكاثر، فما نوع الإخصاب لديه؟", "داخلي", "خارجي", "مزدوج", "لا جنسي", 2, "تطبيق"], ["دورات الحياة", "أي مما يلي يميز الإخصاب الداخلي عن الخارجي؟", "إنتاج بيوض كثيرة", "قلة فرصة بقاء النسل", "تعرض البيوض للجفاف", "يحدث داخل جسم الأنثى", 4, "تحليل"], ["دورات الحياة", "لو أردنا رسم مقارنة بين الإخصاب الداخلي والخارجي، فأي عبارة توضع تحت \"الداخلي\"؟", "يحمي البيوض من الجفاف", "يحدث في الأسماك", "أعداد البيوض كثيرة", "يحدث في البرمائيات", 1, "تركيب"], ["دورات الحياة", "ما المقصود بالإخصاب؟", "إنتاج البيوض", "نمو الجنين", "اندماج المشيج الذكري مع الأنثوي", "خروج الصغار", 3, "معرفة"], ["دورات الحياة", "ما أول مرحلة في التحول الكامل؟", "بويضة", "حورية", "يرقة", "بالغ", 1, "معرفة"], ["دورات الحياة", "إذا أردت زراعة بذرة، فما أول ما ينمو منها؟", "الجذر", "الساق", "الورقة", "الزهرة", 1, "تطبيق"], ["دورات الحياة", "أي العوامل التالية ليس ضرورياً لإنبات البذور؟", "الماء", "الضوء", "الغذاء", "درجة حرارة مناسبة", 2, "تحليل"], ["دورات الحياة", "لو أردت رسم دورة حياة نبات زهري، فأي المراحل يجب أن تضعها؟", "بوغ – طور جاميتي – طور بوغي", "بيضة – يرقة – عذراء – بالغ", "بويضة – حورية – بالغ", "بذرة – نبات – أزهار – بذور", 4, "تركيب"], ["دورات الحياة", "إذا لاحظت أن نباتاً يتكاثر بالأبواغ، فما نوع هذا النبات؟", "نبات صحراوي", "نبات قطبي", "نبات لا زهري", "نبات زهري", 3, "استنتاج"], ["دورات الحياة", "جزء صغير في النبات يستمد غذاءه المخزون في البذرة لينمو:", "البذرة", "الجنين", "البادرة", "الورقة", 2, "معرفة"], ["دورات الحياة", "إذا سقطت حبوب اللقاح من متك زهرة على ميسم نفس الزهرة، ما هذا النوع من التلقيح؟", "التلقيح بالحشرات", "التلقيح الخلطي", "التلقيح الاصطناعي", "التلقيح الذاتي", 4, "تطبيق"], ["دورات الحياة", "أي مما يلي يصف بشكل صحيح الفرق بين التلقيح الذاتي والخلطي؟", "الذاتي في نفس الزهرة، والخلطي بين زهرتين", "التلقيح الذاتي يحتاج إلى حشرات", "التلقيح الخلطي ينتج نباتات مطابقة للأصل", "التلقيح الذاتي يحدث فقط في النباتات الكبيرة", 1, "تحليل"], ["دورات الحياة", "إذا علمت أن نبات السرخس يتكاثر بواسطة الأبواغ، فما المرحلة التي تلي إنتاج الأبواغ مباشرة في دورة حياته؟", "التلقيح", "تكوين البذور", "تكوين الجاميتات", "الإزهار", 3, "تركيب"], ["دورات الحياة", "ماذا تستنتج من العملية المستمرة للانتقال من مرحلة التكاثر اللاجنسي إلى مرحلة التكاثر الجنسي؟", "تعاقب الأجيال", "التلقيح الخلطي", "تكاثر خضري", "الإخصاب الخارجي", 1, "استنتاج"], ["التصنيف", "أي النباتات التالية لا تحتوي على أوعية ناقلة؟", "الصنوبر", "الطلح", "الحزازيات", "الأقحوان", 3, "معرفة"], ["التصنيف", "معلمتك أحضرت نبتة صغيرة خضراء تعيش قريبة من سطح الأرض وليس لها أوعية ناقلة، ما اسم هذه المجموعة؟", "نباتات وعائية", "نباتات لاوعائية", "نباتات بذرية", "نباتات مغطاة البذور", 2, "تطبيق"], ["التصنيف", "أي مما يلي يميز النباتات المغطاة البذور عن المعراة البذور؟", "تنتج أزهاراً وثماراً", "بذورها قاسية", "لا تحتوي على أوعية", "تعيش قرب سطح الأرض", 1, "تحليل"], ["التصنيف", "إذا جمعت نباتات (الصنوبر + الأقحوان + التفاح)، فأي خاصية مشتركة تجمعها؟", "جميعها نباتات لا بذرية", "جميعها نباتات صغيرة الحجم", "جميعها نباتات لاوعائية", "جميعها نباتات وعائية", 4, "تركيب"], ["التصنيف", "نبات يعيش في منطقة جبلية باردة، له بذور قاسية ولا ينتج أزهاراً، ما نوعه؟", "نبات لاوعائي", "نبات لا بذري", "نبات مغطى البذور", "نبات معرّى البذور", 4, "استنتاج"], ["التصنيف", "أي من الحيوانات التالية ليس لها عمود فقري؟", "قنديل البحر", "الضفدع", "الصقر", "الثعلب", 1, "معرفة"], ["التصنيف", "إذا رأيت حيواناً له جسم صلب مفصلي وأرجل كثيرة، فهو على الأرجح:", "مفصليات", "رخويات", "شوكيات الجلد", "ديدان مسطحة", 1, "تطبيق"], ["التصنيف", "أي المجموعات التصنيفية التالية يكون أفرادها متشابهين كثيراً في الشكل؟", "المملكة", "الشعبة", "الجنس", "النوع", 4, "تحليل"], ["التصنيف", "أي المجموعات التالية يمكن جمعها في فقاريات متغيرة درجة الحرارة؟", "الطيور، الثدييات", "الحبار، الحلزون", "الضفادع، السحالي، الثعابين", "قنديل البحر، المرجان", 3, "تركيب"], ["التصنيف", "إذا كان الحيوان له عمود فقري وهو يطير، فمن الممكن أن يكون:", "قنديل البحر", "الحبار", "قنفذ البحر", "صقر", 4, "استنتاج"], ["التصنيف", "أي من الفقاريات التالية حيوان ثابت درجة الحرارة؟", "قنديل البحر", "الضفدع", "الصقر", "السحلية", 3, "معرفة"], ["التصنيف", "أي من الحيوانات التالية مثال للرخويات؟", "قنديل البحر", "الحبار", "العنكبوت", "السلحفاة", 2, "تطبيق"], ["التصنيف", "أي من التالي يستخدم العمود الفقري لدعم الجسم والحركة؟", "الإسفنج", "الثعلب", "المرجان", "العنكبوت", 2, "تحليل"], ["التصنيف", "اختر مجموعة الحيوانات التي تنتمي جميعها إلى اللافقاريات:", "ضفدع، طاووس، ثعلب", "منقار البط، الكنغر، الخفاش", "حلزون، قنديل البحر، عناكب", "السلحفاة، الصقر، الفيل", 3, "تركيب"], ["التصنيف", "حيوان بحري له هيكل خارجي صلب وحركة بطيئة، ينتمي غالباً إلى:", "مفصليات", "رخويات", "ديدان مسطحة", "شوكيات الجلد", 2, "استنتاج"], ["التصنيف", "أيّ المخلوقات الآتية يُصنَّف في مجموعة النباتات؟", "القط", "النخلة", "السمكة", "النسر", 2, "معرفة"], ["التصنيف", "إذا كان للمخلوق الحي عمود فقري، فإنّه يُصنَّف ضمن:", "الفقاريات", "اللافقاريات", "النباتات", "الفطريات", 1, "تطبيق"], ["التصنيف", "البط: مغطى بالريش، يعيش في الماء، يطير. الدلفين: غير مغطى بالريش، يعيش في الماء، لا يطير. أي استنتاج صحيح؟", "جميعها مغطاة بالريش", "الدلفين يُصنَّف من الطيور", "البط من الثدييات", "يختلفان في تغطية الجسم والطيران", 4, "تحليل"], ["التصنيف", "أيّ المجموعات الآتية صُنِّفت بشكل صحيح مع صفاتها؟", "الزواحف – مغطاة بالريش", "الثدييات – مغطاة بالشعر", "البرمائيات – مغطاة بالقشور", "الطيور – مغطاة بالحراشف", 2, "تركيب"], ["التصنيف", "لاحظ الطالب أن الحصان والجمل لهما أربعة أرجل، ويعيشان على اليابسة، ويتنفسان بالرئتين. في أي مجموعة يمكن أن يصنفهما؟", "الثدييات", "الزواحف", "الأسماك", "الطيور", 1, "استنتاج"], ["التصنيف", "ما الصفة المشتركة بين معظم أعضاء مملكة الفطريات؟", "تصنع غذاءها بنفسها", "متعددة الخلايا ولا تستطيع الحركة", "وحيدة الخلية فقط", "تعيش في البحار فقط", 2, "معرفة"], ["التصنيف", "إذا وُجد مخلوق مجهري يعيش في الينابيع الحارة ويستطيع العيش في أقسى الظروف، إلى أي مملكة ينتمي؟", "الطلائعيات", "الفطريات", "البكتيريا البدائية", "البكتيريا الحقيقية", 3, "تطبيق"], ["التصنيف", "إلى أيّ الممالك تنتمي الطحالب؟", "الطلائعيات", "الحيوانات", "النباتات", "البكتيريا", 1, "تحليل"], ["التصنيف", "ما الخاصية التي تميز البكتيريا الحقيقية؟", "توجد في كل مكان", "حجمها كبير", "ليس لها جدار خلوي", "متعددة الخلايا", 1, "تحليل"], ["التصنيف", "لو عُرضت صورة لمخلوق مجهري كبير الحجم بعضه وحيد الخلية وبعضه متعدد الخلايا، يتغذى على المخلوقات الأخرى أو يصنع غذاءه بنفسه، فما المخلوق؟", "الخميرة", "البكتيريا الحقيقية", "فطر العفن", "الطلائعيات", 4, "استنتاج"], ["التصنيف", "المجموعة الكبرى التي تُصنَّف إليها المخلوقات الحية:", "المملكة", "الطائفة", "النوع", "الفصيلة", 1, "معرفة"], ["التصنيف", "أي المخلوقات الحية تصنف مخلوقاً حياً متعدد الخلايا ولا يصنع غذاءه بنفسه؟", "النباتات", "الحيوانات", "البكتيريا البدائية", "البكتيريا الحقيقية", 2, "تطبيق"], ["التصنيف", "أي من المخلوقات التالية تستطيع صنع غذائها بنفسها؟", "الدياتومات", "فطر العفن", "الخميرة", "البكتيريا الحقيقية", 1, "تحليل"], ["التصنيف", "تختلف الفطريات عن النباتات في طريقة حصولها على الغذاء؛ فالنباتات تصنع غذاءها بنفسها، أما الفطريات فلا تستطيع ذلك. ما السبب؟", "لأنها لا تحتوي على خلايا", "لأنها لا تحتوي على بلاستيدات", "لأنها لا تحتوي على نواة", "لأنها وحيدة الخلية", 2, "تحليل"], ["النظام البيئي", "الجماعة الحيوية هي:", "كل الجماعات في النظام البيئي", "أفراد النوع الواحد التي تعيش في نظام بيئي", "العلاقة بين مخلوقين حيين", "مجموعة من الأنظمة البيئية", 2, "معرفة"], ["النظام البيئي", "أيّ مما يلي مثال على المجتمع الحيوي؟", "جماعة الضفادع في بركة", "جماعة زنابق الماء", "مجتمع البركة يضم زنابق وضفادع وأسماك", "ضفدع واحد في البركة", 3, "تطبيق"], ["النظام البيئي", "إذا ماتت جماعة الضفادع في البركة، فإن ذلك سيؤثر على:", "جماعة الضفادع فقط", "النباتات فقط", "لا يؤثر أبداً", "المجتمع الحيوي كله", 4, "تحليل"], ["النظام البيئي", "تخيل أنك رأيت بركة صغيرة فيها زنابق ماء وضفادع وأسماك. كيف تصف هذه البركة؟", "نظام بيئي", "جماعة حيوية", "سعة تحملية", "تنافس", 1, "تركيب"], ["النظام البيئي", "لماذا تكون المجتمعات الحيوية أكبر في الغابات الاستوائية من المناطق القطبية؟", "لوجود عدد أكبر من الحيوانات المفترسة", "لأن الغابات توفر موارد أكثر للحياة", "لأن الحيوانات في الغابات أصغر حجماً", "بسبب كثرة الثلوج", 2, "استنتاج"], ["النظام البيئي", "يعتمد حجم المجتمع الحيوي على:", "الضوء", "نوع التربة", "عدد الأفراد", "المأوى والطعام والضوء", 4, "معرفة"], ["النظام البيئي", "العلاقة بين النمل وشجر الأكاسيا مثال على:", "علاقة تبادل منفعة", "علاقة تنافس", "علاقة تعايش", "افتراس", 1, "تطبيق"], ["النظام البيئي", "أيهما أكثر تأثيراً على المجتمع الحيوي؟", "موت عدد قليل من الأفراد", "زيادة ضوء الشمس", "تغير في نوع الطعام", "تغير في جماعة كاملة", 4, "تحليل"], ["النظام البيئي", "لو جمعت جماعات الضفادع والزنابق والأسماك في مكان واحد، فماذا يتكوّن منها؟", "علاقة تطفل", "مجتمع حيوي", "نظام بيئي آخر", "علاقة تكافل", 2, "تركيب"], ["النظام البيئي", "ماذا يحدث إذا أزال الإنسان الغابات؟", "يزيد الغذاء لجميع المخلوقات", "يزداد ضوء الشمس للنباتات", "يقل المأوى فتتأثر المجتمعات الحيوية", "لا يتأثر النظام البيئي", 3, "استنتاج"], ["النظام البيئي", "النظام البيئي هو:", "مخلوقات حيّة وأشياء غير حيّة تتفاعل معاً", "مجموعة من الحيوانات", "نباتات مختلفة في مكان واحد", "جماعة من نوع واحد", 1, "معرفة"], ["النظام البيئي", "أيّ من التالي يعد نظاماً بيئياً صغيراً؟", "الصحراء", "جذع شجرة", "المحيط", "الغابة", 2, "تطبيق"], ["النظام البيئي", "أيّ مما يلي حدث طبيعي يسبب تغير النظام البيئي؟", "تلوث الهواء", "إزالة الغابات", "استعمال المبيدات", "الزلازل", 4, "تحليل"], ["النظام البيئي", "إذا جمعت المخلوقات الحية مثل النباتات والحيوانات مع الصخور والماء والهواء في مكان واحد، ماذا نحصل؟", "جماعة حيوية", "نظام بيئي", "مجتمع حيوي", "موطن", 2, "تركيب"], ["النظام البيئي", "إذا استعمل الإنسان المبيدات بكثرة، فما النتيجة المتوقعة؟", "زيادة خصوبة التربة", "تكيف المخلوقات الحية سريعاً", "تلوث الماء والتربة", "حماية النظام البيئي", 3, "استنتاج"], ["النظام البيئي", "أيّ مما يلي يعد عاملاً لاحيوياً؟", "الأشجار", "مجموعة من الحيوانات", "نباتات مختلفة في مكان واحد", "الصخور", 4, "معرفة"], ["النظام البيئي", "القندس عندما يبني سداً في النهر، فإنّه:", "يغير النظام البيئي", "يزيد عدد النباتات", "يحمي الحيوانات من الانقراض", "يجعل الماء أكثر نقاءً", 1, "تطبيق"], ["النظام البيئي", "عندما يموت آخر فرد من نوع حيواني مثل الديناصور، فإن ذلك يعني أنه:", "تكيف مع البيئة", "أصبح مهدداً بالانقراض", "هاجر إلى موطن جديد", "أصبح منقرضاً", 4, "تحليل"], ["النظام البيئي", "ماذا يحدث لو اجتمعت جماعات الضفادع والطيور والنباتات في بركة ماء؟", "تتكون جماعة حيوية", "يتكون نظام لا حيوي", "يتكون مجتمع حيوي", "يتكون موطن", 3, "تركيب"], ["النظام البيئي", "لماذا تعد الغابة موطناً مثالياً لكثير من المخلوقات الحية؟", "لأنها لا تتعرض للفيضانات", "لأنها توفر مأوى وغذاء وظروفاً مناسبة", "لأنها مكان واسع", "لأنها خالية من العوامل اللاحيوية", 2, "استنتاج"], ["السلاسل الغذائية", "ما اسم المخلوق الحي القادر على إنتاج غذائه بنفسه؟", "المفترس", "المحلل", "المنتج", "المستهلك", 3, "معرفة"], ["السلاسل الغذائية", "إذا تناول أرنب نبات الجزر، فما دوره في السلسلة الغذائية؟", "منتج", "مستهلك أول", "محلل", "مفترس", 2, "تطبيق"], ["السلاسل الغذائية", "الأفعى قد تكون مفترساً حين تبتلع فأراً، وقد تكون فريسة عندما يأكلها الصقر. ما الذي يوضحه ذلك؟", "جميع المخلوقات تنتج غذاءها بنفسها", "الصقر منتج", "المحللات تأكل الأفاعي دائماً", "قد تكون مفترسات أو فرائس في أوقات مختلفة", 4, "تحليل"], ["السلاسل الغذائية", "ضع المخلوقات الآتية في تسلسل غذائي صحيح: (عوالق – سمك صغير – سمك كبير – إنسان)", "عوالق ← سمك صغير ← سمك كبير ← إنسان", "إنسان ← سمك صغير ← عوالق ← سمك كبير", "سمك كبير ← عوالق ← سمك صغير ← إنسان", "إنسان ← سمك كبير ← عوالق ← سمك صغير", 1, "تركيب"], ["السلاسل الغذائية", "إذا انقرضت المنتجات من النظام البيئي، فما الذي سيحدث لبقية المخلوقات الحية؟", "ستزداد أعدادها", "لن تتأثر", "ستبقى كما هي", "ستنقرض", 4, "استنتاج"], ["السلاسل الغذائية", "أي المخلوقات تُنتج أكثر من نصف عمليات البناء الضوئي على الأرض؟", "الفطريات", "الطيور", "العوالق النباتية", "الثعالب", 3, "معرفة"], ["السلاسل الغذائية", "أي المخلوقات التالية يمثل محللاً؟", "البكتيريا", "الصقر", "الغزال", "الأرانب", 1, "تطبيق"], ["السلاسل الغذائية", "لماذا تمتلك آكلات الأعشاب أسناناً مسطحة في مؤخرة الفم؟", "للدفاع عن نفسها", "لتمزيق اللحوم", "لطحن الطعام", "للتهوية", 3, "تحليل"], ["السلاسل الغذائية", "ما سبب تناقص الطاقة في مستويات السلسلة الغذائية من الأسفل إلى الأعلى؟", "لأن البناء الضوئي يتوقف في الليل", "لأن المستهلكات تأكل النباتات فقط", "لأن المحللات لا تعيش في كل المستويات", "لأن جزءاً من الطاقة يُفقد في كل مستوى", 4, "تركيب"], ["السلاسل الغذائية", "إذا لم يحدث البناء الضوئي على الأرض، فما النتيجة المتوقعة؟", "تزداد أعداد المفترسات", "تزداد أعداد المحللات", "يقل الأكسجين وتنقرض المخلوقات الحية", "لا يحدث أي تغير", 3, "استنتاج"], ["التكيف", "ما المقصود بالعامل المحدد في المواطن البيئية؟", "يحدد نوع الغذاء المتوفر", "يزيد من تنوع الجماعات الحيوية", "يتحكم في معدل نمو الجماعات الحيوية", "يسبب انقراض الجماعات الحيوية", 3, "معرفة"], ["التكيف", "أي من العوامل التالية يُعد عاملاً لاحيوياً محدداً في الغابة خلال فصل الصيف؟", "توفر الغذاء من النباتات", "كمية مياه الأمطار ودرجة الحرارة", "هجرة الطيور الموسمية", "وجود الحيوانات المفترسة", 2, "تطبيق"], ["التكيف", "ما الذي يحدث عندما تتجاوز أعداد الفهود السعة التحميلية للغابة؟", "تنتقل الفهود إلى مناطق عشبية", "تتناقص كمية الأمطار", "يصعب على الفهود الحصول على الغذاء", "تزداد أعداد الفرائس", 3, "تحليل"], ["التكيف", "أي مما يلي يُعد مثالاً على التكيف التركيبي؟", "سير الفيلة في قطعان", "البيات الشتوي للدببة", "هجرة الطيور في الشتاء", "أرجل البط الملتصقة الأصابع", 4, "تركيب"], ["التكيف", "ما الهدف من إفراز بعض النباتات مواد كيميائية كريهة الطعم أو سامة؟", "الحماية من الحيوانات المفترسة", "منع فقدان الماء", "زيادة معدل النمو", "جذب ناقلات حبوب اللقاح", 1, "استنتاج"], ["التكيف", "السعة التحميلية تعني:", "عدد المخلوقات المفترسة", "أقصى عدد أفراد يمكن للبيئة دعمه", "كمية الأمطار في البيئة", "متوسط درجة الحرارة", 2, "معرفة"], ["التكيف", "تفقد أشجار البلوط أوراقها في الشتاء، لماذا؟", "لتجنب فقدان الماء", "بسبب كمية مياه الأمطار ودرجة الحرارة", "بسبب هجرة الطيور الموسمية", "بسبب وجود الحيوانات المفترسة", 1, "تطبيق"], ["التكيف", "في منطقة عشبية، نجد آكلات الأعشاب أكثر من الصحراء، السبب:", "قلة الماء في العشب", "كثرة المفترسات في الصحراء", "قلة الفرائس في العشب", "كثرة الغذاء في العشب", 4, "تحليل"], ["التكيف", "أي نبات أكثر قدرة على جذب الحشرات للتلقيح؟", "نبات يفرز رائحة عطرة", "نبات بلا أوراق", "نبات بلا رائحة", "نبات بلا جذور", 1, "استنتاج"], ["النشاط الإنساني والبيئة", "ما أثر إزالة الغابات على المخلوقات الحية؟", "زيادة مساكنها", "زيادة غذائها", "تحسين الهواء", "تدمير بيئاتها وفقدان مساكنها", 4, "معرفة"], ["النشاط الإنساني والبيئة", "إذا زاد عدد السكان في منطقة محدودة، فإن ذلك يؤدي إلى:", "وفرة في الموارد", "قلة في التلوث", "اكتظاظ سكاني", "تحسين التربة", 3, "تطبيق"], ["النشاط الإنساني والبيئة", "لماذا يقوم الناس بإزالة الغابات عند زيادة عدد السكان؟", "لحماية التربة", "لتقليل التلوث", "لبناء البيوت والمصانع والطرق", "لزيادة الأمطار", 3, "تحليل"], ["النشاط الإنساني والبيئة", "أي الطرق التالية تمثل أفضل خطة متكاملة لحماية الموارد الطبيعية؟", "التدوير فقط", "إعادة الاستخدام فقط", "الجمع بين الترشيد وإعادة الاستخدام والتدوير", "الترشيد فقط", 3, "تركيب"], ["النشاط الإنساني والبيئة", "إذا استمر الناس في قطع الأشجار بكثرة، فما الذي سيحدث للنظام البيئي؟", "تقل مساكن الحيوانات وتزداد مشكلات التلوث", "تزداد مساكن الحيوانات", "تتحسن التربة", "تزيد الأمطار", 1, "استنتاج"], ["النشاط الإنساني والبيئة", "الوقود الأحفوري يُعد:", "مورداً غير متجدد", "مورداً متجدداً", "مورداً دائماً", "مورداً يعاد استخدامه", 1, "معرفة"], ["النشاط الإنساني والبيئة", "أي مما يلي من أمثلة الترشيد؟", "حرق المحاصيل", "تقليل كميات الوقود المستخدم في التدفئة", "رمي النفايات في الشوارع", "استخدام مزيد من الكهرباء دون حاجة", 2, "تطبيق"], ["النشاط الإنساني والبيئة", "من طرق حماية التربة:", "زيادة كمية الماء", "حرق الأشجار", "زراعة المحاصيل في مصاطب", "استخدام وقود أكثر", 3, "تطبيق"], ["النشاط الإنساني والبيئة", "أي من الخيارات التالية يساعد على المحافظة على الماء؟", "رمي النفايات في الأنهار", "قطع الأشجار", "استخدام وقود أحفوري أكثر", "تقليل كميات الوقود المستخدم في التدفئة", 4, "تحليل"]];
+const TOPICS = [...new Set(QUESTIONS.map(q => q[0]))];
+const LETTERS = ['أ','ب','ج','د'];
+const REASONS = ['تميّزها ومشاركتها الفعّالة في الحصة','تفوّقها في تحدي التميّز وتصدّرها لوحة الصدارة','إجابتها المتميزة في أسئلة نافس',
+  'تفوّقها وحسن أدائها في مادة العلوم','التزامها وحسن سلوكها داخل الفصل'];
+const COLORS = ['#14666b','#e2a22b','#e0634f','#2f8f6a','#3b6fb6','#c2577a'];
+
+// ---------- storage (this device) ----------
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('tamayoz:'+k); return v ? JSON.parse(v) : d }catch(e){ return d } },
+  set(k, v){ try{ localStorage.setItem('tamayoz:'+k, JSON.stringify(v)) }catch(e){} }
+};
+const norm = s => s.replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ').trim();
+let S = store.get('state', null);
+if(!S || S.v !== 2){
+  S = { v:2, cls:'6a', names:{}, excluded:{}, scores:{}, used:[], removeAfter:true, withQ:true, topic:'', time:30, pts:10, sound:true };
+  CLASSES.forEach(c => { S.names[c.id] = DEFAULT_NAMES[c.id].slice(); S.excluded[c.id] = []; S.scores[c.id] = {} });
+}
+// a class that was empty when first opened picks up names shipped later
+CLASSES.forEach(c => { if(!S.names[c.id] || (!S.names[c.id].length && DEFAULT_NAMES[c.id].length)) { S.names[c.id] = dedupe(c.id, DEFAULT_NAMES[c.id]).kept } });
+function save(){ store.set('state', S) }
+function dedupe(cid, list){
+  const others = new Set(CLASSES.filter(c => c.id !== cid).flatMap(c => (S.names[c.id] || []).map(norm)));
+  const seen = new Set(), kept = [], dropped = [];
+  list.map(s => s.trim()).filter(Boolean).forEach(n => { const k = norm(n); if(seen.has(k) || others.has(k)) dropped.push(n); else { seen.add(k); kept.push(n) } });
+  return {kept, dropped};
+}
+const $ = id => document.getElementById(id);
+const names = () => S.names[S.cls] || [];
+const active = () => names().filter(n => !S.excluded[S.cls].includes(n));
+const score = n => S.scores[S.cls][n] || {p:0, r:0, a:0};
+
+// ---------- wheel ----------
+const cv = $('wheel'), ctx = cv.getContext('2d');
+let rot = 0, spinning = false, size = 600;
+function resize(){
+  const r = cv.getBoundingClientRect(); if(!r.width) return; const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  size = r.width; cv.width = r.width * dpr; cv.height = r.width * dpr; ctx.setTransform(dpr,0,0,dpr,0,0); draw();
+}
+function draw(){
+  const list = active(), n = list.length, c = size / 2, R = c - 8;
+  const css = getComputedStyle(document.documentElement);
+  ctx.clearRect(0,0,size,size);
+  ctx.beginPath(); ctx.arc(c,c,R+6,0,Math.PI*2); ctx.fillStyle = css.getPropertyValue('--accent'); ctx.fill();
+  if(!n){
+    ctx.beginPath(); ctx.arc(c,c,R,0,Math.PI*2); ctx.fillStyle = css.getPropertyValue('--surface'); ctx.fill();
+    ctx.fillStyle = css.getPropertyValue('--muted'); ctx.font = `700 ${size*0.035}px ${css.getPropertyValue('--body')}`;
+    ctx.textAlign='center'; ctx.direction='rtl';
+    ctx.fillText(names().length ? 'مرّت كل الأسماء، اضغطي «إرجاع كل الأسماء»' : 'أضيفي أسماء الفصل من «الطالبات»', c, c - size*0.16); return;
+  }
+  const seg = Math.PI*2 / n, fs = Math.max(11, Math.min(size*0.034, (R*seg)*0.55));
+  for(let i=0;i<n;i++){
+    const a0 = rot + i*seg - Math.PI/2;
+    ctx.beginPath(); ctx.moveTo(c,c); ctx.arc(c,c,R,a0,a0+seg); ctx.closePath();
+    ctx.fillStyle = (n % COLORS.length === 1 && i === n-1 && n > 1) ? COLORS[2] : COLORS[i % COLORS.length];
+    ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.save(); ctx.translate(c,c); ctx.rotate(a0 + seg/2);
+    ctx.fillStyle = '#fff'; ctx.font = `700 ${fs}px ${css.getPropertyValue('--body')}`; ctx.textBaseline='middle'; ctx.direction='rtl'; ctx.textAlign='left';
+    let t = list[i]; while(ctx.measureText(t).width > R*0.62 && t.length > 3) t = t.slice(0,-2) + '…';
+    const flip = Math.cos(a0 + seg/2) < 0, tw = ctx.measureText(t).width;
+    if(flip){ ctx.rotate(Math.PI); ctx.fillText(t, -(R - 18), 0) } else ctx.fillText(t, R - 18 - tw, 0);
+    ctx.restore();
+  }
+  for(let i=0;i<n;i++){ const a = rot + i*seg - Math.PI/2; ctx.beginPath(); ctx.arc(c+Math.cos(a)*(R-3), c+Math.sin(a)*(R-3), 3.5, 0, Math.PI*2); ctx.fillStyle='#fff'; ctx.fill() }
+}
+function indexAtPointer(){
+  const n = active().length, seg = Math.PI*2/n;
+  let a = (-rot) % (Math.PI*2); if(a < 0) a += Math.PI*2;
+  return Math.floor(a / seg) % n;
+}
+
+// ---------- sound ----------
+let ac = null;
+function audio(){ if(!ac){ try{ ac = new (window.AudioContext || window.webkitAudioContext)() }catch(e){} } if(ac && ac.state === 'suspended') ac.resume(); return ac }
+function beep(f, d, type='square', vol=.07, at=0){
+  if(!S.sound || !ac) return;
+  const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime + at; o.type = type; o.frequency.value = f;
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t+.01); g.gain.exponentialRampToValueAtTime(.0001, t+d);
+  o.connect(g).connect(ac.destination); o.start(t); o.stop(t+d+.05);
+}
+const tick = () => beep(1400, .04);
+const fanfare = () => [523.25,659.25,783.99,1046.5,783.99,1046.5].forEach((f,i) => beep(f, i===5?.9:.3, 'triangle', .18, i*.13 + (i>3?.1:0)));
+const wrongSnd = () => { beep(330, .25, 'sawtooth', .08); beep(220, .4, 'sawtooth', .08, .22) };
+
+// ---------- spin ----------
+function rand(){ const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] / 4294967296 }
+function spin(){
+  const list = active(); if(spinning || !list.length) return;
+  audio(); spinning = true; setBusy(true);
+  const n = list.length, seg = Math.PI*2/n, target = Math.floor(rand()*n);
+  const want = -(target*seg + (0.15 + rand()*0.7) * seg);
+  const turns = 7 + Math.floor(rand()*3);
+  let end = want - Math.PI*2*turns; while(end > rot - Math.PI*2*turns) end -= Math.PI*2;
+  const start = rot, dur = matchMedia('(prefers-reduced-motion: reduce)').matches ? 1200 : 6000, t0 = performance.now();
+  let last = indexAtPointer(); const ptr = $('pointer');
+  (function frame(now){
+    const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 4);
+    rot = start + (end - start) * e; draw();
+    const idx = indexAtPointer();
+    if(idx !== last){ last = idx; tick(); ptr.classList.add('tick'); setTimeout(() => ptr.classList.remove('tick'), 60) }
+    if(p < 1) requestAnimationFrame(frame); else landed(list[indexAtPointer()]);
+  })(t0);
+}
+function setBusy(b){ $('spinBtn').disabled = b; $('hubBtn').disabled = b }
+let current = null;   // {name, cls, reason, date}
+function landed(name){
+  spinning = false; setBusy(false);
+  if(S.removeAfter && !S.excluded[S.cls].includes(name)) S.excluded[S.cls].push(name);
+  save(); renderSide();
+  current = { name, cls:S.cls, reason: REASONS[0], date: new Date().toISOString() };
+  fanfare(); confetti();
+  if(S.withQ && QUESTIONS.length) openQuestion(name);
+  else { $('winName').textContent = name; $('winOverlay').hidden = false }
+  setTimeout(draw, 50);
+}
+
+// ---------- questions ----------
+let q = null, qAnswered = false, tHandle = null;
+function pickQuestion(){
+  let pool = QUESTIONS.map((x,i) => i).filter(i => !S.topic || QUESTIONS[i][0] === S.topic);
+  let fresh = pool.filter(i => !S.used.includes(i));
+  if(!fresh.length){ S.used = S.used.filter(i => !pool.includes(i)); fresh = pool }
+  const i = fresh[Math.floor(rand()*fresh.length)]; S.used.push(i); save(); return i;
+}
+function openQuestion(name, idx){
+  const i = idx == null ? pickQuestion() : idx; q = QUESTIONS[i]; qAnswered = false;
+  $('qWho').textContent = name || 'سؤال للفصل';
+  $('qMeta').textContent = `${q[0]} · ${q[7]}`;
+  $('qText').textContent = q[1];
+  const box = $('answers'); box.textContent = '';
+  [q[2],q[3],q[4],q[5]].forEach((t,k) => {
+    const b = document.createElement('button'); b.className = 'ans'; b.type = 'button';
+    const l = document.createElement('b'); l.textContent = LETTERS[k]; const s = document.createElement('span'); s.textContent = t;
+    b.append(l, s); b.onclick = () => answer(k+1); box.appendChild(b);
+  });
+  $('verdict').textContent = ''; $('verdict').className = 'verdict'; $('qCert').hidden = true; $('qSkip').hidden = false;
+  $('qOverlay').hidden = false; startTimer();
+}
+function startTimer(){
+  clearInterval(tHandle); const total = +S.time; const arc = $('timerArc'), txt = $('timerTxt');
+  $('timerBox').hidden = !total; if(!total) return;
+  const t0 = Date.now();
+  const upd = () => {
+    const left = Math.max(0, total - (Date.now() - t0)/1000);
+    txt.textContent = Math.ceil(left); arc.style.strokeDashoffset = 213.6 * (1 - left/total);
+    arc.style.stroke = left <= 5 ? 'var(--bad)' : 'var(--accent)';
+    if(left <= 5 && left > 0 && Math.abs(left - Math.round(left)) < .06) beep(880, .08, 'sine', .08);
+    if(left <= 0){ clearInterval(tHandle); if(!qAnswered) timeUp() }
+  };
+  upd(); tHandle = setInterval(upd, 100);
+}
+function reveal(){ [...$('answers').children].forEach((b,k) => { b.disabled = true; if(k+1 === q[6]) b.classList.add('right') }) }
+function bump(name, right){
+  const sc = S.scores[current.cls]; const s = sc[name] || {p:0, r:0, a:0};
+  s.a++; if(right){ s.r++; s.p += +S.pts } sc[name] = s; save(); renderSide();
+}
+function answer(k){
+  if(qAnswered) return; qAnswered = true; clearInterval(tHandle); reveal();
+  const right = k === q[6];
+  if(!right) $('answers').children[k-1].classList.add('wrong');
+  if(current) bump(current.name, right);
+  const v = $('verdict');
+  if(right){ v.textContent = current ? `إجابة صحيحة! +${S.pts} 🎉` : 'إجابة صحيحة! 🎉'; v.className = 'verdict ok'; fanfare(); confetti(); $('qCert').hidden = !current }
+  else { v.textContent = `الإجابة الصحيحة: ${LETTERS[q[6]-1]}) ${q[q[6]+1]}`; v.className = 'verdict no'; wrongSnd() }
+  $('qSkip').hidden = true;
+}
+function timeUp(){
+  qAnswered = true; reveal(); if(current) bump(current.name, false);
+  const v = $('verdict'); v.textContent = `انتهى الوقت ⏰ الإجابة: ${LETTERS[q[6]-1]}) ${q[q[6]+1]}`; v.className = 'verdict no'; wrongSnd();
+  $('qSkip').hidden = true;
+}
+function closeQuestion(){ clearInterval(tHandle); $('qOverlay').hidden = true }
+
+// ---------- confetti ----------
+const cc = $('confetti'), cx = cc.getContext('2d'); let parts = [], confRun = false;
+function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  cc.width = innerWidth; cc.height = innerHeight;
+  for(let i=0;i<200;i++) parts.push({x: innerWidth/2 + (rand()-.5)*200, y: innerHeight*0.45, vx:(rand()-.5)*16, vy:-rand()*16-4, s:6+rand()*8, r:rand()*6, vr:(rand()-.5)*.3, c:COLORS[i%COLORS.length], life:0});
+  if(!confRun){ confRun = true; requestAnimationFrame(stepConf) }
+}
+function stepConf(){
+  cx.clearRect(0,0,cc.width,cc.height);
+  parts.forEach(p => { p.vy += .35; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life++;
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r); cx.fillStyle = p.c; cx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); cx.restore() });
+  parts = parts.filter(p => p.y < cc.height + 40 && p.life < 400);
+  if(parts.length) requestAnimationFrame(stepConf); else { confRun = false; cx.clearRect(0,0,cc.width,cc.height) }
+}
+
+// ---------- rendering ----------
+const clsName = id => CLASSES.find(c => c.id === id).name;
+function ranking(cid){
+  const sc = S.scores[cid];
+  return (S.names[cid] || []).map(n => ({n, ...(sc[n] || {p:0,r:0,a:0})})).sort((a,b) => b.p - a.p || b.r - a.r || a.n.localeCompare(b.n,'ar'));
+}
+function renderClassTabs(){
+  const box = $('classTabs'); box.textContent = '';
+  CLASSES.forEach(c => {
+    const b = document.createElement('button'); b.role = 'tab'; b.setAttribute('aria-selected', c.id === S.cls);
+    b.textContent = `${c.name} (${(S.names[c.id]||[]).length})`;
+    b.onclick = () => { if(spinning) return; S.cls = c.id; save(); renderAll() }; box.appendChild(b);
+  });
+}
+function rankRow(r, i, withActions){
+  const row = document.createElement('div'); row.className = 'rank' + (r.p > 0 && i < 3 ? ' top' + (i+1) : '');
+  const pos = document.createElement('div'); pos.className = 'pos'; pos.textContent = r.p > 0 && i < 3 ? ['🥇','🥈','🥉'][i] : (i+1);
+  const nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = r.n;
+  const sm = document.createElement('small'); sm.textContent = r.a ? `${r.r} صحيحة من ${r.a}` : 'لم تُسأل بعد'; nm.appendChild(sm);
+  const right = document.createElement('div'); right.className = 'rank-actions';
+  const pts = document.createElement('span'); pts.className = 'pts'; pts.textContent = r.p; right.appendChild(pts);
+  if(withActions){
+    const plus = document.createElement('button'); plus.textContent = '+'; plus.ariaLabel = 'إضافة نقطة'; plus.onclick = () => adjust(r.n, 1);
+    const minus = document.createElement('button'); minus.textContent = '−'; minus.ariaLabel = 'إنقاص نقطة'; minus.onclick = () => adjust(r.n, -1);
+    const cert = document.createElement('button'); cert.className = 'cert'; cert.textContent = 'شهادة';
+    cert.onclick = () => { current = {name:r.n, cls:S.cls, reason: r.p ? REASONS[1] : REASONS[0], date:new Date().toISOString(), pts:r.p}; openCert() };
+    right.prepend(minus); right.prepend(plus); right.appendChild(cert);
+  }
+  row.append(pos, nm, right); return row;
+}
+function adjust(n, d){ const sc = S.scores[S.cls]; const s = sc[n] || {p:0,r:0,a:0}; s.p = Math.max(0, s.p + d); sc[n] = s; save(); renderSide(); renderBoard() }
+function renderSide(){
+  $('wheelInfo').textContent = `${active().length} اسم في العجلة من ${names().length} · ${QUESTIONS.length} سؤال في البنك`;
+  $('clsName').textContent = clsName(S.cls);
+  const mb = $('miniBoard'); mb.textContent = '';
+  const top = ranking(S.cls).filter(r => r.p > 0).slice(0, 5);
+  if(!top.length){ const p = document.createElement('p'); p.className = 'empty'; p.textContent = 'لا توجد نقاط بعد. أول إجابة صحيحة تفتح الصدارة.'; mb.appendChild(p) }
+  top.forEach((r,i) => mb.appendChild(rankRow(r, i, false)));
+}
+function renderBoard(){
+  const list = ranking(S.cls), box = $('boardList'); box.textContent = '';
+  $('boardCount').textContent = `${clsName(S.cls)} · ${list.length} طالبة`;
+  if(!list.length){ const p = document.createElement('p'); p.className='empty'; p.textContent = 'لا توجد أسماء في هذا الفصل. أضيفيها من «الطالبات».'; box.appendChild(p) }
+  list.forEach((r,i) => box.appendChild(rankRow(r, i, true)));
+}
+function renderBank(){
+  const t = $('bankTopic').value, term = norm($('bankSearch').value || ''), show = $('showAns').checked;
+  const box = $('qlist'); box.textContent = ''; let shown = 0;
+  QUESTIONS.forEach((x, i) => {
+    if(t && x[0] !== t) return;
+    if(term && !norm(x.slice(1,6).join(' ')).includes(term)) return;
+    shown++;
+    const it = document.createElement('div'); it.className = 'qitem';
+    const meta = document.createElement('div'); meta.className = 'meta';
+    [`#${i+1}`, x[0], x[7]].forEach(s => { const sp = document.createElement('span'); sp.className = 'tag'; sp.textContent = s; meta.appendChild(sp) });
+    const p = document.createElement('p'); p.textContent = x[1];
+    const opts = document.createElement('div'); opts.className = 'opts';
+    const btns = [];
+    [x[2],x[3],x[4],x[5]].forEach((o,k) => {
+      const d = document.createElement('button'); d.type = 'button'; d.className = 'opt' + (show && k+1 === x[6] ? ' right' : '');
+      d.textContent = `${LETTERS[k]}) ${o}${show && k+1 === x[6] ? ' ✓' : ''}`;
+      d.onclick = () => {
+        audio(); btns.forEach((b,j) => { b.classList.remove('wrong'); if(j+1 === x[6]){ b.classList.add('right'); b.textContent = `${LETTERS[j]}) ${[x[2],x[3],x[4],x[5]][j]} ✓` } });
+        if(k+1 === x[6]) beep(1046.5, .3, 'triangle', .15); else { d.classList.add('wrong'); wrongSnd() }
+      };
+      btns.push(d); opts.appendChild(d);
+    });
+    const row = document.createElement('div'); row.className = 'row';
+    const hint = document.createElement('span'); hint.className = 'hint'; hint.textContent = 'اضغطي على خيار لتعرفي إن كان صحيحًا';
+    const pres = document.createElement('button'); pres.className = 'btn small teal'; pres.textContent = 'اعرضيه على الشاشة';
+    pres.onclick = () => { audio(); current = null; openQuestion(null, i) };
+    row.append(hint, pres);
+    it.append(meta, p, opts, row); box.appendChild(it);
+  });
+  $('bankCount').textContent = `${shown} من ${QUESTIONS.length} سؤال`;
+}
+function renderEditors(){
+  const box = $('clsEditors'); box.textContent = '';
+  CLASSES.forEach(c => {
+    const wrap = document.createElement('div'); wrap.className = 'panel';
+    const h = document.createElement('h2'); h.textContent = c.name; const cnt = document.createElement('span'); cnt.className = 'count'; cnt.textContent = `${(S.names[c.id]||[]).length} طالبة`; h.appendChild(cnt);
+    const ta = document.createElement('textarea'); ta.id = 'names-' + c.id; ta.value = (S.names[c.id]||[]).join('\n'); ta.setAttribute('aria-label', 'أسماء ' + c.name);
+    const note = document.createElement('p'); note.className = 'note';
+    const btn = document.createElement('button'); btn.className = 'btn teal'; btn.textContent = 'حفظ الأسماء';
+    btn.onclick = () => {
+      const {kept, dropped} = dedupe(c.id, ta.value.split('\n'));
+      S.names[c.id] = kept; S.excluded[c.id] = S.excluded[c.id].filter(n => kept.includes(n)); save();
+      renderClassTabs(); renderSide(); draw();
+      ta.value = kept.join('\n'); cnt.textContent = `${kept.length} طالبة`;
+      note.className = dropped.length ? 'note warn' : 'note';
+      note.textContent = dropped.length ? `تم الحفظ. حُذفت ${dropped.length} أسماء مكررة: ${dropped.join('، ')}` : `تم حفظ ${kept.length} اسم ✅`;
+    };
+    wrap.append(h, ta, btn, note); box.appendChild(wrap);
+  });
+}
+function fillTopics(){
+  [['topicSel','كل المواضيع (عشوائي)'],['bankTopic','كل المواضيع']].forEach(([id, all]) => {
+    const sel = $(id); sel.textContent = '';
+    const o = document.createElement('option'); o.value = ''; o.textContent = `${all} — ${QUESTIONS.length}`; sel.appendChild(o);
+    TOPICS.forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = `${t} — ${QUESTIONS.filter(x => x[0] === t).length}`; sel.appendChild(o) });
+  });
+  $('topicSel').value = S.topic;
+}
+let view = 'play';
+function showView(v){
+  view = v;
+  document.querySelectorAll('#viewTabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.view === v));
+  ['play','board','bank','students'].forEach(x => $('view-' + x).hidden = x !== v);
+  if(v === 'play') requestAnimationFrame(resize);
+  if(v === 'board') renderBoard();
+  if(v === 'bank') renderBank();
+  if(v === 'students') renderEditors();
+}
+function renderAll(){
+  renderClassTabs(); renderSide(); draw();
+  $('withQ').checked = S.withQ; $('removeAfter').checked = S.removeAfter; $('timeSel').value = String(S.time); $('ptsSel').value = String(S.pts);
+  $('soundBtn').textContent = S.sound ? '🔊 الصوت' : '🔇 بدون صوت';
+  if(view === 'board') renderBoard(); if(view === 'students') renderEditors();
+}
+
+// ---------- certificate ----------
+const CW = 2000, CH = 1414; let fontsReady = null;
+function loadFonts(){
+  if(!fontsReady) fontsReady = Promise.all(['700 80px "Aref Ruqaa"','700 80px "Reem Kufi"','500 40px "IBM Plex Sans Arabic"','700 40px "IBM Plex Sans Arabic"']
+    .map(f => document.fonts.load(f, 'شهادة تميز'))).catch(() => {});
+  return fontsReady;
+}
+function star(g, x, y, r1, r2, pts){ g.beginPath(); for(let i=0;i<pts*2;i++){ const r = i%2 ? r2 : r1, a = -Math.PI/2 + i*Math.PI/pts; g.lineTo(x+Math.cos(a)*r, y+Math.sin(a)*r) } g.closePath() }
+async function renderCert(w){
+  await loadFonts();
+  const c = document.createElement('canvas'); c.width = CW; c.height = CH; const g = c.getContext('2d');
+  const TEAL = '#14666b', GOLD = '#c8901f', INK = '#123033', F = '"IBM Plex Sans Arabic", Tahoma, sans-serif';
+  g.fillStyle = '#fffdf8'; g.fillRect(0,0,CW,CH);
+  const grd = g.createRadialGradient(CW/2, CH/2, 200, CW/2, CH/2, 1200); grd.addColorStop(0,'rgba(255,255,255,0)'); grd.addColorStop(1,'rgba(20,102,107,.08)');
+  g.fillStyle = grd; g.fillRect(0,0,CW,CH);
+  g.strokeStyle = TEAL; g.lineWidth = 26; g.strokeRect(40,40,CW-80,CH-80);
+  g.strokeStyle = GOLD; g.lineWidth = 5; g.strokeRect(80,80,CW-160,CH-160); g.lineWidth = 2; g.strokeRect(96,96,CW-192,CH-192);
+  g.fillStyle = GOLD;
+  for(let x=150; x<=CW-150; x+=70){ star(g,x,62,10,4.5,8); g.fill(); star(g,x,CH-62,10,4.5,8); g.fill() }
+  for(let y=150; y<=CH-150; y+=70){ star(g,62,y,10,4.5,8); g.fill(); star(g,CW-62,y,10,4.5,8); g.fill() }
+  [[96,96],[CW-96,96],[96,CH-96],[CW-96,CH-96]].forEach(([x,y]) => { g.fillStyle=TEAL; star(g,x,y,46,24,8); g.fill(); g.fillStyle=GOLD; star(g,x,y,24,12,8); g.fill() });
+  g.direction = 'rtl'; g.textAlign = 'center';
+  g.fillStyle = TEAL; g.font = `500 40px ${F}`; g.fillText(`مادة العلوم · ${clsName(w.cls)}`, CW/2, 215);
+  g.fillStyle = GOLD; g.font = '700 150px "Reem Kufi", Tahoma, sans-serif'; g.fillText('شهادة تميّز', CW/2, 390);
+  g.strokeStyle = GOLD; g.lineWidth = 4; g.beginPath(); g.moveTo(CW/2-360,440); g.lineTo(CW/2-40,440); g.moveTo(CW/2+40,440); g.lineTo(CW/2+360,440); g.stroke();
+  g.fillStyle = TEAL; star(g, CW/2, 440, 22, 10, 8); g.fill();
+  g.fillStyle = INK; g.font = `500 50px ${F}`; g.fillText('يسرّني أن أقدّم هذه الشهادة للطالبة المتميزة', CW/2, 560);
+  let fs = 150; g.font = `700 ${fs}px "Aref Ruqaa", serif`;
+  while(g.measureText(w.name).width > CW-520 && fs > 70){ fs -= 6; g.font = `700 ${fs}px "Aref Ruqaa", serif` }
+  g.fillStyle = TEAL; g.fillText(w.name, CW/2, 745);
+  const nw = Math.min(CW-480, g.measureText(w.name).width + 160);
+  g.strokeStyle = GOLD; g.lineWidth = 3; g.beginPath(); g.moveTo(CW/2-nw/2, 790); g.lineTo(CW/2+nw/2, 790); g.stroke();
+  g.fillStyle = INK; g.font = `500 50px ${F}`;
+  let line = 'تقديرًا لـ' + w.reason; if(/^[لب]/.test(w.reason)) line = 'تقديرًا ' + w.reason;
+  let rs = 50; while(g.measureText(line).width > CW-460 && rs > 34){ rs -= 2; g.font = `500 ${rs}px ${F}` }
+  g.fillText(line, CW/2, 900);
+  g.font = `500 50px ${F}`; g.fillText('متمنيةً لها دوام التفوّق والنجاح', CW/2, 985);
+  const sx = CW/2, sy = 1170;
+  g.fillStyle = GOLD; star(g, sx, sy, 120, 100, 24); g.fill();
+  g.fillStyle = TEAL; g.beginPath(); g.arc(sx, sy, 88, 0, Math.PI*2); g.fill();
+  g.strokeStyle = '#f6d58a'; g.lineWidth = 3; g.beginPath(); g.arc(sx, sy, 76, 0, Math.PI*2); g.stroke();
+  g.fillStyle = '#f6d58a'; star(g, sx, sy-22, 26, 11, 5); g.fill();
+  g.fillStyle = '#fff'; g.font = '700 36px "Reem Kufi", Tahoma, sans-serif'; g.fillText('متميزة', sx, sy+40);
+  g.fillStyle = INK; g.font = `500 40px ${F}`; g.fillText('معلمة المادة', 1560, 1110);
+  g.fillStyle = TEAL; g.font = '700 58px "Reem Kufi", Tahoma, sans-serif'; g.fillText(TEACHER, 1560, 1190);
+  g.strokeStyle = INK; g.lineWidth = 2; g.beginPath(); g.moveTo(1360,1230); g.lineTo(1760,1230); g.stroke();
+  g.fillStyle = INK; g.font = `500 40px ${F}`; g.fillText('التاريخ', 440, 1110);
+  const d = new Date(w.date); let hij = '';
+  try{ hij = d.toLocaleDateString('ar-SA-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}) }catch(e){}
+  const greg = d.toLocaleDateString('ar-SA-u-ca-gregory',{day:'numeric',month:'long',year:'numeric'});
+  g.fillStyle = TEAL; g.font = `700 44px ${F}`; g.fillText(hij || greg, 440, 1180);
+  if(hij){ g.fillStyle = '#5b6f6f'; g.font = `500 34px ${F}`; g.fillText(greg + 'م', 440, 1232) }
+  return c;
+}
+let certCanvas = null;
+async function openCert(){
+  $('winOverlay').hidden = true; closeQuestion(); $('certOverlay').hidden = false; $('certMsg').textContent = '';
+  const sel = $('reasonSel'); sel.textContent = '';
+  REASONS.forEach(r => { const o = document.createElement('option'); o.value = r; o.textContent = r; sel.appendChild(o) });
+  if(REASONS.includes(current.reason)){ sel.value = current.reason; $('reasonTxt').value = '' } else { sel.value = REASONS[0]; $('reasonTxt').value = current.reason }
+  await refreshCert();
+}
+async function refreshCert(){ certCanvas = await renderCert(current); $('certImg').src = certCanvas.toDataURL('image/png') }
+function updateReason(){ current.reason = $('reasonTxt').value.trim() || $('reasonSel').value; refreshCert() }
+async function saveCert(){
+  const msg = $('certMsg'); msg.className = 'msg'; msg.textContent = 'جارٍ تجهيز الشهادة…';
+  try{
+    const blob = await new Promise(r => certCanvas.toBlob(r, 'image/png'));
+    if(typeof claude === 'undefined'){
+      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `شهادة تميز - ${current.name}.png`;
+      document.body.appendChild(a); a.click(); a.remove(); msg.textContent = 'تم حفظ الشهادة ✅'; return;
+    }
+    const dl = await claude.use('downloads');
+    if(!dl){ msg.className = 'msg err'; msg.textContent = 'الحفظ غير متاح هنا. اضغطي مطولًا على الشهادة واختاري «حفظ الصورة».'; return }
+    await dl.save({ filename: `شهادة تميز - ${current.name}.png`, data: blob });
+    msg.textContent = 'تم حفظ الشهادة ✅';
+  }catch(e){
+    msg.className = 'msg err';
+    msg.textContent = e && e.code === 'declined' ? 'لم يتم الحفظ.' : 'تعذّر الحفظ. اضغطي مطولًا على الشهادة واختاري «حفظ الصورة».';
+  }
+}
+
+// ---------- wiring ----------
+$('spinBtn').onclick = spin; $('hubBtn').onclick = spin;
+document.querySelectorAll('#viewTabs button').forEach(b => b.onclick = () => showView(b.dataset.view));
+document.addEventListener('keydown', e => {
+  const busy = !$('qOverlay').hidden || !$('winOverlay').hidden || !$('certOverlay').hidden;
+  if(e.code === 'Space' && view === 'play' && !busy && !/INPUT|TEXTAREA|SELECT|BUTTON/.test(document.activeElement.tagName)){ e.preventDefault(); spin() }
+  if(e.key === 'Escape'){ closeQuestion(); $('winOverlay').hidden = true; $('certOverlay').hidden = true }
+});
+$('qNext').onclick = closeQuestion;
+$('qSkip').onclick = () => openQuestion(current && current.name);
+$('qCert').onclick = () => { current.reason = REASONS[2]; openCert() };
+$('again').onclick = () => { $('winOverlay').hidden = true; spin() };
+$('toCert').onclick = openCert;
+$('closeCert').onclick = () => { $('certOverlay').hidden = true };
+$('reasonSel').onchange = () => { $('reasonTxt').value = ''; updateReason() };
+let rt; $('reasonTxt').oninput = () => { clearTimeout(rt); rt = setTimeout(updateReason, 400) };
+$('saveCert').onclick = saveCert;
+$('withQ').onchange = e => { S.withQ = e.target.checked; save() };
+$('removeAfter').onchange = e => { S.removeAfter = e.target.checked; save() };
+$('topicSel').onchange = e => { S.topic = e.target.value; save() };
+$('timeSel').onchange = e => { S.time = +e.target.value; save() };
+$('ptsSel').onchange = e => { S.pts = +e.target.value; save() };
+$('resetWheel').onclick = () => { S.excluded[S.cls] = []; save(); renderSide(); draw() };
+$('soundBtn').onclick = () => { S.sound = !S.sound; save(); audio(); renderAll() };
+$('fsBtn').onclick = () => { try{ const p = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); p && p.catch && p.catch(() => {}) }catch(e){} };
+$('certTop').onclick = () => { const top = ranking(S.cls)[0]; if(!top || !top.p) return; current = {name:top.n, cls:S.cls, reason:REASONS[1], date:new Date().toISOString()}; openCert() };
+$('resetPts').onclick = () => { $('resetConfirm').hidden = false };
+$('resetNo').onclick = () => { $('resetConfirm').hidden = true };
+$('resetYes').onclick = () => { S.scores[S.cls] = {}; save(); $('resetConfirm').hidden = true; renderSide(); renderBoard() };
+$('bankTopic').onchange = renderBank; $('bankSearch').oninput = renderBank; $('showAns').onchange = renderBank;
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', draw);
+new MutationObserver(draw).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+window.addEventListener('resize', resize);
+fillTopics(); save(); renderAll(); resize();
+// names come from the platform's Google Sheet (teacher must be signed in on this device)
+(async () => {
+  let url = '', pin = '';
+  try { url = JSON.parse(localStorage.getItem('platform:api') || '""'); pin = JSON.parse(localStorage.getItem('platform:pin') || '""'); } catch(e){}
+  const info = $('wheelInfo');
+  if(!url || !pin){ info.textContent = 'سجّلي الدخول في لوحة المعلمة أولًا لتظهر أسماء الطالبات.'; return }
+  try{
+    const r = await fetch(url, {method:'POST', body: JSON.stringify({action:'students', pin})}); const j = await r.json();
+    if(!j.ok) throw new Error(j.error);
+    CLASSES.forEach(c => { S.names[c.id] = j.students[c.id] || []; S.excluded[c.id] = (S.excluded[c.id]||[]).filter(n => S.names[c.id].includes(n)); S.scores[c.id] = S.scores[c.id] || {}; });
+    save(); renderAll();
+  }catch(e){ info.textContent = 'تعذّر تحميل الأسماء: ' + e.message }
+})();
+document.fonts.ready.then(draw); loadFonts();
+</script>
+</body>
+</html>

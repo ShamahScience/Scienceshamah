@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>لوحة المعلمة — منصة شامه للعلوم</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/common.css">
+<script src="assets/qrcode.js"></script>
+<style>
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.welcome{background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 92%,#000) 0%,var(--teal) 60%,color-mix(in srgb,var(--teal) 70%,var(--accent)) 100%);color:#fff;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.welcome h1{color:#fff}
+.welcome h1 span{color:#ffd77a}
+.welcome p{margin:0;opacity:.92}
+.welcome .btn{align-self:flex-start;background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.4)}
+.welcome::after{content:"";position:absolute;inset:auto -60px -80px auto;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.07)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:8px;text-align:start;align-items:flex-start}
+.card .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:var(--soft)}
+.card h3{font-size:20px}
+.card p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.card .btn{margin-top:6px}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.14);border-radius:12px;padding:6px 12px;font-size:14px}
+.stat b{font-family:var(--display);font-size:18px}
+.back{align-self:flex-start}
+.q-edit{border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.q-edit .head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.opt-row{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;gap:8px;align-items:center}
+.opt-row input[type=radio]{width:22px;height:22px;accent-color:var(--ok)}
+.opt-row .lt{font-family:var(--display);width:24px;text-align:center}
+.icon-btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;width:34px;height:34px;display:grid;place-items:center}
+.add-bar{display:flex;gap:8px;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.act-card{border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.act-card .meta{display:flex;gap:6px;flex-wrap:wrap}
+.bank-item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;padding:10px;border-radius:12px;border:1px solid var(--line)}
+.bank-item input{width:20px;height:20px;margin-top:4px;accent-color:var(--teal)}
+.bank-item p{margin:0;font-weight:700}
+.bank-list{display:flex;flex-direction:column;gap:8px;max-height:52vh;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:start}
+th{color:var(--muted);font-weight:500;font-size:13px}
+td.num{font-variant-numeric:tabular-nums;font-weight:700}
+.tbl{overflow-x:auto}
+.bars{display:flex;flex-direction:column;gap:8px}
+.barrow{display:grid;grid-template-columns:44px minmax(0,1fr) 52px;gap:10px;align-items:center;font-size:14px}
+.bar{height:14px;border-radius:99px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--soft);border-radius:14px;padding:12px}
+.kpi b{display:block;font-family:var(--display);font-size:28px;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--soft);border-radius:999px;padding:3px 10px;font-size:14px}
+.steps{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px}
+code{background:var(--soft);padding:1px 6px;border-radius:6px;font-size:13px;direction:ltr;display:inline-block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><div class="logo">ش</div><div><h3 id="bname"></h3><div class="small muted">لوحة المعلمة</div></div></div>
+    <div class="row"><a class="btn sm" href="wheel.html">🎡 عجلة الحصة</a><button class="btn sm" id="logout" hidden>خروج</button></div>
+  </div>
+  <main id="app"><div class="spinner"></div></main>
+</div>
+<script src="assets/common.js"></script>
+<script src="assets/nafs.js"></script>
+<script>
+document.getElementById('bname').textContent = PLATFORM.name;
+const app = document.getElementById('app');
+const show = (...els) => { app.textContent = ''; app.append(...els); window.scrollTo(0, 0); };
+let PIN = store.get('pin', '');
+const tapi = payload => api(Object.assign({ pin: PIN }, payload));
+let refreshTimer = null;
+
+// ---------------- login ----------------
+function loginView(err) {
+  const apiIn = h('input', { type: 'url', id: 'apiUrl', placeholder: 'https://script.google.com/macros/s/…/exec', dir: 'ltr' });
+  apiIn.value = getApi();
+  const pinIn = h('input', { type: 'password', id: 'pin', inputmode: 'numeric', placeholder: '1234' });
+  const msg = h('p', { class: 'msg err' }, err || '');
+  const go = async () => {
+    const u = apiIn.value.trim();
+    if (!/^https:\/\/script\.google\.com\/.+\/exec$/.test(u)) { msg.textContent = 'الصقي رابط تطبيق الويب كاملًا (ينتهي بـ /exec)'; return; }
+    store.set('api', u); PIN = pinIn.value.trim(); msg.textContent = '';
+    try { await tapi({ action: 'login' }); store.set('pin', PIN); home(); }
+    catch (e) { msg.textContent = e.message; }
+  };
+  show(h('div', { class: 'panel', style: 'max-width:560px;margin:auto;width:100%' },
+    h('h2', {}, 'دخول المعلمة'),
+    h('label', { class: 'f', for: 'apiUrl' }, 'رابط Google Apps Script (مرة واحدة فقط)', apiIn),
+    h('label', { class: 'f', for: 'pin' }, 'الرمز السري', pinIn),
+    h('button', { class: 'btn primary', onclick: go }, 'دخول'), msg,
+    h('details', {}, h('summary', {}, 'كيف أحصل على الرابط؟'), setupSteps())));
+  pinIn.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+}
+function setupSteps() {
+  return h('ol', { class: 'steps small' },
+    h('li', {}, 'افتحي ', h('a', { href: 'https://sheets.new', target: '_blank', rel: 'noopener' }, 'Google Sheet جديد'), ' وسمّيه «منصة شامه».'),
+    h('li', {}, 'من القائمة: الإضافات (Extensions) ← Apps Script.'),
+    h('li', {}, 'احذفي الموجود والصقي محتوى ملف ', h('a', { href: 'https://github.com/ShamahScience/Scienceshamah/blob/platform/apps-script/Code.gs', target: '_blank', rel: 'noopener' }, 'Code.gs'), ' ثم احفظي.'),
+    h('li', {}, 'اختاري الدالة ', h('code', {}, 'setup'), ' واضغطي «تشغيل» (Run) ووافقي على الأذونات.'),
+    h('li', {}, 'نشر (Deploy) ← نشر جديد ← تطبيق ويب. التنفيذ باسم: أنا. من يمكنه الوصول: أي شخص (Anyone).'),
+    h('li', {}, 'انسخي رابط تطبيق الويب والصقيه هنا. الرمز السري الأول: ', h('code', {}, '1234')));
+}
+
+// ---------------- home ----------------
+let ACTS = [], STUDENTS = {};
+async function loadAll() {
+  const [a, s] = await Promise.all([tapi({ action: 'listActivities' }), tapi({ action: 'students' })]);
+  ACTS = a.activities; STUDENTS = s.students;
+}
+async function home() {
+  clearInterval(refreshTimer);
+  document.getElementById('logout').hidden = false;
+  show(h('div', { class: 'spinner' }));
+  try { await loadAll(); } catch (e) { return loginView(e.message); }
+  const activeCount = ACTS.filter(a => a.active).length;
+  const responses = ACTS.reduce((s, a) => s + a.responses, 0);
+  const totalStudents = PLATFORM.classes.reduce((s, c) => s + (STUDENTS[c.id] || []).length, 0);
+  const card = (ic, title, desc, label, fn, cls = 'teal') => h('div', { class: 'card' }, h('div', { class: 'ic' }, ic), h('h3', {}, title), h('p', {}, desc), h('button', { class: 'btn sm ' + cls, onclick: fn }, label + ' ←'));
+  show(
+    h('section', { class: 'welcome' },
+      h('h1', {}, 'مرحبًا ', h('span', {}, PLATFORM.teacher)),
+      h('p', {}, 'هنا نبدأ أفكارك.. معًا نصنع أنشطة أكثر أثرًا في حياة طالباتك'),
+      h('div', { class: 'stats' },
+        h('span', { class: 'stat' }, h('b', {}, activeCount), ' نشاط مفتوح'),
+        h('span', { class: 'stat' }, h('b', {}, ACTS.length), ' نشاط'),
+        h('span', { class: 'stat' }, h('b', {}, responses), ' مشاركة'),
+        h('span', { class: 'stat' }, h('b', {}, totalStudents), ' طالبة')),
+      h('button', { class: 'btn sm', onclick: sharePortal }, '🔗 مشاركة منصتي مع الطالبات')),
+    totalStudents ? null : h('div', { class: 'panel', style: 'border-color:var(--accent)' }, h('h3', {}, 'الخطوة الأولى: أضيفي أسماء الطالبات'), h('p', { class: 'muted', style: 'margin:0' }, 'البنات يخترن أسماءهن من القائمة عند الدخول.'), h('button', { class: 'btn primary', onclick: settings }, 'إضافة الأسماء')),
+    h('div', { class: 'cards' },
+      card('✏️', 'إنشاء نشاط', 'صمّمي نشاطًا تفاعليًا: من بنك نافس، أو بالذكاء الاصطناعي، أو أسئلتك الخاصة.', 'ابدئي الآن', () => editor(), 'primary'),
+      card('📂', 'أنشطتي', 'افتحي أو أغلقي الأنشطة، وشاركي رابطها وباركودها مع الطالبات.', 'عرض الأنشطة', mine),
+      card('📊', 'النتائج', 'تابعي من سلّمت، ودرجة كل طالبة، والأسئلة الأصعب.', 'عرض النتائج', () => results()),
+      card('🎡', 'عجلة الحصة', 'عجلة الأسماء مع أسئلة نافس والنقاط والشهادات.', 'فتح العجلة', () => location.href = 'wheel.html'),
+      card('⚙️', 'إعداداتي', 'أسماء الفصلين، والرمز السري، وربط المنصة.', 'فتح الإعدادات', settings)));
+}
+
+function sharePortal() {
+  const link = studentLink('');
+  modal(h('h2', {}, 'رابط المنصة للطالبات'),
+    h('p', { class: 'muted', style: 'margin:0' }, 'رابط واحد ثابت: البنات يفتحنه ويشاهدن كل الأنشطة المفتوحة. اعرضي الباركود على السبورة أو أرسلي الرابط في قروب الفصل.'),
+    h('div', { style: 'text-align:center' }, qrBox(link, 260)),
+    h('input', { type: 'text', value: link, readonly: true, dir: 'ltr', onclick: e => e.target.select() }),
+    h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(link) }, 'نسخ الرابط'), h('a', { class: 'btn', href: link, target: '_blank', rel: 'noopener' }, 'تجربة كطالبة')));
+}
+
+// ---------------- editor ----------------
+let draft = null;
+function blankQ() { return { t: '', o: ['', '', '', ''], a: 0 }; }
+function editor(existing) {
+  clearInterval(refreshTimer);
+  draft = existing ? JSON.parse(JSON.stringify(existing)) : { title: '', classes: PLATFORM.classes.map(c => c.id), timer: 0, questions: [] };
+  const list = h('div', { class: 'grid', style: 'display:flex;flex-direction:column;gap:12px' });
+  const msg = h('p', { class: 'msg' });
+  const titleIn = h('input', { type: 'text', id: 'title', placeholder: 'مثال: مراجعة الخلية — نافس' }); titleIn.value = draft.title;
+  titleIn.oninput = () => draft.title = titleIn.value;
+  const timerSel = h('select', { id: 'timer' }, [['0', 'بدون مؤقت'], ['20', '20 ثانية لكل سؤال'], ['30', '30 ثانية لكل سؤال'], ['45', '45 ثانية لكل سؤال'], ['60', 'دقيقة لكل سؤال']].map(([v, t]) => h('option', { value: v }, t)));
+  timerSel.value = String(draft.timer || 0); timerSel.onchange = () => draft.timer = +timerSel.value;
+  const classBox = h('div', { class: 'row' }, PLATFORM.classes.map(c => {
+    const cb = h('input', { type: 'checkbox', id: 'c-' + c.id }); cb.checked = draft.classes.includes(c.id);
+    cb.onchange = () => { draft.classes = PLATFORM.classes.map(x => x.id).filter(id => document.getElementById('c-' + id).checked); };
+    return h('label', { class: 'check', for: 'c-' + c.id }, cb, c.name);
+  }));
+  const count = h('span', { class: 'pill' });
+  const renderList = () => {
+    list.textContent = ''; count.textContent = `${draft.questions.length} سؤال`;
+    if (!draft.questions.length) list.append(h('p', { class: 'muted', style: 'margin:0' }, 'لا توجد أسئلة بعد. أضيفي من الأزرار بالأعلى.'));
+    draft.questions.forEach((q, i) => {
+      const ta = h('textarea', { rows: 2, 'aria-label': 'نص السؤال ' + (i + 1), placeholder: 'اكتبي السؤال' }); ta.value = q.t; ta.oninput = () => q.t = ta.value;
+      const opts = q.o.map((o, k) => {
+        const r = h('input', { type: 'radio', name: 'a' + i, 'aria-label': 'الإجابة الصحيحة ' + LETTERS[k] }); r.checked = q.a === k; r.onchange = () => q.a = k;
+        const inp = h('input', { type: 'text', placeholder: 'الخيار ' + LETTERS[k] }); inp.value = o; inp.oninput = () => q.o[k] = inp.value;
+        const del = q.o.length > 2 ? h('button', { class: 'icon-btn', title: 'حذف الخيار', onclick: () => { q.o.splice(k, 1); if (q.a >= q.o.length) q.a = 0; else if (q.a > k) q.a--; renderList(); } }, '×') : h('span');
+        return h('div', { class: 'opt-row' }, r, h('span', { class: 'lt' }, LETTERS[k]), inp, del);
+      });
+      list.append(h('div', { class: 'q-edit' },
+        h('div', { class: 'head' }, h('b', {}, `سؤال ${i + 1}`), q.topic ? h('span', { class: 'pill' }, q.topic) : null,
+          h('div', { class: 'row' },
+            i > 0 ? h('button', { class: 'icon-btn', title: 'تحريك لأعلى', onclick: () => { [draft.questions[i - 1], draft.questions[i]] = [draft.questions[i], draft.questions[i - 1]]; renderList(); } }, '↑') : null,
+            h('button', { class: 'icon-btn', title: 'حذف السؤال', onclick: () => { draft.questions.splice(i, 1); renderList(); } }, '🗑'))),
+        ta, h('div', { class: 'small muted' }, 'حدّدي الدائرة عند الإجابة الصحيحة'), ...opts,
+        q.o.length < 4 ? h('button', { class: 'btn sm', style: 'align-self:flex-start', onclick: () => { q.o.push(''); renderList(); } }, '+ خيار') : null));
+    });
+  };
+  const save = async (btn) => {
+    draft.title = titleIn.value.trim();
+    const bad = draft.questions.findIndex(q => !q.t.trim() || q.o.some(o => !String(o).trim()));
+    if (!draft.title) return msg.className = 'msg err', msg.textContent = 'اكتبي عنوان النشاط';
+    if (!draft.classes.length) return msg.className = 'msg err', msg.textContent = 'اختاري فصلًا واحدًا على الأقل';
+    if (!draft.questions.length) return msg.className = 'msg err', msg.textContent = 'أضيفي سؤالًا واحدًا على الأقل';
+    if (bad >= 0) return msg.className = 'msg err', msg.textContent = `أكملي نص السؤال ${bad + 1} وكل خياراته`;
+    btn.disabled = true; msg.className = 'msg'; msg.textContent = 'جارٍ الحفظ…';
+    try {
+      const qs = draft.questions.map(q => ({ t: q.t.trim(), o: q.o.map(o => String(o).trim()), a: q.a }));
+      const r = await tapi({ action: 'saveActivity', activity: { id: draft.id, title: draft.title, classes: draft.classes, timer: draft.timer, questions: qs } });
+      toast('تم حفظ النشاط ✅'); await loadAll(); shareActivity(ACTS.find(a => a.id === r.id)); mine();
+    } catch (e) { msg.className = 'msg err'; msg.textContent = e.message; btn.disabled = false; }
+  };
+  const saveBtn = h('button', { class: 'btn primary big' }, draft.id ? 'حفظ التعديلات' : 'حفظ النشاط ونشره'); saveBtn.onclick = () => save(saveBtn);
+  show(
+    h('button', { class: 'btn sm back', onclick: home }, '→ الرئيسية'),
+    h('div', { class: 'panel' }, h('h2', {}, draft.id ? 'تعديل النشاط' : 'إنشاء نشاط'),
+      h('div', { class: 'grid2' }, h('label', { class: 'f', for: 'title' }, 'عنوان النشاط', titleIn), h('label', { class: 'f', for: 'timer' }, 'الوقت', timerSel)),
+      h('div', {}, h('div', { class: 'small muted' }, 'لمن النشاط؟'), classBox)),
+    h('div', { class: 'panel' },
+      h('div', { class: 'row between' }, h('h2', {}, 'الأسئلة'), count),
+      h('div', { class: 'add-bar' },
+        h('button', { class: 'btn teal', onclick: () => bankPicker(renderList) }, '📚 من بنك نافس'),
+        h('button', { class: 'btn teal', onclick: () => aiHelper(renderList) }, '✨ بالذكاء الاصطناعي'),
+        h('button', { class: 'btn', onclick: () => { draft.questions.push(blankQ()); renderList(); } }, '+ سؤال اختيار'),
+        h('button', { class: 'btn', onclick: () => { draft.questions.push({ t: '', o: ['صح', 'خطأ'], a: 0 }); renderList(); } }, '+ صح أو خطأ')),
+      list),
+    h('div', { class: 'row' }, saveBtn, h('button', { class: 'btn', onclick: home }, 'إلغاء')), msg);
+  renderList();
+}
+
+function bankPicker(after) {
+  const topics = [...new Set(NAFS.map(q => q.topic))];
+  const sel = h('select', { id: 'btopic' }, h('option', { value: '' }, `كل المواضيع (${NAFS.length})`), topics.map(t => h('option', { value: t }, `${t} (${NAFS.filter(q => q.topic === t).length})`)));
+  const listBox = h('div', { class: 'bank-list' });
+  const picked = new Set();
+  const counter = h('span', { class: 'pill' }, '0 محدد');
+  const render = () => {
+    listBox.textContent = '';
+    NAFS.forEach((q, i) => {
+      if (sel.value && q.topic !== sel.value) return;
+      const cb = h('input', { type: 'checkbox', id: 'bq' + i, 'aria-label': 'اختيار السؤال' }); cb.checked = picked.has(i);
+      cb.onchange = () => { cb.checked ? picked.add(i) : picked.delete(i); counter.textContent = picked.size + ' محدد'; };
+      listBox.append(h('label', { class: 'bank-item', for: 'bq' + i }, cb, h('div', {}, h('p', {}, q.t), h('div', { class: 'small muted' }, `${q.topic} · ${q.skill} · الإجابة: ${q.o[q.a]}`))));
+    });
+  };
+  sel.onchange = render;
+  const nIn = h('select', { id: 'bn' }, [5, 10, 15, 20].map(n => h('option', { value: n }, n + ' أسئلة')));
+  const ov = modal(h('h2', {}, 'بنك أسئلة نافس'),
+    h('div', { class: 'grid2' }, h('label', { class: 'f', for: 'btopic' }, 'الموضوع', sel),
+      h('div', { class: 'row', style: 'align-items:flex-end' }, h('label', { class: 'f', for: 'bn' }, 'اختيار عشوائي', nIn),
+        h('button', { class: 'btn', onclick: () => {
+          const pool = NAFS.map((q, i) => i).filter(i => !sel.value || NAFS[i].topic === sel.value).filter(i => !picked.has(i));
+          for (let k = 0; k < +nIn.value && pool.length; k++) picked.add(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+          counter.textContent = picked.size + ' محدد'; render();
+        } }, '🎲 اختاري لي'))),
+    listBox,
+    h('div', { class: 'row' }, h('button', { class: 'btn primary', onclick: () => {
+      [...picked].forEach(i => { const q = NAFS[i]; draft.questions.push({ t: q.t, o: q.o.slice(), a: q.a, topic: q.topic }); });
+      ov.remove(); after(); toast(`أُضيف ${picked.size} سؤال`);
+    } }, 'إضافة المحدد'), counter));
+  render();
+}
+
+function aiHelper(after) {
+  const topicIn = h('input', { type: 'text', id: 'aitopic', placeholder: 'مثال: الجهاز التنفسي في الإنسان' });
+  const nSel = h('select', { id: 'ain' }, [5, 10, 15].map(n => h('option', { value: n }, n + ' أسئلة')));
+  const typeSel = h('select', { id: 'aitype' }, h('option', { value: 'mc' }, 'اختيار من متعدد'), h('option', { value: 'tf' }, 'صح أو خطأ'), h('option', { value: 'mix' }, 'منوّع'));
+  const notes = h('textarea', { id: 'ainotes', rows: 3, placeholder: 'اختياري: الصقي فقرة من الكتاب أو اكتبي ملاحظات (مستوى أسهل، تركيز على التطبيق…)' });
+  const out = h('textarea', { id: 'aiout', rows: 6, dir: 'auto', placeholder: 'الصقي هنا رد Claude كما هو' });
+  const msg = h('p', { class: 'msg' });
+  const prompt = () => {
+    const t = typeSel.value === 'tf' ? 'صح أو خطأ (الخياران: "صح" و"خطأ")' : typeSel.value === 'mix' ? 'منوّعة بين اختيار من متعدد (4 خيارات) وصح أو خطأ' : 'اختيار من متعدد بأربعة خيارات';
+    return `أنتِ معلمة علوم للصف السادس الابتدائي في المنهج السعودي. أنشئي ${nSel.value} أسئلة ${t} عن: «${topicIn.value.trim() || 'الدرس'}».
+${notes.value.trim() ? 'اعتمدي على هذا المحتوى والملاحظات:\n' + notes.value.trim() + '\n' : ''}الشروط: لغة عربية فصحى سهلة تناسب الطالبات، أسئلة بأسلوب اختبارات نافس (فهم، تطبيق، استنتاج)، إجابة واحدة صحيحة فقط لكل سؤال، ونوّعي موضع الإجابة الصحيحة.
+أعيدي النتيجة بصيغة JSON فقط بدون أي شرح، بهذا الشكل بالضبط:
+[{"t":"نص السؤال","o":["الخيار الأول","الخيار الثاني","الخيار الثالث","الخيار الرابع"],"a":0}]
+حيث a رقم الخيار الصحيح ويبدأ من 0.`;
+  };
+  const ov = modal(h('h2', {}, '✨ أسئلة بالذكاء الاصطناعي'),
+    h('ol', { class: 'steps small' }, h('li', {}, 'اكتبي موضوع الدرس واضغطي «نسخ الطلب».'), h('li', {}, 'افتحي Claude والصقي الطلب.'), h('li', {}, 'انسخي رد Claude والصقيه في المربع بالأسفل ثم «إضافة الأسئلة». راجعيها قبل الحفظ.')),
+    h('label', { class: 'f', for: 'aitopic' }, 'موضوع الدرس', topicIn),
+    h('div', { class: 'grid2' }, h('label', { class: 'f', for: 'ain' }, 'العدد', nSel), h('label', { class: 'f', for: 'aitype' }, 'النوع', typeSel)),
+    h('label', { class: 'f', for: 'ainotes' }, 'محتوى أو ملاحظات', notes),
+    h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(prompt()) }, '📋 نسخ الطلب'), h('a', { class: 'btn', href: 'https://claude.ai/new', target: '_blank', rel: 'noopener' }, 'فتح Claude ↗')),
+    h('label', { class: 'f', for: 'aiout' }, 'رد Claude', out),
+    h('button', { class: 'btn primary', onclick: () => {
+      const txt = out.value; const s = txt.indexOf('['), e = txt.lastIndexOf(']');
+      let arr;
+      try { arr = JSON.parse(txt.slice(s, e + 1)); } catch (err) { msg.className = 'msg err'; msg.textContent = 'لم أتعرف على الصيغة. تأكدي أنك نسختِ الرد كاملًا.'; return; }
+      const qs = (Array.isArray(arr) ? arr : []).filter(q => q && q.t && Array.isArray(q.o) && q.o.length >= 2).map(q => ({ t: String(q.t), o: q.o.slice(0, 4).map(String), a: Math.min(Math.max(0, +q.a || 0), Math.min(q.o.length, 4) - 1) }));
+      if (!qs.length) { msg.className = 'msg err'; msg.textContent = 'لم أجد أسئلة في الرد.'; return; }
+      draft.questions.push(...qs); ov.remove(); after(); toast(`أُضيف ${qs.length} سؤال`);
+    } }, 'إضافة الأسئلة'), msg);
+}
+
+// ---------------- my activities ----------------
+function shareActivity(a) {
+  if (!a) return;
+  const link = studentLink(a.id);
+  modal(h('h2', {}, a.title),
+    h('p', { class: 'muted', style: 'margin:0' }, 'اعرضي الباركود على السبورة، أو أرسلي الرابط للطالبات.'),
+    h('div', { style: 'text-align:center' }, qrBox(link, 280)),
+    h('input', { type: 'text', value: link, readonly: true, dir: 'ltr', onclick: e => e.target.select() }),
+    h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(link) }, 'نسخ الرابط'), h('a', { class: 'btn', href: link, target: '_blank', rel: 'noopener' }, 'تجربة كطالبة')));
+}
+async function mine() {
+  clearInterval(refreshTimer);
+  show(h('div', { class: 'spinner' }));
+  try { await loadAll(); } catch (e) { return show(h('p', { class: 'msg err' }, e.message)); }
+  const grid = h('div', { class: 'grid2' });
+  if (!ACTS.length) grid.append(h('p', { class: 'muted' }, 'لا توجد أنشطة بعد.'));
+  ACTS.forEach(a => {
+    const confirmRow = h('div', { class: 'row', hidden: true }, h('span', { class: 'small', style: 'color:var(--bad)' }, 'حذف النشاط ونتائجه؟'),
+      h('button', { class: 'btn sm danger', onclick: async () => { try { await tapi({ action: 'deleteActivity', id: a.id }); toast('تم الحذف'); mine(); } catch (e) { toast(e.message); } } }, 'نعم، احذفي'),
+      h('button', { class: 'btn sm', onclick: () => confirmRow.hidden = true }, 'إلغاء'));
+    const toggle = h('input', { type: 'checkbox', id: 'on-' + a.id }); toggle.checked = a.active;
+    toggle.onchange = async () => { try { await tapi({ action: 'setActive', id: a.id, active: toggle.checked }); toast(toggle.checked ? 'النشاط مفتوح للطالبات' : 'النشاط مغلق'); } catch (e) { toggle.checked = !toggle.checked; toast(e.message); } };
+    grid.append(h('div', { class: 'act-card' },
+      h('h3', {}, a.title),
+      h('div', { class: 'meta' }, h('span', { class: 'pill' }, a.questions.length + ' سؤال'), a.classes.map(c => h('span', { class: 'pill' }, className(c))), h('span', { class: 'pill' }, a.responses + ' مشاركة'), a.timer ? h('span', { class: 'pill' }, a.timer + ' ث') : null),
+      h('label', { class: 'check', for: 'on-' + a.id }, toggle, 'مفتوح للطالبات'),
+      h('div', { class: 'row' },
+        h('button', { class: 'btn sm teal', onclick: () => shareActivity(a) }, 'الرابط والباركود'),
+        h('button', { class: 'btn sm', onclick: () => results(a.id) }, 'النتائج'),
+        h('button', { class: 'btn sm', onclick: () => editor(a) }, 'تعديل'),
+        h('button', { class: 'btn sm danger', onclick: () => confirmRow.hidden = false }, 'حذف')),
+      confirmRow));
+  });
+  show(h('button', { class: 'btn sm back', onclick: home }, '→ الرئيسية'),
+    h('div', { class: 'panel' }, h('div', { class: 'row between' }, h('h2', {}, 'أنشطتي'), h('button', { class: 'btn primary', onclick: () => editor() }, '+ نشاط جديد')), grid));
+}
+
+// ---------------- results ----------------
+async function results(id) {
+  clearInterval(refreshTimer);
+  if (!ACTS.length) { try { await loadAll(); } catch (e) {} }
+  if (!id) id = (ACTS[0] || {}).id;
+  if (!id) return show(h('button', { class: 'btn sm back', onclick: home }, '→ الرئيسية'), h('div', { class: 'panel' }, h('h2', {}, 'النتائج'), h('p', { class: 'muted' }, 'أنشئي نشاطًا أولًا.')));
+  const sel = h('select', { id: 'rsel' }, ACTS.map(a => h('option', { value: a.id }, a.title))); sel.value = id;
+  sel.onchange = () => results(sel.value);
+  const body = h('div', { style: 'display:flex;flex-direction:column;gap:16px' }, h('div', { class: 'spinner' }));
+  const stamp = h('span', { class: 'small muted' });
+  show(h('button', { class: 'btn sm back', onclick: home }, '→ الرئيسية'),
+    h('div', { class: 'panel' }, h('div', { class: 'row between' }, h('h2', {}, 'النتائج'), stamp),
+      h('label', { class: 'f', for: 'rsel' }, 'النشاط', sel), body));
+  const load = async () => {
+    try {
+      const r = await tapi({ action: 'results', id });
+      renderResults(body, r); stamp.textContent = 'آخر تحديث ' + new Date().toLocaleTimeString('ar-SA', { hour: 'numeric', minute: '2-digit' }) + ' · يتحدّث تلقائيًا';
+    } catch (e) { body.textContent = ''; body.append(h('p', { class: 'msg err' }, e.message)); }
+  };
+  await load(); refreshTimer = setInterval(load, 15000);
+}
+function renderResults(body, r) {
+  const a = r.activity, resp = r.responses.slice().sort((x, y) => y.score - x.score || new Date(x.time) - new Date(y.time));
+  const totalStudents = a.classes.reduce((s, c) => s + (r.students[c] || []).length, 0);
+  const avg = resp.length ? resp.reduce((s, x) => s + x.score / x.total, 0) / resp.length : 0;
+  const full = resp.filter(x => x.score === x.total).length;
+  body.textContent = '';
+  body.append(h('div', { class: 'kpis' },
+    h('div', { class: 'kpi' }, h('b', {}, `${resp.length}/${totalStudents}`), h('span', {}, 'سلّمن')),
+    h('div', { class: 'kpi' }, h('b', {}, Math.round(avg * 100) + '%'), h('span', {}, 'متوسط الدرجات')),
+    h('div', { class: 'kpi' }, h('b', {}, full), h('span', {}, 'علامة كاملة')),
+    h('div', { class: 'kpi' }, h('b', {}, a.questions.length), h('span', {}, 'أسئلة'))));
+  // per question
+  const bars = h('div', { class: 'bars' }, a.questions.map((q, i) => {
+    const right = resp.filter(x => x.answers[i] === q.a).length, pct = resp.length ? right / resp.length : 0;
+    const col = pct >= .75 ? 'var(--ok)' : pct >= .5 ? 'var(--accent)' : 'var(--bad)';
+    return h('div', { class: 'barrow', title: q.t }, h('b', {}, 'س' + (i + 1)), h('div', { class: 'bar' }, h('i', { style: `width:${pct * 100}%;background:${col}` })), h('span', { class: 'small' }, Math.round(pct * 100) + '%'));
+  }));
+  const hardest = a.questions.map((q, i) => ({ i, q, pct: resp.length ? resp.filter(x => x.answers[i] === q.a).length / resp.length : 1 })).sort((x, y) => x.pct - y.pct)[0];
+  body.append(h('div', {}, h('h3', {}, 'نسبة الإجابة الصحيحة لكل سؤال'), bars,
+    resp.length && hardest && hardest.pct < .6 ? h('p', { class: 'small', style: 'margin:8px 0 0' }, `⚠️ الأصعب: س${hardest.i + 1}) ${hardest.q.t} — الإجابة: ${hardest.q.o[hardest.q.a]}`) : null));
+  // table
+  const tbl = h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, '#'), h('th', {}, 'الطالبة'), h('th', {}, 'الفصل'), h('th', {}, 'الدرجة'), h('th', {}, 'الوقت'))),
+    h('tbody', {}, resp.map((x, i) => h('tr', {}, h('td', { class: 'num' }, i < 3 && x.score > 0 ? ['🥇', '🥈', '🥉'][i] : i + 1), h('td', {}, x.name), h('td', {}, className(x.cls)),
+      h('td', { class: 'num' }, `${x.score}/${x.total}`), h('td', { class: 'small muted' }, new Date(x.time).toLocaleTimeString('ar-SA', { hour: 'numeric', minute: '2-digit' }))))));
+  body.append(h('div', {}, h('h3', {}, 'درجات الطالبات'), resp.length ? h('div', { class: 'tbl' }, tbl) : h('p', { class: 'muted' }, 'لم تسلّم أي طالبة بعد.')));
+  // missing
+  a.classes.forEach(c => {
+    const done = new Set(resp.filter(x => x.cls === c).map(x => norm(x.name)));
+    const miss = (r.students[c] || []).filter(n => !done.has(norm(n)));
+    body.append(h('div', {}, h('h3', {}, `لم تسلّم بعد — ${className(c)} (${miss.length})`), miss.length ? h('div', { class: 'chips' }, miss.map(n => h('span', { class: 'chip' }, n))) : h('p', { class: 'muted', style: 'margin:0' }, 'سلّمت كل البنات 🎉')));
+  });
+  const confirmRow = h('span', { hidden: true, class: 'row' }, h('span', { class: 'small', style: 'color:var(--bad)' }, 'مسح كل إجابات هذا النشاط؟'),
+    h('button', { class: 'btn sm danger', onclick: async () => { await tapi({ action: 'resetResponses', id: a.id }); toast('تم المسح'); results(a.id); } }, 'نعم'),
+    h('button', { class: 'btn sm', onclick: () => confirmRow.hidden = true }, 'إلغاء'));
+  body.append(h('div', { class: 'row' },
+    h('button', { class: 'btn sm', onclick: () => exportCsv(a, resp) }, '⬇️ تنزيل Excel (CSV)'),
+    h('button', { class: 'btn sm', onclick: () => shareActivity(a) }, 'الرابط والباركود'),
+    h('button', { class: 'btn sm danger', onclick: () => confirmRow.hidden = false }, 'مسح الإجابات'), confirmRow));
+}
+function exportCsv(a, resp) {
+  const head = ['الطالبة', 'الفصل', 'الدرجة', 'من', ...a.questions.map((q, i) => 'س' + (i + 1))];
+  const rows = resp.map(x => [x.name, className(x.cls), x.score, x.total, ...a.questions.map((q, i) => x.answers[i] === q.a ? '✓' : '✗')]);
+  const csv = '﻿' + [head, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  const link = h('a', { href: url, download: `نتائج - ${a.title}.csv` }); document.body.append(link); link.click(); link.remove();
+}
+
+// ---------------- settings ----------------
+async function settings() {
+  clearInterval(refreshTimer);
+  show(h('div', { class: 'spinner' }));
+  try { STUDENTS = (await tapi({ action: 'students' })).students; } catch (e) { return show(h('p', { class: 'msg err' }, e.message)); }
+  const editors = PLATFORM.classes.map(c => {
+    const ta = h('textarea', { rows: 12, id: 'n-' + c.id, placeholder: 'اسم واحد في كل سطر' }); ta.value = (STUDENTS[c.id] || []).join('\n');
+    const note = h('p', { class: 'msg' });
+    const cnt = h('span', { class: 'pill' }, (STUDENTS[c.id] || []).length + ' طالبة');
+    const btn = h('button', { class: 'btn teal' }, 'حفظ الأسماء');
+    btn.onclick = async () => {
+      const others = new Set(PLATFORM.classes.filter(x => x.id !== c.id).flatMap(x => (STUDENTS[x.id] || []).map(norm)));
+      const seen = new Set(), kept = [], dropped = [];
+      ta.value.split('\n').map(s => s.trim()).filter(Boolean).forEach(n => { const k = norm(n); if (seen.has(k) || others.has(k)) dropped.push(n); else { seen.add(k); kept.push(n); } });
+      btn.disabled = true;
+      try {
+        STUDENTS = (await tapi({ action: 'saveStudents', cls: c.id, names: kept })).students;
+        ta.value = kept.join('\n'); cnt.textContent = kept.length + ' طالبة';
+        note.className = dropped.length ? 'msg err' : 'msg';
+        note.textContent = dropped.length ? `تم الحفظ. حُذف المكرر: ${dropped.join('، ')}` : `تم حفظ ${kept.length} اسم ✅`;
+      } catch (e) { note.className = 'msg err'; note.textContent = e.message; }
+      btn.disabled = false;
+    };
+    return h('div', { class: 'panel' }, h('div', { class: 'row between' }, h('h3', {}, c.name), cnt), ta, btn, note);
+  });
+  const newPin = h('input', { type: 'password', id: 'newpin', inputmode: 'numeric', placeholder: '4 أرقام أو أكثر' });
+  const pinMsg = h('p', { class: 'msg' });
+  show(h('button', { class: 'btn sm back', onclick: home }, '→ الرئيسية'),
+    h('div', { class: 'panel' }, h('h2', {}, 'أسماء الطالبات'), h('p', { class: 'muted', style: 'margin:0' }, 'اسم واحد في كل سطر. الأسماء المكررة أو الموجودة في الفصل الآخر تُحذف تلقائيًا. الأسماء محفوظة في Google Sheet الخاص بك فقط.'),
+      h('div', { class: 'grid2' }, editors)),
+    h('div', { class: 'panel' }, h('h2', {}, 'الرمز السري'),
+      h('label', { class: 'f', for: 'newpin' }, 'رمز جديد', newPin),
+      h('button', { class: 'btn', style: 'align-self:flex-start', onclick: async () => {
+        try { await tapi({ action: 'setPin', newPin: newPin.value.trim() }); PIN = newPin.value.trim(); store.set('pin', PIN); pinMsg.className = 'msg'; pinMsg.textContent = 'تم تغيير الرمز ✅'; newPin.value = ''; }
+        catch (e) { pinMsg.className = 'msg err'; pinMsg.textContent = e.message; }
+      } }, 'تغيير الرمز'), pinMsg),
+    h('div', { class: 'panel' }, h('h2', {}, 'الربط'), h('p', { class: 'small muted', style: 'margin:0;direction:ltr;text-align:left;overflow-wrap:anywhere' }, getApi()),
+      h('div', { class: 'row' }, h('button', { class: 'btn sm', onclick: sharePortal }, 'رابط المنصة للطالبات'), h('button', { class: 'btn sm danger', onclick: () => { store.del('pin'); store.del('api'); loginView(); } }, 'تغيير الرابط'))));
+}
+
+document.getElementById('logout').onclick = () => { store.del('pin'); PIN = ''; document.getElementById('logout').hidden = true; loginView(); };
+if (getApi() && PIN) home(); else loginView();
+</script>
+</body>
+</html>
