@@ -308,7 +308,7 @@ table.receiveShadow=true;macro.add(table);
 /* bread slice */
 function breadShape(){const s=new THREE.Shape();s.moveTo(-0.40,-0.45);s.lineTo(0.40,-0.45);s.quadraticCurveTo(0.46,-0.45,0.46,-0.39);s.lineTo(0.47,0.2);
   s.bezierCurveTo(0.6,0.36,0.42,0.56,0.2,0.53);s.quadraticCurveTo(0,0.5,-0.2,0.53);s.bezierCurveTo(-0.42,0.56,-0.6,0.36,-0.47,0.2);s.lineTo(-0.46,-0.39);s.quadraticCurveTo(-0.46,-0.45,-0.40,-0.45);return s;}
-const OUT=breadShape().getPoints(60);
+const OUT=breadShape().getPoints(60).map(p=>{const a=Math.atan2(p.y-0.03,p.x),k=1+0.016*(noise3(Math.cos(a)*2.2+5,Math.sin(a)*2.2,3)-.5)+0.006*(noise3(Math.cos(a)*9,Math.sin(a)*9,7)-.5);return new THREE.Vector2(p.x*k,(p.y-0.03)*k+0.03);});
 function inside(x,y){let c=false;for(let i=0,j=OUT.length-1;i<OUT.length;j=i++){const a=OUT[i],b=OUT[j];if(((a.y>y)!==(b.y>y))&&(x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x))c=!c;}return c;}
 const insideS=(x,y,s)=>inside(x/s,(y-0.03)/s+0.03);
 const DEPTH=0.11,BEV=0.012,TOP=DEPTH+2*BEV;
@@ -316,24 +316,40 @@ const TW=1024,PXU=TW/1.2;
 const toPx=(x,y)=>[(x+0.6)*PXU,(0.65-y)*PXU];
 function tracePath(g,s=1){g.beginPath();OUT.forEach((p,i)=>{const [X,Y]=toPx(p.x*s,(p.y-0.03)*s+0.03);i?g.lineTo(X,Y):g.moveTo(X,Y);});g.closePath();}
 const baseCrumb=document.createElement('canvas');baseCrumb.width=baseCrumb.height=TW;
+const heightC=document.createElement('canvas');heightC.width=heightC.height=TW;
 {
-  const g=baseCrumb.getContext('2d');
-  g.fillStyle='#a8682a';g.fillRect(0,0,TW,TW);
-  tracePath(g,1);const cg=g.createLinearGradient(0,0,0,TW);cg.addColorStop(0,'#b2722e');cg.addColorStop(1,'#9a5e24');g.fillStyle=cg;g.fill();
-  tracePath(g,0.935);const mg=g.createRadialGradient(TW/2,TW*.55,30,TW/2,TW*.55,TW*.5);mg.addColorStop(0,'#efd398');mg.addColorStop(1,'#dcb36e');g.fillStyle=mg;g.fill();
-  g.save();tracePath(g,0.935);g.clip();
+  const g=baseCrumb.getContext('2d'),h=heightC.getContext('2d');
+  g.fillStyle='#6e3c12';g.fillRect(0,0,TW,TW);h.fillStyle='#000';h.fillRect(0,0,TW,TW);
+  tracePath(g,1);const cg=g.createLinearGradient(0,0,0,TW);cg.addColorStop(0,'#6f3a10');cg.addColorStop(.5,'#8a4c1a');cg.addColorStop(1,'#7c4316');g.fillStyle=cg;g.fill();
+  [[0.982,'#9a5a22'],[0.972,'#b97b3c'],[0.964,'#d9ad72'],[0.958,'#ead6aa']].forEach(([s,c])=>{tracePath(g,s);g.fillStyle=c;g.fill();});
+  tracePath(g,0.955);const mg=g.createRadialGradient(TW*.5,TW*.56,20,TW*.5,TW*.56,TW*.48);mg.addColorStop(0,'#efe0bd');mg.addColorStop(.7,'#e9d4a8');mg.addColorStop(1,'#dfc28c');g.fillStyle=mg;g.fill();
+  tracePath(h,1);h.fillStyle='#6a6a6a';h.fill();tracePath(h,0.958);h.fillStyle='#b4b4b4';h.fill();
+  g.save();tracePath(g,0.957);g.clip();h.save();tracePath(h,0.957);h.clip();
   const r=mulberry(11);
-  for(let i=0;i<3200;i++){const x=r()*TW,y=r()*TW,rx=1+r()*5.5,ry=rx*(.45+r()*.6);g.fillStyle=r()<.62?`rgba(160,112,46,${.15+r()*.2})`:'rgba(255,248,222,.55)';g.beginPath();g.ellipse(x,y,rx,ry,r()*Math.PI,0,7);g.fill();}
-  g.lineWidth=14;g.strokeStyle='rgba(150,96,40,.35)';tracePath(g,0.935);g.stroke();
-  g.restore();
+  for(let i=0;i<6500;i++){
+    const x=r()*TW,y=r()*TW,big=r()<0.05,rx=big?5+r()*11:1.1+r()*4.2,ry=rx*(.32+r()*.45);
+    const ang=Math.atan2(y-TW*.56,x-TW*.5)+Math.PI/2+(noise3(x*.004,y*.004,1)-.5)*2.6;
+    g.save();g.translate(x,y);g.rotate(ang);
+    g.fillStyle=`rgba(150,112,62,${.22+r()*.28})`;g.beginPath();g.ellipse(0,0,rx,ry,0,0,7);g.fill();
+    g.fillStyle=`rgba(112,80,40,${.18+r()*.25})`;g.beginPath();g.ellipse(-rx*.12,-ry*.18,rx*.6,ry*.55,0,0,7);g.fill();
+    g.strokeStyle='rgba(255,251,238,.6)';g.lineWidth=Math.max(.7,ry*.35);g.beginPath();g.ellipse(0,ry*.12,rx,ry,0,.25,Math.PI-.25);g.stroke();
+    g.restore();
+    h.save();h.translate(x,y);h.rotate(ang);h.fillStyle=`rgba(0,0,0,${.35+r()*.4})`;h.beginPath();h.ellipse(0,0,rx,ry,0,0,7);h.fill();h.restore();
+  }
+  g.restore();h.restore();
+  const tile=document.createElement('canvas');tile.width=tile.height=128;{const t=tile.getContext('2d'),im=t.createImageData(128,128),rn=mulberry(13);for(let i=0;i<im.data.length;i+=4){const v=128+(rn()-.5)*90;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=255;}t.putImageData(im,0,0);}
+  [[g,.18],[h,.35]].forEach(([c,a])=>{c.save();c.globalAlpha=a;c.globalCompositeOperation='overlay';c.fillStyle=c.createPattern(tile,'repeat');c.fillRect(0,0,TW,TW);c.restore();});
 }
 const moldCanvas=document.createElement('canvas');moldCanvas.width=moldCanvas.height=TW;
 const mctx=moldCanvas.getContext('2d');
 const breadTex=new THREE.CanvasTexture(moldCanvas);breadTex.encoding=THREE.sRGBEncoding;breadTex.anisotropy=8;
 breadTex.repeat.set(1/1.2,1/1.2);breadTex.offset.set(0.5,0.4583);
-const crumbMat=new THREE.MeshStandardMaterial({map:breadTex,roughness:.9,metalness:0,envMapIntensity:.5});
-const crustMat=new THREE.MeshStandardMaterial({color:0x9c5f25,roughness:.7,envMapIntensity:.5});
-const breadGeo=new THREE.ExtrudeGeometry(breadShape(),{depth:DEPTH,bevelEnabled:true,bevelThickness:BEV,bevelSize:BEV,bevelSegments:3,curveSegments:28});
+const bumpTex=new THREE.CanvasTexture(heightC);bumpTex.repeat.set(1/1.2,1/1.2);bumpTex.offset.set(0.5,0.4583);bumpTex.anisotropy=8;
+const crumbMat=new THREE.MeshStandardMaterial({map:breadTex,bumpMap:bumpTex,bumpScale:0.006,roughness:.92,metalness:0,envMapIntensity:.45});
+const crustTex=canvasTex(512,512,(g,w,h)=>{g.fillStyle='#7a4214';g.fillRect(0,0,w,h);const r=mulberry(21);for(let i=0;i<9000;i++){const l=r();g.fillStyle=l<.5?`rgba(60,28,6,${r()*.35})`:`rgba(190,120,60,${r()*.3})`;g.fillRect(r()*w,r()*h,1+r()*3,1+r()*3);}for(let i=0;i<40;i++){g.fillStyle=`rgba(50,22,4,${.15+r()*.2})`;g.beginPath();g.ellipse(r()*w,r()*h,4+r()*14,2+r()*6,r()*3,0,7);g.fill();}});
+crustTex.wrapS=crustTex.wrapT=THREE.RepeatWrapping;crustTex.repeat.set(6,6);
+const crustMat=new THREE.MeshStandardMaterial({map:crustTex,bumpMap:crustTex,bumpScale:0.004,roughness:.62,envMapIntensity:.55});
+const breadGeo=new THREE.ExtrudeGeometry(new THREE.Shape(OUT),{depth:DEPTH,bevelEnabled:true,bevelThickness:BEV,bevelSize:BEV,bevelSegments:3,curveSegments:28});
 breadGeo.rotateX(-Math.PI/2);breadGeo.translate(0,BEV,0);
 const bread=new THREE.Mesh(breadGeo,[crumbMat,crustMat]);bread.castShadow=bread.receiveShadow=true;macro.add(bread);
 const W2=(x,y,h=0)=>V(x,TOP+h,-y);
@@ -358,7 +374,7 @@ const dropRelease=i=>0.1+(i+0.3)*0.09;
 
 function paintBread(P,G){
   const g=mctx;g.clearRect(0,0,TW,TW);g.drawImage(baseCrumb,0,0);
-  g.save();tracePath(g,0.935);g.clip();
+  g.save();tracePath(g,0.957);g.clip();
   const landed=DROPS.map((d,i)=>sstep(dropRelease(i)+0.025,dropRelease(i)+0.12,P));
   const Wt=landed.reduce((a,b)=>a+b,0)/DROPS.length;
   g.fillStyle=`rgba(120,82,28,${0.22*Wt})`;g.fillRect(0,0,TW,TW);
