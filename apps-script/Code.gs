@@ -61,8 +61,8 @@ function respond(p) {
 
 // ---------- helpers ----------
 function sheet(name) {
-  const sh = getSS().getSheetByName(name);
-  if (!sh) throw new Error('شغّلي الدالة setup أولًا من محرر Apps Script');
+  let sh = getSS().getSheetByName(name);
+  if (!sh) { setup(); sh = getSS().getSheetByName(name); }
   return sh;
 }
 function rows(name) {
