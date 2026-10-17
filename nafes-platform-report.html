@@ -1,0 +1,352 @@
+<title>تقرير منصة العلوم نافس</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: one portrait poster sheet (school report infographic) — header, info bar, then paired sections in the same order as the reference; single light look by choice */
+:root{
+  color-scheme:light;
+  --page:#eef0f8;        /* sheet surround */
+  --sheet:#fbfbff;
+  --ink:#1f2350;         /* navy text */
+  --muted:#565c86;
+  --violet:#7b4fc9;      /* section pills */
+  --violet-soft:#efe8fb;
+  --blue:#2f6fd0;
+  --blue-soft:#e6effc;
+  --green:#2f9a6b;
+  --green-soft:#e3f4ec;
+  --orange:#ec8a2c;
+  --orange-soft:#fdeedd;
+  --pink:#d0508a;
+  --pink-soft:#fbe6f0;
+  --line:#dfe2f1;
+  --display:"Baloo Bhaijaan 2","Tajawal",Tahoma,sans-serif;
+  --body:"Tajawal",Tahoma,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;margin:0}
+.outer{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.sheet{max-width:1024px;margin:0 auto;background:var(--sheet);border-radius:28px;padding:clamp(16px,3vw,32px);display:flex;flex-direction:column;gap:20px;
+  box-shadow:0 20px 60px rgba(40,40,110,.12);position:relative;overflow:hidden;direction:rtl}
+.sheet::before,.sheet::after{content:"";position:absolute;border-radius:50%;pointer-events:none;z-index:0}
+.sheet::before{width:340px;height:340px;background:radial-gradient(circle,#e9e0fb 0,rgba(233,224,251,0) 70%);top:-120px;left:-120px}
+.sheet::after{width:300px;height:300px;background:radial-gradient(circle,#dfeefc 0,rgba(223,238,252,0) 70%);bottom:-110px;right:-100px}
+.sheet>*{position:relative;z-index:1}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.25;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+
+/* header */
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr) minmax(0,1fr);gap:12px;align-items:center}
+.org{display:flex;flex-direction:column;gap:2px;font-weight:700;color:var(--green);font-size:15px}
+.org small{color:var(--muted);font-weight:500;font-size:12.5px}
+.nafs{justify-self:end;display:flex;flex-direction:column;align-items:center;gap:2px}
+.nafs .hexes{display:flex;gap:4px}
+.nafs .hexes i{width:26px;height:28px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);display:grid;place-items:center;color:#fff;font-style:normal;font-weight:800;font-size:14px}
+.nafs b{font-family:var(--display);font-size:30px;line-height:1;color:var(--ink)}
+.nafs span{font-weight:800;letter-spacing:.18em;font-size:12px;color:var(--blue)}
+.title{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.title .pre{font-family:var(--display);font-size:clamp(24px,4vw,40px);font-weight:800;color:var(--ink)}
+.title h1{font-size:clamp(30px,5.6vw,56px);font-weight:800;background:var(--violet-soft);border:2px solid #d8c8f6;color:var(--ink);padding:2px 30px 8px;border-radius:999px}
+.title .sub{background:var(--blue-soft);color:var(--blue);font-weight:700;border-radius:999px;padding:4px 18px;font-size:clamp(13px,1.8vw,17px)}
+@media (max-width:700px){.head{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.title{grid-column:1/-1;grid-row:1}}
+
+/* info bar */
+.info{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:#f1f2fa;border-radius:20px;padding:12px 6px}
+.info div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:4px 10px;border-inline-start:1px solid var(--line);min-width:0}
+.info div:first-child{border-inline-start:0}
+.info .ic{width:30px;height:30px;color:var(--violet)}
+.info b{font-family:var(--display);font-size:16px}
+.info span{color:var(--muted);font-size:14px;line-height:1.5}
+@media (max-width:760px){.info{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.info div{border:0}.info div:last-child{grid-column:1/-1}}
+
+/* section pill */
+.pill-h{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;color:#fff;font-family:var(--display);font-weight:800;font-size:clamp(18px,2.4vw,22px);
+  padding:3px 18px 5px;border-radius:999px 999px 999px 8px;background:var(--violet)}
+.pill-h svg{width:22px;height:22px}
+.pill-h.blue{background:var(--blue)} .pill-h.green{background:var(--green)} .pill-h.orange{background:var(--orange)} .pill-h.pink{background:var(--pink)}
+.pill-h.center{align-self:center;border-radius:999px}
+.box{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+
+/* idea */
+.idea{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;align-items:center}
+@media (max-width:760px){.idea{grid-template-columns:minmax(0,1fr)}}
+.idea p{font-size:16.5px;line-height:1.95}
+.laptop{display:flex;flex-direction:column;align-items:center}
+.screen{width:100%;max-width:420px;aspect-ratio:16/10.5;background:#2a2f4c;border-radius:14px 14px 4px 4px;padding:10px}
+.scr{width:100%;height:100%;border-radius:6px;background:#f3f6f4;overflow:hidden;display:flex;flex-direction:column;gap:6px;padding:8px}
+.scr .band{background:linear-gradient(135deg,#0f4f53,#14666b);color:#fff;border-radius:8px;padding:6px 10px;font-family:var(--display);font-size:clamp(11px,1.6vw,15px);font-weight:700;line-height:1.4}
+.scr .band small{display:block;font-family:var(--body);font-size:10px;opacity:.85;font-weight:500}
+.scr .cards{flex:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.scr .cards span{background:#fff;border:1px solid #d8e2df;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:clamp(8px,1.1vw,11px);font-weight:700;color:#123033;text-align:center;line-height:1.3;gap:2px}
+.scr .cards span i{font-style:normal;font-size:clamp(12px,1.8vw,18px)}
+.base{width:112%;max-width:470px;height:12px;background:linear-gradient(#c9cde0,#9ea4c2);border-radius:0 0 18px 18px}
+
+/* two-column rows */
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:760px){.row2{grid-template-columns:minmax(0,1fr)}}
+.goals li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:center;padding:6px 10px;border-radius:12px;background:#f6f8fd;font-weight:500}
+.goals{display:flex;flex-direction:column;gap:6px}
+.goals li b{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:14px}
+.how{display:flex;flex-direction:column;gap:6px}
+.how li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:center;padding:6px 10px;border-radius:12px;background:#f7f4fd;font-weight:500}
+.how svg{width:26px;height:26px;color:var(--violet)}
+
+/* evidence */
+.ev{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:860px){.ev{grid-template-columns:minmax(0,1fr)}}
+.ev-card{border-radius:20px;padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.ev-card.pink{background:var(--pink-soft)} .ev-card.green{background:var(--green-soft)} .ev-card.orange{background:var(--orange-soft)} .ev-card.violet{background:var(--violet-soft)} .ev-card.blue{background:var(--blue-soft)}
+.ev-card .pill-h{font-size:16px;align-self:center;border-radius:999px}
+.ev-card .cap{font-size:13.5px;color:var(--muted);text-align:center;line-height:1.6}
+.mock{background:#fff;border-radius:14px;border:1px solid var(--line);padding:10px;display:flex;flex-direction:column;gap:6px;flex:1}
+.mock .q{font-weight:700;font-size:13.5px;line-height:1.55}
+.tags{display:flex;gap:4px;flex-wrap:wrap}
+.tags span{font-size:11.5px;background:#eef1f8;color:var(--muted);border-radius:999px;padding:0 8px}
+.tags span.sk{background:#e9f6ef;color:var(--green)}
+.bank-row{border:1px solid var(--line);border-radius:10px;padding:6px 8px;display:flex;flex-direction:column;gap:3px}
+.board-q{background:#f3f6f4;border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:6px}
+.board-top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.ring{width:38px;height:38px;border-radius:50%;background:conic-gradient(#14666b 0 70%,#d8e2df 0);display:grid;place-items:center;flex:none}
+.ring b{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:var(--display);font-size:13px}
+.ans{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.ans span{background:#fff;border:2px solid #d8e2df;border-radius:9px;padding:3px 6px;font-size:12px;font-weight:700;display:flex;gap:5px;align-items:center}
+.ans span i{font-style:normal;width:18px;height:18px;border-radius:50%;background:#14666b;color:#fff;display:grid;place-items:center;font-size:10.5px;flex:none}
+.ans span.ok{border-color:#1f8a5b;background:#e3f4ea} .ans span.ok i{background:#1f8a5b}
+.sims{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.sim{border-radius:10px;padding:8px 6px;color:#fff;font-weight:700;font-size:12.5px;text-align:center;line-height:1.4;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:62px;justify-content:center}
+.sim i{font-style:normal;font-size:20px}
+.sim.wide{grid-column:1/-1}
+
+/* lessons table */
+.lessons{width:100%;border-collapse:collapse;font-size:14px}
+.lessons th{font-weight:700;color:var(--muted);font-size:12.5px;text-align:start;padding:4px 6px;border-bottom:1px solid var(--line)}
+.lessons td{padding:6px;border-bottom:1px solid var(--line);vertical-align:middle}
+.lessons tr:last-child td{border-bottom:0}
+.lessons td.n{font-family:var(--display);font-variant-numeric:tabular-nums;text-align:center;font-weight:700;color:var(--blue)}
+.tbl{overflow-x:auto}
+.rank{display:flex;flex-direction:column;gap:5px}
+.rank div{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center;background:#f3f6f4;border-radius:10px;padding:5px 8px;font-size:13px;font-weight:700}
+.rank div b{font-family:var(--display);text-align:center}
+.rank div span.p{font-family:var(--display);color:#14666b}
+.cert{border:2px dashed #e2a22b;border-radius:12px;padding:8px;text-align:center;background:#fffaf0}
+.cert b{font-family:var(--display);font-size:16px;display:block;color:#7a5200}
+.cert span{font-size:12px;color:var(--muted)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stats div:last-child{grid-column:1/-1}}
+.stats div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;text-align:center;display:flex;flex-direction:column;gap:0}
+.stats b{font-family:var(--display);font-size:clamp(26px,3.6vw,34px);color:var(--violet);line-height:1.2;font-variant-numeric:tabular-nums}
+.stats span{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* bottom row */
+.bottom{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1.1fr) minmax(0,.75fr) minmax(0,.85fr);gap:14px;align-items:stretch}
+@media (max-width:900px){.bottom{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media (max-width:520px){.bottom{grid-template-columns:minmax(0,1fr)}}
+.checks{display:flex;flex-direction:column;gap:5px}
+.checks li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;align-items:start;font-size:14px;font-weight:500;line-height:1.6}
+.checks li::before{content:"✓";width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800;margin-top:3px}
+.qr{align-items:center;text-align:center;justify-content:center}
+#qr{background:#fff;padding:6px;border-radius:10px;line-height:0}
+#qr img,#qr canvas{width:120px!important;height:120px!important}
+.qr b{font-family:var(--display);font-size:16px;color:var(--blue);line-height:1.4}
+.qr small{font-size:11.5px;color:var(--muted);line-height:1.5}
+.slogan{background:linear-gradient(160deg,#f6effe,#eaf2fd);border:2px solid #d8c8f6;align-items:center;text-align:center;justify-content:center}
+.slogan .tag{background:var(--pink);color:#fff;border-radius:999px;padding:0 14px;font-weight:700;font-size:13px}
+.slogan p{font-family:var(--display);font-weight:800;font-size:clamp(20px,2.6vw,25px);line-height:1.45;color:var(--violet)}
+.slogan .by{font-size:13.5px;color:var(--ink);font-weight:700;line-height:1.5}
+.foot{text-align:center;color:var(--muted);font-size:12.5px}
+</style>
+
+<div class="outer">
+<article class="sheet" lang="ar">
+
+  <!-- header -->
+  <header class="head">
+    <div class="org">المملكة العربية السعودية<span>وزارة التعليم</span><small>الابتدائية العشرون لتحفيظ القرآن الكريم</small></div>
+    <div class="title">
+      <span class="pre">تقرير</span>
+      <h1>منصة العلوم نافس</h1>
+      <span class="sub">منصة تفاعلية لإتقان نواتج التعلم والاستعداد للاختبارات الوطنية</span>
+    </div>
+    <div class="nafs" aria-label="الاختبارات الوطنية نافس">
+      <div class="hexes"><i style="background:#ec8a2c">؟</i><i style="background:#2f9a6b">✓</i><i style="background:#2f6fd0">↑</i></div>
+      <b>نافس</b><span>NAFS</span>
+    </div>
+  </header>
+
+  <!-- info bar -->
+  <section class="info" aria-label="بيانات التقرير">
+    <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-5h6v5M9 11h.01M15 11h.01"/></svg><b>المدرسة</b><span>الابتدائية العشرون لتحفيظ القرآن الكريم</span></div>
+    <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-8-1.5v14c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-14c-3-.5-6 0-8 1.5zM12 6v14"/></svg><b>المادة</b><span>العلوم</span></div>
+    <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5M15 14.5c3 0 5.5 1.5 5.5 4.5"/></svg><b>الفئة المستهدفة</b><span>طالبات الصف السادس الابتدائي (سادس أول وسادس ثاني)</span></div>
+    <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7 14h2M11 14h2M15 14h2M7 17h2M11 17h2"/></svg><b>العام الدراسي</b><span>١٤٤٨هـ</span></div>
+    <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg><b>إعداد وتنفيذ</b><span>أ/ شامه البقمي</span></div>
+  </section>
+
+  <!-- idea -->
+  <section class="idea">
+    <div class="box" style="background:#faf8ff;border-color:#e6dcf8">
+      <span class="pill-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg>فكرة المنصة</span>
+      <p>إنشاء منصة رقمية تفاعلية بعنوان «منصة العلوم نافس»، تهدف إلى تمكين طالبات الصف السادس من إتقان نواتج التعلم في مادة العلوم، والاستعداد للاختبارات الوطنية (نافس)، من خلال بنك أسئلة مصنّف حسب مجالات نافس ومهاراته، ومحاكيات تفاعلية للدروس، وأنشطة صفية تُعرض على السبورة بالنقاط والصدارة والشهادات.</p>
+    </div>
+    <div class="laptop" aria-label="واجهة منصة العلوم نافس">
+      <div class="screen"><div class="scr">
+        <div class="band">مرحبًا أ/ شامه البقمي<small>منصة العلوم نافس · ابتدائية عشرون لتحفيظ القرآن</small></div>
+        <div class="cards">
+          <span><i>✏️</i>إنشاء نشاط</span><span><i>📂</i>أنشطتي</span><span><i>📺</i>تشغيل على السبورة</span>
+          <span><i>📚</i>بنك نافس</span><span><i>📊</i>النتائج والصدارة</span><span><i>🔬</i>المحاكيات</span>
+        </div>
+      </div></div>
+      <div class="base"></div>
+    </div>
+  </section>
+
+  <!-- goals + how -->
+  <section class="row2">
+    <div class="box" style="background:#f8fafe">
+      <span class="pill-h blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>أهداف المنصة</span>
+      <ol class="goals">
+        <li><b>١</b>تحقيق إتقان نواتج التعلم المستهدفة في مادة العلوم.</li>
+        <li><b>٢</b>رفع مستوى جاهزية الطالبات للاختبارات الوطنية (نافس).</li>
+        <li><b>٣</b>تنمية مهارات التفكير العليا: التطبيق والتحليل والتركيب والاستنتاج.</li>
+        <li><b>٤</b>تقريب المفاهيم العلمية المجردة بمحاكيات وتجارب مصوّرة.</li>
+        <li><b>٥</b>مراعاة الفروق الفردية بأنشطة متنوعة في مستوياتها.</li>
+        <li><b>٦</b>رفع دافعية الطالبات بالتحدي والنقاط والتكريم.</li>
+        <li><b>٧</b>متابعة مستوى الإتقان لكل طالبة من خلال النتائج المحفوظة.</li>
+      </ol>
+    </div>
+    <div class="box" style="background:#fbf9ff">
+      <span class="pill-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>آلية التنفيذ</span>
+      <ul class="how">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h12l4 4v12H4zM8 10h8M8 14h8M8 18h5"/></svg>بناء بنك أسئلة نافس مصنّف حسب المجال والمهارة.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/></svg>تصميم محاكاة تفاعلية لكل درس، مرتبطة بنشاطه وأسئلته.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>تشغيل الأنشطة على السبورة بمؤقت واختيار عشوائي للطالبة.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>احتساب النقاط ولوحة الصدارة وإصدار الشهادات.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4zM18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>توليد أسئلة إضافية بالذكاء الاصطناعي ومراجعتها قبل الحفظ.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>متابعة نتائج كل حصة وكل طالبة لقياس الإتقان.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- evidence -->
+  <span class="pill-h center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>شواهد التنفيذ</span>
+
+  <section class="ev">
+    <div class="ev-card pink">
+      <span class="pill-h pink">بنك أسئلة نافس</span>
+      <div class="mock">
+        <div class="bank-row"><p class="q">ما الوظيفة الأساسية للأمعاء الغليظة؟</p><div class="tags"><span>أجهزة الجسم</span><span class="sk">معرفة</span><span>من درس: الهضم</span></div></div>
+        <div class="bank-row"><p class="q">إذا انقرضت المنتجات من النظام البيئي، فما الذي سيحدث لبقية المخلوقات الحية؟</p><div class="tags"><span>السلاسل الغذائية</span><span class="sk">استنتاج</span></div></div>
+        <div class="bank-row"><p class="q">عندما يسقط البوغ على تربة رطبة ينبت مكوّنًا…</p><div class="tags"><span>دورات الحياة</span><span class="sk">تطبيق</span><span>من درس: الحزازيات</span></div></div>
+      </div>
+      <p class="cap">١٩١ سؤالًا في ١١ مجالًا من مجالات نافس، مصنّفة حسب المهارة، مع اختيار عشوائي.</p>
+    </div>
+    <div class="ev-card green">
+      <span class="pill-h green">التشغيل على السبورة</span>
+      <div class="mock">
+        <div class="board-q">
+          <div class="board-top"><b style="font-family:var(--display);color:#14666b">دور الطالبة: …</b><div class="ring"><b>٢١</b></div></div>
+          <p class="q">أين يحدث تبادل الغازات في الرئتين؟</p>
+          <div class="ans"><span><i>أ</i>القصبة الهوائية</span><span class="ok"><i>ب</i>الحويصلات الهوائية</span><span><i>ج</i>الحنجرة</span><span><i>د</i>البلعوم</span></div>
+        </div>
+      </div>
+      <p class="cap">أسئلة بخط كبير على السبورة، بمؤقت لكل سؤال واختيار عشوائي للطالبة وتصحيح فوري.</p>
+    </div>
+    <div class="ev-card orange">
+      <span class="pill-h orange">محاكيات الدروس التفاعلية</span>
+      <div class="mock sims">
+        <div class="sim" style="background:#8a5a2c"><i>🍞</i>نموّ عفن الخبز ثلاثي الأبعاد</div>
+        <div class="sim" style="background:#3f7d2a"><i>🌿</i>دورة حياة الحزازيات</div>
+        <div class="sim" style="background:#c0566a"><i>🧪</i>مختبر الأمعاء الغليظة</div>
+        <div class="sim" style="background:#2d78b8"><i>🦎</i>ما السلسلة الغذائية؟</div>
+        <div class="sim wide" style="background:#1f4f8a"><i>🫁</i>الجهاز التنفسي في الإنسان (فيديو شرح)</div>
+      </div>
+      <p class="cap">تُفتح من داخل النشاط بملء الشاشة قبل الأسئلة، لتربط المفهوم بالمشاهدة.</p>
+    </div>
+  </section>
+
+  <section class="row2">
+    <div class="ev-card violet">
+      <span class="pill-h">أنشطة الدروس المرتبطة بنافس</span>
+      <div class="mock tbl">
+        <table class="lessons">
+          <thead><tr><th>الدرس</th><th>مجال نافس</th><th>الأسئلة</th></tr></thead>
+          <tbody>
+            <tr><td>نموّ العفن (عفن الخبز)</td><td>التصنيف · الفطريات</td><td class="n">١٠</td></tr>
+            <tr><td>دورة حياة الحزازيات</td><td>دورات الحياة</td><td class="n">١٠</td></tr>
+            <tr><td>الأمعاء الغليظة والهضم</td><td>أجهزة الجسم</td><td class="n">١٠</td></tr>
+            <tr><td>ما السلسلة الغذائية؟</td><td>السلاسل الغذائية</td><td class="n">١٠</td></tr>
+            <tr><td>الجهاز التنفسي في الإنسان</td><td>أجهزة الجسم</td><td class="n">١٠</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="cap">لكل درس محاكاة ونشاط مستقل، وأسئلته مصنّفة بمهارات نافس: معرفة، تطبيق، تحليل، تركيب، استنتاج.</p>
+    </div>
+    <div class="ev-card blue">
+      <span class="pill-h blue">النقاط والصدارة والشهادات</span>
+      <div class="mock" style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:8px">
+        <div class="rank">
+          <div><b>🥇</b><span>الطالبة الأولى</span><span class="p">…</span></div>
+          <div><b>🥈</b><span>الطالبة الثانية</span><span class="p">…</span></div>
+          <div><b>🥉</b><span>الطالبة الثالثة</span><span class="p">…</span></div>
+        </div>
+        <div class="cert"><b>شهادة تميّز</b><span>تُصدر للطالبة من نتائجها في المنصة</span></div>
+      </div>
+      <p class="cap">نقاط كل طالبة محفوظة لكل فصل، مع لوحة صدارة وشهادات تكريم وعجلة المتميزات.</p>
+    </div>
+  </section>
+
+  <!-- numbers -->
+  <section class="stats" aria-label="المنصة بالأرقام">
+    <div><b>١٩١</b><span>سؤالًا في بنك نافس</span></div>
+    <div><b>١١</b><span>مجالًا علميًا</span></div>
+    <div><b>٥</b><span>مهارات تفكير</span></div>
+    <div><b>٥</b><span>دروس بمحاكيات وأنشطة</span></div>
+    <div><b>٢</b><span>فصلان: سادس أول وسادس ثاني</span></div>
+  </section>
+
+  <!-- bottom -->
+  <section class="bottom">
+    <div class="box">
+      <span class="pill-h blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>نتائج وأثر المنصة</span>
+      <ul class="checks">
+        <li>تحسّن إتقان نواتج التعلم في دروس العلوم.</li>
+        <li>اعتياد الطالبات على نمط أسئلة نافس ومهاراتها.</li>
+        <li>زيادة التفاعل والمشاركة الصفية لجميع الطالبات.</li>
+        <li>فهم أعمق للمفاهيم بالمحاكاة والمشاهدة.</li>
+        <li>تنمية الثقة والدافعية بالتحدي والتكريم.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <span class="pill-h green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M8 11l2 2 3.5-4"/></svg>قياس الأثر</span>
+      <p style="font-size:14.5px;line-height:1.9">يُقاس الأثر بمقارنة نتائج الطالبات في الأنشطة القبلية والبعدية المحفوظة في المنصة لكل حصة ولكل طالبة، وتحليل الأداء حسب مجالات نافس ومهاراته، لتحديد جوانب القوة وفرص التحسين، وتوجيه أنشطة علاجية وإثرائية وفق مستوى كل طالبة.</p>
+    </div>
+    <div class="box qr">
+      <div id="qr" role="img" aria-label="باركود منصة العلوم نافس"></div>
+      <b>باركود<br>منصة العلوم نافس</b>
+      <small>يفتح المنصة بعد مشاركتها من صاحبة الحساب</small>
+    </div>
+    <div class="box slogan">
+      <span class="tag">شعار المنصة</span>
+      <p>أتدرّب بمتعة…<br>أتقن بمهارة…<br>أنافس بثقة.</p>
+      <span class="by">إعداد وتنفيذ<br>أ/ شامه البقمي</span>
+    </div>
+  </section>
+
+  <p class="foot">معلمة العلوم: أ/ شامه البقمي · الابتدائية العشرون لتحفيظ القرآن الكريم · ١٤٤٨هـ</p>
+</article>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  var el = document.getElementById('qr');
+  try{
+    new QRCode(el, {text:'https://claude.ai/artifact/2WsnJFQRAa7SH2aV3q3d68', width:240, height:240, colorDark:'#1f2350', colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.M});
+  }catch(e){ el.textContent = 'claude.ai/artifact/2WsnJFQRAa7SH2aV3q3d68'; el.style.cssText='font-size:11px;line-height:1.5;word-break:break-all;padding:8px'; }
+})();
+</script>
