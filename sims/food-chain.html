@@ -1,0 +1,286 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ما السلسلة الغذائية؟</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;800&family=Tajawal:wght@500;700&display=swap">
+<style>
+/* Layout: one 16:9 stage that plays six timed scenes, controls beneath. Bright textbook world, single deliberate theme. */
+:root{
+  --night:#0f2a47; --ink:#12355b; --sky:#bfe6fb; --sand:#f1d29a; --sea:#2d9ad6; --seaDeep:#0f5d93;
+  --sun:#ffc93c; --mark:#fff04d; --leaf:#58a83a; --paper:#fffaf0; --wood:#c98a4b; --arrow:#1f57c3;
+  --display:"Baloo Bhaijaan 2","Tajawal",system-ui,sans-serif; --body:"Tajawal",system-ui,sans-serif;
+  color-scheme:light;
+}
+html,body{background:var(--night);color:var(--paper)}
+body{font-family:var(--body);direction:rtl;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 32px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.stage{position:relative;width:100%;aspect-ratio:16/9;max-width:100%;border-radius:18px;overflow:hidden;container-type:inline-size;background:var(--sky);box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .6s, visibility .6s}
+.scene.on{opacity:1;visibility:visible}
+.paused *{animation-play-state:paused!important}
+
+/* backgrounds */
+.bg-sky{background:linear-gradient(#9fd8f7,#e3f5ff 70%)}
+.bg-land{background:linear-gradient(#a9dcf8,#e6f6ff 55%,var(--sand) 55%,#e4bd7a)}
+.bg-sea{background:linear-gradient(#6cc3ef,var(--sea) 30%,var(--seaDeep))}
+.bg-paper{background:radial-gradient(circle at 80% 10%,#fff6c9,var(--paper) 55%)}
+.sand-hill{position:absolute;bottom:-8%;left:-5%;right:-5%;height:30%;background:#e8c483;border-radius:50% 50% 0 0}
+
+/* type */
+.title-sign{position:absolute;left:50%;top:18%;width:58%;transform-origin:50% -40%;margin-left:-29%}
+.sign{background:linear-gradient(#dba066,var(--wood));border:.6cqw solid #8a5427;border-radius:2cqw;padding:3cqw 2cqw;text-align:center;font-family:var(--display);font-weight:800;color:#13509b;font-size:7.4cqw;line-height:1.1;text-wrap:balance;box-shadow:0 1.4cqw 0 #8a5427}
+.rope{position:absolute;top:-12cqw;width:.7cqw;height:12cqw;background:#9b6b3a}
+.chip{display:inline-block;background:var(--paper);color:var(--ink);border-radius:999px;padding:.6cqw 2cqw;font-size:2cqw;font-weight:700}
+.h{font-family:var(--display);font-weight:800;color:var(--ink);font-size:4.4cqw;line-height:1.25;text-wrap:balance}
+.p{color:var(--ink);font-size:3cqw;line-height:1.7;font-weight:500}
+.mark{background:var(--mark);padding:0 .8cqw;border-radius:.6cqw;font-weight:700}
+.tag{position:absolute;top:5%;right:5%;background:var(--mark);color:#14448a;border:.4cqw solid #2c8fd6;border-radius:1.2cqw;padding:.6cqw 2.2cqw;font-family:var(--display);font-weight:800;font-size:3cqw}
+.cap{position:absolute;bottom:-1%;left:50%;translate:-50% 0;width:max-content;max-width:19cqw;text-align:center;line-height:1.35;background:rgba(255,255,255,.92);color:var(--ink);border-radius:1cqw;padding:.4cqw 1.2cqw;font-weight:700;font-size:1.9cqw}
+.sea .cap{background:rgba(255,255,255,.95)}
+
+/* organisms */
+.org{position:absolute;translate:-50% 0}
+.org svg{width:100%;height:auto;display:block;overflow:visible}
+.bob{animation:bob 2.4s ease-in-out infinite}
+.sway{animation:sway 3s ease-in-out infinite;transform-origin:50% 100%}
+.spin{animation:spin 14s linear infinite;transform-box:fill-box;transform-origin:center}
+.arrow{position:absolute;width:12%;translate:-50% 0}
+.arrow path{stroke:var(--arrow);stroke-width:7;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:120;stroke-dashoffset:120}
+.energy{position:absolute;width:2.4cqw;height:2.4cqw;border-radius:50%;background:var(--sun);box-shadow:0 0 2cqw 1cqw rgba(255,201,60,.8);opacity:0}
+
+/* scene animations */
+.scene.on .a{animation:pop .75s cubic-bezier(.3,1.5,.5,1) var(--d,0s) both}
+.scene.on .fade{animation:fade .8s ease var(--d,0s) both}
+.scene.on .grow{animation:grow 1.4s cubic-bezier(.2,1.2,.4,1) var(--d,0s) both;transform-origin:50% 100%}
+.scene.on .walk{animation:walk 1.3s ease-out var(--d,0s) both}
+.scene.on .swing{animation:swing 2.2s ease-out var(--d,0s) both}
+.scene.on .rise{animation:rise 2s cubic-bezier(.2,.9,.3,1) var(--d,0s) both}
+.scene.on .arrow path{animation:draw .8s ease var(--d,0s) forwards}
+.scene.on .energy{animation:flow 3.2s ease-in-out var(--d,0s) both}
+.scene.on .chomp{animation:chomp .5s ease var(--d,0s) 3}
+@keyframes pop{from{opacity:0;transform:scale(.4) translateY(30%)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(1.5cqw)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleY(0);opacity:0}to{transform:none;opacity:1}}
+@keyframes walk{from{opacity:0;transform:translateX(-60%)}to{opacity:1;transform:none}}
+@keyframes swing{0%{transform:rotate(-14deg);opacity:0}30%{opacity:1}55%{transform:rotate(7deg)}80%{transform:rotate(-3deg)}100%{transform:none;opacity:1}}
+@keyframes rise{from{transform:translateY(80%);opacity:0}to{transform:none;opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes flow{0%{opacity:0;left:var(--from)}12%{opacity:1}88%{opacity:1}100%{opacity:0;left:var(--to)}}
+@keyframes chomp{50%{transform:scale(1.12) rotate(-4deg)}}
+@keyframes bob{50%{transform:translateY(-5%)}}
+@keyframes sway{50%{transform:rotate(3deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bubble{from{transform:translateY(0);opacity:.8}to{transform:translateY(-60cqw);opacity:0}}
+.bubble{position:absolute;bottom:-3%;border-radius:50%;border:.25cqw solid rgba(255,255,255,.7);animation:bubble 6s linear infinite}
+
+/* vocab cards */
+.cards{position:absolute;inset:40% 6% 14% 6%;display:grid;grid-template-columns:1fr 1fr;gap:3cqw}
+.card{background:#fff;border-radius:2cqw;padding:2cqw 2.4cqw;display:flex;align-items:center;gap:2cqw;border:.4cqw solid #d9ecfa}
+.card svg{width:12cqw;flex:none}
+.card b{display:block;font-family:var(--display);font-size:3.6cqw;color:#13509b}
+.card span{color:var(--ink);font-size:2.2cqw;line-height:1.5}
+
+/* controls */
+.bar{height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--sun)}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button{font-family:var(--body);font-weight:700;font-size:15px;border:0;border-radius:999px;padding:9px 18px;background:#1d4775;color:var(--paper);cursor:pointer}
+button.main{background:var(--sun);color:var(--ink)}
+button:focus-visible{outline:3px solid var(--mark);outline-offset:2px}
+.dots{display:flex;gap:6px}
+.dots button{width:30px;height:30px;padding:0;font-size:13px;font-variant-numeric:tabular-nums}
+.dots button.cur{background:var(--paper);color:var(--ink)}
+.note{color:#9fb7d3;font-size:13px}
+@media (prefers-reduced-motion:reduce){.scene.on *{animation-duration:.01s!important;animation-delay:0s!important}.bubble,.bob,.sway,.spin{animation:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <symbol id="sun" viewBox="-60 -60 120 120">
+    <g class="spin">
+      <g fill="#ffb21c"><rect x="-4" y="-56" width="8" height="18" rx="4"/><rect x="-4" y="38" width="8" height="18" rx="4"/><rect x="-56" y="-4" width="18" height="8" rx="4"/><rect x="38" y="-4" width="18" height="8" rx="4"/>
+      <g transform="rotate(45)"><rect x="-4" y="-56" width="8" height="18" rx="4"/><rect x="-4" y="38" width="8" height="18" rx="4"/><rect x="-56" y="-4" width="18" height="8" rx="4"/><rect x="38" y="-4" width="18" height="8" rx="4"/></g></g>
+    </g>
+    <circle r="32" fill="#ffd84a" stroke="#ffb21c" stroke-width="4"/>
+    <circle cx="-10" cy="-5" r="3.5" fill="#7a4a00"/><circle cx="10" cy="-5" r="3.5" fill="#7a4a00"/>
+    <path d="M-11 9 Q0 18 11 9" stroke="#7a4a00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="flower" viewBox="0 0 120 150">
+    <path d="M60 150 C40 115 22 95 6 78 C36 92 52 112 60 150Z" fill="#4c9a2f"/>
+    <path d="M60 150 C78 112 96 96 116 86 C90 108 74 124 60 150Z" fill="#5fb43c"/>
+    <path d="M60 150 C52 120 36 100 30 70 C50 96 58 118 60 150Z" fill="#3e8a26"/>
+    <path d="M60 150 C60 110 58 70 52 40" stroke="#3e8a26" stroke-width="4" fill="none"/>
+    <path d="M60 150 C66 115 76 86 86 64" stroke="#3e8a26" stroke-width="4" fill="none"/>
+    <g transform="translate(52 36)"><g fill="#ffd21f" stroke="#e8a400" stroke-width="1.5">
+      <ellipse rx="7" ry="17" cy="-14"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(40)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(80)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(120)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(160)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(200)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(240)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(280)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(320)"/></g>
+      <circle r="10" fill="#f08a1c"/></g>
+    <g transform="translate(86 62) scale(.65)"><g fill="#ffd21f" stroke="#e8a400" stroke-width="1.5">
+      <ellipse rx="7" ry="17" cy="-14"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(45)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(90)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(135)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(180)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(225)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(270)"/><ellipse rx="7" ry="17" cy="-14" transform="rotate(315)"/></g>
+      <circle r="10" fill="#f08a1c"/></g>
+  </symbol>
+  <symbol id="beetle" viewBox="0 0 70 46">
+    <g stroke="#3a1a0a" stroke-width="2.5" stroke-linecap="round"><path d="M22 30 L14 42M32 32 L30 44M42 31 L48 43"/><path d="M58 18 L66 6M56 16 L60 3" fill="none"/></g>
+    <ellipse cx="32" cy="24" rx="22" ry="13" fill="#b5441e" stroke="#6e2410" stroke-width="2"/>
+    <path d="M32 11 L32 37" stroke="#6e2410" stroke-width="2"/>
+    <circle cx="54" cy="22" r="8" fill="#3a1a0a"/><circle cx="57" cy="20" r="2" fill="#fff"/>
+  </symbol>
+  <symbol id="lizard" viewBox="0 0 170 80">
+    <path d="M76 46 C50 48 28 54 14 64 C6 70 10 76 18 72 C34 64 54 58 78 56Z" fill="#7cb342" stroke="#4d7a22" stroke-width="2"/>
+    <g stroke="#4d7a22" stroke-width="6" stroke-linecap="round" fill="none"><path d="M86 52 L76 68 L68 70"/><path d="M116 52 L126 68 L134 70"/><path d="M94 40 L84 26 L76 24"/><path d="M118 40 L130 28 L138 28"/></g>
+    <ellipse cx="102" cy="46" rx="34" ry="13" fill="#8bc34a" stroke="#4d7a22" stroke-width="2"/>
+    <ellipse cx="146" cy="40" rx="20" ry="11" fill="#8bc34a" stroke="#4d7a22" stroke-width="2"/>
+    <circle cx="152" cy="36" r="3.5" fill="#1b2a0a"/><path d="M156 46 Q162 46 165 43" stroke="#4d7a22" stroke-width="2" fill="none"/>
+    <g fill="#5d8f2c"><circle cx="92" cy="42" r="3"/><circle cx="106" cy="40" r="3"/><circle cx="118" cy="45" r="2.5"/><circle cx="98" cy="50" r="2"/></g>
+  </symbol>
+  <symbol id="algae" viewBox="0 0 100 90">
+    <g stroke="#3f7d1b" stroke-width="2.5"><circle cx="28" cy="30" r="16" fill="#9ccc4c"/><circle cx="64" cy="22" r="11" fill="#b5dd5e"/><circle cx="58" cy="62" r="14" fill="#8bc34a"/><circle cx="22" cy="70" r="8" fill="#b5dd5e"/>
+    <rect x="76" y="44" width="16" height="40" rx="8" fill="#7cb342" transform="rotate(25 84 64)"/></g>
+    <g fill="#2f6512"><circle cx="24" cy="26" r="3"/><circle cx="33" cy="34" r="2.5"/><circle cx="62" cy="20" r="2.5"/><circle cx="55" cy="58" r="3"/><circle cx="62" cy="66" r="2.5"/></g>
+  </symbol>
+  <symbol id="shrimp" viewBox="0 0 120 70">
+    <path d="M10 46 L2 34 L4 56Z" fill="#f08a1c"/>
+    <path d="M14 46 Q46 4 88 26" stroke="#f9a23c" stroke-width="18" fill="none" stroke-linecap="round"/>
+    <g stroke="#d9741a" stroke-width="2.5"><path d="M30 26 L34 38M44 16 L46 30M58 13 L58 27M72 16 L70 30"/></g>
+    <g stroke="#d9741a" stroke-width="2" stroke-linecap="round"><path d="M40 34 L36 48M52 30 L50 46M64 30 L64 46M76 32 L80 46"/></g>
+    <circle cx="92" cy="22" r="4" fill="#3a1a0a"/>
+    <g stroke="#d9741a" stroke-width="1.8" fill="none" stroke-linecap="round"><path d="M96 26 Q110 30 118 44"/><path d="M96 22 Q112 12 118 2"/></g>
+  </symbol>
+  <symbol id="seahorse" viewBox="0 0 80 130">
+    <path d="M34 26 C52 38 54 62 44 82 C36 98 32 110 42 118 C52 124 58 112 48 106" stroke="#f2d43a" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <path d="M34 26 C52 38 54 62 44 82 C36 98 32 110 42 118 C52 124 58 112 48 106" stroke="#d1a91a" stroke-width="2" stroke-dasharray="3 7" fill="none"/>
+    <path d="M24 46 C14 52 14 66 26 70Z" fill="#e6b821"/>
+    <circle cx="34" cy="20" r="14" fill="#f2d43a"/>
+    <path d="M42 15 L70 20 L70 27 L42 26Z" fill="#f2d43a"/>
+    <path d="M28 8 L30 0 L35 7 L40 1 L41 9Z" fill="#d1a91a"/>
+    <circle cx="38" cy="17" r="3.5" fill="#3a2a05"/>
+  </symbol>
+  <symbol id="arrowL" viewBox="0 0 120 30"><path d="M114 15 L8 15 M26 3 L8 15 L26 27"/></symbol>
+</defs>
+</svg>
+
+<div class="wrap">
+  <div class="stage" id="stage" aria-live="polite">
+
+    <!-- 1 title -->
+    <section class="scene bg-sky" data-ms="5000" aria-label="العنوان">
+      <div class="sand-hill"></div>
+      <div class="org a" style="left:12%;top:8%;width:15%;--d:.9s"><svg viewBox="-60 -60 120 120"><use href="#sun"/></svg></div>
+      <div class="title-sign swing" style="--d:.1s">
+        <span class="rope" style="right:20%"></span><span class="rope" style="left:20%"></span>
+        <div class="sign">ما السلسلة الغذائية؟</div>
+      </div>
+      <div class="org grow" style="left:86%;bottom:6%;width:14%;--d:1.2s"><svg viewBox="0 0 120 150" class="sway"><use href="#flower"/></svg></div>
+      <div class="fade" style="position:absolute;bottom:7%;left:0;right:0;text-align:center;--d:1.6s"><span class="chip">العلوم · الشرح والتفسير · ص ٨٦</span></div>
+    </section>
+
+    <!-- 2 definition -->
+    <section class="scene bg-paper" data-ms="7500" aria-label="التعريف">
+      <div style="position:absolute;inset:12% 8% auto 8%;display:flex;flex-direction:column;gap:2.4cqw">
+        <div class="h a" style="--d:.2s"><span class="mark">السلسلة الغذائية</span></div>
+        <div class="p fade" style="--d:1s;font-size:3.6cqw">توضّح التتابع الذي تحصل به المخلوقات الحية على الغذاء.</div>
+      </div>
+      <div style="position:absolute;left:8%;right:8%;bottom:10%;height:34%">
+        <div class="org a" style="left:84%;bottom:8%;width:16%;--d:2.2s"><svg viewBox="-60 -60 120 120"><use href="#sun"/></svg></div>
+        <div class="arrow" style="left:68%;bottom:40%;--d:2.9s"><svg viewBox="0 0 120 30"><path d="M114 15 L8 15 M26 3 L8 15 L26 27"/></svg></div>
+        <div class="org grow" style="left:52%;bottom:0;width:15%;--d:3.4s"><svg viewBox="0 0 120 150"><use href="#flower"/></svg></div>
+        <div class="arrow" style="left:35%;bottom:40%;--d:4.3s"><svg viewBox="0 0 120 30"><path d="M114 15 L8 15 M26 3 L8 15 L26 27"/></svg></div>
+        <div class="org a" style="left:16%;bottom:12%;width:22%;--d:4.8s"><svg viewBox="0 0 170 80" class="bob"><use href="#lizard"/></svg></div>
+      </div>
+    </section>
+
+    <!-- 3 sun starts -->
+    <section class="scene bg-sky" data-ms="6000" aria-label="البداية من الشمس">
+      <div class="sand-hill" style="height:22%"></div>
+      <div class="org rise" style="left:50%;top:10%;width:24%;--d:.1s"><svg viewBox="-60 -60 120 120"><use href="#sun"/></svg></div>
+      <div style="position:absolute;bottom:9%;left:6%;right:6%;text-align:center;display:flex;flex-direction:column;gap:1.6cqw;align-items:center">
+        <div class="h fade" style="--d:1.2s">تبدأ معظم سلاسل الغذاء <span class="mark">بالشمس</span></div>
+        <div class="p fade" style="--d:2.4s">بعضها على اليابسة، وبعضها الآخر في الماء.</div>
+      </div>
+    </section>
+
+    <!-- 4 land chain -->
+    <section class="scene bg-land" data-ms="12500" aria-label="سلسلة غذائية على اليابسة">
+      <div class="tag a" style="--d:.1s">سلسلة غذائية على اليابسة</div>
+      <div class="org a" style="left:86%;top:24%;width:13%;--d:.8s"><svg viewBox="-60 -60 120 120"><use href="#sun"/></svg><span class="cap fade" style="bottom:-62%;--d:1.4s">الشمس تساعد النبات على النمو</span></div>
+      <div class="arrow" style="left:74%;top:52%;--d:2.4s"><svg viewBox="0 0 120 30"><path d="M114 15 L8 15 M26 3 L8 15 L26 27"/></svg></div>
+      <div class="org grow" style="left:60%;bottom:14%;width:17%;--d:2.8s"><svg viewBox="0 0 120 150" class="sway"><use href="#flower"/></svg></div>
+      <div class="arrow" style="left:46%;top:62%;--d:5s"><svg viewBox="0 0 120 30"><path d="M114 15 L8 15 M26 3 L8 15 L26 27"/></svg></div>
+      <div class="org walk" style="left:36%;bottom:22%;width:10%;--d:4.2s"><div class="chomp" style="--d:5.5s"><svg viewBox="0 0 70 46"><use href="#beetle"/></svg></div><span class="cap fade" style="bottom:-85%;--d:5.4s">الحشرة تأكل النبات</span></div>
+      <div class="arrow" style="left:26%;top:62%;--d:7.6s"><svg viewBox="0 0 120 30"><path d="M114 15 L8 15 M26 3 L8 15 L26 27"/></svg></div>
+      <div class="org walk" style="left:15%;bottom:16%;width:20%;--d:7s"><div class="chomp" style="--d:8.1s"><svg viewBox="0 0 170 80"><use href="#lizard"/></svg></div><span class="cap fade" style="bottom:-28%;--d:8s">السحلية تأكل الحشرة</span></div>
+      <div class="energy" style="top:48%;--from:86%;--to:15%;--d:9.4s"></div>
+    </section>
+
+    <!-- 5 water chain -->
+    <section class="scene bg-sea sea" data-ms="12500" aria-label="سلسلة غذائية في الماء">
+      <span class="bubble" style="left:20%;width:2cqw;height:2cqw"></span><span class="bubble" style="left:48%;width:1.2cqw;height:1.2cqw;animation-delay:2s"></span><span class="bubble" style="left:70%;width:1.6cqw;height:1.6cqw;animation-delay:4s"></span><span class="bubble" style="left:90%;width:1cqw;height:1cqw;animation-delay:1s"></span>
+      <div class="tag a" style="--d:.1s">سلسلة غذائية في الماء</div>
+      <div class="org a" style="left:86%;top:20%;width:12%;--d:.8s"><svg viewBox="-60 -60 120 120"><use href="#sun"/></svg></div>
+      <div class="arrow" style="left:76%;top:50%;--d:1.8s"><svg viewBox="0 0 120 30"><path d="M114 15 L8 15 M26 3 L8 15 L26 27"/></svg></div>
+      <div class="org a" style="left:64%;top:46%;width:13%;--d:2.4s"><svg viewBox="0 0 100 90" class="bob"><use href="#algae"/></svg><span class="cap fade" style="bottom:-55%;--d:2.9s">الشمس تساعد العوالق البحرية على النمو</span></div>
+      <div class="arrow" style="left:50%;top:50%;--d:5s"><svg viewBox="0 0 120 30"><path d="M114 15 L8 15 M26 3 L8 15 L26 27"/></svg></div>
+      <div class="org walk" style="left:37%;top:44%;width:14%;--d:4.3s"><div class="chomp" style="--d:5.5s"><svg viewBox="0 0 120 70" class="bob"><use href="#shrimp"/></svg></div><span class="cap fade" style="bottom:-62%;--d:5.4s">الزوبيان يأكل العوالق البحرية</span></div>
+      <div class="arrow" style="left:24%;top:50%;--d:7.6s"><svg viewBox="0 0 120 30"><path d="M114 15 L8 15 M26 3 L8 15 L26 27"/></svg></div>
+      <div class="org walk" style="left:11%;top:30%;width:10%;--d:7s"><div class="chomp" style="--d:8.1s"><svg viewBox="0 0 80 130" class="bob"><use href="#seahorse"/></svg></div><span class="cap fade" style="bottom:-22%;--d:8s">حصان البحر يأكل الزوبيان</span></div>
+      <div class="energy" style="top:46%;--from:86%;--to:11%;--d:9.4s"></div>
+    </section>
+
+    <!-- 6 vocab -->
+    <section class="scene bg-paper" data-ms="10000" aria-label="المفردات">
+      <div style="position:absolute;top:7%;left:6%;right:6%;display:flex;flex-direction:column;gap:1cqw">
+        <div class="chip a" style="align-self:flex-start;background:#13509b;color:#fff;--d:.1s">السؤال الأساسي</div>
+        <div class="h fade" style="--d:.6s;font-size:3.8cqw">كيف تعتمد الحيوانات على حيوانات أخرى؟</div>
+      </div>
+      <div class="cards">
+        <div class="card a" style="--d:1.8s"><svg viewBox="0 0 170 80"><use href="#lizard"/></svg><div><b>المفترس</b><span>حيوان يصطاد حيوانًا آخر ويأكله، مثل السحلية.</span></div></div>
+        <div class="card a" style="--d:3s"><svg viewBox="0 0 70 46"><use href="#beetle"/></svg><div><b>الفريسة</b><span>الحيوان الذي يُصطاد ويُؤكل، مثل الحشرة.</span></div></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="bar" aria-hidden="true"><i id="prog"></i></div>
+  <div class="ctrl">
+    <div class="btns">
+      <button id="prev" type="button">السابق</button>
+      <button id="play" class="main" type="button">إيقاف مؤقت</button>
+      <button id="next" type="button">التالي</button>
+      <button id="again" type="button">من البداية</button>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div class="note">مدة العرض نحو دقيقة. اضغط رقم المشهد للانتقال إليه.</div>
+</div>
+
+<script>
+(function(){
+  const stage=document.getElementById('stage');
+  const scenes=[...stage.querySelectorAll('.scene')];
+  const durs=scenes.map(s=>+s.dataset.ms);
+  const total=durs.reduce((a,b)=>a+b,0);
+  const prog=document.getElementById('prog'), playBtn=document.getElementById('play'), dots=document.getElementById('dots');
+  let cur=0, t=0, playing=true, last=performance.now();
+  scenes.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.id='dot'+i;b.textContent=(i+1).toLocaleString('ar-SA');b.setAttribute('aria-label',s.getAttribute('aria-label'));b.onclick=()=>go(i);dots.appendChild(b);});
+  function go(i){
+    cur=(i+scenes.length)%scenes.length; t=0;
+    scenes.forEach(s=>s.classList.remove('on'));
+    void stage.offsetWidth;
+    scenes[cur].classList.add('on');
+    [...dots.children].forEach((d,k)=>d.classList.toggle('cur',k===cur));
+  }
+  function setPlay(p){playing=p;stage.classList.toggle('paused',!p);playBtn.textContent=p?'إيقاف مؤقت':'تشغيل';}
+  function tick(now){
+    const dt=now-last; last=now;
+    if(playing){ t+=dt; if(t>=durs[cur]){ if(cur===scenes.length-1){t=durs[cur];setPlay(false);} else go(cur+1);} }
+    const done=durs.slice(0,cur).reduce((a,b)=>a+b,0)+Math.min(t,durs[cur]);
+    prog.style.width=(done/total*100)+'%';
+    requestAnimationFrame(tick);
+  }
+  playBtn.onclick=()=>{ if(!playing && cur===scenes.length-1 && t>=durs[cur]) go(0); setPlay(!playing); };
+  document.getElementById('next').onclick=()=>go(cur+1);
+  document.getElementById('prev').onclick=()=>go(cur-1);
+  document.getElementById('again').onclick=()=>{go(0);setPlay(true);};
+  go(0); requestAnimationFrame(tick);
+})();
+</script>
+
+</body></html>

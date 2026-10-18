@@ -1,0 +1,490 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>مختبر الأمعاء الغليظة</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;800&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+/* Layout: one-column lesson; the lab is a two-pane bench (animated stage + notebook) that stacks on phones */
+:root{
+  --bg:#eef6f5; --surface:#ffffff; --ink:#14302f; --muted:#56706e; --line:#cfe0dd;
+  --water:#3aa7d9; --water-deep:#1d78a8; --accent:#ec7d1c; --accent-soft:#fde7d2;
+  --tissue:#ec97a5; --tissue-in:#f6c3cb; --tissue-deep:#b94b62; --blood:#d23b3b;
+  --glass:#e4f2f5; --good:#23905d; --good-soft:#d8f1e4;
+  --display:"Baloo Bhaijaan 2","Tajawal",system-ui,sans-serif;
+  --body:"Tajawal",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1b1c; --surface:#16292a; --ink:#e3f0ee; --muted:#9bb5b2; --line:#2a4544;
+  --water:#4fb8e6; --water-deep:#8fd3f2; --accent:#ffa04a; --accent-soft:#3d2a17;
+  --tissue:#d97f90; --tissue-in:#a8586a; --tissue-deep:#f0a3b2; --blood:#f06060;
+  --glass:#1d3638; --good:#4cc68c; --good-soft:#18392a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1b1c; --surface:#16292a; --ink:#e3f0ee; --muted:#9bb5b2; --line:#2a4544;
+  --water:#4fb8e6; --water-deep:#8fd3f2; --accent:#ffa04a; --accent-soft:#3d2a17;
+  --tissue:#d97f90; --tissue-in:#a8586a; --tissue-deep:#f0a3b2; --blood:#f06060;
+  --glass:#1d3638; --good:#4cc68c; --good-soft:#18392a; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.7}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);line-height:1.25;text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,5vw,44px);font-weight:800}
+h2{font-size:clamp(22px,3.4vw,30px);font-weight:800}
+h3{font-size:19px;font-weight:600}
+p{margin:0}
+.eyebrow{display:inline-block;font-size:14px;font-weight:700;color:var(--accent);letter-spacing:.02em}
+.hero{display:flex;flex-direction:column;gap:10px}
+.hero p{color:var(--muted);max-width:62ch}
+section{display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
+.predict{display:flex;gap:16px;align-items:flex-start;background:var(--accent-soft);border-radius:18px;padding:18px 20px}
+.predict .tag{flex:none;font-family:var(--display);font-weight:800;color:var(--accent);font-size:20px}
+
+/* Lab bench */
+.lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start}
+@media (max-width:780px){.lab{grid-template-columns:minmax(0,1fr)}}
+.stage{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 12px 16px;display:flex;flex-direction:column;gap:10px}
+.stage svg{width:100%;max-width:340px;height:auto;margin:0 auto;display:block}
+.timer{position:absolute;top:14px;inset-inline-start:14px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-weight:700;font-variant-numeric:tabular-nums;font-size:15px}
+.paper-name{position:absolute;top:14px;inset-inline-end:14px;font-size:14px;font-weight:700;color:var(--water-deep);max-width:45%;text-align:left}
+.caption{min-height:3.4em;text-align:center;font-weight:500;padding:0 6px}
+.notebook{display:flex;flex-direction:column;gap:16px;min-width:0}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:460px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.steps li{border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:14px;line-height:1.4;color:var(--muted);transition:background .3s,color .3s,border-color .3s}
+.steps li b{display:block;font-family:var(--display);font-size:18px}
+.steps li.active{background:var(--water);border-color:var(--water);color:#fff}
+.steps li.done{color:var(--ink);border-color:var(--water)}
+.controls{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:15px;font-weight:700;border-radius:999px;padding:8px 16px;cursor:pointer;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+button:hover{border-color:var(--water)}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font-size:14px;padding:6px 12px;font-weight:500}
+.chips button[aria-pressed="true"]{border-color:var(--water);background:var(--glass)}
+.table-box{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+th{background:var(--water);color:#fff;font-weight:700;padding:8px;text-align:center;font-size:14px;line-height:1.35}
+th:first-child{border-start-start-radius:10px} th:last-child{border-start-end-radius:10px}
+td{border-bottom:1px solid var(--line);padding:8px;text-align:center;transition:background .4s}
+td:first-child{text-align:right;font-weight:500}
+td.flash{background:var(--glass)}
+tr.win td{background:var(--good-soft)}
+tr.win td:last-child{color:var(--good);font-weight:700}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:9.5em minmax(0,1fr) 3.2em;align-items:center;gap:8px;font-size:14px}
+.bar .track{height:14px;background:var(--glass);border-radius:999px;overflow:hidden}
+.bar .fill{height:100%;width:0;background:var(--water);border-radius:999px;transition:width .8s ease}
+.bar .val{font-weight:700;font-variant-numeric:tabular-nums}
+
+/* Conclusion */
+.answer{border-inline-start:4px solid var(--good);padding-inline-start:14px}
+.compare{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.compare div{padding:10px 14px;border-bottom:1px solid var(--line);font-size:16px}
+.compare div:nth-child(odd){border-inline-end:1px solid var(--line)}
+.compare .h{font-family:var(--display);font-weight:800;background:var(--glass)}
+.compare div:nth-last-child(-n+2){border-bottom:0}
+
+/* Body + bread scenes */
+.scene{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px;align-items:center}
+@media (max-width:780px){.scene{grid-template-columns:minmax(0,1fr)}}
+.scene svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-direction:column;gap:10px;font-size:16px}
+.legend span.k{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-inline-end:8px}
+.vars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:620px){.vars{grid-template-columns:minmax(0,1fr)}}
+.vars div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:15px}
+.vars b{display:block;color:var(--accent);font-family:var(--display);font-size:16px}
+.fact{background:var(--glass);border-radius:16px;padding:16px 18px}
+
+/* SVG paint */
+.glass{fill:var(--glass);stroke:var(--muted);stroke-width:2}
+.tick{stroke:var(--muted);stroke-width:1.2}
+.ticklbl{fill:var(--muted);font-size:11px;font-family:var(--body)}
+.waterfill{fill:var(--water);opacity:.75}
+.surfaceline{stroke:var(--water-deep);stroke-width:2.5}
+.string{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:3 3}
+.pin{fill:var(--accent)}
+.wet{fill:var(--water);opacity:.55}
+.svglbl{fill:var(--ink);font-family:var(--body);font-size:14px;font-weight:700}
+.svgsmall{fill:var(--muted);font-family:var(--body);font-size:12.5px}
+.colon-out{stroke:var(--tissue);stroke-width:46;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.colon-seg{stroke:var(--tissue-deep);stroke-width:46;fill:none;stroke-dasharray:2 24;opacity:.4}
+.colon-in{stroke:var(--tissue-in);stroke-width:26;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.vessel{stroke:var(--blood);stroke-width:6;fill:none;stroke-linecap:round;stroke-dasharray:14 8;animation:flow 1.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-44}}
+.drop{fill:var(--water);animation:drop 2.4s ease-in infinite;opacity:0}
+@keyframes drop{0%{transform:translate(0,0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+.cup{fill:var(--glass);stroke:var(--muted);stroke-width:2}
+.cupwater{fill:var(--water);opacity:.55}
+.cloud{fill:#c9a76f;opacity:0;animation:cloud 7s ease-in-out infinite}
+@keyframes cloud{0%,10%{opacity:0}70%,90%{opacity:.55}100%{opacity:0}}
+.bread{fill:#d9a55b;stroke:#a8743a;stroke-width:2}
+.crumb{fill:#d9a55b;animation:sink 7s ease-in infinite}
+@keyframes sink{0%,10%{transform:translate(0,0);opacity:1}70%,90%{transform:translate(var(--dx),var(--dy));opacity:.5}100%{transform:translate(0,0);opacity:1}}
+.slowcrumb{fill:#d9a55b;animation:slow 7s ease-in infinite}
+@keyframes slow{0%,40%{transform:translate(0,0);opacity:0}50%{opacity:1}90%{transform:translate(var(--dx),var(--dy));opacity:1}100%{opacity:0}}
+
+@media (prefers-reduced-motion: reduce){
+  .vessel,.drop,.cloud,.crumb,.slowcrumb{animation:none}
+  .drop{opacity:1} .cloud{opacity:.45}
+  .bar .fill{transition:none}
+}
+</style>
+
+<div class="wrap" dir="rtl" lang="ar">
+
+  <header class="hero">
+    <span class="eyebrow">نشاط استقصائي · العلوم · الصف السادس</span>
+    <h1>كيف تساعد الأمعاء الغليظة على عملية الهضم؟</h1>
+    <p>وظيفة الأمعاء الغليظة الأساسية هي امتصاص الماء من بقايا الطعام. سنجرّب أربعة أنواع من الورق لنعرف أيها يمتص الماء أكثر، فيكون أفضل نموذج للأمعاء الغليظة.</p>
+  </header>
+
+  <div class="predict">
+    <span class="tag">أتوقّع</span>
+    <p>المناشف الورقية المصنوعة من الألياف ستمتص أكبر كمية من الماء، لأنها سميكة وبين أليافها فراغات كثيرة تحبس الماء.</p>
+  </div>
+
+  <section aria-labelledby="lab-h">
+    <h2 id="lab-h">أختبر توقّعي</h2>
+    <div class="lab">
+      <div class="stage">
+        <div class="timer" id="timer" aria-live="off">⏱ ٠:٠٠</div>
+        <div class="paper-name" id="paperName">مناشف ورقية من الألياف</div>
+        <svg viewBox="0 0 300 430" direction="ltr" role="img" aria-label="مخبار مدرّج فيه ماء وشريط ورق يُغمر نصفه في الماء">
+          <defs>
+            <pattern id="fiber" width="8" height="8" patternUnits="userSpaceOnUse">
+              <path d="M0 2 L8 3 M1 6 L7 5" stroke="#c9c2b0" stroke-width="1"/>
+            </pattern>
+            <clipPath id="tube"><rect x="106" y="40" width="88" height="360"/></clipPath>
+          </defs>
+          <!-- cylinder -->
+          <rect class="glass" x="100" y="56" width="100" height="350" rx="6"/>
+          <rect class="glass" x="78" y="400" width="144" height="16" rx="5"/>
+          <g id="ticks"></g>
+          <g clip-path="url(#tube)">
+            <rect id="water" class="waterfill" x="106" y="400" width="88" height="0"/>
+            <line id="surface" class="surfaceline" x1="106" x2="194" y1="400" y2="400"/>
+          </g>
+          <!-- strip on a string -->
+          <g id="strip" style="opacity:0">
+            <line class="string" x1="150" x2="150" y1="-400" y2="10"/>
+            <rect id="stripBody" x="139" y="10" width="22" height="150" fill="#fff" stroke="#9aa6a4" stroke-width="1"/>
+            <rect id="texture" x="139" y="10" width="22" height="150" fill="url(#fiber)"/>
+            <rect id="gloss" x="142" y="14" width="5" height="142" fill="#fff" opacity="0"/>
+            <rect id="wet" class="wet" x="139" y="160" width="22" height="0"/>
+            <rect class="pin" x="143" y="3" width="14" height="13" rx="3"/>
+          </g>
+          <text class="svgsmall" x="150" y="30" text-anchor="middle" id="mlLabel">٠ مل</text>
+        </svg>
+        <p class="caption" id="caption" aria-live="polite">جاهز لبدء التجربة.</p>
+      </div>
+
+      <div class="notebook">
+        <ol class="steps" id="steps">
+          <li><b>١</b>أقصّ الشريط</li>
+          <li><b>٢</b>أملأ المخبار وأسجّل</li>
+          <li><b>٣</b>أغمر نصفه دقيقة</li>
+          <li><b>٤</b>أخرجه وأحسب</li>
+        </ol>
+        <div class="controls">
+          <button class="primary" id="runAll" type="button">▶ شغّل التجربة كاملة</button>
+          <button id="reset" type="button">↺ إعادة</button>
+        </div>
+        <div class="chips" id="chips" aria-label="جرّب نوعاً واحداً"></div>
+        <div class="table-box">
+          <table>
+            <thead><tr><th>نوع الورق</th><th>المستوى الأول للماء</th><th>المستوى النهائي للماء</th><th>الكمية التي تم امتصاصها</th></tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div class="bars" id="bars" aria-label="رسم بياني للكمية الممتصة"></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="res-h">
+    <h2 id="res-h">أستخلص النتائج</h2>
+    <div class="panel answer">
+      <h3>أي أنواع الورق امتص أكبر كمية من الماء؟</h3>
+      <p>المناشف الورقية المصنوعة من الألياف امتصت أكبر كمية (٨ مل). فهي سميكة وسطحها خشن وبين أليافها فراغات تحبس الماء. أما ورق التجليد فسطحه أملس ومغطّى بطبقة لامعة تمنع دخول الماء، فلم يمتص شيئاً. إذن توقّعي صحيح.</p>
+    </div>
+    <h3>ما الخصائص التي يشترك فيها الورق مع الأمعاء الغليظة؟</h3>
+    <div class="compare">
+      <div class="h">المناشف الورقية</div><div class="h">الأمعاء الغليظة</div>
+      <div>تمتص الماء</div><div>تمتص الماء من بقايا الطعام</div>
+      <div>مساحة سطحها كبيرة</div><div>جدارها مبطّن ومساحة سطحه كبيرة</div>
+      <div>فيها فراغات يدخلها الماء</div><div>جدارها يسمح بمرور الماء إلى الدم</div>
+      <div>يقلّ الماء حولها بعد الامتصاص</div><div>تتحوّل البقايا من سائلة إلى صلبة</div>
+    </div>
+  </section>
+
+  <section aria-labelledby="body-h">
+    <h2 id="body-h">ماذا يحدث داخل الجسم؟</h2>
+    <div class="scene panel">
+      <svg viewBox="0 0 420 345" direction="ltr" role="img" aria-label="الأمعاء الغليظة تنقل بقايا الطعام وتمتص منها الماء إلى الدم">
+        <g transform="translate(0,20)">
+          <path class="vessel" d="M372 290 L372 70 Q372 8 310 8 L140 8 Q52 8 52 80 L52 235"/>
+          <path class="colon-out" id="colonPath" d="M310 280 L310 90 Q310 60 280 60 L140 60 Q110 60 110 90 L110 220 Q110 270 170 275 L215 278"/>
+          <path class="colon-seg" d="M310 280 L310 90 Q310 60 280 60 L140 60 Q110 60 110 90 L110 220 Q110 270 170 275 L215 278"/>
+          <path class="colon-in" d="M310 280 L310 90 Q310 60 280 60 L140 60 Q110 60 110 90 L110 220 Q110 270 170 275 L215 278"/>
+          <g id="chyme"></g>
+          <circle class="drop" cx="335" cy="230" r="4" style="--dx:30px;--dy:0px;animation-delay:0s"/>
+          <circle class="drop" cx="335" cy="160" r="4" style="--dx:30px;--dy:0px;animation-delay:.8s"/>
+          <circle class="drop" cx="335" cy="100" r="4" style="--dx:30px;--dy:0px;animation-delay:1.6s"/>
+          <circle class="drop" cx="250" cy="36" r="4" style="--dx:0px;--dy:-24px;animation-delay:.4s"/>
+          <circle class="drop" cx="180" cy="36" r="4" style="--dx:0px;--dy:-24px;animation-delay:1.2s"/>
+          <circle class="drop" cx="86" cy="120" r="4" style="--dx:-28px;--dy:0px;animation-delay:2s"/>
+          <circle class="drop" cx="86" cy="190" r="4" style="--dx:-28px;--dy:0px;animation-delay:.6s"/>
+          <text class="svglbl" x="210" y="150" text-anchor="middle">الجدار يمتص الماء</text>
+          <text class="svgsmall" x="210" y="172" text-anchor="middle">وينقله إلى الدم</text>
+          <text class="svgsmall" x="318" y="318" text-anchor="middle">تدخل بقايا سائلة</text>
+          <text class="svgsmall" x="180" y="318" text-anchor="middle">تخرج بقايا صلبة</text>
+        </g>
+      </svg>
+      <div class="legend">
+        <p><span class="k" style="background:#6fc0e6"></span>بقايا الطعام تدخل الأمعاء الغليظة وهي سائلة وفيها ماء كثير.</p>
+        <p><span class="k" style="background:var(--water)"></span>قطرات الماء تعبر جدار الأمعاء إلى الأوعية الدموية.</p>
+        <p><span class="k" style="background:var(--blood)"></span>الدم يحمل الماء إلى أجزاء الجسم.</p>
+        <p><span class="k" style="background:#6e4b2c"></span>تصبح البقايا صلبة كلما تحرّكت، ثم تخرج من الجسم.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="more-h">
+    <h2 id="more-h">أستكشف أكثر: هل يؤثر حجم قطع الطعام في سرعة الهضم؟</h2>
+    <p>من العوامل التي تؤثر في الهضم حجم قطع الطعام ودرجة الحرارة ومدة بقاء الطعام. هذه تجربة أصمّمها بنفسي: أضع قطعة خبز كاملة في كأس، وخبزاً مفتّتاً في كأس أخرى، وأراقب أيهما يتفكك أسرع.</p>
+    <div class="scene panel">
+      <svg viewBox="0 0 400 240" direction="ltr" role="img" aria-label="كأسان: قطعة خبز كاملة تتفكك ببطء، وخبز مفتّت يتفكك بسرعة">
+        <text class="svglbl" x="105" y="22" text-anchor="middle">(أ) قطعة كاملة</text>
+        <text class="svglbl" x="295" y="22" text-anchor="middle">(ب) خبز مفتّت</text>
+        <path class="cup" d="M40 40 L170 40 L155 225 L55 225 Z"/>
+        <path class="cupwater" d="M44 80 L166 80 L155 225 L55 225 Z"/>
+        <rect class="bread" x="80" y="95" width="50" height="40" rx="6"/>
+        <circle class="slowcrumb" cx="90" cy="138" r="3" style="--dx:-6px;--dy:70px"/>
+        <circle class="slowcrumb" cx="120" cy="138" r="2.5" style="--dx:5px;--dy:75px;animation-delay:.6s"/>
+        <path class="cup" d="M230 40 L360 40 L345 225 L245 225 Z"/>
+        <path class="cupwater" d="M234 80 L356 80 L345 225 L245 225 Z"/>
+        <path class="cloud" d="M234 80 L356 80 L345 225 L245 225 Z"/>
+        <g id="crumbs"></g>
+      </svg>
+      <div class="legend">
+        <p><b>النتيجة المتوقعة:</b> الخبز المفتّت يتفكك أسرع، لأن مساحة سطحه أكبر فيلامسه الماء من جهات أكثر.</p>
+        <p>وهذا يفسّر أهمية مضغ الطعام جيداً، فالمضغ يقطّع الطعام إلى قطع صغيرة يسهل هضمها.</p>
+      </div>
+    </div>
+    <div class="vars">
+      <div><b>المتغيّر المستقل</b>حجم قطعة الخبز (كاملة أو مفتّتة)</div>
+      <div><b>المتغيّر التابع</b>سرعة تفكك الخبز في الماء</div>
+      <div><b>الثوابت</b>كمية الماء، ودرجة حرارته، وكمية الخبز</div>
+    </div>
+    <p class="fact"><b>معلومة إثرائية:</b> تمتص الأمعاء الغليظة نحو لتر ونصف من الماء كل يوم، لذلك نحتاج إلى شرب الماء وأكل الأطعمة الغنية بالألياف لتعمل أمعاؤنا جيداً.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var NS = 'http://www.w3.org/2000/svg';
+  function ar(n){ return Number(n).toLocaleString('ar-EG'); }
+  function $(id){ return document.getElementById(id); }
+
+  var papers = [
+    {id:'towel', name:'مناشف ورقية من الألياف', absorb:8, wick:1, fill:'#ffffff', texture:true,
+     soak:'الماء يصعد بسرعة في الألياف ويبلّل الشريط كله.'},
+    {id:'tissue', name:'مناشف ورقية عادية', absorb:5, wick:.65, fill:'#fbf3f7',
+     soak:'الماء يصعد في الشريط لكن بكمية أقل.'},
+    {id:'print', name:'ورق طباعة', absorb:2, wick:.25, fill:'#ffffff',
+     soak:'ورق الطباعة كثيف، فيصعد الماء فيه قليلاً فقط.'},
+    {id:'laminate', name:'ورق تجليد', absorb:0, wick:0, fill:'#e5484d', gloss:true,
+     soak:'سطح ورق التجليد أملس ولامع، فلا يدخله الماء.'}
+  ];
+  var MAX = 8;
+
+  // scale: 0 mL at y=400, 3.3 px per mL
+  function yFor(ml){ return 400 - ml*3.3; }
+  var ticks = $('ticks');
+  for (var m=0; m<=100; m+=5){
+    var y = yFor(m), major = m%10===0;
+    var l = document.createElementNS(NS,'line');
+    l.setAttribute('class','tick'); l.setAttribute('x1', 194); l.setAttribute('x2', major?178:186);
+    l.setAttribute('y1',y); l.setAttribute('y2',y); ticks.appendChild(l);
+    if (major && m>0){
+      var t = document.createElementNS(NS,'text');
+      t.setAttribute('class','ticklbl'); t.setAttribute('x',94); t.setAttribute('y',y+4);
+      t.setAttribute('text-anchor','end'); t.textContent = ar(m); ticks.appendChild(t);
+    }
+  }
+
+  // table + bars + chips
+  var tbody = $('tbody'), bars = $('bars'), chips = $('chips');
+  papers.forEach(function(p){
+    var tr = document.createElement('tr'); tr.id = 'row-'+p.id;
+    tr.innerHTML = '<td>'+p.name+'</td><td>—</td><td>—</td><td>—</td>';
+    tbody.appendChild(tr);
+    var b = document.createElement('div'); b.className = 'bar';
+    b.innerHTML = '<span>'+p.name+'</span><div class="track"><div class="fill" id="bar-'+p.id+'"></div></div><span class="val" id="val-'+p.id+'">—</span>';
+    bars.appendChild(b);
+    var c = document.createElement('button'); c.type='button'; c.textContent = p.name;
+    c.setAttribute('aria-pressed','false'); c.dataset.id = p.id;
+    c.addEventListener('click', function(){ start([p]); });
+    chips.appendChild(c);
+  });
+
+  var state = {water:0, ty:0, wet:0};
+  var water = $('water'), surface = $('surface'), strip = $('strip'), wet = $('wet');
+  function setWater(ml){
+    state.water = ml;
+    var y = yFor(ml);
+    water.setAttribute('y', y); water.setAttribute('height', Math.max(0, 400-y));
+    surface.setAttribute('y1', y); surface.setAttribute('y2', y);
+    surface.style.opacity = ml>0 ? 1 : 0;
+    $('mlLabel').textContent = ar(Math.round(ml*10)/10) + ' مل';
+  }
+  function setStrip(ty){ state.ty = ty; strip.setAttribute('transform','translate(0,'+ty+')'); }
+  function setWet(h){ state.wet = h; wet.setAttribute('y', 160-h); wet.setAttribute('height', h); }
+  function setTimer(s){ s=Math.round(s); $('timer').textContent = '⏱ ' + ar(Math.floor(s/60)) + ':' + (s%60<10?'٠':'') + ar(s%60); }
+  function setStep(n){
+    var lis = $('steps').children;
+    for (var i=0;i<lis.length;i++){ lis[i].className = i+1<n ? 'done' : (i+1===n ? 'active' : ''); }
+  }
+  function say(t){ $('caption').textContent = t; }
+  function flash(td, text){ td.textContent = text; td.classList.add('flash'); setTimeout(function(){ td.classList.remove('flash'); }, 700); }
+
+  var runId = 0;
+  function ease(p){ return p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2; }
+  function tween(dur, fn, token){
+    return new Promise(function(res, rej){
+      if (reduce){ fn(1); return res(); }
+      var s = performance.now();
+      function f(t){
+        if (token !== runId) return rej('cancel');
+        var p = Math.min(1,(t-s)/dur); fn(ease(p));
+        p<1 ? requestAnimationFrame(f) : res();
+      }
+      requestAnimationFrame(f);
+    });
+  }
+  function wait(ms, token){
+    return new Promise(function(res, rej){
+      setTimeout(function(){ token===runId ? res() : rej('cancel'); }, reduce?0:ms);
+    });
+  }
+
+  async function runPaper(p, token){
+    var row = $('row-'+p.id).children;
+    Array.prototype.forEach.call(chips.children, function(c){ c.setAttribute('aria-pressed', c.dataset.id===p.id ? 'true':'false'); });
+    $('paperName').textContent = p.name;
+    $('stripBody').setAttribute('fill', p.fill);
+    $('texture').style.opacity = p.texture ? 1 : 0;
+    $('gloss').setAttribute('opacity', p.gloss ? .45 : 0);
+    setWet(0); setStrip(0); setTimer(0);
+
+    setStep(1); say('١. أقصّ شريطاً من «'+p.name+'» بالحجم نفسه، وأثنيه ليدخل في المخبار.');
+    await tween(700, function(k){ strip.style.opacity = k; }, token);
+    await wait(500, token);
+
+    setStep(2); say('٢. أملأ المخبار المدرّج بالماء إلى ٥٠ مل، وأسجّل المستوى الأول.');
+    var from = state.water;
+    await tween(1100, function(k){ setWater(from + (50-from)*k); }, token);
+    flash(row[1], '٥٠ مل');
+    await wait(500, token);
+
+    setStep(3); say('٣. أُدخل الشريط حتى ينغمر نصفه في الماء، وأتركه دقيقة كاملة.');
+    await tween(1000, function(k){
+      var ty = 150*k; setStrip(ty);
+      setWet(p.wick>0 ? Math.max(0, Math.min(75, ty+160-yFor(50))) : 0);
+    }, token);
+    say(p.soak);
+    await tween(4200, function(k){
+      setTimer(60*k);
+      setWater(50 - p.absorb*k);
+      if (p.wick>0) setWet(75 + 75*p.wick*k);
+    }, token);
+    await wait(300, token);
+
+    setStep(4); say('٤. بعد دقيقة أُخرج الشريط، وأقرأ المستوى النهائي، ثم أطرح.');
+    await tween(900, function(k){ setStrip(150*(1-k)); }, token);
+    var fin = 50 - p.absorb;
+    flash(row[2], ar(fin)+' مل');
+    await wait(350, token);
+    flash(row[3], ar(p.absorb)+' مل');
+    $('bar-'+p.id).style.width = (p.absorb/MAX*100)+'%';
+    $('val-'+p.id).textContent = ar(p.absorb)+' مل';
+    say('٥٠ − '+ar(fin)+' = '+ar(p.absorb)+' مل. هذه كمية الماء التي امتصّها '+p.name+'.');
+    await wait(1600, token);
+    await tween(400, function(k){ strip.style.opacity = 1-k; }, token);
+  }
+
+  function clearResults(){
+    papers.forEach(function(p){
+      var r = $('row-'+p.id); r.classList.remove('win');
+      for (var i=1;i<4;i++) r.children[i].textContent='—';
+      $('bar-'+p.id).style.width = '0'; $('val-'+p.id).textContent='—';
+    });
+  }
+  function markWinner(){
+    var done = papers.filter(function(p){ return $('val-'+p.id).textContent !== '—'; });
+    if (done.length < papers.length) return;
+    $('row-towel').classList.add('win');
+    setStep(5);
+    say('النتيجة: المناشف الورقية من الألياف امتصت أكبر كمية من الماء، فهي أفضل نموذج للأمعاء الغليظة.');
+  }
+
+  async function start(list){
+    var token = ++runId;
+    if (list.length > 1) clearResults();
+    try {
+      for (var i=0;i<list.length;i++) await runPaper(list[i], token);
+      markWinner();
+    } catch(e){ /* cancelled by a newer run */ }
+  }
+
+  $('runAll').addEventListener('click', function(){ start(papers); });
+  $('reset').addEventListener('click', function(){
+    runId++; clearResults(); setStep(0); setWater(0); setStrip(0); setWet(0); setTimer(0);
+    strip.style.opacity = 0; say('جاهز لبدء التجربة.');
+    Array.prototype.forEach.call(chips.children, function(c){ c.setAttribute('aria-pressed','false'); });
+  });
+
+  setWater(0);
+  setTimeout(function(){ start(papers); }, reduce ? 0 : 700);
+
+  // food residue moving through the colon
+  var d = $('colonPath').getAttribute('d'), chyme = $('chyme');
+  for (var i=0;i<9;i++){
+    var c = document.createElementNS(NS,'circle'); c.setAttribute('r', 6); c.setAttribute('fill','#6fc0e6');
+    if (!reduce){
+      var mo = document.createElementNS(NS,'animateMotion');
+      mo.setAttribute('dur','11s'); mo.setAttribute('repeatCount','indefinite'); mo.setAttribute('path', d);
+      mo.setAttribute('begin', (-i*11/9).toFixed(2)+'s'); c.appendChild(mo);
+      var fa = document.createElementNS(NS,'animate');
+      fa.setAttribute('attributeName','fill'); fa.setAttribute('values','#6fc0e6;#b08a5a;#6e4b2c');
+      fa.setAttribute('dur','11s'); fa.setAttribute('repeatCount','indefinite'); fa.setAttribute('begin', (-i*11/9).toFixed(2)+'s'); c.appendChild(fa);
+      var ra = document.createElementNS(NS,'animate');
+      ra.setAttribute('attributeName','r'); ra.setAttribute('values','7;5.5;4.5');
+      ra.setAttribute('dur','11s'); ra.setAttribute('repeatCount','indefinite'); ra.setAttribute('begin', (-i*11/9).toFixed(2)+'s'); c.appendChild(ra);
+    } else {
+      var pts = [[310,250],[310,170],[300,80],[230,60],[160,60],[110,110],[110,190],[130,262],[200,277]];
+      var cols = ['#6fc0e6','#6fc0e6','#8aa6a8','#a0927a','#b08a5a','#9a7650','#83603d','#765335','#6e4b2c'];
+      c.setAttribute('cx', pts[i][0]); c.setAttribute('cy', pts[i][1]); c.setAttribute('fill', cols[i]);
+    }
+    chyme.appendChild(c);
+  }
+
+  // crumbled bread in cup (b)
+  var crumbs = $('crumbs');
+  for (var j=0;j<16;j++){
+    var cr = document.createElementNS(NS,'circle');
+    var cx = 255 + (j%8)*11 + (j>7?5:0), cy = 88 + (j>7?10:0);
+    cr.setAttribute('class','crumb'); cr.setAttribute('cx', cx); cr.setAttribute('cy', cy);
+    cr.setAttribute('r', 3 + (j%3));
+    cr.style.setProperty('--dx', ((j%5)-2)*6+'px');
+    cr.style.setProperty('--dy', (70 + (j*13)%60)+'px');
+    cr.style.animationDelay = (j%4)*.15+'s';
+    crumbs.appendChild(cr);
+  }
+})();
+</script>
+
+</body></html>
