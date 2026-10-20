@@ -1,0 +1,1937 @@
+<title>مختبر المستكشفات الصغيرات</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+/* Layout: a pastel lab bench — sample drawer on the right, the big eyepiece view in the middle, the 3D microscope and notebook cards on the left */
+:root{
+  color-scheme:light;
+  --wall:#f1edfb; --wall-2:#e6f4ef; --bench:#fbe3d6; --bench-edge:#f2c9b5;
+  --panel:#ffffff; --panel-2:#faf8ff; --ink:#2b2442; --muted:#6a6382; --line:#e3ddf3;
+  --violet:#7856d8; --violet-ink:#ffffff; --violet-soft:#ece6ff;
+  --mint:#3aa58a; --mint-soft:#dcf4ec; --peach:#ff9f85; --peach-soft:#ffe8df;
+  --butter:#ffd75e; --butter-soft:#fff5d1; --sky:#5a9be8; --sky-soft:#e1efff;
+  --gold:#f5b301; --danger:#e0566a; --danger-soft:#ffe3e7;
+  --lens-metal-1:#d9d4ea; --lens-metal-2:#8f86ad;
+  --f-display:'Baloo Bhaijaan 2','Tajawal',Tahoma,sans-serif;
+  --f-body:'Tajawal','Segoe UI',Tahoma,sans-serif;
+  --r:20px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--wall);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed}
+:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:12px}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance}
+p{margin:0}
+#root{min-height:100%}
+.app{min-height:100%;display:flex;flex-direction:column;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 0%, #fff6 0%, transparent 70%),
+    linear-gradient(180deg,var(--wall) 0%,var(--wall-2) 100%)}
+.shell{flex:1;width:100%;max-width:1500px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 12px;display:flex;flex-direction:column;gap:14px}
+
+/* signature footer — on every screen */
+.sig{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 14px;text-align:center;color:var(--muted);font-size:14px;border-top:1px dashed var(--line);background:#ffffff80}
+.sig b{font-family:var(--f-display);color:var(--violet);font-weight:700;font-size:16px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:8px 18px;border-radius:16px;border:2px solid transparent;background:var(--panel);color:var(--ink);font-weight:700;font-size:16px;box-shadow:0 3px 0 var(--line);transition:transform .12s, box-shadow .12s, background .2s}
+.btn:hover:not(:disabled){transform:translateY(-1px)}
+.btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.btn:disabled{opacity:.5}
+.btn.primary{background:var(--violet);color:var(--violet-ink);box-shadow:0 4px 0 #5639a8}
+.btn.mint{background:var(--mint);color:#fff;box-shadow:0 4px 0 #27775f}
+.btn.peach{background:var(--peach);color:#3a1a10;box-shadow:0 4px 0 #d9765e}
+.btn.ghost{background:transparent;box-shadow:none;border-color:var(--line)}
+.btn .ic{font-size:20px;line-height:1}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:999px;background:var(--violet-soft);color:var(--violet);font-weight:700;font-size:14px}
+
+/* top bar */
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .logo{width:46px;height:46px;border-radius:14px;background:var(--violet);display:grid;place-items:center;color:#fff;font-size:26px;box-shadow:0 4px 0 #5639a8;flex:none}
+.brand h1{font-size:clamp(20px,2.4vw,28px);font-weight:800}
+.brand small{display:block;color:var(--muted);font-size:14px;margin-top:-4px}
+.tb-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.progress-pill{display:flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:var(--panel);box-shadow:0 3px 0 var(--line);font-weight:700}
+.progress-pill .stars{color:var(--gold);letter-spacing:1px}
+
+/* HOME */
+.home{flex:1;display:grid;grid-template-columns:1.05fr 1fr;gap:24px;align-items:center}
+.home-copy{display:flex;flex-direction:column;gap:16px;min-width:0}
+.home-copy .eyebrow{color:var(--mint);font-weight:700;font-family:var(--f-display);font-size:18px}
+.home-copy h1{font-size:clamp(34px,5.2vw,64px);font-weight:800;color:var(--ink)}
+.home-copy h1 span{color:var(--violet)}
+.home-copy .sub{font-size:clamp(18px,2vw,24px);color:var(--muted);font-family:var(--f-display);font-weight:500}
+.home-copy .by{display:inline-flex;align-self:flex-start;gap:8px;align-items:center;background:var(--butter-soft);border:2px dashed var(--butter);padding:6px 16px;border-radius:14px;font-weight:700}
+.power{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:6px}
+.power-btn{width:96px;height:96px;border-radius:50%;border:none;background:radial-gradient(circle at 35% 30%,#fff 0%,#ece6ff 45%,#c9bbf5 100%);box-shadow:0 6px 0 #9d88e0,0 12px 30px #7856d840;display:grid;place-items:center;transition:transform .15s, box-shadow .3s}
+.power-btn svg{width:46px;height:46px;stroke:var(--violet);stroke-width:3;fill:none;stroke-linecap:round}
+.power-btn.on{background:radial-gradient(circle at 35% 30%,#fffbe6 0%,#ffe48a 50%,#ffc23d 100%);box-shadow:0 6px 0 #d99a12,0 0 50px #ffd75ecc}
+.power-btn.on svg{stroke:#7a4b00}
+.power-btn:active{transform:translateY(3px)}
+.power-label{font-family:var(--f-display);font-size:22px;font-weight:700}
+.welcome{position:relative;background:var(--panel);border-radius:24px;padding:18px 22px;box-shadow:0 6px 0 var(--line),0 18px 40px #7856d81f;font-family:var(--f-display);font-size:clamp(19px,2vw,24px);font-weight:700;color:var(--ink);animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+.welcome::after{content:"";position:absolute;inset-inline-start:40px;bottom:-14px;border:14px solid transparent;border-top-color:var(--panel);border-bottom:0}
+.home-stage{position:relative;min-width:0;aspect-ratio:1/1;max-height:min(70vh,640px);width:100%;justify-self:center}
+.home-stage .bench{position:absolute;inset:auto 0 4% 0;height:22%;border-radius:50%;background:radial-gradient(ellipse at center,var(--bench) 0%,#fbe3d600 70%)}
+.three-host{position:absolute;inset:0}
+.three-host canvas{display:block;width:100%!important;height:100%!important;touch-action:none}
+.home-hint{position:absolute;bottom:2%;inset-inline:0;text-align:center;color:var(--muted);font-size:14px}
+.home-cards{display:flex;flex-wrap:wrap;gap:8px}
+.home-cards .chip{background:var(--panel);color:var(--ink);box-shadow:0 2px 0 var(--line)}
+
+/* LAB */
+.lab{display:grid;grid-template-columns:250px minmax(0,1fr) 360px;gap:16px;align-items:start}
+.panel{background:var(--panel);border-radius:var(--r);box-shadow:0 4px 0 var(--line),0 14px 30px #2b24420d;padding:14px;min-width:0}
+.panel h2{font-size:19px;font-weight:700;display:flex;align-items:center;gap:8px}
+.samples{display:flex;flex-direction:column;gap:8px}
+.samples-list{display:flex;flex-direction:column;gap:8px}
+.sample{display:flex;align-items:center;gap:10px;width:100%;text-align:start;padding:6px 8px;border-radius:16px;border:2px solid transparent;background:var(--panel-2);min-height:56px;transition:background .2s,border-color .2s,transform .12s}
+.sample:hover{background:var(--violet-soft)}
+.sample.active{border-color:var(--violet);background:var(--violet-soft)}
+.sample canvas{width:46px;height:46px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 2px #0000001a;background:#fff}
+.sample .nm{font-weight:700;line-height:1.3;flex:1;min-width:0}
+.sample .num{font-family:var(--f-display);color:var(--muted);font-size:14px}
+.sample .st{color:var(--gold);font-size:18px;min-width:18px;text-align:center}
+
+.stage{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0}
+.lens-wrap{position:relative;width:min(100%,64vh,640px);aspect-ratio:1/1;max-width:100%}
+.lens-ring{position:absolute;inset:0;border-radius:50%;padding:4.2%;background:conic-gradient(from 210deg,var(--lens-metal-1),#fff,var(--lens-metal-2),#cfc8e6,#fff,var(--lens-metal-1));box-shadow:0 18px 40px #2b244233,inset 0 0 0 3px #ffffff90}
+.lens-ring::before{content:"";position:absolute;inset:2.4%;border-radius:50%;background:#1b1630;box-shadow:inset 0 0 0 4px #00000040}
+.lens-inner{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#0d0b16}
+.lens-inner canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;transition:filter .15s}
+.lens-inner canvas.dragging{cursor:grabbing}
+.lens-glow{position:absolute;inset:-3%;border-radius:50%;pointer-events:none;box-shadow:0 0 60px 10px #ffe9a8;opacity:0;transition:opacity 1s}
+.lens-wrap.on .lens-glow{opacity:.75}
+.mag-badge{position:absolute;top:6%;inset-inline-end:6%;background:var(--ink);color:#fff;font-family:var(--f-display);font-weight:800;font-size:clamp(18px,2.4vw,26px);padding:2px 14px;border-radius:14px;box-shadow:0 4px 0 #00000040;font-variant-numeric:tabular-nums;direction:ltr;pointer-events:none;z-index:2}
+.sim-badge{position:absolute;bottom:6%;inset-inline-start:50%;transform:translateX(50%);background:#ffffffd9;color:var(--ink);font-size:12px;font-weight:700;padding:2px 10px;border-radius:10px;pointer-events:none;white-space:nowrap;z-index:2}
+.flash{position:absolute;inset:0;border-radius:50%;background:#fff;opacity:0;pointer-events:none;z-index:3}
+.flash.go{animation:flash .45s ease-out}
+.rec-dot{position:absolute;top:6%;inset-inline-start:6%;display:flex;align-items:center;gap:6px;background:var(--danger);color:#fff;font-weight:700;padding:2px 12px;border-radius:12px;z-index:2;font-variant-numeric:tabular-nums}
+.rec-dot::before{content:"";width:10px;height:10px;border-radius:50%;background:#fff;animation:blink 1s infinite}
+.lens-msg{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#fff;font-family:var(--f-display);font-size:clamp(18px,2.4vw,26px);padding:18%;pointer-events:none}
+.follow-tag{position:absolute;bottom:13%;inset-inline-start:50%;transform:translateX(50%);background:var(--mint);color:#fff;font-size:13px;font-weight:700;padding:2px 12px;border-radius:10px;z-index:2;white-space:nowrap}
+
+.levels{display:flex;gap:6px;background:var(--panel);padding:6px;border-radius:18px;box-shadow:0 3px 0 var(--line);direction:ltr}
+.levels button{min-width:72px;min-height:44px;border-radius:13px;border:none;background:transparent;font-family:var(--f-display);font-weight:800;font-size:18px;color:var(--muted)}
+.levels button.on{background:var(--ink);color:#fff}
+.levels button .obj{display:block;font-size:11px;font-family:var(--f-body);font-weight:700;margin-top:-6px}
+.lvl-4{border-bottom:4px solid #e65a5a!important}.lvl-10{border-bottom:4px solid #e6b800!important}.lvl-40{border-bottom:4px solid #3d7fe0!important}
+.tools{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:760px}
+.tools .btn{min-width:0;padding:8px 14px;font-size:15px}
+.tools .btn.rec{background:var(--danger);color:#fff;box-shadow:0 4px 0 #a83646}
+.focus-row{display:flex;align-items:center;gap:10px;width:min(100%,520px);background:var(--panel);padding:6px 14px;border-radius:16px;box-shadow:0 3px 0 var(--line)}
+.focus-row label{font-weight:700;white-space:nowrap}
+.focus-row input{flex:1;accent-color:var(--violet);min-width:0;height:30px}
+.disclaim{font-size:13px;color:var(--muted);text-align:center;max-width:62ch}
+.hint{font-size:13px;color:var(--muted)}
+
+.side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.mini-scope{position:relative;height:230px;padding:0;overflow:hidden;background:linear-gradient(180deg,#fdfcff,var(--violet-soft))}
+.mini-scope .cap{position:absolute;top:8px;inset-inline-start:12px;font-size:13px;font-weight:700;color:var(--muted);z-index:1;pointer-events:none}
+.info h2{font-size:22px}
+.info .sci{color:var(--muted);font-size:14px;direction:ltr;text-align:end;font-style:italic}
+.info .kind{display:inline-block;margin-block:6px;background:var(--mint-soft);color:#21705b;font-weight:700;font-size:14px;padding:2px 12px;border-radius:999px}
+.info dl{display:grid;gap:8px;margin:8px 0 0}
+.info dt{font-weight:700;color:var(--violet);font-size:14px}
+.info dd{margin:0}
+.info ul{margin:4px 0 0;padding-inline-start:20px}
+.info .fact{margin-top:10px;background:var(--butter-soft);border-radius:14px;padding:10px 12px}
+.info .fact b{color:#8a6400}
+.info .note{margin-top:8px;font-size:13px;color:var(--muted)}
+.parts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.parts button{border:2px solid var(--line);background:var(--panel-2);border-radius:12px;padding:4px 12px;font-weight:700;min-height:40px}
+.parts button.on{border-color:var(--violet);background:var(--violet-soft);color:var(--violet)}
+
+.quiz{border:3px solid var(--butter);background:linear-gradient(180deg,#fffdf3,#fff)}
+.quiz h2{color:#8a6400}
+.quiz .q{font-family:var(--f-display);font-size:20px;font-weight:700;margin:6px 0 10px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:center;text-align:start;width:100%;min-height:52px;padding:8px 12px;border-radius:14px;border:2px solid var(--line);background:#fff;font-weight:700;font-size:17px;transition:background .2s,border-color .2s,transform .1s}
+.opt:hover:not(:disabled){border-color:var(--violet);background:var(--violet-soft)}
+.opt .l{width:30px;height:30px;border-radius:50%;background:var(--violet-soft);color:var(--violet);display:grid;place-items:center;font-family:var(--f-display);flex:none}
+.opt.right{border-color:var(--mint);background:var(--mint-soft)}
+.opt.right .l{background:var(--mint);color:#fff}
+.opt.wrong{border-color:var(--danger);background:var(--danger-soft)}
+.opt.wrong .l{background:var(--danger);color:#fff}
+.fb{margin-top:10px;padding:10px 12px;border-radius:14px;font-family:var(--f-display);font-weight:700;font-size:19px;display:flex;align-items:center;gap:10px}
+.fb.ok{background:var(--mint-soft);color:#1f6e58}
+.fb.no{background:var(--peach-soft);color:#8a3a24}
+.wait{display:flex;align-items:center;gap:12px}
+.ring{width:44px;height:44px;flex:none}
+.ring circle{fill:none;stroke-width:5}
+.ring .bg{stroke:var(--butter-soft)}
+.ring .fg{stroke:var(--gold);stroke-linecap:round;transition:stroke-dashoffset .25s linear}
+
+.challenge-cta{background:linear-gradient(135deg,#7856d8,#a07bf0);color:#fff;border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 5px 0 #5639a8}
+.challenge-cta h2{font-size:20px}
+.challenge-cta .btn{background:#fff;color:var(--violet);box-shadow:0 4px 0 #d8ccff}
+.challenge-cta p{font-size:15px;opacity:.95}
+
+/* big star */
+.star-burst{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:50}
+.star-burst .s{font-size:min(40vw,240px);line-height:1;filter:drop-shadow(0 10px 30px #f5b30199);animation:starIn 1.6s cubic-bezier(.2,1.3,.4,1) forwards}
+.star-burst .t{position:absolute;bottom:22%;font-family:var(--f-display);font-weight:800;font-size:clamp(26px,4vw,44px);color:#8a6400;background:#fffbe9;padding:6px 26px;border-radius:20px;box-shadow:0 6px 0 var(--butter);animation:pop .6s .2s cubic-bezier(.2,1.4,.4,1) both}
+.spark{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--butter);animation:spark 1.2s ease-out forwards}
+
+/* toast */
+.toast{position:fixed;bottom:calc(70px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 20px;border-radius:16px;font-weight:700;z-index:60;max-width:calc(100% - 32px);text-align:center;animation:pop .35s cubic-bezier(.2,1.4,.4,1);box-shadow:0 10px 30px #0004}
+
+/* modal (album) */
+.modal-bg{position:fixed;inset:0;background:#2b244299;z-index:40;display:grid;place-items:center;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-bottom,0px))}
+.modal{background:var(--panel);border-radius:24px;width:min(980px,100%);max-height:100%;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.album{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.album figure{margin:0;background:var(--panel-2);border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:6px}
+.album img,.album video{width:100%;border-radius:12px;display:block;background:#000}
+.album figcaption{font-size:14px;display:flex;justify-content:space-between;gap:6px;align-items:center}
+.album figcaption button{border:none;background:var(--danger-soft);color:var(--danger);border-radius:10px;padding:2px 10px;font-weight:700;min-height:34px}
+.big-view{width:100%;border-radius:16px}
+
+/* challenge */
+.challenge{flex:1;display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;max-width:820px;margin:0 auto}
+.ch-card{width:100%;padding:22px}
+.dots{display:flex;gap:8px;justify-content:center}
+.dots i{width:16px;height:16px;border-radius:50%;background:var(--line);display:block}
+.dots i.cur{background:var(--violet);transform:scale(1.2)}
+.dots i.ok{background:var(--mint)}
+.dots i.no{background:var(--peach)}
+.ch-q{font-family:var(--f-display);font-size:clamp(22px,3vw,30px);font-weight:700;margin-block:6px 16px}
+.result{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.result .score{font-family:var(--f-display);font-size:clamp(40px,7vw,72px);font-weight:800;color:var(--violet);line-height:1}
+.result .bigstars{font-size:clamp(36px,7vw,60px);letter-spacing:4px}
+.result .bigstars .off{filter:grayscale(1);opacity:.3}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+
+/* certificate */
+.cert{flex:1;display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;align-items:start}
+.cert canvas,.cert img{width:100%;height:auto;border-radius:16px;box-shadow:0 10px 30px #2b244226;display:block}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-weight:700}
+.field input{min-height:52px;border-radius:14px;border:2px solid var(--line);padding:6px 14px;font-size:20px;font-family:var(--f-display);background:#fff}
+.field input:focus{border-color:var(--violet);outline:none}
+
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes flash{0%{opacity:.95}100%{opacity:0}}
+@keyframes blink{50%{opacity:.2}}
+@keyframes starIn{0%{transform:scale(0) rotate(-90deg);opacity:0}25%{transform:scale(1.15) rotate(10deg);opacity:1}40%{transform:scale(1) rotate(0)}85%{opacity:1}100%{transform:scale(1.1) translateY(-30px);opacity:0}}
+@keyframes spark{from{transform:translate(0,0) scale(1);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+.fade-in{animation:fadeIn .45s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+@media (max-width:1180px){
+  .lab{grid-template-columns:minmax(0,1fr) 330px}
+  .samples{grid-column:1/-1}
+  .samples-list{flex-direction:row;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+  .sample{flex:none;width:auto;scroll-snap-align:start;padding-inline-end:14px}
+  .samples .hint{display:none}
+}
+@media (max-width:820px){
+  .home{grid-template-columns:1fr}
+  .home-stage{max-height:none;aspect-ratio:1/0.9;order:-1}
+  .lab{grid-template-columns:minmax(0,1fr)}
+  .samples{order:2}
+  .stage{order:1}
+  .side{order:3}
+  .lens-wrap{width:min(100%,560px)}
+  .cert{grid-template-columns:1fr}
+  .levels button{min-width:62px}
+  .tools .btn .tx{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+'use strict';
+/* ============================================================
+   Shared helpers
+   ============================================================ */
+const TAU = Math.PI * 2;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const angDiff = (a, b) => { let d = (a - b) % TAU; if (d > Math.PI) d -= TAU; if (d < -Math.PI) d += TAU; return d; };
+const wrapD = (d, W) => { d = ((d % W) + W) % W; return d > W / 2 ? d - W : d; };
+const LEVELS = [{mag:40,obj:4,z:1},{mag:100,obj:10,z:2.5},{mag:400,obj:40,z:10}];
+const BASE_R = 450; // world units visible across the lens radius at 40×
+
+function closedSmooth(ctx, pts){
+  const n = pts.length;
+  ctx.beginPath();
+  const m0x = (pts[n-1][0] + pts[0][0]) / 2, m0y = (pts[n-1][1] + pts[0][1]) / 2;
+  ctx.moveTo(m0x, m0y);
+  for (let i = 0; i < n; i++){
+    const p = pts[i], q = pts[(i + 1) % n];
+    ctx.quadraticCurveTo(p[0], p[1], (p[0] + q[0]) / 2, (p[1] + q[1]) / 2);
+  }
+  ctx.closePath();
+}
+function ellipse(ctx, x, y, rx, ry, rot){ ctx.beginPath(); ctx.ellipse(x, y, Math.max(rx,.01), Math.max(ry,.01), rot || 0, 0, TAU); }
+
+/* Label anchors: record a local point in device pixels using the current transform */
+function anchor(ctx, L, x, y, text, dir){
+  if (!L) return;
+  const m = ctx.getTransform();
+  L.push({x: m.a * x + m.c * y + m.e, y: m.b * x + m.d * y + m.f, text, dir: dir || 0});
+}
+
+/* ============================================================
+   Specimens — each one: world, init(rng), step(S, dt, t), draw(ctx, S, V)
+   V = {cx, cy, k (device px / unit), kc (css px / unit), Rw, t, L (labels or null), dpr}
+   ============================================================ */
+
+/* ---------- 1. Bacteria ---------- */
+const bacteria = {
+  W: 1000, wrap: true, bg: ['#fff6f8', '#f6e3ea'],
+  init(r){
+    const o = [];
+    for (let i = 0; i < 70; i++) o.push({type:'rod', x:r()*1000, y:r()*1000, a:r()*TAU, L:8+r()*5, w:3, gram:r()<.55, run:r()*2, sp:22+r()*16, ph:r()*TAU, r:9});
+    for (let i = 0; i < 16; i++){
+      const n = 4 + (r()*6|0), bend = (r()-.5)*.5, pts = [];
+      let x = 0, y = 0, a = 0;
+      for (let j = 0; j < n; j++){ pts.push([x, y]); a += bend; x += Math.cos(a)*4.1; y += Math.sin(a)*4.1; }
+      o.push({type:'chain', x:r()*1000, y:r()*1000, a:r()*TAU, pts, r:n*2.5, ph:r()*TAU});
+    }
+    for (let i = 0; i < 12; i++){
+      const n = 6 + (r()*7|0), pts = [];
+      for (let j = 0; j < n; j++){ const ang = r()*TAU, d = j === 0 ? 0 : 2.5 + r()*4; pts.push([Math.cos(ang)*d, Math.sin(ang)*d]); }
+      o.push({type:'cluster', x:r()*1000, y:r()*1000, a:r()*TAU, pts, r:9, ph:r()*TAU});
+    }
+    for (let i = 0; i < 12; i++) o.push({type:'spiral', x:r()*1000, y:r()*1000, a:r()*TAU, L:22, sp:30+r()*15, ph:r()*TAU, r:14, turn:(r()-.5)*.4});
+    return {o, r};
+  },
+  step(S, dt, t){
+    const r = S.r;
+    for (const b of S.o){
+      if (b.type === 'rod'){
+        b.run -= dt;
+        if (b.run < 0){ // tumble, then a new run
+          if (b.run < -0.35){ b.run = 0.8 + r()*2.4; b.a += (r()-.5)*2.6; }
+          b.a += (r()-.5)*dt*14;
+        } else {
+          b.x += Math.cos(b.a)*b.sp*dt; b.y += Math.sin(b.a)*b.sp*dt;
+        }
+      } else if (b.type === 'spiral'){
+        b.a += b.turn*dt; b.x += Math.cos(b.a)*b.sp*dt; b.y += Math.sin(b.a)*b.sp*dt;
+      }
+      // Brownian jitter for all
+      b.x += (r()-.5)*dt*9; b.y += (r()-.5)*dt*9;
+      if (b.type !== 'rod' && b.type !== 'spiral') b.a += (r()-.5)*dt*.6;
+      b.x = (b.x + 1000) % 1000; b.y = (b.y + 1000) % 1000;
+    }
+  },
+  draw(ctx, S, V){
+    const purple = '#7b4fbf', pink = '#d9608f';
+    const labelled = {};
+    eachWrapped(ctx, S.o, V, 1000, (b, dx, dy) => {
+      const fine = V.kc > 2.2;
+      if (b.type === 'rod'){
+        const col = b.gram ? purple : pink, L = b.L, w = b.w;
+        if (fine && b.run > 0){
+          ctx.strokeStyle = col + '88'; ctx.lineWidth = .35;
+          for (let f = 0; f < 5; f++){
+            const sx = -L/2 + (f/4)*L*.9, side = f % 2 ? 1 : -1;
+            ctx.beginPath(); ctx.moveTo(sx, side*w*.45);
+            for (let s = 1; s <= 12; s++){ const px = sx - s*1.1, py = side*(w*.45 + s*.55) + Math.sin(s*.9 - V.t*18 + b.ph + f)*1.1; ctx.lineTo(px, py); }
+            ctx.stroke();
+          }
+        }
+        capsule(ctx, L, w); ctx.fillStyle = col; ctx.fill();
+        if (fine){ ctx.lineWidth = .5; ctx.strokeStyle = '#00000044'; ctx.stroke();
+          capsule(ctx, L*.7, w*.35); ctx.fillStyle = '#ffffff40'; ctx.fill(); }
+        if (V.L && !labelled.rod && Math.hypot(dx,dy) < V.Rw*.55){ labelled.rod = 1; anchor(ctx, V.L, 0, -w*.5, 'بكتيريا عصوية', -1); if (fine && b.run > 0) anchor(ctx, V.L, -L/2 - 8, w*.45 + 4, 'سوط', 1); }
+      } else if (b.type === 'chain' || b.type === 'cluster'){
+        for (const p of b.pts){
+          ellipse(ctx, p[0], p[1], 2.1, 2.1); ctx.fillStyle = purple; ctx.fill();
+          if (fine){ ctx.lineWidth = .4; ctx.strokeStyle = '#00000044'; ctx.stroke(); ellipse(ctx, p[0]-.6, p[1]-.6, .8, .8); ctx.fillStyle = '#ffffff55'; ctx.fill(); }
+        }
+        const key = b.type;
+        if (V.L && !labelled[key] && Math.hypot(dx,dy) < V.Rw*.6){ labelled[key] = 1; anchor(ctx, V.L, b.pts[0][0], b.pts[0][1], key === 'chain' ? 'كروية في سلسلة' : 'كروية في عنقود', key === 'chain' ? 1 : -1); }
+      } else {
+        const L = b.L;
+        ctx.beginPath();
+        for (let s = 0; s <= 40; s++){ const x = -L/2 + L*s/40, y = Math.sin(s/40*TAU*3 - V.t*10 + b.ph)*2.6; s ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+        ctx.strokeStyle = pink; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.stroke();
+        if (fine){ ctx.strokeStyle = '#ffffff50'; ctx.lineWidth = .6; ctx.stroke(); }
+        if (V.L && !labelled.spiral && Math.hypot(dx,dy) < V.Rw*.6){ labelled.spiral = 1; anchor(ctx, V.L, 0, -3, 'بكتيريا حلزونية', 1); }
+      }
+    });
+  }
+};
+function capsule(ctx, L, w){
+  const r = w/2, h = L/2 - r;
+  ctx.beginPath(); ctx.moveTo(-h, -r); ctx.lineTo(h, -r); ctx.arc(h, 0, r, -Math.PI/2, Math.PI/2); ctx.lineTo(-h, r); ctx.arc(-h, 0, r, Math.PI/2, Math.PI*1.5); ctx.closePath();
+}
+function eachWrapped(ctx, list, V, W, fn){
+  for (const o of list){
+    const dx = wrapD(o.x - V.cx, W), dy = wrapD(o.y - V.cy, W);
+    const rr = (o.r || 20) + 4;
+    if (dx*dx + dy*dy > (V.Rw + rr)*(V.Rw + rr)) continue;
+    ctx.setTransform(V.k, 0, 0, V.k, V.half + dx*V.k, V.half + dy*V.k);
+    ctx.rotate(o.a || 0);
+    fn(o, dx, dy);
+  }
+}
+
+/* pond debris — soft out-of-focus specks drifting slowly */
+function makeDebris(r, n){ const d = []; for (let i = 0; i < n; i++) d.push({x:r()*1000, y:r()*1000, s:3+r()*10, vx:(r()-.5)*4, vy:(r()-.5)*4, c:r()<.5 ? '#8a9a6a' : '#a59a7a'}); return d; }
+function stepDebris(d, dt){ for (const p of d){ p.x = (p.x + p.vx*dt + 1000) % 1000; p.y = (p.y + p.vy*dt + 1000) % 1000; } }
+function drawDebris(ctx, d, V){
+  for (const p of d){
+    const dx = wrapD(p.x - V.cx, 1000), dy = wrapD(p.y - V.cy, 1000);
+    if (Math.abs(dx) > V.Rw + 20 || Math.abs(dy) > V.Rw + 20) continue;
+    ctx.setTransform(V.k, 0, 0, V.k, V.half + dx*V.k, V.half + dy*V.k);
+    ctx.globalAlpha = .18; ellipse(ctx, 0, 0, p.s, p.s*.7, p.s); ctx.fillStyle = p.c; ctx.fill(); ctx.globalAlpha = 1;
+  }
+}
+
+/* ---------- 2. Amoeba ---------- */
+const amoeba = {
+  W: 1000, wrap: true, bg: ['#fbfbf2', '#e9ecd9'],
+  init(r){
+    const o = [];
+    for (let i = 0; i < 3; i++){
+      const a = {x:200 + i*320 + r()*60, y:250 + r()*500, a:0, R:62 + r()*14, r:150, head:r()*TAU, pods:[], ph:[r()*TAU, r()*TAU, r()*TAU], gran:[], food:[], cv:r()*6, nuc:[r()*TAU, .3]};
+      for (let g = 0; g < 110; g++) a.gran.push({ang:r()*TAU, f:r()*.85, s:.6 + r()*1.2, c:r()<.15 ? '#9fb36a' : '#7d8494'});
+      for (let f = 0; f < 4; f++) a.food.push({ang:r()*TAU, f:.2 + r()*.35, s:5 + r()*4, n:2 + (r()*3|0)});
+      o.push(a);
+    }
+    return {o, r, debris:makeDebris(r, 26), algae:Array.from({length:30}, () => ({x:r()*1000, y:r()*1000, a:r()*TAU, r:6}))};
+  },
+  step(S, dt, t){
+    const r = S.r;
+    stepDebris(S.debris, dt);
+    for (const a of S.o){
+      // pseudopod life cycle
+      if (a.pods.length < 3 && r() < dt*.7){
+        const ang = a.head + (r()-.5)*1.8;
+        a.pods.push({ang, life:0, dur:4 + r()*4, amp:.45 + r()*.45, w:.22 + r()*.12});
+      }
+      let vx = 0, vy = 0;
+      for (const p of a.pods){ p.life += dt; const u = p.life/p.dur; p.cur = p.amp*Math.sin(Math.PI*clamp(u,0,1)); vx += Math.cos(p.ang)*p.cur; vy += Math.sin(p.ang)*p.cur; }
+      a.pods = a.pods.filter(p => p.life < p.dur);
+      a.head += (r()-.5)*dt*.5;
+      const sp = 9;
+      a.x = (a.x + vx*sp*dt + 1000) % 1000; a.y = (a.y + vy*sp*dt + 1000) % 1000;
+      // cytoplasm streaming toward the strongest pseudopod
+      let main = null; for (const p of a.pods) if (!main || p.cur > main.cur) main = p;
+      a.main = main;
+      for (const g of a.gran){
+        if (main){ g.ang += angDiff(main.ang, g.ang)*dt*.25*(1 - g.f); g.f = lerp(g.f, .9, dt*.08*main.cur); }
+        g.ang += (r()-.5)*dt*.3; g.f = clamp(g.f + (r()-.5)*dt*.2, .05, .92);
+      }
+      a.cv = (a.cv + dt) % 7;
+    }
+  },
+  draw(ctx, S, V){
+    drawDebris(ctx, S.debris, V);
+    eachWrapped(ctx, S.algae, V, 1000, () => { ellipse(ctx, 0, 0, 5, 4); ctx.fillStyle = '#7fb24a99'; ctx.fill(); if (V.kc > 2){ ctx.strokeStyle = '#4c7a2a88'; ctx.lineWidth = .5; ctx.stroke(); } });
+    let best = null, bd = 1e9;
+    for (const a of S.o){ const d = Math.hypot(wrapD(a.x - V.cx, 1000), wrapD(a.y - V.cy, 1000)); if (d < bd){ bd = d; best = a; } }
+    eachWrapped(ctx, S.o, V, 1000, (a) => {
+      const R = a.R, t = V.t, N = 72, pts = [];
+      const rad = (th) => {
+        let rr = R*(1 + .07*Math.sin(3*th + t*.35 + a.ph[0]) + .05*Math.sin(5*th - t*.27 + a.ph[1]) + .03*Math.sin(8*th + t*.5 + a.ph[2]));
+        for (const p of a.pods){ const d = angDiff(th, p.ang); rr += R*p.cur*Math.exp(-(d*d)/(2*p.w*p.w)); }
+        return rr;
+      };
+      for (let i = 0; i < N; i++){ const th = i/N*TAU, rr = rad(th); pts.push([Math.cos(th)*rr, Math.sin(th)*rr]); }
+      // ectoplasm
+      closedSmooth(ctx, pts);
+      const g = ctx.createRadialGradient(0, 0, R*.2, 0, 0, R*1.5);
+      g.addColorStop(0, '#c9d3dfd0'); g.addColorStop(1, '#dfe6eeb0');
+      ctx.fillStyle = g; ctx.fill();
+      ctx.lineWidth = 1.2; ctx.strokeStyle = '#7c8799'; ctx.stroke();
+      // endoplasm
+      const inner = pts.map(p => [p[0]*.84, p[1]*.84]);
+      closedSmooth(ctx, inner); ctx.fillStyle = '#aeb9c8a0'; ctx.fill();
+      // granules
+      if (V.kc > .5){
+        for (const gr of a.gran){ const rr = rad(gr.ang)*.82*gr.f; ellipse(ctx, Math.cos(gr.ang)*rr, Math.sin(gr.ang)*rr, gr.s, gr.s); ctx.fillStyle = gr.c; ctx.fill(); }
+      }
+      // food vacuoles
+      for (const f of a.food){
+        const rr = R*f.f, x = Math.cos(f.ang + t*.02)*rr, y = Math.sin(f.ang + t*.02)*rr;
+        ellipse(ctx, x, y, f.s, f.s); ctx.fillStyle = '#f2f5eacc'; ctx.fill(); ctx.strokeStyle = '#8f9a7f'; ctx.lineWidth = .6; ctx.stroke();
+        for (let j = 0; j < f.n; j++){ ellipse(ctx, x + Math.cos(j*2.1)*f.s*.4, y + Math.sin(j*2.1)*f.s*.4, f.s*.28, f.s*.22, j); ctx.fillStyle = '#7fae4f'; ctx.fill(); }
+        if (a === best && f === a.food[0]) anchor(ctx, V.L, x, y + f.s, 'فجوة غذائية', 1);
+      }
+      // nucleus
+      const nx = -Math.cos(a.head)*R*.25, ny = -Math.sin(a.head)*R*.25;
+      ellipse(ctx, nx, ny, R*.2, R*.17, a.head); ctx.fillStyle = '#c1c9d6'; ctx.fill(); ctx.strokeStyle = '#5e6a7e'; ctx.lineWidth = 1; ctx.stroke();
+      if (V.kc > 1.5){ for (let j = 0; j < 14; j++){ ellipse(ctx, nx + Math.cos(j*2.4)*R*.11*(j%3/2), ny + Math.sin(j*2.4)*R*.09*(j%3/2), .9, .9); ctx.fillStyle = '#6d7891'; ctx.fill(); } }
+      // contractile vacuole: fills slowly then empties
+      const u = a.cv/7, cvR = u < .85 ? R*.16*(u/.85) : R*.16*(1 - (u - .85)/.15);
+      const cvx = Math.cos(a.head + 2.3)*R*.45, cvy = Math.sin(a.head + 2.3)*R*.45;
+      ellipse(ctx, cvx, cvy, cvR, cvR); ctx.fillStyle = '#f4f8ffee'; ctx.fill(); ctx.strokeStyle = '#8b9bb5'; ctx.lineWidth = .8; ctx.stroke();
+      if (a === best && V.L){
+        anchor(ctx, V.L, nx, ny - R*.17, 'النواة', -1);
+        anchor(ctx, V.L, cvx, cvy, 'الفجوة المنقبضة', -1);
+        if (a.main){ const rr = rad(a.main.ang); anchor(ctx, V.L, Math.cos(a.main.ang)*rr*.95, Math.sin(a.main.ang)*rr*.95, 'قدم كاذبة', 1); }
+        anchor(ctx, V.L, Math.cos(a.head - 1.2)*R*.6, Math.sin(a.head - 1.2)*R*.6, 'السيتوبلازم', 1);
+      }
+    });
+  }
+};
+
+/* ---------- 3. Paramecium ---------- */
+function slipperPts(L, W, n, squish){
+  const top = [], bot = [];
+  for (let i = 0; i <= n; i++){
+    const u = i/n, x = -L/2 + u*L;
+    let w = Math.pow(Math.sin(Math.PI*u), .75)*W/2*(1 + .12*Math.sin(Math.PI*u*1.2));
+    w *= squish;
+    const dent = W*.18*Math.exp(-Math.pow((u - .58)/.12, 2)); // oral groove on one side
+    top.push([x, -w + dent]); bot.push([x, w]);
+  }
+  return top.concat(bot.reverse().slice(1, -1));
+}
+const paramecium = {
+  W: 1000, wrap: true, bg: ['#f8fbf1', '#e5edd8'],
+  init(r){
+    const o = [];
+    for (let i = 0; i < 7; i++) o.push({x:r()*1000, y:r()*1000, a:r()*TAU, L:120 + r()*20, Wd:42 + r()*6, sp:48 + r()*16, back:0, nextAv:3 + r()*6, ph:r()*TAU, r:80, fv:Array.from({length:6}, () => r()*TAU), cv:r()*4});
+    return {o, r, debris:makeDebris(r, 22)};
+  },
+  step(S, dt, t){
+    const r = S.r; stepDebris(S.debris, dt);
+    for (const p of S.o){
+      p.nextAv -= dt;
+      if (p.nextAv < 0 && p.back <= 0){ p.back = .6; p.nextAv = 4 + r()*7; p.turnTo = p.a + (r() < .5 ? -1 : 1)*(1 + r()*1.2); }
+      let v = p.sp;
+      if (p.back > 0){ p.back -= dt; v = -p.sp*.6; if (p.back <= 0) p.a = p.turnTo; }
+      p.a += Math.sin(t*1.7 + p.ph)*dt*.5;
+      p.x = (p.x + Math.cos(p.a)*v*dt + 1000) % 1000; p.y = (p.y + Math.sin(p.a)*v*dt + 1000) % 1000;
+      p.cv = (p.cv + dt) % 4;
+      for (let i = 0; i < p.fv.length; i++) p.fv[i] += dt*.35;
+    }
+  },
+  draw(ctx, S, V){
+    drawDebris(ctx, S.debris, V);
+    let best = null, bd = 1e9;
+    for (const p of S.o){ const d = Math.hypot(wrapD(p.x - V.cx, 1000), wrapD(p.y - V.cy, 1000)); if (d < bd){ bd = d; best = p; } }
+    eachWrapped(ctx, S.o, V, 1000, (p) => {
+      const L = p.L, W = p.Wd, t = V.t, sq = 1 + .05*Math.sin(t*4 + p.ph);
+      const pts = slipperPts(L, W, 40, sq);
+      // cilia (metachronal wave)
+      if (V.kc > .9){
+        ctx.strokeStyle = '#7f9a6caa'; ctx.lineWidth = .45; ctx.beginPath();
+        const n = pts.length;
+        for (let i = 0; i < n; i += 1){
+          const a0 = pts[(i - 1 + n) % n], a1 = pts[(i + 1) % n], q = pts[i];
+          let nx = a1[1] - a0[1], ny = -(a1[0] - a0[0]); const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
+          for (let k = 0; k < 2; k++){
+            const bx = lerp(q[0], a1[0], k*.5), by = lerp(q[1], a1[1], k*.5);
+            const beat = Math.sin(i*.55 + k*.27 - t*(p.back > 0 ? -14 : 14));
+            const len = 4.5, tx = -nx*0 + (a1[0]-a0[0])/nl, ty = (a1[1]-a0[1])/nl;
+            ctx.moveTo(bx, by); ctx.lineTo(bx - nx*len + tx*beat*2.4, by - ny*len + ty*beat*2.4);
+          }
+        }
+        ctx.stroke();
+      }
+      closedSmooth(ctx, pts);
+      const g = ctx.createLinearGradient(0, -W/2, 0, W/2);
+      g.addColorStop(0, '#dbe5cfe8'); g.addColorStop(.5, '#c5d4b5e8'); g.addColorStop(1, '#d6e0c8e8');
+      ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = '#6c8159'; ctx.lineWidth = 1.1; ctx.stroke();
+      // oral groove + gullet
+      ctx.beginPath(); ctx.moveTo(L*.2, -W*.32); ctx.quadraticCurveTo(L*.06, -W*.12, -L*.02, W*.02); ctx.strokeStyle = '#5f7350aa'; ctx.lineWidth = 1.3; ctx.stroke();
+      // food vacuoles circulating (cyclosis)
+      for (let i = 0; i < p.fv.length; i++){ const ang = p.fv[i] + i, x = Math.cos(ang)*L*.3, y = Math.sin(ang)*W*.25; ellipse(ctx, x, y, 3.2, 3.2); ctx.fillStyle = '#b8a77acc'; ctx.fill(); if (p === best && i === 0) anchor(ctx, V.L, x, y, 'فجوة غذائية', 1); }
+      // macronucleus + micronucleus
+      ellipse(ctx, -L*.04, W*.05, L*.13, W*.17, .15); ctx.fillStyle = '#a8b593'; ctx.fill(); ctx.strokeStyle = '#5d6c4c'; ctx.lineWidth = .8; ctx.stroke();
+      ellipse(ctx, -L*.04 + L*.12, W*.17, 2.4, 2.4); ctx.fillStyle = '#6f7c5d'; ctx.fill();
+      // two contractile vacuoles, pulsing alternately with radiating canals
+      for (let s = 0; s < 2; s++){
+        const cx = (s ? -1 : 1)*L*.3, ph = ((p.cv + s*2) % 4)/4, rr = ph < .8 ? 5.5*(ph/.8) : 5.5*(1 - (ph - .8)/.2);
+        if (V.kc > 1.2){ ctx.strokeStyle = '#9fb4c8aa'; ctx.lineWidth = .7; ctx.beginPath(); for (let j = 0; j < 7; j++){ const aa = j/7*TAU; ctx.moveTo(cx + Math.cos(aa)*rr, Math.sin(aa)*rr*.9); ctx.lineTo(cx + Math.cos(aa)*(rr + 6 + 4*(1 - ph)), Math.sin(aa)*(rr + 6 + 4*(1-ph))*.9); } ctx.stroke(); }
+        ellipse(ctx, cx, 0, rr, rr*.9); ctx.fillStyle = '#eef6ffee'; ctx.fill(); ctx.strokeStyle = '#7f97ad'; ctx.lineWidth = .6; ctx.stroke();
+        if (p === best && s === 0) anchor(ctx, V.L, cx, -3, 'الفجوة المنقبضة', -1);
+      }
+      if (p === best && V.L){
+        anchor(ctx, V.L, -L*.04, W*.05 - W*.17, 'النواة الكبيرة', -1);
+        anchor(ctx, V.L, L*.08, W*.17, 'النواة الصغيرة', 1);
+        anchor(ctx, V.L, L*.1, -W*.25, 'الأخدود الفموي', -1);
+        anchor(ctx, V.L, -L*.45, W*.22, 'الأهداب', 1);
+      }
+    });
+  }
+};
+
+/* ---------- 4. Euglena ---------- */
+const euglena = {
+  W: 1000, wrap: true, bg: ['#fafcf3', '#e6efd6'],
+  init(r){
+    const o = [];
+    for (let i = 0; i < 11; i++) o.push({x:r()*1000, y:r()*1000, a:r()*TAU, L:66 + r()*10, Wd:15 + r()*3, sp:26 + r()*12, ph:r()*TAU, r:90, meta:0, metaT:6 + r()*10, chl:Array.from({length:13}, () => [r()*.8 - .4, r() - .5, r()*TAU])});
+    return {o, r, debris:makeDebris(r, 20)};
+  },
+  step(S, dt, t){
+    const r = S.r; stepDebris(S.debris, dt);
+    for (const e of S.o){
+      e.metaT -= dt;
+      if (e.metaT < 0){ e.meta += dt; if (e.meta > 3.5){ e.meta = 0; e.metaT = 8 + r()*10; } }
+      const swimming = e.meta === 0;
+      e.a += Math.sin(t*.9 + e.ph)*dt*.35;
+      const v = swimming ? e.sp : e.sp*.1;
+      e.x = (e.x + Math.cos(e.a)*v*dt + 1000) % 1000; e.y = (e.y + Math.sin(e.a)*v*dt + 1000) % 1000;
+    }
+  },
+  draw(ctx, S, V){
+    drawDebris(ctx, S.debris, V);
+    let best = null, bd = 1e9;
+    for (const e of S.o){ const d = Math.hypot(wrapD(e.x - V.cx, 1000), wrapD(e.y - V.cy, 1000)); if (d < bd){ bd = d; best = e; } }
+    eachWrapped(ctx, S.o, V, 1000, (e) => {
+      const t = V.t, m = e.meta > 0 ? Math.sin(Math.PI*e.meta/3.5) : 0;
+      const L = e.L*(1 - .3*m), W = e.Wd*(1 + .6*m), bend = Math.sin(t*2 + e.ph)*.06 + m*.25*Math.sin(t*3);
+      // body: blunt front (+x), tapered tail (-x)
+      const top = [], bot = [], n = 30;
+      for (let i = 0; i <= n; i++){
+        const u = i/n, x = -L/2 + u*L;
+        const w = W/2*Math.pow(Math.sin(Math.PI*Math.pow(u, .75)), .9);
+        const c = bend*L*Math.sin(Math.PI*u)*.5;
+        top.push([x, c - w]); bot.push([x, c + w]);
+      }
+      const pts = top.concat(bot.reverse().slice(1, -1));
+      // flagellum from anterior tip
+      const fx = L/2 - 3;
+      ctx.beginPath(); ctx.moveTo(fx, 0);
+      for (let s = 1; s <= 30; s++){ const d = s*2.6, env = Math.min(1, s/6); ctx.lineTo(fx + d, Math.sin(s*.45 - t*16 + e.ph)*5*env); }
+      ctx.strokeStyle = '#5f7a4faa'; ctx.lineWidth = .8; ctx.stroke();
+      closedSmooth(ctx, pts);
+      const g = ctx.createLinearGradient(0, -W/2, 0, W/2);
+      g.addColorStop(0, '#cfe3b7ee'); g.addColorStop(.5, '#a9cc8eee'); g.addColorStop(1, '#c7deaeee');
+      ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = '#557a3c'; ctx.lineWidth = .9; ctx.stroke();
+      // pellicle stripes
+      if (V.kc > 1.6){
+        ctx.save(); closedSmooth(ctx, pts); ctx.clip();
+        ctx.strokeStyle = '#557a3c33'; ctx.lineWidth = .5; ctx.beginPath();
+        for (let x = -L/2; x < L/2 + W; x += 3.2){ ctx.moveTo(x, -W); ctx.lineTo(x - W*.9, W); }
+        ctx.stroke(); ctx.restore();
+      }
+      // chloroplasts
+      for (const c of e.chl){
+        const x = c[0]*L, y = c[1]*W*.55 + bend*L*.5*Math.sin(Math.PI*(x/L + .5));
+        ellipse(ctx, x, y, 4.6, 2.2, c[2]); ctx.fillStyle = '#3f8f2f'; ctx.fill();
+      }
+      if (e === best && e.chl.length) { const c = e.chl[2]; anchor(ctx, V.L, c[0]*L, c[1]*W*.55, 'البلاستيدات الخضراء', 1); }
+      // nucleus
+      ellipse(ctx, -L*.08, 0, W*.24, W*.22); ctx.fillStyle = '#e6eed9dd'; ctx.fill(); ctx.strokeStyle = '#7a8e64'; ctx.lineWidth = .6; ctx.stroke();
+      // reservoir + red eyespot
+      ellipse(ctx, L*.38, 0, 2.6, 2.2); ctx.fillStyle = '#f3f8eacc'; ctx.fill();
+      ellipse(ctx, L*.33, -W*.18, 2.4, 1.9); ctx.fillStyle = '#e0412f'; ctx.fill();
+      if (e === best && V.L){
+        anchor(ctx, V.L, L*.33, -W*.18, 'البقعة العينية', -1);
+        anchor(ctx, V.L, fx + 40, Math.sin(15*.45 - t*16 + e.ph)*5, 'السوط', -1);
+        anchor(ctx, V.L, -L*.08, W*.22, 'النواة', 1);
+      }
+    });
+  }
+};
+
+/* ---------- Tissue builder (onion, leaf): brick rows with shared wavy walls ---------- */
+function buildTissue(r, opt){
+  const rows = [], {size, rowH, cellL, wav} = opt;
+  const nRows = Math.ceil(size/rowH) + 1;
+  const lines = [];
+  for (let j = 0; j <= nRows; j++) lines.push({y:j*rowH + (r()-.5)*rowH*.15, a1:(r()*.5 + .5)*wav, f1:.006 + r()*.006, p1:r()*TAU, a2:r()*wav*.5, f2:.02 + r()*.01, p2:r()*TAU});
+  const Y = (ln, x) => ln.y + ln.a1*Math.sin(x*ln.f1 + ln.p1) + ln.a2*Math.sin(x*ln.f2 + ln.p2);
+  const cells = [];
+  for (let j = 0; j < nRows; j++){
+    let x = -r()*cellL;
+    while (x < size){
+      const len = cellL*(.7 + r()*.6), x0 = x, x1 = x + len, sk0 = (r()-.5)*rowH*.5, sk1 = (r()-.5)*rowH*.5;
+      const top = lines[j], bot = lines[j + 1], poly = [];
+      const steps = 8;
+      for (let s = 0; s <= steps; s++){ const xx = lerp(x0 + sk0*0, x1, s/steps); poly.push([xx, Y(top, xx)]); }
+      for (let s = steps; s >= 0; s--){ const xx = lerp(x0, x1, s/steps); poly.push([xx + (s === 0 ? sk0 : s === steps ? sk1 : 0)*0, Y(bot, xx)]); }
+      const cx = (x0 + x1)/2, cy = (Y(top, cx) + Y(bot, cx))/2;
+      cells.push({poly, x0, x1, y0:Math.min(Y(top, x0), Y(top, x1)) - wav*2, y1:Math.max(Y(bot, x0), Y(bot, x1)) + wav*2, cx, cy, len, h:Y(bot, cx) - Y(top, cx), seed:r(), nuc:[(r() - .5)*.6, (r() - .5)*.4]});
+      x = x1;
+    }
+  }
+  return cells;
+}
+function polyPath(ctx, poly){ ctx.beginPath(); ctx.moveTo(poly[0][0], poly[0][1]); for (let i = 1; i < poly.length; i++) ctx.lineTo(poly[i][0], poly[i][1]); ctx.closePath(); }
+function nearestCell(cells, x, y){ let b = null, bd = 1e9; for (const c of cells){ const d = Math.hypot(c.cx - x, c.cy - y); if (d < bd){ bd = d; b = c; } } return b; }
+
+/* ---------- 5. Onion epidermis (iodine stained) ---------- */
+const onion = {
+  W: 1300, wrap: false, bg: ['#fff8e8', '#f3e2bd'],
+  init(r){ return {cells: buildTissue(r, {size:1300, rowH:52, cellL:175, wav:6})}; },
+  step(){},
+  draw(ctx, S, V){
+    tissueTransform(ctx, V);
+    const vx0 = V.cx - V.Rw, vx1 = V.cx + V.Rw, vy0 = V.cy - V.Rw, vy1 = V.cy + V.Rw;
+    const near = V.L ? nearestCell(S.cells, V.cx, V.cy) : null;
+    for (const c of S.cells){
+      if (c.x1 < vx0 || c.x0 > vx1 || c.y1 < vy0 || c.y0 > vy1) continue;
+      polyPath(ctx, c.poly);
+      const sh = 230 + c.seed*16;
+      ctx.fillStyle = `rgb(${sh},${200 + c.seed*25},${130 + c.seed*30})`; ctx.fill();
+      ctx.strokeStyle = '#9c6b2e'; ctx.lineWidth = 2.6; ctx.stroke();
+      if (V.kc > .9){ ctx.strokeStyle = '#f8e7c2'; ctx.lineWidth = .8; ctx.stroke(); }
+      // nucleus (stained brown) with nucleoli
+      const nx = c.cx + c.nuc[0]*c.len, ny = c.cy + c.nuc[1]*c.h;
+      ellipse(ctx, nx, ny, 9, 7.5, c.seed*3); ctx.fillStyle = '#b07a35'; ctx.fill(); ctx.strokeStyle = '#7a4c17'; ctx.lineWidth = 1; ctx.stroke();
+      if (V.kc > 2){ ellipse(ctx, nx + 2, ny - 1, 2, 2); ctx.fillStyle = '#6b3f10'; ctx.fill(); ellipse(ctx, nx - 3, ny + 2, 1.3, 1.3); ctx.fill();
+        ctx.fillStyle = '#c9954f66'; for (let k = 0; k < 16; k++){ const u = (k*.618 + c.seed)%1, v = (k*.383 + c.seed*2)%1; ellipse(ctx, lerp(c.x0 + 10, c.x1 - 10, u), c.cy + (v - .5)*c.h*.7, .9, .9); ctx.fill(); } }
+      if (c === near){
+        anchor(ctx, V.L, c.x0 + c.len*.25, c.poly[2][1], 'الجدار الخلوي', -1);
+        anchor(ctx, V.L, nx, ny, 'النواة', 1);
+        anchor(ctx, V.L, c.cx - c.nuc[0]*c.len*.8, c.cy - c.nuc[1]*c.h, 'الفجوة العصارية', 1);
+        anchor(ctx, V.L, c.x1 - 8, c.cy + c.h*.3, 'السيتوبلازم', -1);
+      }
+    }
+  }
+};
+function tissueTransform(ctx, V){ ctx.setTransform(V.k, 0, 0, V.k, V.half - V.cx*V.k, V.half - V.cy*V.k); }
+
+/* ---------- 6. Leaf cells (Elodea) with cytoplasmic streaming ---------- */
+const leaf = {
+  W: 1300, wrap: false, bg: ['#f6fbef', '#dcebcf'],
+  init(r){
+    const cells = buildTissue(r, {size:1300, rowH:46, cellL:120, wav:3});
+    for (const c of cells){
+      c.chl = []; const n = 14 + (r()*8|0);
+      for (let i = 0; i < n; i++) c.chl.push({s:r(), rot:r()*TAU, sz:.85 + r()*.3});
+      c.dir = r() < .5 ? 1 : -1; c.speed = .035 + r()*.03; c.hasNuc = r() < .35;
+    }
+    return {cells};
+  },
+  step(S, dt){ for (const c of S.cells) for (const p of c.chl) p.s = (p.s + c.dir*c.speed*dt + 1) % 1; },
+  draw(ctx, S, V){
+    tissueTransform(ctx, V);
+    const vx0 = V.cx - V.Rw, vx1 = V.cx + V.Rw, vy0 = V.cy - V.Rw, vy1 = V.cy + V.Rw;
+    const near = V.L ? nearestCell(S.cells, V.cx, V.cy) : null;
+    for (const c of S.cells){
+      if (c.x1 < vx0 || c.x0 > vx1 || c.y1 < vy0 || c.y0 > vy1) continue;
+      polyPath(ctx, c.poly); ctx.fillStyle = `rgb(${214 + c.seed*14},${236},${196 + c.seed*14})`; ctx.fill();
+      ctx.strokeStyle = '#6f8f4e'; ctx.lineWidth = 2; ctx.stroke();
+      if (c.hasNuc && V.kc > .8){ ellipse(ctx, c.cx + c.nuc[0]*c.len*.5, c.cy, 6, 5); ctx.fillStyle = '#e9f1dccc'; ctx.fill(); ctx.strokeStyle = '#8aa070'; ctx.lineWidth = .6; ctx.stroke(); }
+      // chloroplasts travel around an inset loop of the cell
+      const ins = 7, x0 = c.x0 + ins, x1 = c.x1 - ins, y0 = c.cy - c.h/2 + ins, y1 = c.cy + c.h/2 - ins;
+      const w = Math.max(1, x1 - x0), h = Math.max(1, y1 - y0), P = 2*(w + h);
+      let firstPt = null;
+      for (const p of c.chl){
+        let d = p.s*P, x, y;
+        if (d < w){ x = x0 + d; y = y0; } else if ((d -= w) < h){ x = x1; y = y0 + d; } else if ((d -= h) < w){ x = x1 - d; y = y1; } else { d -= w; x = x0; y = y1 - d; }
+        ellipse(ctx, x, y, 4.4*p.sz, 3.3*p.sz, p.rot); ctx.fillStyle = '#3d8a2e'; ctx.fill();
+        if (V.kc > 1.6){ ctx.strokeStyle = '#25601b'; ctx.lineWidth = .5; ctx.stroke(); ellipse(ctx, x - 1, y - 1, 1.2, .9, p.rot); ctx.fillStyle = '#8fd27a'; ctx.fill(); }
+        if (!firstPt) firstPt = [x, y];
+      }
+      if (c === near){
+        if (firstPt) anchor(ctx, V.L, firstPt[0], firstPt[1], 'البلاستيدات الخضراء', -1);
+        anchor(ctx, V.L, c.cx, c.poly[3][1], 'الجدار الخلوي', 1);
+        anchor(ctx, V.L, c.cx, c.cy, 'السيتوبلازم يتحرك', 1);
+      }
+    }
+  }
+};
+
+/* ---------- 7. Spirogyra ---------- */
+const spirogyra = {
+  W: 1300, wrap: false, bg: ['#f7fbf3', '#dfeedd'],
+  init(r){
+    const f = [];
+    const specs = [[650, 330, .12], [600, 620, -.08], [700, 900, .2], [450, 1120, -.15], [900, 170, -.3]];
+    for (const s of specs){
+      const cells = []; const n = 22;
+      for (let i = 0; i < n; i++) cells.push({len:58 + r()*14, ph:r()*TAU, two:r() < .25});
+      f.push({x:s[0], y:s[1], a:s[2], cells, w:24 + r()*4, ph:r()*TAU, total:cells.reduce((a, c) => a + c.len, 0)});
+    }
+    return {f};
+  },
+  step(){},
+  draw(ctx, S, V){
+    const t = V.t;
+    let bestCell = null, bd = 1e9;
+    for (const fl of S.f){
+      const a = fl.a + Math.sin(t*.25 + fl.ph)*.025, ox = fl.x + Math.sin(t*.18 + fl.ph)*8, oy = fl.y + Math.cos(t*.21 + fl.ph)*6;
+      let x = -fl.total/2;
+      for (const c of fl.cells){
+        const ccx = x + c.len/2;
+        const wx = ox + Math.cos(a)*ccx, wy = oy + Math.sin(a)*ccx + Math.sin(ccx*.004 + t*.3 + fl.ph)*10;
+        x += c.len;
+        if (Math.abs(wx - V.cx) > V.Rw + 60 || Math.abs(wy - V.cy) > V.Rw + 60) continue;
+        ctx.setTransform(V.k, 0, 0, V.k, V.half + (wx - V.cx)*V.k, V.half + (wy - V.cy)*V.k);
+        ctx.rotate(a + Math.cos(ccx*.004 + t*.3 + fl.ph)*.04);
+        drawSpiroCell(ctx, c, fl.w, V);
+        const d = Math.hypot(wx - V.cx, wy - V.cy);
+        if (V.L && d < bd){ bd = d; bestCell = {m:ctx.getTransform(), c, w:fl.w}; }
+      }
+    }
+    if (bestCell && V.L){
+      ctx.setTransform(bestCell.m);
+      const c = bestCell.c, W = bestCell.w, L = c.len;
+      anchor(ctx, V.L, -L*.18, Math.sin(-.18*TAU*1.4 + c.ph)*(W/2 - 4), 'البلاستيدة الحلزونية', -1);
+      anchor(ctx, V.L, 0, 0, 'النواة', 1);
+      anchor(ctx, V.L, L/2, W*.3, 'الجدار الخلوي', 1);
+      anchor(ctx, V.L, -L*.4, -W*.5, 'خيط من خلايا متصلة', -1);
+    }
+  }
+};
+function drawSpiroCell(ctx, c, W, V){
+  const L = c.len, hw = W/2;
+  // wall + vacuole
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(-L/2, -hw, L, W, 3) : ctx.rect(-L/2, -hw, L, W);
+  ctx.fillStyle = '#e9f5e3e8'; ctx.fill(); ctx.strokeStyle = '#7da36b'; ctx.lineWidth = 1.4; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(L/2, -hw); ctx.lineTo(L/2, hw); ctx.strokeStyle = '#6a9257'; ctx.lineWidth = 1.8; ctx.stroke();
+  const turns = 1.4, amp = hw - 4, bands = c.two ? 2 : 1;
+  for (let b = 0; b < bands; b++){
+    const off = b*Math.PI;
+    // back half (faint), then front half (strong)
+    for (const front of [false, true]){
+      ctx.beginPath(); let pen = false;
+      for (let s = 0; s <= 60; s++){
+        const u = s/60, x = -L/2 + 2 + u*(L - 4), th = u*TAU*turns + c.ph + off, y = Math.sin(th)*amp, isFront = Math.cos(th) > 0;
+        if (isFront === front){ pen ? ctx.lineTo(x, y) : ctx.moveTo(x, y); pen = true; } else pen = false;
+      }
+      ctx.strokeStyle = front ? '#2f8a2c' : '#2f8a2c44'; ctx.lineWidth = front ? 4.6 : 3.6; ctx.lineCap = 'round'; ctx.stroke();
+      if (front && V.kc > 1.4){ ctx.strokeStyle = '#7fcf6a'; ctx.lineWidth = 1; ctx.stroke(); }
+    }
+    // pyrenoids along the ribbon
+    if (V.kc > 1.1){
+      for (let s = 1; s < 9; s++){ const u = s/9, th = u*TAU*turns + c.ph + off; if (Math.cos(th) <= 0) continue; ellipse(ctx, -L/2 + 2 + u*(L - 4), Math.sin(th)*amp, 1.7, 1.7); ctx.fillStyle = '#e8f6d8'; ctx.fill(); }
+    }
+  }
+  // nucleus suspended by cytoplasmic strands
+  if (V.kc > 1){ ctx.strokeStyle = '#a8c39a99'; ctx.lineWidth = .5; ctx.beginPath(); for (let j = 0; j < 6; j++){ const aa = j/6*TAU + .3; ctx.moveTo(0, 0); ctx.lineTo(Math.cos(aa)*L*.4, Math.sin(aa)*hw*.95); } ctx.stroke(); }
+  ellipse(ctx, 0, 0, 4.2, 3.4); ctx.fillStyle = '#f4f6ea'; ctx.fill(); ctx.strokeStyle = '#829b74'; ctx.lineWidth = .7; ctx.stroke();
+}
+
+/* ---------- 8. Insect parts (prepared slide, no motion) ---------- */
+const insect = {
+  W: 1200, wrap: false, bg: ['#fffdf7', '#f1ead8'],
+  init(r){
+    // wing: hairs scattered over the membrane
+    const hairs = []; for (let i = 0; i < 2600; i++) hairs.push([r(), r(), r()*.6 - .3]);
+    const eyeHex = []; const hr = 15;
+    for (let q = -40; q <= 40; q++) for (let rr = -40; rr <= 40; rr++){
+      const x = hr*1.5*q, y = hr*Math.sqrt(3)*(rr + q/2);
+      if (x*x + y*y < 430*430) eyeHex.push([600 + x, 600 + y]);
+    }
+    const bristles = []; for (let i = 0; i < 160; i++) bristles.push([r(), r() < .5 ? -1 : 1, .6 + r()*.8]);
+    return {hairs, eyeHex, hr, bristles, part:'wing'};
+  },
+  step(){},
+  draw(ctx, S, V){
+    // each part is scaled about the slide centre so the whole part fits the 40× field
+    const sc = {wing:.66, eye:.9, leg:.7}[S.part] || 1;
+    V = Object.assign({}, V, {k:V.k*sc, kc:V.kc*sc, Rw:V.Rw/sc, cx:600 + (V.cx - 600)/sc, cy:600 + (V.cy - 600)/sc});
+    tissueTransform(ctx, V);
+    if (S.part === 'wing') drawWing(ctx, S, V);
+    else if (S.part === 'eye') drawEye(ctx, S, V);
+    else drawLeg(ctx, S, V);
+  }
+};
+function wingOutline(ctx){
+  ctx.beginPath(); ctx.moveTo(140, 560);
+  ctx.bezierCurveTo(380, 410, 820, 380, 1080, 470);
+  ctx.bezierCurveTo(1150, 520, 1130, 640, 1040, 690);
+  ctx.bezierCurveTo(820, 800, 420, 790, 230, 680);
+  ctx.bezierCurveTo(170, 640, 130, 600, 140, 560); ctx.closePath();
+}
+function drawWing(ctx, S, V){
+  wingOutline(ctx);
+  const g = ctx.createLinearGradient(140, 420, 1100, 760);
+  g.addColorStop(0, '#e8eef6cc'); g.addColorStop(.4, '#f3e9f7cc'); g.addColorStop(.7, '#e6f4eecc'); g.addColorStop(1, '#f6f0dccc');
+  ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = '#8a7a5a'; ctx.lineWidth = 2; ctx.stroke();
+  // microtrichia (only drawn where visible)
+  if (V.kc > .7){
+    ctx.save(); wingOutline(ctx); ctx.clip();
+    ctx.strokeStyle = '#8a7a5a66'; ctx.lineWidth = .5; ctx.beginPath();
+    for (const h of S.hairs){ const x = 140 + h[0]*1000, y = 380 + h[1]*430; if (Math.abs(x - V.cx) > V.Rw || Math.abs(y - V.cy) > V.Rw) continue; ctx.moveTo(x, y); ctx.lineTo(x + 3.5, y + h[2]*3); }
+    ctx.stroke(); ctx.restore();
+  }
+  // veins
+  ctx.lineCap = 'round'; ctx.strokeStyle = '#6b5636';
+  const vein = (w, pts) => { ctx.lineWidth = w; ctx.beginPath(); ctx.moveTo(pts[0], pts[1]); ctx.bezierCurveTo(pts[2], pts[3], pts[4], pts[5], pts[6], pts[7]); ctx.stroke(); };
+  vein(7, [140, 560, 400, 420, 800, 400, 1080, 470]); // costa
+  vein(4, [150, 565, 420, 470, 760, 460, 1060, 520]);
+  vein(3.4, [160, 572, 430, 520, 760, 540, 1080, 600]);
+  vein(3.2, [170, 580, 440, 580, 780, 610, 1040, 690]);
+  vein(3, [190, 600, 420, 650, 640, 690, 860, 760]);
+  vein(2.6, [210, 630, 330, 690, 420, 720, 520, 770]);
+  ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(560, 515); ctx.lineTo(585, 565); ctx.moveTo(760, 560); ctx.lineTo(790, 625); ctx.moveTo(470, 590); ctx.lineTo(490, 650); ctx.stroke();
+  // marginal bristles on trailing edge
+  if (V.kc > .5){ ctx.strokeStyle = '#6b563699'; ctx.lineWidth = .9; ctx.beginPath(); for (let i = 0; i <= 80; i++){ const u = i/80, x = lerp(1040, 230, u), y = 690 + Math.sin(u*Math.PI)*105; ctx.moveTo(x, y); ctx.lineTo(x - 3, y + 12); } ctx.stroke(); }
+  anchor(ctx, V.L, 700, 410, 'العرق الأمامي', -1);
+  anchor(ctx, V.L, 640, 600, 'الغشاء الشفاف', 1);
+  anchor(ctx, V.L, 860, 545, 'العروق', -1);
+  anchor(ctx, V.L, 520, 777, 'شعيرات الحافة', 1);
+}
+function drawEye(ctx, S, V){
+  const R = 440;
+  ellipse(ctx, 600, 600, R, R);
+  const g = ctx.createRadialGradient(480, 470, 40, 600, 600, R);
+  g.addColorStop(0, '#d9785e'); g.addColorStop(.6, '#a2392e'); g.addColorStop(1, '#5b1b1a');
+  ctx.fillStyle = g; ctx.fill();
+  // ommatidia (hexagonal facets)
+  const hr = S.hr*.96;
+  ctx.beginPath();
+  for (const h of S.eyeHex){
+    if (Math.abs(h[0] - V.cx) > V.Rw + hr || Math.abs(h[1] - V.cy) > V.Rw + hr) continue;
+    for (let i = 0; i < 6; i++){ const a = i/6*TAU, x = h[0] + Math.cos(a)*hr, y = h[1] + Math.sin(a)*hr; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.closePath();
+  }
+  ctx.strokeStyle = '#3d0f0fcc'; ctx.lineWidth = 1.6; ctx.stroke();
+  if (V.kc > 1.2){
+    ctx.fillStyle = '#ffffff55';
+    for (const h of S.eyeHex){ if (Math.abs(h[0] - V.cx) > V.Rw || Math.abs(h[1] - V.cy) > V.Rw) continue; ellipse(ctx, h[0] - 4, h[1] - 4, 3, 2); ctx.fill(); }
+  }
+  ellipse(ctx, 600, 600, R, R); ctx.strokeStyle = '#3d1210'; ctx.lineWidth = 6; ctx.stroke();
+  const near = nearestHex(S.eyeHex, V.cx, V.cy);
+  if (near) anchor(ctx, V.L, near[0], near[1], 'عدسة سداسية واحدة', -1);
+  anchor(ctx, V.L, 600 + R*.7, 600 + R*.7, 'العين المركبة', 1);
+}
+function nearestHex(list, x, y){ let b = null, bd = 1e9; for (const h of list){ const d = (h[0] - x)**2 + (h[1] - y)**2; if (d < bd){ bd = d; b = h; } } return b; }
+function drawLeg(ctx, S, V){
+  // segments: coxa → trochanter → femur → tibia → 5 tarsomeres → claws
+  const segs = [[170, 190, 260, 250, 60, 'الحرقفة'], [260, 250, 300, 290, 40, ''], [300, 290, 560, 470, 46, 'الفخذ'], [560, 470, 820, 720, 30, 'الساق'], [820, 720, 880, 790, 20, ''], [880, 790, 925, 840, 18, ''], [925, 840, 960, 880, 17, ''], [960, 880, 990, 915, 16, ''], [990, 915, 1025, 955, 16, 'الرسغ']];
+  segs.forEach((s, i) => {
+    const [x0, y0, x1, y1, w] = s, a = Math.atan2(y1 - y0, x1 - x0), L = Math.hypot(x1 - x0, y1 - y0);
+    ctx.save(); ctx.translate(x0, y0); ctx.rotate(a);
+    // bristles
+    if (V.kc > .45){ ctx.strokeStyle = '#4b2e14cc'; ctx.lineWidth = 1.4; ctx.beginPath(); for (let j = 0; j < 14; j++){ const u = (j + .5)/14, side = j % 2 ? 1 : -1; ctx.moveTo(u*L, side*w*.45); ctx.lineTo(u*L + 18, side*(w*.45 + 16)); } ctx.stroke(); }
+    ctx.beginPath(); ctx.ellipse(L/2, 0, L/2 + w*.15, w/2, 0, 0, TAU);
+    const g = ctx.createLinearGradient(0, -w/2, 0, w/2); g.addColorStop(0, '#d8a865'); g.addColorStop(.5, '#a8692c'); g.addColorStop(1, '#6e4219');
+    ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = '#4b2e14'; ctx.lineWidth = 2; ctx.stroke();
+    if (V.kc > 1){ ctx.fillStyle = '#4b2e1466'; for (let j = 0; j < 20; j++){ ellipse(ctx, (j*.618 % 1)*L, ((j*.37 % 1) - .5)*w*.6, 1.6, 1.6); ctx.fill(); } }
+    if (s[5]) anchor(ctx, V.L, L/2, -w/2, s[5], i % 2 ? 1 : -1);
+    ctx.restore();
+  });
+  // claws and pad (pulvillus)
+  ctx.save(); ctx.translate(1030, 960);
+  ctx.strokeStyle = '#3a210c'; ctx.lineWidth = 5; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(40, 0, 50, 34); ctx.moveTo(0, 0); ctx.quadraticCurveTo(10, 40, -14, 58); ctx.stroke();
+  ellipse(ctx, 22, 22, 16, 9, .8); ctx.fillStyle = '#f2d9a4cc'; ctx.fill(); ctx.strokeStyle = '#a07a3a'; ctx.lineWidth = 1; ctx.stroke();
+  anchor(ctx, V.L, 50, 34, 'المخالب', 1);
+  anchor(ctx, V.L, 22, 22, 'الوسادة اللاصقة', -1);
+  ctx.restore();
+}
+
+const SPECIMENS = {bacteria, amoeba, paramecium, euglena, onion, leaf, spirogyra, insect};
+
+/* ============================================================
+   Lens engine — draws the eyepiece view on a canvas
+   ============================================================ */
+class LensEngine {
+  constructor(){
+    this.canvas = null; this.ctx = null; this.dpr = 1; this.size = 0;
+    this.id = null; this.S = null; this.spec = null;
+    this.lz = 0; this.zt = 1; this.cx = 500; this.cy = 500;
+    this.t = 0; this.power = 0; this.powerTarget = 0;
+    this.trans = 0; this.labels = true; this.follow = null;
+    this.focusOffset = 0; this.onTick = null; this.running = false;
+  }
+  attach(canvas){
+    this.canvas = canvas; this.ctx = canvas.getContext('2d');
+    this.resize();
+    if (!this.running){ this.running = true; this.last = performance.now(); requestAnimationFrame(this.loop.bind(this)); }
+  }
+  detach(canvas){ if (this.canvas === canvas) this.canvas = null; }
+  resize(){
+    if (!this.canvas) return;
+    const r = this.canvas.getBoundingClientRect();
+    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const px = Math.max(100, Math.round(r.width*this.dpr));
+    if (this.canvas.width !== px){ this.canvas.width = px; this.canvas.height = px; }
+    this.size = px;
+  }
+  setSample(id, seed){
+    const spec = SPECIMENS[id];
+    this.id = id; this.spec = spec;
+    const part = this.S && this.S.part;
+    this.S = spec.init(mulberry32(seed || 1234));
+    if (id === 'insect' && part) this.S.part = part;
+    this.cx = spec.W/2; this.cy = spec.W/2; this.follow = null;
+    this.trans = 1;
+    // warm up the motion so organisms are mid-activity
+    for (let i = 0; i < 40; i++) spec.step(this.S, 1/20, i/20);
+  }
+  get zoom(){ return Math.exp(this.lz); }
+  pan(dxPx, dyPx){
+    const k = this.size/2/(BASE_R/this.zoom)/this.dpr;
+    this.cx -= dxPx/k; this.cy -= dyPx/k; this.follow = null; this.clampView();
+  }
+  clampView(){
+    const spec = this.spec; if (!spec) return;
+    if (spec.wrap){ this.cx = (this.cx + spec.W) % spec.W; this.cy = (this.cy + spec.W) % spec.W; return; }
+    const Rw = BASE_R/this.zoom, m = Math.min(Rw*.7, spec.W/2);
+    this.cx = clamp(this.cx, m, spec.W - m); this.cy = clamp(this.cy, m, spec.W - m);
+  }
+  pick(xPx, yPx){
+    // tap to follow the nearest moving organism
+    if (!this.spec || !this.spec.wrap || !this.S.o) return null;
+    const k = this.size/2/(BASE_R/this.zoom)/this.dpr, half = this.size/2/this.dpr;
+    const wx = this.cx + (xPx - half)/k, wy = this.cy + (yPx - half)/k;
+    let best = null, bd = 1e9;
+    for (const o of this.S.o){ const d = Math.hypot(wrapD(o.x - wx, 1000), wrapD(o.y - wy, 1000)); if (d < bd){ bd = d; best = o; } }
+    const lim = Math.max(40/k, (best && best.r) || 20);
+    this.follow = best && bd < lim*1.4 ? best : null;
+    return this.follow;
+  }
+  followNearest(){
+    if (!this.spec || !this.spec.wrap || !this.S.o) return null;
+    let best = null, bd = 1e9;
+    for (const o of this.S.o){ if (o.type === 'chain' || o.type === 'cluster') continue; const d = Math.hypot(wrapD(o.x - this.cx, 1000), wrapD(o.y - this.cy, 1000)); if (d < bd){ bd = d; best = o; } }
+    this.follow = best; return best;
+  }
+  loop(now){
+    const dt = Math.min(.05, (now - this.last)/1000); this.last = now;
+    if (!document.hidden) this.frame(dt);
+    requestAnimationFrame(this.loop.bind(this));
+  }
+  frame(dt){
+    this.t += dt;
+    this.power = lerp(this.power, this.powerTarget, Math.min(1, dt*3));
+    const target = Math.log(this.zt);
+    this.lz += (target - this.lz)*Math.min(1, dt*4.5);
+    if (Math.abs(target - this.lz) < .002) this.lz = target;
+    this.trans = Math.max(0, this.trans - dt*1.3);
+    if (this.spec && this.powerTarget > 0) this.spec.step(this.S, dt, this.t);
+    if (this.follow){
+      const W = this.spec.W;
+      this.cx += wrapD(this.follow.x - this.cx, W)*Math.min(1, dt*4);
+      this.cy += wrapD(this.follow.y - this.cy, W)*Math.min(1, dt*4);
+      this.clampView();
+    }
+    if (this.canvas) this.render(this.ctx, this.size, this.labels);
+    if (this.onTick) this.onTick(this);
+  }
+  render(ctx, size, withLabels){
+    const half = size/2, dpr = this.dpr;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, size, size);
+    if (!this.spec || this.power < .02){ ctx.fillStyle = '#0d0b16'; ctx.fillRect(0, 0, size, size); return; }
+    const spec = this.spec;
+    const bg = ctx.createRadialGradient(half*.85, half*.8, 0, half, half, half);
+    bg.addColorStop(0, '#ffffff'); bg.addColorStop(.35, spec.bg[0]); bg.addColorStop(1, spec.bg[1]);
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, size, size);
+    const z = this.zoom, Rw = BASE_R/z, k = half/Rw;
+    // slide entering from the side
+    const slide = this.trans > 0 ? Math.pow(this.trans, 2)*Rw*2.2 : 0;
+    const labelsFrom = this.id === 'insect' ? 0 : 1.8;
+    const L = withLabels && z > labelsFrom && this.trans < .3 ? [] : null;
+    const V = {cx:this.cx + slide, cy:this.cy, k, kc:k/dpr, Rw, t:this.t, L, dpr, half};
+    ctx.save();
+    spec.draw(ctx, this.S, V);
+    ctx.restore();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    if (L && L.length) drawLabels(ctx, L, size, dpr, Math.min(1, (z - labelsFrom)/0.6));
+    // eyepiece vignette
+    const vg = ctx.createRadialGradient(half, half, half*.62, half, half, half);
+    vg.addColorStop(0, '#00000000'); vg.addColorStop(.85, '#0000002a'); vg.addColorStop(1, '#000000a0');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, size, size);
+    if (this.power < .99){ ctx.fillStyle = `rgba(13,11,22,${1 - this.power})`; ctx.fillRect(0, 0, size, size); }
+  }
+}
+function drawLabels(ctx, L, size, dpr, alpha){
+  const half = size/2, fs = Math.round(13*dpr*(size/dpr > 420 ? 1.12 : 1));
+  ctx.font = `700 ${fs}px Tajawal, Tahoma, sans-serif`;
+  ctx.textBaseline = 'middle'; ctx.direction = 'rtl'; ctx.textAlign = 'center';
+  ctx.globalAlpha = alpha;
+  const placed = [];
+  for (const l of L){
+    const dx = l.x - half, dy = l.y - half;
+    if (dx*dx + dy*dy > (half*.92)**2) continue;
+    // push each label outward from the lens centre so labels fan out around the organism
+    const dd = Math.hypot(dx, dy), off = fs*3.4;
+    let lx, ly;
+    if (dd > fs){ lx = l.x + dx/dd*off*1.3; ly = l.y + dy/dd*off; }
+    else { lx = l.x; ly = l.y + (l.dir >= 0 ? 1 : -1)*off; }
+    const tw = ctx.measureText(l.text).width + fs*1.2, th = fs*1.7;
+    // keep inside the lens and away from other labels
+    for (let tries = 0; tries < 6; tries++){
+      const ddx = lx - half, ddy = ly - half, rr = Math.hypot(ddx, ddy), lim = half*.82 - tw/2;
+      if (rr > lim && rr > 0){ lx = half + ddx/rr*lim; ly = half + ddy/rr*lim; }
+      const hit = placed.find(p => Math.abs(p.x - lx) < (p.w + tw)/2 && Math.abs(p.y - ly) < th);
+      if (!hit) break;
+      ly += (ly > hit.y ? 1 : -1)*th*1.05;
+    }
+    placed.push({x:lx, y:ly, w:tw});
+    ctx.strokeStyle = '#2b2442'; ctx.lineWidth = 1.6*dpr;
+    ctx.beginPath(); ctx.moveTo(l.x, l.y); ctx.lineTo(lx, ly); ctx.stroke();
+    ctx.fillStyle = '#2b2442'; ctx.beginPath(); ctx.arc(l.x, l.y, 3.2*dpr, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#fffdf5'; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(lx - tw/2, ly - th/2, tw, th, th/2) : ctx.rect(lx - tw/2, ly - th/2, tw, th); ctx.fill();
+    ctx.strokeStyle = '#7856d8'; ctx.lineWidth = 1.5*dpr; ctx.stroke();
+    ctx.fillStyle = '#2b2442'; ctx.fillText(l.text, lx, ly + 1);
+  }
+  ctx.globalAlpha = 1;
+}
+const lens = new LensEngine();
+
+/* static thumbnails for the sample drawer */
+function drawThumb(canvas, id){
+  const size = 92; canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d'), spec = SPECIMENS[id];
+  const S = spec.init(mulberry32(77)); for (let i = 0; i < 20; i++) spec.step(S, .05, i*.05);
+  const zoom = {bacteria:6, amoeba:2.2, paramecium:3.2, euglena:4.5, onion:2.5, leaf:3.5, spirogyra:2.2, insect:1.3}[id];
+  const half = size/2, Rw = BASE_R/zoom, k = half/Rw;
+  let cx = spec.W/2, cy = spec.W/2;
+  if (S.o){ cx = S.o[0].x; cy = S.o[0].y; }
+  if (id === 'spirogyra'){ cx = 600; cy = 620; }
+  if (id === 'insect'){ S.part = 'eye'; }
+  const bg = ctx.createRadialGradient(half, half, 0, half, half, half); bg.addColorStop(0, '#fff'); bg.addColorStop(1, spec.bg[1]);
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, size, size);
+  ctx.save(); spec.draw(ctx, S, {cx, cy, k, kc:k, Rw, t:1, L:null, dpr:1, half}); ctx.restore();
+}
+
+/* ============================================================
+   Sound — small Web Audio synth (starts after the first tap)
+   ============================================================ */
+const Sound = {
+  ac: null, muted: false,
+  ctx(){ if (!this.ac){ const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; this.ac = new AC(); } if (this.ac.state === 'suspended') this.ac.resume(); return this.ac; },
+  tone(freq, dur, type, vol, when, slideTo){
+    if (this.muted) return; const ac = this.ctx(); if (!ac) return;
+    const t0 = ac.currentTime + (when || 0), o = ac.createOscillator(), g = ac.createGain();
+    o.type = type || 'sine'; o.frequency.setValueAtTime(freq, t0);
+    if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol || .15, t0 + .02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g).connect(ac.destination); o.start(t0); o.stop(t0 + dur + .05);
+  },
+  noise(dur, vol, f0, f1){
+    if (this.muted) return; const ac = this.ctx(); if (!ac) return;
+    const n = Math.floor(ac.sampleRate*dur), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random()*2 - 1)*(1 - i/n);
+    const src = ac.createBufferSource(), flt = ac.createBiquadFilter(), g = ac.createGain();
+    src.buffer = buf; flt.type = 'bandpass'; flt.Q.value = 1.2; flt.frequency.setValueAtTime(f0 || 800, ac.currentTime); flt.frequency.exponentialRampToValueAtTime(f1 || 2400, ac.currentTime + dur);
+    g.gain.value = vol || .2; src.connect(flt).connect(g).connect(ac.destination); src.start();
+  },
+  click(){ this.tone(660, .07, 'sine', .12); },
+  power(){ this.tone(180, .9, 'triangle', .12, 0, 720); this.tone(880, .4, 'sine', .08, .55); this.tone(1320, .5, 'sine', .06, .7); },
+  powerOff(){ this.tone(600, .5, 'triangle', .1, 0, 160); },
+  zoom(up){ this.noise(.35, .18, up ? 500 : 2600, up ? 2600 : 500); },
+  slide(){ this.noise(.4, .12, 300, 900); this.tone(520, .1, 'sine', .08, .3); },
+  success(){ [523, 659, 784, 1046].forEach((f, i) => this.tone(f, .35, 'triangle', .14, i*.11)); this.tone(1568, .6, 'sine', .06, .45); },
+  tryAgain(){ this.tone(440, .25, 'sine', .1); this.tone(349, .35, 'sine', .1, .18); },
+  pop(){ this.tone(520, .12, 'sine', .12, 0, 880); },
+  shutter(){ this.noise(.08, .3, 3000, 1200); this.tone(1200, .05, 'square', .04, .06); },
+  rec(){ this.tone(880, .12, 'sine', .1); this.tone(880, .12, 'sine', .1, .18); }
+};
+
+/* ============================================================
+   Arabic speech (Web Speech API)
+   ============================================================ */
+const Speech = {
+  ok: typeof window.speechSynthesis !== 'undefined' && typeof window.SpeechSynthesisUtterance !== 'undefined',
+  voice(){ if (!this.ok) return null; const vs = speechSynthesis.getVoices(); return vs.find(v => /^ar[-_]SA/i.test(v.lang)) || vs.find(v => /^ar/i.test(v.lang)) || null; },
+  speak(text, onEnd){
+    if (!this.ok) return 'unsupported';
+    const v = this.voice(); if (!v) return 'novoice';
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.voice = v; u.lang = v.lang; u.rate = .92; u.pitch = 1.1;
+    u.onend = u.onerror = () => onEnd && onEnd();
+    speechSynthesis.speak(u); return 'ok';
+  },
+  stop(){ if (this.ok) speechSynthesis.cancel(); }
+};
+if (Speech.ok) { try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); } catch (e) {} }
+
+/* ============================================================
+   3D microscope (Three.js)
+   ============================================================ */
+const Scope3D = (() => {
+  if (!window.THREE) return null;
+  const T = THREE;
+  let renderer, scene, camera, root, turret, lampMat, apertureMat, eyeMat, beam, slide, slideSpot, knobL, knobR, pLight, host = null, raf = 0;
+  let turretTarget = 0, power = 0, powerTarget = 0, yawUser = 0, pitchUser = 0, drag = null, slideIn = 0, slideTarget = 0, knobAngle = 0;
+  function mat(c, o){ return new T.MeshStandardMaterial(Object.assign({color:c, roughness:.45, metalness:.05}, o || {})); }
+  function build(){
+    renderer = new T.WebGLRenderer({antialias:true, alpha:true, preserveDrawingBuffer:false});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputEncoding = T.sRGBEncoding;
+    scene = new T.Scene();
+    camera = new T.PerspectiveCamera(32, 1, .1, 50);
+    camera.position.set(4.6, 3.3, 5.6); camera.lookAt(0, 1.45, 0);
+    scene.add(new T.HemisphereLight(0xffffff, 0xe7dcff, .75));
+    const d = new T.DirectionalLight(0xffffff, .75); d.position.set(3, 6, 4); scene.add(d);
+    const d2 = new T.DirectionalLight(0xffe9f0, .35); d2.position.set(-4, 3, -2); scene.add(d2);
+    root = new T.Group(); scene.add(root);
+    const lav = mat(0xb9a6f2), white = mat(0xf7f4ff, {roughness:.35}), ink = mat(0x433a63, {roughness:.6}), chrome = mat(0xdfe2ec, {metalness:.55, roughness:.25}), peach = mat(0xffb3a1);
+    // soft floor shadow
+    const sc = document.createElement('canvas'); sc.width = sc.height = 128; const sg = sc.getContext('2d');
+    const gr = sg.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(60,40,110,.35)'); gr.addColorStop(1, 'rgba(60,40,110,0)'); sg.fillStyle = gr; sg.fillRect(0, 0, 128, 128);
+    const sh = new T.Mesh(new T.PlaneGeometry(3.6, 2.6), new T.MeshBasicMaterial({map:new T.CanvasTexture(sc), transparent:true, depthWrite:false}));
+    sh.rotation.x = -Math.PI/2; sh.position.y = .002; root.add(sh);
+    // base (rounded slab)
+    const shape = new T.Shape(); const bw = 1.1, bd = .75, br = .3;
+    shape.moveTo(-bw + br, -bd); shape.lineTo(bw - br, -bd); shape.quadraticCurveTo(bw, -bd, bw, -bd + br); shape.lineTo(bw, bd - br); shape.quadraticCurveTo(bw, bd, bw - br, bd); shape.lineTo(-bw + br, bd); shape.quadraticCurveTo(-bw, bd, -bw, bd - br); shape.lineTo(-bw, -bd + br); shape.quadraticCurveTo(-bw, -bd, -bw + br, -bd);
+    const base = new T.Mesh(new T.ExtrudeGeometry(shape, {depth:.18, bevelEnabled:true, bevelThickness:.06, bevelSize:.06, bevelSegments:4}), lav);
+    base.rotation.x = -Math.PI/2; base.position.y = .06; root.add(base);
+    // lamp in base
+    lampMat = mat(0xfff3c4, {emissive:0x000000, roughness:.2});
+    const lamp = new T.Mesh(new T.CylinderGeometry(.26, .28, .08, 40), lampMat); lamp.position.set(0, .34, .2); root.add(lamp);
+    const ringL = new T.Mesh(new T.TorusGeometry(.28, .035, 12, 40), chrome); ringL.rotation.x = Math.PI/2; ringL.position.set(0, .37, .2); root.add(ringL);
+    pLight = new T.PointLight(0xffe08a, 0, 3); pLight.position.set(0, .6, .2); root.add(pLight);
+    // arm (curved tube)
+    const curve = new T.CatmullRomCurve3([new T.Vector3(0, .3, -.5), new T.Vector3(0, 1.0, -.62), new T.Vector3(0, 1.8, -.58), new T.Vector3(0, 2.3, -.32), new T.Vector3(0, 2.45, -.05)]);
+    root.add(new T.Mesh(new T.TubeGeometry(curve, 40, .17, 20, false), lav));
+    const armBlock = new T.Mesh(new T.BoxGeometry(.42, .5, .36), lav); armBlock.position.set(0, .45, -.5); root.add(armBlock);
+    // focus knobs
+    knobL = new T.Group(); knobR = new T.Group();
+    for (const [g, s] of [[knobL, -1], [knobR, 1]]){
+      const big = new T.Mesh(new T.CylinderGeometry(.24, .24, .12, 32), peach); big.rotation.z = Math.PI/2; g.add(big);
+      const small = new T.Mesh(new T.CylinderGeometry(.13, .13, .1, 24), white); small.rotation.z = Math.PI/2; small.position.x = s*.11; g.add(small);
+      for (let i = 0; i < 8; i++){ const rib = new T.Mesh(new T.BoxGeometry(.13, .03, .03), mat(0xff9a84)); const a = i/8*Math.PI*2; rib.position.set(0, Math.cos(a)*.24, Math.sin(a)*.24); g.add(rib); }
+      g.position.set(s*.3, 1.0, -.6); root.add(g);
+    }
+    // stage
+    const stage = new T.Mesh(new T.BoxGeometry(1.35, .08, 1.1), ink); stage.position.set(0, 1.22, .15); root.add(stage);
+    const stageArm = new T.Mesh(new T.BoxGeometry(.3, .1, .5), lav); stageArm.position.set(0, 1.2, -.4); root.add(stageArm);
+    apertureMat = new T.MeshBasicMaterial({color:0x2a2440});
+    const ap = new T.Mesh(new T.CircleGeometry(.12, 32), apertureMat); ap.rotation.x = -Math.PI/2; ap.position.set(0, 1.262, .15); root.add(ap);
+    for (const s of [-1, 1]){ const clip = new T.Mesh(new T.BoxGeometry(.08, .025, .5), chrome); clip.position.set(s*.45, 1.285, .05); clip.rotation.y = s*.25; root.add(clip); }
+    const cond = new T.Mesh(new T.CylinderGeometry(.16, .13, .25, 28), chrome); cond.position.set(0, 1.04, .15); root.add(cond);
+    // light beam
+    beam = new T.Mesh(new T.CylinderGeometry(.1, .24, .82, 32, 1, true), new T.MeshBasicMaterial({color:0xfff0a0, transparent:true, opacity:0, blending:T.AdditiveBlending, depthWrite:false, side:T.DoubleSide}));
+    beam.position.set(0, .8, .17); root.add(beam);
+    // slide (glass) with a coloured specimen spot
+    slide = new T.Group();
+    const glass = new T.Mesh(new T.BoxGeometry(.95, .02, .32), new T.MeshStandardMaterial({color:0xdff3ff, transparent:true, opacity:.55, roughness:.05}));
+    slide.add(glass);
+    slideSpot = new T.Mesh(new T.CylinderGeometry(.09, .09, .022, 28), mat(0xd9608f, {emissive:0x000000}));
+    slide.add(slideSpot);
+    const label = new T.Mesh(new T.BoxGeometry(.22, .024, .3), mat(0xffffff)); label.position.x = .34; slide.add(label);
+    slide.position.set(1.6, 1.275, .15); slide.visible = false; root.add(slide);
+    // head
+    const head = new T.Mesh(new T.CylinderGeometry(.3, .34, .5, 32), white); head.position.set(0, 2.3, .1); root.add(head);
+    const cap = new T.Mesh(new T.SphereGeometry(.3, 32, 16, 0, Math.PI*2, 0, Math.PI/2), white); cap.position.set(0, 2.55, .1); root.add(cap);
+    // eyepiece tube angled toward the student
+    const tube = new T.Group(); tube.position.set(0, 2.62, .05); tube.rotation.x = -.6; root.add(tube);
+    const tb = new T.Mesh(new T.CylinderGeometry(.12, .14, .6, 28), white); tb.position.y = .3; tube.add(tb);
+    const ep = new T.Mesh(new T.CylinderGeometry(.14, .14, .16, 28), ink); ep.position.y = .64; tube.add(ep);
+    eyeMat = new T.MeshBasicMaterial({color:0x221d36});
+    const eyeLens = new T.Mesh(new T.CircleGeometry(.1, 28), eyeMat); eyeLens.rotation.x = -Math.PI/2; eyeLens.position.y = .725; tube.add(eyeLens);
+    // revolving nosepiece with 4×, 10×, 40× objectives (red, yellow, blue colour codes)
+    turret = new T.Group(); turret.position.set(0, 1.98, .15 - .2); root.add(turret);
+    const disc = new T.Mesh(new T.CylinderGeometry(.36, .3, .14, 36), chrome); turret.add(disc);
+    const objs = [[.22, 0xe65a5a], [.3, 0xe6b800], [.38, 0x3d7fe0]];
+    objs.forEach(([len, col], i) => {
+      const a = i/3*Math.PI*2, g = new T.Group();
+      g.position.set(Math.sin(a)*.2, -.07, Math.cos(a)*.2);
+      const body = new T.Mesh(new T.CylinderGeometry(.075, .06, len, 24), chrome); body.position.y = -len/2; g.add(body);
+      const band = new T.Mesh(new T.CylinderGeometry(.078, .078, .03, 24), mat(col)); band.position.y = -len*.35; g.add(band);
+      const tip = new T.Mesh(new T.CylinderGeometry(.045, .04, .03, 20), ink); tip.position.y = -len - .01; g.add(tip);
+      turret.add(g);
+    });
+    // decor: flask on bench
+    const flask = new T.Group();
+    const fb = new T.Mesh(new T.SphereGeometry(.32, 24, 16), new T.MeshStandardMaterial({color:0xbff0dd, transparent:true, opacity:.7, roughness:.1})); fb.position.y = .32; flask.add(fb);
+    const fn = new T.Mesh(new T.CylinderGeometry(.08, .1, .35, 16), new T.MeshStandardMaterial({color:0xe9fbf4, transparent:true, opacity:.7, roughness:.1})); fn.position.y = .75; flask.add(fn);
+    flask.position.set(-1.65, 0, .5); root.add(flask);
+    const dish = new T.Mesh(new T.CylinderGeometry(.34, .34, .07, 32), new T.MeshStandardMaterial({color:0xffe0ef, transparent:true, opacity:.8})); dish.position.set(1.5, .04, .8); root.add(dish);
+  }
+  function setTurret(i){ turretTarget = -i/3*Math.PI*2; }
+  function setPower(on){ powerTarget = on ? 1 : 0; }
+  function setSlide(color){ if (color == null){ slideTarget = 0; return; } slideSpot.material.color.set(color); slide.visible = true; slideIn = 0; slide.position.x = 1.6; slideTarget = 1; }
+  function turnKnob(v){ knobAngle = v; }
+  function attach(el){
+    if (!renderer) build();
+    host = el; el.appendChild(renderer.domElement);
+    const c = renderer.domElement;
+    c.onpointerdown = e => { drag = {x:e.clientX, y:e.clientY, yaw:yawUser, pitch:pitchUser}; try { c.setPointerCapture(e.pointerId); } catch (_) {} };
+    c.onpointermove = e => { if (!drag) return; yawUser = drag.yaw + (e.clientX - drag.x)*.01; pitchUser = clamp(drag.pitch + (e.clientY - drag.y)*.004, -.25, .35); };
+    c.onpointerup = c.onpointercancel = () => { drag = null; };
+    resize();
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function detach(el){ if (host === el){ host = null; } }
+  function resize(){ if (!host || !renderer) return; const w = host.clientWidth || 300, h = host.clientHeight || 300; renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix(); }
+  let last = performance.now(), tt = 0;
+  function tick(now){
+    raf = requestAnimationFrame(tick);
+    const dt = Math.min(.05, (now - last)/1000); last = now;
+    if (!host || document.hidden) return;
+    tt += dt;
+    if (renderer.domElement.parentNode !== host) host.appendChild(renderer.domElement);
+    const w = host.clientWidth, h = host.clientHeight; const sz = renderer.getSize(new T.Vector2());
+    if (Math.abs(sz.x - w) > 1 || Math.abs(sz.y - h) > 1) resize();
+    power = lerp(power, powerTarget, Math.min(1, dt*3));
+    root.rotation.y = Math.sin(tt*.35)*.32 + yawUser + .25;
+    root.rotation.x = pitchUser*.6;
+    turret.rotation.y += angDiff(turretTarget, turret.rotation.y)*Math.min(1, dt*5);
+    lampMat.emissive.setRGB(power*1, power*.85, power*.4);
+    apertureMat.color.setRGB(lerp(.16, 1, power), lerp(.14, .95, power), lerp(.25, .7, power));
+    eyeMat.color.setRGB(lerp(.13, 1, power), lerp(.11, .92, power), lerp(.21, .6, power));
+    beam.material.opacity = power*.35;
+    pLight.intensity = power*1.2;
+    slideIn = lerp(slideIn, slideTarget, Math.min(1, dt*3.5));
+    slide.position.x = lerp(1.6, 0, slideIn); slide.visible = slideIn > .02 || slideTarget > 0;
+    knobL.rotation.x = knobR.rotation.x = lerp(knobL.rotation.x, knobAngle, Math.min(1, dt*6));
+    renderer.render(scene, camera);
+  }
+  return {attach, detach, setTurret, setPower, setSlide, turnKnob};
+})();
+
+/* ============================================================
+   Content — Arabic texts for each sample + quizzes
+   ============================================================ */
+const SAMPLES = [
+  {id:'bacteria', name:'البكتيريا', sci:'Bacteria', color:'#d9608f', kind:'كائنات حية وحيدة الخلية صغيرة جدًا',
+    where:'تعيش في كل مكان: في التربة والماء والهواء، وحتى على جلدنا وداخل أجسامنا.',
+    move:'بعضها يسبح بأسواط رفيعة جدًا ويغيّر اتجاهه فجأة، وبعضها لا يتحرك وحده فيهتز مع جزيئات الماء.',
+    see:['العصوية: تشبه العصا الصغيرة','الكروية: تشبه الكرات، وقد تتجمع في سلاسل أو عناقيد','الحلزونية: ملتفة مثل النابض'],
+    fact:'معظم البكتيريا مفيدة! بعضها يساعدنا على هضم الطعام، وبعضها يحوّل الحليب إلى لبن زبادي.',
+    note:'لُوّنت البكتيريا هنا بالبنفسجي والوردي كما تُصبغ في المختبر. في الحقيقة نحتاج تكبيرًا يقارب 1000× لرؤيتها بوضوح.',
+    quiz:{q:'ما أشكال البكتيريا التي شاهدتِها؟', o:['كروية وعصوية وحلزونية','مربعة فقط','على شكل نجمة'], a:0}},
+  {id:'amoeba', name:'الأميبا', sci:'Amoeba proteus', color:'#9fb0c8', kind:'كائن حي وحيد الخلية يغيّر شكله باستمرار',
+    where:'تعيش في مياه البرك والجداول الهادئة وفي الطين الرطب.',
+    move:'تتحرك بالأقدام الكاذبة: تمدّ جزءًا من جسمها إلى الأمام، ثم يتدفق باقي الجسم خلفه.',
+    see:['القدم الكاذبة','النواة','الفجوة المنقبضة: تمتلئ بالماء الزائد ثم تفرغه','الفجوات الغذائية','السيتوبلازم وحبيباته المتدفقة'],
+    fact:'تحيط الأميبا بطعامها بأقدامها الكاذبة وتبتلعه داخل فجوة غذائية!',
+    note:'راقبي الحبيبات داخلها: تتدفق نحو القدم الكاذبة التي تمتد.',
+    quiz:{q:'كيف تتحرك الأميبا؟', o:['بالأهداب','بالأقدام الكاذبة','بالأسواط'], a:1}},
+  {id:'paramecium', name:'البراميسيوم', sci:'Paramecium caudatum', color:'#a9c08f', kind:'كائن حي وحيد الخلية يشبه النعل',
+    where:'يعيش في مياه البرك العذبة الغنية بالبكتيريا التي يتغذى عليها.',
+    move:'يسبح بسرعة بآلاف الأهداب الدقيقة التي تضرب الماء معًا كالمجاديف، وإذا اصطدم بشيء رجع للخلف وغيّر اتجاهه.',
+    see:['الأهداب حول الجسم','الأخدود الفموي','النواة الكبيرة والنواة الصغيرة','فجوتان منقبضتان على شكل نجمة','الفجوات الغذائية'],
+    fact:'يدفع البراميسيوم طعامه بالأهداب إلى الأخدود الفموي كأنه يكنسه!',
+    note:'يسبح بسرعة؛ اضغطي عليه داخل العدسة لتتبعيه.',
+    quiz:{q:'بماذا يتحرك البراميسيوم؟', o:['بالأقدام الكاذبة','بالأجنحة','بالأهداب'], a:2}},
+  {id:'euglena', name:'اليوجلينا', sci:'Euglena gracilis', color:'#5aa346', kind:'كائن حي وحيد الخلية أخضر اللون',
+    where:'تعيش في البرك والمياه الراكدة، وقد تجعل لون الماء أخضر.',
+    move:'تسبح بسوط طويل في مقدمتها، ويمكنها أن تقصّر جسمها وتنفخه فيتغير شكلها.',
+    see:['السوط','البقعة العينية الحمراء','البلاستيدات الخضراء','النواة'],
+    fact:'تصنع اليوجلينا غذاءها في الضوء مثل النبات، وتتغذى على غيرها في الظلام!',
+    note:'البقعة العينية الحمراء تساعدها على الإحساس بالضوء والاتجاه نحوه.',
+    quiz:{q:'لماذا لون اليوجلينا أخضر؟', o:['لأنها تأكل العشب','لأن فيها بلاستيدات خضراء','لأنها مصبوغة بالحبر'], a:1}},
+  {id:'onion', name:'خلايا البصل', sci:'Allium cepa — epidermis', color:'#d9a75a', kind:'خلايا نباتية من القشرة الرقيقة داخل البصلة',
+    where:'نأخذ قشرة رقيقة شفافة من بين طبقات البصلة ونضعها على الشريحة مع قطرة يود.',
+    move:'لا تتحرك؛ فهي خلايا نباتية ثابتة يحيط بكل منها جدار خلوي قوي.',
+    see:['الجدار الخلوي','النواة (بنية بسبب صبغة اليود)','السيتوبلازم','الفجوة العصارية الكبيرة'],
+    fact:'ليس في خلايا البصل بلاستيدات خضراء، لأنها تنمو تحت التربة بعيدًا عن الضوء.',
+    note:'الخلايا مرتبة متلاصقة مثل الطوب في الجدار.',
+    quiz:{q:'ما الذي يحيط بخلية البصل ويعطيها شكلها الثابت؟', o:['الجدار الخلوي','الأهداب','الأسواط'], a:0}},
+  {id:'leaf', name:'خلايا أوراق النبات', sci:'Elodea — leaf cells', color:'#3d8a2e', kind:'خلايا نباتية من ورقة نبات الإيلوديا المائي',
+    where:'ورقة الإيلوديا رقيقة جدًا، فنستطيع رؤية خلاياها دون تقطيع.',
+    move:'الخلايا نفسها ثابتة، لكن البلاستيدات الخضراء تدور داخلها مع حركة السيتوبلازم.',
+    see:['البلاستيدات الخضراء','الجدار الخلوي','حركة السيتوبلازم الدائرية'],
+    fact:'البلاستيدات الخضراء مصانع صغيرة تصنع غذاء النبات بمساعدة ضوء الشمس.',
+    note:'اقتربي بتكبير 400× وتابعي دوران البلاستيدات حول الخلية.',
+    quiz:{q:'ما اسم الأجسام الخضراء داخل خلايا الورقة؟', o:['الفجوات','البلاستيدات الخضراء','الأنوية'], a:1}},
+  {id:'spirogyra', name:'طحلب الإسبيروجيرا', sci:'Spirogyra', color:'#2f8a2c', kind:'طحلب أخضر على شكل خيوط من خلايا متصلة',
+    where:'يعيش في البرك والمياه العذبة، ويكوّن كتلًا خضراء لزجة تطفو على الماء.',
+    move:'لا يسبح، لكن خيوطه تتمايل ببطء مع حركة الماء.',
+    see:['البلاستيدة الخضراء الحلزونية','النواة في وسط الخلية','الجدار الخلوي','خيوط من خلايا متصلة'],
+    fact:'اسمه «إسبيروجيرا» يعني الحلزوني، لأن بلاستيدته الخضراء ملتفة كالشريط حول الخلية.',
+    note:'النقاط الفاتحة على الشريط الأخضر تُسمّى البيرينويدات، وتخزن النشا.',
+    quiz:{q:'ما شكل البلاستيدة الخضراء في الإسبيروجيرا؟', o:['دائرة صغيرة','شريط حلزوني','نجمة'], a:1}},
+  {id:'insect', name:'أجزاء الحشرات', sci:'Insect parts (prepared slide)', color:'#a2392e', kind:'عينات محفوظة من أجزاء حشرة',
+    where:'تُحضّر أجزاء صغيرة من حشرة (ذبابة أو نحلة) وتُثبّت على شريحة زجاجية.',
+    move:'لا تتحرك لأنها عينة محفوظة ثابتة على الشريحة.',
+    see:[], fact:'', note:'اختاري الجزء الذي تريدين مشاهدته من الأزرار أعلاه.',
+    parts:{
+      wing:{name:'جناح الذبابة', see:['الغشاء الشفاف الرقيق','العروق التي تقوي الجناح','شعيرات دقيقة على السطح والحافة'], fact:'يضرب جناح الذبابة مئات المرات في الثانية الواحدة!'},
+      eye:{name:'العين المركبة', see:['آلاف العدسات السداسية الصغيرة','كل عدسة ترى جزءًا صغيرًا من الصورة'], fact:'تساعد العين المركبة الحشرة على ملاحظة الحركة بسرعة كبيرة.'},
+      leg:{name:'رِجل الحشرة', see:['أجزاء متصلة بمفاصل: الحرقفة، الفخذ، الساق، الرسغ','شعيرات للإحساس','مخالب ووسادة لاصقة'], fact:'الوسادة اللاصقة في رِجل الذبابة تساعدها على المشي على الزجاج والسقف!'}
+    },
+    quiz:{q:'مِمَّ تتكون عين الحشرة المركبة؟', o:['من عدسة واحدة كبيرة','من عدسات سداسية صغيرة كثيرة','ليس فيها عدسات'], a:1}}
+];
+const SAMPLE_BY_ID = Object.fromEntries(SAMPLES.map(s => [s.id, s]));
+const EXTRA_Q = [
+  {q:'ما الأداة التي نستخدمها لرؤية المخلوقات الدقيقة؟', o:['المنظار','المجهر','المسطرة'], a:1},
+  {q:'إذا كانت العدسة العينية 10× والعدسة الشيئية 40×، فكم التكبير الكلي؟', o:['50×','400×','40×'], a:1},
+  {q:'أي كائن له بقعة عينية حمراء تحس بالضوء؟', o:['اليوجلينا','الأميبا','خلية البصل'], a:0},
+  {q:'ما وظيفة الفجوة المنقبضة؟', o:['تخزين الطعام','التخلص من الماء الزائد','صنع الغذاء'], a:1},
+  {q:'أي مما يلي خلية نباتية؟', o:['البراميسيوم','خلية البصل','البكتيريا'], a:1},
+  {q:'أين تعيش الأميبا والبراميسيوم واليوجلينا؟', o:['في مياه البرك العذبة','في الصحراء الجافة','في الهواء فقط'], a:0}
+];
+const LETTERS = ['أ', 'ب', 'ج'];
+function shuffle(arr, r){ const a = arr.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor((r ? r() : Math.random())*(i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function shuffledQ(q){ const idx = shuffle([0, 1, 2]); return {q:q.q, o:idx.map(i => q.o[i]), a:idx.indexOf(q.a)}; }
+const QUESTION_DELAY = 7;
+const UNLOCK_AT = 3;
+
+/* ============================================================
+   React UI (htm templates)
+   ============================================================ */
+const {useState, useEffect, useRef, useCallback, useMemo} = React;
+const html = htm.bind(React.createElement);
+
+function Signature(){ return html`<footer class="sig">إعداد المعلمة: <b>أ/ شامه البقمي</b></footer>`; }
+
+function ThreeHost({className}){
+  const ref = useRef(null);
+  useEffect(() => { if (!Scope3D || !ref.current) return; const el = ref.current; Scope3D.attach(el); return () => Scope3D.detach(el); }, []);
+  if (!Scope3D) return html`<div class=${className} style=${{display:'grid', placeItems:'center', color:'var(--muted)'}}>تعذّر تحميل المجسم ثلاثي الأبعاد على هذا الجهاز.</div>`;
+  return html`<div class=${'three-host ' + (className || '')} ref=${ref} aria-label="مجهر ثلاثي الأبعاد — اسحبي لتدويره"></div>`;
+}
+
+function Toast({msg}){ return msg ? html`<div class="toast" role="status">${msg}</div>` : null; }
+
+function StarBurst({text, onDone}){
+  useEffect(() => { const id = setTimeout(onDone, 1900); return () => clearTimeout(id); }, []);
+  const sparks = useMemo(() => Array.from({length:14}, (_, i) => ({dx:Math.cos(i/14*TAU)*(140 + Math.random()*120) + 'px', dy:Math.sin(i/14*TAU)*(140 + Math.random()*120) + 'px', d:Math.random()*.3})), []);
+  return html`<div class="star-burst" aria-live="polite">
+    ${sparks.map((s, i) => html`<i key=${i} class="spark" style=${{'--dx':s.dx, '--dy':s.dy, animationDelay:s.d + 's'}}></i>`)}
+    <div class="s">⭐</div>
+    <div class="t">${text}</div>
+  </div>`;
+}
+
+/* ---------------- Home ---------------- */
+function Home({power, onPower, onEnter}){
+  return html`<main class="shell fade-in">
+    <div class="home">
+      <div class="home-copy">
+        <div class="eyebrow">🔬 مختبر العلوم الافتراضي</div>
+        <h1>مختبر <span>المستكشفات</span> الصغيرات</h1>
+        <p class="sub">رحلة إلى عالم المخلوقات الحية الدقيقة</p>
+        <div class="by">إعداد المعلمة: أ/ شامه البقمي</div>
+        ${power ? html`<div class="welcome" role="status">مرحبًا أيتها المستكشفة الصغيرة! هيا نكتشف عالمًا لا تراه أعيننا!</div>` : null}
+        <div class="power">
+          <button id="power-btn" class=${'power-btn' + (power ? ' on' : '')} onClick=${onPower} aria-pressed=${power} aria-label=${power ? 'إطفاء المجهر' : 'تشغيل المجهر'}>
+            <svg viewBox="0 0 48 48"><path d="M24 6v16"/><path d="M14 12a15 15 0 1 0 20 0"/></svg>
+          </button>
+          <div>
+            <div class="power-label">${power ? 'المجهر يعمل' : 'اضغطي لتشغيل المجهر'}</div>
+            ${power ? html`<button class="btn primary" style=${{marginTop:'8px'}} onClick=${onEnter}>هيا نبدأ الاستكشاف ←</button>` : html`<p class="hint">ستضيء العدسة ويبدأ المصباح بالعمل.</p>`}
+          </div>
+        </div>
+        <div class="home-cards">
+          ${SAMPLES.map((s, i) => html`<span key=${s.id} class="chip">${(i + 1).toLocaleString('ar-EG')}- ${s.name}</span>`)}
+        </div>
+      </div>
+      <div class="home-stage">
+        <div class="bench"></div>
+        <${ThreeHost} />
+        <div class="home-hint">اسحبي المجهر لتدويره</div>
+      </div>
+    </div>
+  </main>`;
+}
+
+/* ---------------- Lens ---------------- */
+function Lens({sampleId, levelIdx, setLevel, focus, recording, recSecs, flashKey, labels, followOn, setFollowOn, onNeedSample}){
+  const canvasRef = useRef(null), wrapRef = useRef(null), magRef = useRef(null);
+  const pointers = useRef(new Map()), gesture = useRef(null), wheelLock = useRef(0);
+  useEffect(() => {
+    const c = canvasRef.current; lens.attach(c);
+    const ro = new ResizeObserver(() => lens.resize()); ro.observe(c);
+    lens.onTick = (e) => { if (magRef.current) magRef.current.textContent = Math.round(40*e.zoom) + '×'; };
+    return () => { ro.disconnect(); lens.detach(c); lens.onTick = null; };
+  }, []);
+  const blur = Math.abs(focus - 50)/50*7;
+  const onDown = (e) => {
+    const c = canvasRef.current; try { c.setPointerCapture(e.pointerId); } catch (_) {}
+    pointers.current.set(e.pointerId, {x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY});
+    if (pointers.current.size === 2){ const [a, b] = [...pointers.current.values()]; gesture.current = {d0:Math.hypot(a.x - b.x, a.y - b.y), done:false}; }
+    c.classList.add('dragging');
+  };
+  const onMove = (e) => {
+    const p = pointers.current.get(e.pointerId); if (!p) return;
+    const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY;
+    if (pointers.current.size === 1){ if (Math.hypot(p.x - p.x0, p.y - p.y0) > 6){ lens.pan(dx, dy); if (followOn) setFollowOn(false); } }
+    else if (pointers.current.size === 2 && gesture.current && !gesture.current.done){
+      const [a, b] = [...pointers.current.values()], d = Math.hypot(a.x - b.x, a.y - b.y), ratio = d/gesture.current.d0;
+      if (ratio > 1.35){ setLevel(l => Math.min(2, l + 1)); gesture.current.done = true; }
+      if (ratio < .74){ setLevel(l => Math.max(0, l - 1)); gesture.current.done = true; }
+    }
+  };
+  const onUp = (e) => {
+    const p = pointers.current.get(e.pointerId); pointers.current.delete(e.pointerId);
+    if (pointers.current.size < 2) gesture.current = null;
+    canvasRef.current.classList.remove('dragging');
+    if (p && Math.hypot(p.x - p.x0, p.y - p.y0) < 6 && !gesture.current){
+      if (!sampleId){ onNeedSample(); return; }
+      const r = canvasRef.current.getBoundingClientRect();
+      const f = lens.pick(e.clientX - r.left, e.clientY - r.top);
+      setFollowOn(!!f); if (f) Sound.click();
+    }
+  };
+  const onWheel = (e) => {
+    const now = performance.now(); if (now - wheelLock.current < 450) return; wheelLock.current = now;
+    setLevel(l => clamp(l + (e.deltaY < 0 ? 1 : -1), 0, 2));
+  };
+  useEffect(() => { const c = canvasRef.current; const h = (e) => { e.preventDefault(); onWheel(e); }; c.addEventListener('wheel', h, {passive:false}); return () => c.removeEventListener('wheel', h); }, []);
+  return html`<div class="lens-wrap on" ref=${wrapRef}>
+    <div class="lens-glow"></div>
+    <div class="lens-ring"><div class="lens-inner">
+      <canvas id="lens-canvas" ref=${canvasRef} style=${{filter:blur > .3 ? `blur(${blur.toFixed(1)}px)` : 'none'}}
+        onPointerDown=${onDown} onPointerMove=${onMove} onPointerUp=${onUp} onPointerCancel=${onUp}
+        role="img" aria-label=${sampleId ? 'منظر العينة ' + SAMPLE_BY_ID[sampleId].name + ' تحت المجهر' : 'عدسة المجهر'}></canvas>
+      ${!sampleId ? html`<div class="lens-msg">اختاري عينة من القائمة لتظهر هنا 🔍</div>` : null}
+      <div class=${'flash' + (flashKey ? ' go' : '')} key=${flashKey}></div>
+    </div></div>
+    <div class="mag-badge" ref=${magRef}>${LEVELS[levelIdx].mag}×</div>
+    ${recording ? html`<div class="rec-dot">تسجيل ${recSecs}ث</div>` : null}
+    ${followOn ? html`<div class="follow-tag">نتتبّع الكائن — اسحبي لإيقاف التتبّع</div>` : null}
+    <div class="sim-badge">محاكاة تعليمية</div>
+  </div>`;
+}
+
+/* ---------------- Lab ---------------- */
+function SampleButton({s, i, active, done, onClick}){
+  const ref = useRef(null);
+  useEffect(() => { try { drawThumb(ref.current, s.id); } catch (e) {} }, []);
+  return html`<button class=${'sample' + (active ? ' active' : '')} onClick=${onClick} aria-pressed=${active} id=${'sample-' + s.id}>
+    <canvas ref=${ref} aria-hidden="true"></canvas>
+    <span class="nm"><span class="num">${(i + 1).toLocaleString('ar-EG')}- </span>${s.name}</span>
+    <span class="st" aria-label=${done ? 'حصلتِ على نجمة' : ''}>${done ? '⭐' : ''}</span>
+  </button>`;
+}
+
+function InfoCard({s, part, setPart, speaking, onSpeak}){
+  const p = s.parts ? s.parts[part] : null;
+  const see = p ? p.see : s.see, fact = p ? p.fact : s.fact;
+  return html`<section class="panel info fade-in" key=${s.id + (part || '')}>
+    <div style=${{display:'flex', justifyContent:'space-between', gap:'8px', alignItems:'flex-start'}}>
+      <div style=${{minWidth:0}}>
+        <h2>${p ? p.name : s.name}</h2>
+        <div class="sci">${s.sci}</div>
+      </div>
+      <button class="btn ghost" onClick=${onSpeak} aria-pressed=${speaking} style=${{padding:'4px 12px', minHeight:'42px'}}>${speaking ? '⏹ إيقاف' : '🔊 استمعي'}</button>
+    </div>
+    ${s.parts ? html`<div class="parts" role="group" aria-label="اختاري الجزء">
+      ${Object.entries(s.parts).map(([k, v]) => html`<button key=${k} class=${part === k ? 'on' : ''} aria-pressed=${part === k} onClick=${() => setPart(k)}>${v.name}</button>`)}
+    </div>` : null}
+    <span class="kind">${s.kind}</span>
+    <dl>
+      <div><dt>أين نجدها؟</dt><dd>${s.where}</dd></div>
+      <div><dt>هل تتحرك؟</dt><dd>${s.move}</dd></div>
+      <div><dt>ماذا أشاهد في العدسة؟</dt><dd><ul>${see.map(x => html`<li key=${x}>${x}</li>`)}</ul></dd></div>
+    </dl>
+    ${fact ? html`<p class="fact"><b>هل تعلمين؟ </b>${fact}</p>` : null}
+    ${s.note ? html`<p class="note">${s.note}</p>` : null}
+  </section>`;
+}
+
+function QuizCard({s, progress, quiz, answer, onAnswer, onNow}){
+  if (!quiz){
+    const left = Math.max(0, Math.ceil(QUESTION_DELAY - progress)), frac = clamp(progress/QUESTION_DELAY, 0, 1), C = 2*Math.PI*18;
+    return html`<section class="panel quiz">
+      <h2>🧠 المستكشفة الذكية</h2>
+      <div class="wait" style=${{marginTop:'8px'}}>
+        <svg class="ring" viewBox="0 0 44 44"><circle class="bg" cx="22" cy="22" r="18"/><circle class="fg" cx="22" cy="22" r="18" stroke-dasharray=${C} stroke-dashoffset=${C*(1 - frac)} transform="rotate(-90 22 22)"/></svg>
+        <div style=${{flex:1}}>
+          <p>شاهدي العينة جيدًا… سيظهر سؤال بعد <b>${left.toLocaleString('ar-EG')}</b> ثوانٍ.</p>
+          <button class="btn ghost" style=${{minHeight:'40px', marginTop:'4px', padding:'2px 12px'}} onClick=${onNow}>أنا جاهزة الآن</button>
+        </div>
+      </div>
+    </section>`;
+  }
+  const done = answer && answer.correct;
+  return html`<section class="panel quiz fade-in">
+    <h2>🧠 المستكشفة الذكية</h2>
+    <p class="q">${quiz.q}</p>
+    <div class="opts">
+      ${quiz.o.map((o, i) => {
+        let cls = 'opt';
+        if (answer && answer.pick === i) cls += answer.correct ? ' right' : ' wrong';
+        if (done && i === quiz.a) cls = 'opt right';
+        return html`<button key=${i} class=${cls} disabled=${!!answer} onClick=${() => onAnswer(i)}><span class="l">${LETTERS[i]}</span>${o}</button>`;
+      })}
+    </div>
+    ${answer ? (answer.correct
+      ? html`<div class="fb ok">⭐ رائعة يا عالمة المستقبل!</div>`
+      : html`<div class="fb no">🌱 محاولة جميلة! شاهدي العينة مرة أخرى.</div>`) : null}
+  </section>`;
+}
+
+function Lab({state, actions}){
+  const {sampleId, levelIdx, focus, explored, stars, labels, part, recording, recSecs, flashKey, followOn, speaking, progress, quiz, answer} = state;
+  const s = sampleId ? SAMPLE_BY_ID[sampleId] : null;
+  const unlocked = explored >= UNLOCK_AT;
+  return html`<main class="shell fade-in">
+    <header class="topbar">
+      <div class="brand"><div class="logo" aria-hidden="true">🔬</div><div style=${{minWidth:0}}><h1>مختبر المستكشفات الصغيرات</h1><small>رحلة إلى عالم المخلوقات الحية الدقيقة</small></div></div>
+      <div class="tb-actions">
+        <div class="progress-pill" title="العينات المستكشفة والنجوم">🔎 ${explored.toLocaleString('ar-EG')}/${SAMPLES.length.toLocaleString('ar-EG')} <span class="stars">⭐ ${stars.toLocaleString('ar-EG')}</span></div>
+        <button class="btn" onClick=${actions.openAlbum}><span class="ic">🖼️</span>الألبوم (${state.albumCount.toLocaleString('ar-EG')})</button>
+        <button class="btn" onClick=${actions.toggleMute} aria-pressed=${!state.muted} aria-label="المؤثرات الصوتية">${state.muted ? '🔇' : '🔈'}</button>
+        <button class="btn peach" onClick=${actions.home}><span class="ic">🏠</span>الرئيسية</button>
+      </div>
+    </header>
+    <div class="lab">
+      <aside class="panel samples" aria-label="قائمة العينات">
+        <h2>🦠 العينات</h2>
+        <p class="hint">اختاري شريحة لتضعيها تحت المجهر.</p>
+        <div class="samples-list">
+          ${SAMPLES.map((x, i) => html`<${SampleButton} key=${x.id} s=${x} i=${i} active=${x.id === sampleId} done=${state.starred[x.id]} onClick=${() => actions.pick(x.id)} />`)}
+        </div>
+      </aside>
+
+      <section class="stage" aria-label="عدسة المجهر">
+        <${Lens} sampleId=${sampleId} levelIdx=${levelIdx} setLevel=${actions.setLevel} focus=${focus} recording=${recording} recSecs=${recSecs} flashKey=${flashKey} labels=${labels} followOn=${followOn} setFollowOn=${actions.setFollowOn} onNeedSample=${actions.needSample} />
+        <div class="levels" role="group" aria-label="مستوى التكبير">
+          ${LEVELS.map((l, i) => html`<button key=${l.mag} class=${(i === levelIdx ? 'on ' : '') + 'lvl-' + l.obj} aria-pressed=${i === levelIdx} onClick=${() => actions.setLevel(i)}>${l.mag}×<span class="obj">شيئية ${l.obj}×</span></button>`)}
+        </div>
+        <div class="tools" role="toolbar" aria-label="أدوات المجهر">
+          <button class="btn primary" onClick=${actions.zoomIn} disabled=${levelIdx >= 2}><span class="ic">+</span><span class="tx">تكبير</span></button>
+          <button class="btn primary" onClick=${actions.zoomOut} disabled=${levelIdx <= 0}><span class="ic">−</span><span class="tx">تصغير</span></button>
+          <button class="btn" onClick=${actions.next}><span class="ic">🔄</span><span class="tx">تغيير العينة</span></button>
+          <button class="btn" onClick=${actions.snap} disabled=${!s}><span class="ic">📸</span><span class="tx">التقاط صورة</span></button>
+          ${state.canRecord
+            ? html`<button class=${'btn' + (recording ? ' rec' : '')} onClick=${actions.toggleRec} disabled=${!s}><span class="ic">${recording ? '⏹' : '🎥'}</span><span class="tx">${recording ? 'إيقاف التسجيل' : 'تسجيل المشاهدة'}</span></button>`
+            : html`<button class="btn" disabled title="متصفحك لا يدعم تسجيل الفيديو من الصفحة"><span class="ic">🎥</span><span class="tx">التسجيل غير مدعوم هنا</span></button>`}
+          <button class="btn" onClick=${actions.speak} disabled=${!s} aria-pressed=${speaking}><span class="ic">${speaking ? '⏹' : '🔊'}</span><span class="tx">${speaking ? 'إيقاف الشرح' : 'استمعي إلى الشرح'}</span></button>
+          <button class="btn" onClick=${actions.toggleLabels} aria-pressed=${labels}><span class="ic">🏷️</span><span class="tx">${labels ? 'إخفاء الأسماء' : 'إظهار الأسماء'}</span></button>
+          <button class="btn peach" onClick=${actions.home}><span class="ic">🏠</span><span class="tx">العودة للرئيسية</span></button>
+        </div>
+        <div class="focus-row">
+          <label for="focus">🎯 ضبط الوضوح</label>
+          <input id="focus" type="range" min="0" max="100" value=${focus} onInput=${e => actions.setFocus(+e.target.value)} />
+        </div>
+        <p class="disclaim">مستويات التكبير ٤٠× و١٠٠× و٤٠٠× هنا محاكاة تعليمية تقريبية لما نراه بالعدسات الشيئية ٤× و١٠× و٤٠× مع عينية ١٠×، والرسوم ليست صورًا معايرة بالمقياس الحقيقي. اسحبي العينة لتحريكها، واضغطي على كائن متحرك لتتبعه، واستخدمي عجلة الفأرة أو حركة الإصبعين للتكبير.</p>
+      </section>
+
+      <aside class="side">
+        <div class="panel mini-scope"><span class="cap">المجهر — العدسة الشيئية تدور مع التكبير</span><${ThreeHost} /></div>
+        ${s ? html`<${InfoCard} s=${s} part=${part} setPart=${actions.setPart} speaking=${speaking} onSpeak=${actions.speak} />`
+            : html`<section class="panel info"><h2>بطاقة المعلومات</h2><p style=${{marginTop:'6px'}}>اختاري عينة من القائمة، وستظهر هنا معلومات علمية مبسطة عنها.</p></section>`}
+        ${s ? html`<${QuizCard} s=${s} progress=${progress} quiz=${quiz} answer=${answer} onAnswer=${actions.answer} onNow=${actions.quizNow} />` : null}
+        <div class="challenge-cta">
+          <h2>🏆 التحدي العلمي</h2>
+          <p>${unlocked ? 'أنتِ جاهزة! خمسة أسئلة سريعة ثم شهادتك الرقمية.' : `استكشفي ${UNLOCK_AT.toLocaleString('ar-EG')} عينات على الأقل ليفتح التحدي (استكشفتِ ${explored.toLocaleString('ar-EG')}).`}</p>
+          <button class="btn" disabled=${!unlocked} onClick=${actions.challenge}>${unlocked ? 'ابدئي التحدي' : '🔒 التحدي مقفل'}</button>
+        </div>
+      </aside>
+    </div>
+  </main>`;
+}
+
+/* ---------------- Album ---------------- */
+function Album({items, onClose, onDelete}){
+  const [big, setBig] = useState(null);
+  useEffect(() => { const h = e => { if (e.key === 'Escape') onClose(); }; window.addEventListener('keydown', h); return () => window.removeEventListener('keydown', h); }, []);
+  return html`<div class="modal-bg" onClick=${e => { if (e.target === e.currentTarget) onClose(); }}>
+    <div class="modal" role="dialog" aria-modal="true" aria-label="ألبوم المشاهدات">
+      <div class="modal-head"><h2>🖼️ ألبوم المشاهدات</h2><button class="btn" onClick=${onClose}>إغلاق ✕</button></div>
+      <p class="hint">الصور والتسجيلات محفوظة في هذه الصفحة فقط وتُمحى عند إغلاقها. لحفظ صورة على جهازك: اضغطي عليها مطولًا (في الجوال والسبورة) أو انقري بالزر الأيمن واختاري «حفظ الصورة»، وكذلك الفيديو إن سمح متصفحك بذلك.</p>
+      ${big ? html`<div><img class="big-view" src=${big.src} alt=${big.title} /><div class="row" style=${{marginTop:'8px'}}><button class="btn" onClick=${() => setBig(null)}>رجوع للألبوم</button></div></div>`
+      : items.length ? html`<div class="album">
+          ${items.map(it => html`<figure key=${it.id}>
+            ${it.type === 'video' ? html`<video src=${it.src} controls playsinline></video>` : html`<img src=${it.src} alt=${it.title} onClick=${() => setBig(it)} style=${{cursor:'zoom-in'}} />`}
+            <figcaption><span>${it.title}</span><button onClick=${() => onDelete(it.id)}>حذف</button></figcaption>
+          </figure>`)}
+        </div>`
+      : html`<p style=${{padding:'20px 0', textAlign:'center'}}>الألبوم فارغ. اضغطي «📸 التقاط صورة» أو «🎥 تسجيل المشاهدة» أثناء استكشاف عينة.</p>`}
+    </div>
+  </div>`;
+}
+
+/* ---------------- Challenge ---------------- */
+function buildChallenge(){
+  const pool = SAMPLES.map(s => s.quiz).concat(EXTRA_Q);
+  return shuffle(pool).slice(0, 5).map(shuffledQ);
+}
+function Challenge({onFinish, onBack}){
+  const [qs] = useState(buildChallenge);
+  const [i, setI] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [res, setRes] = useState([]);
+  const [burst, setBurst] = useState(null);
+  const q = qs[i];
+  const answer = (k) => {
+    if (pick !== null) return;
+    setPick(k); const ok = k === q.a; setRes(r => r.concat(ok));
+    if (ok){ Sound.success(); setBurst('رائعة يا عالمة المستقبل!'); } else Sound.tryAgain();
+  };
+  const next = () => { Sound.click(); if (i < 4){ setI(i + 1); setPick(null); } else onFinish(res.filter(Boolean).length); };
+  return html`<main class="shell fade-in"><div class="challenge">
+    <header class="topbar" style=${{width:'100%'}}>
+      <h1 style=${{fontSize:'clamp(24px,3vw,34px)'}}>🏆 التحدي العلمي</h1>
+      <button class="btn peach" onClick=${onBack}><span class="ic">🏠</span>العودة للمختبر</button>
+    </header>
+    <div class="dots" aria-label="تقدم الأسئلة">${qs.map((_, k) => html`<i key=${k} class=${k < res.length ? (res[k] ? 'ok' : 'no') : k === i ? 'cur' : ''}></i>`)}</div>
+    <section class="panel ch-card">
+      <span class="chip">السؤال ${(i + 1).toLocaleString('ar-EG')} من ٥</span>
+      <p class="ch-q">${q.q}</p>
+      <div class="opts">
+        ${q.o.map((o, k) => {
+          let cls = 'opt';
+          if (pick !== null){ if (k === q.a) cls += ' right'; else if (k === pick) cls += ' wrong'; }
+          return html`<button key=${i + '-' + k} class=${cls} disabled=${pick !== null} onClick=${() => answer(k)}><span class="l">${LETTERS[k]}</span>${o}</button>`;
+        })}
+      </div>
+      ${pick !== null ? html`<div class=${'fb ' + (pick === q.a ? 'ok' : 'no')}>${pick === q.a ? '⭐ رائعة يا عالمة المستقبل!' : '🌱 محاولة جميلة! الإجابة الصحيحة مظللة بالأخضر.'}</div>
+        <div class="row" style=${{marginTop:'14px', justifyContent:'flex-start'}}><button class="btn primary" onClick=${next}>${i < 4 ? 'السؤال التالي ←' : 'شاهدي نتيجتك ←'}</button></div>` : null}
+    </section>
+    ${burst ? html`<${StarBurst} text=${burst} onDone=${() => setBurst(null)} />` : null}
+  </div></main>`;
+}
+function Result({score, onCert, onRetry, onBack}){
+  const msg = score === 5 ? 'مذهلة! أنتِ عالمة مجهريات حقيقية!' : score >= 3 ? 'أحسنتِ! معلوماتك رائعة.' : 'بداية جميلة! عودي للمختبر وشاهدي العينات ثم حاولي مرة أخرى.';
+  return html`<main class="shell fade-in"><div class="challenge">
+    <section class="panel ch-card result">
+      <h1 style=${{fontSize:'clamp(24px,3vw,34px)'}}>نتيجتك في التحدي</h1>
+      <div class="score">${score.toLocaleString('ar-EG')} / ٥</div>
+      <div class="bigstars" aria-label=${'عدد النجوم ' + score}>${[0, 1, 2, 3, 4].map(k => html`<span key=${k} class=${k < score ? '' : 'off'}>⭐</span>`)}</div>
+      <p style=${{fontFamily:'var(--f-display)', fontSize:'22px', fontWeight:700}}>${msg}</p>
+      <div class="row">
+        <button class="btn primary" onClick=${onCert}>🎓 احصلي على شهادتك</button>
+        <button class="btn" onClick=${onRetry}>🔁 أعيدي التحدي</button>
+        <button class="btn peach" onClick=${onBack}>🔬 العودة للمختبر</button>
+      </div>
+    </section>
+  </div></main>`;
+}
+
+/* ---------------- Certificate (drawn on canvas so it can be saved as an image) ---------------- */
+function drawCertificate(canvas, name, score){
+  const W = 1600, H = 1130; canvas.width = W; canvas.height = H;
+  const c = canvas.getContext('2d');
+  const g = c.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#f6f1ff'); g.addColorStop(.5, '#fffaf0'); g.addColorStop(1, '#e8f7f1');
+  c.fillStyle = g; c.fillRect(0, 0, W, H);
+  // pastel cells drifting in the margins
+  const r = mulberry32(5);
+  for (let i = 0; i < 26; i++){ const x = r()*W, y = r() < .5 ? r()*170 : H - r()*170, s = 18 + r()*40; c.beginPath(); c.ellipse(x, y, s, s*.7, r()*3, 0, TAU); c.fillStyle = ['#d8ccff99', '#bfeedd99', '#ffe0d499', '#fff0b399'][i % 4]; c.fill(); }
+  c.lineWidth = 14; c.strokeStyle = '#7856d8'; c.strokeRect(46, 46, W - 92, H - 92);
+  c.lineWidth = 3; c.strokeStyle = '#ffd75e'; c.strokeRect(74, 74, W - 148, H - 148);
+  c.direction = 'rtl'; c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.fillStyle = '#3aa58a'; c.font = '700 38px "Baloo Bhaijaan 2", Tajawal, sans-serif'; c.fillText('مختبر المستكشفات الصغيرات', W/2, 170);
+  c.fillStyle = '#2b2442'; c.font = '800 96px "Baloo Bhaijaan 2", Tajawal, sans-serif'; c.fillText('شهادة', W/2, 290);
+  c.fillStyle = '#7856d8'; c.font = '800 70px "Baloo Bhaijaan 2", Tajawal, sans-serif'; c.fillText('مستكشفة العالم المجهري', W/2, 400);
+  c.fillStyle = '#6a6382'; c.font = '500 40px Tajawal, sans-serif'; c.fillText('تُمنح هذه الشهادة للمستكشفة', W/2, 505);
+  const nm = (name || '').trim() || '..............................';
+  c.fillStyle = '#2b2442'; c.font = '800 84px "Baloo Bhaijaan 2", Tajawal, sans-serif'; c.fillText(nm, W/2, 610);
+  c.strokeStyle = '#ffd75e'; c.lineWidth = 5; c.beginPath(); c.moveTo(W/2 - 380, 672); c.lineTo(W/2 + 380, 672); c.stroke();
+  c.fillStyle = '#2b2442'; c.font = '500 38px Tajawal, sans-serif';
+  c.fillText('لإتمامها رحلة استكشاف المخلوقات الحية الدقيقة بالمجهر الرقمي', W/2, 745);
+  c.fillText(`وحصولها على ${score.toLocaleString('ar-EG')} من ٥ نجوم في التحدي العلمي`, W/2, 800);
+  c.font = '64px sans-serif'; c.fillText('⭐'.repeat(Math.max(0, score)) || '🌱', W/2, 885);
+  let date = ''; try { date = new Date().toLocaleDateString('ar-SA', {year:'numeric', month:'long', day:'numeric'}); } catch (e) { date = new Date().toDateString(); }
+  c.font = '500 30px Tajawal, sans-serif'; c.fillStyle = '#6a6382';
+  c.textAlign = 'right'; c.fillText('التاريخ: ' + date, W - 160, 990);
+  c.textAlign = 'left'; c.fillStyle = '#2b2442'; c.font = '700 36px "Baloo Bhaijaan 2", Tajawal, sans-serif'; c.fillText('المعلمة: أ/ شامه البقمي', 160, 990);
+  // seal
+  c.save(); c.translate(W/2, 1000); c.fillStyle = '#ffd75e'; c.beginPath(); for (let i = 0; i < 24; i++){ const a = i/24*TAU, rr = i % 2 ? 52 : 64; c.lineTo(Math.cos(a)*rr, Math.sin(a)*rr); } c.closePath(); c.fill();
+  c.fillStyle = '#7856d8'; c.beginPath(); c.arc(0, 0, 42, 0, TAU); c.fill(); c.font = '44px sans-serif'; c.textAlign = 'center'; c.fillText('🔬', 0, 4); c.restore();
+}
+function Certificate({score, name, setName, onAlbum, onHome, onLab}){
+  const cv = useRef(null), [img, setImg] = useState('');
+  useEffect(() => {
+    let alive = true;
+    const go = () => { if (!alive || !cv.current) return; drawCertificate(cv.current, name, score); try { setImg(cv.current.toDataURL('image/png')); } catch (e) { setImg(''); } };
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(go);
+    return () => { alive = false; };
+  }, [name, score]);
+  return html`<main class="shell fade-in">
+    <header class="topbar"><h1 style=${{fontSize:'clamp(24px,3vw,34px)'}}>🎓 شهادتك الرقمية</h1>
+      <div class="tb-actions"><button class="btn" onClick=${onLab}>🔬 المختبر</button><button class="btn peach" onClick=${onHome}><span class="ic">🏠</span>الرئيسية</button></div></header>
+    <div class="cert">
+      <section class="panel" style=${{display:'flex', flexDirection:'column', gap:'12px'}}>
+        <div class="field"><label for="student-name">اكتبي اسمك</label>
+          <input id="student-name" value=${name} maxLength="32" placeholder="مثال: ريم محمد" onInput=${e => setName(e.target.value)} autoComplete="off" /></div>
+        <p>يتغير اسمك في الشهادة مباشرة.</p>
+        <button class="btn primary" onClick=${() => onAlbum(img)} disabled=${!img}>🖼️ أضيفي الشهادة إلى الألبوم</button>
+        <p class="hint">لحفظ الشهادة على جهازك: اضغطي على صورة الشهادة مطولًا (في الجوال أو السبورة الذكية) أو انقري بالزر الأيمن واختاري «حفظ الصورة».</p>
+      </section>
+      <div style=${{minWidth:0}}>
+        <canvas ref=${cv} hidden></canvas>
+        ${img ? html`<img src=${img} alt=${'شهادة مستكشفة العالم المجهري للطالبة ' + (name || '')} />` : html`<div class="panel">جارٍ تجهيز الشهادة…</div>`}
+      </div>
+    </div>
+  </main>`;
+}
+
+/* ---------------- App ---------------- */
+function pickRecorderType(){
+  if (!window.MediaRecorder) return null;
+  for (const t of ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4']) { try { if (MediaRecorder.isTypeSupported(t)) return t; } catch (e) {} }
+  return '';
+}
+const REC_TYPE = pickRecorderType();
+const CAN_RECORD = REC_TYPE !== null && typeof HTMLCanvasElement !== 'undefined' && !!HTMLCanvasElement.prototype.captureStream;
+
+function App(){
+  const [screen, setScreen] = useState('home');
+  const [power, setPower] = useState(false);
+  const [sampleId, setSampleId] = useState(null);
+  const [levelIdx, setLevelIdx] = useState(0);
+  const [focus, setFocus] = useState(50);
+  const [labels, setLabels] = useState(true);
+  const [part, setPart] = useState('wing');
+  const [viewed, setViewed] = useState({}); // id -> seconds watched
+  const [starred, setStarred] = useState({});
+  const [quiz, setQuiz] = useState(null);
+  const [answer, setAnswer] = useState(null);
+  const [toast, setToast] = useState('');
+  const [burst, setBurst] = useState(null);
+  const [album, setAlbum] = useState([]);
+  const [albumOpen, setAlbumOpen] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const [recSecs, setRecSecs] = useState(0);
+  const [flashKey, setFlashKey] = useState(0);
+  const [followOn, setFollowOn] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
+  const [score, setScore] = useState(0);
+  const [name, setName] = useState('');
+  const recRef = useRef(null), toastT = useRef(0), focusAnim = useRef(0);
+
+  const say = useCallback((m) => { setToast(m); clearTimeout(toastT.current); toastT.current = setTimeout(() => setToast(''), 3600); }, []);
+
+  // keep engines in sync
+  useEffect(() => { lens.powerTarget = power ? 1 : 0; Scope3D && Scope3D.setPower(power); }, [power]);
+  useEffect(() => { lens.zt = LEVELS[levelIdx].z; Scope3D && Scope3D.setTurret(levelIdx); }, [levelIdx]);
+  useEffect(() => { lens.labels = labels; }, [labels]);
+  useEffect(() => { if (lens.S && sampleId === 'insect') lens.S.part = part; }, [part, sampleId]);
+  useEffect(() => { Scope3D && Scope3D.turnKnob((focus - 50)/50*Math.PI); }, [focus]);
+  useEffect(() => { Sound.muted = muted; }, [muted]);
+
+  // watch timer → smart explorer question
+  useEffect(() => {
+    if (screen !== 'lab' || !sampleId || quiz) return;
+    const id = setInterval(() => {
+      setViewed(v => Object.assign({}, v, {[sampleId]: Math.min(QUESTION_DELAY, (v[sampleId] || 0) + .25)}));
+    }, 250);
+    return () => clearInterval(id);
+  }, [screen, sampleId, quiz]);
+  const progress = sampleId ? (viewed[sampleId] || 0) : 0;
+  useEffect(() => {
+    if (sampleId && !quiz && progress >= QUESTION_DELAY && screen === 'lab'){ setQuiz(shuffledQ(SAMPLE_BY_ID[sampleId].quiz)); setAnswer(null); Sound.pop(); }
+  }, [progress, sampleId, quiz, screen]);
+  const explored = SAMPLES.filter(s => (viewed['done_' + s.id])).length;
+  useEffect(() => { if (sampleId && progress >= QUESTION_DELAY && !viewed['done_' + sampleId]) setViewed(v => Object.assign({}, v, {['done_' + sampleId]: true})); }, [progress, sampleId]);
+
+  const stopSpeech = () => { Speech.stop(); setSpeaking(false); };
+
+  const autoFocus = () => {
+    // the image starts a little blurry and settles, like turning the fine-focus knob
+    cancelAnimationFrame(focusAnim.current);
+    const start = performance.now(), from = 50 + (Math.random() < .5 ? -1 : 1)*30;
+    const step = (now) => { const u = Math.min(1, (now - start)/1100); setFocus(Math.round(lerp(from, 50, 1 - Math.pow(1 - u, 3)))); if (u < 1) focusAnim.current = requestAnimationFrame(step); };
+    focusAnim.current = requestAnimationFrame(step);
+  };
+
+  const pick = (id) => {
+    if (id === sampleId) return;
+    stopSpeech(); Sound.slide();
+    lens.setSample(id, Math.floor(Math.random()*1e9));
+    if (id === 'insect') lens.S.part = part;
+    Scope3D && Scope3D.setSlide(SAMPLE_BY_ID[id].color);
+    setSampleId(id); setQuiz(null); setAnswer(null); setFollowOn(false);
+    setViewed(v => Object.assign({}, v, {[id]: v['done_' + id] ? 0 : (v[id] || 0)}));
+    autoFocus();
+  };
+
+  const actions = {
+    pick,
+    setLevel: (l) => { setLevelIdx(prev => {
+      const n = clamp(typeof l === 'function' ? l(prev) : l, 0, 2);
+      if (n !== prev) Sound.zoom(n > prev);
+      // swimmers leave a high-power field quickly, so zooming in locks onto the nearest one
+      if (n > prev && n > 0 && !lens.follow && lens.followNearest()) setFollowOn(true);
+      return n; }); },
+    zoomIn: () => actions.setLevel(l => Math.min(2, l + 1)),
+    zoomOut: () => actions.setLevel(l => Math.max(0, l - 1)),
+    next: () => { const i = sampleId ? SAMPLES.findIndex(s => s.id === sampleId) : -1; pick(SAMPLES[(i + 1) % SAMPLES.length].id); },
+    needSample: () => say('اختاري عينة من قائمة العينات أولًا 🦠'),
+    setFocus: (v) => { cancelAnimationFrame(focusAnim.current); setFocus(v); },
+    toggleLabels: () => { Sound.click(); setLabels(x => !x); },
+    setPart: (p) => { Sound.click(); setPart(p); lens.trans = .6; autoFocus(); },
+    setFollowOn,
+    toggleMute: () => { setMuted(m => { Sound.muted = !m; if (m) Sound.click(); return !m; }); },
+    home: () => { stopSpeech(); if (recording) stopRec(); Sound.click(); setScreen('home'); },
+    openAlbum: () => { Sound.click(); setAlbumOpen(true); },
+    challenge: () => { stopSpeech(); if (recording) stopRec(); Sound.click(); setScreen('challenge'); },
+    quizNow: () => setViewed(v => Object.assign({}, v, {[sampleId]: QUESTION_DELAY})),
+    answer: (i) => {
+      if (!quiz || answer) return;
+      const correct = i === quiz.a; setAnswer({pick:i, correct});
+      if (correct){ Sound.success(); setBurst('رائعة يا عالمة المستقبل!'); setStarred(s => Object.assign({}, s, {[sampleId]: true})); }
+      else { Sound.tryAgain(); setTimeout(() => { setQuiz(null); setAnswer(null); setViewed(v => Object.assign({}, v, {[sampleId]: 0})); }, 2600); }
+    },
+    snap: () => {
+      if (!lens.canvas) return;
+      Sound.shutter(); setFlashKey(k => k + 1);
+      const src = lens.canvas, sz = src.width, out = document.createElement('canvas'), pad = Math.round(sz*.16);
+      out.width = sz; out.height = sz + pad; const c = out.getContext('2d');
+      c.fillStyle = '#ffffff'; c.fillRect(0, 0, out.width, out.height);
+      c.save(); c.beginPath(); c.arc(sz/2, sz/2, sz/2 - 4, 0, TAU); c.clip();
+      c.filter = Math.abs(focus - 50) > 4 ? `blur(${(Math.abs(focus - 50)/50*7*lens.dpr).toFixed(1)}px)` : 'none';
+      c.drawImage(src, 0, 0); c.restore();
+      c.lineWidth = 8; c.strokeStyle = '#7856d8'; c.beginPath(); c.arc(sz/2, sz/2, sz/2 - 4, 0, TAU); c.stroke();
+      const s = SAMPLE_BY_ID[sampleId], mag = LEVELS[levelIdx].mag;
+      c.direction = 'rtl'; c.textAlign = 'center'; c.fillStyle = '#2b2442';
+      c.font = `700 ${Math.round(pad*.3)}px "Baloo Bhaijaan 2", Tajawal, sans-serif`;
+      c.fillText(`${s.parts ? s.parts[part].name : s.name} — ${mag}× (محاكاة تعليمية)`, sz/2, sz + pad*.42);
+      c.font = `500 ${Math.round(pad*.2)}px Tajawal, sans-serif`; c.fillStyle = '#6a6382';
+      c.fillText('مختبر المستكشفات الصغيرات — إعداد المعلمة: أ/ شامه البقمي', sz/2, sz + pad*.78);
+      const url = out.toDataURL('image/png');
+      setAlbum(a => [{id:Date.now(), type:'img', src:url, title:`${s.name} ${mag}×`}].concat(a));
+      say('📸 حُفظت الصورة في الألبوم');
+    },
+    toggleRec: () => { recording ? stopRec() : startRec(); },
+    speak: () => {
+      if (speaking){ stopSpeech(); return; }
+      if (!sampleId) return;
+      const s = SAMPLE_BY_ID[sampleId], p = s.parts ? s.parts[part] : null;
+      const text = [p ? p.name : s.name, s.kind, s.where, s.move, 'ماذا نشاهد؟ ' + (p ? p.see : s.see).join('، '), (p ? p.fact : s.fact) ? 'هل تعلمين؟ ' + (p ? p.fact : s.fact) : ''].join('. ');
+      const r = Speech.speak(text, () => setSpeaking(false));
+      if (r === 'ok') setSpeaking(true);
+      else if (r === 'unsupported') say('متصفحك لا يدعم القراءة الصوتية. يمكنك قراءة البطاقة بدلًا من ذلك.');
+      else say('لا يوجد صوت عربي مثبت على هذا الجهاز، فتعذّرت القراءة. جرّبي متصفح Chrome أو Edge أو جهازًا آخر.');
+    }
+  };
+
+  function startRec(){
+    if (!CAN_RECORD || !lens.canvas) return;
+    try {
+      const stream = lens.canvas.captureStream(30);
+      const rec = REC_TYPE ? new MediaRecorder(stream, {mimeType:REC_TYPE}) : new MediaRecorder(stream);
+      const chunks = []; const s = SAMPLE_BY_ID[sampleId];
+      rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop = () => {
+        clearInterval(recRef.current && recRef.current.timer);
+        const blob = new Blob(chunks, {type:rec.mimeType || 'video/webm'});
+        if (blob.size){ setAlbum(a => [{id:Date.now(), type:'video', src:URL.createObjectURL(blob), title:`🎥 ${s.name}`}].concat(a)); say('🎥 حُفظ التسجيل في الألبوم'); }
+        else say('لم يُسجَّل شيء. حاولي مرة أخرى.');
+        setRecording(false); setRecSecs(0); recRef.current = null;
+      };
+      rec.start(500); Sound.rec();
+      const t0 = Date.now();
+      const timer = setInterval(() => { const secs = Math.floor((Date.now() - t0)/1000); setRecSecs(secs); if (secs >= 20) stopRec(); }, 250);
+      recRef.current = {rec, timer}; setRecording(true); say('بدأ التسجيل (حتى ٢٠ ثانية)');
+    } catch (e) { say('تعذّر بدء التسجيل في هذا المتصفح.'); setRecording(false); }
+  }
+  function stopRec(){ const r = recRef.current; if (r && r.rec.state !== 'inactive'){ clearInterval(r.timer); r.rec.stop(); } }
+
+  const onPower = () => {
+    if (!power){
+      Sound.power(); setPower(true);
+      setTimeout(() => { Speech.speak('مرحبًا أيتها المستكشفة الصغيرة! هيا نكتشف عالمًا لا تراه أعيننا!'); }, 700);
+    } else { Sound.powerOff(); setPower(false); stopSpeech(); }
+  };
+  const enterLab = () => { Sound.click(); setScreen('lab'); if (!sampleId) setTimeout(() => say('اختاري عينة من قائمة العينات 🦠'), 400); };
+
+  const stars = Object.keys(starred).length;
+  const labState = {sampleId, levelIdx, focus, explored, stars, labels, part, recording, recSecs, flashKey, followOn, speaking, progress, quiz, answer, starred, muted, albumCount:album.length, canRecord:CAN_RECORD};
+
+  let body;
+  if (screen === 'home') body = html`<${Home} power=${power} onPower=${onPower} onEnter=${enterLab} />`;
+  else if (screen === 'lab') body = html`<${Lab} state=${labState} actions=${actions} />`;
+  else if (screen === 'challenge') body = html`<${Challenge} onFinish=${(sc) => { setScore(sc); setScreen('result'); }} onBack=${() => setScreen('lab')} />`;
+  else if (screen === 'result') body = html`<${Result} score=${score} onCert=${() => { Sound.success(); setScreen('cert'); }} onRetry=${() => setScreen('challenge')} onBack=${() => setScreen('lab')} />`;
+  else body = html`<${Certificate} score=${score} name=${name} setName=${setName} onAlbum=${(src) => { setAlbum(a => [{id:Date.now(), type:'img', src, title:'🎓 شهادتي'}].concat(a)); say('🎓 أُضيفت الشهادة إلى الألبوم'); setAlbumOpen(true); }} onHome=${() => setScreen('home')} onLab=${() => setScreen('lab')} />`;
+
+  return html`<div class="app" dir="rtl" lang="ar">
+    ${body}
+    <${Signature} />
+    ${albumOpen ? html`<${Album} items=${album} onClose=${() => setAlbumOpen(false)} onDelete=${(id) => setAlbum(a => a.filter(x => x.id !== id))} />` : null}
+    ${burst ? html`<${StarBurst} text=${burst} onDone=${() => setBurst(null)} />` : null}
+    <${Toast} msg=${toast} />
+  </div>`;
+}
+
+document.documentElement.setAttribute('dir', 'rtl');
+document.documentElement.setAttribute('lang', 'ar');
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App} />`);
+</script>
