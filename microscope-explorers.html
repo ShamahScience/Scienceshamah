@@ -112,6 +112,8 @@ p{margin:0}
 .sample:hover{transform:translateY(-2px)}
 .sample.active{border-color:var(--glow);box-shadow:0 0 0 3px #4fb6ff55,0 6px 16px #4fb6ff55;background:var(--blue-soft)}
 .sample canvas{display:block;width:100%;aspect-ratio:16/10;height:auto;background:#fff}
+.samples-grid .sample:last-child:nth-child(odd) canvas{aspect-ratio:32/10}
+.samples-grid .sample:last-child:nth-child(odd){grid-column:1/-1}
 .sample .nm{display:flex;align-items:center;justify-content:center;gap:4px;font-weight:700;padding:5px 4px 6px;line-height:1.25;font-size:15px;min-height:36px}
 .sample .st{color:var(--gold)}
 
@@ -449,6 +451,92 @@ const bacteria = {
         ctx.strokeStyle = '#c8f06a'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.stroke(); ctx.shadowBlur = 0;
         if (fine){ ctx.strokeStyle = '#f6ffd0aa'; ctx.lineWidth = .6; ctx.stroke(); }
         if (V.L && !labelled.spiral && Math.hypot(dx,dy) < V.Rw*.6){ labelled.spiral = 1; anchor(ctx, V.L, 0, -3, 'بكتيريا حلزونية', 1); }
+      }
+    });
+  }
+};
+/* ---------- 1b. E. coli (Gram-stained, pink): run-and-tumble swimming and binary fission ---------- */
+const ECOLI_L0 = 10, ECOLI_CAP = 70;
+function newEcoli(r, x, y, a, L){
+  const nf = 6 + (r()*3|0);
+  return {type:'ecoli', x, y, a, L:L || ECOLI_L0*(1 + r()*.9), w:4.2, run:r()*2, tumble:0, splay:0, sp:24 + r()*14, ph:r()*TAU, r:16, grow:.25 + r()*.2,
+    div:0, flag:Array.from({length:nf}, () => ({u:r(), side:r() < .5 ? -1 : 1, ph:r()*TAU, out:(r() - .5)*1.4, len:26 + r()*14})),
+    pili:Array.from({length:26}, () => [r(), r() < .5 ? -1 : 1, .6 + r()*.7]), nuc:Array.from({length:5}, () => [r() - .5, (r() - .5)*.5, .6 + r()*.6])};
+}
+const ecoli = {
+  W: 1000, wrap: true, bg: ['#fbe9ef', '#ecc9d6', '#fffafc'],
+  init(r){
+    const o = [];
+    for (let i = 0; i < 48; i++) o.push(newEcoli(r, r()*1000, r()*1000, r()*TAU));
+    return {o, r};
+  },
+  step(S, dt){
+    const r = S.r, born = [];
+    for (const b of S.o){
+      // run-and-tumble: flagella bundle behind while running, splay out while tumbling
+      if (b.tumble > 0){ b.tumble -= dt; b.a += (r() - .5)*dt*16; if (b.tumble <= 0) b.run = .9 + r()*2.2; }
+      else { b.run -= dt; if (b.run <= 0) b.tumble = .25 + r()*.3; }
+      b.splay = lerp(b.splay, b.tumble > 0 ? 1 : 0, Math.min(1, dt*8));
+      const v = (b.tumble > 0 ? 0 : b.sp)*(b.div > 0 ? .25 : 1);
+      b.x = (b.x + Math.cos(b.a)*v*dt + (r() - .5)*dt*7 + 1000) % 1000;
+      b.y = (b.y + Math.sin(b.a)*v*dt + (r() - .5)*dt*7 + 1000) % 1000;
+      // growth → septum pinches in the middle → two daughter cells (sped up for viewing)
+      if (S.o.length + born.length < ECOLI_CAP || b.div > 0){
+        if (b.div > 0){
+          b.div += dt/3.2;
+          if (b.div >= 1){
+            const hl = b.L/4, ca = Math.cos(b.a), sa = Math.sin(b.a);
+            const d1 = newEcoli(r, b.x + ca*hl, b.y + sa*hl, b.a + (r() - .5)*.3, b.L/2);
+            const d2 = newEcoli(r, b.x - ca*hl, b.y - sa*hl, b.a + Math.PI + (r() - .5)*.3, b.L/2);
+            born.push(d1, d2); b.dead = true;
+          }
+        } else {
+          b.L += b.grow*dt;
+          if (b.L >= ECOLI_L0*2) b.div = .001;
+        }
+      }
+    }
+    if (born.length || S.o.some(b => b.dead)) S.o = S.o.filter(b => !b.dead).concat(born);
+  },
+  draw(ctx, S, V){
+    const labelled = {}, fine = V.kc > 2.2, mid = V.kc > 1;
+    eachWrapped(ctx, S.o, V, 1000, (b, dx, dy) => {
+      const L = b.L, w = b.w, t = V.t;
+      // flagella (several, all around the cell)
+      if (mid){
+        ctx.strokeStyle = fine ? '#b03a62aa' : '#b03a6266'; ctx.lineWidth = fine ? .32 : .5; ctx.lineCap = 'round';
+        for (const f of b.flag){
+          const bx = -L/2 + w/2 + f.u*(L - w), by = f.side*w*.45;
+          const aRun = Math.PI + f.side*.12, aTum = f.side*(Math.PI/2) + f.out;
+          const ang = lerp(aRun, aTum, b.splay), ca = Math.cos(ang), sa = Math.sin(ang);
+          const startX = b.splay > .5 ? bx : lerp(-L/2 + 1, bx, b.splay*2), startY = b.splay > .5 ? by : lerp(0, by, b.splay*2);
+          ctx.beginPath(); ctx.moveTo(startX, startY);
+          for (let s = 1; s <= 18; s++){ const d = s/18*f.len, wave = Math.sin(s*.85 - t*20 + f.ph)*1.3*Math.min(1, s/4); ctx.lineTo(startX + ca*d - sa*wave, startY + sa*d + ca*wave); }
+          ctx.stroke();
+        }
+      }
+      if (fine){ // fimbriae
+        ctx.strokeStyle = '#c4547a66'; ctx.lineWidth = .14; ctx.beginPath();
+        for (const p of b.pili){ const x = -L/2 + w/2 + p[0]*(L - w), y = p[1]*w/2; ctx.moveTo(x, y); ctx.lineTo(x + (p[0] - .5)*.7, y + p[1]*p[2]*1.2); }
+        ctx.stroke();
+      }
+      // body; while dividing, two halves overlap less and less so a waist appears
+      const bodyGrad = () => { const g = ctx.createLinearGradient(0, -w/2, 0, w/2); g.addColorStop(0, '#c23c66'); g.addColorStop(.45, '#f08aa8'); g.addColorStop(1, '#d24f78'); return g; };
+      if (b.div > 0){
+        const p = b.div, half = L/2, ov = (1 - p)*w*1.1;
+        for (const sgn of [-1, 1]){ ctx.save(); ctx.translate(sgn*(half/2 - ov/4), 0); capsule(ctx, half + ov/2, w*(1 - .12*p)); ctx.fillStyle = bodyGrad(); ctx.fill(); if (mid){ ctx.lineWidth = .35; ctx.strokeStyle = '#8a2245aa'; ctx.stroke(); } ctx.restore(); }
+      } else {
+        capsule(ctx, L, w); ctx.fillStyle = bodyGrad(); ctx.fill();
+        if (mid){ ctx.lineWidth = .35; ctx.strokeStyle = '#8a2245aa'; ctx.stroke(); }
+      }
+      if (fine){ // nucleoid: paler, irregular DNA region
+        ctx.fillStyle = '#ffd3e055';
+        for (const n of b.nuc){ ellipse(ctx, n[0]*L*.55, n[1]*w, n[2]*w*.35, n[2]*w*.25, n[0]*3); ctx.fill(); }
+      }
+      if (V.L && Math.hypot(dx, dy) < V.Rw*.6){
+        if (!labelled.cell && !b.div){ labelled.cell = 1; anchor(ctx, V.L, 0, -w*.5, 'إي كولاي', -1); if (fine) anchor(ctx, V.L, -L*.2, w*.5 + .7, 'شعيرات', 1); }
+        if (!labelled.div && b.div > .25){ labelled.div = 1; anchor(ctx, V.L, 0, w*.5, 'انقسام ثنائي', 1); }
+        if (!labelled.flag && mid && b.flag.length && b.splay < .3 && !b.div){ labelled.flag = 1; anchor(ctx, V.L, -L/2 - 14, 0, 'أسواط', -1); }
       }
     });
   }
@@ -1005,7 +1093,7 @@ function drawLeg(ctx, S, V){
   ctx.restore();
 }
 
-const SPECIMENS = {bacteria, amoeba, paramecium, euglena, onion, leaf, spirogyra, insect};
+const SPECIMENS = {bacteria, ecoli, amoeba, paramecium, euglena, onion, leaf, spirogyra, insect};
 
 /* ============================================================
    Lens engine — draws the eyepiece view on a canvas
@@ -1103,6 +1191,7 @@ class LensEngine {
     if (Math.abs(target - this.lz) < .002) this.lz = target;
     this.trans = Math.max(0, this.trans - dt*1.3);
     if (this.spec && this.powerTarget > 0) this.spec.step(this.S, dt, this.t);
+    if (this.follow && this.follow.dead) this.followNearest();
     if (this.follow){
       const W = this.spec.W;
       this.cx += wrapD(this.follow.x - this.cx, W)*Math.min(1, dt*4);
@@ -1177,11 +1266,12 @@ const lens = new LensEngine();
 
 /* card thumbnails for the sample picker: render a square view, then crop to 16:10 */
 function drawThumb(canvas, id){
-  const W = 320, H = 200, size = 320; canvas.width = W; canvas.height = H;
+  const rc = canvas.getBoundingClientRect(), ratio = rc.width && rc.height ? rc.width/rc.height : 1.6;
+  const W = ratio > 2 ? 520 : 320, H = Math.round(W/ratio), size = W; canvas.width = W; canvas.height = H;
   const off = document.createElement('canvas'); off.width = off.height = size;
   const ctx = off.getContext('2d'), spec = SPECIMENS[id];
   const S = spec.init(mulberry32(77)); for (let i = 0; i < 20; i++) spec.step(S, .05, i*.05);
-  const zoom = {bacteria:7, amoeba:3, paramecium:3.6, euglena:6, onion:2.5, leaf:4.5, spirogyra:3.2, insect:1.25}[id];
+  const zoom = {bacteria:7, ecoli:9, amoeba:3, paramecium:3.6, euglena:6, onion:2.5, leaf:4.5, spirogyra:3.2, insect:1.25}[id];
   const half = size/2, Rw = BASE_R/zoom, k = half/Rw;
   let cx = spec.W/2, cy = spec.W/2;
   if (S.o){ const o = S.o.find(o => o.type !== 'chain' && o.type !== 'cluster') || S.o[0]; cx = o.x; cy = o.y; }
@@ -1397,6 +1487,13 @@ const SAMPLES = [
     fact:'معظم البكتيريا مفيدة! بعضها يساعدنا على هضم الطعام، وبعضها يحوّل الحليب إلى لبن زبادي.',
     note:'تظهر البكتيريا هنا بصبغة متألقة خضراء على خلفية داكنة، كما في المجاهر المتألقة. في الحقيقة نحتاج تكبيرًا يقارب 1000× لرؤيتها بوضوح.',
     quiz:{q:'ما أشكال البكتيريا التي شاهدتِها؟', o:['كروية وعصوية وحلزونية','مربعة فقط','على شكل نجمة'], a:0}},
+  {id:'ecoli', name:'بكتيريا إي كولاي', short:'إي كولاي', sci:'Escherichia coli', color:'#e0567f', kind:'بكتيريا عصوية وحيدة الخلية (الإشريكية القولونية)',
+    where:'تعيش طبيعيًا في أمعاء الإنسان والحيوانات، ومعظم أنواعها غير ضارة بل مفيدة.',
+    move:'تسبح بأسواط كثيرة حول جسمها: تلتف الأسواط معًا خلفها فتندفع للأمام، ثم تتفرق فتتقلب الخلية وتغيّر اتجاهها.',
+    see:['شكل عصوي قصير بطرفين مستديرين','أسواط طويلة كثيرة حول الجسم','خلايا تطول ثم تنقسم إلى خليتين (الانقسام الثنائي)'],
+    fact:'في الظروف المناسبة تنقسم الإي كولاي كل ٢٠ دقيقة تقريبًا، فتصبح الخلية الواحدة ملايين الخلايا في ساعات قليلة!',
+    note:'تظهر وردية بصبغة جرام لأنها من البكتيريا سالبة الجرام. الانقسام هنا أسرع بكثير من الحقيقة لتتمكني من مشاهدته.',
+    quiz:{q:'كيف تتكاثر بكتيريا الإي كولاي؟', o:['بالانقسام الثنائي إلى خليتين','بالبذور','بالبيض'], a:0}},
   {id:'amoeba', name:'الأميبا', sci:'Amoeba proteus', color:'#9fb0c8', kind:'كائن حي وحيد الخلية يغيّر شكله باستمرار',
     where:'تعيش في مياه البرك والجداول الهادئة وفي الطين الرطب.',
     move:'تتحرك بالأقدام الكاذبة: تمدّ جزءًا من جسمها إلى الأمام، ثم يتدفق باقي الجسم خلفه.',
@@ -1455,6 +1552,9 @@ const MORE = {
   bacteria:{group:'البكتيريا: كائنات بدائية النواة، أي ليس لخليتها نواة حقيقية.', size:'العصوية منها طولها نحو ٢ إلى ٥ ميكرومتر تقريبًا، أي أن نحو ٥٠٠ منها تصطف في مليمتر واحد!',
     prep:['نأخذ قطرة صغيرة من الماء أو اللبن الزبادي على الشريحة.','نضيف صبغة خاصة لتظهر البكتيريا بوضوح.','نغطيها بغطاء الشريحة وننظر بأكبر تكبير.'], words:['بكتيريا','سوط','شعيرات','عصوية','كروية','حلزونية'],
     safety:'في المختبر الحقيقي لا نلمس العينات بأيدينا، ونغسل أيدينا جيدًا بعد التجربة.'},
+  ecoli:{group:'البكتيريا: بدائية النواة، ومن البكتيريا العصوية سالبة الجرام.', size:'طولها نحو ٢ ميكرومتر وعرضها نحو نصف ميكرومتر؛ يصطف نحو ٥٠٠ منها في مليمتر واحد.',
+    prep:['تُحضَّر في المختبرات المتخصصة من مزرعة آمنة، ولا نزرعها في المدرسة.','نضع طبقة رقيقة على الشريحة ونجففها ونثبتها.','نصبغها بصبغة جرام فتظهر وردية، ثم نشاهدها بعدسة زيتية 1000×.'], words:['إشريكية قولونية','أسواط','انقسام ثنائي','سالبة الجرام','عدسة زيتية'],
+    safety:'بعض سلالات الإي كولاي قد تسبب المرض، لذلك نغسل أيدينا جيدًا قبل الأكل ونطهو الطعام جيدًا. لا تُزرع البكتيريا في الصف إلا بإشراف مختص.'},
   amoeba:{group:'الطلائعيات: كائنات حقيقية النواة وحيدة الخلية.', size:'قطرها نحو ٢٥٠ إلى ٧٥٠ ميكرومتر، وقد تُرى كنقطة صغيرة جدًا بالعين المجردة.',
     prep:['نأخذ قطرة من ماء بركة هادئة من القاع.','نضعها على الشريحة ونغطيها بلطف.','نبدأ بتكبير ٤٠× ثم نكبّر عندما نجد الأميبا.'], words:['أقدام كاذبة','نواة','فجوة منقبضة','فجوة غذائية','سيتوبلازم'],
     safety:'ماء البرك قد يحتوي جراثيم، لذلك نلبس القفازات ونغسل أيدينا بعد التجربة.'},
@@ -1480,7 +1580,7 @@ const MORE = {
 };
 function umPerUnit(id, part){
   if (id === 'insect') return {wing:9, eye:1.3, leg:4.6}[part] || 5;
-  return {bacteria:.3, amoeba:2.4, paramecium:1.7, euglena:.8, onion:1.8, leaf:.45, spirogyra:1}[id] || 1;
+  return {bacteria:.3, ecoli:.2, amoeba:2.4, paramecium:1.7, euglena:.8, onion:1.8, leaf:.45, spirogyra:1}[id] || 1;
 }
 function fmtLength(um){
   if (um >= 1000) return (um/1000).toLocaleString('ar-EG', {maximumFractionDigits:1}) + ' مليمتر';
@@ -1489,6 +1589,7 @@ function fmtLength(um){
 }
 const SAMPLE_BY_ID = Object.fromEntries(SAMPLES.map(s => [s.id, s]));
 const EXTRA_Q = [
+  {q:'أين تعيش بكتيريا الإي كولاي طبيعيًا؟', o:['في أمعاء الإنسان والحيوان','داخل الصخور','في الثلج فقط'], a:0},
   {q:'ما الأداة التي نستخدمها لرؤية المخلوقات الدقيقة؟', o:['المنظار','المجهر','المسطرة'], a:1},
   {q:'إذا كانت العدسة العينية 10× والعدسة الشيئية 40×، فكم التكبير الكلي؟', o:['50×','400×','40×'], a:1},
   {q:'أي كائن له بقعة عينية حمراء تحس بالضوء؟', o:['اليوجلينا','الأميبا','خلية البصل'], a:0},
