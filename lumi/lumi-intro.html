@@ -206,7 +206,8 @@ const span = (t, a, b) => clamp((t - a) / (b - a));
 // Timeline (seconds)
 // ?talk=<seconds> stretches the speaking part to fit a voice track; default keeps the scene at 8 s
 const TALK_LEN = +new URLSearchParams(location.search).get("talk") || 3.2;
-const WALK_END = 2.6, TALK_START = 3.1, TALK_END = TALK_START + TALK_LEN, POINT_START = TALK_END + .1, DURATION = POINT_START + 1.6;
+const WALK_END = 2.6, TALK_START = 3.1, TALK_END = TALK_START + TALK_LEN, POINT_START = +new URLSearchParams(location.search).get("tail") ? TALK_END - .2 : TALK_END + .1,
+      DURATION = POINT_START + (+new URLSearchParams(location.search).get("tail") || 1.6);
 const X_START = 2150, X_STOP = 1150, FLOOR = 930, SCALE = 1.12, STRIDE = 120;
 
 function lumiX(t) { return X_START + (X_STOP - X_START) * ease(t / WALK_END); }
