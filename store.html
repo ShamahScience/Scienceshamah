@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>متجر شامة للعلوم</title>
+<meta name="description" content="منتجات رقمية تفاعلية لتعليم العلوم: منصة نافس، معامل افتراضية، ونماذج ثلاثية الأبعاد.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+/* Marketing page for the digital products in this repo — same palette and fonts as the Nafes report */
+:root{
+  color-scheme:light;
+  --page:#f4f5fb;
+  --card:#ffffff;
+  --ink:#1f2350;
+  --muted:#565c86;
+  --violet:#7b4fc9;
+  --violet-soft:#efe8fb;
+  --blue:#2f6fd0;
+  --blue-soft:#e6effc;
+  --green:#2f9a6b;
+  --green-soft:#e3f4ec;
+  --orange:#ec8a2c;
+  --orange-soft:#fdeedd;
+  --pink:#d0508a;
+  --pink-soft:#fbe6f0;
+  --line:#dfe2f1;
+  --display:"Baloo Bhaijaan 2","Tajawal",Tahoma,sans-serif;
+  --body:"Tajawal",Tahoma,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75;margin:0}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.25;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px))}
+section{padding-block:56px}
+.eyebrow{display:inline-block;background:var(--violet-soft);color:var(--violet);font-weight:700;font-size:14px;padding:4px 14px;border-radius:999px;margin-bottom:12px}
+.sec-head{text-align:center;max-width:640px;margin:0 auto 32px}
+.sec-head h2{font-size:clamp(26px,4vw,36px);margin-bottom:8px}
+.sec-head p{color:var(--muted)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:700 16px var(--body);text-decoration:none;border-radius:14px;padding:12px 24px;border:2px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--violet);color:#fff;box-shadow:0 8px 20px rgba(123,79,201,.3)}
+.btn-ghost{background:transparent;color:var(--violet);border-color:var(--violet)}
+.btn-green{background:var(--green);color:#fff}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:rgba(244,245,251,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{font-family:var(--display);font-weight:800;font-size:22px;color:var(--violet);text-decoration:none}
+.logo span{color:var(--green)}
+.nav-links{display:flex;gap:22px;font-weight:500}
+.nav-links a{text-decoration:none;color:var(--muted)}
+.nav-links a:hover{color:var(--violet)}
+nav .btn{padding:8px 16px;font-size:14px}
+
+/* hero */
+.hero{padding-block:64px 48px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,#e9e0fb 0,rgba(233,224,251,0) 70%);top:-200px;left:-160px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;position:relative}
+.hero h1{font-size:clamp(32px,5.5vw,54px);margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--violet)}
+.hero p.lead{font-size:18px;color:var(--muted);margin-bottom:28px;max-width:520px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+.stats{display:flex;flex-wrap:wrap;gap:28px}
+.stats b{display:block;font-family:var(--display);font-size:28px;color:var(--ink)}
+.stats small{color:var(--muted);font-size:14px}
+.hero-art{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tile{border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:8px;min-height:140px;justify-content:flex-end;box-shadow:0 10px 30px rgba(40,40,110,.08)}
+.tile .ico{font-size:34px;line-height:1}
+.tile b{font-family:var(--display);font-size:18px}
+.tile:nth-child(1){background:var(--violet-soft);transform:translateY(18px)}
+.tile:nth-child(2){background:var(--green-soft)}
+.tile:nth-child(3){background:var(--orange-soft);transform:translateY(18px)}
+.tile:nth-child(4){background:var(--blue-soft)}
+
+/* problem/solution */
+.why{background:var(--card)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.why-card{border:1px solid var(--line);border-radius:20px;padding:24px}
+.why-card .ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:26px;margin-bottom:14px}
+.why-card h3{font-size:20px;margin-bottom:6px}
+.why-card p{color:var(--muted)}
+
+/* products */
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.product{background:var(--card);border-radius:22px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
+.product:hover{box-shadow:0 16px 40px rgba(40,40,110,.12);transform:translateY(-4px)}
+.product .cover{height:150px;display:grid;place-items:center;font-size:64px;position:relative}
+.product .tag{position:absolute;top:12px;right:12px;background:#fff;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px}
+.product .body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.product h3{font-size:20px}
+.product p{color:var(--muted);font-size:15px}
+.product ul{font-size:14px;color:var(--muted);display:grid;gap:2px}
+.product ul li::before{content:"✓ ";color:var(--green);font-weight:800}
+.product .foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);gap:8px}
+.price{font-family:var(--display);font-size:24px;font-weight:800}
+.price small{font-size:14px;color:var(--muted);font-weight:500}
+.product .btn{padding:8px 16px;font-size:15px}
+
+/* features */
+.features{background:linear-gradient(135deg,var(--violet) 0%,#5a3aa8 100%);color:#fff}
+.features .sec-head p{color:#ddd3f5}
+.features .eyebrow{background:rgba(255,255,255,.15);color:#fff}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feat{background:rgba(255,255,255,.1);border-radius:18px;padding:22px}
+.feat .ico{font-size:28px;margin-bottom:8px}
+.feat h3{font-size:18px;margin-bottom:4px}
+.feat p{color:#e6dff8;font-size:15px}
+
+/* testimonials */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.quote{background:var(--card);border-radius:20px;padding:24px;border:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.quote .stars{color:var(--orange);letter-spacing:2px}
+.quote p{font-size:15px}
+.who{display:flex;align-items:center;gap:10px;margin-top:auto}
+.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff}
+.who b{display:block;font-size:15px}
+.who small{color:var(--muted);font-size:13px}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.plan{background:var(--card);border-radius:24px;padding:28px;border:2px solid var(--line);display:flex;flex-direction:column;gap:14px;position:relative}
+.plan.best{border-color:var(--violet);box-shadow:0 20px 50px rgba(123,79,201,.18)}
+.plan .badge{position:absolute;top:-14px;right:50%;transform:translateX(50%);background:var(--violet);color:#fff;font-size:13px;font-weight:700;padding:4px 14px;border-radius:999px;white-space:nowrap}
+.plan h3{font-size:22px}
+.plan .amount{font-family:var(--display);font-size:40px;font-weight:800}
+.plan .amount small{font-size:15px;color:var(--muted);font-weight:500}
+.plan .old{text-decoration:line-through;color:var(--muted);font-size:15px}
+.plan ul{display:grid;gap:6px;font-size:15px;flex:1}
+.plan ul li::before{content:"✓ ";color:var(--green);font-weight:800}
+
+/* faq */
+.faq{max-width:760px;margin:0 auto;display:grid;gap:12px}
+details{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 20px}
+summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--violet);font-size:22px;line-height:1}
+details[open] summary::after{content:"−"}
+details p{color:var(--muted);margin-top:10px}
+
+/* final cta */
+.cta-box{background:var(--green-soft);border-radius:28px;padding:clamp(28px,5vw,48px);text-align:center;display:grid;gap:14px;justify-items:center}
+.cta-box h2{font-size:clamp(26px,4vw,36px)}
+.cta-box p{color:var(--muted);max-width:520px}
+
+footer{padding-block:32px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer a{text-decoration:none;margin-inline-start:16px}
+
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr}
+  .why-grid,.feat-grid,.quotes,.plans{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .plan.best{order:-1}
+}
+@media (max-width:420px){
+  .hero-art{gap:10px}
+  .tile{padding:16px;min-height:120px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#">شامة <span>للعلوم</span></a>
+    <div class="nav-links">
+      <a href="#products">المنتجات</a>
+      <a href="#pricing">الباقات</a>
+      <a href="#reviews">الآراء</a>
+      <a href="#faq">الأسئلة</a>
+    </div>
+    <a class="btn btn-primary" href="#pricing">اشترِ الآن</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">منتجات رقمية لمعلمي العلوم</span>
+      <h1>حوّل حصة العلوم إلى <em>تجربة تفاعلية</em> يحبها الطلاب</h1>
+      <p class="lead">منصات ومعامل افتراضية ونماذج ثلاثية الأبعاد جاهزة للاستخدام، مصممة على معايير اختبارات نافس، وتعمل من المتصفح بلا تثبيت.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#products">تصفح المنتجات</a>
+        <a class="btn btn-ghost" href="#pricing">شاهد الباقات</a>
+      </div>
+      <div class="stats">
+        <div><b>+500</b><small>معلم ومعلمة</small></div>
+        <div><b>+12,000</b><small>طالب استفاد</small></div>
+        <div><b>4.9★</b><small>تقييم العملاء</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="tile"><span class="ico">🧪</span><b>معامل افتراضية</b></div>
+      <div class="tile"><span class="ico">📊</span><b>منصة نافس</b></div>
+      <div class="tile"><span class="ico">🧫</span><b>نماذج 3D</b></div>
+      <div class="tile"><span class="ico">📝</span><b>قوالب وتقارير</b></div>
+    </div>
+  </div>
+</header>
+
+<section class="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">ليش منتجاتنا؟</span>
+      <h2>نوفر عليك ساعات من التحضير</h2>
+      <p>كل منتج مبني ليُستخدم مباشرة في الفصل أو يُرسل للطلاب كرابط.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="ico" style="background:var(--orange-soft)">⏱️</div><h3>جاهز فوراً</h3><p>افتح الملف في المتصفح وابدأ الحصة، بدون برامج أو حسابات.</p></div>
+      <div class="why-card"><div class="ico" style="background:var(--blue-soft)">🎯</div><h3>مرتبط بنافس</h3><p>المحتوى موزع على نواتج التعلم ومهارات الاختبارات الوطنية.</p></div>
+      <div class="why-card"><div class="ico" style="background:var(--pink-soft)">📱</div><h3>يعمل على كل جهاز</h3><p>جوال، تابلت، سبورة ذكية، أو كمبيوتر، وحتى بدون إنترنت.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="products">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">المنتجات</span>
+      <h2>اختر ما يناسب فصلك</h2>
+      <p>استلام فوري للملفات بعد الدفع مباشرة.</p>
+    </div>
+    <div class="products">
+      <article class="product">
+        <div class="cover" style="background:var(--violet-soft)"><span class="tag">الأكثر مبيعاً</span>📊</div>
+        <div class="body">
+          <h3>منصة العلوم نافس</h3>
+          <p>منصة تدريب كاملة على أسئلة نافس مع محاكاة ونتائج فورية.</p>
+          <ul><li>نسخة الفصل الدراسي</li><li>محاكاة تفاعلية</li><li>تقرير أداء للطلاب</li></ul>
+          <div class="foot"><span class="price">149 <small>ر.س</small></span><a class="btn btn-primary" href="#pricing">أضف للسلة</a></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="cover" style="background:var(--green-soft)">🧪</div>
+        <div class="body">
+          <h3>مختبر عفن الخبز</h3>
+          <p>تجربة علمية افتراضية يغيّر فيها الطالب المتغيرات ويرصد النتائج.</p>
+          <ul><li>متغيرات قابلة للتحكم</li><li>جداول ورسوم بيانية</li><li>ورقة عمل مرفقة</li></ul>
+          <div class="foot"><span class="price">49 <small>ر.س</small></span><a class="btn btn-primary" href="#pricing">أضف للسلة</a></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="cover" style="background:var(--orange-soft)"><span class="tag">جديد</span>🧫</div>
+        <div class="body">
+          <h3>نموذج نمو العفن 3D</h3>
+          <p>نموذج ثلاثي الأبعاد يوضح مراحل نمو العفن خطوة بخطوة.</p>
+          <ul><li>تدوير وتكبير حر</li><li>مراحل زمنية متحركة</li><li>مناسب للسبورة الذكية</li></ul>
+          <div class="foot"><span class="price">39 <small>ر.س</small></span><a class="btn btn-primary" href="#pricing">أضف للسلة</a></div>
+        </div>
+      </article>
+      <article class="product">
+        <div class="cover" style="background:var(--blue-soft)">📝</div>
+        <div class="body">
+          <h3>قالب تقرير المبادرة</h3>
+          <p>قالب احترافي جاهز لتوثيق مبادراتك التعليمية بصيغة PDF وA4.</p>
+          <ul><li>قابل للتعديل</li><li>جاهز للطباعة</li><li>خانة توقيع القائد</li></ul>
+          <div class="foot"><span class="price">29 <small>ر.س</small></span><a class="btn btn-primary" href="#pricing">أضف للسلة</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">مع كل منتج</span>
+      <h2>أكثر من مجرد ملف</h2>
+      <p>مزايا تحصل عليها مع أي عملية شراء.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat"><div class="ico">⚡</div><h3>تحميل فوري</h3><p>رابط التحميل يوصلك على الإيميل والواتساب خلال دقيقة.</p></div>
+      <div class="feat"><div class="ico">🔄</div><h3>تحديثات مجانية</h3><p>أي تحسين أو إضافة مستقبلية تصلك بدون تكلفة.</p></div>
+      <div class="feat"><div class="ico">💬</div><h3>دعم مباشر</h3><p>نساعدك في التشغيل والاستخدام عبر الواتساب.</p></div>
+      <div class="feat"><div class="ico">🏫</div><h3>رخصة للفصل</h3><p>استخدمه مع جميع طلابك بلا حدود.</p></div>
+      <div class="feat"><div class="ico">🌐</div><h3>بدون إنترنت</h3><p>يعمل محلياً بعد التحميل.</p></div>
+      <div class="feat"><div class="ico">🔒</div><h3>دفع آمن</h3><p>مدى، Apple Pay، وبطاقات الائتمان.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">آراء العملاء</span>
+      <h2>وش قالوا عنا</h2>
+    </div>
+    <div class="quotes">
+      <div class="quote"><div class="stars">★★★★★</div><p>“المختبر الافتراضي غيّر تفاعل الطالبات في الحصة، صاروا يطلبون التجربة بأنفسهم.”</p><div class="who"><span class="avatar" style="background:var(--violet)">م</span><div><b>معلمة علوم</b><small>المرحلة المتوسطة</small></div></div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>“منصة نافس وفرت علي وقت تحضير كبير، ونتائج الطلاب تحسنت بشكل واضح.”</p><div class="who"><span class="avatar" style="background:var(--green)">ع</span><div><b>معلم علوم</b><small>المرحلة الابتدائية</small></div></div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>“قالب التقرير احترافي جداً، قدمته للإدارة وانبهروا بالإخراج.”</p><div class="who"><span class="avatar" style="background:var(--orange)">ن</span><div><b>رائدة نشاط</b><small>مدرسة متوسطة</small></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">الباقات</span>
+      <h2>وفّر أكثر مع الحزم</h2>
+      <p>اشترِ منتجاً واحداً أو احصل على كل شيء بسعر مخفض.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>منتج واحد</h3>
+        <div class="amount">من 29 <small>ر.س</small></div>
+        <ul><li>أي منتج من القائمة</li><li>تحميل فوري</li><li>دعم عبر الواتساب</li></ul>
+        <a class="btn btn-ghost" href="#products">اختر منتجك</a>
+      </div>
+      <div class="plan best">
+        <span class="badge">الأفضل قيمة</span>
+        <h3>الحزمة الكاملة</h3>
+        <div><span class="old">266 ر.س</span></div>
+        <div class="amount">179 <small>ر.س</small></div>
+        <ul><li>جميع المنتجات الأربعة</li><li>تحديثات مجانية مدى الحياة</li><li>أي منتج جديد بخصم 50%</li><li>دعم أولوية</li></ul>
+        <a class="btn btn-primary" href="https://wa.me/966500000000?text=أبغى%20الحزمة%20الكاملة">اشترِ الحزمة</a>
+      </div>
+      <div class="plan">
+        <h3>رخصة مدرسة</h3>
+        <div class="amount">499 <small>ر.س</small></div>
+        <ul><li>كل المنتجات لجميع معلمي المدرسة</li><li>ورشة تدريبية عن بعد</li><li>فاتورة رسمية</li></ul>
+        <a class="btn btn-ghost" href="https://wa.me/966500000000?text=أبغى%20رخصة%20مدرسة">تواصل معنا</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">الأسئلة الشائعة</span>
+      <h2>عندك سؤال؟</h2>
+    </div>
+    <div class="faq">
+      <details><summary>كيف أستلم المنتج بعد الدفع؟</summary><p>يصلك رابط التحميل مباشرة على بريدك الإلكتروني والواتساب خلال دقيقة من إتمام الدفع.</p></details>
+      <details><summary>هل أحتاج إنترنت أو برامج خاصة؟</summary><p>لا، المنتجات ملفات HTML وPDF تفتح في أي متصفح، وتعمل بدون إنترنت بعد التحميل.</p></details>
+      <details><summary>وش طرق الدفع المتاحة؟</summary><p>مدى، Apple Pay، فيزا وماستركارد، والتحويل البنكي.</p></details>
+      <details><summary>هل أقدر أستخدمه مع أكثر من فصل؟</summary><p>نعم، رخصة المعلم تشمل جميع فصولك. لاستخدام جميع معلمي المدرسة اختر رخصة المدرسة.</p></details>
+      <details><summary>إذا ما ناسبني المنتج؟</summary><p>تواصل معنا خلال 7 أيام ونساعدك أو نسترجع لك المبلغ.</p></details>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-box">
+      <h2>جاهز تبدأ حصة مختلفة؟</h2>
+      <p>انضم لمئات المعلمين اللي خلّوا العلوم أمتع وأسهل لطلابهم.</p>
+      <a class="btn btn-green" href="https://wa.me/966500000000">تواصل عبر الواتساب</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 شامة للعلوم. جميع الحقوق محفوظة.</span>
+    <span><a href="#">تويتر / X</a><a href="#">إنستقرام</a><a href="mailto:info@example.com">البريد</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
