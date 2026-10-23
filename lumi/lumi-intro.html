@@ -102,6 +102,8 @@ body.capture #controls{display:none}
     <rect x="150" y="290" width="640" height="380" rx="44" fill="#ffffff" fill-opacity=".72" stroke="#c9a8f5" stroke-width="6" stroke-dasharray="22 16"/>
     <g fill="#ffb4d1"><path id="spark1" d="M180 300l10 22 22 10-22 10-10 22-10-22-22-10 22-10z"/></g>
     <g fill="#b48cf2"><path d="M770 640l8 17 17 8-17 8-8 17-8-17-17-8 17-8z"/></g>
+    <text id="taskTag" x="470" y="430" text-anchor="middle" font-size="40" font-weight="800" fill="#f06aa6"></text>
+    <text id="taskTitle" x="470" y="520" text-anchor="middle" font-size="50" font-weight="800" fill="#6b3fa0"></text>
   </g>
 
   <!-- ===== Speech bubble ===== -->
@@ -155,6 +157,28 @@ body.capture #controls{display:none}
           <ellipse cx="-70" cy="30" rx="15" ry="8" fill="#ff8cc6" opacity=".55"/>
           <ellipse cx="70" cy="30" rx="15" ry="8" fill="#ff8cc6" opacity=".55"/>
           <path id="mouth" d="" fill="#ff8cc6" stroke="#ff8cc6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+        </g>
+        <!-- prop in the screen-right hand (lens / book / box), drawn in front of the body -->
+        <g id="propHolder">
+          <g id="prop-lens" display="none">
+            <path d="M0 0L26 -58" stroke="#f06aa6" stroke-width="16" stroke-linecap="round"/>
+            <circle cx="42" cy="-100" r="44" fill="#c9ecff" fill-opacity=".75" stroke="url(#purple)" stroke-width="14"/>
+            <path d="M18 -116a28 28 0 0 1 22 -18" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none"/>
+          </g>
+          <g id="prop-book" display="none">
+            <rect x="-6" y="-58" width="84" height="100" rx="10" fill="url(#purple)"/>
+            <rect x="6" y="-50" width="70" height="84" rx="6" fill="#ffffff" opacity=".9"/>
+            <rect x="0" y="-58" width="12" height="100" rx="5" fill="#f06aa6"/>
+            <path d="M44 -20c-12-8-16-13-16-18a8 8 0 0 1 16-3a8 8 0 0 1 16 3c0 5-4 10-16 18z" fill="#ff8cc6"/>
+          </g>
+          <g id="prop-box" display="none">
+            <rect x="-8" y="-82" width="100" height="84" rx="14" fill="url(#purple)"/>
+            <rect x="-16" y="-100" width="116" height="28" rx="10" fill="#c6b2f7"/>
+            <rect x="34" y="-100" width="16" height="102" fill="#ff8cc6"/>
+            <path d="M42 -100c-30-30-44-6-20 0M42 -100c30-30 44-6 20 0" stroke="#ff8cc6" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <text x="42" y="-24" text-anchor="middle" font-size="46" font-weight="800" fill="#fff">؟</text>
+          </g>
+          <circle cx="0" cy="0" r="24" fill="url(#pinkBall)"/>
         </g>
       </g>
     </g>
@@ -222,6 +246,8 @@ function render(t) {
   aL = aL * (1 - point) + (88 + Math.sin(t * 6) * 2 * point) * point;
   $("armL").setAttribute("transform", `translate(-86 -222) rotate(${aL})`);
   $("armR").setAttribute("transform", `translate(86 -222) rotate(${aR})`);
+  const r = aR * Math.PI / 180;
+  $("propHolder").setAttribute("transform", `translate(${86 - 100 * Math.sin(r)} ${-222 + 100 * Math.cos(r)}) rotate(${Math.sin(t * 9) * 6 * wave})`);
   $("fingerL").setAttribute("opacity", point > .6 ? 1 : 0);
 
   // head & eyes
@@ -272,8 +298,22 @@ function render(t) {
   $("bubbles").innerHTML = bubbles;
 }
 
-// ---------- playback ----------
+// ---------- per-video settings: ?prop=lens|book|box&title=…&tag=…&l1=…&l2=… ----------
 const params = new URLSearchParams(location.search);
+const PRESETS = {
+  intro: { l1: "أهلًا يا عالماتي الصغيرات!", l2: "أنا لُومي، وجيت أرافقكن في مغامرات العلوم!", tag: "", title: "" },
+  lens:  { l1: "هيا يا عالماتي الصغيرات!", l2: "جهّزن عدساتكن المكبّرة، نبي نستكشف!", tag: "المهمة الأولى", title: "نستكشف بالعدسة المكبّرة" },
+  book:  { l1: "هيا يا عالماتي الصغيرات!", l2: "افتحن كتبكن، عندنا قصة علمية جميلة!", tag: "المهمة", title: "نقرأ ونكتشف" },
+  box:   { l1: "هيا يا عالماتي الصغيرات!", l2: "وش تتوقعن داخل صندوق المفاجآت؟", tag: "المهمة", title: "صندوق المفاجآت" },
+};
+const PROP = params.get("prop") || "intro";
+const CFG = { ...(PRESETS[PROP] || PRESETS.intro) };
+for (const k of ["l1", "l2", "tag", "title"]) if (params.has(k)) CFG[k] = params.get(k);
+if (PRESETS[PROP] && PROP !== "intro") $("prop-" + PROP).setAttribute("display", "inline");
+$("line1").textContent = CFG.l1; $("line2").textContent = CFG.l2;
+$("taskTag").textContent = CFG.tag; $("taskTitle").textContent = CFG.title;
+
+// ---------- playback ----------
 window.render = render;
 if (params.has("capture")) {
   document.body.classList.add("capture");
@@ -295,7 +335,7 @@ if (params.has("capture")) {
 
 function speak() {
   if (!("speechSynthesis" in window)) return;
-  const u = new SpeechSynthesisUtterance("أهلًا يا عالماتي الصغيرات! أنا لُومي، وجيت أرافقكن في مغامرات العلوم!");
+  const u = new SpeechSynthesisUtterance(CFG.l1 + " " + CFG.l2);
   const voices = speechSynthesis.getVoices();
   u.voice = voices.find(v => v.lang === "ar-SA") || voices.find(v => v.lang.startsWith("ar")) || null;
   u.lang = "ar-SA"; u.pitch = 1.7; u.rate = 1.05;
