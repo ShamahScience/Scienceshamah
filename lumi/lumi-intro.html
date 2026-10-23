@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لُومي — مشهد الترحيب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: one 16:9 stage (1920×1080 SVG) letterboxed in the window; an 8-second timeline drives every part from render(t) */
+:root{
+  --page:#2b2340; --ink:#4a3a6b; --btn:#ffffff; --btn-ink:#6b3fa0;
+  --round:"Baloo Bhaijaan 2","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#16121f}}
+:root[data-theme="dark"]{--page:#16121f}
+html,body{margin:0;height:100%;background:var(--page)}
+body{display:grid;place-items:center;overflow:hidden}
+#stage{width:min(100vw,177.78vh);aspect-ratio:16/9;display:block}
+text{font-family:var(--round)}
+.sig{font-family:var(--round);font-weight:800}
+#controls{position:fixed;inset:auto 0 12px 0;display:flex;gap:8px;justify-content:center;font-family:var(--round)}
+#controls button{border:0;border-radius:999px;padding:8px 18px;font:inherit;font-size:15px;background:var(--btn);color:var(--btn-ink);cursor:pointer;box-shadow:0 2px 8px #0003}
+body.capture #controls{display:none}
+</style>
+</head>
+<body>
+<svg id="stage" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#efe6ff"/><stop offset="1" stop-color="#fde7f1"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d7f3ea"/><stop offset="1" stop-color="#bfe9dc"/>
+    </linearGradient>
+    <radialGradient id="pearl" cx=".38" cy=".3" r=".85">
+      <stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#f6f1fb"/><stop offset="1" stop-color="#d9cfe8"/>
+    </radialGradient>
+    <radialGradient id="pinkBall" cx=".35" cy=".3" r=".8">
+      <stop offset="0" stop-color="#ffd3e6"/><stop offset="1" stop-color="#f06aa6"/>
+    </radialGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b48cf2"/><stop offset="1" stop-color="#7c4dd6"/>
+    </linearGradient>
+    <linearGradient id="visor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b2d63"/><stop offset="1" stop-color="#21183d"/>
+    </linearGradient>
+    <radialGradient id="eyeGlow" cx=".5" cy=".45" r=".6">
+      <stop offset="0" stop-color="#fff0fa"/><stop offset=".5" stop-color="#ff8cc6"/><stop offset="1" stop-color="#ff5fae"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <!-- ===== Pastel kids' science lab ===== -->
+  <rect width="1920" height="1080" fill="url(#wall)"/>
+  <rect y="800" width="1920" height="280" fill="url(#floor)"/>
+  <g stroke="#ffffff" stroke-opacity=".55" stroke-width="3">
+    <line x1="0" y1="800" x2="1920" y2="800"/>
+    <line x1="0" y1="880" x2="1920" y2="880"/><line x1="0" y1="980" x2="1920" y2="980"/>
+    <line x1="320" y1="800" x2="160" y2="1080"/><line x1="720" y1="800" x2="640" y2="1080"/>
+    <line x1="1200" y1="800" x2="1280" y2="1080"/><line x1="1600" y1="800" x2="1760" y2="1080"/>
+  </g>
+  <!-- wall dots -->
+  <g fill="#ffffff" opacity=".6">
+    <circle cx="120" cy="120" r="10"/><circle cx="860" cy="90" r="7"/><circle cx="1040" cy="210" r="9"/>
+    <circle cx="80" cy="640" r="8"/><circle cx="900" cy="700" r="6"/><circle cx="1880" cy="120" r="8"/>
+  </g>
+  <!-- window (right) -->
+  <g transform="translate(1440 120)">
+    <rect width="300" height="230" rx="34" fill="#c9ecff" stroke="#ffffff" stroke-width="14"/>
+    <line x1="150" y1="0" x2="150" y2="230" stroke="#fff" stroke-width="10"/>
+    <ellipse cx="90" cy="80" rx="46" ry="20" fill="#fff"/><ellipse cx="120" cy="70" rx="30" ry="22" fill="#fff"/>
+    <ellipse cx="230" cy="150" rx="40" ry="16" fill="#fff"/>
+    <circle cx="240" cy="60" r="26" fill="#ffe08a"/>
+  </g>
+  <!-- shelf with flasks (right) -->
+  <g transform="translate(1380 430)">
+    <rect x="0" y="120" width="440" height="22" rx="11" fill="#e8c9f0"/>
+    <g transform="translate(40 30)"><path d="M18 0h28v34l26 50a10 10 0 0 1-9 14H1a10 10 0 0 1-9-14l26-50z" fill="#ffffff" opacity=".85"/><path d="M-3 70h66l8 16a10 10 0 0 1-9 12H1a10 10 0 0 1-9-12z" fill="#ff9cc9"/></g>
+    <g transform="translate(150 10)"><rect x="0" y="0" width="34" height="110" rx="17" fill="#fff" opacity=".85"/><rect x="0" y="50" width="34" height="60" rx="17" fill="#b9a2f5"/></g>
+    <g transform="translate(230 40)"><circle cx="40" cy="48" r="38" fill="#fff" opacity=".85"/><rect x="28" y="0" width="24" height="20" fill="#fff" opacity=".85"/><path d="M4 56a36 36 0 0 0 72 0z" fill="#8fe0c8"/></g>
+    <g transform="translate(345 20)"><rect x="0" y="0" width="60" height="100" rx="14" fill="#fff" opacity=".85"/><rect x="0" y="46" width="60" height="54" rx="14" fill="#ffd27a"/></g>
+    <g id="bubbles" fill="#ff9cc9" opacity=".75"></g>
+  </g>
+  <!-- little microscope on a stool (far right) -->
+  <g transform="translate(1700 640)">
+    <rect x="-70" y="100" width="140" height="22" rx="11" fill="#f5b8d4"/>
+    <rect x="-50" y="122" width="16" height="60" rx="6" fill="#e9a3c4"/><rect x="34" y="122" width="16" height="60" rx="6" fill="#e9a3c4"/>
+    <rect x="-40" y="80" width="80" height="20" rx="8" fill="#9b7ae0"/>
+    <path d="M10 80V30" stroke="#9b7ae0" stroke-width="16" stroke-linecap="round"/>
+    <rect x="-20" y="-10" width="26" height="70" rx="10" transform="rotate(-25 0 30)" fill="#c6b2f7"/>
+  </g>
+  <!-- plant (left corner, kept low so the task space stays clear) -->
+  <g transform="translate(110 760)">
+    <path d="M0 0c-30-60-10-100 10-120M8 0c20-50 60-70 80-70M4 0c-40-30-80-30-100-20" stroke="#7fcfa9" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path d="M-40 0h96l-14 70h-68z" fill="#ffb4d1"/>
+  </g>
+
+  <!-- ===== Task title space (left), revealed when Lumi points ===== -->
+  <g id="taskCard" opacity="0">
+    <rect x="150" y="290" width="640" height="380" rx="44" fill="#ffffff" fill-opacity=".72" stroke="#c9a8f5" stroke-width="6" stroke-dasharray="22 16"/>
+    <g fill="#ffb4d1"><path id="spark1" d="M180 300l10 22 22 10-22 10-10 22-10-22-22-10 22-10z"/></g>
+    <g fill="#b48cf2"><path d="M770 640l8 17 17 8-17 8-8 17-8-17-17-8 17-8z"/></g>
+  </g>
+
+  <!-- ===== Speech bubble ===== -->
+  <g id="bubble" opacity="0">
+    <path id="bubblePath" d="" fill="#ffffff" stroke="#e7d6fb" stroke-width="5"/>
+    <text id="line1" x="0" y="0" text-anchor="middle" font-size="46" font-weight="800" fill="#6b3fa0">أهلًا يا عالماتي الصغيرات!</text>
+    <text id="line2" x="0" y="0" text-anchor="middle" font-size="38" font-weight="600" fill="#4a3a6b">أنا لُومي، وجيت أرافقكن في مغامرات العلوم!</text>
+  </g>
+
+  <!-- ===== Lumi (origin = point between the feet on the floor) ===== -->
+  <g id="lumiRoot">
+    <ellipse id="shadow" cx="0" cy="0" rx="120" ry="20" fill="#7a5fa8" opacity=".18"/>
+    <g id="lumi">
+      <!-- legs -->
+      <g id="legL"><rect x="-58" y="-96" width="36" height="78" rx="18" fill="url(#pearl)" stroke="#d6c9ea" stroke-width="2"/><ellipse cx="-42" cy="-14" rx="38" ry="18" fill="url(#pinkBall)"/></g>
+      <g id="legR"><rect x="22" y="-96" width="36" height="78" rx="18" fill="url(#pearl)" stroke="#d6c9ea" stroke-width="2"/><ellipse cx="42" cy="-14" rx="38" ry="18" fill="url(#pinkBall)"/></g>
+      <g id="upper">
+        <!-- arm on screen-left (points to the task) -->
+        <g id="armL" transform="translate(-86 -222)">
+          <rect x="-17" y="0" width="34" height="92" rx="17" fill="url(#pearl)" stroke="#d6c9ea" stroke-width="2"/>
+          <rect id="fingerL" x="-6" y="96" width="12" height="34" rx="6" fill="#f06aa6" opacity="0"/>
+          <circle cx="0" cy="100" r="24" fill="url(#pinkBall)"/>
+        </g>
+        <!-- arm on screen-right (waves) -->
+        <g id="armR" transform="translate(86 -222)">
+          <rect x="-17" y="0" width="34" height="92" rx="17" fill="url(#pearl)" stroke="#d6c9ea" stroke-width="2"/>
+          <circle cx="0" cy="100" r="24" fill="url(#pinkBall)"/>
+        </g>
+        <!-- body -->
+        <path d="M0 -258c66 0 98 42 98 96 0 52-36 78-98 78s-98-26-98-78c0-54 32-96 98-96z" fill="url(#pearl)" stroke="#d6c9ea" stroke-width="3"/>
+        <rect x="-50" y="-210" width="100" height="78" rx="24" fill="url(#purple)"/>
+        <!-- chest emblem: tiny flask with a heart -->
+        <g transform="translate(0 -171)">
+          <path d="M-9 -26h18v14l17 28a7 7 0 0 1-6 10h-40a7 7 0 0 1-6-10l17-28z" fill="#ffffff"/>
+          <path d="M-19 4h38l7 12a7 7 0 0 1-6 10h-40a7 7 0 0 1-6-10z" fill="#ff8cc6"/>
+          <path d="M0 22c-9-6-12-10-12-14a6 6 0 0 1 12-2a6 6 0 0 1 12 2c0 4-3 8-12 14z" fill="#ffffff" transform="translate(0 -4) scale(.55)"/>
+        </g>
+        <rect x="-24" y="-274" width="48" height="26" rx="12" fill="#c6b2f7"/>
+        <!-- head -->
+        <g id="head" transform="translate(0 -360)">
+          <g id="antenna"><path d="M0 -92v-46" stroke="#b48cf2" stroke-width="8" stroke-linecap="round"/><circle id="antBall" cx="0" cy="-146" r="16" fill="url(#pinkBall)" filter="url(#glow)"/></g>
+          <ellipse cx="-128" cy="0" rx="22" ry="40" fill="url(#purple)"/>
+          <ellipse cx="128" cy="0" rx="22" ry="40" fill="url(#purple)"/>
+          <rect x="-124" y="-96" width="248" height="188" rx="86" fill="url(#pearl)" stroke="#d6c9ea" stroke-width="3"/>
+          <rect x="-96" y="-64" width="192" height="122" rx="56" fill="url(#visor)"/>
+          <path d="M-70 -50q30-10 60-6" stroke="#ffffff" stroke-opacity=".25" stroke-width="8" stroke-linecap="round" fill="none"/>
+          <g id="eyes" filter="url(#glow)">
+            <g id="eyeL" transform="translate(-42 -10)"><rect x="-19" y="-27" width="38" height="54" rx="19" fill="url(#eyeGlow)"/><circle cx="-6" cy="-12" r="7" fill="#fff"/></g>
+            <g id="eyeR" transform="translate(42 -10)"><rect x="-19" y="-27" width="38" height="54" rx="19" fill="url(#eyeGlow)"/><circle cx="-6" cy="-12" r="7" fill="#fff"/></g>
+          </g>
+          <ellipse cx="-70" cy="30" rx="15" ry="8" fill="#ff8cc6" opacity=".55"/>
+          <ellipse cx="70" cy="30" rx="15" ry="8" fill="#ff8cc6" opacity=".55"/>
+          <path id="mouth" d="" fill="#ff8cc6" stroke="#ff8cc6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===== Signature ===== -->
+  <g transform="translate(960 1036)">
+    <rect x="-150" y="-34" width="300" height="56" rx="28" fill="#ffffff" fill-opacity=".8"/>
+    <text class="sig" x="0" y="8" text-anchor="middle" font-size="32" fill="#7c4dd6">أ/ شامه البقمي</text>
+  </g>
+</svg>
+
+<div id="controls">
+  <button id="play">▶ تشغيل مع الصوت</button>
+  <button id="replay">↺ إعادة</button>
+</div>
+
+<script>
+const DURATION = 8, $ = id => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const ease = x => 1 - Math.pow(1 - clamp(x), 3);           // ease-out cubic
+const easeIO = x => (x = clamp(x), x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2);
+const span = (t, a, b) => clamp((t - a) / (b - a));
+
+// Timeline (seconds)
+const WALK_END = 2.6, TALK_START = 3.1, TALK_END = 6.3, POINT_START = 6.4;
+const X_START = 2150, X_STOP = 1150, FLOOR = 930, SCALE = 1.12, STRIDE = 120;
+
+function lumiX(t) { return X_START + (X_STOP - X_START) * ease(t / WALK_END); }
+
+function mouthPath(open) {
+  // closed = smile arc, open = rounded "o"
+  const w = 26 - open * 8, h = 4 + open * 20;
+  if (open < .08) return "M-22 22q22 18 44 0";
+  return `M${-w} 20q${w} ${-6} ${2*w} 0q0 ${h} ${-w} ${h}q${-w} 0 ${-w} ${-h}z`;
+}
+
+function render(t) {
+  t = clamp(t, 0, DURATION);
+  const x = lumiX(t);
+  const walked = X_START - x;
+  const speed = t < WALK_END ? (1 - span(t, WALK_END - .7, WALK_END)) : 0;
+  const ph = walked / STRIDE * Math.PI;
+  const s = Math.sin(ph);
+  const lift = 20 * speed;
+  const breathe = Math.sin(t * 3) * 2.5 * (1 - speed);
+
+  $("lumiRoot").setAttribute("transform", `translate(${x} ${FLOOR}) scale(${SCALE})`);
+  $("legL").setAttribute("transform", `translate(0 ${-Math.max(0, s) * lift})`);
+  $("legR").setAttribute("transform", `translate(0 ${-Math.max(0, -s) * lift})`);
+  const bob = -Math.abs(s) * 9 * speed + breathe;
+  // little celebratory hop when stopping
+  const hop = -Math.sin(span(t, WALK_END, WALK_END + .35) * Math.PI) * 14;
+  $("upper").setAttribute("transform", `translate(0 ${bob + hop}) rotate(${s * 3 * speed} 0 -150)`);
+  $("shadow").setAttribute("rx", 120 + hop * .8);
+
+  // arms
+  let aL = 12 + s * 16 * speed, aR = -12 - s * 16 * speed;
+  const wave = span(t, TALK_START - .3, TALK_START + .1) * (1 - span(t, TALK_END - .1, TALK_END + .3));
+  aR = aR * (1 - wave) + (-150 + Math.sin((t - TALK_START) * 9) * 18) * wave;
+  // the other arm gestures softly while speaking
+  const talking = t > TALK_START && t < TALK_END;
+  aL += talking ? Math.sin(t * 4.2) * 10 : 0;
+  const point = easeIO(span(t, POINT_START, POINT_START + .45));
+  aL = aL * (1 - point) + (88 + Math.sin(t * 6) * 2 * point) * point;
+  $("armL").setAttribute("transform", `translate(-86 -222) rotate(${aL})`);
+  $("armR").setAttribute("transform", `translate(86 -222) rotate(${aR})`);
+  $("fingerL").setAttribute("opacity", point > .6 ? 1 : 0);
+
+  // head & eyes
+  const look = (speed > 0 ? -10 : 0) * 1 + point * -16;
+  const tilt = talking ? Math.sin(t * 2.6) * 4 : point * -6;
+  $("head").setAttribute("transform", `translate(${point * -6} -360) rotate(${tilt})`);
+  const blinkAt = [2.95, 5.2, 7.5];
+  let eyeS = 1;
+  for (const b of blinkAt) { const d = Math.abs(t - b); if (d < .09) eyeS = Math.min(eyeS, .12 + d / .09 * .88); }
+  const happy = span(t, WALK_END, WALK_END + .2) * (1 - span(t, TALK_START, TALK_START + .2));
+  eyeS *= 1 - happy * .35;
+  $("eyeL").setAttribute("transform", `translate(${-42 + look} -10) scale(1 ${eyeS})`);
+  $("eyeR").setAttribute("transform", `translate(${42 + look} -10) scale(1 ${eyeS})`);
+  $("antBall").setAttribute("r", 16 + Math.sin(t * 5) * 2);
+  $("antenna").setAttribute("transform", `rotate(${-s * 6 * speed + Math.sin(t * 3) * 3})`);
+
+  // lip-sync: syllable-like pulses over the line's duration
+  let open = 0;
+  if (talking) {
+    const k = t - TALK_START;
+    const pauses = (k > 1.25 && k < 1.45) ? 0 : 1;          // short breath after «الصغيرات!»
+    open = pauses * clamp(.55 + .45 * Math.sin(k * 17) * Math.sin(k * 5.3 + 1), 0, 1);
+  }
+  $("mouth").setAttribute("d", mouthPath(open));
+
+  // speech bubble
+  const bIn = ease(span(t, TALK_START - .15, TALK_START + .25)), bOut = 1 - span(t, TALK_END + .3, TALK_END + .6);
+  const bx = X_STOP, by = 175, bw = 960, bh = 190;
+  $("bubble").setAttribute("opacity", bIn * bOut);
+  $("bubble").setAttribute("transform", `translate(${bx} ${by}) scale(${.85 + .15 * bIn})`);
+  $("bubblePath").setAttribute("d",
+    `M${-bw/2 + 60} ${-bh/2}h${bw - 120}a60 60 0 0 1 60 60v${bh - 120}a60 60 0 0 1-60 60` +
+    `H40l-30 46-24-46H${-bw/2 + 60}a60 60 0 0 1-60-60v${-(bh - 120)}a60 60 0 0 1 60-60z`);
+  $("line1").setAttribute("y", -14); $("line2").setAttribute("y", 50);
+
+  // task card
+  const c = ease(span(t, POINT_START + .2, POINT_START + .7));
+  $("taskCard").setAttribute("opacity", c);
+  $("taskCard").setAttribute("transform", `translate(470 480) scale(${.8 + .2 * c}) translate(-470 -480)`);
+  $("spark1").setAttribute("transform", `rotate(${t * 40} 190 332)`);
+
+  // flask bubbles
+  let bubbles = "";
+  for (let i = 0; i < 5; i++) {
+    const p = ((t * .35 + i / 5) % 1);
+    bubbles += `<circle cx="${72 + Math.sin(p * 9 + i) * 8}" cy="${30 - p * 160}" r="${5 + i % 3 * 2}" opacity="${1 - p}"/>`;
+  }
+  $("bubbles").innerHTML = bubbles;
+}
+
+// ---------- playback ----------
+const params = new URLSearchParams(location.search);
+window.render = render;
+if (params.has("capture")) {
+  document.body.classList.add("capture");
+  render(+params.get("t") || 0);
+} else {
+  let start = performance.now(), speakArmed = false, spoke = false;
+  const loop = now => {
+    const t = (now - start) / 1000;
+    if (speakArmed && !spoke && t >= TALK_START - .1) { spoke = true; speak(); }
+    render(t % (DURATION + 1.5));
+    if (t > DURATION + 1.5) { start = now; spoke = !speakArmed; }
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+  const restart = withVoice => { speechSynthesis?.cancel(); speakArmed = withVoice; spoke = false; start = performance.now(); };
+  $("play").onclick = () => restart(true);
+  $("replay").onclick = () => restart(speakArmed);
+}
+
+function speak() {
+  if (!("speechSynthesis" in window)) return;
+  const u = new SpeechSynthesisUtterance("أهلًا يا عالماتي الصغيرات! أنا لُومي، وجيت أرافقكن في مغامرات العلوم!");
+  const voices = speechSynthesis.getVoices();
+  u.voice = voices.find(v => v.lang === "ar-SA") || voices.find(v => v.lang.startsWith("ar")) || null;
+  u.lang = "ar-SA"; u.pitch = 1.7; u.rate = 1.05;
+  speechSynthesis.speak(u);
+}
+</script>
+</body>
+</html>
