@@ -197,14 +197,16 @@ body.capture #controls{display:none}
 </div>
 
 <script>
-const DURATION = 8, $ = id => document.getElementById(id);
+const $ = id => document.getElementById(id);
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const ease = x => 1 - Math.pow(1 - clamp(x), 3);           // ease-out cubic
 const easeIO = x => (x = clamp(x), x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2);
 const span = (t, a, b) => clamp((t - a) / (b - a));
 
 // Timeline (seconds)
-const WALK_END = 2.6, TALK_START = 3.1, TALK_END = 6.3, POINT_START = 6.4;
+// ?talk=<seconds> stretches the speaking part to fit a voice track; default keeps the scene at 8 s
+const TALK_LEN = +new URLSearchParams(location.search).get("talk") || 3.2;
+const WALK_END = 2.6, TALK_START = 3.1, TALK_END = TALK_START + TALK_LEN, POINT_START = TALK_END + .1, DURATION = POINT_START + 1.6;
 const X_START = 2150, X_STOP = 1150, FLOOR = 930, SCALE = 1.12, STRIDE = 120;
 
 function lumiX(t) { return X_START + (X_STOP - X_START) * ease(t / WALK_END); }
@@ -266,7 +268,10 @@ function render(t) {
 
   // lip-sync: syllable-like pulses over the line's duration
   let open = 0;
-  if (talking) {
+  if (talking && window.MOUTH_ENV) {
+    // loudness envelope of the real voice track, sampled at 30 fps from TALK_START
+    open = clamp(window.MOUTH_ENV[Math.floor((t - TALK_START) * 30)] || 0);
+  } else if (talking) {
     const k = t - TALK_START;
     const pauses = (k > 1.25 && k < 1.45) ? 0 : 1;          // short breath after «الصغيرات!»
     open = pauses * clamp(.55 + .45 * Math.sin(k * 17) * Math.sin(k * 5.3 + 1), 0, 1);
