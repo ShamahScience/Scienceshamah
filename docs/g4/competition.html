@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تحدي التنافس وهرم الطاقة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1b5e20; --leaf: #2f8a3a; --mint: #e3f4d7; --cream: #fffbef; --ink: #34405e;
+    --pink: #c2366f; --rose: #fde4ec; --sky: #dff1fb; --yel: #fff3c4; --lav: #eee8fb; --red: #d23b3b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; font-family: 'Baloo Bhaijaan 2', Tahoma, sans-serif; color: var(--ink);
+    background: #f4f8ef radial-gradient(circle at 15% 10%, #e3f4d7 0, transparent 40%), radial-gradient(circle at 90% 90%, #fde4ec 0, transparent 35%);
+    display: flex; justify-content: center; padding: 16px;
+  }
+  .app { width: 100%; max-width: 520px; }
+  .flags { display: flex; justify-content: center; gap: 6px; margin-bottom: 6px; }
+  .flags span { width: 26px; height: 20px; border-radius: 3px; background: var(--green); }
+  .flags span:nth-child(even) { background: #fff; border: 2px solid var(--green); }
+  .card { background: #fff; border: 3px solid var(--green); border-radius: 22px; padding: 20px 18px; box-shadow: 0 6px 0 #c8dfc0; }
+  h1 { margin: 0 0 6px; font-size: 30px; color: var(--green); text-align: center; line-height: 1.3; }
+  .sub { text-align: center; margin: 0 0 14px; font-size: 17px; }
+  .hero { font-size: 64px; text-align: center; margin: 6px 0; }
+  .btn {
+    display: block; width: 100%; border: 3px solid var(--ink); border-radius: 16px; padding: 12px 14px; margin: 10px 0;
+    font: inherit; font-size: 20px; font-weight: 600; text-align: right; background: var(--cream); color: var(--ink); cursor: pointer;
+    transition: transform .08s;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn.main { background: var(--leaf); color: #fff; text-align: center; font-size: 22px; border-color: var(--green); }
+  .btn.ok { background: #c9f0c0; border-color: var(--leaf); }
+  .btn.no { background: #fde2e2; border-color: var(--red); animation: shake .35s; }
+  .btn:disabled { cursor: default; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .bar { flex: 1; height: 14px; border-radius: 10px; background: #e6eee1; overflow: hidden; border: 2px solid var(--green); }
+  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #8fd18a, var(--leaf)); transition: width .4s; }
+  .stars { font-size: 18px; white-space: nowrap; }
+  .tag { display: inline-block; background: var(--yel); border: 2px dashed #f5c242; border-radius: 12px; padding: 2px 10px; font-size: 15px; color: var(--pink); font-weight: 800; }
+  .q { font-size: 23px; font-weight: 800; margin: 10px 0 4px; line-height: 1.5; }
+  .pic { font-size: 46px; text-align: center; margin: 4px 0; letter-spacing: 4px; }
+  .msg { min-height: 34px; font-size: 19px; font-weight: 600; text-align: center; margin-top: 6px; }
+  .msg.good { color: var(--leaf); } .msg.bad { color: var(--red); }
+  .order { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .order .btn { text-align: center; margin: 0; font-size: 19px; }
+  .pyr { display: flex; flex-direction: column-reverse; align-items: center; gap: 4px; margin: 12px 0 4px; }
+  .pyr div { height: 40px; border-radius: 8px; border: 2px dashed var(--green); display: flex; align-items: center; justify-content: center; font-size: 18px; background: #fbfdf9; }
+  .pyr div.filled { border-style: solid; background: var(--mint); font-weight: 800; }
+  .end .big { font-size: 52px; text-align: center; color: var(--green); font-weight: 800; }
+  .sign { text-align: center; margin-top: 12px; color: #6b4fc0; font-weight: 800; }
+  .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="flags"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="card" id="screen"></div>
+  <div class="sign">أ/ شامه البقمي 💚</div>
+</div>
+<script>
+// Question kinds: choice (one correct option), order (tap items from the pyramid base upward).
+const QUESTIONS = [
+  { tag: 'المفردة', q: 'التنافس هو…', pic: '🦌🐄🐇🌾', options: ['صراع المخلوقات على الطعام والماء', 'تعاون المخلوقات معًا', 'نوم الحيوانات في الشتاء'], a: 0 },
+  { tag: 'أفكّر', q: 'الأرنب والفأر يأكلان العشب نفسه. ماذا يحدث بينهما؟', pic: '🐇 🌾 🐁', options: ['يتعاونان', 'يتنافسان على العشب', 'لا يحدث شيء'], a: 1 },
+  { tag: 'صح أم خطأ', q: 'النباتات تتنافس على ضوء الشمس والمواد المغذية.', pic: '🌳☀️🌼', options: ['صح ✔', 'خطأ ✘'], a: 0 },
+  { tag: 'رتّبي', q: 'رتّبي هرم الطاقة من القاعدة إلى القمة. اضغطي بالترتيب 👇', kind: 'order', items: ['🦅 الصقور', '🌾 العشب', '🐦 العصافير', '🦗 الجراد'], answer: ['🌾 العشب', '🦗 الجراد', '🐦 العصافير', '🦅 الصقور'] },
+  { tag: 'هرم الطاقة', q: 'أين توجد أكبر كمية من الطاقة في الهرم؟', pic: '🔺', options: ['في القمة', 'في الوسط', 'في القاعدة (المنتجات)'], a: 2 },
+  { tag: 'أتذكّر', q: 'كم ينتقل من طاقة النبات إلى آكلات الأعشاب؟', pic: '🌾 ➜ 🦗', options: ['١٠٪', '٥٠٪', '٩٠٪'], a: 0 },
+  { tag: 'صح أم خطأ', q: 'آكلات اللحوم لديها طاقة أكثر من آكلات الأعشاب.', pic: '🦁 ⚡ 🦓', options: ['صح ✔', 'خطأ ✘'], a: 1 },
+  { tag: 'شبكة المحيط', q: 'أيّ حيوان ينافس الحوت القاتل على الأسماك؟', pic: '🐋 🐟', options: ['🐄 البقرة', '🐬 الدلفين', '🐇 الأرنب'], a: 1 },
+  { tag: 'أقارن', q: 'في الماء آكلات لحوم أكثر من اليابسة… لماذا؟', pic: '🌊🦈', options: ['لأن الماء بارد', 'لأن الطحالب والعوالق كثيرة', 'لأن الأسماك كبيرة'], a: 1 },
+  { tag: 'أكملي السلسلة', q: 'عشب ← فأر ← ثعبان ← ؟', pic: '🌾 ➜ 🐁 ➜ 🐍 ➜ ❓', options: ['🦅 نسر', '🐄 بقرة', '🌾 عشب'], a: 0 },
+  { tag: 'مراجعة الدرس', q: 'ينشأ عن اتحاد سلسلتي غذاء أو أكثر:', pic: '🕸️', options: ['نظام بيئي', 'شبكة غذاء', 'هرم غذاء'], a: 1 },
+  { tag: 'العلوم والرياضيات', q: 'آكلات الأعشاب ٤٢٥٠، وآكلات اللحوم عُشرها. كم عدد آكلات اللحوم؟', pic: '🔢', options: ['٤٢', '٤٢٥', '٤٢٥٠٠'], a: 1 },
+];
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const PRAISE = ['أحسنتِ! 🌟', 'رائع يا عالمة! ✨', 'ممتاز! 💚', 'إجابة صحيحة! 🎉'];
+const HINT = 'حاولي مرة أخرى 💡';
+const screen = document.getElementById('screen');
+let i = 0, stars = 0, tries = 0;
+
+function confetti() {
+  for (let k = 0; k < 14; k++) {
+    const s = document.createElement('div');
+    s.className = 'confetti';
+    s.textContent = ['⭐', '🌿', '💚', '✨'][k % 4];
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.animationDelay = Math.random() * 0.4 + 's';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 2200);
+  }
+}
+function header() {
+  return `<div class="top"><div class="bar"><i style="width:${(i / QUESTIONS.length) * 100}%"></i></div><div class="stars">⭐ ${ar(stars)}</div></div>`;
+}
+function start() {
+  screen.innerHTML = `
+    <h1>تحدي التنافس وهرم الطاقة</h1>
+    <p class="sub">العلوم – الصف الرابع</p>
+    <div class="hero">🦅🔺🌾</div>
+    <p class="sub">${ar(QUESTIONS.length)} سؤالًا قصيرًا. اجمعي النجوم ⭐!</p>
+    <button class="btn main" id="go">ابدئي التحدي 🚀</button>`;
+  document.getElementById('go').onclick = () => { i = 0; stars = 0; show(); };
+}
+function next(ok) {
+  if (ok) { stars += tries === 0 ? 1 : 0; confetti(); }
+  setTimeout(() => { i++; i < QUESTIONS.length ? show() : finish(); }, 1100);
+}
+function show() {
+  const q = QUESTIONS[i];
+  tries = 0;
+  if (q.kind === 'order') return showOrder(q);
+  screen.innerHTML = `${header()}<span class="tag">${q.tag}</span><div class="q">${q.q}</div><div class="pic">${q.pic || ''}</div>
+    ${q.options.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}<div class="msg" id="msg"></div>`;
+  screen.querySelectorAll('.btn').forEach((b) => b.onclick = () => {
+    const k = +b.dataset.k, msg = document.getElementById('msg');
+    if (k === q.a) {
+      b.classList.add('ok');
+      screen.querySelectorAll('.btn').forEach((x) => x.disabled = true);
+      msg.className = 'msg good'; msg.textContent = PRAISE[i % PRAISE.length];
+      next(true);
+    } else {
+      b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); b.disabled = true;
+      tries++;
+      msg.className = 'msg bad'; msg.textContent = HINT;
+    }
+  });
+}
+function showOrder(q) {
+  const placed = [];
+  const render = () => {
+    screen.innerHTML = `${header()}<span class="tag">${q.tag}</span><div class="q">${q.q}</div>
+      <div class="pyr">${q.answer.map((_, k) => `<div class="${placed[k] ? 'filled' : ''}" style="width:${92 - k * 18}%">${placed[k] || (k === 0 ? 'القاعدة' : '…')}</div>`).join('')}</div>
+      <div class="order">${q.items.map((t) => `<button class="btn" ${placed.includes(t) ? 'disabled style="opacity:.35"' : ''}>${t}</button>`).join('')}</div>
+      <div class="msg" id="msg"></div>`;
+    screen.querySelectorAll('.order .btn').forEach((b) => b.onclick = () => {
+      const t = b.textContent, msg = document.getElementById('msg');
+      if (t === q.answer[placed.length]) {
+        placed.push(t);
+        if (placed.length === q.answer.length) {
+          render();
+          const m = document.getElementById('msg'); m.className = 'msg good'; m.textContent = 'هرم رائع! 🔺🌟';
+          return next(true);
+        }
+        render();
+      } else {
+        tries++;
+        b.classList.remove('no'); void b.offsetWidth; b.classList.add('no');
+        msg.className = 'msg bad'; msg.textContent = placed.length === 0 ? 'ابدئي بالمنتجات في القاعدة 🌾' : HINT;
+      }
+    });
+  };
+  render();
+}
+function finish() {
+  const n = QUESTIONS.length, rate = stars >= n - 1 ? '⭐⭐⭐' : stars >= n / 2 ? '⭐⭐' : '⭐';
+  screen.innerHTML = `<div class="end"><h1>أبدعتِ يا عالمتي! 🎉</h1><div class="big">${ar(stars)} / ${ar(n)}</div>
+    <div class="hero">${rate}</div><p class="sub">النجمة تُحسب للإجابة الصحيحة من أول محاولة.</p>
+    <button class="btn main" id="again">ألعب مرة أخرى 🔄</button></div>`;
+  confetti();
+  document.getElementById('again').onclick = start;
+}
+start();
+</script>
+</body>
+</html>
