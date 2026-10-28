@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-game="g6-hub" data-title="صفحة ألعاب الصف السادس">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ألعاب الصف السادس</title>
+<style>
+  :root{ --bg:#F4FAF5; --card:#FFFFFF; --ink:#2B3A55; --muted:#6B7A8F; --green:#2E8B57; --dk:#1E5E3A; --line:#D7E6DB; --gold:#E3A21A }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#13201A; --card:#1C2B24; --ink:#EAF2EC; --muted:#A9B8AE; --line:#2F4238 } }
+  :root[data-theme="dark"]{ --bg:#13201A; --card:#1C2B24; --ink:#EAF2EC; --muted:#A9B8AE; --line:#2F4238 }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Tahoma,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+  .wrap{max-width:960px;margin:0 auto;padding:16px}
+  header{text-align:center;padding:12px 0 18px}
+  h1{margin:0;color:var(--dk);font-size:clamp(24px,5vw,36px)}
+  .sub{color:var(--muted);margin-top:6px}
+  .me{display:inline-flex;gap:8px;align-items:center;margin-top:10px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:bold}
+  .me[hidden]{display:none}
+  .me button{border:none;background:none;color:var(--green);font:inherit;cursor:pointer;text-decoration:underline}
+  h2{font-size:20px;margin:22px 0 10px;color:var(--dk)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  a.card{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;transition:transform .1s,border-color .1s}
+  a.card:hover{border-color:var(--green);transform:translateY(-2px)}
+  .ic{font-size:40px}
+  .t{font-weight:bold;font-size:19px}
+  .d{color:var(--muted);font-size:14px;line-height:1.6}
+  .tag{align-self:flex-start;background:#FFF6DB;color:#8A5A00;border:1px solid var(--gold);border-radius:999px;padding:2px 10px;font-size:12px;font-weight:bold}
+  .tag.res{background:#E7F6EC;color:var(--dk);border-color:var(--green)}
+  footer{text-align:center;color:var(--muted);font-size:14px;margin:26px 0 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🎮 ألعاب الصف السادس</h1>
+    <div class="sub">منصة العلوم نافس · العلوم · ابتدائية عشرون لتحفيظ القرآن</div>
+    <div class="me" id="me" hidden></div>
+  </header>
+
+  <h2>🏆 ألعاب تصل نتيجتها إلى المعلمة</h2>
+  <div class="grid">
+    <a class="card" href="respiration-game.html" data-page="respiration"><span class="ic">🫁</span><span class="t">رحلة الهواء والدم</span><span class="d">رتّبي رحلة الهواء ورحلة الدم، ثم تحدي العالمة الصغيرة. (التنفس والدوران)</span><span class="tag res">النتيجة تصل للمعلمة</span></a>
+    <a class="card" href="microscope.html" data-page="microscope"><span class="ic">🔬</span><span class="t">عالم تحت المجهر</span><span class="d">رحلة بالعدسة الذهبية بين الطلائعيات والبكتيريا والبدائيات والفطريات، مع شهادة.</span><span class="tag res">النتيجة تصل للمعلمة</span></a>
+    <a class="card" href="nafs-skills.html" data-page="nafs-skills"><span class="ic">🌟</span><span class="t">بمهاراتي أنافس</span><span class="d">مراجعة مهارات نافس الوطنية: ٢٠ سؤالًا في ٤ مجموعات.</span><span class="tag res">النتيجة تصل للمعلمة</span></a>
+    <a class="card" href="../index.html" data-page="activities"><span class="ic">📝</span><span class="t">أنشطة المعلمة</span><span class="d">الأنشطة التي تفتحها المعلمة في الحصة.</span><span class="tag res">النتيجة تصل للمعلمة</span></a>
+  </div>
+
+  <h2>🧪 محاكاة وتجارب افتراضية</h2>
+  <div class="grid">
+    <a class="card" href="../nafes/sims/bread-mold.html" data-page="sim-bread-mold"><span class="ic">🍞</span><span class="t">نمو عفن الخبز</span><span class="d">تجربة افتراضية: الأبواغ والخيوط الفطرية والإنزيمات.</span><span class="tag">تُسجَّل الزيارة</span></a>
+    <a class="card" href="../nafes/sims/mosses.html" data-page="sim-mosses"><span class="ic">🌿</span><span class="t">دورة حياة الحزازيات</span><span class="d">محاكاة ثلاثية الأبعاد لمراحل التكاثر.</span><span class="tag">تُسجَّل الزيارة</span></a>
+    <a class="card" href="../nafes/sims/large-intestine.html" data-page="sim-large-intestine"><span class="ic">🧻</span><span class="t">الأمعاء الغليظة</span><span class="d">تجربة امتصاص الماء بأنواع الورق.</span><span class="tag">تُسجَّل الزيارة</span></a>
+    <a class="card" href="../nafes/sims/respiratory.mp4" data-page="video-respiratory"><span class="ic">🎬</span><span class="t">فيديو الجهاز التنفسي</span><span class="d">شرح مصوّر لرحلة الهواء في الجسم.</span><span class="tag">تُسجَّل الزيارة</span></a>
+  </div>
+
+  <footer>إعداد المعلمة: أ/ شامه البقمي</footer>
+</div>
+<script src="../assets/student.js"></script>
+<script>
+  // يُسجَّل فتح كل لعبة أو محاكاة، وتنتقل الطالبة مع رابط المنصة نفسه
+  const qs = location.search;
+  document.querySelectorAll('a.card').forEach(a => {
+    if (qs && !/\.mp4$/.test(a.getAttribute('href'))) a.href = a.getAttribute('href') + qs;
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const go = () => location.href = a.href;
+      // الألعاب تسجّل زيارتها بنفسها؛ نسجّل هنا المحاكاة والفيديو فقط
+      const self = ['respiration', 'microscope', 'nafs-skills'].includes(a.dataset.page);
+      const p = !self && window.studentVisit ? window.studentVisit(a.dataset.page) : null;
+      Promise.race([p || Promise.resolve(), new Promise(r => setTimeout(r, 900))]).then(go);
+    });
+  });
+  function showMe() {
+    const m = window.currentStudent && window.currentStudent();
+    const el = document.getElementById('me');
+    if (!m) { el.hidden = true; return; }
+    el.hidden = false;
+    el.innerHTML = '';
+    el.append('👩‍🔬 ' + m.name + ' · ' + (m.cls === '6a' ? 'سادس أول' : m.cls === '6b' ? 'سادس ثاني' : m.cls) + ' ');
+    const b = document.createElement('button'); b.textContent = 'لستُ أنا';
+    b.onclick = () => { try { localStorage.removeItem('platform:me'); } catch (e) {} location.reload(); };
+    el.append(b);
+  }
+  setInterval(showMe, 800); showMe();
+</script>
+</body>
+</html>

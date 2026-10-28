@@ -16,7 +16,9 @@
 const SHEETS = {
   students:   ['class', 'name'],
   activities: ['id', 'title', 'classes', 'questions', 'active', 'created', 'timer'],
-  responses:  ['time', 'activity', 'class', 'name', 'answers', 'score', 'total']
+  responses:  ['time', 'activity', 'class', 'name', 'answers', 'score', 'total'],
+  games:      ['time', 'game', 'title', 'class', 'name', 'score', 'total'],
+  visits:     ['time', 'page', 'class', 'name']
 };
 
 // يعمل سواء فُتح الكود من داخل Google Sheet أو مباشرة من script.google.com
@@ -123,6 +125,20 @@ function route(p) {
     a.classes.forEach(function (c) { students[c] = all[c] || []; });
     return { activity: publicActivity(a), students: students };
   }
+  // ---- ألعاب الصف السادس والزيارات ----
+  if (action === 'roster') return { students: studentsBy() };
+  if (action === 'visit' || action === 'gameResult') {
+    const roster = studentsBy();
+    const list = roster[p.cls] || [];
+    const name = list.length ? list.filter(function (n) { return norm(n) === norm(p.name); })[0] : String(p.name || '').slice(0, 60);
+    if (!name) throw new Error('الاسم غير موجود في قائمة الفصل');
+    const cls = String(p.cls || '').slice(0, 10), page = String(p.page || p.game || '').slice(0, 60);
+    if (action === 'visit') { sheet('visits').appendRow([new Date(), page, cls, name]); return {}; }
+    const total = Math.max(0, Math.min(1000, Number(p.total) || 0)), score = Math.max(0, Math.min(total, Number(p.score) || 0));
+    sheet('games').appendRow([new Date(), page, String(p.title || '').slice(0, 80), cls, name, score, total]);
+    return { saved: true };
+  }
+
   if (action === 'submit') {
     const lock = LockService.getScriptLock(); lock.waitLock(20000);
     try {
@@ -216,6 +232,12 @@ function route(p) {
     });
     delete a._row;
     return { activity: a, students: students, responses: res };
+  }
+
+  if (action === 'gamesReport') {
+    const map = function (r) { const o = {}; Object.keys(r).forEach(function (k) { if (k !== '_row') o[k] = r[k]; }); return o; };
+    const g = rows('games').map(map), v = rows('visits').map(map);
+    return { games: g.slice(-2000), visits: v.slice(-3000), students: studentsBy() };
   }
 
   if (action === 'resetResponses') {

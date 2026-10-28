@@ -1,0 +1,2093 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-game="nafs-skills" data-title="بمهاراتي أنافس">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<a href="index.html" style="position:fixed;bottom:12px;left:12px;z-index:9999;opacity:.92;background:#fff;border:2px solid #2E8B57;color:#1E5E3A;border-radius:999px;padding:6px 12px;font:700 14px Tahoma,sans-serif;text-decoration:none">← الألعاب</a>
+<title>بمهاراتي أنافس</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#cfe8f7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Tajawal:wght@500;700;800&family=Aref+Ruqaa:wght@700&display=swap">
+<style>
+/* Layout: national pastel scene (sky, Riyadh skyline, mud fort, flag) fills the screen;
+   a wooden-framed whiteboard sits in the middle with the cartoon student beside it. */
+:root{
+  --sky-1:#cde7f6; --sky-2:#fdf1e4;
+  --green:#0b6b3a;        /* Saudi flag green */
+  --mint:#bfe6cf; --mint-deep:#5fae84;
+  --rose:#f8cfdc; --rose-deep:#e07a9b;
+  --butter:#fbe7a6; --lilac:#dcd0f3; --sky-chip:#cfe3fb;
+  --wood:#d9a96b; --wood-deep:#a8743e;
+  --ink:#1f3b2c; --ink-soft:#4d6a59;
+  --board:#fffdf8;
+  --good:#2f9e5d; --bad:#d9576f; --gold:#f5b82e;
+  --f-display:"Baloo Bhaijaan 2","Tajawal","Geeza Pro","Segoe UI",system-ui,sans-serif;
+  --f-body:"Tajawal","Geeza Pro","Segoe UI",system-ui,sans-serif;
+  --f-cal:"Aref Ruqaa","Amiri",serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{direction:rtl;background:linear-gradient(180deg,var(--sky-1),var(--sky-2) 70%);color:var(--ink);font-family:var(--f-body);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+#root{min-height:100%}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+/* ---------- scenery ---------- */
+.scene{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.scene svg{position:absolute;bottom:0;height:auto}
+.cloud{position:absolute;background:#fff;border-radius:999px;opacity:.85;filter:blur(1px);animation:drift linear infinite}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud::before{width:55%;height:160%;top:-70%;left:15%}
+.cloud::after{width:40%;height:130%;top:-50%;right:12%}
+@keyframes drift{from{transform:translateX(-30vw)}to{transform:translateX(130vw)}}
+.skyline{left:0;width:min(46vw,560px)}
+.fort{right:0;width:min(40vw,500px)}
+.desk{position:absolute;left:0;right:0;bottom:0;height:7vh;background:linear-gradient(180deg,#e2b47a,#c58d52);box-shadow:0 -4px 10px rgba(120,70,20,.2)}
+.scene .flag{position:absolute;bottom:26vh;right:1.5vw;width:min(17vw,210px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.18))}
+.flag .cloth{transform-origin:0 50%;animation:wave 3.2s ease-in-out infinite}
+@keyframes wave{0%,100%{transform:skewY(0deg) scaleX(1)}50%{transform:skewY(-2.5deg) scaleX(.97)}}
+.flag .shine{animation:shine 3.2s linear infinite}
+@keyframes shine{from{transform:translateX(-120px)}to{transform:translateX(260px)}}
+.petal{position:absolute;font-size:22px;animation:fall linear infinite;opacity:.85}
+@keyframes fall{from{transform:translateY(-10vh) rotate(0)}to{transform:translateY(110vh) rotate(360deg)}}
+
+/* ---------- app frame ---------- */
+.wrap{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;gap:12px;padding-inline:16px;padding-block:12px 9vh;box-sizing:border-box}
+.topbar{width:min(1100px,100%);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,3vw,32px);color:var(--green);text-shadow:0 2px 0 #fff;line-height:1.1}
+.brand small{display:block;font-size:.5em;color:var(--ink-soft);font-weight:700;text-shadow:none}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:#fff;border:2px solid var(--mint);border-radius:999px;padding:4px 14px;font-weight:800;font-size:clamp(14px,1.7vw,18px);display:flex;align-items:center;gap:6px;box-shadow:0 3px 0 rgba(95,174,132,.25);font-variant-numeric:tabular-nums}
+.chip.score{border-color:var(--butter);box-shadow:0 3px 0 rgba(245,184,46,.35)}
+.chip.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.25)}}
+
+.progress{width:min(1100px,100%);display:flex;flex-direction:column;gap:6px}
+.track{position:relative;height:16px;border-radius:999px;background:rgba(255,255,255,.8);border:2px solid #fff;box-shadow:inset 0 2px 4px rgba(0,0,0,.08);overflow:hidden}
+.fill{position:absolute;inset-block:0;right:0;border-radius:999px;background:repeating-linear-gradient(-45deg,var(--mint-deep) 0 12px,#79c79d 12px 24px);transition:width .6s cubic-bezier(.3,1.3,.5,1);animation:stripes 1s linear infinite}
+@keyframes stripes{to{background-position:34px 0}}
+.dots{display:flex;justify-content:space-between;gap:3px}
+.dot{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.75)}
+.dot.ok{background:var(--good)}.dot.no{background:var(--bad)}.dot.now{background:var(--gold);animation:pulse 1s infinite}
+.dot.gap{margin-inline-start:8px}
+@keyframes pulse{50%{opacity:.4}}
+.plabel{display:flex;justify-content:space-between;font-weight:700;font-size:clamp(13px,1.5vw,16px);color:var(--ink-soft)}
+
+.stage{width:min(1100px,100%);display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:14px;align-items:end}
+.stage.solo{grid-template-columns:minmax(0,1fr)}
+
+/* whiteboard */
+.board{position:relative;background:var(--board);border:12px solid var(--wood);border-radius:22px;box-shadow:inset 0 0 0 3px var(--wood-deep),0 14px 30px rgba(80,50,20,.22);padding:clamp(14px,2.4vw,28px);background-image:linear-gradient(rgba(150,190,220,.18) 1px,transparent 1px);background-size:100% 34px}
+.board::before{content:"";position:absolute;inset-inline:-12px;bottom:-26px;height:14px;margin-inline:12%;background:var(--wood-deep);border-radius:0 0 10px 10px}
+.qenter{animation:qin .55s cubic-bezier(.2,1.2,.4,1)}
+@keyframes qin{from{opacity:0;transform:translateX(-60px) rotate(-2deg) scale(.96)}to{opacity:1;transform:none}}
+.qhead{display:flex;gap:14px;align-items:flex-start}
+.qnum{flex:none;width:clamp(42px,5vw,58px);height:clamp(42px,5vw,58px);border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:clamp(22px,2.8vw,32px);color:#fff;background:var(--c,var(--mint-deep));box-shadow:0 4px 0 rgba(0,0,0,.12)}
+.qmeta{font-weight:800;font-size:clamp(12px,1.4vw,15px);color:var(--ink-soft);background:var(--tint,#eef7f1);border-radius:999px;padding:3px 12px;display:inline-block;margin-bottom:6px}
+.qtext{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(22px,3.1vw,38px);line-height:1.35;text-wrap:balance}
+.qbody{display:grid;grid-template-columns:minmax(0,1fr) clamp(120px,17vw,190px);gap:16px;align-items:center;margin-top:14px}
+.illus{width:100%;aspect-ratio:1;max-width:100%;background:var(--tint,#eef7f1);border-radius:24px;display:grid;place-items:center;overflow:hidden}
+.illus svg{width:92%;height:92%}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{position:relative;display:flex;align-items:center;gap:10px;text-align:start;background:#fff;border:3px solid var(--c,var(--mint));border-radius:18px;padding:12px 14px;min-height:64px;font-family:var(--f-display);font-weight:700;font-size:clamp(18px,2.2vw,27px);color:var(--ink);box-shadow:0 5px 0 var(--c,var(--mint));transition:transform .15s,box-shadow .15s,background .2s}
+.opt:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 8px 0 var(--c,var(--mint))}
+.opt:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 var(--c,var(--mint))}
+.opt .let{flex:none;width:1.7em;height:1.7em;border-radius:12px;display:grid;place-items:center;background:var(--tint,#eef7f1);font-weight:800}
+.opt:disabled{cursor:default}
+.opt.right{background:#dff5e7;border-color:var(--good);box-shadow:0 5px 0 var(--good);animation:yay .6s}
+.opt.wrong{background:#fde3e8;border-color:var(--bad);box-shadow:0 5px 0 var(--bad);animation:shake .45s}
+.opt.dim{opacity:.55}
+.opt .mark{margin-inline-start:auto;font-size:1.1em}
+@keyframes yay{40%{transform:scale(1.05)}}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+
+.feedback{margin-top:16px;border-radius:18px;padding:14px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;animation:qin .4s}
+.feedback.good{background:#e3f6ea;border:2px dashed var(--good)}
+.feedback.bad{background:#fff0f3;border:2px dashed var(--rose-deep)}
+.feedback .msg{flex:1 1 260px;min-width:0}
+.feedback h3{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(20px,2.6vw,30px)}
+.feedback p{margin:4px 0 0;font-size:clamp(16px,1.9vw,21px);line-height:1.6;font-weight:700;color:var(--ink-soft)}
+.btn{border:0;border-radius:999px;padding:12px 26px;font-family:var(--f-display);font-weight:800;font-size:clamp(18px,2.2vw,24px);color:#fff;background:var(--green);box-shadow:0 5px 0 #064d29;transition:transform .12s,box-shadow .12s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #064d29}
+.btn.pink{background:var(--rose-deep);box-shadow:0 5px 0 #b45573}
+.btn.gold{background:var(--gold);color:#4a3200;box-shadow:0 5px 0 #c58f12}
+.btn.ghost{background:#fff;color:var(--green);box-shadow:0 5px 0 var(--mint)}
+
+/* student character */
+.buddy{position:relative;display:flex;flex-direction:column;align-items:center}
+.buddy svg{width:100%;height:auto;overflow:visible}
+.bubble{position:relative;background:#fff;border:3px solid var(--rose);border-radius:20px;padding:8px 12px;font-weight:800;font-size:clamp(15px,1.6vw,18px);text-align:center;line-height:1.45;margin-bottom:8px;box-shadow:0 4px 0 rgba(224,122,155,.25);animation:qin .4s}
+.bubble::after{content:"";position:absolute;bottom:-12px;left:50%;margin-left:-10px;border:10px solid transparent;border-top-color:var(--rose);border-bottom:0}
+.b-idle{animation:bob 2.6s ease-in-out infinite}
+.b-happy{animation:hop .55s ease-in-out 3}
+.b-sad{animation:tilt 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+@keyframes hop{50%{transform:translateY(-22px)}}
+@keyframes tilt{50%{transform:rotate(-3deg)}}
+.arm{transform-origin:150px 205px;animation:point 2.4s ease-in-out infinite}
+.b-happy .arm{animation:cheer .4s ease-in-out infinite}
+@keyframes point{50%{transform:rotate(-8deg)}}
+@keyframes cheer{50%{transform:rotate(-28deg)}}
+.blink{animation:blink 4s infinite;transform-origin:center 128px;transform-box:fill-box}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+
+/* start + result cards */
+.card{width:min(680px,100%);background:var(--board);border:12px solid var(--wood);border-radius:28px;box-shadow:inset 0 0 0 3px var(--wood-deep),0 18px 40px rgba(80,50,20,.25);padding:clamp(18px,3.5vw,36px);text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center;animation:qin .6s cubic-bezier(.2,1.2,.4,1)}
+.card h1{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(30px,5.6vw,58px);color:var(--green);line-height:1.15}
+.card h2{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(22px,3.6vw,36px);color:var(--rose-deep)}
+.card p{margin:0;font-size:clamp(17px,2.2vw,22px);font-weight:700;line-height:1.6}
+.meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.field{width:100%;display:flex;flex-direction:column;gap:6px;align-items:stretch;text-align:start}
+.field label{font-weight:800;font-size:clamp(16px,2vw,20px)}
+.field input{font-family:var(--f-display);font-weight:700;font-size:clamp(20px,2.6vw,28px);padding:12px 18px;border-radius:18px;border:3px solid var(--mint);background:#fff;color:var(--ink);text-align:center}
+.hint{color:var(--bad);font-weight:800;min-height:1.4em}
+.startrow{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center;width:100%}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+.stat{background:var(--tint);border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;gap:2px}
+.stat b{font-family:var(--f-display);font-size:clamp(26px,4vw,40px);line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font-weight:800;font-size:clamp(13px,1.6vw,16px);color:var(--ink-soft)}
+.namebar{font-family:var(--f-display);font-weight:800;font-size:clamp(22px,3.4vw,34px);background:var(--rose);border-radius:16px;padding:6px 22px}
+.cheer{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,3vw,30px);color:var(--green)}
+.row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+/* effects */
+.fx{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.star{position:fixed;left:var(--x);top:var(--y);font-size:var(--s);color:var(--gold);text-shadow:0 0 10px rgba(255,200,40,.9);animation:burst 1.3s cubic-bezier(.15,.8,.3,1) forwards}
+@keyframes burst{0%{transform:translate(-50%,-50%) scale(.2);opacity:1}80%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1) rotate(var(--r));opacity:0}}
+.plus{position:fixed;left:var(--x);top:var(--y);transform:translate(-50%,-50%);font-family:var(--f-display);font-weight:800;font-size:38px;color:var(--good);text-shadow:0 2px 0 #fff;animation:rise 1.2s ease-out forwards}
+@keyframes rise{to{transform:translate(-50%,-160%);opacity:0}}
+.conf{position:fixed;top:-20px;left:var(--x);width:10px;height:16px;background:var(--c);border-radius:3px;animation:confall var(--d) linear forwards}
+@keyframes confall{to{transform:translateY(110vh) rotate(720deg) translateX(var(--sx))}}
+
+.modal{position:fixed;inset:0;z-index:40;background:rgba(31,59,44,.45);display:grid;place-items:center;padding:16px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.modal .card{max-height:92vh;overflow:auto}
+.card .buddy{width:min(150px,40vw)}
+.startrow .buddy{width:auto}
+.modal img{width:min(320px,70vw);height:auto;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.2);-webkit-touch-callout:default;user-select:auto}
+.toast{position:fixed;bottom:12vh;left:50%;transform:translateX(-50%);z-index:60;background:var(--ink);color:#fff;font-weight:800;padding:10px 20px;border-radius:999px;animation:qin .3s}
+.credit{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 1.2vh);left:0;right:0;z-index:2;text-align:center;font-family:var(--f-display);font-weight:800;font-size:clamp(13px,1.6vw,17px);color:#5b3712;pointer-events:none}
+.sound{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:12px;z-index:30;width:46px;height:46px;border-radius:50%;border:3px solid #fff;background:var(--mint);font-size:20px;box-shadow:0 4px 0 rgba(0,0,0,.12)}
+
+@media (max-width:760px){
+  .stage{grid-template-columns:minmax(0,1fr)}
+  .stage .buddy{order:-1;flex-direction:row;gap:8px;align-items:center;justify-content:center}
+  .stage .buddy svg{width:84px}
+  .stage .bubble{margin:0;flex:1;max-width:340px}
+  .stage .bubble::after{left:auto;right:-12px;bottom:auto;top:50%;margin:-10px 0 0;border:10px solid transparent;border-left-color:var(--rose);border-right:0}
+  .qbody{grid-template-columns:minmax(0,1fr)}
+  .illus{width:120px;justify-self:center;order:-1}
+  .opts{grid-template-columns:minmax(0,1fr)}
+  .startrow{grid-template-columns:minmax(0,1fr)}
+  .startrow .buddy svg{width:120px}
+  .scene .flag{width:30vw;bottom:14vh;opacity:.9}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+</style>
+
+<div id="root"><p style="text-align:center;font:800 22px Tajawal,sans-serif;color:#0b6b3a;padding:40vh 16px 0">⏳ جارٍ تحميل اللعبة…</p></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+(function(){
+const {
+  useState,
+  useEffect,
+  useRef,
+  useCallback
+} = React;
+const GROUPS = [{
+  title: 'صف وتركيب الخلية وربطها بوظائفها الحيوية',
+  c: '#f2a93b',
+  tint: '#fff4dc',
+  name: 'الأولى'
+}, {
+  title: 'صف وتراكيب الخلية وربطها بوظائفها الحيوية',
+  c: '#e07a9b',
+  tint: '#fde8ef',
+  name: 'الثانية'
+}, {
+  title: 'تحديد الاختلافات الأساسية من حيث التركيب والوظيفة بين الخلية النباتية والخلية الحيوانية',
+  c: '#4f9fd8',
+  tint: '#e3f0fb',
+  name: 'الثالثة'
+}, {
+  title: 'تحديد الاختلافات الأساسية من حيث التركيب والوظيفة بين الخلية النباتية والخلية الحيوانية',
+  c: '#8e6fd1',
+  tint: '#efe9fb',
+  name: 'الرابعة'
+}];
+const QUESTIONS = [{
+  g: 0,
+  art: 'human',
+  q: 'أي من المخلوقات الحية التالية يعتبر مثالاً على مخلوق عديد الخلايا؟',
+  o: ['البكتيريا', 'الإنسان', 'البراميسيوم', 'اليوجلينا'],
+  a: 1,
+  e: 'الإنسان يتكوّن من ملايين الخلايا، أما البكتيريا والبراميسيوم واليوجلينا فكلٌّ منها خلية واحدة فقط.'
+}, {
+  g: 0,
+  art: 'organs',
+  q: 'ما الذي يشكله مجموعة من الأعضاء مثل القلب والمعدة والأمعاء التي تعمل معاً؟',
+  o: ['نسيج', 'عنصر', 'جهاز حيوي', 'خلية'],
+  a: 2,
+  e: 'الأعضاء التي تعمل معًا لأداء وظيفة واحدة تُكوِّن جهازًا حيويًا، مثل الجهاز الهضمي.'
+}, {
+  g: 0,
+  art: 'mito',
+  q: 'ماذا يحدث لو فقدت الخلية الميتوكوندريا الخاصة بها؟',
+  o: ['لن تتمكن من تخزين الماء والغذاء.', 'ستتوقف عملية البناء الضوئي.', 'لن تتمكن من حماية نفسها.', 'لن تتمكن من تحويل الغذاء إلى طاقة.'],
+  a: 3,
+  e: 'الميتوكوندريا «مصنع الطاقة» في الخلية؛ فيها يتحول الغذاء إلى طاقة.'
+}, {
+  g: 0,
+  art: 'microbe',
+  q: 'إذا لاحظت مخلوقًا مجهريًا تحت المجهر يتكون من خلية واحدة، أي مما يلي يمكن أن يكون؟',
+  o: ['نسيج عضلي', 'جهاز هضمي', 'جلد إنسان', 'براميسيوم'],
+  a: 3,
+  e: 'البراميسيوم مخلوق وحيد الخلية، أما النسيج العضلي والجهاز الهضمي وجلد الإنسان فتتكون من خلايا كثيرة.'
+}, {
+  g: 0,
+  art: 'plantcell',
+  q: 'أي من التراكيب التالية مسؤول عن إعطاء الخلية النباتية شكلها الثابت وحمايتها؟',
+  o: ['الجدار الخلوي', 'الفجوات', 'النواة', 'السيتوبلازم'],
+  a: 0,
+  e: 'الجدار الخلوي غلاف قوي يحيط بالخلية النباتية، فيعطيها شكلها الثابت ويحميها.'
+}, {
+  g: 1,
+  art: 'levels',
+  q: 'ما التسلسل الصحيح لمستويات التنظيم في المخلوقات الحية عدة الخلايا، من الأصغر إلى الأكبر؟',
+  o: ['نسيج ↔ خلية ↔ عضو ↔ جهاز', 'خلية ↔ نسيج → عضو → جهاز', 'عضو → نسيج → خلية → جهاز', 'جهاز → عضو → نسيج → خلية'],
+  a: 1,
+  e: 'نبدأ بالأصغر: الخلية، ثم النسيج، ثم العضو، ثم الجهاز.'
+}, {
+  g: 1,
+  art: 'chloro',
+  q: 'ماذا يمكن أن يحدث لنبات إذا اختفت البلاستيدات الخضراء من خلاياه؟',
+  o: ['سينمو بشكل أسرع', 'لن يتمكن من صنع غذائه', 'سيصبح أكثر قدرة على امتصاص الماء', 'سيزداد سمك جدار الخلوي'],
+  a: 1,
+  e: 'في البلاستيدات الخضراء يصنع النبات غذاءه بعملية البناء الضوئي، فبدونها لا يستطيع صنع غذائه.'
+}, {
+  g: 1,
+  art: 'plantcell',
+  q: 'ما الوظيفة الرئيسية للجدار الخلوي؟',
+  o: ['صنع الغذاء', 'امتصاص الطاقة الشمسية', 'الدعم والحماية للخلية', 'تنظيم الأنشطة الخلوية'],
+  a: 2,
+  e: 'الجدار الخلوي يدعم الخلية النباتية ويحميها.'
+}, {
+  g: 1,
+  art: 'leaf',
+  q: 'أي من التراكيب التالية يعتبر مسؤولاً بشكل مباشر عن إعطاء الخلية النباتية لونها الأخضر؟',
+  o: ['الغشاء البلازمي', 'الكلوروفيل', 'النواة', 'الجدار الخلوي'],
+  a: 1,
+  e: 'الكلوروفيل صبغة خضراء داخل البلاستيدات الخضراء، وهي التي تعطي النبات لونه الأخضر.'
+}, {
+  g: 1,
+  art: 'membrane',
+  q: 'لماذا تحتاج الخلية النباتية إلى وجود كل من الغشاء البلازمي والجدار الخلوي معاً؟',
+  o: ['لتنظيم حركة المواد وتوفير الصلابة والحماية', 'يقومان بنفس الوظيفة', 'الجدار الخلوي يحل محل الغشاء البلازمي', 'الغشاء البلازمي يحمي الخلية'],
+  a: 0,
+  e: 'الغشاء البلازمي ينظم دخول المواد وخروجها، والجدار الخلوي يعطي الخلية الصلابة والحماية؛ فلكلٍّ منهما دور.'
+}, {
+  g: 2,
+  art: 'battery',
+  q: 'ما نوع النقل الذي لا يستخدم طاقة الخلية؟',
+  o: ['الإخراج الخلوي', 'البلعمة', 'النقل السلبي', 'النقل النشط'],
+  a: 2,
+  e: 'في النقل السلبي تتحرك المواد دون أن تستخدم الخلية شيئًا من طاقتها.'
+}, {
+  g: 2,
+  art: 'osmosis',
+  q: 'إذا انتقلت جسيمات الماء من تركيز مرتفع إلى منخفض، فما نوع النقل؟',
+  o: ['الخاصية الاسموزية', 'النقل النشط', 'النقل العام', 'الانتشار'],
+  a: 0,
+  e: 'انتقال الماء عبر الغشاء من التركيز المرتفع إلى المنخفض يُسمّى الخاصية الأسموزية، وهي نوع خاص من الانتشار خاصٌّ بالماء.'
+}, {
+  g: 2,
+  art: 'exo',
+  q: 'ما العملية التي تستخدمها الخلية للتخلص من الفضلات؟',
+  o: ['النقل النشط', 'النقل السلبي', 'الإخراج الخلوي', 'الانتشار'],
+  a: 2,
+  e: 'تتخلص الخلية من فضلاتها بعملية الإخراج الخلوي.'
+}, {
+  g: 2,
+  art: 'diffusion',
+  q: 'ما الفرق بين الانتشار والنقل النشط؟',
+  o: ['الانتشار يحتاج طاقة، والنقل النشط لا يحتاج طاقة', 'كلاهما ينقل الماء فقط', 'الانتشار يحتاج طاقة، النقل النشط لا يحتاج', 'النقل النشط يحتاج طاقة، والانتشار لا يحتاج'],
+  a: 3,
+  e: 'النقل النشط يحتاج إلى طاقة، أما الانتشار فيحدث دون طاقة.'
+}, {
+  g: 2,
+  art: 'oxygen',
+  q: 'أي مما يلي مثال على النقل السلبي؟',
+  o: ['إخراج المواد عبر الطاقة', 'انتقال الأكسجين', 'إدخال البروتينات الكبيرة', 'التخلص من الفضلات'],
+  a: 1,
+  e: 'الأكسجين ينتقل إلى داخل الخلية بالانتشار دون طاقة، لذلك هو مثال على النقل السلبي.'
+}, {
+  g: 3,
+  art: 'photo',
+  q: 'أين يحدث البناء الضوئي؟',
+  o: ['المخلوقات الخضراء', 'جدار الخلية', 'النواة', 'السيتوبلازم'],
+  a: 0,
+  e: 'يحدث البناء الضوئي في المخلوقات الخضراء، داخل البلاستيدات الخضراء في خلاياها.'
+}, {
+  g: 3,
+  art: 'mito',
+  q: 'ماذا يحدث أثناء التنفس الخلوي؟',
+  o: ['يستقبل الضوء', 'ينتج الجلوكوز', 'تحرر الأكسجين', 'تحرر طاقة من الغذاء'],
+  a: 3,
+  e: 'في التنفس الخلوي تتحرر الطاقة من الغذاء داخل الميتوكوندريا.'
+}, {
+  g: 3,
+  art: 'water',
+  q: 'كيف يساعد الماء في البناء الضوئي؟',
+  o: ['ينتج ثاني أكسيد الكربون', 'يمنع امتصاص الضوء', 'ينتج الطاقة', 'يستخدم لإتتاج الغذاء'],
+  a: 3,
+  e: 'يستخدم النبات الماء مع ثاني أكسيد الكربون وضوء الشمس لإنتاج الغذاء.'
+}, {
+  g: 3,
+  art: 'leafo2',
+  q: 'ما الذي يمكن استنتاجه من أن النبات ينتج الأكسجين؟',
+  o: ['النباتات لا تحتاج إلى ضوء', 'النباتات لا تحتاج إلى ماء', 'يساعد الحيوانات في التنفس', 'النباتات لا تحتاج إلى الأكسجين'],
+  a: 2,
+  e: 'الأكسجين الذي ينتجه النبات تتنفسه الحيوانات والإنسان.'
+}, {
+  g: 3,
+  art: 'oxygen',
+  q: 'ما الذي يستخدمه في التنفس الخلوي؟',
+  o: ['الضوء', 'الجلوكوز فقط', 'الكلوروفيل', 'الأكسجين'],
+  a: 3,
+  e: 'تستخدم الخلية الأكسجين في التنفس الخلوي لتحرير الطاقة من الغذاء.'
+}];
+const LETTERS = ['أ', 'ب', 'ج', 'د'];
+const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const PER = 10;
+const Sound = (() => {
+  let ctx = null,
+    on = true;
+  const ac = () => {
+    if (!ctx) {
+      try {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) {}
+    }
+    if (ctx && ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  };
+  const tone = (f, t0, d, type = 'sine', v = .18, slide) => {
+    const c = ac();
+    if (!c || !on) return;
+    const o = c.createOscillator(),
+      g = c.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(f, c.currentTime + t0);
+    if (slide) o.frequency.exponentialRampToValueAtTime(slide, c.currentTime + t0 + d);
+    g.gain.setValueAtTime(0, c.currentTime + t0);
+    g.gain.linearRampToValueAtTime(v, c.currentTime + t0 + .015);
+    g.gain.exponentialRampToValueAtTime(.0001, c.currentTime + t0 + d);
+    o.connect(g).connect(c.destination);
+    o.start(c.currentTime + t0);
+    o.stop(c.currentTime + t0 + d + .05);
+  };
+  return {
+    toggle() {
+      on = !on;
+      return on;
+    },
+    get on() {
+      return on;
+    },
+    unlock() {
+      ac();
+    },
+    click() {
+      tone(660, 0, .08, 'triangle', .12);
+    },
+    good() {
+      [784, 988, 1175, 1568].forEach((f, i) => tone(f, i * .09, .45, 'triangle', .16));
+      tone(2093, .38, .6, 'sine', .08);
+    },
+    bad() {
+      tone(392, 0, .25, 'sine', .14, 330);
+      tone(330, .22, .35, 'sine', .12, 294);
+    },
+    fanfare() {
+      [523, 659, 784, 1047, 784, 1047, 1319].forEach((f, i) => tone(f, i * .12, .5, 'triangle', .15));
+    },
+    whoosh() {
+      tone(300, 0, .25, 'sine', .05, 900);
+    }
+  };
+})();
+function Scene() {
+  const clouds = [[8, 12, 140, 46, 70], [30, 22, 110, 36, 95], [55, 8, 170, 52, 80], [75, 26, 120, 40, 110]];
+  const petals = ['🌸', '🌼', '🍃'];
+  return React.createElement("div", {
+    className: "scene",
+    "aria-hidden": "true"
+  }, clouds.map(([t, dl, w, h, d], i) => React.createElement("div", {
+    key: i,
+    className: "cloud",
+    style: {
+      top: t + 'vh',
+      width: w,
+      height: h,
+      animationDuration: d + 's',
+      animationDelay: -dl * 1.5 + 's'
+    }
+  })), [...Array(7)].map((_, i) => React.createElement("span", {
+    key: i,
+    className: "petal",
+    style: {
+      left: i * 14 + 4 + 'vw',
+      animationDuration: 14 + i * 3 + 's',
+      animationDelay: -i * 2.3 + 's'
+    }
+  }, petals[i % 3])), React.createElement(Flag, null), React.createElement("svg", {
+    className: "skyline",
+    viewBox: "0 0 560 300"
+  }, React.createElement("g", {
+    fill: "#b9d3e3"
+  }, React.createElement("rect", {
+    x: "20",
+    y: "170",
+    width: "40",
+    height: "130"
+  }), React.createElement("rect", {
+    x: "70",
+    y: "150",
+    width: "34",
+    height: "150"
+  }), React.createElement("rect", {
+    x: "250",
+    y: "160",
+    width: "46",
+    height: "140"
+  }), React.createElement("rect", {
+    x: "300",
+    y: "190",
+    width: "30",
+    height: "110"
+  })), React.createElement("path", {
+    d: "M140 300 L150 40 Q175 10 200 40 L210 300 Z M160 60 Q175 90 190 60 Q182 40 175 40 Q168 40 160 60Z",
+    fill: "#9fc0d6",
+    fillRule: "evenodd"
+  }), React.createElement("path", {
+    d: "M168 50 Q175 80 182 50",
+    fill: "none",
+    stroke: "#cde7f6",
+    strokeWidth: "6"
+  }), React.createElement("path", {
+    d: "M222 300 L238 70 L254 300 Z",
+    fill: "#a8c7da"
+  }), React.createElement("circle", {
+    cx: "238",
+    cy: "120",
+    r: "10",
+    fill: "#e8d7a8"
+  }), React.createElement("path", {
+    d: "M238 40 L238 70",
+    stroke: "#a8c7da",
+    strokeWidth: "3"
+  }), [[90, 300], [350, 300], [420, 300]].map(([x, y], i) => React.createElement(Palm, {
+    key: i,
+    x: x,
+    y: y,
+    s: i ? 1 : 1.15
+  })), React.createElement("path", {
+    d: "M0 300 C120 270 240 280 360 268 S520 280 560 270 L560 300Z",
+    fill: "#9fc98a",
+    opacity: ".8"
+  })), React.createElement("svg", {
+    className: "fort",
+    viewBox: "0 0 500 300"
+  }, React.createElement("path", {
+    d: "M60 300 V170 h20 v-12 h12 v12 h16 v-12 h12 v12 h16 V150 h14 v-12 h10 v12 h14 v20 h70 v-12 h12 v12 h16 v-12 h12 v12 h20 V130 h14 v-12 h12 v12 h14 V300Z",
+    fill: "#e8c99a"
+  }), React.createElement("path", {
+    d: "M120 300 V230 a18 18 0 0 1 36 0 V300Z M300 300 V240 a14 14 0 0 1 28 0 V300Z",
+    fill: "#c9a26e"
+  }), React.createElement("g", {
+    fill: "#c9a26e"
+  }, [[100, 200], [180, 190], [250, 200], [350, 180]].map(([x, y], i) => React.createElement("rect", {
+    key: i,
+    x: x,
+    y: y,
+    width: "10",
+    height: "16",
+    rx: "2"
+  }))), React.createElement(Palm, {
+    x: 40,
+    y: 300,
+    s: 1.1
+  }), React.createElement(Palm, {
+    x: 450,
+    y: 300,
+    s: 1.25
+  }), React.createElement("path", {
+    d: "M0 290 C120 270 300 285 500 268 L500 300 L0 300Z",
+    fill: "#a9d293",
+    opacity: ".85"
+  })), React.createElement("div", {
+    className: "desk"
+  }));
+}
+function Palm({
+  x,
+  y,
+  s = 1
+}) {
+  return React.createElement("g", {
+    transform: `translate(${x} ${y}) scale(${s})`
+  }, React.createElement("path", {
+    d: "M-4 0 C-2 -40 -6 -80 0 -110 L6 -110 C2 -80 6 -40 4 0Z",
+    fill: "#a37a4a"
+  }), React.createElement("g", {
+    fill: "#5fae84",
+    transform: "translate(3 -110)"
+  }, [-150, -110, -70, -30, 10, 40].map((a, i) => React.createElement("path", {
+    key: i,
+    d: "M0 0 C20 -18 45 -14 62 4 C40 -4 20 -2 0 0Z",
+    transform: `rotate(${a})`
+  }))));
+}
+function Flag() {
+  return React.createElement("svg", {
+    className: "flag",
+    viewBox: "0 0 250 200"
+  }, React.createElement("rect", {
+    x: "6",
+    y: "0",
+    width: "7",
+    height: "200",
+    rx: "3",
+    fill: "#b9b9b9"
+  }), React.createElement("circle", {
+    cx: "9.5",
+    cy: "4",
+    r: "6",
+    fill: "#e5c25a"
+  }), React.createElement("g", {
+    className: "cloth"
+  }, React.createElement("clipPath", {
+    id: "fc"
+  }, React.createElement("rect", {
+    x: "13",
+    y: "12",
+    width: "230",
+    height: "150",
+    rx: "4"
+  })), React.createElement("g", {
+    clipPath: "url(#fc)"
+  }, React.createElement("rect", {
+    x: "13",
+    y: "12",
+    width: "230",
+    height: "150",
+    fill: "#0b6b3a"
+  }), React.createElement("text", {
+    x: "128",
+    y: "78",
+    textAnchor: "middle",
+    fill: "#fff",
+    fontFamily: "'Aref Ruqaa','Amiri',serif",
+    fontSize: "25",
+    fontWeight: "700",
+    textLength: "196",
+    lengthAdjust: "spacingAndGlyphs"
+  }, "\u0644\u0627 \u0625\u0644\u0647 \u0625\u0644\u0627 \u0627\u0644\u0644\u0647 \u0645\u062D\u0645\u062F \u0631\u0633\u0648\u0644 \u0627\u0644\u0644\u0647"), React.createElement("path", {
+    d: "M60 112 H186 l10 -4 v8 l-10 -4 M186 112 h8 M62 106 v12",
+    stroke: "#fff",
+    strokeWidth: "5",
+    fill: "none",
+    strokeLinecap: "round"
+  }), React.createElement("rect", {
+    className: "shine",
+    x: "0",
+    y: "12",
+    width: "60",
+    height: "150",
+    fill: "url(#sh)"
+  })), React.createElement("linearGradient", {
+    id: "sh",
+    x1: "0",
+    x2: "1"
+  }, React.createElement("stop", {
+    offset: "0",
+    stopColor: "#fff",
+    stopOpacity: "0"
+  }), React.createElement("stop", {
+    offset: ".5",
+    stopColor: "#fff",
+    stopOpacity: ".18"
+  }), React.createElement("stop", {
+    offset: "1",
+    stopColor: "#fff",
+    stopOpacity: "0"
+  }))));
+}
+function Buddy({
+  mood = 'idle',
+  say
+}) {
+  const happy = mood === 'happy',
+    sad = mood === 'sad';
+  return React.createElement("div", {
+    className: "buddy"
+  }, say && React.createElement("div", {
+    className: "bubble",
+    key: say
+  }, say), React.createElement("svg", {
+    viewBox: "0 0 220 330",
+    className: 'b-' + mood,
+    role: "img",
+    "aria-label": "\u0637\u0627\u0644\u0628\u0629 \u0643\u0631\u062A\u0648\u0646\u064A\u0629"
+  }, React.createElement("path", {
+    d: "M52 110 C40 200 46 260 60 290 L160 290 C174 260 180 200 168 110 Z",
+    fill: "#3b2418"
+  }), React.createElement("path", {
+    d: "M70 200 C70 180 150 180 150 200 L166 300 L54 300 Z",
+    fill: "#11633a"
+  }), React.createElement("path", {
+    d: "M86 186 L110 214 L134 186 Z",
+    fill: "#fff"
+  }), React.createElement("path", {
+    d: "M100 196 L110 206 L120 196 L116 214 L104 214Z",
+    fill: "#0b4f2d"
+  }), React.createElement("rect", {
+    x: "80",
+    y: "296",
+    width: "18",
+    height: "26",
+    rx: "6",
+    fill: "#f3cdb5"
+  }), React.createElement("rect", {
+    x: "122",
+    y: "296",
+    width: "18",
+    height: "26",
+    rx: "6",
+    fill: "#f3cdb5"
+  }), React.createElement("ellipse", {
+    cx: "88",
+    cy: "324",
+    rx: "16",
+    ry: "7",
+    fill: "#2a2a2a"
+  }), React.createElement("ellipse", {
+    cx: "132",
+    cy: "324",
+    rx: "16",
+    ry: "7",
+    fill: "#2a2a2a"
+  }), React.createElement("path", {
+    d: "M72 205 C52 230 54 255 76 262",
+    stroke: "#fff",
+    strokeWidth: "16",
+    fill: "none",
+    strokeLinecap: "round"
+  }), React.createElement("rect", {
+    x: "58",
+    y: "236",
+    width: "38",
+    height: "46",
+    rx: "5",
+    fill: "#f4a7bf",
+    transform: "rotate(-8 77 259)"
+  }), React.createElement("text", {
+    x: "77",
+    y: "263",
+    textAnchor: "middle",
+    fontSize: "16",
+    fill: "#fff",
+    transform: "rotate(-8 77 259)"
+  }, "\uD83C\uDF34"), React.createElement("g", {
+    className: "arm"
+  }, React.createElement("path", {
+    d: "M150 205 C172 192 182 172 186 152",
+    stroke: "#fff",
+    strokeWidth: "16",
+    fill: "none",
+    strokeLinecap: "round"
+  }), React.createElement("circle", {
+    cx: "187",
+    cy: "148",
+    r: "9",
+    fill: "#f3cdb5"
+  }), React.createElement("path", {
+    d: "M189 146 L210 70",
+    stroke: "#3a2a1a",
+    strokeWidth: "5",
+    strokeLinecap: "round"
+  }), React.createElement("circle", {
+    cx: "210",
+    cy: "68",
+    r: "5",
+    fill: happy ? '#f5b82e' : '#e07a9b'
+  })), React.createElement("circle", {
+    cx: "110",
+    cy: "118",
+    r: "58",
+    fill: "#f6d5bf"
+  }), React.createElement("path", {
+    d: "M52 112 C54 60 90 46 112 48 C140 48 168 66 168 112 C150 92 130 80 112 84 C96 78 70 88 52 112Z",
+    fill: "#3b2418"
+  }), React.createElement("g", {
+    transform: "translate(150 66)"
+  }, React.createElement("path", {
+    d: "M0 0 L-22 -14 L-22 14Z M0 0 L22 -14 L22 14Z",
+    fill: "#11633a"
+  }), React.createElement("circle", {
+    r: "6",
+    fill: "#0b4f2d"
+  })), happy ? React.createElement("g", {
+    stroke: "#2b1a10",
+    strokeWidth: "5",
+    fill: "none",
+    strokeLinecap: "round"
+  }, React.createElement("path", {
+    d: "M80 124 q10 -12 20 0"
+  }), React.createElement("path", {
+    d: "M120 124 q10 -12 20 0"
+  })) : React.createElement("g", {
+    className: "blink"
+  }, React.createElement("ellipse", {
+    cx: "90",
+    cy: "124",
+    rx: "10",
+    ry: "13",
+    fill: "#2b1a10"
+  }), React.createElement("ellipse", {
+    cx: "130",
+    cy: "124",
+    rx: "10",
+    ry: "13",
+    fill: "#2b1a10"
+  }), React.createElement("circle", {
+    cx: "93",
+    cy: "119",
+    r: "4",
+    fill: "#fff"
+  }), React.createElement("circle", {
+    cx: "133",
+    cy: "119",
+    r: "4",
+    fill: "#fff"
+  })), sad && React.createElement("g", {
+    stroke: "#2b1a10",
+    strokeWidth: "3",
+    strokeLinecap: "round"
+  }, React.createElement("path", {
+    d: "M80 104 l16 -4"
+  }), React.createElement("path", {
+    d: "M140 104 l-16 -4"
+  })), React.createElement("ellipse", {
+    cx: "76",
+    cy: "146",
+    rx: "10",
+    ry: "6",
+    fill: "#f4a7bf",
+    opacity: ".7"
+  }), React.createElement("ellipse", {
+    cx: "144",
+    cy: "146",
+    rx: "10",
+    ry: "6",
+    fill: "#f4a7bf",
+    opacity: ".7"
+  }), happy ? React.createElement("path", {
+    d: "M94 148 q16 22 32 0 z",
+    fill: "#c94f6d"
+  }) : sad ? React.createElement("path", {
+    d: "M98 156 q12 -6 24 0",
+    stroke: "#c94f6d",
+    strokeWidth: "4",
+    fill: "none",
+    strokeLinecap: "round"
+  }) : React.createElement("path", {
+    d: "M96 150 q14 12 28 0",
+    stroke: "#c94f6d",
+    strokeWidth: "4",
+    fill: "none",
+    strokeLinecap: "round"
+  }), happy && React.createElement("g", {
+    fill: "#f5b82e"
+  }, React.createElement("text", {
+    x: "20",
+    y: "70",
+    fontSize: "24"
+  }, "\u2726"), React.createElement("text", {
+    x: "186",
+    y: "40",
+    fontSize: "18"
+  }, "\u2726"))));
+}
+const Spin = ({
+  cx,
+  cy,
+  dur = 8,
+  children
+}) => React.createElement("g", null, children, React.createElement("animateTransform", {
+  attributeName: "transform",
+  type: "rotate",
+  from: `0 ${cx} ${cy}`,
+  to: `360 ${cx} ${cy}`,
+  dur: dur + 's',
+  repeatCount: "indefinite"
+}));
+const Float = ({
+  dy = 6,
+  dur = 2.4,
+  delay = 0,
+  children
+}) => React.createElement("g", null, children, React.createElement("animateTransform", {
+  attributeName: "transform",
+  type: "translate",
+  values: `0 0;0 ${-dy};0 0`,
+  dur: dur + 's',
+  begin: delay + 's',
+  repeatCount: "indefinite"
+}));
+function Art({
+  k
+}) {
+  const P = {
+    viewBox: '0 0 200 200'
+  };
+  switch (k) {
+    case 'human':
+      return React.createElement("svg", P, React.createElement("circle", {
+        cx: "100",
+        cy: "46",
+        r: "22",
+        fill: "#f6d5bf"
+      }), React.createElement("path", {
+        d: "M70 80 h60 l10 70 h-80z",
+        fill: "#7fbfe0"
+      }), React.createElement("rect", {
+        x: "74",
+        y: "150",
+        width: "18",
+        height: "40",
+        rx: "6",
+        fill: "#4d6a9a"
+      }), React.createElement("rect", {
+        x: "108",
+        y: "150",
+        width: "18",
+        height: "40",
+        rx: "6",
+        fill: "#4d6a9a"
+      }), [...Array(12)].map((_, i) => React.createElement(Float, {
+        key: i,
+        dy: 4,
+        dur: 1.6 + i % 4 * .3,
+        delay: i * .15
+      }, React.createElement("circle", {
+        cx: 78 + i % 4 * 15,
+        cy: 92 + Math.floor(i / 4) * 18,
+        r: "6",
+        fill: "#fff",
+        stroke: "#e07a9b",
+        strokeWidth: "2"
+      }), React.createElement("circle", {
+        cx: 78 + i % 4 * 15,
+        cy: 92 + Math.floor(i / 4) * 18,
+        r: "2",
+        fill: "#e07a9b"
+      }))));
+    case 'organs':
+      return React.createElement("svg", P, React.createElement(Float, null, React.createElement("path", {
+        d: "M100 40 c-20 -20 -50 0 -30 25 l30 28 l30 -28 c20 -25 -10 -45 -30 -25z",
+        fill: "#e8607e"
+      }, React.createElement("animateTransform", {
+        attributeName: "transform",
+        type: "scale",
+        values: "1;1.06;1",
+        dur: ".9s",
+        repeatCount: "indefinite",
+        additive: "sum"
+      }))), React.createElement("path", {
+        d: "M118 100 c30 0 40 40 10 55 c-20 10 -30 -5 -42 0 c-14 6 -22 -8 -10 -20 c14 -14 10 -35 42 -35z",
+        fill: "#f4a07a"
+      }), React.createElement("path", {
+        d: "M70 160 c20 10 40 -10 60 0 c20 10 0 25 -20 22 c-20 -3 -40 10 -50 -5 z",
+        fill: "#f2c08a"
+      }), React.createElement("text", {
+        x: "100",
+        y: "196",
+        textAnchor: "middle",
+        fontSize: "15",
+        fontWeight: "800",
+        fill: "#4d6a59"
+      }, "\u062C\u0647\u0627\u0632 \u062D\u064A\u0648\u064A"));
+    case 'mito':
+      return React.createElement("svg", P, React.createElement(Float, {
+        dy: 5
+      }, React.createElement("ellipse", {
+        cx: "100",
+        cy: "100",
+        rx: "78",
+        ry: "46",
+        fill: "#f08a5d",
+        stroke: "#c4542a",
+        strokeWidth: "5"
+      }), React.createElement("path", {
+        d: "M38 100 q10 -30 20 0 t20 0 t20 0 t20 0 t20 0 t20 0",
+        fill: "none",
+        stroke: "#ffd6a0",
+        strokeWidth: "6",
+        strokeLinejoin: "round"
+      })), [0, 1, 2].map(i => React.createElement("text", {
+        key: i,
+        x: 150 + i * 12,
+        y: "40",
+        fontSize: "22",
+        fill: "#f5b82e"
+      }, "\u26A1", React.createElement("animate", {
+        attributeName: "opacity",
+        values: "0;1;0",
+        dur: "1.5s",
+        begin: i * .5 + 's',
+        repeatCount: "indefinite"
+      }))));
+    case 'microbe':
+      return React.createElement("svg", P, React.createElement("circle", {
+        cx: "100",
+        cy: "100",
+        r: "86",
+        fill: "#e8f6ff",
+        stroke: "#9cc6e0",
+        strokeWidth: "6"
+      }), React.createElement("g", null, React.createElement("animateTransform", {
+        attributeName: "transform",
+        type: "translate",
+        values: "-10 0;14 6;-10 0",
+        dur: "5s",
+        repeatCount: "indefinite"
+      }), React.createElement("path", {
+        d: "M50 100 C50 70 150 60 156 96 C162 130 60 140 50 100Z",
+        fill: "#c9b6f0",
+        stroke: "#8e6fd1",
+        strokeWidth: "4"
+      }), React.createElement("circle", {
+        cx: "96",
+        cy: "98",
+        r: "12",
+        fill: "#8e6fd1"
+      }), React.createElement("circle", {
+        cx: "130",
+        cy: "94",
+        r: "6",
+        fill: "#fff",
+        stroke: "#8e6fd1",
+        strokeWidth: "2"
+      }), [...Array(14)].map((_, i) => {
+        const a = i / 14 * 6.28;
+        return React.createElement("line", {
+          key: i,
+          x1: 103 + Math.cos(a) * 52,
+          y1: 98 + Math.sin(a) * 32,
+          x2: 103 + Math.cos(a) * 60,
+          y2: 98 + Math.sin(a) * 38,
+          stroke: "#8e6fd1",
+          strokeWidth: "2"
+        }, React.createElement("animate", {
+          attributeName: "x2",
+          values: `${103 + Math.cos(a) * 60};${103 + Math.cos(a + .2) * 60};${103 + Math.cos(a) * 60}`,
+          dur: ".6s",
+          repeatCount: "indefinite"
+        }));
+      })));
+    case 'plantcell':
+      return React.createElement("svg", P, React.createElement("rect", {
+        x: "22",
+        y: "30",
+        width: "156",
+        height: "140",
+        rx: "14",
+        fill: "#9fd67a",
+        stroke: "#4f9a3a",
+        strokeWidth: "9"
+      }, React.createElement("animate", {
+        attributeName: "stroke-width",
+        values: "9;12;9",
+        dur: "1.6s",
+        repeatCount: "indefinite"
+      })), React.createElement("rect", {
+        x: "34",
+        y: "42",
+        width: "132",
+        height: "116",
+        rx: "10",
+        fill: "#e9f7d9",
+        stroke: "#7fbf5f",
+        strokeWidth: "2"
+      }), React.createElement("ellipse", {
+        cx: "96",
+        cy: "100",
+        rx: "38",
+        ry: "30",
+        fill: "#cfe9f7",
+        stroke: "#8cc4e3",
+        strokeWidth: "3"
+      }), React.createElement("circle", {
+        cx: "140",
+        cy: "70",
+        r: "14",
+        fill: "#c9b6f0",
+        stroke: "#8e6fd1",
+        strokeWidth: "3"
+      }), [[56, 60], [60, 140], [140, 130], [150, 104]].map(([x, y], i) => React.createElement(Float, {
+        key: i,
+        dy: 3,
+        delay: i * .3
+      }, React.createElement("ellipse", {
+        cx: x,
+        cy: y,
+        rx: "10",
+        ry: "6",
+        fill: "#3f9a3f"
+      }))));
+    case 'levels':
+      return React.createElement("svg", P, [['🔵', 'خلية'], ['🧫', 'نسيج'], ['🫀', 'عضو'], ['🧍‍♀️', 'جهاز']].map(([e, t], i) => React.createElement("g", {
+        key: i,
+        opacity: "0"
+      }, React.createElement("animate", {
+        attributeName: "opacity",
+        values: "0;1;1;0",
+        keyTimes: "0;.15;.85;1",
+        dur: "6s",
+        begin: i * .6 + 's',
+        repeatCount: "indefinite"
+      }), React.createElement("text", {
+        x: 166 - i * 44,
+        y: 90,
+        textAnchor: "middle",
+        fontSize: 20 + i * 6
+      }, e), React.createElement("text", {
+        x: 166 - i * 44,
+        y: 130,
+        textAnchor: "middle",
+        fontSize: "15",
+        fontWeight: "800",
+        fill: "#4d6a59"
+      }, t))), React.createElement("path", {
+        d: "M180 160 H24",
+        stroke: "#e07a9b",
+        strokeWidth: "4",
+        strokeDasharray: "6 6"
+      }, React.createElement("animate", {
+        attributeName: "stroke-dashoffset",
+        from: "0",
+        to: "24",
+        dur: "1s",
+        repeatCount: "indefinite"
+      })), React.createElement("text", {
+        x: "100",
+        y: "186",
+        textAnchor: "middle",
+        fontSize: "13",
+        fontWeight: "800",
+        fill: "#e07a9b"
+      }, "\u0645\u0646 \u0627\u0644\u0623\u0635\u063A\u0631 \u0625\u0644\u0649 \u0627\u0644\u0623\u0643\u0628\u0631"));
+    case 'chloro':
+      return React.createElement("svg", P, React.createElement(Float, null, React.createElement("ellipse", {
+        cx: "100",
+        cy: "100",
+        rx: "80",
+        ry: "50",
+        fill: "#9fd67a",
+        stroke: "#3f8f3a",
+        strokeWidth: "6"
+      }), [60, 90, 120, 150].map((x, i) => React.createElement("g", {
+        key: i
+      }, [0, 1, 2].map(j => React.createElement("rect", {
+        key: j,
+        x: x - 14,
+        y: 84 + j * 10,
+        width: "28",
+        height: "8",
+        rx: "4",
+        fill: "#2f7d2f"
+      }))))), React.createElement("text", {
+        x: "40",
+        y: "36",
+        fontSize: "26"
+      }, "\u2600\uFE0F", React.createElement("animateTransform", {
+        attributeName: "transform",
+        type: "rotate",
+        from: "0 54 28",
+        to: "360 54 28",
+        dur: "10s",
+        repeatCount: "indefinite"
+      })));
+    case 'leaf':
+      return React.createElement("svg", P, React.createElement("path", {
+        d: "M30 170 C30 80 100 30 176 30 C176 110 120 170 30 170Z",
+        fill: "#5fbf55"
+      }, React.createElement("animate", {
+        attributeName: "fill",
+        values: "#9bd88f;#3f9a3f;#9bd88f",
+        dur: "3s",
+        repeatCount: "indefinite"
+      })), React.createElement("path", {
+        d: "M30 170 C80 120 120 80 176 30",
+        stroke: "#2f7d2f",
+        strokeWidth: "5",
+        fill: "none"
+      }), [[80, 110], [110, 80], [130, 110], [90, 140]].map(([x, y], i) => React.createElement(Float, {
+        key: i,
+        delay: i * .4
+      }, React.createElement("circle", {
+        cx: x,
+        cy: y,
+        r: "7",
+        fill: "#1f6b2a"
+      }))));
+    case 'membrane':
+      return React.createElement("svg", P, React.createElement("rect", {
+        x: "16",
+        y: "20",
+        width: "168",
+        height: "160",
+        rx: "18",
+        fill: "none",
+        stroke: "#4f9a3a",
+        strokeWidth: "12"
+      }), React.createElement("rect", {
+        x: "32",
+        y: "36",
+        width: "136",
+        height: "128",
+        rx: "12",
+        fill: "#eef9e6",
+        stroke: "#e07a9b",
+        strokeWidth: "4",
+        strokeDasharray: "8 5"
+      }), [0, 1, 2].map(i => React.createElement("circle", {
+        key: i,
+        r: "7",
+        fill: "#4f9fd8"
+      }, React.createElement("animateMotion", {
+        dur: "3s",
+        begin: i + 's',
+        repeatCount: "indefinite",
+        path: "M100 0 L100 100"
+      }))), React.createElement("text", {
+        x: "100",
+        y: "196",
+        textAnchor: "middle",
+        fontSize: "12",
+        fontWeight: "800",
+        fill: "#4d6a59"
+      }, "\u062C\u062F\u0627\u0631 + \u063A\u0634\u0627\u0621"));
+    case 'battery':
+      return React.createElement("svg", P, React.createElement("rect", {
+        x: "60",
+        y: "40",
+        width: "80",
+        height: "130",
+        rx: "14",
+        fill: "#fff",
+        stroke: "#3f8f3a",
+        strokeWidth: "7"
+      }), React.createElement("rect", {
+        x: "85",
+        y: "26",
+        width: "30",
+        height: "16",
+        rx: "4",
+        fill: "#3f8f3a"
+      }), React.createElement("rect", {
+        x: "70",
+        y: "110",
+        width: "60",
+        height: "50",
+        rx: "8",
+        fill: "#9fd67a"
+      }, React.createElement("animate", {
+        attributeName: "height",
+        values: "50;20;50",
+        dur: "3s",
+        repeatCount: "indefinite"
+      }), React.createElement("animate", {
+        attributeName: "y",
+        values: "110;140;110",
+        dur: "3s",
+        repeatCount: "indefinite"
+      })), React.createElement("path", {
+        d: "M104 64 l-16 30 h14 l-6 26 l20 -34 h-14z",
+        fill: "#f5b82e"
+      }));
+    case 'osmosis':
+      return React.createElement("svg", P, React.createElement("line", {
+        x1: "100",
+        y1: "20",
+        x2: "100",
+        y2: "180",
+        stroke: "#e07a9b",
+        strokeWidth: "5",
+        strokeDasharray: "10 8"
+      }), [...Array(10)].map((_, i) => React.createElement("circle", {
+        key: i,
+        r: "7",
+        fill: "#4f9fd8"
+      }, React.createElement("animateMotion", {
+        dur: 2.4 + i % 3 * .5 + 's',
+        begin: i * .3 + 's',
+        repeatCount: "indefinite",
+        path: `M${30 + i % 3 * 18} ${30 + i * 15} L${130 + i % 3 * 18} ${36 + i * 14}`
+      }))), React.createElement("text", {
+        x: "50",
+        y: "196",
+        textAnchor: "middle",
+        fontSize: "13",
+        fontWeight: "800",
+        fill: "#4d6a59"
+      }, "\u0645\u0631\u062A\u0641\u0639"), React.createElement("text", {
+        x: "150",
+        y: "196",
+        textAnchor: "middle",
+        fontSize: "13",
+        fontWeight: "800",
+        fill: "#4d6a59"
+      }, "\u0645\u0646\u062E\u0641\u0636"));
+    case 'exo':
+      return React.createElement("svg", P, React.createElement("path", {
+        d: "M10 150 Q100 110 190 150",
+        stroke: "#8e6fd1",
+        strokeWidth: "10",
+        fill: "none"
+      }), React.createElement(Float, {
+        dy: 4
+      }, React.createElement("circle", {
+        cx: "100",
+        cy: "170",
+        r: "18",
+        fill: "#c9b6f0",
+        stroke: "#8e6fd1",
+        strokeWidth: "4"
+      })), [0, 1, 2, 3].map(i => React.createElement("circle", {
+        key: i,
+        r: "7",
+        fill: "#e8607e"
+      }, React.createElement("animateMotion", {
+        dur: "2.4s",
+        begin: i * .6 + 's',
+        repeatCount: "indefinite",
+        path: `M100 165 Q${70 + i * 20} 90 ${40 + i * 40} 20`
+      }))));
+    case 'diffusion':
+      return React.createElement("svg", P, React.createElement("rect", {
+        x: "10",
+        y: "40",
+        width: "85",
+        height: "120",
+        rx: "12",
+        fill: "#fff4dc"
+      }), React.createElement("rect", {
+        x: "105",
+        y: "40",
+        width: "85",
+        height: "120",
+        rx: "12",
+        fill: "#e3f0fb"
+      }), [0, 1, 2, 3].map(i => React.createElement("circle", {
+        key: i,
+        r: "7",
+        fill: "#f2a93b"
+      }, React.createElement("animateMotion", {
+        dur: "3s",
+        begin: i * .7 + 's',
+        repeatCount: "indefinite",
+        path: `M30 ${60 + i * 25} L170 ${70 + i * 22}`
+      }))), React.createElement("text", {
+        x: "52",
+        y: "30",
+        textAnchor: "middle",
+        fontSize: "13",
+        fontWeight: "800",
+        fill: "#4d6a59"
+      }, "\u0627\u0646\u062A\u0634\u0627\u0631"), React.createElement("text", {
+        x: "148",
+        y: "30",
+        textAnchor: "middle",
+        fontSize: "13",
+        fontWeight: "800",
+        fill: "#4d6a59"
+      }, "\u0646\u0634\u0637 \u26A1"), React.createElement("text", {
+        x: "100",
+        y: "186",
+        textAnchor: "middle",
+        fontSize: "20"
+      }, "\uD83D\uDD0B"));
+    case 'oxygen':
+      return React.createElement("svg", P, [0, 1, 2].map(i => React.createElement("g", {
+        key: i
+      }, React.createElement("animateTransform", {
+        attributeName: "transform",
+        type: "translate",
+        values: `0 40;0 -30`,
+        dur: "3.6s",
+        begin: i * 1.2 + 's',
+        repeatCount: "indefinite"
+      }), React.createElement("circle", {
+        cx: 60 + i * 40,
+        cy: 120,
+        r: "20",
+        fill: "#7fc4ef"
+      }), React.createElement("circle", {
+        cx: 80 + i * 40,
+        cy: 120,
+        r: "20",
+        fill: "#4f9fd8"
+      }), React.createElement("text", {
+        x: 70 + i * 40,
+        y: 126,
+        textAnchor: "middle",
+        fontSize: "16",
+        fontWeight: "800",
+        fill: "#fff"
+      }, "O\u2082"), React.createElement("animate", {
+        attributeName: "opacity",
+        values: "0;1;0",
+        dur: "3.6s",
+        begin: i * 1.2 + 's',
+        repeatCount: "indefinite"
+      }))));
+    case 'photo':
+      return React.createElement("svg", P, React.createElement(Spin, {
+        cx: 44,
+        cy: 44,
+        dur: 12
+      }, React.createElement("circle", {
+        cx: "44",
+        cy: "44",
+        r: "22",
+        fill: "#f5c84a"
+      }), [...Array(8)].map((_, i) => React.createElement("line", {
+        key: i,
+        x1: "44",
+        y1: "44",
+        x2: 44 + Math.cos(i * .785) * 36,
+        y2: 44 + Math.sin(i * .785) * 36,
+        stroke: "#f5c84a",
+        strokeWidth: "4"
+      }))), [0, 1, 2].map(i => React.createElement("line", {
+        key: i,
+        x1: 60 + i * 12,
+        y1: 70 + i * 6,
+        x2: 110 + i * 12,
+        y2: 120 + i * 6,
+        stroke: "#f5c84a",
+        strokeWidth: "4",
+        strokeDasharray: "6 6"
+      }, React.createElement("animate", {
+        attributeName: "stroke-dashoffset",
+        from: "24",
+        to: "0",
+        dur: ".8s",
+        repeatCount: "indefinite"
+      }))), React.createElement("path", {
+        d: "M90 180 C90 120 140 96 186 96 C186 150 150 180 90 180Z",
+        fill: "#5fbf55"
+      }), React.createElement("path", {
+        d: "M90 180 C120 150 150 120 186 96",
+        stroke: "#2f7d2f",
+        strokeWidth: "4",
+        fill: "none"
+      }));
+    case 'water':
+      return React.createElement("svg", P, React.createElement("path", {
+        d: "M40 180 C40 110 100 70 170 70 C170 140 120 180 40 180Z",
+        fill: "#5fbf55"
+      }), [0, 1, 2].map(i => React.createElement("path", {
+        key: i,
+        d: "M0 -14 C6 -4 10 2 10 8 a10 10 0 0 1 -20 0 C-10 2 -6 -4 0 -14Z",
+        fill: "#4f9fd8"
+      }, React.createElement("animateMotion", {
+        dur: "2.4s",
+        begin: i * .8 + 's',
+        repeatCount: "indefinite",
+        path: `M${50 + i * 35} 10 L${70 + i * 30} 130`
+      }), React.createElement("animate", {
+        attributeName: "opacity",
+        values: "1;1;0",
+        dur: "2.4s",
+        begin: i * .8 + 's',
+        repeatCount: "indefinite"
+      }))), React.createElement("text", {
+        x: "140",
+        y: "170",
+        fontSize: "26"
+      }, "\uD83C\uDF5E"));
+    case 'leafo2':
+      return React.createElement("svg", P, React.createElement("path", {
+        d: "M20 190 C20 110 80 60 150 60 C150 140 100 190 20 190Z",
+        fill: "#5fbf55"
+      }), [0, 1].map(i => React.createElement("g", {
+        key: i
+      }, React.createElement("animateTransform", {
+        attributeName: "transform",
+        type: "translate",
+        values: "0 0;30 -60",
+        dur: "3s",
+        begin: i * 1.5 + 's',
+        repeatCount: "indefinite"
+      }), React.createElement("circle", {
+        cx: 110 + i * 20,
+        cy: 100,
+        r: "16",
+        fill: "#7fc4ef"
+      }), React.createElement("text", {
+        x: 110 + i * 20,
+        y: 105,
+        textAnchor: "middle",
+        fontSize: "13",
+        fontWeight: "800",
+        fill: "#fff"
+      }, "O\u2082"), React.createElement("animate", {
+        attributeName: "opacity",
+        values: "0;1;0",
+        dur: "3s",
+        begin: i * 1.5 + 's',
+        repeatCount: "indefinite"
+      }))), React.createElement("text", {
+        x: "150",
+        y: "190",
+        fontSize: "34"
+      }, "\uD83D\uDC11"));
+    default:
+      return null;
+  }
+}
+function useFx() {
+  const [items, setItems] = useState([]);
+  const add = useCallback((list, ms = 1800) => {
+    const id = Math.random();
+    setItems(s => [...s, {
+      id,
+      list
+    }]);
+    setTimeout(() => setItems(s => s.filter(x => x.id !== id)), ms);
+  }, []);
+  const stars = useCallback((x, y) => {
+    add([...Array(26)].map((_, i) => {
+      const a = Math.random() * 6.283,
+        d = 80 + Math.random() * 220;
+      return React.createElement("span", {
+        key: i,
+        className: "star",
+        style: {
+          '--x': x + 'px',
+          '--y': y + 'px',
+          '--dx': Math.cos(a) * d + 'px',
+          '--dy': Math.sin(a) * d + 'px',
+          '--r': Math.random() * 720 - 360 + 'deg',
+          '--s': 16 + Math.random() * 30 + 'px',
+          animationDelay: Math.random() * .12 + 's'
+        }
+      }, Math.random() < .7 ? '★' : '✦');
+    }).concat(React.createElement("span", {
+      key: "p",
+      className: "plus",
+      style: {
+        '--x': x + 'px',
+        '--y': y + 'px'
+      }
+    }, "+", AR(PER))));
+  }, [add]);
+  const confetti = useCallback(() => {
+    const cols = ['#f5b82e', '#e07a9b', '#5fae84', '#4f9fd8', '#8e6fd1', '#0b6b3a'];
+    add([...Array(90)].map((_, i) => React.createElement("span", {
+      key: i,
+      className: "conf",
+      style: {
+        '--x': Math.random() * 100 + 'vw',
+        '--c': cols[i % 6],
+        '--d': 2.2 + Math.random() * 2 + 's',
+        '--sx': Math.random() * 120 - 60 + 'px',
+        animationDelay: Math.random() * .8 + 's'
+      }
+    })), 4200);
+  }, [add]);
+  const layer = React.createElement("div", {
+    className: "fx",
+    "aria-hidden": "true"
+  }, items.map(it => React.createElement(React.Fragment, {
+    key: it.id
+  }, it.list)));
+  return {
+    stars,
+    confetti,
+    layer
+  };
+}
+const downloadsP = window.claude && window.claude.use ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null);
+function rr(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+async function drawResult(r) {
+  try {
+    await Promise.all(['800 60px "Baloo Bhaijaan 2"', '800 30px Tajawal', '700 30px "Aref Ruqaa"'].map(f => document.fonts.load(f)));
+  } catch (e) {}
+  const W = 1080,
+    H = 1350,
+    c = document.createElement('canvas');
+  c.width = W;
+  c.height = H;
+  const x = c.getContext('2d');
+  const g = x.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#cde7f6');
+  g.addColorStop(.7, '#fdf1e4');
+  x.fillStyle = g;
+  x.fillRect(0, 0, W, H);
+  x.fillStyle = '#0b6b3a';
+  rr(x, W - 300, 50, 240, 160, 10);
+  x.fill();
+  x.fillStyle = '#fff';
+  x.font = '700 28px "Aref Ruqaa", serif';
+  x.textAlign = 'center';
+  x.direction = 'rtl';
+  x.fillText('لا إله إلا الله محمد رسول الله', W - 180, 125, 200);
+  x.strokeStyle = '#fff';
+  x.lineWidth = 6;
+  x.lineCap = 'round';
+  x.beginPath();
+  x.moveTo(W - 250, 165);
+  x.lineTo(W - 110, 165);
+  x.stroke();
+  x.fillStyle = '#d9a96b';
+  rr(x, 60, 240, W - 120, 1000, 40);
+  x.fill();
+  x.fillStyle = '#fffdf8';
+  rr(x, 84, 264, W - 168, 952, 26);
+  x.fill();
+  x.textAlign = 'center';
+  x.fillStyle = '#0b6b3a';
+  x.font = '800 64px "Baloo Bhaijaan 2", Tajawal, sans-serif';
+  x.fillText('🏆 نتيجة عالمة نافس', W / 2, 370);
+  x.fillStyle = '#e07a9b';
+  x.font = '800 40px "Baloo Bhaijaan 2", Tajawal, sans-serif';
+  x.fillText('🌟 بمهاراتي أنافس 🌟', W / 2, 440);
+  x.fillStyle = '#f8cfdc';
+  rr(x, 240, 480, W - 480, 90, 24);
+  x.fill();
+  x.fillStyle = '#1f3b2c';
+  x.font = '800 50px "Baloo Bhaijaan 2", Tajawal, sans-serif';
+  x.fillText(r.name, W / 2, 542);
+  const rows = [['عدد الأسئلة', AR(r.total), '#fff4dc'], ['الإجابات الصحيحة', AR(r.right), '#e3f6ea'], ['الإجابات الخاطئة', AR(r.wrong), '#fde8ef'], ['النسبة المئوية', AR(r.pct) + '٪', '#e3f0fb'], ['النقاط', AR(r.points), '#efe9fb']];
+  rows.forEach(([k, v, bg], i) => {
+    const y = 610 + i * 96;
+    x.fillStyle = bg;
+    rr(x, 150, y, W - 300, 80, 22);
+    x.fill();
+    x.textAlign = 'right';
+    x.fillStyle = '#4d6a59';
+    x.font = '800 36px Tajawal, sans-serif';
+    x.fillText(k, W - 185, y + 53);
+    x.textAlign = 'left';
+    x.fillStyle = '#1f3b2c';
+    x.font = '800 46px "Baloo Bhaijaan 2", Tajawal, sans-serif';
+    x.fillText(v, 185, y + 56);
+  });
+  x.textAlign = 'center';
+  x.fillStyle = '#0b6b3a';
+  x.font = '800 38px "Baloo Bhaijaan 2", Tajawal, sans-serif';
+  const words = r.cheer.split(' ');
+  let line = '',
+    lines = [];
+  words.forEach(w => {
+    const t = line ? line + ' ' + w : w;
+    if (x.measureText(t).width > W - 260) {
+      lines.push(line);
+      line = w;
+    } else line = t;
+  });
+  lines.push(line);
+  lines.slice(0, 2).forEach((l, i) => x.fillText(l, W / 2, 1130 + i * 50));
+  x.fillStyle = '#5b3712';
+  x.font = '800 34px Tajawal, sans-serif';
+  x.fillText('إعداد المعلمة: أ/ شامه البقمي', W / 2, 1290);
+  x.fillStyle = '#4d6a59';
+  x.font = '700 28px Tajawal, sans-serif';
+  x.fillText('الابتدائية العشرون لتحفيظ القرآن · ' + new Date().toLocaleDateString('ar-SA'), W / 2, 1330);
+  return await new Promise(res => c.toBlob(res, 'image/png'));
+}
+function cheerFor(p) {
+  if (p === 100) return 'مذهلة! أجبتِ عن جميع الأسئلة بشكل صحيح، أنتِ عالمة نافس الأولى 🏆';
+  if (p >= 80) return 'ممتازة يا بطلة! مستواكِ رائع، واصلي التألق 🌟';
+  if (p >= 60) return 'جيد جدًا! أنتِ على الطريق الصحيح، راجعي الأسئلة القليلة التي أخطأتِ فيها 💚';
+  if (p >= 40) return 'بداية جميلة! بالمراجعة والتدريب ستصبحين أقوى 🌷';
+  return 'لا بأس يا عالمة المستقبل، كل محاولة تعلّمكِ شيئًا جديدًا. أعيدي المحاولة وستتفوقين 🌸';
+}
+function Start({
+  onStart
+}) {
+  const [name, setName] = useState('');
+  const [err, setErr] = useState('');
+  const go = e => {
+    e.preventDefault();
+    const n = name.trim();
+    if (!n) {
+      setErr('اكتبي اسمكِ أولًا 🌸');
+      return;
+    }
+    Sound.unlock();
+    Sound.fanfare();
+    onStart(n);
+  };
+  return React.createElement("form", {
+    className: "card",
+    onSubmit: go
+  }, React.createElement("div", {
+    className: "meta"
+  }, React.createElement("span", {
+    className: "chip"
+  }, "\u0627\u0644\u0639\u0644\u0648\u0645"), React.createElement("span", {
+    className: "chip"
+  }, "\u0627\u0644\u0635\u0641 \u0627\u0644\u0633\u0627\u062F\u0633 \u0627\u0644\u0627\u0628\u062A\u062F\u0627\u0626\u064A"), React.createElement("span", {
+    className: "chip"
+  }, "\u0645\u0631\u0627\u062C\u0639\u0629 \u0645\u0647\u0627\u0631\u0627\u062A \u0646\u0627\u0641\u0633")), React.createElement("h1", null, "\uD83C\uDF1F \u0628\u0645\u0647\u0627\u0631\u0627\u062A\u064A \u0623\u0646\u0627\u0641\u0633 \uD83C\uDF1F"), React.createElement("h2", null, "\u0645\u063A\u0627\u0645\u0631\u0629 \u0627\u0644\u0639\u0644\u0648\u0645 \u0627\u0644\u062A\u0641\u0627\u0639\u0644\u064A\u0629"), React.createElement("div", {
+    className: "startrow"
+  }, React.createElement(Buddy, {
+    mood: "happy"
+  }), React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12
+    }
+  }, React.createElement("p", {
+    style: {
+      fontSize: 'clamp(20px,2.8vw,28px)',
+      fontFamily: 'var(--f-display)',
+      fontWeight: 800
+    }
+  }, "\uD83C\uDF38 \u0645\u0631\u062D\u0628\u064B\u0627 \u064A\u0627 \u0639\u0627\u0644\u0645\u0629 \u0627\u0644\u0645\u0633\u062A\u0642\u0628\u0644!"), React.createElement("p", null, "\u0647\u0644 \u0623\u0646\u062A\u0650 \u0645\u0633\u062A\u0639\u062F\u0629 \u0644\u062A\u062D\u062F\u064A \u0646\u0627\u0641\u0633\u061F", React.createElement("br", null), "\u0627\u0643\u062A\u0628\u064A \u0627\u0633\u0645\u0643\u0650 \u0648\u0627\u0628\u062F\u0626\u064A \u0627\u0644\u0645\u063A\u0627\u0645\u0631\u0629."), React.createElement("div", {
+    className: "field"
+  }, React.createElement("label", {
+    htmlFor: "studentName"
+  }, "\u0627\u0633\u0645 \u0627\u0644\u0637\u0627\u0644\u0628\u0629"), React.createElement("input", {
+    id: "studentName",
+    value: name,
+    maxLength: 40,
+    autoComplete: "off",
+    placeholder: "\u0627\u0643\u062A\u0628\u064A \u0627\u0633\u0645\u0643\u0650 \u0647\u0646\u0627",
+    onChange: e => {
+      setName(e.target.value);
+      setErr('');
+    }
+  })), React.createElement("div", {
+    className: "hint",
+    role: "alert"
+  }, err))), React.createElement("button", {
+    className: "btn",
+    type: "submit"
+  }, "\uD83D\uDE80 \u0627\u0628\u062F\u0626\u064A \u0627\u0644\u0644\u0639\u0628"), React.createElement("p", {
+    style: {
+      fontSize: 'clamp(14px,1.8vw,17px)',
+      color: 'var(--ink-soft)'
+    }
+  }, AR(QUESTIONS.length), " \u0633\u0624\u0627\u0644\u064B\u0627 \u0641\u064A ", AR(GROUPS.length), " \u0645\u062C\u0645\u0648\u0639\u0627\u062A \xB7 \u0644\u0643\u0644 \u0625\u062C\u0627\u0628\u0629 \u0635\u062D\u064A\u062D\u0629 ", AR(PER), " \u0646\u0642\u0627\u0637"), React.createElement("p", {
+    style: {
+      fontSize: 'clamp(15px,1.9vw,18px)'
+    }
+  }, "\u0625\u0639\u062F\u0627\u062F \u0627\u0644\u0645\u0639\u0644\u0645\u0629: \u0623/ \u0634\u0627\u0645\u0647 \u0627\u0644\u0628\u0642\u0645\u064A", React.createElement("br", null), React.createElement("span", {
+    style: {
+      color: 'var(--ink-soft)'
+    }
+  }, "\u0627\u0644\u0627\u0628\u062A\u062F\u0627\u0626\u064A\u0629 \u0627\u0644\u0639\u0634\u0631\u0648\u0646 \u0644\u062A\u062D\u0641\u064A\u0638 \u0627\u0644\u0642\u0631\u0622\u0646")));
+}
+function Play({
+  name,
+  onDone,
+  fx
+}) {
+  const [i, setI] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [answers, setAnswers] = useState([]);
+  const [bump, setBump] = useState(0);
+  const [group, setGroup] = useState(null);
+  const q = QUESTIONS[i],
+    G = GROUPS[q.g];
+  const right = answers.filter(Boolean).length;
+  const done = pick !== null;
+  const ok = done && pick === q.a;
+  const choose = (k, e) => {
+    if (done) return;
+    setPick(k);
+    const good = k === q.a;
+    setAnswers(a => [...a, good]);
+    if (good) {
+      const r = e.currentTarget.getBoundingClientRect();
+      fx.stars(r.left + r.width / 2, r.top + r.height / 2);
+      Sound.good();
+      setBump(b => b + 1);
+    } else Sound.bad();
+  };
+  const next = () => {
+    Sound.whoosh();
+    const lastInGroup = i === QUESTIONS.length - 1 || QUESTIONS[i + 1].g !== q.g;
+    if (lastInGroup) {
+      const gq = QUESTIONS.map((x, j) => j).filter(j => QUESTIONS[j].g === q.g);
+      const gr = gq.filter(j => answers[j]).length;
+      setGroup({
+        g: q.g,
+        right: gr,
+        total: gq.length,
+        last: i === QUESTIONS.length - 1
+      });
+      fx.confetti();
+      Sound.fanfare();
+      return;
+    }
+    setPick(null);
+    setI(i + 1);
+  };
+  const cont = () => {
+    const last = group.last;
+    setGroup(null);
+    if (last) {
+      window.reportGame && window.reportGame(answers.filter(Boolean).length, QUESTIONS.length);
+      onDone(answers);
+      return;
+    }
+    setPick(null);
+    setI(i + 1);
+  };
+  const fbRef = useRef(null);
+  useEffect(() => {
+    if (done && fbRef.current && fbRef.current.scrollIntoView) setTimeout(() => fbRef.current && fbRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest'
+    }), 150);
+  }, [done]);
+  useEffect(() => {
+    window.scrollTo && window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [i]);
+  const mood = !done ? 'idle' : ok ? 'happy' : 'sad';
+  const say = !done ? i === 0 ? `هيا يا ${name}! اقرئي السؤال جيدًا 📖` : 'ركّزي، أنتِ قادرة! 💪' : ok ? 'أحسنتِ! إجابة رائعة ⭐' : 'لا بأس، نتعلم من أخطائنا 🌷';
+  return React.createElement(React.Fragment, null, React.createElement("div", {
+    className: "topbar"
+  }, React.createElement("div", {
+    className: "brand"
+  }, "\uD83C\uDF1F \u0628\u0645\u0647\u0627\u0631\u0627\u062A\u064A \u0623\u0646\u0627\u0641\u0633 \uD83C\uDF1F", React.createElement("small", null, "\u0645\u063A\u0627\u0645\u0631\u0629 \u0627\u0644\u0639\u0644\u0648\u0645 \u0627\u0644\u062A\u0641\u0627\u0639\u0644\u064A\u0629")), React.createElement("div", {
+    className: "chips"
+  }, React.createElement("span", {
+    className: "chip"
+  }, "\uD83D\uDC67 ", name), React.createElement("span", {
+    key: bump,
+    className: 'chip score' + (bump ? ' bump' : '')
+  }, "\uD83D\uDC9A ", AR(right * PER), " \u0646\u0642\u0637\u0629"))), React.createElement("div", {
+    className: "progress",
+    "aria-label": "\u062A\u0642\u062F\u0645 \u0627\u0644\u0637\u0627\u0644\u0628\u0629"
+  }, React.createElement("div", {
+    className: "plabel"
+  }, React.createElement("span", null, "\u0627\u0644\u0645\u062C\u0645\u0648\u0639\u0629 ", G.name, " \xB7 \u0627\u0644\u0633\u0624\u0627\u0644 ", AR(i + 1), " \u0645\u0646 ", AR(QUESTIONS.length)), React.createElement("span", null, AR(Math.round(answers.length / QUESTIONS.length * 100)), "\u066A")), React.createElement("div", {
+    className: "track"
+  }, React.createElement("div", {
+    className: "fill",
+    style: {
+      width: answers.length / QUESTIONS.length * 100 + '%'
+    }
+  })), React.createElement("div", {
+    className: "dots"
+  }, QUESTIONS.map((x, j) => React.createElement("span", {
+    key: j,
+    className: 'dot' + (j < answers.length ? answers[j] ? ' ok' : ' no' : j === i ? ' now' : '') + (j > 0 && QUESTIONS[j - 1].g !== x.g ? ' gap' : '')
+  })))), React.createElement("div", {
+    className: "stage"
+  }, React.createElement("section", {
+    className: "board qenter",
+    key: i,
+    style: {
+      '--c': G.c,
+      '--tint': G.tint
+    }
+  }, React.createElement("div", {
+    className: "qhead"
+  }, React.createElement("div", {
+    className: "qnum"
+  }, AR(i % 5 + 1)), React.createElement("div", {
+    style: {
+      minWidth: 0
+    }
+  }, React.createElement("span", {
+    className: "qmeta"
+  }, G.title), React.createElement("h2", {
+    className: "qtext"
+  }, q.q))), React.createElement("div", {
+    className: "qbody"
+  }, React.createElement("div", {
+    className: "opts"
+  }, q.o.map((t, k) => {
+    let cls = 'opt';
+    if (done) {
+      if (k === q.a) cls += ' right';else if (k === pick) cls += ' wrong';else cls += ' dim';
+    }
+    return React.createElement("button", {
+      key: k,
+      className: cls,
+      disabled: done,
+      onClick: e => choose(k, e)
+    }, React.createElement("span", {
+      className: "let"
+    }, LETTERS[k]), React.createElement("span", null, t), done && k === q.a && React.createElement("span", {
+      className: "mark"
+    }, "\u2705"), done && k === pick && k !== q.a && React.createElement("span", {
+      className: "mark"
+    }, "\u274C"));
+  })), React.createElement("div", {
+    className: "illus"
+  }, React.createElement(Art, {
+    k: q.art
+  }))), done && React.createElement("div", {
+    ref: fbRef,
+    className: 'feedback ' + (ok ? 'good' : 'bad'),
+    "aria-live": "polite"
+  }, React.createElement("div", {
+    className: "msg"
+  }, ok ? React.createElement(React.Fragment, null, React.createElement("h3", null, "\uD83C\uDF89 \u0623\u062D\u0633\u0646\u062A\u0650 \u064A\u0627 \u0628\u0637\u0644\u0629!"), React.createElement("p", null, "+", AR(PER), " \u0646\u0642\u0627\u0637 \uD83D\uDC9A ", q.e)) : React.createElement(React.Fragment, null, React.createElement("h3", null, "\uD83C\uDF37 \u062D\u0627\u0648\u0644\u064A \u0627\u0644\u062A\u0639\u0644\u0645 \u0645\u0646 \u0627\u0644\u062E\u0637\u0623"), React.createElement("p", null, "\u0627\u0644\u0625\u062C\u0627\u0628\u0629 \u0627\u0644\u0635\u062D\u064A\u062D\u0629: ", React.createElement("b", {
+    style: {
+      color: 'var(--good)'
+    }
+  }, LETTERS[q.a], ". ", q.o[q.a]), React.createElement("br", null), q.e))), React.createElement("button", {
+    className: "btn",
+    onClick: next,
+    autoFocus: true
+  }, i === QUESTIONS.length - 1 ? '🏁 النتيجة' : 'التالي ⬅'))), React.createElement(Buddy, {
+    mood: mood,
+    say: say
+  })), group && React.createElement("div", {
+    className: "modal",
+    role: "dialog",
+    "aria-modal": "true"
+  }, React.createElement("div", {
+    className: "card"
+  }, React.createElement(Buddy, {
+    mood: "happy"
+  }), React.createElement("h1", null, "\uD83C\uDF89 \u0623\u0646\u0647\u064A\u062A\u0650 \u0627\u0644\u0645\u062C\u0645\u0648\u0639\u0629 ", GROUPS[group.g].name, "!"), React.createElement("p", {
+    className: "cheer"
+  }, "\u0623\u062C\u0628\u062A\u0650 ", AR(group.right), " \u0645\u0646 ", AR(group.total), " \u0625\u062C\u0627\u0628\u0627\u062A \u0635\u062D\u064A\u062D\u0629 ", group.right === group.total ? '— علامة كاملة! 🏅' : '👏'), React.createElement("p", null, group.last ? 'أكملتِ جميع المجموعات، لنرَ نتيجتكِ النهائية!' : `استعدي للمجموعة ${GROUPS[group.g + 1].name} 🚀`), React.createElement("button", {
+    className: "btn gold",
+    onClick: cont,
+    autoFocus: true
+  }, group.last ? '🏆 عرض النتيجة' : 'تابعي المغامرة ⬅'))));
+}
+function Result({
+  name,
+  answers,
+  onRetry,
+  fx
+}) {
+  const total = QUESTIONS.length,
+    right = answers.filter(Boolean).length,
+    wrong = total - right,
+    pct = Math.round(right / total * 100),
+    points = right * PER,
+    cheer = cheerFor(pct);
+  const [img, setImg] = useState(null);
+  const [blob, setBlob] = useState(null);
+  const [toast, setToast] = useState('');
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    fx.confetti();
+    Sound.fanfare();
+  }, []);
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(''), 3200);
+    return () => clearTimeout(t);
+  }, [toast]);
+  const fname = `نتيجة-${name}-بمهاراتي-أنافس.png`.replace(/[\\/:*?"<>|]/g, '');
+  const capture = async () => {
+    setBusy(true);
+    const b = await drawResult({
+      name,
+      total,
+      right,
+      wrong,
+      pct,
+      points,
+      cheer
+    });
+    setBusy(false);
+    if (!b) return;
+    setBlob(b);
+    setImg(URL.createObjectURL(b));
+  };
+  const save = async () => {
+    const dl = await downloadsP;
+    if (dl) {
+      try {
+        await dl.save({
+          filename: fname,
+          data: blob
+        });
+        setToast('تم حفظ صورة النتيجة ✅');
+      } catch (e) {
+        if (e && e.code === 'declined') return;
+        setToast('تعذّر الحفظ هنا، اضغطي مطولًا على الصورة واحفظيها');
+      }
+      return;
+    }
+    const a = document.createElement('a');
+    a.href = img;
+    a.download = fname;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setToast('إذا لم تُحفظ الصورة، اضغطي مطولًا عليها واختاري «حفظ الصورة»');
+  };
+  const S = [['عدد الأسئلة', AR(total), '#fff4dc'], ['الإجابات الصحيحة', AR(right), '#e3f6ea'], ['الإجابات الخاطئة', AR(wrong), '#fde8ef'], ['النسبة المئوية', AR(pct) + '٪', '#e3f0fb'], ['النقاط', AR(points), '#efe9fb']];
+  return React.createElement(React.Fragment, null, React.createElement("div", {
+    className: "card"
+  }, React.createElement("h1", null, "\uD83C\uDFC6 \u0646\u062A\u064A\u062C\u0629 \u0639\u0627\u0644\u0645\u0629 \u0646\u0627\u0641\u0633"), React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10,
+      flexWrap: 'wrap',
+      justifyContent: 'center'
+    }
+  }, React.createElement("span", {
+    style: {
+      fontWeight: 800,
+      fontSize: 'clamp(17px,2.2vw,22px)'
+    }
+  }, "\u0627\u0633\u0645 \u0627\u0644\u0637\u0627\u0644\u0628\u0629:"), React.createElement("span", {
+    className: "namebar"
+  }, name)), React.createElement("div", {
+    className: "stats"
+  }, S.map(([k, v, bg]) => React.createElement("div", {
+    key: k,
+    className: "stat",
+    style: {
+      '--tint': bg
+    }
+  }, React.createElement("b", null, v), React.createElement("span", null, k)))), React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12
+    }
+  }, React.createElement("div", {
+    style: {
+      width: 110,
+      flex: 'none'
+    }
+  }, React.createElement(Buddy, {
+    mood: pct >= 60 ? 'happy' : 'idle'
+  })), React.createElement("p", {
+    className: "cheer"
+  }, cheer)), React.createElement("div", {
+    className: "row"
+  }, React.createElement("button", {
+    className: "btn pink",
+    onClick: onRetry
+  }, "\uD83D\uDD04 \u0623\u0639\u064A\u062F\u064A \u0627\u0644\u0645\u062D\u0627\u0648\u0644\u0629"), React.createElement("button", {
+    className: "btn",
+    onClick: capture,
+    disabled: busy
+  }, busy ? '⏳ جارٍ التجهيز…' : '📸 احفظي نتيجتكِ')), React.createElement("p", {
+    style: {
+      fontSize: 'clamp(14px,1.8vw,17px)',
+      color: 'var(--ink-soft)'
+    }
+  }, "\u0625\u0639\u062F\u0627\u062F \u0627\u0644\u0645\u0639\u0644\u0645\u0629: \u0623/ \u0634\u0627\u0645\u0647 \u0627\u0644\u0628\u0642\u0645\u064A \xB7 \u0627\u0644\u0627\u0628\u062A\u062F\u0627\u0626\u064A\u0629 \u0627\u0644\u0639\u0634\u0631\u0648\u0646 \u0644\u062A\u062D\u0641\u064A\u0638 \u0627\u0644\u0642\u0631\u0622\u0646")), img && React.createElement("div", {
+    className: "modal",
+    role: "dialog",
+    "aria-modal": "true",
+    onClick: e => {
+      if (e.target === e.currentTarget) setImg(null);
+    }
+  }, React.createElement("div", {
+    className: "card"
+  }, React.createElement("h2", null, "\uD83D\uDCF8 \u0635\u0648\u0631\u0629 \u0646\u062A\u064A\u062C\u062A\u0643\u0650 \u062C\u0627\u0647\u0632\u0629"), React.createElement("img", {
+    src: img,
+    alt: 'صورة نتيجة ' + name
+  }), React.createElement("p", {
+    style: {
+      fontSize: 'clamp(15px,1.9vw,18px)'
+    }
+  }, "\u0627\u062D\u0641\u0638\u064A\u0647\u0627 \u062B\u0645 \u0623\u0631\u0633\u0644\u064A\u0647\u0627 \u0625\u0644\u0649 \u0645\u0639\u0644\u0645\u062A\u0643\u0650. \u0639\u0644\u0649 \u0627\u0644\u0622\u064A\u0641\u0648\u0646 \u0648\u0627\u0644\u0622\u064A\u0628\u0627\u062F \u064A\u0645\u0643\u0646\u0643\u0650 \u0623\u064A\u0636\u064B\u0627 \u0627\u0644\u0636\u063A\u0637 \u0645\u0637\u0648\u0644\u064B\u0627 \u0639\u0644\u0649 \u0627\u0644\u0635\u0648\u0631\u0629 \u0648\u0627\u062E\u062A\u064A\u0627\u0631 \xAB\u062D\u0641\u0638 \u0641\u064A \u0627\u0644\u0635\u0648\u0631\xBB."), React.createElement("div", {
+    className: "row"
+  }, React.createElement("button", {
+    className: "btn",
+    onClick: save
+  }, "\uD83D\uDCBE \u062D\u0641\u0638 \u0627\u0644\u0635\u0648\u0631\u0629"), React.createElement("button", {
+    className: "btn ghost",
+    onClick: () => setImg(null)
+  }, "\u0625\u063A\u0644\u0627\u0642")))), toast && React.createElement("div", {
+    className: "toast",
+    role: "status"
+  }, toast));
+}
+function App() {
+  const [screen, setScreen] = useState('start');
+  const [name, setName] = useState('');
+  const [answers, setAnswers] = useState([]);
+  const [snd, setSnd] = useState(true);
+  const [run, setRun] = useState(0);
+  const fx = useFx();
+  return React.createElement(React.Fragment, null, React.createElement(Scene, null), React.createElement("button", {
+    className: "sound",
+    "aria-label": "\u0627\u0644\u0635\u0648\u062A",
+    onClick: () => {
+      setSnd(Sound.toggle());
+    }
+  }, snd ? '🔊' : '🔇'), React.createElement("main", {
+    className: "wrap",
+    style: screen !== 'play' ? {
+      justifyContent: 'center'
+    } : null
+  }, screen === 'start' && React.createElement(Start, {
+    onStart: n => {
+      setName(n);
+      setScreen('play');
+    }
+  }), screen === 'play' && React.createElement(Play, {
+    key: run,
+    name: name,
+    fx: fx,
+    onDone: a => {
+      setAnswers(a);
+      setScreen('result');
+    }
+  }), screen === 'result' && React.createElement(Result, {
+    name: name,
+    answers: answers,
+    fx: fx,
+    onRetry: () => {
+      Sound.click();
+      setRun(r => r + 1);
+      setAnswers([]);
+      setScreen('play');
+    }
+  })), React.createElement("div", {
+    className: "credit"
+  }, "\u0625\u0639\u062F\u0627\u062F \u0627\u0644\u0645\u0639\u0644\u0645\u0629: \u0623/ \u0634\u0627\u0645\u0647 \u0627\u0644\u0628\u0642\u0645\u064A \xB7 \u0627\u0644\u0627\u0628\u062A\u062F\u0627\u0626\u064A\u0629 \u0627\u0644\u0639\u0634\u0631\u0648\u0646 \u0644\u062A\u062D\u0641\u064A\u0638 \u0627\u0644\u0642\u0631\u0622\u0646"), fx.layer);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App, null));
+})();
+</script>
+
+<script src="../assets/student.js"></script>
+</body>
+</html>

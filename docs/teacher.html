@@ -55,6 +55,9 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
 .kpi b{display:block;font-family:var(--display);font-size:28px;font-variant-numeric:tabular-nums}
 .kpi span{color:var(--muted);font-size:13px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:10px;font-weight:700;font-size:16px}
+.seg button[aria-pressed="true"]{border-color:var(--teal);background:var(--teal);color:var(--teal-ink)}
 .chip{background:var(--soft);border-radius:999px;padding:3px 10px;font-size:14px}
 .steps{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px}
 code{background:var(--soft);padding:1px 6px;border-radius:6px;font-size:13px;direction:ltr;display:inline-block}
@@ -139,6 +142,7 @@ async function home() {
       card('✏️', 'إنشاء نشاط', 'صمّمي نشاطًا تفاعليًا: من بنك نافس، أو بالذكاء الاصطناعي، أو أسئلتك الخاصة.', 'ابدئي الآن', () => editor(), 'primary'),
       card('📂', 'أنشطتي', 'افتحي أو أغلقي الأنشطة، وشاركي رابطها وباركودها مع الطالبات.', 'عرض الأنشطة', mine),
       card('📊', 'النتائج', 'تابعي من سلّمت، ودرجة كل طالبة، والأسئلة الأصعب.', 'عرض النتائج', () => results()),
+      card('🎮', 'ألعاب السادس والزيارات', 'نتائج الطالبات في الألعاب، ومن دخلت المنصة ومتى، ومن لم تدخل بعد.', 'عرض المتابعة', gamesView),
       card('🎡', 'عجلة الحصة', 'عجلة الأسماء مع أسئلة نافس والنقاط والشهادات.', 'فتح العجلة', () => location.href = 'wheel.html'),
       card('⚙️', 'إعداداتي', 'أسماء الفصلين، والرمز السري، وربط المنصة.', 'فتح الإعدادات', settings)));
 }
@@ -390,6 +394,81 @@ function exportCsv(a, resp) {
   const csv = '﻿' + [head, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
   const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
   const link = h('a', { href: url, download: `نتائج - ${a.title}.csv` }); document.body.append(link); link.click(); link.remove();
+}
+
+
+// ---------------- ألعاب الصف السادس والزيارات ----------------
+const GAME_NAMES = { 'respiration': 'رحلة الهواء والدم', 'microscope': 'عالم تحت المجهر', 'nafs-skills': 'بمهاراتي أنافس',
+  'g6-hub': 'صفحة الألعاب', 'activities': 'أنشطة المعلمة', 'sim-bread-mold': 'محاكاة عفن الخبز', 'sim-mosses': 'محاكاة الحزازيات',
+  'sim-large-intestine': 'محاكاة الأمعاء الغليظة', 'video-respiratory': 'فيديو الجهاز التنفسي' };
+const pageName = p => GAME_NAMES[p] || (String(p).startsWith('activity:') ? (ACTS.find(a => a.id === p.slice(9)) || { title: 'نشاط' }).title : p);
+function gamesLink() {
+  const u = new URL(siteBase() + 'g6/index.html');
+  if (!CONFIG_API && getApi()) u.searchParams.set('s', b64u.enc(getApi()));
+  return u.toString();
+}
+function shareGames() {
+  const link = gamesLink();
+  modal(h('h2', {}, 'رابط ألعاب الصف السادس'),
+    h('p', { class: 'muted', style: 'margin:0' }, 'تفتحه الطالبة، وتختار فصلها واسمها مرة واحدة، ثم تلعب. تصلك الزيارات والنتائج هنا.'),
+    h('div', { style: 'text-align:center' }, qrBox(link, 260)),
+    h('input', { type: 'text', value: link, readonly: true, dir: 'ltr', onclick: e => e.target.select() }),
+    h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(link) }, 'نسخ الرابط'), h('a', { class: 'btn', href: link, target: '_blank', rel: 'noopener' }, 'تجربة كطالبة')));
+}
+async function gamesView() {
+  clearInterval(refreshTimer);
+  if (!ACTS.length) { try { await loadAll(); } catch (e) {} }
+  const body = h('div', { style: 'display:flex;flex-direction:column;gap:16px' }, h('div', { class: 'spinner' }));
+  const stamp = h('span', { class: 'small muted' });
+  let cls = 'all';
+  show(h('button', { class: 'btn sm back', onclick: home }, '→ الرئيسية'),
+    h('div', { class: 'panel' }, h('div', { class: 'row between' }, h('h2', {}, '🎮 ألعاب السادس والزيارات'), stamp),
+      h('div', { class: 'row' }, h('button', { class: 'btn sm teal', onclick: shareGames }, '🔗 الرابط والباركود للطالبات')), body));
+  let R = null;
+  const time = x => new Date(x).toLocaleString('ar-SA', { weekday: 'short', day: 'numeric', month: 'numeric', hour: 'numeric', minute: '2-digit' });
+  const render = () => {
+    const inCls = x => cls === 'all' || x.class === cls;
+    const games = R.games.filter(inCls).slice().reverse(), visits = R.visits.filter(inCls).slice().reverse();
+    const today = new Date().toDateString();
+    const people = new Set(R.visits.filter(inCls).map(v => v.class + '|' + norm(v.name)));
+    const todayPeople = new Set(R.visits.filter(inCls).filter(v => new Date(v.time).toDateString() === today).map(v => v.class + '|' + norm(v.name)));
+    body.textContent = '';
+    body.append(h('div', { class: 'seg' }, [['all', 'الكل'], ...PLATFORM.classes.map(c => [c.id, c.name])].map(([id, n]) =>
+      h('button', { 'aria-pressed': cls === id, onclick: () => { cls = id; render(); } }, n))));
+    body.append(h('div', { class: 'kpis' },
+      h('div', { class: 'kpi' }, h('b', {}, todayPeople.size), h('span', {}, 'دخلن اليوم')),
+      h('div', { class: 'kpi' }, h('b', {}, people.size), h('span', {}, 'دخلن المنصة')),
+      h('div', { class: 'kpi' }, h('b', {}, games.length), h('span', {}, 'نتيجة لعبة')),
+      h('div', { class: 'kpi' }, h('b', {}, visits.length), h('span', {}, 'زيارة'))));
+    // أفضل نتيجة لكل طالبة في كل لعبة
+    const best = {};
+    games.forEach(g => { const k = g.class + '|' + norm(g.name) + '|' + g.game; if (!best[k] || g.score / g.total > best[k].score / best[k].total) best[k] = g; });
+    const bestList = Object.values(best).sort((a, b) => b.score / b.total - a.score / a.total);
+    body.append(h('div', {}, h('h3', {}, 'نتائج الألعاب (أفضل محاولة لكل طالبة)'), bestList.length ? h('div', { class: 'tbl' }, h('table', {},
+      h('thead', {}, h('tr', {}, h('th', {}, 'الطالبة'), h('th', {}, 'الفصل'), h('th', {}, 'اللعبة'), h('th', {}, 'الدرجة'), h('th', {}, 'الوقت'))),
+      h('tbody', {}, bestList.map(g => h('tr', {}, h('td', {}, g.name), h('td', {}, className(g.class)), h('td', {}, pageName(g.game)),
+        h('td', { class: 'num' }, `${g.score}/${g.total}`), h('td', { class: 'small muted' }, time(g.time))))))) : h('p', { class: 'muted', style: 'margin:0' }, 'لا توجد نتائج بعد.')));
+    body.append(h('div', {}, h('h3', {}, 'آخر الزيارات'), visits.length ? h('div', { class: 'tbl' }, h('table', {},
+      h('thead', {}, h('tr', {}, h('th', {}, 'الطالبة'), h('th', {}, 'الفصل'), h('th', {}, 'الصفحة'), h('th', {}, 'الوقت'))),
+      h('tbody', {}, visits.slice(0, 150).map(v => h('tr', {}, h('td', {}, v.name), h('td', {}, className(v.class)), h('td', {}, pageName(v.page)), h('td', { class: 'small muted' }, time(v.time))))))) : h('p', { class: 'muted', style: 'margin:0' }, 'لم تدخل أي طالبة بعد.')));
+    PLATFORM.classes.filter(c => cls === 'all' || c.id === cls).forEach(c => {
+      const seen = new Set(R.visits.filter(v => v.class === c.id).map(v => norm(v.name)));
+      const miss = (R.students[c.id] || []).filter(n => !seen.has(norm(n)));
+      body.append(h('div', {}, h('h3', {}, `لم تدخل المنصة بعد — ${c.name} (${miss.length})`), miss.length ? h('div', { class: 'chips' }, miss.map(n => h('span', { class: 'chip' }, n))) : h('p', { class: 'muted', style: 'margin:0' }, 'دخلت كل البنات 🎉')));
+    });
+    body.append(h('div', { class: 'row' }, h('button', { class: 'btn sm', onclick: () => {
+      const head = ['الطالبة', 'الفصل', 'اللعبة', 'الدرجة', 'من', 'الوقت'];
+      const rows = games.map(g => [g.name, className(g.class), pageName(g.game), g.score, g.total, time(g.time)]);
+      const csv = '﻿' + [head, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+      const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+      const link = h('a', { href: url, download: 'نتائج ألعاب السادس.csv' }); document.body.append(link); link.click(); link.remove();
+    } }, '⬇️ تنزيل النتائج Excel (CSV)')));
+  };
+  const load = async () => {
+    try { R = await tapi({ action: 'gamesReport' }); render(); stamp.textContent = 'آخر تحديث ' + new Date().toLocaleTimeString('ar-SA', { hour: 'numeric', minute: '2-digit' }) + ' · يتحدّث تلقائيًا'; }
+    catch (e) { body.textContent = ''; body.append(h('p', { class: 'msg err' }, e.message + ' — إن ظهرت «طلب غير معروف» فانشري نسخة جديدة من Code.gs.')); }
+  };
+  await load(); refreshTimer = setInterval(load, 20000);
 }
 
 // ---------------- settings ----------------
