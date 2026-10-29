@@ -66,7 +66,8 @@
   .station small { margin-inline-start: auto; font-size: 18px; }
   .ribbon { text-align: center; background: #fff3c4; border: 3px dashed #f5c242; border-radius: 16px; padding: 6px 8px; margin-bottom: 10px; line-height: 1.6; }
   .ribbon b { display: block; font-size: 26px; color: #c2366f; }
-  .ribbon span { font-size: 18px; color: #1b5e20; }
+  .ribbon span { font-size: 18px; color: #1b5e20; display: block; }
+  .ribbon em { display: block; font-style: normal; font-size: 20px; color: #6b4fc0; }
   .sign { text-align: center; margin-top: 12px; color: #6b4fc0; }
   .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; }
   @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
@@ -114,7 +115,7 @@ const STATIONS = [
     { kind: 'choice', tag: 'أقارن', q: 'في الماء آكلات لحوم أكثر من اليابسة… لماذا؟', emoji: '🌊🦈', options: ['لأن الطحالب والعوالق كثيرة', 'لأن الماء بارد', 'لأن الأسماك كبيرة'], a: 0 },
   ] },
 ];
-const EVENT = `<div class="ribbon"><b>🏆 تعلّم وأربح</b><span>فعالية الخميس • ١٨/٥/١٤٤٨هـ</span></div>`;
+const EVENT = `<div class="ribbon"><b>🏆 تعلّم وأربح</b><span>فعالية الخميس • ١٨/٥/١٤٤٨هـ</span><em>إعداد المعلمة: أ/ شامه البقمي 💚</em></div>`;
 const PRAISE = ['أحسنتِ! 🌟', 'رائع يا عالمة! ✨', 'ممتاز! 💚', 'إجابة صحيحة! 🎉'];
 const screen = document.getElementById('screen');
 let st = 0, t = 0, stars = 0, earned = [0, 0, 0, 0], tries = 0;
