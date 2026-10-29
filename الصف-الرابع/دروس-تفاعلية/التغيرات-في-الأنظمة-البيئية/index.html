@@ -11,6 +11,7 @@
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #eef5e8; }
   img { max-width: 100%; display: block; }
+  main img { cursor: zoom-in; }
   .flags { width: 100%; height: 70px; object-fit: cover; object-position: center top; }
   header { max-width: 1100px; margin: 0 auto; padding: 8px 14px 0; display: flex; align-items: center; gap: 12px; }
   header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 20%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
@@ -94,6 +95,10 @@
 
   /* ── Computer screen: everything fits in one landscape screen, no page scrolling ── */
   .fs { margin-inline-start: auto; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
+  @media (min-width: 900px) and (orientation: landscape) and (max-height: 720px) {
+    header p { display: none; } header img.girl { width: 40px; height: 40px; } header h1 { font-size: 21px; }
+    .tab { padding: 4px 8px; font-size: 17px; } .box { padding: 10px 14px; }
+  }
   @media (min-width: 900px) and (orientation: landscape) {
     html, body { height: 100%; }
     body { display: flex; flex-direction: column; overflow: hidden; }
@@ -124,6 +129,21 @@
     #stBody .body > .pagecol img.page { max-height: calc(100% - 26px); width: auto; object-fit: contain; }
     #stBody .body > .txt { overflow-y: auto; min-height: 0; padding-inline-end: 4px; }
     #stBody .extra { display: none; }
+    #start .box img { max-height: calc(94vh - 190px); width: auto; margin: 0 auto; }
+    #stBody .body > .pagecol img.page { max-height: calc(94vh - 330px); }
+    #stBody > .box { overflow: hidden; }
+    #stBody .nav { flex: none; }
+    #stBody .txt img { max-height: 15vh; width: auto; margin: 0 auto; }
+    #stBody .txt .flip { margin: 6px 0; padding: 6px 10px; font-size: 17px; line-height: 1.6; }
+    #stBody .txt p { font-size: 17px; line-height: 1.7; margin: 4px 0; }
+    #stBody .txt h2 { font-size: 18px !important; margin: 4px 0; }
+    #stBody .txt .verse { font-size: 18px !important; padding: 4px; margin: 4px 0; }
+    #stBody .txt .ce { margin: 3px 0; } #stBody .txt .ce .c, #stBody .txt .ce .e { font-size: 16px; padding: 3px 8px; }
+    #stBody .txt .grid2 { gap: 8px; }
+    #stBody .txt .cap { font-size: 12px; margin: 0; }
+    #stBody .txt .lab svg { max-height: 16vh; }
+    #stBody .txt .vocab .flip { font-size: 15px; padding: 4px; }
+    #stBody > .box h2 { font-size: 21px; margin: 0 0 4px; }
     .nav { margin-top: 6px; }
     /* questions: three columns */
     #questions.on { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -287,11 +307,14 @@ const STATIONS = [
       ${[['🌋 البراكين', 'تملأ الوادي بالرماد'], ['🌀 الأعاصير', 'تدمّر الشواطئ'], ['🌧️ شدة هطول الأمطار', 'انزلاقات أرضية'], ['☀️ عدم هطول الأمطار', 'الجفاف']].map(([c, e]) =>
         `<div class="ce"><div class="c">${c}</div><div class="ar">←</div><div class="e hide" onclick="this.classList.remove('hide')">${e}</div></div>`).join('')}
       <div class="verse">﴿وَمَا نُرْسِلُ بِالْآيَاتِ إِلَّا تَخْوِيفًا﴾ <span style="font-size:15px">[الإسراء: ٥٩]</span></div>
-      <h2 style="font-size:20px">📸 أقرأ الصورة</h2>
+    </div></div>` },
+  { icon: '📸', name: 'أقرأ الصورة والمفردات', page: 122, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> أقرأ الصورة – بطاقات المفردات</span><h2>📸 أقرأ الصورة: قبل الإعصار وبعده</h2>
+    <div class="grid2 body"><div class="pagecol">${page(122)}</div><div class="txt">
       <div class="grid2"><div><img src="img/before.jpg" alt="قبل الإعصار" style="border-radius:10px"><div class="cap">قبل الإعصار</div></div><div><img src="img/after.jpg" alt="بعد الإعصار" style="border-radius:10px"><div class="cap">بعد الإعصار</div></div></div>
       ${flip('كيف تُظهر الصورتان السبب والنتيجة؟', 'السبب: الإعصار. النتيجة: تهدّمت المباني وتحوّل المكان إلى خراب.')}
     <h2 style="font-size:20px;margin-top:10px">🃏 مفردات الدرس (اضغطي البطاقة)</h2>
-    <div class="vocab">${flip('التكيّف', 'صفة تساعد المخلوق على البقاء.')}${flip('التلوّث', 'إضافة أشياء ضارة للماء أو الهواء أو التربة.')}${flip('المواءمة', 'تناسب المخلوق مع بيئته.')}${flip('الانقراض', 'اختفاء نوع من المخلوقات تمامًا.')}</div></div></div>` },
+    <div class="vocab">${flip('التكيّف', 'صفة تساعد المخلوق على البقاء.')}${flip('التلوّث', 'إضافة أشياء ضارة للماء أو الهواء أو التربة.')}${flip('المواءمة', 'تناسب المخلوق مع بيئته.')}${flip('الانقراض', 'اختفاء نوع من المخلوقات تمامًا.')}</div></div>` },
   { icon: '🦗', name: 'المخلوقات الحية والتكيّف', page: 123, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> التعلّم البصري – المقارنة</span><h2>🦗 المخلوقات الحية تغيّر النظام البيئي</h2>
     <div class="grid2 body"><div class="pagecol">${page(123)}</div><div class="txt">
@@ -418,6 +441,11 @@ function round() {
   });
 }
 station(0);
+// every content picture opens full size when tapped
+document.addEventListener('click', (e) => {
+  const im = e.target.closest('main img');
+  if (im && !im.classList.contains('page')) zoom(im.src);
+});
 </script>
 </body>
 </html>
