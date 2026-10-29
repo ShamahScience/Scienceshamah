@@ -94,7 +94,8 @@
   @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
 
   /* ── Computer screen: everything fits in one landscape screen, no page scrolling ── */
-  .fs { margin-inline-start: auto; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
+  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: #6b4fc0; border-radius: 30px; padding: 4px 16px; font-size: 19px; white-space: nowrap; }
+  .fs { border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
   @media (min-width: 900px) and (orientation: landscape) and (max-height: 720px) {
     header p { display: none; } header img.girl { width: 40px; height: 40px; } header h1 { font-size: 21px; }
     .tab { padding: 4px 8px; font-size: 17px; } .box { padding: 10px 14px; }
@@ -109,8 +110,8 @@
     header h1 { font-size: 24px; }
     .tabs { margin-top: 6px; padding: 0 18px 6px; position: static; }
     .tab { padding: 6px 8px; font-size: 19px; }
-    main { flex: 1; min-height: 0; padding: 4px 18px 8px; }
-    footer { display: none; }
+    main { flex: 1; min-height: 0; padding: 4px 18px 4px; }
+    footer { padding: 0 0 4px; font-size: 15px; }
     .panel.on { height: 100%; }
     .box { margin-bottom: 0; }
     .scroll { overflow-y: auto; min-height: 0; }
@@ -182,7 +183,8 @@
 <img class="flags" src="img/flags.jpg" alt="">
 <header>
   <img class="girl" src="img/girl.jpg" alt="العالمة الصغيرة">
-  <div><h1>الدرس الثالث: التغيرات في الأنظمة البيئية</h1><p>العلوم – الصف الرابع الابتدائي • ص١٢٠–١٢٤ • أ/ شامه البقمي</p></div>
+  <div><h1>الدرس الثالث: التغيرات في الأنظمة البيئية</h1><p>العلوم – الصف الرابع الابتدائي • ص١٢٠–١٢٤</p></div>
+  <span class="teacher">💚 أ/ شامه البقمي</span>
   <button class="fs" id="fsBtn" onclick="fullscreen()">⛶ ملء الشاشة</button>
 </header>
 
