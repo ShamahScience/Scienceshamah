@@ -88,7 +88,7 @@
   .score { text-align: center; font-size: 18px; }
   .level { display: inline-block; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-bottom: 4px; }
   .zoom { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 20; padding: 12px; }
-  .zoom.on { display: flex; } .zoom img { max-height: 96vh; border-radius: 10px; }
+  .zoom.on { display: flex; }
   footer { text-align: center; color: #6b4fc0; font-size: 18px; padding: 10px; }
   .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
   @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
@@ -163,6 +163,19 @@
   .slide.goals { overflow-y: auto; }
   .slide.goals .box { max-width: 760px; margin: 0 auto; }
   .dots { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; font-size: 18px; }
+
+  .zoom { flex-direction: column; gap: 8px; padding: 8px; background: rgba(24, 36, 26, .92); }
+  .zoom .tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; background: #fff; border-radius: 16px; padding: 6px 10px; border: 3px solid var(--green); }
+  .zoom .tools button { font: inherit; font-size: 16px; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 4px 10px; cursor: pointer; color: var(--ink); }
+  .zoom .tools .tl.on, .zoom .tools .sz.on { background: var(--mint); border-color: var(--leaf); }
+  .zoom .tools .cl { width: 32px; height: 32px; border-radius: 50%; padding: 0; }
+  .zoom .tools .cl.on { outline: 4px solid var(--green); outline-offset: 2px; }
+  .zoom .tools .sz { width: 40px; height: 36px; padding: 0; line-height: 1; color: var(--ink); }
+  .zoom .tools .close { background: var(--red); color: #fff; border-color: var(--red); }
+  .zoom .tools .sep { width: 2px; height: 26px; background: #dde5d7; }
+  .stage { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+  .stage img { max-width: 100%; max-height: 100%; border-radius: 8px; user-select: none; -webkit-user-drag: none; }
+  .stage canvas { position: absolute; touch-action: none; cursor: crosshair; }
 </style>
 </head>
 <body>
@@ -260,7 +273,28 @@
 </section>
 </main>
 <footer>أ/ شامه البقمي 💚</footer>
-<div class="zoom" id="zoom" onclick="this.classList.remove('on')"><img id="zimg" alt=""></div>
+<div class="zoom" id="zoom">
+  <div class="tools" id="tools">
+    <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
+    <button class="tl" data-tool="hl" title="تظليل">🖍️ تظليل</button>
+    <button class="tl" data-tool="er" title="ممحاة">🧽 ممحاة</button>
+    <span class="sep"></span>
+    <button class="cl on" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
+    <button class="cl" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
+    <button class="cl" data-c="#1b8a3a" style="background:#1b8a3a" title="أخضر"></button>
+    <button class="cl" data-c="#111111" style="background:#111" title="أسود"></button>
+    <button class="cl" data-c="#ffd400" style="background:#ffd400" title="أصفر"></button>
+    <span class="sep"></span>
+    <button class="sz" data-s="3" title="رفيع">●</button>
+    <button class="sz on" data-s="6" title="متوسط" style="font-size:22px">●</button>
+    <button class="sz" data-s="11" title="عريض" style="font-size:30px">●</button>
+    <span class="sep"></span>
+    <button class="tl" onclick="undo()">↩️ رجوع</button>
+    <button class="tl" onclick="clearInk()">🗑️ مسح الكل</button>
+    <button class="tl close" onclick="closeZoom()">✕ إغلاق</button>
+  </div>
+  <div class="stage" id="stage"><img id="zimg" alt=""><canvas id="ink"></canvas></div>
+</div>
 
 <script>
 const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
@@ -280,7 +314,58 @@ function slide(d) {
   all.forEach((x, k) => x.classList.toggle('on', k === si));
   document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
 }
-function zoom(src) { $('#zimg').src = src; $('#zoom').classList.add('on'); }
+// ───── Enlarged page with pen, highlighter and eraser; ink is kept per picture for this visit
+const INK = {};
+let tool = 'pen', color = '#d23b3b', size = 6, drawing = false, last = null, curSrc = '';
+const cv = () => document.getElementById('ink');
+function zoom(src) {
+  curSrc = src;
+  const im = $('#zimg');
+  im.onload = fitInk;
+  im.src = src;
+  $('#zoom').classList.add('on');
+  if (im.complete) fitInk();
+}
+function closeZoom() { saveInk(); $('#zoom').classList.remove('on'); }
+function fitInk() {
+  const im = $('#zimg'), c = cv(), st = $('#stage').getBoundingClientRect(), r = im.getBoundingClientRect();
+  c.style.left = (r.left - st.left) + 'px'; c.style.top = (r.top - st.top) + 'px';
+  c.style.width = r.width + 'px'; c.style.height = r.height + 'px';
+  // drawing buffer in picture pixels, so ink stays put at any window size
+  c.width = im.naturalWidth * 2; c.height = im.naturalHeight * 2;
+  const g = c.getContext('2d'); g.clearRect(0, 0, c.width, c.height);
+  const st0 = INK[curSrc];
+  if (st0 && st0.length) restore(st0[st0.length - 1]);
+}
+function restore(url) { const g = cv().getContext('2d'), i = new Image(); i.onload = () => { g.clearRect(0, 0, cv().width, cv().height); g.drawImage(i, 0, 0); }; i.src = url; }
+function saveInk() { if (!curSrc) return; (INK[curSrc] = INK[curSrc] || []).push(cv().toDataURL()); if (INK[curSrc].length > 30) INK[curSrc].shift(); }
+function undo() {
+  const h = INK[curSrc] || [];
+  h.pop();
+  if (h.length) restore(h[h.length - 1]); else cv().getContext('2d').clearRect(0, 0, cv().width, cv().height);
+}
+function clearInk() { cv().getContext('2d').clearRect(0, 0, cv().width, cv().height); saveInk(); }
+function pos(e) { const c = cv(), r = c.getBoundingClientRect(); return [(e.clientX - r.left) * c.width / r.width, (e.clientY - r.top) * c.height / r.height]; }
+function stroke(a, b) {
+  const c = cv(), g = c.getContext('2d'), k = c.width / c.getBoundingClientRect().width;
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  if (tool === 'er') { g.globalCompositeOperation = 'destination-out'; g.lineWidth = 28 * k; g.globalAlpha = 1; }
+  else if (tool === 'hl') { g.globalCompositeOperation = 'multiply'; g.lineWidth = 22 * k; g.globalAlpha = 0.35; g.strokeStyle = color; }
+  else { g.globalCompositeOperation = 'source-over'; g.lineWidth = size * k; g.globalAlpha = 1; g.strokeStyle = color; }
+  g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke();
+}
+(function initInk() {
+  const c = cv();
+  c.addEventListener('pointerdown', (e) => { drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
+  c.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); stroke(last, p); last = p; });
+  const end = () => { if (drawing) { drawing = false; saveInk(); } };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+  document.querySelectorAll('#tools .tl[data-tool]').forEach((b) => b.onclick = () => { tool = b.dataset.tool; document.querySelectorAll('#tools .tl[data-tool]').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .cl').forEach((b) => b.onclick = () => { color = b.dataset.c; if (tool === 'er') document.querySelector('#tools [data-tool="pen"]').click(); document.querySelectorAll('#tools .cl').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .sz').forEach((b) => b.onclick = () => { size = +b.dataset.s; document.querySelectorAll('#tools .sz').forEach((x) => x.classList.toggle('on', x === b)); });
+  window.addEventListener('resize', () => { if ($('#zoom').classList.contains('on')) { saveInk(); fitInk(); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#zoom').classList.contains('on')) closeZoom(); });
+})();
 function confetti() {
   for (let k = 0; k < 14; k++) {
     const s = document.createElement('div'); s.className = 'confetti'; s.textContent = ['⭐', '🌿', '💚', '✨'][k % 4];
