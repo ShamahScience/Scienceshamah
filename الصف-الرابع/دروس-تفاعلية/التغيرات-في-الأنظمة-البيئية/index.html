@@ -115,22 +115,19 @@
     .box { margin-bottom: 0; }
     .scroll { overflow-y: auto; min-height: 0; }
     /* start: rules | flag | goals */
-    #start.on { display: grid; grid-template-columns: 1.2fr 1.2fr 1fr; gap: 14px; }
-    #start .grid2 { display: contents; }
-    #start .box { display: flex; flex-direction: column; justify-content: center; min-height: 0; }
-    #start .box img { max-height: 100%; object-fit: contain; }
+    #start.on { display: flex; flex-direction: column; }
+    #start .show { flex: 1; height: auto; min-height: 0; }
     /* stations: list | content (book page | explanation) */
     .stations { height: 100%; grid-template-columns: 260px 1fr; }
     .list { position: static; height: 100%; overflow-y: auto; }
     #stBody, #stBody > .box { height: 100%; min-height: 0; }
     #stBody > .box { display: flex; flex-direction: column; }
     #stBody .body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 16px; }
-    #stBody .body > .pagecol { min-height: 0; display: flex; flex-direction: column; align-items: center; }
-    #stBody .body > .pagecol img.page { max-height: calc(100% - 26px); width: auto; object-fit: contain; }
+    #stBody .body > .pagecol { min-height: 0; position: relative; }
+    #stBody .body > .pagecol img.page { position: absolute; top: 0; right: 0; left: 0; bottom: 24px; width: 100%; height: calc(100% - 24px); object-fit: contain; border: 0; }
+    #stBody .body > .pagecol .cap { position: absolute; bottom: 0; right: 0; left: 0; }
     #stBody .body > .txt { overflow-y: auto; min-height: 0; padding-inline-end: 4px; }
     #stBody .extra { display: none; }
-    #start .box img { max-height: calc(94vh - 190px); width: auto; margin: 0 auto; }
-    #stBody .body > .pagecol img.page { max-height: calc(94vh - 330px); }
     #stBody > .box { overflow: hidden; }
     #stBody .nav { flex: none; }
     #stBody .txt img { max-height: 15vh; width: auto; margin: 0 auto; }
@@ -157,6 +154,15 @@
     #play .opts { grid-template-columns: repeat(3, 1fr); }
     #play .opts .btn { text-align: center; }
   }
+
+  /* start slideshow: one picture at a time, always shown whole */
+  .show { position: relative; height: 62vh; min-height: 260px; }
+  .slide { display: none; position: absolute; inset: 0; }
+  .slide.on { display: block; }
+  .slide > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 14px; }
+  .slide.goals { overflow-y: auto; }
+  .slide.goals .box { max-width: 760px; margin: 0 auto; }
+  .dots { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; font-size: 18px; }
 </style>
 </head>
 <body>
@@ -177,20 +183,25 @@
 <main>
 <!-- ═════ البداية -->
 <section class="panel on" id="start">
-  <div class="grid2">
-    <div class="box"><img src="img/rules.jpg" alt="القوانين الصفية" style="border-radius:14px"></div>
-    <div class="box"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا" style="border-radius:14px"></div>
+  <div class="show">
+    <div class="slide on"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
+    <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
+    <div class="slide goals"><div class="box">
+      <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
+      <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
+      <ol>
+        <li>أذكر أسبابًا طبيعية تغيّر النظام البيئي.</li>
+        <li>أوضّح كيف تغيّر المخلوقات الحية النظام البيئي.</li>
+        <li>أعرّف التكيّف، وأذكر كيف يتكيّف الإنسان.</li>
+        <li>أميّز بين تغيّرات الإنسان الضارة والمفيدة.</li>
+      </ol>
+      <button class="btn main" onclick="go('stations')">ابدئي المحطات 🚀</button>
+    </div></div>
   </div>
-  <div class="box">
-    <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
-    <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
-    <ol>
-      <li>أذكر أسبابًا طبيعية تغيّر النظام البيئي.</li>
-      <li>أوضّح كيف تغيّر المخلوقات الحية النظام البيئي.</li>
-      <li>أعرّف التكيّف، وأذكر كيف يتكيّف الإنسان.</li>
-      <li>أميّز بين تغيّرات الإنسان الضارة والمفيدة.</li>
-    </ol>
-    <button class="btn main" onclick="go('stations')">ابدئي المحطات 🚀</button>
+  <div class="dots">
+    <button class="btn" onclick="slide(-1)">→ السابق</button>
+    <span id="dotT">١ / ٣</span>
+    <button class="btn main" onclick="slide(1)">التالي ←</button>
   </div>
 </section>
 
@@ -262,6 +273,13 @@ function fullscreen() {
   else (d.exitFullscreen || d.webkitExitFullscreen).call(d);
 }
 document.addEventListener('fullscreenchange', () => { document.getElementById('fsBtn').textContent = document.fullscreenElement ? '✕ خروج من ملء الشاشة' : '⛶ ملء الشاشة'; });
+let si = 0;
+function slide(d) {
+  const all = document.querySelectorAll('#start .slide');
+  si = (si + d + all.length) % all.length;
+  all.forEach((x, k) => x.classList.toggle('on', k === si));
+  document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
+}
 function zoom(src) { $('#zimg').src = src; $('#zoom').classList.add('on'); }
 function confetti() {
   for (let k = 0; k < 14; k++) {
