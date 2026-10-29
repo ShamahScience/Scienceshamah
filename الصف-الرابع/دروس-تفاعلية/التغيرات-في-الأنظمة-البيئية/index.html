@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التغيرات في الأنظمة البيئية – درس تفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --green: #1b5e20; --leaf: #2f8a3a; --mint: #e3f4d7; --cream: #fffbef; --ink: #23293a; --pink: #c2366f; --red: #d23b3b; --gold: #f5c242; --sky: #dff1fb; --rose: #fde4ec; --yel: #fff3c4; --lav: #eee8fb; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #eef5e8; }
+  img { max-width: 100%; display: block; }
+  .flags { width: 100%; height: 70px; object-fit: cover; object-position: center top; }
+  header { max-width: 1100px; margin: 0 auto; padding: 8px 14px 0; display: flex; align-items: center; gap: 12px; }
+  header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 20%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
+  header h1 { margin: 0; font-size: 26px; color: var(--green); line-height: 1.4; }
+  header p { margin: 0; font-size: 16px; color: #4a5468; }
+  .tabs { max-width: 1100px; margin: 10px auto 0; padding: 0 14px; display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: #eef5e8; padding-bottom: 8px; }
+  .tab { flex: 1; min-width: 120px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 16px; padding: 10px 8px; font: inherit; font-size: 19px; cursor: pointer; }
+  .tab.on { background: var(--green); color: #fff; box-shadow: 0 4px 0 #0f3a13; }
+  main { max-width: 1100px; margin: 0 auto; padding: 6px 14px 30px; }
+  .panel { display: none; } .panel.on { display: block; }
+  .box { background: #fff; border: 3px solid var(--green); border-radius: 22px; padding: 16px; box-shadow: 0 5px 0 #c8dfc0; margin-bottom: 14px; }
+  .strat { display: inline-block; background: var(--cream); border: 2px dashed var(--gold); border-radius: 30px; padding: 2px 14px; font-size: 16px; margin-bottom: 8px; }
+  .strat b { color: var(--pink); }
+  h2 { margin: 2px 0 8px; color: var(--green); font-size: 24px; }
+  p, li { font-size: 19px; line-height: 1.9; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .page { border: 3px solid var(--leaf); border-radius: 14px; cursor: zoom-in; }
+  .cap { text-align: center; font-size: 14px; color: #5a6785; margin-top: 4px; }
+  .flip { border: 3px solid var(--ink); border-radius: 16px; background: var(--yel); padding: 10px 12px; margin: 10px 0; cursor: pointer; font-size: 19px; line-height: 1.8; }
+  .flip .a { display: none; margin-top: 6px; padding-top: 6px; border-top: 2px dashed #b9a24a; color: var(--leaf); }
+  .flip.open { background: #f3fbe9; border-color: var(--leaf); }
+  .flip.open .a { display: block; }
+  .flip .k { font-size: 14px; color: #6b4fc0; display: block; }
+  .flip .hint { font-size: 13px; color: #7a869e; }
+  /* stations layout like a video chapter list */
+  .stations { display: grid; grid-template-columns: 290px 1fr; gap: 14px; align-items: start; }
+  @media (max-width: 860px) { .stations { grid-template-columns: 1fr; } }
+  .list { background: linear-gradient(180deg, #1b5e20, #2f8a3a); border-radius: 22px; padding: 12px; color: #fff; position: sticky; top: 70px; }
+  @media (max-width: 860px) { .list { position: static; } }
+  .list h3 { margin: 4px 6px 8px; font-size: 20px; }
+  .list small { display: block; margin: -6px 6px 8px; font-size: 13px; opacity: .85; }
+  .st { display: flex; align-items: center; gap: 8px; width: 100%; background: rgba(255,255,255,.12); border: 2px solid transparent; color: #fff; border-radius: 14px; padding: 8px 10px; margin: 6px 0; font: inherit; font-size: 17px; cursor: pointer; text-align: right; }
+  .st .n { background: #fff; color: var(--green); border-radius: 8px; padding: 0 8px; font-size: 14px; }
+  .st.on { background: #fff; color: var(--green); border-color: var(--gold); }
+  .st.done::after { content: '✔'; margin-inline-start: auto; color: #c9f0c0; }
+  .st.on.done::after { color: var(--leaf); }
+  .nav { display: flex; gap: 10px; margin-top: 10px; }
+  .btn { border: 3px solid var(--ink); border-radius: 14px; background: var(--cream); color: var(--ink); font: inherit; font-size: 18px; padding: 9px 14px; cursor: pointer; }
+  .btn.main { background: var(--leaf); border-color: var(--green); color: #fff; }
+  .btn.ok { background: #c9f0c0; border-color: var(--leaf); }
+  .btn.no { background: #fde2e2; border-color: var(--red); animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .ce { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 6px; align-items: center; margin: 6px 0; }
+  .ce .c { background: var(--rose); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e { background: var(--sky); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e.hide { color: transparent; background: repeating-linear-gradient(45deg, #eef2f7, #eef2f7 8px, #e2e8f0 8px, #e2e8f0 16px); cursor: pointer; }
+  .ce .ar { text-align: center; font-size: 22px; color: #e67e22; }
+  .verse { text-align: center; font-size: 24px; color: var(--green); background: var(--mint); border-radius: 14px; padding: 8px; margin: 8px 0; }
+  .vocab { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  @media (max-width: 600px) { .vocab { grid-template-columns: repeat(2, 1fr); } }
+  .vocab .flip { text-align: center; margin: 0; }
+  /* virtual experiment */
+  .lab { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; }
+  .pot { background: #fbfdf9; border: 3px dashed var(--leaf); border-radius: 18px; padding: 8px; }
+  .pot svg { width: 100%; max-width: 220px; height: auto; }
+  .day { display: flex; align-items: center; gap: 10px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
+  .day input { width: 220px; accent-color: var(--leaf); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 16px; }
+  th, td { border: 2px solid #9cc79a; padding: 5px; text-align: center; }
+  th { background: var(--green); color: #fff; }
+  /* games */
+  .gamecards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 760px) { .gamecards { grid-template-columns: 1fr; } }
+  .gcard { border: 3px solid var(--green); border-radius: 20px; background: var(--cream); padding: 12px; text-align: center; cursor: pointer; font: inherit; color: var(--ink); }
+  .gcard .ic { font-size: 46px; }
+  .gcard b { display: block; font-size: 20px; color: var(--green); }
+  .play { margin-top: 12px; }
+  .opts { display: grid; gap: 8px; }
+  .opts .btn { text-align: right; }
+  .pic { width: 220px; max-width: 70%; margin: 6px auto; border-radius: 16px; border: 3px solid var(--leaf); }
+  .msg { min-height: 30px; text-align: center; font-size: 19px; margin-top: 6px; }
+  .msg.good { color: var(--leaf); } .msg.bad { color: var(--red); }
+  .score { text-align: center; font-size: 18px; }
+  .level { display: inline-block; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-bottom: 4px; }
+  .zoom { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 20; padding: 12px; }
+  .zoom.on { display: flex; } .zoom img { max-height: 96vh; border-radius: 10px; }
+  footer { text-align: center; color: #6b4fc0; font-size: 18px; padding: 10px; }
+  .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
+</style>
+</head>
+<body>
+<img class="flags" src="img/flags.jpg" alt="">
+<header>
+  <img class="girl" src="img/girl.jpg" alt="العالمة الصغيرة">
+  <div><h1>الدرس الثالث: التغيرات في الأنظمة البيئية</h1><p>العلوم – الصف الرابع الابتدائي • ص١٢٠–١٢٤ • أ/ شامه البقمي</p></div>
+</header>
+
+<nav class="tabs">
+  <button class="tab on" data-p="start">🏁 البداية</button>
+  <button class="tab" data-p="stations">📍 محطات الدرس</button>
+  <button class="tab" data-p="questions">❓ الأسئلة</button>
+  <button class="tab" data-p="games">🎮 الألعاب</button>
+</nav>
+
+<main>
+<!-- ═════ البداية -->
+<section class="panel on" id="start">
+  <div class="grid2">
+    <div class="box"><img src="img/rules.jpg" alt="القوانين الصفية" style="border-radius:14px"></div>
+    <div class="box"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا" style="border-radius:14px"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
+    <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
+    <ol>
+      <li>أذكر أسبابًا طبيعية تغيّر النظام البيئي.</li>
+      <li>أوضّح كيف تغيّر المخلوقات الحية النظام البيئي.</li>
+      <li>أعرّف التكيّف، وأذكر كيف يتكيّف الإنسان.</li>
+      <li>أميّز بين تغيّرات الإنسان الضارة والمفيدة.</li>
+    </ol>
+    <button class="btn main" onclick="go('stations')">ابدئي المحطات 🚀</button>
+  </div>
+</section>
+
+<!-- ═════ محطات الدرس -->
+<section class="panel" id="stations">
+  <div class="stations">
+    <aside class="list">
+      <h3>📍 محطات الدرس</h3>
+      <small>اضغطي على المحطة للانتقال إليها</small>
+      <div id="stList"></div>
+    </aside>
+    <div id="stBody"></div>
+  </div>
+</section>
+
+<!-- ═════ الأسئلة -->
+<section class="panel" id="questions">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> مستويات التفكير الثلاثة</span>
+    <h2>❓ التقويم التكويني</h2>
+    <p style="margin:0">فكّري أولًا… ثم اضغطي على السؤال لتظهر الإجابة.</p>
+    <div id="formative"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> أختبر نفسي (من الكتاب)</span>
+    <h2>📖 أسئلة الكتاب</h2>
+    <div id="book"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التقويم الختامي</span>
+    <h2>🏆 اختبري نفسك</h2>
+    <div id="quiz"></div>
+  </div>
+</section>
+
+<!-- ═════ الألعاب -->
+<section class="panel" id="games">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم باللعب</span>
+    <h2>🎮 اختاري لعبة</h2>
+    <div class="gamecards">
+      <button class="gcard" onclick="game('ce')"><div class="ic">🔗</div><b>السبب والنتيجة</b>صِلي كل سبب بنتيجته</button>
+      <button class="gcard" onclick="game('hb')"><div class="ic">⚖️</div><b>ضار أم مفيد؟</b>صنّفي تغيّرات الإنسان</button>
+      <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي الكلمة من وصفها</button>
+    </div>
+    <div class="play" id="play"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> بطاقة الخروج</span>
+    <h2>🎫 بطاقة الخروج</h2>
+    <p>١) سبب طبيعي يغيّر النظام البيئي: ……………………</p>
+    <p>٢) التكيّف هو: ……………………………………</p>
+    <p>٣) تغيّر مفيد يقوم به الإنسان: ……………………</p>
+    <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
+  </div>
+</section>
+</main>
+<footer>أ/ شامه البقمي 💚</footer>
+<div class="zoom" id="zoom" onclick="this.classList.remove('on')"><img id="zimg" alt=""></div>
+
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = (s) => document.querySelector(s);
+const flip = (q, a, k) => `<div class="flip" onclick="this.classList.toggle('open')">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
+const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي – اضغطي للتكبير</div>`;
+function zoom(src) { $('#zimg').src = src; $('#zoom').classList.add('on'); }
+function confetti() {
+  for (let k = 0; k < 14; k++) {
+    const s = document.createElement('div'); s.className = 'confetti'; s.textContent = ['⭐', '🌿', '💚', '✨'][k % 4];
+    s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .4 + 's';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 2200);
+  }
+}
+function go(p) {
+  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.dataset.p === p));
+  document.querySelectorAll('.panel').forEach((x) => x.classList.toggle('on', x.id === p));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.tab').forEach((t) => t.onclick = () => go(t.dataset.p));
+
+// ───── Stations
+const STATIONS = [
+  { icon: '🌵', name: 'أنظر وأتساءل', page: 120, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> أنظر وأتساءل – التوقّع</span><h2>🌵 أنظر وأتساءل</h2>
+    <div class="grid2"><div>${page(120)}</div><div>
+      <p>هذا النبات يستطيع <b>التكيّف</b> مع الظروف القاسية. تنمو هذه النبتة في تربة جافة مشققة.</p>
+      ${flip('هل كانت التربة جافة هكذا دائمًا؟', 'لا؛ كانت رطبة، ثم جفّت بسبب قلة الأمطار وارتفاع الحرارة.')}
+      ${flip('لماذا لا تنمو نباتات أخرى هنا؟', 'لأن معظم النباتات لا تتكيّف مع الجفاف.')}
+      <p style="color:var(--pink)">🤔 توقّعي… ثم ناقشي زميلتك</p></div></div>` },
+  { icon: '🧪', name: 'أستكشف: تجربة افتراضية', page: 121, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الاستقصاء – توقّعي، لاحظي، فسّري</span><h2>🧪 كيف يؤثر تغيّر النظام البيئي في المخلوقات الحية؟</h2>
+    <div class="grid2"><div>${page(121)}</div><div>
+      ${flip('أتوقّع: إذا تغيّرت خصائص التربة فإن النباتات…', 'تتأثر؛ فيصفرّ لونها وتذبل، وقد تموت.', 'توقّعي أولًا')}
+      <p>🧂 أضفنا ١٠٠ جرام من ملح الطعام إلى أحد الأصيصين. حرّكي الأيام وشاهدي:</p>
+      <div class="lab">
+        <div class="pot"><b>تربة غير مالحة</b>${plant('a')}</div>
+        <div class="pot"><b>تربة مالحة 🧂</b>${plant('b')}</div>
+      </div>
+      <div class="day">اليوم: <input type="range" min="1" max="4" value="1" id="dayR" oninput="grow(this.value)"> <b id="dayT">الأول</b></div>
+      ${flip('أقارن: ما الفرق بين أوراق النباتين؟', 'غير المالحة: خضراء سليمة. المالحة: ذابلة وصفراء.')}
+      ${flip('أستنتج: هل تأثر النبات بتغيّر التربة؟', 'نعم؛ الملح أضرّ النبات فذبل.')}
+      <p style="font-size:14px;color:#7a869e">* نتائج المحاكاة توضيحية، ونجرّب التجربة الحقيقية في الفصل.</p>
+    </div></div>`, after: () => grow(1) },
+  { icon: '🌋', name: 'الظواهر الطبيعية', page: 122, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> مهارة القراءة – السبب والنتيجة</span><h2>🌋 ما الذي يسبب تغيّر النظام البيئي؟</h2>
+    <div class="grid2"><div>${page(122)}</div><div>
+      <p>بعض التغيرات تحدث <b>بسرعة</b>، وبعضها يحدث <b>ببطء</b>. اضغطي على النتيجة لتظهر:</p>
+      ${[['🌋 البراكين', 'تملأ الوادي بالرماد'], ['🌀 الأعاصير', 'تدمّر الشواطئ'], ['🌧️ شدة هطول الأمطار', 'انزلاقات أرضية'], ['☀️ عدم هطول الأمطار', 'الجفاف']].map(([c, e]) =>
+        `<div class="ce"><div class="c">${c}</div><div class="ar">←</div><div class="e hide" onclick="this.classList.remove('hide')">${e}</div></div>`).join('')}
+      <div class="verse">﴿وَمَا نُرْسِلُ بِالْآيَاتِ إِلَّا تَخْوِيفًا﴾ <span style="font-size:15px">[الإسراء: ٥٩]</span></div>
+      <h2 style="font-size:20px">📸 أقرأ الصورة</h2>
+      <div class="grid2"><div><img src="img/before.jpg" alt="قبل الإعصار" style="border-radius:10px"><div class="cap">قبل الإعصار</div></div><div><img src="img/after.jpg" alt="بعد الإعصار" style="border-radius:10px"><div class="cap">بعد الإعصار</div></div></div>
+      ${flip('كيف تُظهر الصورتان السبب والنتيجة؟', 'السبب: الإعصار. النتيجة: تهدّمت المباني وتحوّل المكان إلى خراب.')}
+    </div></div>
+    <h2 style="font-size:20px;margin-top:10px">🃏 مفردات الدرس (اضغطي البطاقة)</h2>
+    <div class="vocab">${flip('التكيّف', 'صفة تساعد المخلوق على البقاء.')}${flip('التلوّث', 'إضافة أشياء ضارة للماء أو الهواء أو التربة.')}${flip('المواءمة', 'تناسب المخلوق مع بيئته.')}${flip('الانقراض', 'اختفاء نوع من المخلوقات تمامًا.')}</div>` },
+  { icon: '🦗', name: 'المخلوقات الحية والتكيّف', page: 123, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم البصري – المقارنة</span><h2>🦗 المخلوقات الحية تغيّر النظام البيئي</h2>
+    <div class="grid2"><div>${page(123)}</div><div>
+      <div class="grid2"><div><img src="img/locusts.jpg" alt="أسراب الجراد" style="border-radius:10px"><div class="cap">ضارّ ❌</div></div><div><img src="img/croc.jpg" alt="تمساح" style="border-radius:10px"><div class="cap">مفيد ✔</div></div></div>
+      ${flip('ماذا يفعل الجراد بالنباتات؟', 'أسرابه تأكل كل النباتات في طريقها.')}
+      ${flip('كيف تفيد التماسيح النظام البيئي؟', 'تحفر حفرًا تمتلئ بالماء، فتشرب منها الحيوانات وقت الجفاف.')}
+      <h2 style="font-size:20px">🧍 كيف يتكيّف الإنسان؟</h2>
+      ${flip('التكيّف هو…', 'صفة تساعد المخلوق على البقاء في الظروف المختلفة.', 'المفردة')}
+      ${flip('كيف يتكيّف الإنسان مع الحرّ والبرد؟', 'بالملابس، والمكيّفات والمدافئ، والمنازل العازلة.')}
+      ${flip('ماذا يفعل العرق عندما يكون الجو حارًّا؟', 'يبرّد الجسم.')}
+    </div></div>` },
+  { icon: '🌳', name: 'الإنسان يغيّر النظام البيئي', page: 124, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ الصورة</span><h2>🌳 كيف يغيّر الناس النظام البيئي؟</h2>
+    <div class="grid2"><div>${page(124)}</div><div>
+      <div class="verse" style="font-size:19px">﴿وَاذْكُرُوا إِذْ جَعَلَكُمْ خُلَفَاءَ مِن بَعْدِ عَادٍ…﴾ <span style="font-size:15px">[الأعراف: ٧٤]</span></div>
+      <p>بعض تغيّرات الإنسان <b style="color:var(--red)">ضارّة</b>، وبعضها <b style="color:var(--leaf)">مفيدة</b>.</p>
+      <img src="img/logs.jpg" alt="قطع أشجار الغابات" class="pic">
+      ${flip('ماذا يحدث عند قطع الغابات؟', 'تفقد الحيوانات بيوتها وغذاءها.', 'إزالة الغابات')}
+      ${flip('ما الاكتظاظ السكاني؟', 'عيش عدد كبير من الناس في مكان صغير.', 'الاكتظاظ السكاني')}
+      ${flip('نشاط تماسك التربة: أيّ أصيص يتفرّغ ببطء؟ ولماذا؟', 'المزروع؛ لأن الجذور تمسك التربة.', 'نشاط')}
+      ${flip('أقرأ الصورة: أيّ التغيرات ضارّ؟ وأيّها مفيد؟', 'ضارّ: قطع الأشجار ورمي النفايات. مفيد: زراعة النباتات.')}
+    </div></div>` },
+];
+const done = new Set();
+let cur = 0;
+function station(i) {
+  cur = i; done.add(i);
+  $('#stList').innerHTML = STATIONS.map((s, k) => `<button class="st ${k === i ? 'on' : ''} ${done.has(k) ? 'done' : ''}" onclick="station(${k})"><span class="n">ص${ar(s.page)}</span>${s.icon} ${s.name}</button>`).join('');
+  const s = STATIONS[i];
+  $('#stBody').innerHTML = `<div class="box">${s.html()}<div class="nav">
+    ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
+    ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('questions')">إلى الأسئلة ❓</button>`}</div></div>`;
+  if (s.after) s.after();
+  if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
+}
+function plant(id) {
+  return `<svg viewBox="0 0 200 200" id="pl_${id}"><path d="M60,150 L140,150 L130,195 L70,195 Z" fill="#c8773c" stroke="#5a3a1e" stroke-width="4"/>
+    <rect x="52" y="140" width="96" height="14" rx="5" fill="#a85f2c" stroke="#5a3a1e" stroke-width="4"/>
+    <g class="stem"><path d="M100,142 Q98,100 100,60" fill="none" stroke="#3f8f3a" stroke-width="7" stroke-linecap="round"/>
+    <ellipse class="lf" cx="76" cy="100" rx="24" ry="11" transform="rotate(-25 76 100)" fill="#4caf50" stroke="#2e6b2f" stroke-width="3"/>
+    <ellipse class="lf" cx="124" cy="88" rx="24" ry="11" transform="rotate(25 124 88)" fill="#4caf50" stroke="#2e6b2f" stroke-width="3"/>
+    <circle cx="100" cy="52" r="16" fill="#ff9800" stroke="#c35b00" stroke-width="3"/></g></svg>`;
+}
+function grow(d) {
+  d = +d;
+  const names = ['', 'الأول', 'الثاني', 'الثالث', 'الرابع'];
+  if ($('#dayT')) $('#dayT').textContent = names[d];
+  const b = document.getElementById('pl_b'); if (!b) return;
+  const cols = ['#4caf50', '#8bc34a', '#c0ca33', '#d4a537'];
+  b.querySelectorAll('.lf').forEach((l) => l.setAttribute('fill', cols[d - 1]));
+  b.querySelector('.stem').setAttribute('transform', `rotate(${(d - 1) * 9} 100 142)`);
+}
+
+// ───── Questions
+$('#formative').innerHTML = [
+  ['🟢 أكتشف', 'اذكري ظاهرة طبيعية تغيّر النظام البيئي.', 'البراكين أو الأعاصير أو الجفاف.'],
+  ['🟡 أفكّر', 'لماذا يحتاج النظام البيئي وقتًا طويلًا بعد الإعصار؟', 'ليعود كما كان، فالنباتات تنمو ببطء.'],
+  ['🔴 أتحدّى نفسي', 'لو قُطعت كل أشجار الغابة، ماذا يحدث للحيوانات؟', 'تفقد بيوتها وغذاءها، فتهاجر أو تموت.'],
+].map(([l, q, a]) => flip(q, a, l)).join('');
+$('#book').innerHTML = [
+  ['السبب والنتيجة', 'لماذا يشعر متسلقو الجبال الشاهقة بالإرهاق؟ وما حل المشكلة؟', 'لأن الأكسجين يقلّ في الأعلى، والحل: التنفس العميق.'],
+  ['التفكير الناقد', 'كيف يستفيد التمساح من وقت الجفاف؟', 'يحفر حفرًا تمتلئ بالماء فيبقى حيًّا.'],
+  ['أستنتج', 'كيف تساعد النباتات على المحافظة على التربة؟', 'جذورها تثبّت التربة وتمنع انجرافها.'],
+].map(([k, q, a]) => flip(q, a, k)).join('');
+const QUIZ = [
+  { q: 'أيّ مما يلي ظاهرة طبيعية تغيّر النظام البيئي؟', o: ['قطع الأشجار', 'البراكين', 'بناء البيوت'], a: 1 },
+  { q: 'عدم هطول الأمطار يسبّب…', o: ['الجفاف', 'الفيضان', 'الثلج'], a: 0 },
+  { q: 'أسراب الجراد تضرّ النظام البيئي لأنها…', o: ['تأكل كل النباتات', 'تحفر حفرًا', 'تزرع الأشجار'], a: 0 },
+  { q: 'التكيّف هو…', o: ['صفة تساعد المخلوق على البقاء', 'إضافة أشياء ضارة', 'اختفاء المخلوق'], a: 0 },
+  { q: 'أيّ مما يلي تغيّر مفيد يقوم به الإنسان؟', o: ['رمي النفايات', 'زراعة النباتات', 'قطع الغابات'], a: 1 },
+];
+let qi = 0, qs = 0, qtry = 0;
+function quiz() {
+  if (qi >= QUIZ.length) {
+    $('#quiz').innerHTML = `<div class="score" style="font-size:26px;color:var(--green)">🏆 ${ar(qs)} / ${ar(QUIZ.length)}</div><p class="score">${qs >= 4 ? 'أبدعتِ يا عالمتي! 🌟' : 'أحسنتِ! راجعي المحطات وحاولي مرة أخرى 💪'}</p><button class="btn main" onclick="qi=0;qs=0;quiz()">أعيدي الاختبار 🔄</button>`;
+    if (qs >= 4) confetti(); return;
+  }
+  const t = QUIZ[qi]; qtry = 0;
+  $('#quiz').innerHTML = `<p class="score">السؤال ${ar(qi + 1)} من ${ar(QUIZ.length)} • ⭐ ${ar(qs)}</p><p>${t.q}</p><div class="opts">${t.o.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="qmsg"></div>`;
+  document.querySelectorAll('#quiz .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!qtry) qs++; $('#qmsg').className = 'msg good'; $('#qmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { qi++; quiz(); }, 900); }
+    else { qtry++; b.classList.add('no'); b.disabled = true; $('#qmsg').className = 'msg bad'; $('#qmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+quiz();
+
+// ───── Games
+const GAMES = {
+  ce: { title: '🔗 السبب والنتيجة: اختاري النتيجة الصحيحة', items: [
+    { q: '🌋 البراكين', img: null, o: ['تملأ الوادي بالرماد', 'تزرع الأشجار', 'تنظّف الهواء'], a: 0 },
+    { q: '🌀 الأعاصير', img: 'after', o: ['تدمّر الشواطئ', 'تسبّب الجفاف', 'تنبت الزهور'], a: 0 },
+    { q: '☀️ عدم هطول الأمطار', o: ['انزلاقات أرضية', 'الجفاف', 'الفيضان'], a: 1 },
+    { q: '🌧️ شدة هطول الأمطار', o: ['انزلاقات أرضية', 'الجفاف', 'الرماد'], a: 0 },
+    { q: '🦗 أسراب الجراد', img: 'locusts', o: ['تأكل كل النباتات', 'تحفر حفرًا للماء', 'تثبّت التربة'], a: 0 },
+    { q: '🧂 إضافة الملح إلى التربة', img: 'exp', o: ['يذبل النبات', 'يكبر النبات أسرع', 'لا يتغيّر شيء'], a: 0 },
+  ] },
+  hb: { title: '⚖️ ضار أم مفيد؟', two: true, items: [
+    { q: 'قطع أشجار الغابات', img: 'logs', a: 0 }, { q: 'زراعة النباتات والأشجار', img: 'plant', a: 1 },
+    { q: 'رمي النفايات في البحر', a: 0 }, { q: 'التماسيح تحفر حفرًا تمتلئ بالماء', img: 'croc', a: 1 },
+    { q: 'دخان المصانع والسيارات', a: 0 }, { q: 'جذور النباتات تمسك التربة', a: 1 },
+  ] },
+  who: { title: '🕵️ من أنا؟', items: [
+    { q: 'أنا صفة تساعد المخلوق على البقاء في الظروف الصعبة.', o: ['التكيّف', 'التلوّث', 'الانقراض'], a: 0 },
+    { q: 'أنا إضافة أشياء ضارة إلى الماء أو الهواء أو التربة.', o: ['المواءمة', 'التلوّث', 'التكيّف'], a: 1 },
+    { q: 'أنا اختفاء نوع من المخلوقات تمامًا.', o: ['الانقراض', 'الجفاف', 'التكيّف'], a: 0 },
+    { q: 'أنا عيش عدد كبير من الناس في مكان صغير.', o: ['إزالة الغابات', 'الاكتظاظ السكاني', 'الإعصار'], a: 1 },
+  ] },
+};
+let G, gi, gs, gtry;
+function game(k) { G = GAMES[k]; gi = 0; gs = 0; round(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
+function round() {
+  if (gi >= G.items.length) {
+    $('#play').innerHTML = `<div class="box" style="text-align:center"><h2>🏆 أنهيتِ اللعبة!</h2><div style="font-size:30px">⭐ ${ar(gs)} / ${ar(G.items.length)}</div><p>النجمة للإجابة الصحيحة من أول محاولة.</p></div>`;
+    confetti(); return;
+  }
+  const t = G.items[gi]; gtry = 0;
+  const opts = G.two ? ['❌ ضار', '✔ مفيد'] : t.o;
+  $('#play').innerHTML = `<div class="box"><h2>${G.title}</h2><p class="score">${ar(gi + 1)} / ${ar(G.items.length)} • ⭐ ${ar(gs)}</p>
+    ${t.img ? `<img class="pic" src="img/${t.img}.jpg" alt="">` : ''}<p style="text-align:center;font-size:22px">${t.q}</p>
+    <div class="opts" ${G.two ? 'style="grid-template-columns:1fr 1fr"' : ''}>${opts.map((o, k) => `<button class="btn" data-k="${k}" ${G.two ? 'style="text-align:center;font-size:22px"' : ''}>${o}</button>`).join('')}</div><div class="msg" id="gmsg"></div></div>`;
+  document.querySelectorAll('#play .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!gtry) gs++; $('#gmsg').className = 'msg good'; $('#gmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { gi++; round(); }, 900); }
+    else { gtry++; b.classList.add('no'); b.disabled = true; $('#gmsg').className = 'msg bad'; $('#gmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+station(0);
+</script>
+</body>
+</html>
