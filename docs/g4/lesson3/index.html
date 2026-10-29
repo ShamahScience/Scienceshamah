@@ -298,6 +298,7 @@
   <div class="stage" id="stage"><img id="zimg" alt=""><canvas id="ink"></canvas></div>
 </div>
 
+<script src="scenes.js"></script>
 <script>
 const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 const $ = (s) => document.querySelector(s);
@@ -409,8 +410,8 @@ const STATIONS = [
     <span class="strat"><b>الاستراتيجية:</b> مهارة القراءة – السبب والنتيجة</span><h2>🌋 ما الذي يسبب تغيّر النظام البيئي؟</h2>
     <div class="grid2 body"><div class="pagecol">${page(122)}</div><div class="txt">
       <p>بعض التغيرات تحدث <b>بسرعة</b>، وبعضها يحدث <b>ببطء</b>. اضغطي على النتيجة لتظهر:</p>
-      ${[['🌋 البراكين', 'تملأ الوادي بالرماد'], ['🌀 الأعاصير', 'تدمّر الشواطئ'], ['🌧️ شدة هطول الأمطار', 'انزلاقات أرضية'], ['☀️ عدم هطول الأمطار', 'الجفاف']].map(([c, e]) =>
-        `<div class="ce"><div class="c">${c}</div><div class="ar">←</div><div class="e hide" onclick="this.classList.remove('hide')">${e}</div></div>`).join('')}
+      ${[['🌋 البراكين', 'تملأ الوادي بالرماد', 'volcano'], ['🌀 الأعاصير', 'تدمّر الشواطئ', 'hurricane'], ['🌧️ شدة هطول الأمطار', 'انزلاقات أرضية', 'rain'], ['☀️ عدم هطول الأمطار', 'الجفاف', 'drought']].map(([c, e, k]) =>
+        `<div class="ce"><div class="c">${c} ${watch(k)}</div><div class="ar">←</div><div class="e hide" onclick="this.classList.remove('hide')">${e}</div></div>`).join('')}
       <div class="verse">﴿وَمَا نُرْسِلُ بِالْآيَاتِ إِلَّا تَخْوِيفًا﴾ <span style="font-size:15px">[الإسراء: ٥٩]</span></div>
     </div></div>` },
   { icon: '📸', name: 'أقرأ الصورة والمفردات', page: 122, html: () => `
@@ -424,6 +425,7 @@ const STATIONS = [
     <span class="strat"><b>الاستراتيجية:</b> التعلّم البصري – المقارنة</span><h2>🦗 المخلوقات الحية تغيّر النظام البيئي</h2>
     <div class="grid2 body"><div class="pagecol">${page(123)}</div><div class="txt">
       <div class="grid2"><div><img src="img/locusts.jpg" alt="أسراب الجراد" style="border-radius:10px"><div class="cap">ضارّ ❌</div></div><div><img src="img/croc.jpg" alt="تمساح" style="border-radius:10px"><div class="cap">مفيد ✔</div></div></div>
+      <p style="margin:2px 0">🎬 ${watch('locusts')} الجراد ${watch('croc')} التمساح</p>
       ${flip('ماذا يفعل الجراد بالنباتات؟', 'أسرابه تأكل كل النباتات في طريقها.')}
       ${flip('كيف تفيد التماسيح النظام البيئي؟', 'تحفر حفرًا تمتلئ بالماء، فتشرب منها الحيوانات وقت الجفاف.')}
       <h2 style="font-size:20px">🧍 كيف يتكيّف الإنسان؟</h2>
@@ -437,8 +439,9 @@ const STATIONS = [
       <div class="verse" style="font-size:19px">﴿وَاذْكُرُوا إِذْ جَعَلَكُمْ خُلَفَاءَ مِن بَعْدِ عَادٍ…﴾ <span style="font-size:15px">[الأعراف: ٧٤]</span></div>
       <p>بعض تغيّرات الإنسان <b style="color:var(--red)">ضارّة</b>، وبعضها <b style="color:var(--leaf)">مفيدة</b>.</p>
       <img src="img/logs.jpg" alt="قطع أشجار الغابات" class="pic">
-      ${flip('ماذا يحدث عند قطع الغابات؟', 'تفقد الحيوانات بيوتها وغذاءها.', 'إزالة الغابات')}
-      ${flip('ما الاكتظاظ السكاني؟', 'عيش عدد كبير من الناس في مكان صغير.', 'الاكتظاظ السكاني')}
+      ${flip('ماذا يحدث عند قطع الغابات؟ ' + watch('forest'), 'تفقد الحيوانات بيوتها وغذاءها.', 'إزالة الغابات')}
+      ${flip('ما الاكتظاظ السكاني؟ ' + watch('crowd'), 'عيش عدد كبير من الناس في مكان صغير.', 'الاكتظاظ السكاني')}
+      ${flip('ما التلوّث؟ ' + watch('pollution'), 'إضافة أشياء ضارة إلى الماء أو الهواء أو التربة.', 'التلوّث')}
       ${flip('نشاط تماسك التربة: أيّ أصيص يتفرّغ ببطء؟ ولماذا؟', 'المزروع؛ لأن الجذور تمسك التربة.', 'نشاط')}
       ${flip('أقرأ الصورة: أيّ التغيرات ضارّ؟ وأيّها مفيد؟', 'ضارّ: قطع الأشجار ورمي النفايات. مفيد: زراعة النباتات.')}
     </div></div>` },
