@@ -179,6 +179,8 @@
   .stage canvas { position: absolute; touch-action: none; cursor: crosshair; }
 
   .startot { border: 3px solid var(--gold); background: #fff8dc; color: #8a6400; border-radius: 30px; padding: 4px 14px; font: inherit; font-size: 18px; cursor: pointer; white-space: nowrap; margin-inline-start: auto; }
+  .startot.snd { margin-inline-start: auto; padding: 4px 10px; }
+  .startot.snd + .startot { margin-inline-start: 0; }
   .startot.bump { animation: bump .5s; } @keyframes bump { 40% { transform: scale(1.25); } }
   .teacher { margin-inline-start: 0 !important; }
   .award { position: fixed; z-index: 40; pointer-events: none; text-align: center; transform: translate(-50%, -50%); animation: rise 1.6s ease-out forwards; }
@@ -194,6 +196,7 @@
 <header>
   <img class="girl" src="img/girl.jpg" alt="العالمة الصغيرة">
   <div><h1>الدرس الثالث: التغيرات في الأنظمة البيئية</h1><p>العلوم – الصف الرابع الابتدائي • ص١٢٠–١٢٤</p></div>
+  <button class="startot snd" id="sndBtn" title="صوت التعزيز" onclick="toggleSound()">🔔</button>
   <button class="startot" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ نجوم الفصل: <b id="starN">٠</b></button>
   <span class="teacher">💚 أ/ شامه البقمي</span>
   <button class="fs" id="fsBtn" onclick="fullscreen()">⛶ ملء الشاشة</button>
@@ -318,9 +321,28 @@ const CRIT = /التفكير الناقد|أتحدّى نفسي|أستنتج/;
 const flip = (q, a, k) => `<div class="flip" data-stars="${CRIT.test((k || '') + q) ? 2 : 1}" onclick="openFlip(this)">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
 const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي – اضغطي للتكبير</div>`;
 
+
+// Soft reward chime made in the browser: one star = gentle chime, two stars = brighter double chime
+let soundOn = true, actx = null;
+function toggleSound() { soundOn = !soundOn; document.getElementById('sndBtn').textContent = soundOn ? '🔔' : '🔕'; }
+function chime(n) {
+  if (!soundOn) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+    const notes = n > 1 ? [659.3, 830.6, 987.8, 1318.5] : [784, 1046.5];
+    notes.forEach((f, i) => {
+      const t = actx.currentTime + i * 0.11, o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.5);
+    });
+  } catch (e) { /* no audio available */ }
+}
 let starTotal = 0;
 function award(n, el) {
   starTotal += n;
+  chime(n);
   const t = document.getElementById('starN'); t.textContent = ar(starTotal);
   const b = document.getElementById('starTot'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
   const r = el ? el.getBoundingClientRect() : { left: innerWidth / 2, width: 0, top: innerHeight / 2, height: 0 };
