@@ -84,11 +84,10 @@
   </div>
 
   <div class="toolbar">
-    <input type="search" id="q" placeholder="ابحثي باسم الطالبة أو العنوان…" aria-label="بحث">
+    <input type="search" id="q" placeholder="ابحثي باسم الطالبة…" aria-label="بحث">
     <select id="clsFilter" aria-label="الفصل"><option value="">كل الفصول</option></select>
     <select id="sort" aria-label="الترتيب"><option value="new">الأحدث أولًا</option><option value="top">الأكثر إعجابًا ❤️</option></select>
   </div>
-  <div class="chips" id="chips"></div>
   <div class="row between"><span class="small muted" id="stats"></span><span class="me" id="meLine"></span></div>
 
   <main class="wall" id="wall" aria-live="polite"></main>
@@ -163,10 +162,6 @@ async function load() {
 }
 
 function render() {
-  const counts = {}; POSTS.forEach(p => counts[p.cat] = (counts[p.cat] || 0) + 1);
-  $('#chips').replaceChildren(
-    h('button', { class: 'chip', 'aria-pressed': String(!cat), onclick: () => { cat = ''; render(); } }, 'الكل (' + ar(POSTS.length) + ')'),
-    ...CATS.map(c => h('button', { class: 'chip', 'aria-pressed': String(cat === c.id), onclick: () => { cat = c.id; render(); } }, c.icon + ' ' + c.name + (counts[c.id] ? ' (' + ar(counts[c.id]) + ')' : ''))));
   const q = norm($('#q').value).toLowerCase(), cls = $('#clsFilter').value, sort = $('#sort').value;
   const list = POSTS.filter(p => (!cat || p.cat === cat) && (!cls || p.cls === cls) && (!q || norm(p.name + ' ' + p.title + ' ' + p.desc).toLowerCase().includes(q)))
     .sort((a, b) => (b.pinned - a.pinned) || (sort === 'top' ? b.likes - a.likes : 0) || (b.time - a.time));
@@ -174,7 +169,7 @@ function render() {
   const m = store.get('me', null);
   $('#meLine').textContent = m && m.name ? 'أنتِ: ' + m.name + ' (' + className(m.cls) + ')' : '';
   $('#state').replaceChildren(list.length ? '' : h('div', { class: 'empty' }, h('div', { class: 'big' }, '🌱'),
-    h('p', {}, POSTS.length ? 'لا توجد نتائج لهذا البحث' : 'الحائط ينتظر أول إنجاز… كوني أنتِ الأولى!')));
+    h('p', {}, POSTS.length ? 'لا توجد نتائج لهذا البحث' : 'الحائط ينتظر أول صورة… كوني أنتِ الأولى!')));
   $('#wall').replaceChildren(...list.map(card));
   list.forEach(p => seen.add(p.id));
 }
@@ -184,25 +179,20 @@ function stats() {
   $('#stats').textContent = ar(POSTS.length) + ' مشاركة · ' + ar(likes) + ' ❤️';
 }
 function card(p) {
-  const c = catOf(p.cat), isNew = !firstLoad && !seen.has(p.id);
+  const isNew = !firstLoad && !seen.has(p.id);
   const likeBtn = h('button', { class: 'like' + (liked.has(p.id) ? ' done' : ''), 'aria-label': 'إعجاب، ' + p.likes },
     h('span', { class: 'heart' }, liked.has(p.id) ? '❤️' : '🤍'), ar(p.likes));
   likeBtn.onclick = () => like(p, likeBtn);
-  const img = p.image ? h('img', { src: imgUrl(p.image), alt: p.title, loading: 'lazy' }) : null;
+  const img = p.image ? h('img', { src: imgUrl(p.image), alt: 'إنجاز ' + p.name, loading: 'lazy' }) : null;
   if (img) {
-    img.onclick = () => openImage(img.src, p.title);
+    img.onclick = () => openImage(img.src, 'إنجاز ' + p.name);
     img.onerror = () => { if (!img.dataset.alt) { img.dataset.alt = 1; img.src = 'https://lh3.googleusercontent.com/d/' + encodeURIComponent(p.image) + '=w1200'; } else img.remove(); };
   }
-  const safe = /^https?:\/\//i.test(p.link) ? p.link : '';
   return h('article', { class: 'post' + (p.pinned ? ' pinned' : '') + (isNew ? ' new' : '') },
     img,
     h('div', { class: 'body' },
-      h('div', { class: 'row', style: 'gap:6px' },
-        h('span', { class: 'tag', style: `background:${c.color}22;color:${c.color}` }, c.icon + ' ' + c.name),
-        p.pinned ? h('span', { class: 'tag', style: 'background:var(--accent);color:var(--accent-ink)' }, '📌 مميز') : null),
-      h('h3', {}, p.title),
-      p.desc ? h('p', { class: 'desc' }, p.desc) : null,
-      safe ? h('a', { class: 'link', href: safe, target: '_blank', rel: 'noopener noreferrer' }, '🔗 فتح الرابط المرفق') : null,
+      p.pinned ? h('div', {}, h('span', { class: 'tag', style: 'background:var(--accent);color:var(--accent-ink)' }, '📌 مميز')) : null,
+      !p.image ? h('h3', {}, p.title) : null,
       h('div', { class: 'who' }, h('span', { class: 'avatar', style: `background:hsl(${hue(p.name)} 45% 42%)` }, p.name.trim()[0] || '؟'),
         h('span', {}, h('b', {}, p.name), h('br'), className(p.cls) + ' · ' + ago(p.time)))),
     h('div', { class: 'foot' }, likeBtn,
@@ -220,7 +210,7 @@ async function like(p, btn) {
 }
 async function pin(p) { try { await tapi({ action: 'wallPin', id: p.id, pinned: !p.pinned }); p.pinned = !p.pinned; render(); } catch (e) { toast(e.message); } }
 async function del(p) {
-  if (!confirm('حذف «' + p.title + '» للطالبة ' + p.name + ' نهائيًا؟')) return;
+  if (!confirm('حذف صورة ' + p.name + ' نهائيًا؟')) return;
   try { await tapi({ action: 'wallDelete', id: p.id }); POSTS = POSTS.filter(x => x.id !== p.id); render(); toast('تم الحذف'); } catch (e) { toast(e.message); }
 }
 function openImage(src, alt) {
@@ -252,15 +242,12 @@ function compress(file) {
 
 async function addForm() {
   const saved = store.get('me', {}) || {};
-  const st = { cls: saved.cls || '', name: saved.name || '', cat: 'task', image: '' };
+  const st = { cls: saved.cls || '', name: saved.name || '', image: '' };
   const msg = h('p', { class: 'msg err' });
-  const seg = h('div', { class: 'seg' }), names = h('div'), cats = h('div', { class: 'catpick' });
-  const title = h('input', { type: 'text', maxlength: 100, placeholder: 'مثال: نموذج الخلية النباتية' });
-  const desc = h('textarea', { rows: 3, maxlength: 1000, placeholder: 'ماذا تعلمتِ؟ كيف أنجزتِه؟' });
-  const link = h('input', { type: 'url', maxlength: 400, placeholder: 'https://', dir: 'ltr' });
+  const seg = h('div', { class: 'seg' }), names = h('div');
   const file = h('input', { type: 'file', accept: 'image/*', hidden: true });
-  const drop = h('div', { class: 'drop', tabindex: 0, role: 'button' }, '📷 اضغطي لاختيار صورة أو التقاطها');
-  const send = h('button', { class: 'btn teal big' }, 'انشري على الحائط 🚀');
+  const drop = h('div', { class: 'drop', tabindex: 0, role: 'button', style: 'font-size:20px;padding:30px 16px' }, '📷 اضغطي هنا لتصوير إنجازك');
+  const send = h('button', { class: 'btn teal big' }, 'انشري 🚀');
 
   function drawSeg() {
     seg.replaceChildren(...PLATFORM.classes.map(c => h('button', { 'aria-pressed': String(st.cls === c.id), onclick: () => { if (st.cls !== c.id) { st.cls = c.id; st.name = ''; } drawSeg(); } }, c.name)));
@@ -270,48 +257,41 @@ async function addForm() {
     if (!st.cls) return names.replaceChildren();
     const list = ((ROSTER || {})[st.cls] || []).slice().sort((a, b) => a.localeCompare(b, 'ar'));
     if (list.length) {
-      names.replaceChildren(h('div', { class: 'small muted', style: 'margin-bottom:6px' }, 'اختاري اسمك'),
+      names.replaceChildren(h('div', { class: 'small muted', style: 'margin-bottom:6px' }, 'اسمك'),
         h('div', { class: 'names' }, list.map(n => h('button', { 'aria-pressed': String(norm(st.name) === norm(n)), onclick: () => { st.name = n; drawNames(); } }, n))));
     } else {
-      const inp = h('input', { type: 'text', maxlength: 60, placeholder: ROSTER ? 'اكتبي اسمك' : 'جارٍ تحميل الأسماء… أو اكتبي اسمك' });
+      const inp = h('input', { type: 'text', maxlength: 60, placeholder: 'اكتبي اسمك' });
       inp.value = st.name; inp.oninput = () => st.name = inp.value.trim();
       names.replaceChildren(h('label', { class: 'f' }, 'اسمك', inp));
     }
   }
-  function drawCats() { cats.replaceChildren(...CATS.map(c => h('button', { 'aria-pressed': String(st.cat === c.id), onclick: () => { st.cat = c.id; drawCats(); } }, c.icon + ' ' + c.name))); }
   drop.onclick = () => file.click();
   drop.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); file.click(); } };
   file.onchange = async () => {
     const f = file.files[0]; if (!f) return;
     drop.textContent = 'جارٍ تجهيز الصورة…';
-    try { st.image = await compress(f); drop.replaceChildren(h('img', { src: st.image, alt: 'معاينة' }), 'اضغطي لتغيير الصورة'); }
+    try { st.image = await compress(f); drop.replaceChildren(h('img', { src: st.image, alt: 'صورتك' }), 'اضغطي لتغيير الصورة'); }
     catch (e) { st.image = ''; drop.textContent = 'تعذّرت قراءة الصورة، جرّبي صورة أخرى'; }
   };
   send.onclick = async () => {
-    const d = { cls: st.cls, name: st.name.trim(), title: title.value.trim(), desc: desc.value.trim(), cat: st.cat, link: link.value.trim(), image: st.image };
+    const d = { cls: st.cls, name: st.name.trim(), image: st.image, title: 'صورة إنجاز', desc: '', cat: 'task', link: '' };
+    if (!d.image) return msg.textContent = 'صوّري إنجازك أولًا 📷';
     if (!d.cls) return msg.textContent = 'اختاري فصلك';
     if (!d.name) return msg.textContent = 'اختاري اسمك';
-    if (!d.title) return msg.textContent = 'اكتبي عنوانًا لمهمتك أو إنجازك';
-    if (d.link && !/^https?:\/\//i.test(d.link)) return msg.textContent = 'الرابط يجب أن يبدأ بـ https://';
-    if (!d.image && !d.desc && !d.link) return msg.textContent = 'أضيفي صورة أو وصفًا أو رابطًا';
-    msg.textContent = ''; send.disabled = true; send.textContent = d.image ? 'جارٍ رفع الصورة…' : 'جارٍ النشر…';
+    msg.textContent = ''; send.disabled = true; send.textContent = 'جارٍ رفع الصورة…';
     try {
       await api(Object.assign({ action: 'wallPost' }, d));
       store.set('me', { cls: d.cls, name: d.name });
       ov.remove(); burst(['🎉', '⭐', '🏆', '✨', '❤️'], 26);
-      toast('أحسنتِ يا ' + d.name.split(' ')[0] + '! إنجازك الآن على الحائط 🌟');
+      toast('أحسنتِ يا ' + d.name.split(' ')[0] + '! صورتك الآن على الحائط 🌟');
       await load(); window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (e) { msg.textContent = e.message; send.disabled = false; send.textContent = 'انشري على الحائط 🚀'; }
+    } catch (e) { msg.textContent = e.message; send.disabled = false; send.textContent = 'انشري 🚀'; }
   };
   const ov = modal(h('h2', {}, 'أضيفي إنجازك 🌟'),
+    drop, file,
     h('div', {}, h('div', { class: 'small muted', style: 'margin-bottom:6px' }, 'فصلك'), seg), names,
-    h('div', {}, h('div', { class: 'small muted', style: 'margin-bottom:6px' }, 'نوع المشاركة'), cats),
-    h('label', { class: 'f' }, 'العنوان', title),
-    h('label', { class: 'f' }, 'احكي لنا عنه (اختياري)', desc),
-    h('div', {}, h('div', { class: 'small muted', style: 'margin-bottom:6px' }, 'صورة (اختياري)'), drop, file),
-    h('label', { class: 'f' }, 'رابط فيديو أو ملف (اختياري)', link),
     msg, h('div', { class: 'row', style: 'justify-content:flex-end' }, h('button', { class: 'btn', onclick: () => ov.remove() }, 'إلغاء'), send));
-  drawSeg(); drawCats();
+  drawSeg();
   if (!ROSTER) api({ action: 'roster' }).then(r => { ROSTER = r.students || {}; drawNames(); }).catch(() => { ROSTER = {}; drawNames(); });
 }
 
