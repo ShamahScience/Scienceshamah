@@ -260,6 +260,10 @@
   .mbs { margin: 0 0 6px; text-align: center; }
   .mbs img { width: 100%; max-height: 24vh; object-fit: cover; object-position: center 25%; border-radius: 14px; border: 3px solid #0d7a3e; }
   .mbs figcaption { font-size: 14px; color: #0d7a3e; line-height: 1.6; margin-top: 3px; }
+  .vbody { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) !important; }
+  .vcol { display: flex; flex-direction: column; min-height: 0; }
+  .vcol video { width: 100%; flex: 1; min-height: 0; max-height: 100%; object-fit: contain; background: #000; border-radius: 14px; border: 3px solid var(--leaf); }
+  .vcol .cap { flex: none; }
 </style>
 </head>
 <body>
@@ -534,15 +538,16 @@ const STATIONS = [
       ${flip('أين يحدث تبادل الغازات بين الدم والهواء؟', 'في الحويصلات الهوائية داخل الرئتين.', 'أتذكر')}
       ${flip('وصل الأكسجين إلى الدم في الرئتين… فكيف يصل إلى كل خلية في الجسم؟', 'ينقله الدم عبر جهاز الدوران — وهذا درسنا اليوم!', 'أستنتج')}
     </div></div>` },
-  { icon: '🤔', name: 'أنظر وأتساءل', page: 116, html: () => `
-    <span class="strat"><b>الاستراتيجية:</b> أنظر وأتساءل – التوقّع</span><h2>🤔 لماذا يدقّ قلبك أسرع عندما تجرين؟</h2>
-    <div class="grid2 body"><div class="pagecol">${page(116)}</div><div class="txt">
-      <img src="img/heart.jpg" alt="شكل الدوران والتنفس" style="border-radius:12px;max-height:26vh;width:auto;margin:auto">
-      <p>الأكسجين في الرئتين، والجلوكوز في الأمعاء… <b>فمن يوصلهما إلى كل خلية؟</b></p>
-      ${flip('توقّعي: ما الذي ينقل الأكسجين والغذاء إلى الخلايا؟', 'الدم، يضخّه القلب في الأوعية الدموية.')}
-      ${flip('لماذا يزداد نبض القلب عند الجري؟', 'ليضخّ دمًا أكثر فيوصل أكسجينًا أكثر إلى العضلات.', 'أستنتج')}
+  { icon: '🎬', name: 'أشاهد وأتساءل (فيديو)', page: 116, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> أشاهد وأتساءل – التهيئة بالفيديو</span><h2>🎬 شاهدي… ثم تساءلي: كيف يدور الدم في جسمي؟</h2>
+    <div class="grid2 body vbody"><div class="vcol"><video id="ivid" src="img/circ.mp4" controls loop muted playsinline autoplay></video>
+      <div class="cap">🔊 اضغطي على السمّاعة لتشغيل الصوت • ⛶ لملء الشاشة</div></div><div class="txt">
+      ${flip('ماذا لاحظتِ؟ ما لونا الدم في الفيديو؟', 'أحمر: دم غني بالأكسجين، وأزرق: دم غير غني بالأكسجين.', 'ألاحظ')}
+      ${flip('توقّعي: أين يذهب الدم الأزرق ليصبح أحمر؟', 'إلى الرئتين؛ يتخلّص من ثاني أكسيد الكربون ويأخذ الأكسجين.', 'أتوقّع')}
+      ${flip('من يدفع الدم في الأنابيب إلى جميع أنحاء الجسم؟', 'القلب؛ مضخّة لا تتوقف.', 'أتساءل')}
+      ${flip('لماذا يدقّ قلبك أسرع عندما تجرين؟', 'ليضخّ دمًا أكثر فيوصل أكسجينًا أكثر إلى العضلات.', 'أستنتج')}
       <p style="color:var(--pink)">🤔 توقّعي… ثم ناقشي زميلتك</p>
-    </div></div>` },
+    </div></div>`, after: () => { const v = document.getElementById('ivid'); if (v) v.play().catch(() => {}); } },
   { icon: '❤️', name: 'ما الدوران؟', page: 114, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – الدليل من النص</span><h2>❤️ ما الدوران؟</h2>
     <div class="grid2 body"><div class="pagecol">${page(114)}</div><div class="txt">
