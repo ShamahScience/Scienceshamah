@@ -202,6 +202,24 @@
   .animals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
   .animals img { border-radius: 10px; height: 13vh; width: 100%; object-fit: cover; }
   @media (min-width: 900px) and (orientation: landscape) { #stBody .txt .vr svg { max-height: 44vh; } #stBody .txt .animals img { max-height: 12vh; } }
+  /* صندوق المفاجآت */
+  .gifts { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; margin-top: 10px; }
+  .gift { position: relative; border: 3px solid var(--pink); background: var(--rose); border-radius: 16px; padding: 6px 0 4px; font: inherit; cursor: pointer; box-shadow: 0 4px 0 #e7a9c0; transition: transform .15s; }
+  .gift:hover { transform: translateY(-3px) rotate(-3deg); }
+  .gift .e { font-size: 38px; display: block; line-height: 1.2; }
+  .gift .n { font-size: 18px; color: var(--pink); }
+  .gift.shake { animation: gshake .12s linear infinite; }
+  @keyframes gshake { 0% { transform: rotate(-8deg) scale(1.08); } 50% { transform: rotate(8deg) scale(1.12); } 100% { transform: rotate(-8deg) scale(1.08); } }
+  .gift.done { background: #f1f1f1; border-color: #bbb; box-shadow: none; cursor: default; opacity: .55; }
+  .gift.done:hover { transform: none; }
+  .reveal { position: fixed; inset: 0; background: rgba(20, 40, 25, .55); display: none; align-items: center; justify-content: center; z-index: 40; }
+  .reveal.on { display: flex; }
+  .reveal .card { background: #fff; border: 5px solid var(--gold); border-radius: 30px; padding: 22px 34px; text-align: center; max-width: 620px; width: 90%; box-shadow: 0 10px 0 #d9a520; animation: pop .55s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes pop { from { transform: scale(.2) rotate(-12deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+  .reveal .big { font-size: 96px; line-height: 1.1; }
+  .reveal .kind { display: inline-block; background: var(--yel); border-radius: 30px; padding: 2px 16px; font-size: 18px; color: #8a6400; }
+  .reveal h3 { margin: 8px 0 4px; font-size: 34px; color: var(--pink); }
+  .reveal p { font-size: 24px; margin: 6px 0 14px; color: var(--green); }
 </style>
 </head>
 <body>
@@ -220,6 +238,7 @@
   <button class="tab" data-p="stations">📍 محطات الدرس</button>
   <button class="tab" data-p="questions">❓ الأسئلة</button>
   <button class="tab" data-p="games">🎮 الألعاب</button>
+  <button class="tab" data-p="surprise">🎁 صندوق المفاجآت</button>
 </nav>
 
 <main>
@@ -299,9 +318,21 @@
     <p>٢) الفرق بين الدوران المفتوح والمغلق: ……………………</p>
     <p>٣) لماذا يُضخّ الدم غير المؤكسج إلى الرئتين؟ ……………</p>
     <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
+    <p style="text-align:center"><button class="btn" style="border-color:var(--pink);background:var(--rose)" onclick="go('surprise')">🎁 إلى صندوق المفاجآت</button></p>
+  </div>
+</section>
+<!-- ═════ صندوق المفاجآت -->
+<section class="panel" id="surprise">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعزيز الإيجابي – صندوق المفاجآت</span>
+    <h2>🎁 صندوق المفاجآت</h2>
+    <p>كل طالبة تختار صندوقًا وتضغط عليه… ماذا تخبّئ لكِ المفاجأة؟ 🤩</p>
+    <div class="gifts" id="gifts"></div>
+    <p style="text-align:center;margin-top:12px"><button class="btn" onclick="buildGifts()">🔄 صناديق جديدة</button></p>
   </div>
 </section>
 </main>
+<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
 <footer>أ/ شامه البقمي 💚</footer>
 <div class="zoom" id="zoom">
   <div class="tools" id="tools">
@@ -699,6 +730,99 @@ document.addEventListener('click', (e) => {
   const im = e.target.closest('main img');
   if (im && !im.classList.contains('page')) zoom(im.src);
 });
+// ───── Praise sounds: a bright "ta-da" for every correct answer, applause for two stars, a soft tone to try again
+function tone(f, t, d, v, type) {
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = type || 'sine'; o.frequency.value = f;
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.connect(g).connect(actx.destination); o.start(t); o.stop(t + d + 0.05);
+}
+function claps(t0, dur) {
+  const n = Math.floor(dur * 22);
+  for (let i = 0; i < n; i++) {
+    const t = t0 + Math.random() * dur, len = 0.05, b = actx.createBuffer(1, actx.sampleRate * len, actx.sampleRate), d = b.getChannelData(0);
+    for (let k = 0; k < d.length; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / d.length, 4);
+    const src = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
+    src.buffer = b; f.type = 'bandpass'; f.frequency.value = 1200 + Math.random() * 1400; g.gain.value = 0.35 * (1 - (t - t0) / dur * 0.6);
+    src.connect(f).connect(g).connect(actx.destination); src.start(t);
+  }
+}
+function ctx() { if (!soundOn) return null; try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); return actx; } catch (e) { return null; } }
+chime = function (n) {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, t + i * 0.09, 0.35, 0.1, 'triangle'));
+  tone(1568, t + 0.4, 0.6, 0.05);
+  if (n > 1) claps(t + 0.35, 1.6);
+};
+function tryAgain() {
+  if (!ctx()) return;
+  const t = actx.currentTime; tone(440, t, 0.25, 0.07, 'triangle'); tone(392, t + 0.18, 0.35, 0.07, 'triangle');
+}
+function fanfare() {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  [392, 523.3, 659.3, 784, 659.3, 784, 1046.5].forEach((f, i) => tone(f, t + i * 0.12 + (i > 3 ? 0.1 : 0), i === 6 ? 0.9 : 0.25, 0.1, 'triangle'));
+  claps(t + 0.6, 2.4);
+}
+function drumroll(sec) {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  for (let i = 0; i < sec * 18; i++) tone(110 + (i % 2) * 8, t + i / 18, 0.06, 0.08, 'square');
+}
+// a soft tone whenever a wrong answer is marked
+new MutationObserver((ms) => ms.forEach((m) => { if (m.target.classList && m.target.classList.contains('bad') && m.attributeName === 'class') tryAgain(); }))
+  .observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+// a correct answer on the second try still gets the praise sound (the star stays for the first try)
+document.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.classList.contains('ok') && !b.dataset.snd) { b.dataset.snd = 1; setTimeout(() => { if (!document.querySelector('.award')) chime(1); }, 60); } });
+
+// ───── Surprise box: each girl picks a box; no prize repeats until all are used
+const PRIZES = [
+  ['🌟', 'نقاط', '+٤ نقاط', 'إجاباتك اليوم تستحق الزيادة!'],
+  ['✨', 'نقاط', '+٣ نقاط', 'عقلك يعمل مثل القلب… لا يتوقف عن العطاء ❤️'],
+  ['💎', 'نقاط', '+٥ نقاط', 'مفاجأة كبيرة لطالبة كبيرة!'],
+  ['⭐', 'نقاط', '+٢ نقطتان', 'كل خطوة صغيرة تصنع فرقًا كبيرًا.'],
+  ['🌟', 'نقاط', '+٤ نقاط', 'أنتِ نجمة تضيء فصلنا!'],
+  ['🎯', 'نقاط', '+٣ نقاط', 'تركيزك رائع، استمري!'],
+  ['🏅', 'هدية معنوية', 'وسام العالِمة الصغيرة', 'تستحقين لقب عالِمة الفصل اليوم.'],
+  ['👩‍🏫', 'هدية معنوية', 'المعلمة الصغيرة', 'ستشرحين معلومة لصديقاتك في الحصة القادمة.'],
+  ['📜', 'هدية معنوية', 'شهادة شكر', 'شهادة شكر من معلمتك لأنكِ رائعة.'],
+  ['🖼️', 'هدية معنوية', 'لوحة المتميّزات', 'يُكتب اسمك اليوم في لوحة المتميّزات.'],
+  ['👏', 'هدية معنوية', 'تصفيق جماعي', 'صفّقن لصديقتكن بحرارة! 👏👏👏'],
+  ['🧪', 'هدية معنوية', 'مساعدة المختبر', 'تساعدين المعلمة في التجربة القادمة.'],
+  ['👑', 'هدية معنوية', 'نجمة الأسبوع', 'أنتِ نجمة الأسبوع في العلوم!'],
+  ['🎤', 'هدية معنوية', 'المذيعة العلمية', 'تقرئين معلومة اليوم بصوتك الجميل.'],
+  ['💌', 'رسالة لكِ', 'رسالة من معلمتك', 'فخورة بكِ جدًا، أنتِ مستقبل مشرق 💚'],
+  ['🌷', 'رسالة لكِ', 'رسالة جميلة', 'ابتسامتك تجعل الفصل أجمل.'],
+  ['🚀', 'رسالة لكِ', 'رسالة جميلة', 'يومًا ما ستكونين عالِمة تكتشف ما لم يكتشفه أحد.'],
+  ['❤️', 'رسالة لكِ', 'رسالة جميلة', 'مثل القلب الذي لا يتعب… اجتهادك لا يتوقف.'],
+  ['🌈', 'رسالة لكِ', 'رسالة جميلة', 'أنتِ قادرة على كل شيء بإذن الله.'],
+  ['🦋', 'رسالة لكِ', 'رسالة جميلة', 'سؤالك الذكي هو بداية كل اكتشاف.'],
+  ['🌟', 'نقاط + رسالة', '+٤ نقاط', 'وثقتي بكِ أكبر من كل النقاط 💚'],
+  ['🍀', 'حظ سعيد', 'اختاري صديقة', 'تختارين صديقة لتفتح صندوقًا معكِ!'],
+  ['🎈', 'نقاط', '+١ نقطة ودعاء', 'وفقكِ الله ونفع بكِ.'],
+  ['🏆', 'هدية معنوية', 'كأس المتفوّقة', 'تحملين كأس الفصل حتى نهاية الحصة.'],
+];
+let pool = [];
+function nextPrize() { if (!pool.length) pool = PRIZES.slice().sort(() => Math.random() - 0.5); return pool.pop(); }
+function buildGifts() {
+  pool = [];
+  const em = ['🎁', '🎀', '🎁', '💝'];
+  $('#gifts').innerHTML = Array.from({ length: 30 }, (_, i) => `<button class="gift" onclick="openGift(this)"><span class="e">${em[i % 4]}</span><span class="n">${ar(i + 1)}</span></button>`).join('');
+}
+function openGift(b) {
+  if (b.classList.contains('done') || b.classList.contains('shake')) return;
+  b.classList.add('shake'); drumroll(1.1);
+  setTimeout(() => {
+    b.classList.remove('shake'); b.classList.add('done');
+    const [e, k, t, m] = nextPrize();
+    b.querySelector('.e').textContent = e;
+    $('#rvE').textContent = e; $('#rvK').textContent = k; $('#rvT').textContent = t; $('#rvM').textContent = m;
+    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500);
+  }, 1150);
+}
+function closeGift(e) { if (e && e.target.closest('.card') && !e.target.closest('button')) return; $('#reveal').classList.remove('on'); }
+buildGifts();
 </script>
 </body>
 </html>
