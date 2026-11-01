@@ -257,6 +257,9 @@
   .vidb { display: block; width: 100%; margin: 0 0 6px; background: var(--pink); border-color: #8f1f4f; color: #fff; font-size: 18px; padding: 5px; }
   .vidb[hidden] { display: none; }
   @media (min-width: 900px) and (orientation: landscape) { #stBody .txt .vr svg { max-height: 36vh; } }
+  .mbs { margin: 0 0 6px; text-align: center; }
+  .mbs img { width: 100%; max-height: 24vh; object-fit: cover; object-position: center 25%; border-radius: 14px; border: 3px solid #0d7a3e; }
+  .mbs figcaption { font-size: 14px; color: #0d7a3e; line-height: 1.6; margin-top: 3px; }
 </style>
 </head>
 <body>
@@ -607,6 +610,8 @@ const STATIONS = [
         <div class="verse" style="font-size:17px">﴿وَفِي أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ﴾ <span>[الذاريات: ٢١]</span></div>
       </div>
       <div class="lk watan"><h3>🇸🇦 ربط بالوطن</h3>
+        <figure class="mbs"><img src="img/donate.jpg" alt="سمو ولي العهد يتبرع بالدم"><figcaption>سمو ولي العهد الأمير محمد بن سلمان يتبرع بالدم، قدوة لنا في العطاء 🇸🇦❤️</figcaption></figure>
+        ${flip('لماذا تبرّع سمو ولي العهد بالدم؟ وماذا نتعلّم منه؟', 'ليشجّع المواطنين على التبرع بالدم وإنقاذ حياة المرضى، ونتعلّم منه العطاء وحب الوطن والتعاون.', 'قدوتي')}
         ${flip('وطني مثل جسد واحد… فمن يشبه الدم؟', 'نحن المواطنين! كما يوصل الدم الغذاء والأكسجين لكل خلية، يخدم كل منا وطنه في مكانه: الطالبة بعلمها، والطبيب بعمله، والجندي بحمايته.', 'أشبّه')}
         ${flip('ما اسم منصة التبرع بالدم في المملكة؟ وما معنى اسمها؟', '«وتين»: والوتين شريان كبير متصل بالقلب، ذُكر في القرآن الكريم: ﴿ثُمَّ لَقَطَعْنَا مِنْهُ الْوَتِينَ﴾ [الحاقة: ٤٦]. التبرع بالدم ينقذ حياة إخواننا.', 'وطني')}
         ${flip('كيف تهتم رؤية ٢٠٣٠ بصحة قلوبنا؟', 'تشجّع على الرياضة والمشي والغذاء الصحي لتكون حياتنا أكثر صحة ونشاطًا.', 'رؤيتي')}
