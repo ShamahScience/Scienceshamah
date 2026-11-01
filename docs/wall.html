@@ -156,7 +156,8 @@ async function load() {
     firstLoad = false;
   } catch (e) {
     if (firstLoad) $('#state').replaceChildren(h('div', { class: 'panel', style: 'text-align:center' },
-      h('h2', {}, 'تعذّر فتح الحائط'), h('p', { class: 'muted', style: 'margin:0' }, e.message),
+      h('h2', {}, /غير معروف/.test(e.message) ? 'الحائط لم يُفعَّل بعد' : 'تعذّر فتح الحائط'),
+      h('p', { class: 'muted', style: 'margin:0' }, /غير معروف/.test(e.message) ? 'المعلمة تحتاج تحديث الخادم مرة واحدة من لوحة المعلمة.' : e.message),
       h('div', { class: 'row', style: 'justify-content:center' }, h('button', { class: 'btn teal', onclick: () => { $('#state').replaceChildren(h('div', { class: 'spinner' })); load(); } }, 'إعادة المحاولة'))));
   }
 }
