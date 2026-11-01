@@ -234,6 +234,26 @@
   .rbox img.page { position: static !important; display: block; width: 100% !important; height: auto !important; cursor: crosshair; border: none; border-radius: 0; }
   .rbox canvas { position: absolute; touch-action: none; cursor: crosshair; }
   .rd .cap { position: static !important; }
+  /* الربط */
+  .links { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 860px) { .links { grid-template-columns: 1fr; } }
+  .lk { border-radius: 18px; padding: 8px 12px; border: 3px solid; }
+  .lk h3 { margin: 0 0 6px; font-size: 21px; }
+  .lk .flip { font-size: 16px !important; line-height: 1.6; margin: 6px 0; padding: 6px 10px; }
+  .lk.din { background: #f3fbe9; border-color: var(--leaf); } .lk.din h3 { color: var(--green); }
+  .lk.watan { background: #eef8f0; border-color: #0d7a3e; } .lk.watan h3 { color: #0d7a3e; }
+  .lk.hayah { background: #fff4f7; border-color: var(--pink); } .lk.hayah h3 { color: var(--pink); }
+  .hadith { font-size: 17px !important; line-height: 1.9; background: #fff !important; border: 2px dashed var(--gold); }
+  .verse span { font-size: 13px; color: #6b7280; }
+  .pulse { display: flex; gap: 8px; align-items: center; justify-content: center; margin: 6px 0; font-size: 16px; flex-wrap: wrap; }
+  .pulse .btn { font-size: 16px; padding: 4px 10px; }
+  .pulse input { width: 70px; font: inherit; font-size: 18px; text-align: center; border: 2px solid var(--pink); border-radius: 10px; }
+  .pt { font-size: 30px; color: var(--pink); min-width: 46px; text-align: center; }
+  .lk .msg { font-size: 16px; min-height: 0; }
+  /* الفيديو */
+  .vbox { position: fixed; inset: 0; background: rgba(10, 20, 14, .9); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 10px; z-index: 25; }
+  .vbox.on { display: flex; }
+  .vbox video { max-width: 94vw; max-height: 82vh; border-radius: 14px; background: #000; }
 </style>
 </head>
 <body>
@@ -348,6 +368,7 @@
 </main>
 <div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
 <footer>أ/ شامه البقمي 💚</footer>
+<div class="vbox" id="vbox"><video id="vid" controls playsinline preload="none"></video><button class="btn" onclick="closeVid()">✕ إغلاق الفيديو</button></div>
 <div class="zoom" id="zoom">
   <div class="tools" id="tools">
     <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
@@ -374,6 +395,7 @@
 <script>
 const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 const $ = (s) => document.querySelector(s);
+let HAS_VID = false;
 // Higher-order questions (critical thinking, challenge, inference) earn two stars, the rest one
 const CRIT = /التفكير الناقد|أتحدّى نفسي|أستنتج/;
 const flip = (q, a, k) => `<div class="flip" data-stars="${CRIT.test((k || '') + q) ? 2 : 1}" onclick="openFlip(this)">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
@@ -559,7 +581,7 @@ const STATIONS = [
     <span class="strat"><b>الاستراتيجية:</b> النمذجة والمحاكاة – الواقع الافتراضي</span><h2>🔬 جولة افتراضية: رحلة الدم</h2>
     <div class="grid2 body"><div class="pagecol">${page(116)}</div><div class="txt">
       <div class="vr">${CIRC_SVG}</div>
-      <div class="steps">${CSTEPS.map((s, k) => `<button class="btn" onclick="cstep(${k})">الخطوة ${s[0]}</button>`).join('')}<button class="btn main" onclick="cplay()">▶ الرحلة كاملة</button></div>
+      <div class="steps">${CSTEPS.map((s, k) => `<button class="btn" onclick="cstep(${k})">الخطوة ${s[0]}</button>`).join('')}<button class="btn main" onclick="cplay()">▶ الرحلة كاملة</button><button class="btn vidb" onclick="openVid()" ${HAS_VID ? '' : 'hidden'}>🎬 فيديو الدورة الدموية</button></div>
       <p id="ctxt" style="margin:4px 0">اضغطي «الخطوة ١» لتبدأ رحلة الدم.</p>
       <p style="font-size:14px;color:#7a869e">🔵 أزرق: دم غير مؤكسج • 🔴 أحمر: دم مؤكسج • القلب ينبض مع كل ضخّة.</p>
     </div></div>`, after: () => cstep(0, true) },
@@ -572,6 +594,29 @@ const STATIONS = [
       ${flip('رتّبي: ماذا يحدث للدم المؤكسج بعد الرئتين؟', 'يعود إلى القلب، فيضخّه إلى جميع أجزاء الجسم.', 'أرتّب')}
       <div class="verse" style="font-size:19px">﴿وَفِي أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ﴾ <span style="font-size:15px">[الذاريات: ٢١]</span></div>
     </div></div>` },
+  { icon: '🔗', name: 'الربط: الدين والوطن والحياة', page: 116, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الربط والتكامل – الدين والوطن والحياة</span><h2>🔗 الدوران في ديني ووطني وحياتي</h2>
+    <div class="links">
+      <div class="lk din"><h3>🕌 ربط بالدين</h3>
+        <div class="verse hadith">قال رسول الله ﷺ: «مَثَلُ الْمُؤْمِنِينَ فِي تَوَادِّهِمْ وَتَرَاحُمِهِمْ وَتَعَاطُفِهِمْ، مَثَلُ الْجَسَدِ، إِذَا اشْتَكَى مِنْهُ عُضْوٌ، تَدَاعَى لَهُ سَائِرُ الْجَسَدِ بِالسَّهَرِ وَالْحُمَّى» <span>[رواه مسلم]</span></div>
+        ${flip('ماذا يفعل الجسد إذا مرض عضو واحد فيه؟', 'يشارك الجسد كله: يسرع القلب، ويحمل الدم إلى العضو المريض ما يحتاجه ليشفى، وترتفع الحرارة (الحمّى) ليقاوم الجسم المرض.', 'أفكّر')}
+        ${flip('كيف نكون مثل الجسد الواحد في فصلنا؟', 'إذا تألّمت صديقتي أو احتاجت مساعدة نقف معها جميعًا ونساعدها، كما يتعاون القلب والدم والرئتان.', 'أطبّق')}
+        <div class="verse" style="font-size:17px">﴿وَفِي أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ﴾ <span>[الذاريات: ٢١]</span></div>
+      </div>
+      <div class="lk watan"><h3>🇸🇦 ربط بالوطن</h3>
+        ${flip('وطني مثل جسد واحد… فمن يشبه الدم؟', 'نحن المواطنين! كما يوصل الدم الغذاء والأكسجين لكل خلية، يخدم كل منا وطنه في مكانه: الطالبة بعلمها، والطبيب بعمله، والجندي بحمايته.', 'أشبّه')}
+        ${flip('ما اسم منصة التبرع بالدم في المملكة؟ وما معنى اسمها؟', '«وتين»: والوتين شريان كبير متصل بالقلب، ذُكر في القرآن الكريم: ﴿ثُمَّ لَقَطَعْنَا مِنْهُ الْوَتِينَ﴾ [الحاقة: ٤٦]. التبرع بالدم ينقذ حياة إخواننا.', 'وطني')}
+        ${flip('كيف تهتم رؤية ٢٠٣٠ بصحة قلوبنا؟', 'تشجّع على الرياضة والمشي والغذاء الصحي لتكون حياتنا أكثر صحة ونشاطًا.', 'رؤيتي')}
+      </div>
+      <div class="lk hayah"><h3>🏃‍♀️ ربط بالحياة</h3>
+        <p style="margin:0">💓 <b>نشاط: أقيس نبضي</b> – ضعي إصبعين على معصمك وعدّي النبضات.</p>
+        <div class="pulse"><button class="btn main" id="pBtn" onclick="pulseGo()">⏱️ ابدئي ١٥ ثانية</button><span id="pT" class="pt">١٥</span></div>
+        <div class="pulse"><label>عدد النبضات: <input id="pN" type="number" min="5" max="60" placeholder="؟"></label><button class="btn" onclick="pulseCalc()">احسبي</button></div>
+        <div class="msg" id="pMsg"></div>
+        ${flip('لماذا يزداد النبض بعد القفز ١٠ مرات؟', 'لأن العضلات تحتاج أكسجينًا وغذاءً أكثر، فيضخ القلب الدم أسرع.', 'أستنتج')}
+        ${flip('كيف أحافظ على قلبي؟', 'الرياضة يوميًا، والغذاء الصحي (خضار وفواكه وقليل من الدهون والملح)، وشرب الماء، والنوم الكافي، والابتعاد عن التدخين.', 'صحتي')}
+      </div>
+    </div>` },
 ];
 
 // ───── الجولة الافتراضية في الدورة الدموية
@@ -892,6 +937,23 @@ function readingBoard(i) {
   });
 }
 function rClear() { const cv = $('#rink'); if (!cv) return; cv.getContext('2d').clearRect(0, 0, cv.width, cv.height); RINK[cv.dataset.key] = null; }
+
+// ───── Lesson video (the teacher's own clip at img/circ.mp4); its button shows only when the file is there
+(function () { const v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = () => { HAS_VID = true; document.querySelectorAll('.vidb').forEach((b) => b.hidden = false); }; v.src = 'img/circ.mp4'; })();
+function openVid() { const v = $('#vid'); if (!v.src) v.src = 'img/circ.mp4'; $('#vbox').classList.add('on'); v.play().catch(() => {}); }
+function closeVid() { const v = $('#vid'); v.pause(); $('#vbox').classList.remove('on'); }
+// ───── Pulse activity: count for 15 seconds, then ×4
+let pTimer = null;
+function pulseGo() {
+  clearInterval(pTimer); let t = 15; $('#pT').textContent = ar(t); $('#pBtn').disabled = true;
+  pTimer = setInterval(() => { t--; $('#pT').textContent = ar(t); if (t <= 0) { clearInterval(pTimer); $('#pBtn').disabled = false; $('#pT').textContent = '⏰'; chime(1); $('#pMsg').className = 'msg good'; $('#pMsg').textContent = 'توقّفي! اكتبي عدد النبضات.'; } }, 1000);
+}
+function pulseCalc() {
+  const n = +$('#pN').value; const m = $('#pMsg');
+  if (!n) { m.className = 'msg bad'; m.textContent = 'اكتبي عدد النبضات أولًا 💡'; return; }
+  m.className = 'msg good'; m.innerHTML = `نبضك = ${ar(n)} × ٤ = <b>${ar(n * 4)}</b> نبضة في الدقيقة 💓<br>قفزي ١٠ مرات… ثم قيسي مرة أخرى!`;
+  award(1, m);
+}
 </script>
 </body>
 </html>
