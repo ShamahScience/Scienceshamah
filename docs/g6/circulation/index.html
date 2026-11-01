@@ -254,6 +254,9 @@
   .vbox { position: fixed; inset: 0; background: rgba(10, 20, 14, .9); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 10px; z-index: 25; }
   .vbox.on { display: flex; }
   .vbox video { max-width: 94vw; max-height: 82vh; border-radius: 14px; background: #000; }
+  .vidb { display: block; width: 100%; margin: 0 0 6px; background: var(--pink); border-color: #8f1f4f; color: #fff; font-size: 18px; padding: 5px; }
+  .vidb[hidden] { display: none; }
+  @media (min-width: 900px) and (orientation: landscape) { #stBody .txt .vr svg { max-height: 36vh; } }
 </style>
 </head>
 <body>
@@ -368,7 +371,7 @@
 </main>
 <div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
 <footer>أ/ شامه البقمي 💚</footer>
-<div class="vbox" id="vbox"><video id="vid" controls playsinline preload="none"></video><button class="btn" onclick="closeVid()">✕ إغلاق الفيديو</button></div>
+<div class="vbox" id="vbox"><video id="vid" controls loop playsinline preload="none"></video><button class="btn" onclick="closeVid()">✕ إغلاق الفيديو</button></div>
 <div class="zoom" id="zoom">
   <div class="tools" id="tools">
     <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
@@ -580,8 +583,8 @@ const STATIONS = [
   { icon: '🔬', name: 'الدورة الدموية (واقع افتراضي)', page: 116, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> النمذجة والمحاكاة – الواقع الافتراضي</span><h2>🔬 جولة افتراضية: رحلة الدم</h2>
     <div class="grid2 body"><div class="pagecol">${page(116)}</div><div class="txt">
-      <div class="vr">${CIRC_SVG}</div>
-      <div class="steps">${CSTEPS.map((s, k) => `<button class="btn" onclick="cstep(${k})">الخطوة ${s[0]}</button>`).join('')}<button class="btn main" onclick="cplay()">▶ الرحلة كاملة</button><button class="btn vidb" onclick="openVid()" ${HAS_VID ? '' : 'hidden'}>🎬 فيديو الدورة الدموية</button></div>
+      <button class="btn vidb" onclick="openVid()" ${HAS_VID ? '' : 'hidden'}>🎬 شاهدي فيديو الدورة الدموية</button><div class="vr">${CIRC_SVG}</div>
+      <div class="steps">${CSTEPS.map((s, k) => `<button class="btn" onclick="cstep(${k})">الخطوة ${s[0]}</button>`).join('')}<button class="btn main" onclick="cplay()">▶ الرحلة كاملة</button></div>
       <p id="ctxt" style="margin:4px 0">اضغطي «الخطوة ١» لتبدأ رحلة الدم.</p>
       <p style="font-size:14px;color:#7a869e">🔵 أزرق: دم غير مؤكسج • 🔴 أحمر: دم مؤكسج • القلب ينبض مع كل ضخّة.</p>
     </div></div>`, after: () => cstep(0, true) },
