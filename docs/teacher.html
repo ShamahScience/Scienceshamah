@@ -445,7 +445,7 @@ function exportCsv(a, resp) {
 
 
 // ---------------- ألعاب الصف السادس والزيارات ----------------
-const GAME_NAMES = { 'respiration': 'رحلة الهواء والدم', 'microscope': 'عالم تحت المجهر', 'nafs-skills': 'بمهاراتي أنافس',
+const GAME_NAMES = { 'circulation': 'درس الدوران التفاعلي', 'respiration': 'رحلة الهواء والدم', 'microscope': 'عالم تحت المجهر', 'nafs-skills': 'بمهاراتي أنافس',
   'g6-hub': 'صفحة الألعاب', 'activities': 'أنشطة المعلمة', 'sim-bread-mold': 'محاكاة عفن الخبز', 'sim-mosses': 'محاكاة الحزازيات',
   'sim-large-intestine': 'محاكاة الأمعاء الغليظة', 'video-respiratory': 'فيديو الجهاز التنفسي' };
 const pageName = p => GAME_NAMES[p] || (String(p).startsWith('activity:') ? (ACTS.find(a => a.id === p.slice(9)) || { title: 'نشاط' }).title : p);
