@@ -222,6 +222,18 @@
   .reveal p { font-size: 24px; margin: 6px 0 14px; color: var(--green); }
   .sbr { font: inherit; font-size: 15px; border: 2px solid var(--green); background: var(--mint); color: var(--green); border-radius: 12px; padding: 0 10px; cursor: pointer; }
   #stBody .body > .pagecol .cap { display: flex; gap: 8px; justify-content: center; align-items: center; }
+  /* سبورة الفهم القرائي على صفحة الكتاب نفسها */
+  .rd { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 6px; }
+  .rbar { flex: none; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; justify-content: center; background: #fff; border: 2px solid var(--leaf); border-radius: 14px; padding: 4px 6px; }
+  .rbar button { font: inherit; font-size: 14px; border: 2px solid #c9d3c2; background: #fff; border-radius: 10px; padding: 1px 7px; cursor: pointer; }
+  .rbar .c { width: 28px; height: 28px; border-radius: 50%; padding: 0; }
+  .rbar .hl { width: 34px; height: 24px; border-radius: 6px; padding: 0; }
+  .rbar .sel { outline: 3px solid var(--green); outline-offset: 2px; }
+  .rbox { position: relative; flex: 1; min-height: 0; overflow-y: auto; border: 2px solid var(--leaf); border-radius: 12px; }
+  .rbox .pw { position: relative; }
+  .rbox img.page { position: static !important; display: block; width: 100% !important; height: auto !important; cursor: crosshair; border: none; border-radius: 0; }
+  .rbox canvas { position: absolute; touch-action: none; cursor: crosshair; }
+  .rd .cap { position: static !important; }
 </style>
 </head>
 <body>
@@ -635,6 +647,7 @@ function station(i) {
     ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
     ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('questions')">إلى الأسئلة ❓</button>`}</div></div>`;
   if (s.after) s.after();
+  if (/القرائي|القراءة/.test(s.html())) readingBoard(i);
   if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
 }
 function plant(id) {
@@ -825,6 +838,60 @@ function openGift(b) {
 }
 function closeGift(e) { if (e && e.target.closest('.card') && !e.target.closest('button')) return; $('#reveal').classList.remove('on'); }
 buildGifts();
+
+// ───── Reading stations: pen and highlighter colours right on the book page
+const RINK = {};
+let rTool = { c: '#ffd400', hl: true, er: false }, rDown = false, rLast = null;
+function readingBoard(i) {
+  const col = document.querySelector('#stBody .pagecol'); if (!col) return;
+  const img = col.querySelector('img.page'); const src = img.getAttribute('src');
+  col.innerHTML = `<div class="rd">
+    <div class="rbar">
+      <button class="hl ${rTool.hl && rTool.c === '#ffd400' ? 'sel' : ''}" data-c="#ffd400" data-h="1" style="background:#ffe766" title="تظليل أصفر"></button>
+      <button class="hl" data-c="#7ee07e" data-h="1" style="background:#a6ec9f" title="تظليل أخضر"></button>
+      <button class="hl" data-c="#ff8fc0" data-h="1" style="background:#ffb3d4" title="تظليل وردي"></button>
+      <button class="hl" data-c="#7cc8ff" data-h="1" style="background:#a9dcff" title="تظليل أزرق"></button>
+      <button class="c" data-c="#d23b3b" style="background:#d23b3b" title="قلم أحمر"></button>
+      <button class="c" data-c="#1e5fd8" style="background:#1e5fd8" title="قلم أزرق"></button>
+      <button class="c" data-c="#111111" style="background:#111" title="قلم أسود"></button>
+      <button data-e="1" title="ممحاة">🧽</button>
+      <button onclick="rClear()" title="مسح الصفحة">🗑️</button>
+      <button onclick="zoom('${src}')" title="تكبير الصفحة">🔍 تكبير</button>
+    </div>
+    <div class="rbox"><div class="pw"><img class="page" src="${src}" alt=""><canvas id="rink"></canvas></div></div>
+    <div class="cap">✏️ السبورة: ظلّلي الإجابة في الكتاب – مرّري لأسفل لبقية الصفحة</div></div>`;
+  const im = col.querySelector('img.page'), cv = col.querySelector('#rink'), g = cv.getContext('2d');
+  cv.dataset.key = i;
+  const place = () => {
+    if (!im.naturalWidth) return;
+    Object.assign(cv.style, { width: im.clientWidth + 'px', height: im.clientHeight + 'px', left: '0px', top: '0px' });
+    if (cv.width !== im.naturalWidth) {
+      cv.width = im.naturalWidth; cv.height = im.naturalHeight;
+      if (RINK[i]) { const o = new Image(); o.onload = () => g.drawImage(o, 0, 0); o.src = RINK[i]; }
+    }
+  };
+  im.complete ? place() : (im.onload = place);
+  new ResizeObserver(place).observe(im);
+  const pos = (e) => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]; };
+  cv.onpointerdown = (e) => { rDown = true; rLast = pos(e); cv.setPointerCapture(e.pointerId); };
+  cv.onpointermove = (e) => {
+    if (!rDown) return; const p = pos(e);
+    g.globalCompositeOperation = rTool.er ? 'destination-out' : rTool.hl ? 'multiply' : 'source-over';
+    g.globalAlpha = rTool.hl && !rTool.er ? 0.35 : 1;
+    g.strokeStyle = rTool.c; g.lineCap = rTool.hl ? 'butt' : 'round'; g.lineJoin = 'round';
+    g.lineWidth = rTool.er ? 60 : rTool.hl ? 34 : 6;
+    g.beginPath(); g.moveTo(...rLast); g.lineTo(...p); g.stroke(); rLast = p;
+  };
+  cv.onpointerup = cv.onpointercancel = () => { if (rDown) { rDown = false; RINK[i] = cv.toDataURL(); } };
+  col.querySelectorAll('.rbar button[data-c], .rbar button[data-e]').forEach((b) => {
+    if (!rTool.er && b.dataset.c === rTool.c) b.classList.add('sel'); else if (!b.dataset.c && rTool.er) b.classList.add('sel'); else b.classList.remove('sel');
+    b.onclick = () => {
+      rTool = b.dataset.e ? { ...rTool, er: true } : { c: b.dataset.c, hl: !!b.dataset.h, er: false };
+      col.querySelectorAll('.rbar button').forEach((x) => x.classList.toggle('sel', x === b));
+    };
+  });
+}
+function rClear() { const cv = $('#rink'); if (!cv) return; cv.getContext('2d').clearRect(0, 0, cv.width, cv.height); RINK[cv.dataset.key] = null; }
 </script>
 </body>
 </html>
