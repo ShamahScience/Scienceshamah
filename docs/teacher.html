@@ -143,6 +143,7 @@ async function home() {
       card('📂', 'أنشطتي', 'افتحي أو أغلقي الأنشطة، وشاركي رابطها وباركودها مع الطالبات.', 'عرض الأنشطة', mine),
       card('📊', 'النتائج', 'تابعي من سلّمت، ودرجة كل طالبة، والأسئلة الأصعب.', 'عرض النتائج', () => results()),
       card('🎮', 'ألعاب السادس والزيارات', 'نتائج الطالبات في الألعاب، ومن دخلت المنصة ومتى، ومن لم تدخل بعد.', 'عرض المتابعة', gamesView),
+      card('🏆', 'حائط المهام والإنجاز', 'حائط مثل بادلت: الطالبات ينشرن مهامهن وإنجازاتهن بالصور، ويضعن الإعجابات ❤️.', 'رابط الحائط', shareWall, 'primary'),
       card('🎡', 'عجلة الحصة', 'عجلة الأسماء مع أسئلة نافس والنقاط والشهادات.', 'فتح العجلة', () => location.href = 'wheel.html'),
       card('⚙️', 'إعداداتي', 'أسماء الفصلين، والرمز السري، وربط المنصة.', 'فتح الإعدادات', settings)));
 }
@@ -154,6 +155,17 @@ function sharePortal() {
     h('div', { style: 'text-align:center' }, qrBox(link, 260)),
     h('input', { type: 'text', value: link, readonly: true, dir: 'ltr', onclick: e => e.target.select() }),
     h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(link) }, 'نسخ الرابط'), h('a', { class: 'btn', href: link, target: '_blank', rel: 'noopener' }, 'تجربة كطالبة')));
+}
+
+function shareWall() {
+  const u = new URL(siteBase() + 'wall.html');
+  if (!CONFIG_API && getApi()) u.searchParams.set('s', b64u.enc(getApi()));
+  const link = u.toString();
+  modal(h('h2', {}, '🏆 حائط المهام والإنجاز'),
+    h('p', { class: 'muted', style: 'margin:0' }, 'تفتحه الطالبة، وتختار فصلها واسمها، وتنشر إنجازها بصورة فيظهر للجميع مباشرة، والكل يستطيع الإعجاب ❤️. عندما تفتحينه أنتِ من هذا الجهاز تظهر لك أزرار التثبيت والحذف.'),
+    h('div', { style: 'text-align:center' }, qrBox(link, 260)),
+    h('input', { type: 'text', value: link, readonly: true, dir: 'ltr', onclick: e => e.target.select() }),
+    h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(link) }, 'نسخ الرابط'), h('a', { class: 'btn primary', href: link, target: '_blank', rel: 'noopener' }, 'فتح الحائط')));
 }
 
 // ---------------- editor ----------------

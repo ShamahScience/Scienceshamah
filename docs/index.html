@@ -68,9 +68,10 @@ async function portal() {
   show(h('div', { class: 'spinner' }));
   try {
     const { activities } = await api({ action: 'portal' });
-    if (!activities.length) return show(h('div', { class: 'panel', style: 'text-align:center' }, h('h2', {}, 'لا يوجد نشاط مفتوح الآن'), h('p', { class: 'muted', style: 'margin:0' }, 'انتظري حتى تفتح المعلمة النشاط ثم حدّثي الصفحة.'), h('button', { class: 'btn teal', onclick: portal }, 'تحديث'), h('a', { class: 'btn primary', href: 'g6/index.html' + location.search }, '🎮 ألعاب الصف السادس')));
+    if (!activities.length) return show(h('div', { class: 'panel', style: 'text-align:center' }, h('h2', {}, 'لا يوجد نشاط مفتوح الآن'), h('p', { class: 'muted', style: 'margin:0' }, 'انتظري حتى تفتح المعلمة النشاط ثم حدّثي الصفحة.'), h('button', { class: 'btn teal', onclick: portal }, 'تحديث'), h('a', { class: 'btn primary', href: 'g6/index.html' + location.search }, '🎮 ألعاب الصف السادس'), h('a', { class: 'btn primary', href: 'wall.html' + location.search }, '🏆 حائط المهام والإنجاز')));
     const games = h('a', { class: 'act', href: 'g6/index.html' + location.search, style: 'text-decoration:none;color:inherit' }, h('span', {}, '🎮 ألعاب الصف السادس'), h('span', { class: 'pill' }, 'العبي'));
-    show(h('div', { class: 'panel' }, h('h2', {}, 'اختاري النشاط'), games,
+    const wall = h('a', { class: 'act', href: 'wall.html' + location.search, style: 'text-decoration:none;color:inherit' }, h('span', {}, '🏆 حائط المهام والإنجاز'), h('span', { class: 'pill' }, 'شاركي'));
+    show(h('div', { class: 'panel' }, h('h2', {}, 'اختاري النشاط'), wall, games,
       h('div', { class: 'act-list' }, activities.map(a => h('button', { class: 'act', onclick: () => openActivity(a.id) },
         h('span', {}, a.title), h('span', { class: 'pill' }, a.count + ' أسئلة'))))));
   } catch (e) { show(errorBox(e.message, portal)); }

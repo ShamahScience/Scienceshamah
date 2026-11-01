@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>حائط المهام والإنجاز</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+.wrap{max-width:1240px}
+.band{background:linear-gradient(135deg,#0f4f53,#14666b);color:#fff;border-radius:22px;padding:20px 22px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;position:relative;overflow:hidden}
+.band h1{font-size:clamp(26px,4.5vw,40px)}
+.band p{margin:4px 0 0;opacity:.92}
+.band .btn.primary{font-family:var(--display);font-size:20px;padding:12px 26px}
+.band .ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.band .deco{position:absolute;inset-inline-start:-24px;bottom:-46px;font-size:140px;opacity:.08;pointer-events:none}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.toolbar input{flex:1 1 220px;width:auto}
+.toolbar select{width:auto}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 13px;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--teal);color:var(--teal-ink);border-color:var(--teal)}
+.wall{columns:4 250px;column-gap:16px}
+.post{break-inside:avoid;margin:0 0 16px;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.post.new{animation:pop .45s ease both}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+.post.pinned{border:2px solid var(--accent)}
+.post img{width:100%;display:block;cursor:zoom-in;background:var(--soft);min-height:80px}
+.post .body{padding:14px;display:flex;flex-direction:column;gap:8px}
+.post h3{font-size:18px}
+.post .desc{white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;margin:0}
+.tag{display:inline-block;border-radius:999px;padding:1px 10px;font-size:13px;font-weight:700}
+.who{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.who b{color:var(--ink)}
+.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;flex:none;font-family:var(--display)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding:8px 14px}
+.like{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 14px;font-weight:700;font-size:16px;display:inline-flex;gap:6px;align-items:center;font-variant-numeric:tabular-nums}
+.like.done{background:#ffe3ea;border-color:#e8577a;color:#b0254a}
+.like .heart{display:inline-block;transition:transform .2s}
+.like.burst .heart{animation:beat .5s ease}
+@keyframes beat{40%{transform:scale(1.6)}}
+.link{font-size:14px;overflow-wrap:anywhere}
+.empty{text-align:center;padding:50px 16px;color:var(--muted)}
+.empty .big{font-size:56px}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{flex:1 1 120px;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:9px;font-weight:700}
+.seg button[aria-pressed="true"]{border-color:var(--teal);background:var(--teal);color:var(--teal-ink)}
+.names{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;max-height:220px;overflow:auto}
+.names button{border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:8px;font-weight:700;font-size:15px}
+.names button[aria-pressed="true"]{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 15%,var(--surface))}
+.catpick{display:flex;flex-wrap:wrap;gap:8px}
+.catpick button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:14px}
+.catpick button[aria-pressed="true"]{background:var(--teal);color:var(--teal-ink);border-color:var(--teal)}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:18px;text-align:center;cursor:pointer;color:var(--muted);background:var(--bg)}
+.drop img{max-height:220px;max-width:100%;border-radius:10px;display:block;margin:0 auto 6px}
+.lightbox{cursor:zoom-out}
+.lightbox img{max-width:100%;max-height:88vh;border-radius:12px}
+.me{font-size:14px;color:var(--muted)}
+.fly{position:fixed;z-index:95;font-size:26px;pointer-events:none;animation:fly 1.6s ease-out forwards}
+@keyframes fly{to{transform:translateY(-160px) scale(1.4);opacity:0}}
+.confetti{position:fixed;top:-20px;z-index:95;font-size:24px;pointer-events:none;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+@media (prefers-reduced-motion:reduce){.post.new,.fly,.confetti,.like.burst .heart{animation:none}.fly,.confetti{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="band">
+    <div>
+      <h1>حائط المهام والإنجاز</h1>
+      <p>شاركي مهامك وإنجازاتك العلمية لأنكِ مميزة ✨</p>
+    </div>
+    <div class="row">
+      <button class="btn primary" id="addBtn">＋ أضيفي إنجازك</button>
+      <button class="btn ghost" id="qrBtn">باركود الحائط</button>
+    </div>
+    <div class="deco" aria-hidden="true">🏆</div>
+  </header>
+
+  <div class="panel" id="teacherBar" hidden style="padding:10px 14px;border-color:var(--accent)">
+    <div class="row between small"><span>👩‍🏫 وضع المعلمة: يمكنك تثبيت المشاركات المميزة 📌 أو حذف أي مشاركة.</span><a class="btn sm" href="teacher.html">لوحة المعلمة</a></div>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="ابحثي باسم الطالبة أو العنوان…" aria-label="بحث">
+    <select id="clsFilter" aria-label="الفصل"><option value="">كل الفصول</option></select>
+    <select id="sort" aria-label="الترتيب"><option value="new">الأحدث أولًا</option><option value="top">الأكثر إعجابًا ❤️</option></select>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="row between"><span class="small muted" id="stats"></span><span class="me" id="meLine"></span></div>
+
+  <main class="wall" id="wall" aria-live="polite"></main>
+  <div id="state"><div class="spinner"></div></div>
+</div>
+<script src="assets/qrcode.js"></script>
+<script src="assets/common.js"></script>
+<script>
+const CATS = [
+  { id: 'task', name: 'مهمة / واجب', icon: '📝', color: '#b5476b' },
+  { id: 'project', name: 'مشروع علمي', icon: '🔬', color: '#14666b' },
+  { id: 'experiment', name: 'تجربة', icon: '🧪', color: '#7a4fd0' },
+  { id: 'model', name: 'نموذج / مجسم', icon: '🧩', color: '#e0634f' },
+  { id: 'contest', name: 'مسابقة / جائزة', icon: '🏅', color: '#c98a12' },
+  { id: 'certificate', name: 'شهادة', icon: '📜', color: '#1f8a5b' },
+  { id: 'other', name: 'إنجاز آخر', icon: '✨', color: '#8a5a44' }
+];
+const catOf = id => CATS.find(c => c.id === id) || CATS[CATS.length - 1];
+const $ = s => document.querySelector(s);
+const ar = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const TEACHER = !!store.get('pin', '');
+const tapi = payload => api(Object.assign({ pin: store.get('pin', '') }, payload));
+let POSTS = [], seen = new Set(), firstLoad = true, cat = '', ROSTER = null;
+const liked = new Set(store.get('wallLiked', []));
+
+$('#teacherBar').hidden = !TEACHER;
+PLATFORM.classes.forEach(c => $('#clsFilter').add(new Option(c.name, c.id)));
+['#q', '#clsFilter', '#sort'].forEach(s => $(s).addEventListener('input', render));
+
+function wallLink() {
+  const u = new URL(siteBase() + 'wall.html');
+  if (!CONFIG_API && getApi()) u.searchParams.set('s', b64u.enc(getApi()));
+  return u.toString();
+}
+function imgUrl(id) { return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(id) + '&sz=w1200'; }
+function hue(s) { let x = 0; for (const ch of s) x = (x * 31 + ch.charCodeAt(0)) % 360; return x; }
+function ago(t) {
+  const m = Math.round((Date.now() - t) / 60000);
+  if (m < 1) return 'الآن'; if (m < 60) return 'قبل ' + ar(m) + ' دقيقة';
+  const hr = Math.round(m / 60); if (hr < 24) return 'قبل ' + ar(hr) + ' ساعة';
+  const d = Math.round(hr / 24); if (d < 30) return 'قبل ' + ar(d) + ' يوم';
+  return new Date(t).toLocaleDateString('ar-SA');
+}
+function burst(list, n) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  for (let k = 0; k < n; k++) {
+    const s = h('span', { class: 'confetti', style: `left:${Math.random() * 100}vw;animation-delay:${Math.random() * .6}s` }, list[k % list.length]);
+    document.body.append(s); setTimeout(() => s.remove(), 3200);
+  }
+}
+function flyHeart(btn) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const r = btn.getBoundingClientRect();
+  for (let k = 0; k < 5; k++) {
+    const s = h('span', { class: 'fly', style: `left:${r.left + r.width / 2 - 12 + (Math.random() * 40 - 20)}px;top:${r.top - 10}px;animation-delay:${k * .08}s` }, '❤️');
+    document.body.append(s); setTimeout(() => s.remove(), 2000);
+  }
+}
+
+// ---------- load ----------
+async function load() {
+  try {
+    const { posts } = await api({ action: 'wall' });
+    POSTS = posts; render();
+    firstLoad = false;
+  } catch (e) {
+    if (firstLoad) $('#state').replaceChildren(h('div', { class: 'panel', style: 'text-align:center' },
+      h('h2', {}, 'تعذّر فتح الحائط'), h('p', { class: 'muted', style: 'margin:0' }, e.message),
+      h('div', { class: 'row', style: 'justify-content:center' }, h('button', { class: 'btn teal', onclick: () => { $('#state').replaceChildren(h('div', { class: 'spinner' })); load(); } }, 'إعادة المحاولة'))));
+  }
+}
+
+function render() {
+  const counts = {}; POSTS.forEach(p => counts[p.cat] = (counts[p.cat] || 0) + 1);
+  $('#chips').replaceChildren(
+    h('button', { class: 'chip', 'aria-pressed': String(!cat), onclick: () => { cat = ''; render(); } }, 'الكل (' + ar(POSTS.length) + ')'),
+    ...CATS.map(c => h('button', { class: 'chip', 'aria-pressed': String(cat === c.id), onclick: () => { cat = c.id; render(); } }, c.icon + ' ' + c.name + (counts[c.id] ? ' (' + ar(counts[c.id]) + ')' : ''))));
+  const q = norm($('#q').value).toLowerCase(), cls = $('#clsFilter').value, sort = $('#sort').value;
+  const list = POSTS.filter(p => (!cat || p.cat === cat) && (!cls || p.cls === cls) && (!q || norm(p.name + ' ' + p.title + ' ' + p.desc).toLowerCase().includes(q)))
+    .sort((a, b) => (b.pinned - a.pinned) || (sort === 'top' ? b.likes - a.likes : 0) || (b.time - a.time));
+  stats();
+  const m = store.get('me', null);
+  $('#meLine').textContent = m && m.name ? 'أنتِ: ' + m.name + ' (' + className(m.cls) + ')' : '';
+  $('#state').replaceChildren(list.length ? '' : h('div', { class: 'empty' }, h('div', { class: 'big' }, '🌱'),
+    h('p', {}, POSTS.length ? 'لا توجد نتائج لهذا البحث' : 'الحائط ينتظر أول إنجاز… كوني أنتِ الأولى!')));
+  $('#wall').replaceChildren(...list.map(card));
+  list.forEach(p => seen.add(p.id));
+}
+
+function stats() {
+  const likes = POSTS.reduce((s, p) => s + p.likes, 0);
+  $('#stats').textContent = ar(POSTS.length) + ' مشاركة · ' + ar(likes) + ' ❤️';
+}
+function card(p) {
+  const c = catOf(p.cat), isNew = !firstLoad && !seen.has(p.id);
+  const likeBtn = h('button', { class: 'like' + (liked.has(p.id) ? ' done' : ''), 'aria-label': 'إعجاب، ' + p.likes },
+    h('span', { class: 'heart' }, liked.has(p.id) ? '❤️' : '🤍'), ar(p.likes));
+  likeBtn.onclick = () => like(p, likeBtn);
+  const img = p.image ? h('img', { src: imgUrl(p.image), alt: p.title, loading: 'lazy' }) : null;
+  if (img) {
+    img.onclick = () => openImage(img.src, p.title);
+    img.onerror = () => { if (!img.dataset.alt) { img.dataset.alt = 1; img.src = 'https://lh3.googleusercontent.com/d/' + encodeURIComponent(p.image) + '=w1200'; } else img.remove(); };
+  }
+  const safe = /^https?:\/\//i.test(p.link) ? p.link : '';
+  return h('article', { class: 'post' + (p.pinned ? ' pinned' : '') + (isNew ? ' new' : '') },
+    img,
+    h('div', { class: 'body' },
+      h('div', { class: 'row', style: 'gap:6px' },
+        h('span', { class: 'tag', style: `background:${c.color}22;color:${c.color}` }, c.icon + ' ' + c.name),
+        p.pinned ? h('span', { class: 'tag', style: 'background:var(--accent);color:var(--accent-ink)' }, '📌 مميز') : null),
+      h('h3', {}, p.title),
+      p.desc ? h('p', { class: 'desc' }, p.desc) : null,
+      safe ? h('a', { class: 'link', href: safe, target: '_blank', rel: 'noopener noreferrer' }, '🔗 فتح الرابط المرفق') : null,
+      h('div', { class: 'who' }, h('span', { class: 'avatar', style: `background:hsl(${hue(p.name)} 45% 42%)` }, p.name.trim()[0] || '؟'),
+        h('span', {}, h('b', {}, p.name), h('br'), className(p.cls) + ' · ' + ago(p.time)))),
+    h('div', { class: 'foot' }, likeBtn,
+      TEACHER ? h('span', { class: 'row', style: 'gap:6px' },
+        h('button', { class: 'btn sm', onclick: () => pin(p) }, p.pinned ? 'إلغاء التثبيت' : '📌 تثبيت'),
+        h('button', { class: 'btn sm danger', onclick: () => del(p) }, 'حذف')) : null));
+}
+
+async function like(p, btn) {
+  if (liked.has(p.id)) return toast('أعجبتِ بهذا الإنجاز مسبقًا ❤️');
+  liked.add(p.id); store.set('wallLiked', [...liked]);
+  p.likes++; btn.classList.add('done', 'burst'); btn.replaceChildren(h('span', { class: 'heart' }, '❤️'), ar(p.likes)); flyHeart(btn); stats();
+  try { const r = await api({ action: 'wallLike', id: p.id }); p.likes = r.likes; btn.lastChild.textContent = ar(p.likes); stats(); }
+  catch (e) { liked.delete(p.id); store.set('wallLiked', [...liked]); p.likes--; render(); toast(e.message); }
+}
+async function pin(p) { try { await tapi({ action: 'wallPin', id: p.id, pinned: !p.pinned }); p.pinned = !p.pinned; render(); } catch (e) { toast(e.message); } }
+async function del(p) {
+  if (!confirm('حذف «' + p.title + '» للطالبة ' + p.name + ' نهائيًا؟')) return;
+  try { await tapi({ action: 'wallDelete', id: p.id }); POSTS = POSTS.filter(x => x.id !== p.id); render(); toast('تم الحذف'); } catch (e) { toast(e.message); }
+}
+function openImage(src, alt) {
+  const ov = h('div', { class: 'overlay lightbox', onclick: () => ov.remove() }, h('img', { src, alt }));
+  document.body.append(ov);
+}
+
+// ---------- add ----------
+function compress(file) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), im = new Image();
+    im.onload = () => {
+      URL.revokeObjectURL(url);
+      let max = 1600, q = .82, out = '';
+      for (let t = 0; t < 8; t++) {
+        const s = Math.min(1, max / Math.max(im.width, im.height));
+        const cv = document.createElement('canvas'); cv.width = Math.round(im.width * s); cv.height = Math.round(im.height * s);
+        const cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.drawImage(im, 0, 0, cv.width, cv.height);
+        out = cv.toDataURL('image/jpeg', q);
+        if (out.length < 700000) break;
+        if (q > .6) q -= .1; else max = Math.round(max * .8);
+      }
+      res(out);
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); rej(new Error('img')); };
+    im.src = url;
+  });
+}
+
+async function addForm() {
+  const saved = store.get('me', {}) || {};
+  const st = { cls: saved.cls || '', name: saved.name || '', cat: 'task', image: '' };
+  const msg = h('p', { class: 'msg err' });
+  const seg = h('div', { class: 'seg' }), names = h('div'), cats = h('div', { class: 'catpick' });
+  const title = h('input', { type: 'text', maxlength: 100, placeholder: 'مثال: نموذج الخلية النباتية' });
+  const desc = h('textarea', { rows: 3, maxlength: 1000, placeholder: 'ماذا تعلمتِ؟ كيف أنجزتِه؟' });
+  const link = h('input', { type: 'url', maxlength: 400, placeholder: 'https://', dir: 'ltr' });
+  const file = h('input', { type: 'file', accept: 'image/*', hidden: true });
+  const drop = h('div', { class: 'drop', tabindex: 0, role: 'button' }, '📷 اضغطي لاختيار صورة أو التقاطها');
+  const send = h('button', { class: 'btn teal big' }, 'انشري على الحائط 🚀');
+
+  function drawSeg() {
+    seg.replaceChildren(...PLATFORM.classes.map(c => h('button', { 'aria-pressed': String(st.cls === c.id), onclick: () => { if (st.cls !== c.id) { st.cls = c.id; st.name = ''; } drawSeg(); } }, c.name)));
+    drawNames();
+  }
+  function drawNames() {
+    if (!st.cls) return names.replaceChildren();
+    const list = ((ROSTER || {})[st.cls] || []).slice().sort((a, b) => a.localeCompare(b, 'ar'));
+    if (list.length) {
+      names.replaceChildren(h('div', { class: 'small muted', style: 'margin-bottom:6px' }, 'اختاري اسمك'),
+        h('div', { class: 'names' }, list.map(n => h('button', { 'aria-pressed': String(norm(st.name) === norm(n)), onclick: () => { st.name = n; drawNames(); } }, n))));
+    } else {
+      const inp = h('input', { type: 'text', maxlength: 60, placeholder: ROSTER ? 'اكتبي اسمك' : 'جارٍ تحميل الأسماء… أو اكتبي اسمك' });
+      inp.value = st.name; inp.oninput = () => st.name = inp.value.trim();
+      names.replaceChildren(h('label', { class: 'f' }, 'اسمك', inp));
+    }
+  }
+  function drawCats() { cats.replaceChildren(...CATS.map(c => h('button', { 'aria-pressed': String(st.cat === c.id), onclick: () => { st.cat = c.id; drawCats(); } }, c.icon + ' ' + c.name))); }
+  drop.onclick = () => file.click();
+  drop.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); file.click(); } };
+  file.onchange = async () => {
+    const f = file.files[0]; if (!f) return;
+    drop.textContent = 'جارٍ تجهيز الصورة…';
+    try { st.image = await compress(f); drop.replaceChildren(h('img', { src: st.image, alt: 'معاينة' }), 'اضغطي لتغيير الصورة'); }
+    catch (e) { st.image = ''; drop.textContent = 'تعذّرت قراءة الصورة، جرّبي صورة أخرى'; }
+  };
+  send.onclick = async () => {
+    const d = { cls: st.cls, name: st.name.trim(), title: title.value.trim(), desc: desc.value.trim(), cat: st.cat, link: link.value.trim(), image: st.image };
+    if (!d.cls) return msg.textContent = 'اختاري فصلك';
+    if (!d.name) return msg.textContent = 'اختاري اسمك';
+    if (!d.title) return msg.textContent = 'اكتبي عنوانًا لمهمتك أو إنجازك';
+    if (d.link && !/^https?:\/\//i.test(d.link)) return msg.textContent = 'الرابط يجب أن يبدأ بـ https://';
+    if (!d.image && !d.desc && !d.link) return msg.textContent = 'أضيفي صورة أو وصفًا أو رابطًا';
+    msg.textContent = ''; send.disabled = true; send.textContent = d.image ? 'جارٍ رفع الصورة…' : 'جارٍ النشر…';
+    try {
+      await api(Object.assign({ action: 'wallPost' }, d));
+      store.set('me', { cls: d.cls, name: d.name });
+      ov.remove(); burst(['🎉', '⭐', '🏆', '✨', '❤️'], 26);
+      toast('أحسنتِ يا ' + d.name.split(' ')[0] + '! إنجازك الآن على الحائط 🌟');
+      await load(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e) { msg.textContent = e.message; send.disabled = false; send.textContent = 'انشري على الحائط 🚀'; }
+  };
+  const ov = modal(h('h2', {}, 'أضيفي إنجازك 🌟'),
+    h('div', {}, h('div', { class: 'small muted', style: 'margin-bottom:6px' }, 'فصلك'), seg), names,
+    h('div', {}, h('div', { class: 'small muted', style: 'margin-bottom:6px' }, 'نوع المشاركة'), cats),
+    h('label', { class: 'f' }, 'العنوان', title),
+    h('label', { class: 'f' }, 'احكي لنا عنه (اختياري)', desc),
+    h('div', {}, h('div', { class: 'small muted', style: 'margin-bottom:6px' }, 'صورة (اختياري)'), drop, file),
+    h('label', { class: 'f' }, 'رابط فيديو أو ملف (اختياري)', link),
+    msg, h('div', { class: 'row', style: 'justify-content:flex-end' }, h('button', { class: 'btn', onclick: () => ov.remove() }, 'إلغاء'), send));
+  drawSeg(); drawCats();
+  if (!ROSTER) api({ action: 'roster' }).then(r => { ROSTER = r.students || {}; drawNames(); }).catch(() => { ROSTER = {}; drawNames(); });
+}
+
+$('#addBtn').onclick = () => { if (!getApi()) return toast('افتحي الحائط من الرابط أو الباركود الذي أرسلته المعلمة'); addForm(); };
+$('#qrBtn').onclick = () => {
+  const l = wallLink();
+  modal(h('h2', {}, 'باركود حائط المهام والإنجاز'),
+    h('p', { class: 'muted', style: 'margin:0' }, 'امسحي الباركود بكاميرا الجوال لفتح الحائط.'),
+    h('div', { style: 'text-align:center' }, qrBox(l, 260)),
+    h('input', { type: 'text', value: l, readonly: true, dir: 'ltr', onclick: e => e.target.select() }),
+    h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(l) }, 'نسخ الرابط')));
+};
+
+if (!getApi()) {
+  $('#state').replaceChildren(h('div', { class: 'panel', style: 'text-align:center' }, h('h2', {}, 'افتحي الحائط من رابط المعلمة'),
+    h('p', { class: 'muted', style: 'margin:0' }, 'اطلبي من معلمتك رابط الحائط أو امسحي الباركود المعروض في الفصل.')));
+} else {
+  load();
+  setInterval(() => { if (!document.hidden && !document.querySelector('.overlay')) load(); }, 20000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+}
+</script>
+</body>
+</html>
