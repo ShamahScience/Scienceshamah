@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الدوران – درس تفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --green: #1b5e20; --leaf: #2f8a3a; --mint: #e3f4d7; --cream: #fffbef; --ink: #23293a; --pink: #c2366f; --red: #d23b3b; --gold: #f5c242; --sky: #dff1fb; --rose: #fde4ec; --yel: #fff3c4; --lav: #eee8fb; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #eef5e8; }
+  img { max-width: 100%; display: block; }
+  main img { cursor: zoom-in; }
+  .flags { width: 100%; height: 70px; object-fit: cover; object-position: center top; }
+  header { max-width: 1100px; margin: 0 auto; padding: 8px 14px 0; display: flex; align-items: center; gap: 12px; }
+  header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 20%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
+  header h1 { margin: 0; font-size: 26px; color: var(--green); line-height: 1.4; }
+  header p { margin: 0; font-size: 16px; color: #4a5468; }
+  .tabs { max-width: 1100px; margin: 10px auto 0; padding: 0 14px; display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: #eef5e8; padding-bottom: 8px; }
+  .tab { flex: 1; min-width: 120px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 16px; padding: 10px 8px; font: inherit; font-size: 19px; cursor: pointer; }
+  .tab.on { background: var(--green); color: #fff; box-shadow: 0 4px 0 #0f3a13; }
+  main { max-width: 1100px; margin: 0 auto; padding: 6px 14px 30px; }
+  .panel { display: none; } .panel.on { display: block; }
+  .box { background: #fff; border: 3px solid var(--green); border-radius: 22px; padding: 16px; box-shadow: 0 5px 0 #c8dfc0; margin-bottom: 14px; }
+  .strat { display: inline-block; background: var(--cream); border: 2px dashed var(--gold); border-radius: 30px; padding: 2px 14px; font-size: 16px; margin-bottom: 8px; }
+  .strat b { color: var(--pink); }
+  h2 { margin: 2px 0 8px; color: var(--green); font-size: 24px; }
+  p, li { font-size: 19px; line-height: 1.9; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .page { border: 3px solid var(--leaf); border-radius: 14px; cursor: zoom-in; }
+  .cap { text-align: center; font-size: 14px; color: #5a6785; margin-top: 4px; }
+  .flip { border: 3px solid var(--ink); border-radius: 16px; background: var(--yel); padding: 10px 12px; margin: 10px 0; cursor: pointer; font-size: 19px; line-height: 1.8; }
+  .flip .a { display: none; margin-top: 6px; padding-top: 6px; border-top: 2px dashed #b9a24a; color: var(--leaf); }
+  .flip.open { background: #f3fbe9; border-color: var(--leaf); }
+  .flip.open .a { display: block; }
+  .flip .k { font-size: 14px; color: #6b4fc0; display: block; }
+  .flip .hint { font-size: 13px; color: #7a869e; }
+  /* stations layout like a video chapter list */
+  .stations { display: grid; grid-template-columns: 290px 1fr; gap: 14px; align-items: start; }
+  @media (max-width: 860px) { .stations { grid-template-columns: 1fr; } }
+  .list { background: linear-gradient(180deg, #1b5e20, #2f8a3a); border-radius: 22px; padding: 12px; color: #fff; position: sticky; top: 70px; }
+  @media (max-width: 860px) { .list { position: static; } }
+  .list h3 { margin: 4px 6px 8px; font-size: 20px; }
+  .list small { display: block; margin: -6px 6px 8px; font-size: 13px; opacity: .85; }
+  .st { display: flex; align-items: center; gap: 8px; width: 100%; background: rgba(255,255,255,.12); border: 2px solid transparent; color: #fff; border-radius: 14px; padding: 8px 10px; margin: 6px 0; font: inherit; font-size: 17px; cursor: pointer; text-align: right; }
+  .st .n { background: #fff; color: var(--green); border-radius: 8px; padding: 0 8px; font-size: 14px; }
+  .st.on { background: #fff; color: var(--green); border-color: var(--gold); }
+  .st.done::after { content: '✔'; margin-inline-start: auto; color: #c9f0c0; }
+  .st.on.done::after { color: var(--leaf); }
+  .nav { display: flex; gap: 10px; margin-top: 10px; }
+  .btn { border: 3px solid var(--ink); border-radius: 14px; background: var(--cream); color: var(--ink); font: inherit; font-size: 18px; padding: 9px 14px; cursor: pointer; }
+  .btn.main { background: var(--leaf); border-color: var(--green); color: #fff; }
+  .btn.ok { background: #c9f0c0; border-color: var(--leaf); }
+  .btn.no { background: #fde2e2; border-color: var(--red); animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .ce { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 6px; align-items: center; margin: 6px 0; }
+  .ce .c { background: var(--rose); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e { background: var(--sky); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e.hide { color: transparent; background: repeating-linear-gradient(45deg, #eef2f7, #eef2f7 8px, #e2e8f0 8px, #e2e8f0 16px); cursor: pointer; }
+  .ce .ar { text-align: center; font-size: 22px; color: #e67e22; }
+  .verse { text-align: center; font-size: 24px; color: var(--green); background: var(--mint); border-radius: 14px; padding: 8px; margin: 8px 0; }
+  .vocab { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media (max-width: 600px) { .vocab { grid-template-columns: repeat(2, 1fr); } }
+  .vocab .flip { text-align: center; margin: 0; }
+  /* virtual experiment */
+  .lab { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; }
+  .pot { background: #fbfdf9; border: 3px dashed var(--leaf); border-radius: 18px; padding: 8px; }
+  .pot svg { width: 100%; max-width: 220px; height: auto; }
+  .day { display: flex; align-items: center; gap: 10px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
+  .day input { width: 220px; accent-color: var(--leaf); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 16px; }
+  th, td { border: 2px solid #9cc79a; padding: 5px; text-align: center; }
+  th { background: var(--green); color: #fff; }
+  /* games */
+  .gamecards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 760px) { .gamecards { grid-template-columns: 1fr; } }
+  .gcard { border: 3px solid var(--green); border-radius: 20px; background: var(--cream); padding: 12px; text-align: center; cursor: pointer; font: inherit; color: var(--ink); }
+  .gcard .ic { font-size: 46px; }
+  .gcard b { display: block; font-size: 20px; color: var(--green); }
+  .play { margin-top: 12px; }
+  .opts { display: grid; gap: 8px; }
+  .opts .btn { text-align: right; }
+  .pic { width: 220px; max-width: 70%; margin: 6px auto; border-radius: 16px; border: 3px solid var(--leaf); }
+  .msg { min-height: 30px; text-align: center; font-size: 19px; margin-top: 6px; }
+  .msg.good { color: var(--leaf); } .msg.bad { color: var(--red); }
+  .score { text-align: center; font-size: 18px; }
+  .level { display: inline-block; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-bottom: 4px; }
+  .zoom { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 20; padding: 12px; }
+  .zoom.on { display: flex; }
+  footer { text-align: center; color: #6b4fc0; font-size: 18px; padding: 10px; }
+  .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
+
+  /* start slideshow: one picture at a time, always shown whole */
+  .show { position: relative; height: 62vh; min-height: 260px; }
+  .slide { display: none; position: absolute; inset: 0; }
+  .slide.on { display: block; }
+  .slide > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 14px; }
+  .slide.goals { overflow-y: auto; }
+  .slide.goals .box { max-width: 760px; margin: 0 auto; }
+  .dots { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; font-size: 18px; }
+
+  .zoom { flex-direction: column; gap: 8px; padding: 8px; background: rgba(24, 36, 26, .92); }
+  .zoom .tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; background: #fff; border-radius: 16px; padding: 6px 10px; border: 3px solid var(--green); }
+  .zoom .tools button { font: inherit; font-size: 16px; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 4px 10px; cursor: pointer; color: var(--ink); }
+  .zoom .tools .tl.on, .zoom .tools .sz.on { background: var(--mint); border-color: var(--leaf); }
+  .zoom .tools .cl { width: 32px; height: 32px; border-radius: 50%; padding: 0; }
+  .zoom .tools .cl.on { outline: 4px solid var(--green); outline-offset: 2px; }
+  .zoom .tools .sz { width: 40px; height: 36px; padding: 0; line-height: 1; color: var(--ink); }
+  .zoom .tools .close { background: var(--red); color: #fff; border-color: var(--red); }
+  .zoom .tools .sep { width: 2px; height: 26px; background: #dde5d7; }
+  .stage { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+  .stage img { max-width: 100%; max-height: 100%; border-radius: 8px; user-select: none; -webkit-user-drag: none; }
+  .stage canvas { position: absolute; touch-action: none; cursor: crosshair; }
+
+  .startot { border: 3px solid var(--gold); background: #fff8dc; color: #8a6400; border-radius: 30px; padding: 4px 14px; font: inherit; font-size: 18px; cursor: pointer; white-space: nowrap; margin-inline-start: auto; }
+  .startot.snd { margin-inline-start: auto; padding: 4px 10px; }
+  .startot.snd + .startot { margin-inline-start: 0; }
+  .startot.bump { animation: bump .5s; } @keyframes bump { 40% { transform: scale(1.25); } }
+  .teacher { margin-inline-start: 0 !important; }
+  .award { position: fixed; z-index: 40; pointer-events: none; text-align: center; transform: translate(-50%, -50%); animation: rise 1.6s ease-out forwards; }
+  .award .s { font-size: 54px; line-height: 1; filter: drop-shadow(0 3px 2px rgba(0,0,0,.25)); }
+  .award .t { display: inline-block; margin-top: 4px; background: #fff; border: 3px solid var(--gold); color: var(--pink); border-radius: 20px; padding: 2px 14px; font-size: 20px; white-space: nowrap; }
+  .award.two .t { background: #6b4fc0; color: #fff; border-color: #fff3c4; }
+  @keyframes rise { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.4); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 70% { opacity: 1; transform: translate(-50%, -80%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -140%) scale(.9); } }
+  .flip[data-stars="2"] .k::after { content: ' ⭐⭐'; }
+  /* الجولة الافتراضية والصمام */
+  .vr { background: #0f1e2e; border-radius: 16px; padding: 6px; }
+  .vr svg { width: 100%; height: auto; max-height: 46vh; display: block; margin: auto; }
+  .steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .steps .btn { font-size: 16px; padding: 4px 10px; }
+  .steps .btn.on { background: var(--green); color: #fff; }
+  .tube { position: relative; width: 80px; height: 230px; margin: 4px auto; background: #f3e6d3; border: 6px solid #c9a27a; border-radius: 10px; }
+  .flapv { position: absolute; height: 8px; width: 32px; background: #5aa9e6; border: 1px solid #2f80c8; transition: transform .4s; }
+  .flapv.l { right: 3px; transform-origin: right center; } .flapv.r { left: 3px; transform-origin: left center; }
+  .seed { position: absolute; width: 13px; height: 15px; border-radius: 50%; background: #8b5a2b; transition: top 1.2s ease-in; }
+  .animals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .animals img { border-radius: 10px; height: 13vh; width: 100%; object-fit: cover; }
+  @media (min-width: 900px) and (orientation: landscape) { #stBody .txt .vr svg { max-height: 44vh; } #stBody .txt .animals img { max-height: 12vh; } }
+  /* صندوق المفاجآت */
+  .gifts { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; margin-top: 10px; }
+  .gift { position: relative; border: 3px solid var(--pink); background: var(--rose); border-radius: 16px; padding: 6px 0 4px; font: inherit; cursor: pointer; box-shadow: 0 4px 0 #e7a9c0; transition: transform .15s; }
+  .gift:hover { transform: translateY(-3px) rotate(-3deg); }
+  .gift .e { font-size: 38px; display: block; line-height: 1.2; }
+  .gift .n { font-size: 18px; color: var(--pink); }
+  .gift.shake { animation: gshake .12s linear infinite; }
+  @keyframes gshake { 0% { transform: rotate(-8deg) scale(1.08); } 50% { transform: rotate(8deg) scale(1.12); } 100% { transform: rotate(-8deg) scale(1.08); } }
+  .gift.done { background: #f1f1f1; border-color: #bbb; box-shadow: none; cursor: default; opacity: .55; }
+  .gift.done:hover { transform: none; }
+  .reveal { position: fixed; inset: 0; background: rgba(20, 40, 25, .55); display: none; align-items: center; justify-content: center; z-index: 40; }
+  .reveal.on { display: flex; }
+  .reveal .card { background: #fff; border: 5px solid var(--gold); border-radius: 30px; padding: 22px 34px; text-align: center; max-width: 620px; width: 90%; box-shadow: 0 10px 0 #d9a520; animation: pop .55s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes pop { from { transform: scale(.2) rotate(-12deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+  .reveal .big { font-size: 96px; line-height: 1.1; }
+  .reveal .kind { display: inline-block; background: var(--yel); border-radius: 30px; padding: 2px 16px; font-size: 18px; color: #8a6400; }
+  .reveal h3 { margin: 8px 0 4px; font-size: 34px; color: var(--pink); }
+  .reveal p { font-size: 24px; margin: 6px 0 14px; color: var(--green); }
+
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #2d3a2f; }
+  #deck { max-width: none; margin: 0; padding: 0; box-sizing: content-box;
+    position: absolute; left: 50%; top: 50%; width: 1672px; height: 941px; transform-origin: center; background: #fff; overflow: hidden; }
+  .sl { position: absolute; inset: 0; display: none; }
+  .sl.on { display: block; animation: fadeIn .45s; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .sl > img.full { width: 100%; height: 100%; object-fit: cover; }
+  .sl.board { background: url(img/board.jpg) center / 100% 100% no-repeat; }
+  .clip { position: absolute; left: 276px; top: 352px; width: 246px; height: 326px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 31px; line-height: 1.55; color: var(--green); padding: 8px; }
+  .bc { position: absolute; right: 78px; left: 560px; top: 206px; bottom: 112px; display: flex; flex-direction: column; }
+  .bc > h2 { font-size: 40px; margin: 0 0 8px; color: var(--green); flex: none; }
+  .bc > .in { flex: 1; min-height: 0; overflow-y: auto; padding-inline-end: 6px; }
+  .bc p, .bc li { font-size: 27px; line-height: 1.75; margin: 6px 0; }
+  .bc .flip { font-size: 26px; line-height: 1.6; margin: 8px 0; padding: 8px 14px; }
+  .bc .flip .k { font-size: 19px; } .bc .flip .hint { font-size: 18px; }
+  .bc .btn { font-size: 24px; }
+  .bc .body { flex: 1; min-height: 0; display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 22px; }
+  .bc .pagecol { position: relative; min-height: 0; margin-bottom: 92px; }
+  .bc .pagecol .cap { display: none; }
+  .bc .pagecol img.page { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border: none; }
+  .bc .pagecol .cap { position: absolute; bottom: 0; left: 0; right: 0; font-size: 18px; }
+  .bc .txt { overflow-y: auto; min-height: 0; padding-inline-end: 6px; }
+  .bc .txt img { max-height: 190px; width: auto; }
+  .bc .animals img { height: 110px; }
+  .bc .vr svg { max-height: 330px; }
+  .bc .steps .btn { font-size: 20px; }
+  .bc .vocab .flip { font-size: 22px; }
+  .bc .verse { font-size: 26px !important; }
+  .bc .gamecards { grid-template-columns: repeat(3, 1fr); }
+  .bc .gcard { font-size: 20px; } .bc .gcard b { font-size: 26px; } .bc .gcard .ic { font-size: 44px; }
+  .bc #play .box { border: none; box-shadow: none; padding: 6px 0; margin: 0; }
+  .bc #play h2 { font-size: 28px; }
+  .bc #play .opts { grid-template-columns: repeat(3, 1fr); }
+  .bc #play .opts .btn { text-align: center; }
+  .bc .pic { max-height: 170px; width: auto; }
+  .bc .opts .btn { font-size: 26px; }
+  .bc .msg { font-size: 26px; } .bc .score { font-size: 24px; }
+  .bc .gifts { gap: 14px; } .bc .gift .e { font-size: 50px; } .bc .gift .n { font-size: 24px; }
+  .goals ol { margin: 6px 0; padding-inline-start: 40px; }
+  .goals li { font-size: 31px; line-height: 2; }
+  .cover h1 { font-size: 66px; color: var(--green); text-align: center; margin: 70px 0 10px; }
+  .cover p { text-align: center; font-size: 34px !important; color: var(--pink); }
+  /* شريط التحكم أسفل السبورة */
+  .bar { position: absolute; left: 312px; right: 160px; bottom: 6px; height: 54px; display: flex; gap: 10px; align-items: center; justify-content: center; z-index: 6; opacity: .93; }
+  .bar button, .bar span { font: inherit; font-size: 21px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 2px 14px; cursor: pointer; white-space: nowrap; }
+  .bar .nx { background: var(--leaf); color: #fff; }
+  .bar span { cursor: default; border-color: #cfe3c8; }
+  .bar .stars { border-color: var(--gold); background: #fff8dc; color: #8a6400; }
+  .bar .on { background: var(--gold); color: #3b2c00; border-color: #c99a14; }
+  .bar.dim { opacity: .25; } .bar.dim:hover { opacity: .95; }
+  /* قائمة الشرائح */
+  .menu { position: absolute; left: 312px; bottom: 66px; width: 520px; max-height: 760px; overflow-y: auto; background: #fff; border: 4px solid var(--green); border-radius: 20px; padding: 10px; display: none; z-index: 8; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+  .menu.on { display: block; }
+  .menu button { display: block; width: 100%; text-align: right; font: inherit; font-size: 22px; border: none; background: none; padding: 6px 10px; border-radius: 10px; cursor: pointer; color: var(--ink); }
+  .menu button:hover { background: var(--mint); } .menu button.cur { background: var(--green); color: #fff; }
+  /* السبورة: الكتابة على الشريحة */
+  #board { position: absolute; inset: 0; z-index: 5; pointer-events: none; touch-action: none; }
+  #board.draw { pointer-events: auto; cursor: crosshair; }
+  .pens { position: absolute; left: 312px; bottom: 66px; display: none; gap: 8px; background: #fff; border: 3px solid var(--green); border-radius: 18px; padding: 8px 12px; z-index: 7; align-items: center; }
+  .pens.on { display: flex; }
+  .pens button { font: inherit; font-size: 20px; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 2px 10px; cursor: pointer; }
+  .pens .c { width: 38px; height: 38px; border-radius: 50%; padding: 0; }
+  .pens .sel { outline: 4px solid var(--green); outline-offset: 2px; }
+  .award, .confetti { z-index: 50; }
+</style>
+</head>
+<body>
+<main id="deck">
+  <canvas id="board" width="1672" height="941"></canvas>
+
+  <section class="sl" data-t="صباح الخير"><img class="full" src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></section>
+  <section class="sl" data-t="القوانين الصفية"><img class="full" src="img/rules.jpg" alt="القوانين الصفية"></section>
+  <section class="sl" data-t="رب اجعل هذا البلد آمنًا"><img class="full" src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></section>
+
+  <section class="sl board cover" data-t="عنوان الدرس"><div class="clip">العصف الذهني</div><div class="bc"><div class="in">
+    <h1>❤️ الدوران</h1>
+    <p>الدرس الأول (تابع) – الفصل الخامس</p>
+    <p style="color:var(--green)!important">العلوم • الصف السادس الابتدائي • ص١١٣–١١٦</p>
+    <div class="verse" style="margin-top:30px">﴿وَفِي أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ﴾</div>
+  </div></div></section>
+
+  <section class="sl board goals" data-t="أهداف الدرس"><div class="clip">أهدافي اليوم</div><div class="bc"><h2>🎯 في نهاية الدرس أستطيع أن:</h2><div class="in">
+    <ol>
+      <li>أعرّف الدوران، وأذكر المواد التي ينقلها الدم.</li>
+      <li>أميّز بين جهاز الدوران المفتوح والمغلق.</li>
+      <li>أتتبّع الدورة الدموية، وأفرّق بين الدم المؤكسج وغير المؤكسج.</li>
+      <li>أستنتج عمل الصمامات بنموذج افتراضي.</li>
+    </ol>
+  </div></div></section>
+
+  <!--STATIONS-->
+
+  <section class="sl board" data-t="التقويم التكويني" data-id="questions"><div class="clip">مستويات التفكير الثلاثة</div><div class="bc"><h2>❓ التقويم التكويني</h2><div class="in">
+    <p>فكّري أولًا… ثم اضغطي على السؤال لتظهر الإجابة.</p><div id="formative"></div>
+  </div></div></section>
+  <section class="sl board" data-t="أسئلة الكتاب"><div class="clip">أختبر نفسي<br>(من الكتاب)</div><div class="bc"><h2>📖 أسئلة الكتاب ص١١٦</h2><div class="in"><div id="book"></div></div></div></section>
+  <section class="sl board" data-t="اختبري نفسك"><div class="clip">التقويم الختامي</div><div class="bc"><h2>🏆 اختبري نفسك</h2><div class="in"><div id="quiz"></div></div></div></section>
+  <section class="sl board" data-t="الألعاب" data-id="games"><div class="clip">التعلّم باللعب</div><div class="bc"><h2>🎮 اختاري لعبة</h2><div class="in">
+    <div class="gamecards">
+      <button class="gcard" onclick="game('path')"><div class="ic">🩸</div><b>رحلة خلية الدم</b>إلى أين تذهب بعد ذلك؟</button>
+      <button class="gcard" onclick="game('oc')"><div class="ic">⚖️</div><b>مفتوح أم مغلق؟</b>صنّفي أجهزة الدوران</button>
+      <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي الكلمة من وصفها</button>
+    </div>
+    <div class="play" id="play"></div>
+  </div></div></section>
+  <section class="sl board" data-t="بطاقة الخروج"><div class="clip">بطاقة الخروج</div><div class="bc"><h2>🎫 بطاقة الخروج</h2><div class="in">
+    <p>١) الدوران هو: ……………………………………………</p>
+    <p>٢) الفرق بين الدوران المفتوح والمغلق: ………………………</p>
+    <p>٣) لماذا يُضخّ الدم غير المؤكسج إلى الرئتين؟ ………………</p>
+    <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
+  </div></div></section>
+  <section class="sl board" data-t="صندوق المفاجآت" data-id="surprise"><div class="clip">التعزيز الإيجابي<br>صندوق المفاجآت</div><div class="bc"><h2>🎁 صندوق المفاجآت</h2><div class="in">
+    <p style="margin:0">كل طالبة تختار صندوقًا وتضغط عليه… ماذا تخبّئ لكِ المفاجأة؟ 🤩</p>
+    <div class="gifts" id="gifts"></div>
+    <p style="text-align:center;margin-top:10px"><button class="btn" onclick="buildGifts()">🔄 صناديق جديدة</button></p>
+  </div></div></section>
+
+  <div class="menu" id="menu"></div>
+  <div class="pens" id="pens">
+    <button class="c sel" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
+    <button class="c" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
+    <button class="c" data-c="#1b8a3a" style="background:#1b8a3a" title="أخضر"></button>
+    <button class="c" data-c="#111111" style="background:#111" title="أسود"></button>
+    <button data-e="1" title="ممحاة">🧽 ممحاة</button>
+    <button onclick="clearBoard()" title="مسح السبورة">🗑️ مسح</button>
+  </div>
+  <nav class="bar" id="bar">
+    <button onclick="toggleMenu()" title="قائمة الشرائح">☰ الشرائح</button>
+    <button onclick="nav(-1)" title="السابق">→ السابق</button>
+    <span id="cnt">١ / ١</span>
+    <button class="nx" onclick="nav(1)" title="التالي">التالي ←</button>
+    <button id="penBtn" onclick="togglePen()" title="الكتابة على السبورة">✏️ السبورة</button>
+    <button class="stars" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ <b id="starN">٠</b></button>
+    <button id="sndBtn" onclick="toggleSound()" title="صوت التعزيز">🔔</button>
+    <button id="fsBtn" onclick="fullscreen()" title="ملء الشاشة">⛶</button>
+  </nav>
+</main>
+<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
+<div class="zoom" id="zoom">
+  <div class="tools" id="tools">
+    <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
+    <button class="tl" data-tool="hl" title="تظليل">🖍️ تظليل</button>
+    <button class="tl" data-tool="er" title="ممحاة">🧽 ممحاة</button>
+    <span class="sep"></span>
+    <button class="cl on" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
+    <button class="cl" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
+    <button class="cl" data-c="#1b8a3a" style="background:#1b8a3a" title="أخضر"></button>
+    <button class="cl" data-c="#111111" style="background:#111" title="أسود"></button>
+    <button class="cl" data-c="#ffd400" style="background:#ffd400" title="أصفر"></button>
+    <span class="sep"></span>
+    <button class="sz" data-s="3" title="رفيع">●</button>
+    <button class="sz on" data-s="6" title="متوسط" style="font-size:22px">●</button>
+    <button class="sz" data-s="11" title="عريض" style="font-size:30px">●</button>
+    <span class="sep"></span>
+    <button class="tl" onclick="undo()">↩️ رجوع</button>
+    <button class="tl" onclick="clearInk()">🗑️ مسح الكل</button>
+    <button class="tl close" onclick="closeZoom()">✕ إغلاق</button>
+  </div>
+  <div class="stage" id="stage"><img id="zimg" alt=""><canvas id="ink"></canvas></div>
+</div>
+
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = (s) => document.querySelector(s);
+// Higher-order questions (critical thinking, challenge, inference) earn two stars, the rest one
+const CRIT = /التفكير الناقد|أتحدّى نفسي|أستنتج/;
+const flip = (q, a, k) => `<div class="flip" data-stars="${CRIT.test((k || '') + q) ? 2 : 1}" onclick="openFlip(this)">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
+const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي – اضغطي للتكبير</div>`;
+
+
+// Soft reward chime made in the browser: one star = gentle chime, two stars = brighter double chime
+let soundOn = true, actx = null;
+function toggleSound() { soundOn = !soundOn; document.getElementById('sndBtn').textContent = soundOn ? '🔔' : '🔕'; }
+function chime(n) {
+  if (!soundOn) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+    const notes = n > 1 ? [659.3, 830.6, 987.8, 1318.5] : [784, 1046.5];
+    notes.forEach((f, i) => {
+      const t = actx.currentTime + i * 0.11, o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.5);
+    });
+  } catch (e) { /* no audio available */ }
+}
+let starTotal = 0;
+function award(n, el) {
+  starTotal += n;
+  chime(n);
+  const t = document.getElementById('starN'); t.textContent = ar(starTotal);
+  const b = document.getElementById('starTot'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  const r = el ? el.getBoundingClientRect() : { left: innerWidth / 2, width: 0, top: innerHeight / 2, height: 0 };
+  const a = document.createElement('div');
+  a.className = 'award' + (n > 1 ? ' two' : '');
+  a.innerHTML = `<div class="s">${'⭐'.repeat(n)}</div><div class="t">${n > 1 ? 'تفكير ناقد رائع! نجمتان' : 'أحسنتِ! نجمة'}</div>`;
+  a.style.left = Math.min(innerWidth - 120, Math.max(120, r.left + r.width / 2)) + 'px';
+  a.style.top = Math.max(90, r.top + r.height / 2) + 'px';
+  document.body.appendChild(a); setTimeout(() => a.remove(), 1700);
+  if (n > 1) confetti();
+}
+function resetStars() { starTotal = 0; document.getElementById('starN').textContent = ar(0); }
+function openFlip(el) {
+  el.classList.toggle('open');
+  if (el.classList.contains('open') && !el.dataset.got) { el.dataset.got = 1; award(+el.dataset.stars || 1, el); }
+}
+function fullscreen() {
+  const d = document;
+  if (!d.fullscreenElement && !d.webkitFullscreenElement) (d.documentElement.requestFullscreen || d.documentElement.webkitRequestFullscreen).call(d.documentElement);
+  else (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+}
+// ───── Enlarged page with pen, highlighter and eraser; ink is kept per picture for this visit
+const INK = {};
+let tool = 'pen', color = '#d23b3b', size = 6, drawing = false, last = null, curSrc = '';
+const cv = () => document.getElementById('ink');
+function zoom(src) {
+  curSrc = src;
+  const im = $('#zimg');
+  im.onload = fitInk;
+  im.src = src;
+  $('#zoom').classList.add('on');
+  if (im.complete) fitInk();
+}
+function closeZoom() { saveInk(); $('#zoom').classList.remove('on'); }
+function fitInk() {
+  const im = $('#zimg'), c = cv(), st = $('#stage').getBoundingClientRect(), r = im.getBoundingClientRect();
+  c.style.left = (r.left - st.left) + 'px'; c.style.top = (r.top - st.top) + 'px';
+  c.style.width = r.width + 'px'; c.style.height = r.height + 'px';
+  // drawing buffer in picture pixels, so ink stays put at any window size
+  c.width = im.naturalWidth * 2; c.height = im.naturalHeight * 2;
+  const g = c.getContext('2d'); g.clearRect(0, 0, c.width, c.height);
+  const st0 = INK[curSrc];
+  if (st0 && st0.length) restore(st0[st0.length - 1]);
+}
+function restore(url) { const g = cv().getContext('2d'), i = new Image(); i.onload = () => { g.clearRect(0, 0, cv().width, cv().height); g.drawImage(i, 0, 0); }; i.src = url; }
+function saveInk() { if (!curSrc) return; (INK[curSrc] = INK[curSrc] || []).push(cv().toDataURL()); if (INK[curSrc].length > 30) INK[curSrc].shift(); }
+function undo() {
+  const h = INK[curSrc] || [];
+  h.pop();
+  if (h.length) restore(h[h.length - 1]); else cv().getContext('2d').clearRect(0, 0, cv().width, cv().height);
+}
+function clearInk() { cv().getContext('2d').clearRect(0, 0, cv().width, cv().height); saveInk(); }
+function pos(e) { const c = cv(), r = c.getBoundingClientRect(); return [(e.clientX - r.left) * c.width / r.width, (e.clientY - r.top) * c.height / r.height]; }
+function stroke(a, b) {
+  const c = cv(), g = c.getContext('2d'), k = c.width / c.getBoundingClientRect().width;
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  if (tool === 'er') { g.globalCompositeOperation = 'destination-out'; g.lineWidth = 28 * k; g.globalAlpha = 1; }
+  else if (tool === 'hl') { g.globalCompositeOperation = 'multiply'; g.lineWidth = 22 * k; g.globalAlpha = 0.35; g.strokeStyle = color; }
+  else { g.globalCompositeOperation = 'source-over'; g.lineWidth = size * k; g.globalAlpha = 1; g.strokeStyle = color; }
+  g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke();
+}
+(function initInk() {
+  const c = cv();
+  c.addEventListener('pointerdown', (e) => { drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
+  c.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); stroke(last, p); last = p; });
+  const end = () => { if (drawing) { drawing = false; saveInk(); } };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+  document.querySelectorAll('#tools .tl[data-tool]').forEach((b) => b.onclick = () => { tool = b.dataset.tool; document.querySelectorAll('#tools .tl[data-tool]').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .cl').forEach((b) => b.onclick = () => { color = b.dataset.c; if (tool === 'er') document.querySelector('#tools [data-tool="pen"]').click(); document.querySelectorAll('#tools .cl').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .sz').forEach((b) => b.onclick = () => { size = +b.dataset.s; document.querySelectorAll('#tools .sz').forEach((x) => x.classList.toggle('on', x === b)); });
+  window.addEventListener('resize', () => { if ($('#zoom').classList.contains('on')) { saveInk(); fitInk(); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#zoom').classList.contains('on')) closeZoom(); });
+})();
+function confetti() {
+  for (let k = 0; k < 14; k++) {
+    const s = document.createElement('div'); s.className = 'confetti'; s.textContent = ['⭐', '🌿', '💚', '✨'][k % 4];
+    s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .4 + 's';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 2200);
+  }
+}
+// ───── Stations
+const STATIONS = [
+  { icon: '🫁', name: 'مراجعة: التنفس', page: 113, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التعلم السابق – فكّري بسرعة</span><h2>🫁 نتذكّر درس التنفس</h2>
+    <div class="grid2 body"><div class="pagecol">${page(113)}</div><div class="txt">
+      ${flip('ما التنفس؟', 'عملية إطلاق الطاقة المختزنة في جزيئات الجلوكوز، وتحدث في الخلايا بوجود الأكسجين.', 'أتذكر')}
+      ${flip('رتّبي رحلة الهواء من الأنف إلى الرئتين.', 'الأنف والفم ← البلعوم ← الحنجرة ← القصبة الهوائية ← الشعيبتان ← الحويصلات الهوائية.', 'أرتّب')}
+      ${flip('أين يحدث تبادل الغازات بين الدم والهواء؟', 'في الحويصلات الهوائية داخل الرئتين.', 'أتذكر')}
+      ${flip('وصل الأكسجين إلى الدم في الرئتين… فكيف يصل إلى كل خلية في الجسم؟', 'ينقله الدم عبر جهاز الدوران — وهذا درسنا اليوم!', 'أستنتج')}
+    </div></div>` },
+  { icon: '🤔', name: 'أنظر وأتساءل', page: 116, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> أنظر وأتساءل – التوقّع</span><h2>🤔 لماذا يدقّ قلبك أسرع عندما تجرين؟</h2>
+    <div class="grid2 body"><div class="pagecol">${page(116)}</div><div class="txt">
+      <img src="img/heart.jpg" alt="شكل الدوران والتنفس" style="border-radius:12px;max-height:26vh;width:auto;margin:auto">
+      <p>الأكسجين في الرئتين، والجلوكوز في الأمعاء… <b>فمن يوصلهما إلى كل خلية؟</b></p>
+      ${flip('توقّعي: ما الذي ينقل الأكسجين والغذاء إلى الخلايا؟', 'الدم، يضخّه القلب في الأوعية الدموية.')}
+      ${flip('لماذا يزداد نبض القلب عند الجري؟', 'ليضخّ دمًا أكثر فيوصل أكسجينًا أكثر إلى العضلات.', 'أستنتج')}
+      <p style="color:var(--pink)">🤔 توقّعي… ثم ناقشي زميلتك</p>
+    </div></div>` },
+  { icon: '❤️', name: 'ما الدوران؟', page: 114, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – الدليل من النص</span><h2>❤️ ما الدوران؟</h2>
+    <div class="grid2 body"><div class="pagecol">${page(114)}</div><div class="txt">
+      <p>يعمل جهازا <b>الهضم</b> و<b>التنفس</b> معًا للحفاظ على حياة المخلوقات الحية: فالهضم يوفّر سكر الجلوكوز، والتنفس يوفّر الأكسجين.</p>
+      ${flip('ما الدوران؟', 'حركة المواد المهمة، ومنها الأكسجين والجلوكوز والفضلات، في الجسم.', 'المفردة')}
+      ${flip('ماذا تحتاج الخلايا من جهاز الدوران؟', 'أن ينقل إليها المواد الغذائية والأكسجين، ويخلّصها من الفضلات.')}
+      ${flip('ما الفرق بين جهاز الدوران المفتوح والمغلق؟', 'المفتوح: يضخّ القلب الدم مباشرة إلى الأنسجة. المغلق: يبقى الدم داخل الأوعية الدموية.', 'أقارن')}
+      ${flip('ما وظيفة الصمامات؟', 'تجعل الدم يتدفّق في اتجاه واحد وتمنعه من التدفّق في اتجاه خاطئ.')}
+      <div class="vocab">${flip('دوران مفتوح', 'المفصليات والرخويات.')}${flip('دوران مغلق', 'الفقاريات ومنها الإنسان.')}</div>
+    </div></div>` },
+  { icon: '🦗', name: 'أشكال الدوران', page: 114, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم البصري – المقارنة والتصنيف</span><h2>🦗 أشكال الدوران في الحيوانات</h2>
+    <div class="grid2 body"><div class="pagecol">${page(115)}</div><div class="txt">
+      <div class="animals"><img src="img/sponge.jpg" alt="الإسفنج"><img src="img/locust.jpg" alt="الجرادة"><img src="img/fish.jpg" alt="السمكة"><img src="img/cat.jpg" alt="القط"></div>
+      ${flip('الإسفنج: كيف تنتقل المواد في جسمه؟', 'بالانتشار؛ يتدفّق الماء عبر أنابيب فينقل الماء والجلوكوز والفضلات. (أبسط أشكال الدوران)', 'الإسفنج')}
+      ${flip('الجرادة: هل جهازها الدوراني مفتوح أم مغلق؟', 'مفتوح؛ يتحرك الدم من القلب إلى الأنسجة، ثم يتجمّع في الجيوب ويعود إلى القلب.', 'الجرادة')}
+      ${flip('السمكة: كيف يدور الدم فيها؟', 'دوران مغلق في دورة بسيطة: القلب ← الخياشيم ← خلايا الجسم ← القلب.', 'السمكة')}
+      ${flip('القط: لماذا نقول إن الدم يمرّ في دورتين؟', 'الدورة الأولى بين القلب والرئتين، والثانية من القلب إلى باقي أجزاء الجسم.', 'أستنتج')}
+    </div></div>` },
+  { icon: '🌡️', name: 'درجة حرارة الجسم', page: 114, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> مهارة القراءة – المقارنة</span><h2>🌡️ درجة حرارة الجسم</h2>
+    <div class="grid2 body"><div class="pagecol">${page(114)}</div><div class="txt">
+      ${flip('ما الحيوانات المتغيرة درجة الحرارة؟', 'تتغير درجة حرارة جسمها تبعًا لحرارة الهواء أو الماء المحيط، مثل البرمائيات والزواحف ومعظم الأسماك.', 'المفردة')}
+      ${flip('ما الحيوانات الثابتة درجة الحرارة؟', 'تبقى درجة حرارة جسمها ثابتة حتى لو تغيّرت حرارة الوسط، مثل الثدييات والطيور.', 'المفردة')}
+      ${flip('لماذا تستدفئ الثعابين بالشمس؟', 'لأنها متغيرة درجة الحرارة؛ تحتاج الشمس لترتفع حرارة جسمها.', 'أستنتج')}
+      ${flip('كيف يتخلّص الإنسان من الحرارة الزائدة؟', 'عبر الجلد وإفراز العرق.')}
+      ${flip('نشاط أسري: كم درجة حرارة الجسم الطبيعية؟', '٣٧° مئوية. حاوري أسرتك في أسباب ارتفاعها.', 'ص١١٥')}
+    </div></div>` },
+  { icon: '🧪', name: 'نشاط: صمام في الوريد', page: 115, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الاستقصاء – توقّعي، لاحظي، فسّري</span><h2>🧪 نموذج لصمام في الوريد (تجربة افتراضية)</h2>
+    <div class="grid2 body"><div class="pagecol">${page(115)}</div><div class="txt">
+      ${flip('أتوقّع: هل تمرّ البذور من طرفي الأنبوب؟', 'تمرّ من طرف واحد فقط.', 'توقّعي أولًا')}
+      <div class="grid2" style="align-items:center">
+        <div class="tube" id="tube"><div class="flapv l" style="top:85px"></div><div class="flapv r" style="top:85px"></div><div class="flapv l" style="top:160px"></div><div class="flapv r" style="top:160px"></div></div>
+        <div><button class="btn main" onclick="valve(true)">⬇ أسقطي البذور من الأعلى</button><br><br><button class="btn" onclick="valve(false)">⬆ أسقطيها من الطرف الآخر</button><div class="msg" id="vmsg"></div></div>
+      </div>
+      ${flip('ألاحظ: ماذا حدث للبذور في كل مرة؟', 'تمرّ من الأعلى لانفتاح الورقتين مع اتجاه الحركة، ولا تمرّ من الطرف الآخر لانغلاقهما.', 'ألاحظ')}
+      ${flip('أستنتج: ما أوجه الشبه بين الأوردة والنموذج؟', 'كلاهما أنبوب فيه صمامان يسمحان بالمرور في اتجاه واحد ويمنعان الرجوع؛ فيبقى الدم في الوريد متجهًا نحو القلب.', 'أستنتج')}
+      <p style="font-size:14px;color:#7a869e">* الأنبوب يمثّل الوريد، وقطعتا الورق تمثّلان الصمامات.</p>
+    </div></div>` },
+  { icon: '🔬', name: 'الدورة الدموية (واقع افتراضي)', page: 116, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> النمذجة والمحاكاة – الواقع الافتراضي</span><h2>🔬 جولة افتراضية: رحلة الدم</h2>
+    <div class="grid2 body"><div class="pagecol">${page(116)}</div><div class="txt">
+      <div class="vr">${CIRC_SVG}</div>
+      <div class="steps">${CSTEPS.map((s, k) => `<button class="btn" onclick="cstep(${k})">الخطوة ${s[0]}</button>`).join('')}<button class="btn main" onclick="cplay()">▶ الرحلة كاملة</button></div>
+      <p id="ctxt" style="margin:4px 0">اضغطي «الخطوة ١» لتبدأ رحلة الدم.</p>
+      <p style="font-size:14px;color:#7a869e">🔵 أزرق: دم غير مؤكسج • 🔴 أحمر: دم مؤكسج • القلب ينبض مع كل ضخّة.</p>
+    </div></div>`, after: () => cstep(0, true) },
+  { icon: '📖', name: 'أقرأ الشكل: الدورة الدموية', page: 116, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ الشكل</span><h2>📖 الدورة الدموية</h2>
+    <div class="grid2 body"><div class="pagecol">${page(116)}</div><div class="txt">
+      ${flip('أقرأ الشكل: أين يُضخّ الدم غير المؤكسج؟', 'إلى الرئتين؛ ليتخلّص فيهما من ثاني أكسيد الكربون ويُحمَّل بالأكسجين.', 'من الكتاب')}
+      ${flip('ماذا يحدث في الحويصلات الهوائية؟', 'ينتقل الأكسجين من الحويصلات إلى الدم، وينتقل ثاني أكسيد الكربون من الدم إلى الحويصلات ليخرج مع الزفير.')}
+      ${flip('ما الشعيرات الدموية؟ ولماذا جدرانها رقيقة؟', 'أوعية دموية دقيقة؛ جدرانها رقيقة لتنتقل عبرها المواد الغذائية والأكسجين إلى الخلايا، والفضلات منها إلى الدم.', 'أستنتج')}
+      ${flip('رتّبي: ماذا يحدث للدم المؤكسج بعد الرئتين؟', 'يعود إلى القلب، فيضخّه إلى جميع أجزاء الجسم.', 'أرتّب')}
+      <div class="verse" style="font-size:19px">﴿وَفِي أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ﴾ <span style="font-size:15px">[الذاريات: ٢١]</span></div>
+    </div></div>` },
+];
+
+// ───── الجولة الافتراضية في الدورة الدموية
+const CIRC_SVG = `<svg id="circ" viewBox="0 0 420 520">
+  <defs><radialGradient id="hg" cx=".5" cy=".4"><stop offset="0" stop-color="#FF8A8A"/><stop offset="1" stop-color="#C62828"/></radialGradient></defs>
+  <text x="210" y="28" fill="#cfe" font-size="22" text-anchor="middle">الرئتان</text>
+  <ellipse cx="120" cy="90" rx="70" ry="52" fill="#F8B4C4"/><ellipse cx="300" cy="90" rx="70" ry="52" fill="#F8B4C4"/>
+  <text x="210" y="510" fill="#cfe" font-size="22" text-anchor="middle">خلايا الجسم</text>
+  <rect x="60" y="410" width="300" height="70" rx="30" fill="#FFE0B2"/>
+  <path id="cp1" d="M195 300 C 150 250, 120 200, 120 140" stroke="#3B6FD8" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="cp2" d="M300 140 C 300 200, 270 250, 225 290" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="cp3" d="M235 330 C 300 360, 320 390, 300 420" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="cp4" d="M120 420 C 100 390, 130 350, 190 330" stroke="#3B6FD8" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path d="M120 140 C 160 110, 260 110, 300 140" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <path d="M300 420 C 260 450, 160 450, 120 420" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <g id="cheart"><path d="M210 360 C 120 300, 150 240, 210 275 C 270 240, 300 300, 210 360 Z" fill="url(#hg)"/><text x="210" y="312" fill="#fff" font-size="22" text-anchor="middle">القلب</text></g>
+  <g id="ccells"></g>
+  <text id="co2" x="210" y="160" fill="#FFEB3B" font-size="17" text-anchor="middle" opacity="0">يدخل الأكسجين ويخرج ثاني أكسيد الكربون</text>
+  <text id="cfood" x="210" y="400" fill="#FFE0B2" font-size="16" text-anchor="middle" opacity="0">الأكسجين والغذاء إلى الخلايا</text>
+</svg>`;
+const CSTEPS = [['١', 'يتدفّق الدم غير المؤكسج (غير المحمّل بالأكسجين) إلى القلب.', 'cp4', '#3B6FD8'],
+  ['٢', 'يُضخّ الدم غير المؤكسج إلى الرئتين.', 'cp1', '#3B6FD8'],
+  ['٣', 'يتخلّص الدم في الرئتين من ثاني أكسيد الكربون ويُحمَّل بالأكسجين، ثم يعود إلى القلب.', 'cp2', '#E53935'],
+  ['٤', 'يتدفّق الدم المؤكسج إلى القلب، ثم يُضخّ إلى سائر أجزاء الجسم.', 'cp3', '#E53935']];
+let cRAF = null, cS = 0, cT = 0, cAuto = false;
+function cstep(i, still) {
+  if (!document.getElementById('circ')) return;
+  cS = i; cT = 0; cancelAnimationFrame(cRAF);
+  document.querySelectorAll('.steps .btn').forEach((b, k) => b.classList.toggle('on', k === i));
+  $('#ctxt').innerHTML = `<b style="color:${CSTEPS[i][3]}">${CSTEPS[i][0]})</b> ${CSTEPS[i][1]}`;
+  ['cp1', 'cp2', 'cp3', 'cp4'].forEach((p) => document.getElementById(p).style.opacity = p === CSTEPS[i][2] ? 1 : .25);
+  $('#co2').style.opacity = i === 2 ? 1 : 0; $('#cfood').style.opacity = i === 3 ? 1 : 0;
+  const g = $('#ccells'); g.innerHTML = '';
+  for (let k = 0; k < 6; k++) { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', 9); c.setAttribute('fill', CSTEPS[i][3]); c.setAttribute('stroke', '#fff'); c.setAttribute('stroke-width', 2); g.append(c); }
+  cplace(0); if (!still) ctick();
+}
+function cplace(t) {
+  const path = document.getElementById(CSTEPS[cS][2]); if (!path) return; const L = path.getTotalLength();
+  [...$('#ccells').children].forEach((c, k) => { const p = path.getPointAtLength(((t + k / 6) % 1) * L); c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); });
+  const beat = 1 + .06 * Math.max(0, Math.sin(t * Math.PI * 6));
+  $('#cheart').setAttribute('transform', `translate(210 310) scale(${beat}) translate(-210 -310)`);
+}
+function ctick() {
+  if (!document.getElementById('circ')) return;
+  cT += 0.004; cplace(cT);
+  if (cT >= 1.2 && cAuto) { if (cS < 3) { cstep(cS + 1); return; } cAuto = false; award(1, $('#circ')); }
+  cRAF = requestAnimationFrame(ctick);
+}
+function cplay() { cAuto = true; cstep(0); }
+// ───── تجربة صمام الوريد
+function valve(fromTop) {
+  const tube = $('#tube'); tube.querySelectorAll('.seed').forEach((s) => s.remove());
+  const flaps = tube.querySelectorAll('.flapv'), m = $('#vmsg');
+  const seeds = [0, 1, 2].map((k) => { const s = document.createElement('div'); s.className = 'seed'; s.style.left = (16 + k * 17) + 'px'; s.style.top = fromTop ? '-22px' : '228px'; tube.append(s); return s; });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (fromTop) {
+      flaps.forEach((f) => f.style.transform = f.classList.contains('l') ? 'rotate(-70deg)' : 'rotate(70deg)');
+      seeds.forEach((s, k) => { s.style.transitionDelay = k * .15 + 's'; s.style.top = '205px'; });
+      setTimeout(() => { flaps.forEach((f) => f.style.transform = ''); m.className = 'msg good'; m.textContent = '✔ مرّت البذور؛ انفتح الصمامان مع اتجاه الحركة.'; award(1, m); }, 1700);
+    } else {
+      seeds.forEach((s, k) => { s.style.transitionDelay = k * .15 + 's'; s.style.top = '172px'; });
+      setTimeout(() => { m.className = 'msg bad'; m.textContent = '✖ لم تمرّ! انغلق الصمام فمنع الرجوع.'; }, 1500);
+    }
+  }));
+}
+function plant(id) {
+  return `<svg viewBox="0 0 200 200" id="pl_${id}"><path d="M60,150 L140,150 L130,195 L70,195 Z" fill="#c8773c" stroke="#5a3a1e" stroke-width="4"/>
+    <rect x="52" y="140" width="96" height="14" rx="5" fill="#a85f2c" stroke="#5a3a1e" stroke-width="4"/>
+    <g class="stem"><path d="M100,142 Q98,100 100,60" fill="none" stroke="#3f8f3a" stroke-width="7" stroke-linecap="round"/>
+    <ellipse class="lf" cx="76" cy="100" rx="24" ry="11" transform="rotate(-25 76 100)" fill="#4caf50" stroke="#2e6b2f" stroke-width="3"/>
+    <ellipse class="lf" cx="124" cy="88" rx="24" ry="11" transform="rotate(25 124 88)" fill="#4caf50" stroke="#2e6b2f" stroke-width="3"/>
+    <circle cx="100" cy="52" r="16" fill="#ff9800" stroke="#c35b00" stroke-width="3"/></g></svg>`;
+}
+function grow(d) {
+  d = +d;
+  const names = ['', 'الأول', 'الثاني', 'الثالث', 'الرابع'];
+  if ($('#dayT')) $('#dayT').textContent = names[d];
+  const b = document.getElementById('pl_b'); if (!b) return;
+  const cols = ['#4caf50', '#8bc34a', '#c0ca33', '#d4a537'];
+  b.querySelectorAll('.lf').forEach((l) => l.setAttribute('fill', cols[d - 1]));
+  b.querySelector('.stem').setAttribute('transform', `rotate(${(d - 1) * 9} 100 142)`);
+}
+
+// ───── Questions
+$('#formative').innerHTML = [
+  ['🟢 أكتشف', 'ما المواد التي ينقلها الدم في الجسم؟', 'الأكسجين والجلوكوز (الغذاء)، والفضلات.'],
+  ['🟡 أفكّر', 'لماذا يُضخّ الدم غير المؤكسج إلى الرئتين لا إلى الجسم؟', 'ليتخلّص من ثاني أكسيد الكربون ويُحمَّل بالأكسجين أولًا.'],
+  ['🔴 أتحدّى نفسي', 'لو تعطّلت صمامات الأوردة، فماذا يحدث؟', 'يرجع الدم في الاتجاه الخاطئ، فلا يصل إلى القلب بانتظام.'],
+].map(([l, q, a]) => flip(q, a, l)).join('');
+$('#book').innerHTML = [
+  ['مشكلة وحل', 'لماذا يشعر متسلقو الجبال الشاهقة بالإرهاق والتعب؟', 'لأن هواء المرتفعات الشاهقة قليل الأكسجين، فتقل الطاقة التي تُطلقها خلاياهم.'],
+  ['التفكير الناقد', 'هل جهاز التنفس جزء من جهاز الإخراج؟ وضّحي ذلك.', 'نعم؛ يطرح خارج الجسم فضلات التنفس الخلوي: ثاني أكسيد الكربون وبخار الماء مع هواء الزفير.'],
+  ['أستنتج', 'أبيّن أوجه الشبه بين تركيب الأوردة وعملها في جسمي وبين النموذج الذي عملته.', 'كلاهما أنبوب فيه صمامان يسمحان بالمرور في اتجاه واحد ويمنعان الرجوع؛ فيبقى الدم في الوريد متجهًا نحو القلب.'],
+].map(([k, q, a]) => flip(q, a, k)).join('');
+const QUIZ = [
+  { q: 'حركة المواد المهمة ومنها الأكسجين والجلوكوز والفضلات في الجسم تُسمّى…', o: ['التنفس', 'الدوران', 'الهضم'], a: 1 },
+  { q: 'أيّ الحيوانات جهاز دورانه مفتوح؟', o: ['الجرادة', 'القط', 'السمكة'], a: 0 },
+  { q: 'يُضخّ الدم غير المؤكسج من القلب إلى…', o: ['سائر أجزاء الجسم', 'الرئتين', 'المعدة'], a: 1 },
+  { q: 'الصمامات في الأوردة…', o: ['تمنع رجوع الدم', 'تصنع الدم', 'تهضم الغذاء'], a: 0 },
+  { q: 'أيّ هذه الحيوانات ثابتة درجة الحرارة؟', o: ['الثعبان', 'الضفدع', 'الطيور'], a: 2 },
+];
+let qi = 0, qs = 0, qtry = 0;
+function quiz() {
+  if (qi >= QUIZ.length) {
+    $('#quiz').innerHTML = `<div class="score" style="font-size:26px;color:var(--green)">🏆 ${ar(qs)} / ${ar(QUIZ.length)}</div><p class="score">${qs >= 4 ? 'أبدعتِ يا عالمتي! 🌟' : 'أحسنتِ! راجعي المحطات وحاولي مرة أخرى 💪'}</p><button class="btn main" onclick="qi=0;qs=0;quiz()">أعيدي الاختبار 🔄</button>`;
+    if (qs >= 4) confetti(); return;
+  }
+  const t = QUIZ[qi]; qtry = 0;
+  $('#quiz').innerHTML = `<p class="score">السؤال ${ar(qi + 1)} من ${ar(QUIZ.length)} • ⭐ ${ar(qs)}</p><p>${t.q}</p><div class="opts">${t.o.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="qmsg"></div>`;
+  document.querySelectorAll('#quiz .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!qtry) { qs++; award(1, b); } $('#qmsg').className = 'msg good'; $('#qmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { qi++; quiz(); }, 900); }
+    else { qtry++; b.classList.add('no'); b.disabled = true; $('#qmsg').className = 'msg bad'; $('#qmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+quiz();
+
+// ───── Games
+const GAMES = {
+  path: { title: '🩸 رحلة خلية الدم: إلى أين تذهب بعد ذلك؟', items: [
+    { q: 'خلية دم زرقاء (غير مؤكسجة) في الجسم… إلى أين تذهب؟', o: ['إلى القلب', 'إلى المعدة', 'إلى العين'], a: 0 },
+    { q: 'وصلت إلى القلب وهي غير مؤكسجة… يضخّها القلب إلى…', o: ['الرئتين', 'الجسم', 'الأمعاء'], a: 0 },
+    { q: 'في الرئتين: ماذا يحدث لها؟', o: ['تتخلّص من CO₂ وتُحمَّل بالأكسجين', 'تُهضم', 'تتحوّل إلى عرق'], a: 0 },
+    { q: 'أصبحت حمراء مؤكسجة… إلى أين تعود؟', o: ['إلى القلب', 'إلى الجلد', 'تبقى في الرئتين'], a: 0 },
+    { q: 'يضخّها القلب الآن إلى…', o: ['الرئتين', 'سائر أجزاء الجسم', 'الحويصلات'], a: 1 },
+    { q: 'عبر أيّ أوعية تصل المواد إلى الخلايا؟', o: ['الشعيرات الدموية', 'القصبة الهوائية', 'المريء'], a: 0 },
+  ] },
+  oc: { title: '⚖️ مفتوح أم مغلق؟', two: true, items: [
+    { q: 'الجرادة', img: 'locust', a: 0 }, { q: 'السمكة', img: 'fish', a: 1 }, { q: 'القط', img: 'cat', a: 1 },
+    { q: 'الحلزون (من الرخويات)', a: 0 }, { q: 'الإنسان', a: 1 }, { q: 'يتجمّع الدم في فتحات تُسمّى الجيوب', a: 0 },
+  ] },
+  who: { title: '🕵️ من أنا؟', items: [
+    { q: 'أنا حركة المواد المهمة كالأكسجين والجلوكوز والفضلات في الجسم.', o: ['الدوران', 'الهضم', 'الإخراج'], a: 0 },
+    { q: 'أنا أوعية دقيقة جدرانها رقيقة تنتقل عبرها المواد إلى الخلايا.', o: ['الشعيرات الدموية', 'الحويصلات', 'الصمامات'], a: 0 },
+    { q: 'أنا أمنع رجوع الدم في الاتجاه الخاطئ.', o: ['القلب', 'الصمام', 'الرئة'], a: 1 },
+    { q: 'حرارة جسمي ثابتة مهما تغيّر الجو، ولي ريش.', o: ['الطيور', 'الزواحف', 'البرمائيات'], a: 0 },
+  ] },
+};
+let G, gi, gs, gtry;
+function game(k) { G = GAMES[k]; gi = 0; gs = 0; round();  }
+function round() {
+  if (gi >= G.items.length) {
+    $('#play').innerHTML = `<div class="box" style="text-align:center"><h2>🏆 أنهيتِ اللعبة!</h2><div style="font-size:30px">⭐ ${ar(gs)} / ${ar(G.items.length)}</div><p>النجمة للإجابة الصحيحة من أول محاولة.</p></div>`;
+    confetti(); return;
+  }
+  const t = G.items[gi]; gtry = 0;
+  const opts = G.two ? ['🟡 مفتوح', '🔴 مغلق'] : t.o;
+  $('#play').innerHTML = `<div class="box"><h2>${G.title}</h2><p class="score">${ar(gi + 1)} / ${ar(G.items.length)} • ⭐ ${ar(gs)}</p>
+    ${t.img ? `<img class="pic" src="img/${t.img}.jpg" alt="">` : ''}<p style="text-align:center;font-size:22px">${t.q}</p>
+    <div class="opts" ${G.two ? 'style="grid-template-columns:1fr 1fr"' : ''}>${opts.map((o, k) => `<button class="btn" data-k="${k}" ${G.two ? 'style="text-align:center;font-size:22px"' : ''}>${o}</button>`).join('')}</div><div class="msg" id="gmsg"></div></div>`;
+  document.querySelectorAll('#play .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!gtry) { gs++; award(1, b); } $('#gmsg').className = 'msg good'; $('#gmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { gi++; round(); }, 900); }
+    else { gtry++; b.classList.add('no'); b.disabled = true; $('#gmsg').className = 'msg bad'; $('#gmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+// every content picture opens full size when tapped
+document.addEventListener('click', (e) => {
+  const im = e.target.closest('#deck .bc img');
+  if (im && !im.classList.contains('page')) zoom(im.src);
+});
+// ───── Praise sounds: a bright "ta-da" for every correct answer, applause for two stars, a soft tone to try again
+function tone(f, t, d, v, type) {
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = type || 'sine'; o.frequency.value = f;
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.connect(g).connect(actx.destination); o.start(t); o.stop(t + d + 0.05);
+}
+function claps(t0, dur) {
+  const n = Math.floor(dur * 22);
+  for (let i = 0; i < n; i++) {
+    const t = t0 + Math.random() * dur, len = 0.05, b = actx.createBuffer(1, actx.sampleRate * len, actx.sampleRate), d = b.getChannelData(0);
+    for (let k = 0; k < d.length; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / d.length, 4);
+    const src = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
+    src.buffer = b; f.type = 'bandpass'; f.frequency.value = 1200 + Math.random() * 1400; g.gain.value = 0.35 * (1 - (t - t0) / dur * 0.6);
+    src.connect(f).connect(g).connect(actx.destination); src.start(t);
+  }
+}
+function ctx() { if (!soundOn) return null; try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); return actx; } catch (e) { return null; } }
+chime = function (n) {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, t + i * 0.09, 0.35, 0.1, 'triangle'));
+  tone(1568, t + 0.4, 0.6, 0.05);
+  if (n > 1) claps(t + 0.35, 1.6);
+};
+function tryAgain() {
+  if (!ctx()) return;
+  const t = actx.currentTime; tone(440, t, 0.25, 0.07, 'triangle'); tone(392, t + 0.18, 0.35, 0.07, 'triangle');
+}
+function fanfare() {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  [392, 523.3, 659.3, 784, 659.3, 784, 1046.5].forEach((f, i) => tone(f, t + i * 0.12 + (i > 3 ? 0.1 : 0), i === 6 ? 0.9 : 0.25, 0.1, 'triangle'));
+  claps(t + 0.6, 2.4);
+}
+function drumroll(sec) {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  for (let i = 0; i < sec * 18; i++) tone(110 + (i % 2) * 8, t + i / 18, 0.06, 0.08, 'square');
+}
+// a soft tone whenever a wrong answer is marked
+new MutationObserver((ms) => ms.forEach((m) => { if (m.target.classList && m.target.classList.contains('bad') && m.attributeName === 'class') tryAgain(); }))
+  .observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+// a correct answer on the second try still gets the praise sound (the star stays for the first try)
+document.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.classList.contains('ok') && !b.dataset.snd) { b.dataset.snd = 1; setTimeout(() => { if (!document.querySelector('.award')) chime(1); }, 60); } });
+
+// ───── Surprise box: each girl picks a box; no prize repeats until all are used
+const PRIZES = [
+  ['🌟', 'نقاط', '+٤ نقاط', 'إجاباتك اليوم تستحق الزيادة!'],
+  ['✨', 'نقاط', '+٣ نقاط', 'عقلك يعمل مثل القلب… لا يتوقف عن العطاء ❤️'],
+  ['💎', 'نقاط', '+٥ نقاط', 'مفاجأة كبيرة لطالبة كبيرة!'],
+  ['⭐', 'نقاط', '+٢ نقطتان', 'كل خطوة صغيرة تصنع فرقًا كبيرًا.'],
+  ['🌟', 'نقاط', '+٤ نقاط', 'أنتِ نجمة تضيء فصلنا!'],
+  ['🎯', 'نقاط', '+٣ نقاط', 'تركيزك رائع، استمري!'],
+  ['🏅', 'هدية معنوية', 'وسام العالِمة الصغيرة', 'تستحقين لقب عالِمة الفصل اليوم.'],
+  ['👩‍🏫', 'هدية معنوية', 'المعلمة الصغيرة', 'ستشرحين معلومة لصديقاتك في الحصة القادمة.'],
+  ['📜', 'هدية معنوية', 'شهادة شكر', 'شهادة شكر من معلمتك لأنكِ رائعة.'],
+  ['🖼️', 'هدية معنوية', 'لوحة المتميّزات', 'يُكتب اسمك اليوم في لوحة المتميّزات.'],
+  ['👏', 'هدية معنوية', 'تصفيق جماعي', 'صفّقن لصديقتكن بحرارة! 👏👏👏'],
+  ['🧪', 'هدية معنوية', 'مساعدة المختبر', 'تساعدين المعلمة في التجربة القادمة.'],
+  ['👑', 'هدية معنوية', 'نجمة الأسبوع', 'أنتِ نجمة الأسبوع في العلوم!'],
+  ['🎤', 'هدية معنوية', 'المذيعة العلمية', 'تقرئين معلومة اليوم بصوتك الجميل.'],
+  ['💌', 'رسالة لكِ', 'رسالة من معلمتك', 'فخورة بكِ جدًا، أنتِ مستقبل مشرق 💚'],
+  ['🌷', 'رسالة لكِ', 'رسالة جميلة', 'ابتسامتك تجعل الفصل أجمل.'],
+  ['🚀', 'رسالة لكِ', 'رسالة جميلة', 'يومًا ما ستكونين عالِمة تكتشف ما لم يكتشفه أحد.'],
+  ['❤️', 'رسالة لكِ', 'رسالة جميلة', 'مثل القلب الذي لا يتعب… اجتهادك لا يتوقف.'],
+  ['🌈', 'رسالة لكِ', 'رسالة جميلة', 'أنتِ قادرة على كل شيء بإذن الله.'],
+  ['🦋', 'رسالة لكِ', 'رسالة جميلة', 'سؤالك الذكي هو بداية كل اكتشاف.'],
+  ['🌟', 'نقاط + رسالة', '+٤ نقاط', 'وثقتي بكِ أكبر من كل النقاط 💚'],
+  ['🍀', 'حظ سعيد', 'اختاري صديقة', 'تختارين صديقة لتفتح صندوقًا معكِ!'],
+  ['🎈', 'نقاط', '+١ نقطة ودعاء', 'وفقكِ الله ونفع بكِ.'],
+  ['🏆', 'هدية معنوية', 'كأس المتفوّقة', 'تحملين كأس الفصل حتى نهاية الحصة.'],
+];
+let pool = [];
+function nextPrize() { if (!pool.length) pool = PRIZES.slice().sort(() => Math.random() - 0.5); return pool.pop(); }
+function buildGifts() {
+  pool = [];
+  const em = ['🎁', '🎀', '🎁', '💝'];
+  $('#gifts').innerHTML = Array.from({ length: 30 }, (_, i) => `<button class="gift" onclick="openGift(this)"><span class="e">${em[i % 4]}</span><span class="n">${ar(i + 1)}</span></button>`).join('');
+}
+function openGift(b) {
+  if (b.classList.contains('done') || b.classList.contains('shake')) return;
+  b.classList.add('shake'); drumroll(1.1);
+  setTimeout(() => {
+    b.classList.remove('shake'); b.classList.add('done');
+    const [e, k, t, m] = nextPrize();
+    b.querySelector('.e').textContent = e;
+    $('#rvE').textContent = e; $('#rvK').textContent = k; $('#rvT').textContent = t; $('#rvM').textContent = m;
+    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500);
+  }, 1150);
+}
+function closeGift(e) { if (e && e.target.closest('.card') && !e.target.closest('button')) return; $('#reveal').classList.remove('on'); }
+buildGifts();
+
+// ───── Slides on the whiteboard: each station becomes its own board slide
+(function () {
+  const holder = document.createComment('x');
+  const html = STATIONS.map((s, i) => {
+    const h = s.html();
+    const strat = (h.match(/<span class="strat"><b>الاستراتيجية:<\/b>\s*([^<]*)<\/span>/) || [, ''])[1].replace(' – ', '<br>');
+    const title = (h.match(/<h2>([\s\S]*?)<\/h2>/) || [, s.name])[1];
+    const rest = h.replace(/<span class="strat">[\s\S]*?<\/span>/, '').replace(/<h2>[\s\S]*?<\/h2>/, '');
+    return `<section class="sl board" data-t="${s.icon} ${s.name}" data-st="${i}" ${i === 0 ? 'data-id="stations"' : ''}><div class="clip">${strat}</div><div class="bc"><h2>${title}</h2>${rest}</div></section>`;
+  }).join('');
+  const deck = document.getElementById('deck');
+  const mark = [...deck.childNodes].find((n) => n.nodeType === 8 && n.data === 'STATIONS');
+  const tmp = document.createElement('div'); tmp.innerHTML = html;
+  [...tmp.children].forEach((c) => deck.insertBefore(c, mark));
+})();
+const SL = [...document.querySelectorAll('#deck .sl')];
+let cur = 0;
+function show(i) {
+  saveBoard();
+  cur = Math.max(0, Math.min(SL.length - 1, i));
+  SL.forEach((s, k) => s.classList.toggle('on', k === cur));
+  $('#cnt').textContent = ar(cur + 1) + ' / ' + ar(SL.length);
+  $('#bar').classList.toggle('dim', !SL[cur].classList.contains('board'));
+  const st = SL[cur].dataset.st;
+  if (st !== undefined && STATIONS[st].after) STATIONS[st].after();
+  loadBoard();
+  $('#menu').classList.remove('on');
+  try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) {}
+}
+function nav(d) { show(cur + d); }
+function go(id) { const k = SL.findIndex((s) => s.dataset.id === id); if (k >= 0) show(k); }
+function toggleMenu() {
+  const m = $('#menu');
+  m.innerHTML = SL.map((s, k) => `<button class="${k === cur ? 'cur' : ''}" onclick="show(${k})">${ar(k + 1)}. ${s.dataset.t}</button>`).join('');
+  m.classList.toggle('on'); $('#pens').classList.remove('on');
+}
+function fit() {
+  const k = Math.min(innerWidth / 1672, innerHeight / 941);
+  $('#deck').style.transform = `translate(-50%, -50%) scale(${k})`;
+}
+addEventListener('resize', fit); fit();
+document.addEventListener('fullscreenchange', () => { $('#fsBtn').textContent = document.fullscreenElement ? '✕' : '⛶'; });
+// clicker / keyboard like PowerPoint
+document.addEventListener('keydown', (e) => {
+  if ($('#zoom').classList.contains('on') || $('#reveal').classList.contains('on')) return;
+  if (['ArrowLeft', 'PageDown', 'ArrowDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); nav(1); }
+  else if (['ArrowRight', 'PageUp', 'ArrowUp', 'Backspace'].includes(e.key)) { e.preventDefault(); nav(-1); }
+  else if (e.key === 'Home') show(0); else if (e.key === 'End') show(SL.length - 1);
+});
+// ───── السبورة: write on any slide with the pen; ink stays with its slide
+const BRD = {}, bc = $('#board'), bg = bc.getContext('2d');
+let penOn = false, penC = '#d23b3b', erase = false, bdown = false, blast = null;
+function togglePen() { penOn = !penOn; bc.classList.toggle('draw', penOn); $('#penBtn').classList.toggle('on', penOn); $('#pens').classList.toggle('on', penOn); $('#menu').classList.remove('on'); }
+function saveBoard() { BRD[cur] = bc.toDataURL(); }
+function loadBoard() { bg.clearRect(0, 0, 1672, 941); if (BRD[cur]) { const i = new Image(); i.onload = () => bg.drawImage(i, 0, 0); i.src = BRD[cur]; } }
+function clearBoard() { bg.clearRect(0, 0, 1672, 941); BRD[cur] = null; }
+function bpos(e) { const r = bc.getBoundingClientRect(); return [(e.clientX - r.left) * 1672 / r.width, (e.clientY - r.top) * 941 / r.height]; }
+bc.addEventListener('pointerdown', (e) => { bdown = true; blast = bpos(e); bc.setPointerCapture(e.pointerId); });
+bc.addEventListener('pointermove', (e) => {
+  if (!bdown) return; const p = bpos(e);
+  bg.globalCompositeOperation = erase ? 'destination-out' : 'source-over';
+  bg.strokeStyle = penC; bg.lineWidth = erase ? 40 : 6; bg.lineCap = bg.lineJoin = 'round';
+  bg.beginPath(); bg.moveTo(...blast); bg.lineTo(...p); bg.stroke(); blast = p;
+});
+bc.addEventListener('pointerup', () => { bdown = false; });
+document.querySelectorAll('#pens button[data-c], #pens button[data-e]').forEach((b) => b.onclick = () => {
+  erase = !!b.dataset.e; if (!erase) penC = b.dataset.c;
+  document.querySelectorAll('#pens button').forEach((x) => x.classList.toggle('sel', x === b));
+});
+show(Math.max(0, (parseInt(location.hash.slice(1)) || 1) - 1));
+</script>
+</body>
+</html>

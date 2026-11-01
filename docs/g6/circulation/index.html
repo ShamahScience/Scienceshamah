@@ -93,6 +93,69 @@
   .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
   @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
 
+  /* ── Computer screen: everything fits in one landscape screen, no page scrolling ── */
+  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: #6b4fc0; border-radius: 30px; padding: 4px 16px; font-size: 19px; white-space: nowrap; }
+  .fs { border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
+  @media (min-width: 900px) and (orientation: landscape) and (max-height: 720px) {
+    header p { display: none; } header img.girl { width: 40px; height: 40px; } header h1 { font-size: 21px; }
+    .tab { padding: 4px 8px; font-size: 17px; } .box { padding: 10px 14px; }
+  }
+  @media (min-width: 900px) and (orientation: landscape) {
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .flags { height: 6vh; min-height: 34px; }
+    header, .tabs, main { max-width: none; width: 100%; }
+    header { padding: 4px 18px 0; }
+    header img.girl { width: 52px; height: 52px; }
+    header h1 { font-size: 24px; }
+    .tabs { margin-top: 6px; padding: 0 18px 6px; position: static; }
+    .tab { padding: 6px 8px; font-size: 19px; }
+    main { flex: 1; min-height: 0; padding: 4px 18px 4px; }
+    footer { padding: 0 0 4px; font-size: 15px; }
+    .panel.on { height: 100%; }
+    .box { margin-bottom: 0; }
+    .scroll { overflow-y: auto; min-height: 0; }
+    /* start: rules | flag | goals */
+    #start.on { display: flex; flex-direction: column; }
+    #start .show { flex: 1; height: auto; min-height: 0; }
+    /* stations: list | content (book page | explanation) */
+    .stations { height: 100%; grid-template-columns: 260px 1fr; }
+    .list { position: static; height: 100%; overflow-y: auto; }
+    #stBody, #stBody > .box { height: 100%; min-height: 0; }
+    #stBody > .box { display: flex; flex-direction: column; }
+    #stBody .body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 16px; }
+    #stBody .body > .pagecol { min-height: 0; position: relative; }
+    #stBody .body > .pagecol img.page { position: absolute; top: 0; right: 0; left: 0; bottom: 24px; width: 100%; height: calc(100% - 24px); object-fit: contain; border: 0; }
+    #stBody .body > .pagecol .cap { position: absolute; bottom: 0; right: 0; left: 0; }
+    #stBody .body > .txt { overflow-y: auto; min-height: 0; padding-inline-end: 4px; }
+    #stBody .extra { display: none; }
+    #stBody > .box { overflow: hidden; }
+    #stBody .nav { flex: none; }
+    #stBody .txt img { max-height: 15vh; width: auto; margin: 0 auto; }
+    #stBody .txt .flip { margin: 6px 0; padding: 6px 10px; font-size: 17px; line-height: 1.6; }
+    #stBody .txt p { font-size: 17px; line-height: 1.7; margin: 4px 0; }
+    #stBody .txt h2 { font-size: 18px !important; margin: 4px 0; }
+    #stBody .txt .verse { font-size: 18px !important; padding: 4px; margin: 4px 0; }
+    #stBody .txt .ce { margin: 3px 0; } #stBody .txt .ce .c, #stBody .txt .ce .e { font-size: 16px; padding: 3px 8px; }
+    #stBody .txt .grid2 { gap: 8px; }
+    #stBody .txt .cap { font-size: 12px; margin: 0; }
+    #stBody .txt .lab svg { max-height: 16vh; }
+    #stBody .txt .vocab .flip { font-size: 15px; padding: 4px; }
+    #stBody > .box h2 { font-size: 21px; margin: 0 0 4px; }
+    .nav { margin-top: 6px; }
+    /* questions: three columns */
+    #questions.on { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    #questions .box { overflow-y: auto; min-height: 0; }
+    /* games: games | exit ticket */
+    #games.on { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+    #games .box { overflow-y: auto; min-height: 0; }
+    #games .gamecards { grid-template-columns: repeat(3, 1fr); }
+    .gcard .ic { font-size: 36px; }
+    .pic { width: auto; max-height: 22vh; }
+    #play .opts { grid-template-columns: repeat(3, 1fr); }
+    #play .opts .btn { text-align: center; }
+  }
+
   /* start slideshow: one picture at a time, always shown whole */
   .show { position: relative; height: 62vh; min-height: 260px; }
   .slide { display: none; position: absolute; inset: 0; }
@@ -157,145 +220,122 @@
   .reveal .kind { display: inline-block; background: var(--yel); border-radius: 30px; padding: 2px 16px; font-size: 18px; color: #8a6400; }
   .reveal h3 { margin: 8px 0 4px; font-size: 34px; color: var(--pink); }
   .reveal p { font-size: 24px; margin: 6px 0 14px; color: var(--green); }
-
-  html, body { margin: 0; height: 100%; overflow: hidden; background: #2d3a2f; }
-  #deck { max-width: none; margin: 0; padding: 0; box-sizing: content-box;
-    position: absolute; left: 50%; top: 50%; width: 1672px; height: 941px; transform-origin: center; background: #fff; overflow: hidden; }
-  .sl { position: absolute; inset: 0; display: none; }
-  .sl.on { display: block; animation: fadeIn .45s; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  .sl > img.full { width: 100%; height: 100%; object-fit: cover; }
-  .sl.board { background: url(img/board.jpg) center / 100% 100% no-repeat; }
-  .clip { position: absolute; left: 276px; top: 352px; width: 246px; height: 326px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 31px; line-height: 1.55; color: var(--green); padding: 8px; }
-  .bc { position: absolute; right: 78px; left: 560px; top: 206px; bottom: 112px; display: flex; flex-direction: column; }
-  .bc > h2 { font-size: 40px; margin: 0 0 8px; color: var(--green); flex: none; }
-  .bc > .in { flex: 1; min-height: 0; overflow-y: auto; padding-inline-end: 6px; }
-  .bc p, .bc li { font-size: 27px; line-height: 1.75; margin: 6px 0; }
-  .bc .flip { font-size: 26px; line-height: 1.6; margin: 8px 0; padding: 8px 14px; }
-  .bc .flip .k { font-size: 19px; } .bc .flip .hint { font-size: 18px; }
-  .bc .btn { font-size: 24px; }
-  .bc .body { flex: 1; min-height: 0; display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 22px; }
-  .bc .pagecol { position: relative; min-height: 0; margin-bottom: 92px; }
-  .bc .pagecol .cap { display: none; }
-  .bc .pagecol img.page { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border: none; }
-  .bc .pagecol .cap { position: absolute; bottom: 0; left: 0; right: 0; font-size: 18px; }
-  .bc .txt { overflow-y: auto; min-height: 0; padding-inline-end: 6px; }
-  .bc .txt img { max-height: 190px; width: auto; }
-  .bc .animals img { height: 110px; }
-  .bc .vr svg { max-height: 330px; }
-  .bc .steps .btn { font-size: 20px; }
-  .bc .vocab .flip { font-size: 22px; }
-  .bc .verse { font-size: 26px !important; }
-  .bc .gamecards { grid-template-columns: repeat(3, 1fr); }
-  .bc .gcard { font-size: 20px; } .bc .gcard b { font-size: 26px; } .bc .gcard .ic { font-size: 44px; }
-  .bc #play .box { border: none; box-shadow: none; padding: 6px 0; margin: 0; }
-  .bc #play h2 { font-size: 28px; }
-  .bc #play .opts { grid-template-columns: repeat(3, 1fr); }
-  .bc #play .opts .btn { text-align: center; }
-  .bc .pic { max-height: 170px; width: auto; }
-  .bc .opts .btn { font-size: 26px; }
-  .bc .msg { font-size: 26px; } .bc .score { font-size: 24px; }
-  .bc .gifts { gap: 14px; } .bc .gift .e { font-size: 50px; } .bc .gift .n { font-size: 24px; }
-  .goals ol { margin: 6px 0; padding-inline-start: 40px; }
-  .goals li { font-size: 31px; line-height: 2; }
-  .cover h1 { font-size: 66px; color: var(--green); text-align: center; margin: 70px 0 10px; }
-  .cover p { text-align: center; font-size: 34px !important; color: var(--pink); }
-  /* شريط التحكم أسفل السبورة */
-  .bar { position: absolute; left: 312px; right: 160px; bottom: 6px; height: 54px; display: flex; gap: 10px; align-items: center; justify-content: center; z-index: 6; opacity: .93; }
-  .bar button, .bar span { font: inherit; font-size: 21px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 2px 14px; cursor: pointer; white-space: nowrap; }
-  .bar .nx { background: var(--leaf); color: #fff; }
-  .bar span { cursor: default; border-color: #cfe3c8; }
-  .bar .stars { border-color: var(--gold); background: #fff8dc; color: #8a6400; }
-  .bar .on { background: var(--gold); color: #3b2c00; border-color: #c99a14; }
-  .bar.dim { opacity: .25; } .bar.dim:hover { opacity: .95; }
-  /* قائمة الشرائح */
-  .menu { position: absolute; left: 312px; bottom: 66px; width: 520px; max-height: 760px; overflow-y: auto; background: #fff; border: 4px solid var(--green); border-radius: 20px; padding: 10px; display: none; z-index: 8; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-  .menu.on { display: block; }
-  .menu button { display: block; width: 100%; text-align: right; font: inherit; font-size: 22px; border: none; background: none; padding: 6px 10px; border-radius: 10px; cursor: pointer; color: var(--ink); }
-  .menu button:hover { background: var(--mint); } .menu button.cur { background: var(--green); color: #fff; }
-  /* السبورة: الكتابة على الشريحة */
-  #board { position: absolute; inset: 0; z-index: 5; pointer-events: none; touch-action: none; }
-  #board.draw { pointer-events: auto; cursor: crosshair; }
-  .pens { position: absolute; left: 312px; bottom: 66px; display: none; gap: 8px; background: #fff; border: 3px solid var(--green); border-radius: 18px; padding: 8px 12px; z-index: 7; align-items: center; }
-  .pens.on { display: flex; }
-  .pens button { font: inherit; font-size: 20px; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 2px 10px; cursor: pointer; }
-  .pens .c { width: 38px; height: 38px; border-radius: 50%; padding: 0; }
-  .pens .sel { outline: 4px solid var(--green); outline-offset: 2px; }
-  .award, .confetti { z-index: 50; }
+  .sbr { font: inherit; font-size: 15px; border: 2px solid var(--green); background: var(--mint); color: var(--green); border-radius: 12px; padding: 0 10px; cursor: pointer; }
+  #stBody .body > .pagecol .cap { display: flex; gap: 8px; justify-content: center; align-items: center; }
 </style>
 </head>
 <body>
-<main id="deck">
-  <canvas id="board" width="1672" height="941"></canvas>
+<img class="flags" src="img/flags.jpg" alt="">
+<header>
+  <img class="girl" src="img/girl.jpg" alt="العالمة الصغيرة">
+  <div><h1>الدرس الأول (تابع): الدوران</h1><p>العلوم – الصف السادس الابتدائي • ص١١٤–١١٦</p></div>
+  <button class="startot snd" id="sndBtn" title="صوت التعزيز" onclick="toggleSound()">🔔</button>
+  <button class="startot" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ نجوم الفصل: <b id="starN">٠</b></button>
+  <span class="teacher">💚 أ/ شامه البقمي</span>
+  <button class="fs" id="fsBtn" onclick="fullscreen()">⛶ ملء الشاشة</button>
+</header>
 
-  <section class="sl" data-t="صباح الخير"><img class="full" src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></section>
-  <section class="sl" data-t="القوانين الصفية"><img class="full" src="img/rules.jpg" alt="القوانين الصفية"></section>
-  <section class="sl" data-t="رب اجعل هذا البلد آمنًا"><img class="full" src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></section>
+<nav class="tabs">
+  <button class="tab on" data-p="start">🏁 البداية</button>
+  <button class="tab" data-p="stations">📍 محطات الدرس</button>
+  <button class="tab" data-p="questions">❓ الأسئلة</button>
+  <button class="tab" data-p="games">🎮 الألعاب</button>
+  <button class="tab" data-p="surprise">🎁 صندوق المفاجآت</button>
+</nav>
 
-  <section class="sl board cover" data-t="عنوان الدرس"><div class="clip">العصف الذهني</div><div class="bc"><div class="in">
-    <h1>❤️ الدوران</h1>
-    <p>الدرس الأول (تابع) – الفصل الخامس</p>
-    <p style="color:var(--green)!important">العلوم • الصف السادس الابتدائي • ص١١٣–١١٦</p>
-    <div class="verse" style="margin-top:30px">﴿وَفِي أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ﴾</div>
-  </div></div></section>
+<main>
+<!-- ═════ البداية -->
+<section class="panel on" id="start">
+  <div class="show">
+    <div class="slide on"><img src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></div>
+    <div class="slide"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
+    <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
+    <div class="slide goals"><div class="box">
+      <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
+      <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
+      <ol>
+        <li>أعرّف الدوران، وأذكر المواد التي ينقلها الدم.</li>
+        <li>أميّز بين جهاز الدوران المفتوح والمغلق.</li>
+        <li>أتتبّع الدورة الدموية، وأفرّق بين الدم المؤكسج وغير المؤكسج.</li>
+        <li>أستنتج عمل الصمامات بنموذج افتراضي.</li>
+      </ol>
+      <button class="btn main" onclick="go('stations')">ابدئي المحطات 🚀</button>
+    </div></div>
+  </div>
+  <div class="dots">
+    <button class="btn" onclick="slide(-1)">→ السابق</button>
+    <span id="dotT">١ / ٤</span>
+    <button class="btn main" onclick="slide(1)">التالي ←</button>
+  </div>
+</section>
 
-  <section class="sl board goals" data-t="أهداف الدرس"><div class="clip">أهدافي اليوم</div><div class="bc"><h2>🎯 في نهاية الدرس أستطيع أن:</h2><div class="in">
-    <ol>
-      <li>أعرّف الدوران، وأذكر المواد التي ينقلها الدم.</li>
-      <li>أميّز بين جهاز الدوران المفتوح والمغلق.</li>
-      <li>أتتبّع الدورة الدموية، وأفرّق بين الدم المؤكسج وغير المؤكسج.</li>
-      <li>أستنتج عمل الصمامات بنموذج افتراضي.</li>
-    </ol>
-  </div></div></section>
+<!-- ═════ محطات الدرس -->
+<section class="panel" id="stations">
+  <div class="stations">
+    <aside class="list">
+      <h3>📍 محطات الدرس</h3>
+      <small>اضغطي على المحطة للانتقال إليها</small>
+      <div id="stList"></div>
+    </aside>
+    <div id="stBody"></div>
+  </div>
+</section>
 
-  <!--STATIONS-->
+<!-- ═════ الأسئلة -->
+<section class="panel" id="questions">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> مستويات التفكير الثلاثة</span>
+    <h2>❓ التقويم التكويني</h2>
+    <p style="margin:0">فكّري أولًا… ثم اضغطي على السؤال لتظهر الإجابة.</p>
+    <div id="formative"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> أختبر نفسي (من الكتاب)</span>
+    <h2>📖 أسئلة الكتاب</h2>
+    <div id="book"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التقويم الختامي</span>
+    <h2>🏆 اختبري نفسك</h2>
+    <div id="quiz"></div>
+  </div>
+</section>
 
-  <section class="sl board" data-t="التقويم التكويني" data-id="questions"><div class="clip">مستويات التفكير الثلاثة</div><div class="bc"><h2>❓ التقويم التكويني</h2><div class="in">
-    <p>فكّري أولًا… ثم اضغطي على السؤال لتظهر الإجابة.</p><div id="formative"></div>
-  </div></div></section>
-  <section class="sl board" data-t="أسئلة الكتاب"><div class="clip">أختبر نفسي<br>(من الكتاب)</div><div class="bc"><h2>📖 أسئلة الكتاب ص١١٦</h2><div class="in"><div id="book"></div></div></div></section>
-  <section class="sl board" data-t="اختبري نفسك"><div class="clip">التقويم الختامي</div><div class="bc"><h2>🏆 اختبري نفسك</h2><div class="in"><div id="quiz"></div></div></div></section>
-  <section class="sl board" data-t="الألعاب" data-id="games"><div class="clip">التعلّم باللعب</div><div class="bc"><h2>🎮 اختاري لعبة</h2><div class="in">
+<!-- ═════ الألعاب -->
+<section class="panel" id="games">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم باللعب</span>
+    <h2>🎮 اختاري لعبة</h2>
     <div class="gamecards">
       <button class="gcard" onclick="game('path')"><div class="ic">🩸</div><b>رحلة خلية الدم</b>إلى أين تذهب بعد ذلك؟</button>
       <button class="gcard" onclick="game('oc')"><div class="ic">⚖️</div><b>مفتوح أم مغلق؟</b>صنّفي أجهزة الدوران</button>
       <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي الكلمة من وصفها</button>
     </div>
     <div class="play" id="play"></div>
-  </div></div></section>
-  <section class="sl board" data-t="بطاقة الخروج"><div class="clip">بطاقة الخروج</div><div class="bc"><h2>🎫 بطاقة الخروج</h2><div class="in">
-    <p>١) الدوران هو: ……………………………………………</p>
-    <p>٢) الفرق بين الدوران المفتوح والمغلق: ………………………</p>
-    <p>٣) لماذا يُضخّ الدم غير المؤكسج إلى الرئتين؟ ………………</p>
-    <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
-  </div></div></section>
-  <section class="sl board" data-t="صندوق المفاجآت" data-id="surprise"><div class="clip">التعزيز الإيجابي<br>صندوق المفاجآت</div><div class="bc"><h2>🎁 صندوق المفاجآت</h2><div class="in">
-    <p style="margin:0">كل طالبة تختار صندوقًا وتضغط عليه… ماذا تخبّئ لكِ المفاجأة؟ 🤩</p>
-    <div class="gifts" id="gifts"></div>
-    <p style="text-align:center;margin-top:10px"><button class="btn" onclick="buildGifts()">🔄 صناديق جديدة</button></p>
-  </div></div></section>
-
-  <div class="menu" id="menu"></div>
-  <div class="pens" id="pens">
-    <button class="c sel" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
-    <button class="c" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
-    <button class="c" data-c="#1b8a3a" style="background:#1b8a3a" title="أخضر"></button>
-    <button class="c" data-c="#111111" style="background:#111" title="أسود"></button>
-    <button data-e="1" title="ممحاة">🧽 ممحاة</button>
-    <button onclick="clearBoard()" title="مسح السبورة">🗑️ مسح</button>
   </div>
-  <nav class="bar" id="bar">
-    <button onclick="toggleMenu()" title="قائمة الشرائح">☰ الشرائح</button>
-    <button onclick="nav(-1)" title="السابق">→ السابق</button>
-    <span id="cnt">١ / ١</span>
-    <button class="nx" onclick="nav(1)" title="التالي">التالي ←</button>
-    <button id="penBtn" onclick="togglePen()" title="الكتابة على السبورة">✏️ السبورة</button>
-    <button class="stars" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ <b id="starN">٠</b></button>
-    <button id="sndBtn" onclick="toggleSound()" title="صوت التعزيز">🔔</button>
-    <button id="fsBtn" onclick="fullscreen()" title="ملء الشاشة">⛶</button>
-  </nav>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> بطاقة الخروج</span>
+    <h2>🎫 بطاقة الخروج</h2>
+    <p>١) الدوران هو: ……………………………………</p>
+    <p>٢) الفرق بين الدوران المفتوح والمغلق: ……………………</p>
+    <p>٣) لماذا يُضخّ الدم غير المؤكسج إلى الرئتين؟ ……………</p>
+    <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
+    <p style="text-align:center"><button class="btn" style="border-color:var(--pink);background:var(--rose)" onclick="go('surprise')">🎁 إلى صندوق المفاجآت</button></p>
+  </div>
+</section>
+<!-- ═════ صندوق المفاجآت -->
+<section class="panel" id="surprise">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعزيز الإيجابي – صندوق المفاجآت</span>
+    <h2>🎁 صندوق المفاجآت</h2>
+    <p>كل طالبة تختار صندوقًا وتضغط عليه… ماذا تخبّئ لكِ المفاجأة؟ 🤩</p>
+    <div class="gifts" id="gifts"></div>
+    <p style="text-align:center;margin-top:12px"><button class="btn" onclick="buildGifts()">🔄 صناديق جديدة</button></p>
+  </div>
+</section>
 </main>
 <div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
+<footer>أ/ شامه البقمي 💚</footer>
 <div class="zoom" id="zoom">
   <div class="tools" id="tools">
     <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
@@ -325,7 +365,7 @@ const $ = (s) => document.querySelector(s);
 // Higher-order questions (critical thinking, challenge, inference) earn two stars, the rest one
 const CRIT = /التفكير الناقد|أتحدّى نفسي|أستنتج/;
 const flip = (q, a, k) => `<div class="flip" data-stars="${CRIT.test((k || '') + q) ? 2 : 1}" onclick="openFlip(this)">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
-const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي – اضغطي للتكبير</div>`;
+const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي <button class="sbr" onclick="zoom('img/p${n}.jpg')">✏️ السبورة</button></div>`;
 
 
 // Soft reward chime made in the browser: one star = gentle chime, two stars = brighter double chime
@@ -369,6 +409,14 @@ function fullscreen() {
   const d = document;
   if (!d.fullscreenElement && !d.webkitFullscreenElement) (d.documentElement.requestFullscreen || d.documentElement.webkitRequestFullscreen).call(d.documentElement);
   else (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+}
+document.addEventListener('fullscreenchange', () => { document.getElementById('fsBtn').textContent = document.fullscreenElement ? '✕ خروج من ملء الشاشة' : '⛶ ملء الشاشة'; });
+let si = 0;
+function slide(d) {
+  const all = document.querySelectorAll('#start .slide');
+  si = (si + d + all.length) % all.length;
+  all.forEach((x, k) => x.classList.toggle('on', k === si));
+  document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
 }
 // ───── Enlarged page with pen, highlighter and eraser; ink is kept per picture for this visit
 const INK = {};
@@ -429,6 +477,13 @@ function confetti() {
     document.body.appendChild(s); setTimeout(() => s.remove(), 2200);
   }
 }
+function go(p) {
+  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.dataset.p === p));
+  document.querySelectorAll('.panel').forEach((x) => x.classList.toggle('on', x.id === p));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.tab').forEach((t) => t.onclick = () => go(t.dataset.p));
+
 // ───── Stations
 const STATIONS = [
   { icon: '🫁', name: 'مراجعة: التنفس', page: 113, html: () => `
@@ -570,6 +625,18 @@ function valve(fromTop) {
     }
   }));
 }
+const done = new Set();
+let cur = 0;
+function station(i) {
+  cur = i; done.add(i);
+  $('#stList').innerHTML = STATIONS.map((s, k) => `<button class="st ${k === i ? 'on' : ''} ${done.has(k) ? 'done' : ''}" onclick="station(${k})"><span class="n">ص${ar(s.page)}</span>${s.icon} ${s.name}</button>`).join('');
+  const s = STATIONS[i];
+  $('#stBody').innerHTML = `<div class="box">${s.html()}<div class="nav">
+    ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
+    ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('questions')">إلى الأسئلة ❓</button>`}</div></div>`;
+  if (s.after) s.after();
+  if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
+}
 function plant(id) {
   return `<svg viewBox="0 0 200 200" id="pl_${id}"><path d="M60,150 L140,150 L130,195 L70,195 Z" fill="#c8773c" stroke="#5a3a1e" stroke-width="4"/>
     <rect x="52" y="140" width="96" height="14" rx="5" fill="#a85f2c" stroke="#5a3a1e" stroke-width="4"/>
@@ -643,7 +710,7 @@ const GAMES = {
   ] },
 };
 let G, gi, gs, gtry;
-function game(k) { G = GAMES[k]; gi = 0; gs = 0; round();  }
+function game(k) { G = GAMES[k]; gi = 0; gs = 0; round(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
 function round() {
   if (gi >= G.items.length) {
     $('#play').innerHTML = `<div class="box" style="text-align:center"><h2>🏆 أنهيتِ اللعبة!</h2><div style="font-size:30px">⭐ ${ar(gs)} / ${ar(G.items.length)}</div><p>النجمة للإجابة الصحيحة من أول محاولة.</p></div>`;
@@ -659,9 +726,10 @@ function round() {
     else { gtry++; b.classList.add('no'); b.disabled = true; $('#gmsg').className = 'msg bad'; $('#gmsg').textContent = 'حاولي مرة أخرى 💡'; }
   });
 }
+station(0);
 // every content picture opens full size when tapped
 document.addEventListener('click', (e) => {
-  const im = e.target.closest('#deck .bc img');
+  const im = e.target.closest('main img');
   if (im && !im.classList.contains('page')) zoom(im.src);
 });
 // ───── Praise sounds: a bright "ta-da" for every correct answer, applause for two stars, a soft tone to try again
@@ -757,77 +825,6 @@ function openGift(b) {
 }
 function closeGift(e) { if (e && e.target.closest('.card') && !e.target.closest('button')) return; $('#reveal').classList.remove('on'); }
 buildGifts();
-
-// ───── Slides on the whiteboard: each station becomes its own board slide
-(function () {
-  const holder = document.createComment('x');
-  const html = STATIONS.map((s, i) => {
-    const h = s.html();
-    const strat = (h.match(/<span class="strat"><b>الاستراتيجية:<\/b>\s*([^<]*)<\/span>/) || [, ''])[1].replace(' – ', '<br>');
-    const title = (h.match(/<h2>([\s\S]*?)<\/h2>/) || [, s.name])[1];
-    const rest = h.replace(/<span class="strat">[\s\S]*?<\/span>/, '').replace(/<h2>[\s\S]*?<\/h2>/, '');
-    return `<section class="sl board" data-t="${s.icon} ${s.name}" data-st="${i}" ${i === 0 ? 'data-id="stations"' : ''}><div class="clip">${strat}</div><div class="bc"><h2>${title}</h2>${rest}</div></section>`;
-  }).join('');
-  const deck = document.getElementById('deck');
-  const mark = [...deck.childNodes].find((n) => n.nodeType === 8 && n.data === 'STATIONS');
-  const tmp = document.createElement('div'); tmp.innerHTML = html;
-  [...tmp.children].forEach((c) => deck.insertBefore(c, mark));
-})();
-const SL = [...document.querySelectorAll('#deck .sl')];
-let cur = 0;
-function show(i) {
-  saveBoard();
-  cur = Math.max(0, Math.min(SL.length - 1, i));
-  SL.forEach((s, k) => s.classList.toggle('on', k === cur));
-  $('#cnt').textContent = ar(cur + 1) + ' / ' + ar(SL.length);
-  $('#bar').classList.toggle('dim', !SL[cur].classList.contains('board'));
-  const st = SL[cur].dataset.st;
-  if (st !== undefined && STATIONS[st].after) STATIONS[st].after();
-  loadBoard();
-  $('#menu').classList.remove('on');
-  try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) {}
-}
-function nav(d) { show(cur + d); }
-function go(id) { const k = SL.findIndex((s) => s.dataset.id === id); if (k >= 0) show(k); }
-function toggleMenu() {
-  const m = $('#menu');
-  m.innerHTML = SL.map((s, k) => `<button class="${k === cur ? 'cur' : ''}" onclick="show(${k})">${ar(k + 1)}. ${s.dataset.t}</button>`).join('');
-  m.classList.toggle('on'); $('#pens').classList.remove('on');
-}
-function fit() {
-  const k = Math.min(innerWidth / 1672, innerHeight / 941);
-  $('#deck').style.transform = `translate(-50%, -50%) scale(${k})`;
-}
-addEventListener('resize', fit); fit();
-document.addEventListener('fullscreenchange', () => { $('#fsBtn').textContent = document.fullscreenElement ? '✕' : '⛶'; });
-// clicker / keyboard like PowerPoint
-document.addEventListener('keydown', (e) => {
-  if ($('#zoom').classList.contains('on') || $('#reveal').classList.contains('on')) return;
-  if (['ArrowLeft', 'PageDown', 'ArrowDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); nav(1); }
-  else if (['ArrowRight', 'PageUp', 'ArrowUp', 'Backspace'].includes(e.key)) { e.preventDefault(); nav(-1); }
-  else if (e.key === 'Home') show(0); else if (e.key === 'End') show(SL.length - 1);
-});
-// ───── السبورة: write on any slide with the pen; ink stays with its slide
-const BRD = {}, bc = $('#board'), bg = bc.getContext('2d');
-let penOn = false, penC = '#d23b3b', erase = false, bdown = false, blast = null;
-function togglePen() { penOn = !penOn; bc.classList.toggle('draw', penOn); $('#penBtn').classList.toggle('on', penOn); $('#pens').classList.toggle('on', penOn); $('#menu').classList.remove('on'); }
-function saveBoard() { BRD[cur] = bc.toDataURL(); }
-function loadBoard() { bg.clearRect(0, 0, 1672, 941); if (BRD[cur]) { const i = new Image(); i.onload = () => bg.drawImage(i, 0, 0); i.src = BRD[cur]; } }
-function clearBoard() { bg.clearRect(0, 0, 1672, 941); BRD[cur] = null; }
-function bpos(e) { const r = bc.getBoundingClientRect(); return [(e.clientX - r.left) * 1672 / r.width, (e.clientY - r.top) * 941 / r.height]; }
-bc.addEventListener('pointerdown', (e) => { bdown = true; blast = bpos(e); bc.setPointerCapture(e.pointerId); });
-bc.addEventListener('pointermove', (e) => {
-  if (!bdown) return; const p = bpos(e);
-  bg.globalCompositeOperation = erase ? 'destination-out' : 'source-over';
-  bg.strokeStyle = penC; bg.lineWidth = erase ? 40 : 6; bg.lineCap = bg.lineJoin = 'round';
-  bg.beginPath(); bg.moveTo(...blast); bg.lineTo(...p); bg.stroke(); blast = p;
-});
-bc.addEventListener('pointerup', () => { bdown = false; });
-document.querySelectorAll('#pens button[data-c], #pens button[data-e]').forEach((b) => b.onclick = () => {
-  erase = !!b.dataset.e; if (!erase) penC = b.dataset.c;
-  document.querySelectorAll('#pens button').forEach((x) => x.classList.toggle('sel', x === b));
-});
-show(Math.max(0, (parseInt(location.hash.slice(1)) || 1) - 1));
 </script>
 </body>
 </html>
