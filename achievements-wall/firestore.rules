@@ -1,5 +1,5 @@
 rules_version = '2';
-// قواعد أمان حائط الإنجازات — انسخيها كاملة في Firebase ← Firestore ← Rules
+// قواعد أمان حائط المهام والإنجاز — انسخيها كاملة في Firebase ← Firestore ← Rules
 // غيّري البريد في السطر التالي إلى بريد المعلمة نفسه المكتوب في index.html
 service cloud.firestore {
   match /databases/{database}/documents {
