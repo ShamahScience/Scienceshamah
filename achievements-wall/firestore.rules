@@ -1,0 +1,40 @@
+rules_version = '2';
+// قواعد أمان حائط الإنجازات — انسخيها كاملة في Firebase ← Firestore ← Rules
+// غيّري البريد في السطر التالي إلى بريد المعلمة نفسه المكتوب في index.html
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isTeacher() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower() == "teacher@example.com";
+    }
+    function str(v, minLen, maxLen) { return v is string && v.size() >= minLen && v.size() <= maxLen; }
+
+    match /achievements/{id} {
+      // الطالبات يرين المعتمد فقط، والمعلمة ترى الكل
+      allow read: if resource.data.approved == true || isTeacher();
+
+      // أي طالبة تستطيع الإضافة بدون تسجيل، لكن تظهر بعد اعتماد المعلمة
+      allow create: if request.resource.data.keys().hasOnly(['name','cls','title','desc','cat','img','link','likes','pinned','approved','createdAt'])
+        && str(request.resource.data.name, 1, 60)
+        && str(request.resource.data.cls, 1, 40)
+        && str(request.resource.data.title, 1, 100)
+        && str(request.resource.data.desc, 0, 1000)
+        && str(request.resource.data.cat, 1, 20)
+        && str(request.resource.data.img, 0, 300000)
+        && str(request.resource.data.link, 0, 400)
+        && request.resource.data.likes == 0
+        && request.resource.data.pinned == false
+        && (request.resource.data.approved == false || isTeacher())
+        && request.resource.data.createdAt == request.time;
+
+      // التشجيع (+١) مسموح للجميع على المعتمد فقط، وباقي التعديل للمعلمة
+      allow update: if isTeacher()
+        || (resource.data.approved == true
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes'])
+            && request.resource.data.likes == resource.data.likes + 1);
+
+      allow delete: if isTeacher();
+    }
+  }
+}
