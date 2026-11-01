@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-game="circulation" data-title="درس الدوران التفاعلي (نسخة الطالبة)">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>درس الدوران التفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F8F4;--card:#fff;--ink:#1F2A3C;--muted:#5F6E80;--green:#2E8B57;--dk:#1E5E3A;--line:#D5E5DA;
+  --pink:#E85D9A;--blue:#2F80C8;--gold:#E3A21A;--red:#D64545;--violet:#7A5BC9;--cream:#FFFDF6;--hl:rgba(255,235,59,.45)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13201A;--card:#1C2B24;--ink:#EEF4EF;--muted:#AFC0B4;--line:#2F4238;--cream:#21332A}}
+:root[data-theme="dark"]{--bg:#13201A;--card:#1C2B24;--ink:#EEF4EF;--muted:#AFC0B4;--line:#2F4238;--cream:#21332A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Sakkal Majalla","Noto Naskh Arabic",Tahoma,serif;font-weight:700;font-size:20px;line-height:1.7}
+button{font:inherit;cursor:pointer;color:inherit}
+header{background:linear-gradient(135deg,#1E5E3A,#2E8B57);color:#fff;padding:14px 16px}
+header .in{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+header h1{margin:0;font-size:clamp(24px,4vw,34px)}
+header .sub{opacity:.9;font-size:16px}
+.score{background:#fff;color:var(--dk);border-radius:999px;padding:4px 16px;font-size:20px}
+nav{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:2px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+nav .in{max-width:1200px;margin:auto;display:flex;gap:6px;overflow-x:auto;padding:8px 12px;scrollbar-width:thin}
+nav button{flex:0 0 auto;border:2px solid var(--line);background:var(--cream);border-radius:14px;padding:6px 12px;font-size:17px;white-space:nowrap}
+nav button[aria-selected="true"]{background:var(--green);border-color:var(--green);color:#fff}
+nav button .n{display:inline-block;background:rgba(0,0,0,.08);border-radius:50%;width:24px;height:24px;line-height:24px;text-align:center;font-size:14px;margin-inline-end:4px}
+main{max-width:1200px;margin:auto;padding:16px}
+.tab{display:none;animation:fade .3s}
+.tab.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+.strat{display:inline-flex;gap:6px;align-items:center;background:#FFF6DB;border:2px dashed var(--gold);color:#7A4E00;border-radius:999px;padding:2px 14px;font-size:16px;margin-bottom:8px}
+h2{margin:4px 0 10px;color:var(--dk);font-size:clamp(24px,3.5vw,30px)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.btn{border:none;border-radius:999px;padding:8px 18px;background:var(--green);color:#fff}
+.btn.alt{background:var(--violet)} .btn.gold{background:var(--gold);color:#3a2600} .btn.ghost{background:transparent;border:2px solid var(--line);color:var(--ink)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--muted)}
+.opt{display:block;width:100%;text-align:right;border:2.5px solid var(--line);background:var(--card);border-radius:14px;padding:10px 14px;margin:6px 0;font-size:19px}
+.opt.ok{border-color:var(--green);background:#E7F6EC;color:#144a2c}
+.opt.no{border-color:var(--red);animation:shake .4s}
+.fb{min-height:30px;margin-top:6px}
+.fb.ok{color:var(--green)} .fb.no{color:var(--red)}
+.hintbox{background:#FFF3E0;border:2px solid #FFB067;border-radius:12px;padding:8px 12px;margin-top:8px;color:#5a3300}
+.rembox{background:#EEF4FF;border:2px solid var(--blue);border-radius:12px;padding:8px 12px;margin-top:8px;color:#14325a}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+/* الفهم القرائي */
+.reader{display:grid;grid-template-columns:minmax(260px,1fr) minmax(280px,1fr);gap:14px}
+@media(max-width:780px){.reader{grid-template-columns:1fr}}
+.page{position:relative;border:2px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.page img{width:100%;display:block}
+.hl{position:absolute;background:var(--hl);border:2px solid #F5A623;border-radius:6px;opacity:0;transition:opacity .4s;pointer-events:none}
+.hl.on{opacity:1}
+.zoombtn{position:absolute;top:8px;left:8px;z-index:2}
+.qcard{border:2px solid var(--ink);border-radius:14px;padding:10px 12px;margin-bottom:10px;cursor:pointer}
+.qcard .k{font-size:15px;color:var(--violet)}
+.qcard .a{display:none;margin-top:6px;border-top:2px dashed var(--line);padding-top:6px;color:#1f7a3a}
+.qcard.open .a{display:block}
+/* بطاقات المفردات */
+.flip{perspective:900px;height:150px;cursor:pointer}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .f,.flip .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px}
+.flip .f{color:#fff;font-size:24px}
+.flip .b{transform:rotateY(180deg);background:var(--cream);border:2px solid var(--line);font-size:17px}
+/* السبورة */
+.wb-tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.sw{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line)}
+.sw.on{box-shadow:0 0 0 3px var(--ink)}
+#wb{width:100%;height:62vh;min-height:360px;background:#fff;border:3px solid #9DB8A6;border-radius:14px;touch-action:none;display:block}
+/* النمذجة */
+.svgwrap{background:#0F1E2E;border-radius:16px;padding:8px}
+svg text{font-family:inherit}
+.steps button{border:2px solid var(--line);background:var(--card);border-radius:12px;padding:6px 10px;font-size:16px}
+.steps button.on{background:var(--dk);color:#fff;border-color:var(--dk)}
+.tube{position:relative;width:90px;height:300px;margin:auto;background:#F3E6D3;border:6px solid #C9A27A;border-radius:10px}
+.flap{position:absolute;height:8px;width:38px;background:#5AA9E6;border:1px solid #2F80C8;transition:transform .4s;top:0}
+.flap.l{right:4px;transform-origin:right center}.flap.r{left:4px;transform-origin:left center}
+.seed{position:absolute;width:14px;height:16px;border-radius:50%;background:#8B5A2B;left:38px;transition:top 1.2s ease-in}
+/* اللعبة */
+.chip{border:2.5px solid var(--blue);background:var(--card);border-radius:14px;padding:10px;font-size:17px}
+.chip.used{visibility:hidden}
+.chain{display:flex;flex-wrap:wrap;gap:6px;min-height:52px;border:2px dashed var(--line);border-radius:12px;padding:8px;margin:8px 0}
+.chain span{background:var(--green);color:#fff;border-radius:10px;padding:4px 10px}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bin{border:3px dashed var(--line);border-radius:14px;min-height:120px;padding:8px}
+.bin h4{margin:0 0 6px;text-align:center}
+.stars{font-size:40px;letter-spacing:4px;text-align:center}
+/* التكبير */
+#lb{position:fixed;inset:0;z-index:100;background:rgba(10,20,15,.92);display:none;flex-direction:column}
+#lb.on{display:flex}
+#lb .bar{display:flex;gap:8px;justify-content:center;padding:10px;flex-wrap:wrap}
+#lb .stage{flex:1;overflow:hidden;position:relative;cursor:grab;touch-action:none}
+#lb img{position:absolute;top:0;left:0;transform-origin:0 0;user-select:none;-webkit-user-drag:none}
+.toast{position:fixed;bottom:16px;inset-inline:16px;margin:auto;max-width:420px;background:var(--dk);color:#fff;padding:10px 14px;border-radius:14px;text-align:center;z-index:200}
+footer{text-align:center;color:var(--muted);font-size:16px;padding:12px}
+
+/* ===== عرض أفقي واضح (السبورة الذكية والبروجكتر والجوال بالعرض) ===== */
+html,body{height:100%}
+body{display:flex;flex-direction:column;overflow:hidden}
+header{padding:6px 16px;flex:0 0 auto}
+header h1{font-size:clamp(20px,2.6vw,30px)}
+nav{position:static;flex:0 0 auto}
+nav .in{max-width:none;justify-content:center;flex-wrap:wrap;padding:6px}
+nav button{font-size:clamp(14px,1.2vw,18px);padding:4px 10px}
+main{flex:1 1 auto;max-width:none;width:100%;overflow:auto;padding:10px 18px}
+footer{display:none}
+.tab.on{min-height:100%}
+h2{font-size:clamp(22px,2.4vw,30px);margin:2px 0 8px}
+.reader{grid-template-columns:auto 1fr;align-items:start}
+.page{height:calc(100vh - 210px);width:auto;max-width:52vw}
+.page img{height:100%;width:auto;max-width:100%;object-fit:contain}
+#qbox{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qcard{margin:0;font-size:clamp(17px,1.5vw,22px)}
+#wb{height:calc(100vh - 230px);min-height:300px}
+#t-model .grid.g2{grid-template-columns:1.1fr 1fr;align-items:start}
+#circ{max-height:calc(100vh - 220px)!important}
+.tube{height:240px}
+body{font-size:clamp(17px,1.45vw,22px)}
+.opt{font-size:clamp(16px,1.4vw,21px);padding:8px 12px;margin:5px 0}
+.flip{height:clamp(120px,22vh,180px)}
+.rotate{display:none}
+@media (orientation:portrait) and (max-width:820px){
+  .rotate{display:flex;position:fixed;inset:0;z-index:300;background:#1E5E3A;color:#fff;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;font-size:24px}
+  .rotate .ph{font-size:80px;animation:rot 1.6s ease-in-out infinite}
+  @keyframes rot{0%,30%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
+}
+@media (max-height:500px){ header{display:none} .page{height:calc(100vh - 120px)} #wb{height:calc(100vh - 150px)} #circ{max-height:calc(100vh - 130px)!important} }
+
+/* ضبط دقيق على ارتفاع الشاشة الفعلي */
+nav .in{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto}
+@media (min-width:1500px){nav .in{justify-content:center}}
+.strat{float:left;margin:4px 0 0}
+.page{height:calc(var(--ah,80vh) - 120px)}
+#wb{height:calc(var(--ah,80vh) - 120px);min-height:220px}
+.wb-tools{gap:4px}.wb-tools .btn{padding:4px 10px}
+#circ{max-height:calc(var(--ah,80vh) - 80px)!important}
+#t-model .grid.g2>div:last-child{max-height:calc(var(--ah,80vh) - 70px);overflow:auto}
+#t-read .muted{margin:0 0 6px}
+@media (max-height:500px){
+  nav button{font-size:13px;padding:2px 8px}nav button .n{width:18px;height:18px;line-height:18px;font-size:11px}
+  main{padding:6px 10px}h2{font-size:20px;margin:0 0 4px}.strat{font-size:12px;padding:0 8px}
+  .page{height:calc(var(--ah,80vh) - 95px)} #wb{height:calc(var(--ah,80vh) - 95px)}
+  #qbox{gap:6px}.qcard{padding:6px 8px;font-size:15px}.btn{padding:4px 12px;font-size:15px}
+  #pgsel{margin-bottom:4px!important}
+}
+
+/* ===== وضع العرض (مثل PowerPoint) ===== */
+body.present header, body.present nav{display:none}
+body.present main{padding:14px 26px 70px}
+body.present .tab>.row:last-child{display:none}
+body.present #t-model .grid.g2>div:last-child{max-height:calc(var(--ah,80vh) - 60px)}
+body.present .page{height:calc(var(--ah,80vh) - 100px)}
+body.present #wb{height:calc(var(--ah,80vh) - 150px)}
+body.present{font-size:clamp(18px,1.6vw,26px)}
+.pbar{display:none;position:fixed;bottom:0;inset-inline:0;z-index:50;background:rgba(30,94,58,.92);color:#fff;align-items:center;justify-content:center;gap:10px;padding:6px 12px}
+body.present .pbar{display:flex}
+.pbar button{border:none;border-radius:999px;padding:6px 16px;background:#fff;color:#1E5E3A;font-size:18px}
+.pbar .cnt{min-width:90px;text-align:center;font-size:18px}
+.pbar .prog{position:absolute;top:0;right:0;height:4px;background:#FFD34A;transition:width .3s}
+.imgslide{display:none}
+body.present .imgslide.on{display:flex;align-items:center;justify-content:center;height:100%}
+.imgslide img{max-width:100%;max-height:calc(var(--ah,90vh) - 80px);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+body:not(.present) .imgslide{display:none!important}
+</style>
+</head>
+<body>
+<div class="rotate"><div class="ph">📱</div><p>أديري الجوال بالعرض ↻<br>ليظهر الدرس واضحًا</p><button class="btn gold" onclick="this.parentElement.remove()">متابعة بالطول</button></div>
+<header><div class="in">
+  <div><h1>❤️ الدوران — درس تفاعلي</h1><div class="sub">العلوم · الصف السادس · ص١١٤–١١٦ · أ/ شامه البقمي</div></div>
+  <div class="row"><button class="score" id="presBtn" style="border:none">📽️ وضع العرض</button><a href="../index.html" class="score" style="text-decoration:none">← الألعاب</a><div class="score">⭐ <span id="score">٠</span></div></div>
+</div></header>
+<nav><div class="in" id="tabs" role="tablist"></div></nav>
+<main id="main"></main>
+<div class="pbar" id="pbar"><div class="prog" id="pprog"></div>
+  <button id="pprev" aria-label="السابقة">▶ السابقة</button><span class="cnt" id="pcnt"></span><button id="pnext" aria-label="التالية">التالية ◀</button>
+  <button id="pfs">⛶ ملء الشاشة</button><button id="pexit">✕ خروج من العرض</button></div>
+<footer>إعداد المعلمة: أ/ شامه البقمي · ابتدائية عشرون لتحفيظ القرآن</footer>
+
+<div id="lb" role="dialog" aria-label="تكبير صورة الكتاب">
+  <div class="bar">
+    <button class="btn" id="zin">➕ تكبير</button><button class="btn" id="zout">➖ تصغير</button>
+    <button class="btn gold" id="zfit">↺ ملء الشاشة</button><button class="btn alt" id="zwb">✏️ اكتبي عليها في السبورة</button>
+    <button class="btn ghost" style="color:#fff" id="zclose">✕ إغلاق</button>
+  </div>
+  <div class="stage" id="stage"><img id="lbimg" alt="صفحة الكتاب مكبرة"></div>
+</div>
+
+<script>
+const ar = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = s => document.querySelector(s);
+let score = 0;
+function addScore(n){ score += n; $('#score').textContent = ar(score); }
+function toast(t){ const d=document.createElement('div'); d.className='toast'; d.textContent=t; document.body.append(d); setTimeout(()=>d.remove(),2500); }
+let actx; function beep(ok){ try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); (ok?[523,659,784]:[300,220]).forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=f;o.connect(g);g.connect(actx.destination);const t=actx.currentTime+i*.11;g.gain.setValueAtTime(.16,t);g.gain.exponentialRampToValueAtTime(.001,t+.25);o.start(t);o.stop(t+.26);}); }catch(e){} }
+
+const TABS = [
+  ['review','🫁','مراجعة: التنفس','التعلم السابق: فكّري بسرعة'],
+  ['intro','🎯','أهدافي والتمهيد','أنظر وأتساءل – التوقع'],
+  ['vocab','📚','المفردات','بطاقات المفردات'],
+  ['read','📖','الفهم القرائي','الفهم القرائي – الدليل من النص'],
+  ['board','✏️','السبورة','السبورة المنظمة'],
+  ['model','🔬','النمذجة الافتراضية','النمذجة والمحاكاة (واقع افتراضي)'],
+  ['think','🧠','التفكير الناقد','التفكير الناقد – التناقض المعرفي'],
+  ['check','✅','التقويم التكويني','التقويم التكويني المتدرج'],
+  ['game','🎮','اللعبة','التعلم باللعب'],
+  ['final','🏆','التقويم النهائي','تحدي العالمة الصغيرة']
+];
+const main = $('#main'), tabs = $('#tabs');
+TABS.forEach(([id,ic,name,strat],i)=>{
+  const b=document.createElement('button'); b.setAttribute('role','tab'); b.dataset.t=id; b.innerHTML=`<span class="n">${ar(i+1)}</span>${ic} ${name}`;
+  b.onclick=()=>show(id); tabs.append(b);
+  const s=document.createElement('section'); s.className='tab'; s.id='t-'+id;
+  s.innerHTML=`<div class="strat">💡 الاستراتيجية: ${strat}</div>`; main.append(s);
+});
+function show(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id==='t-'+id));
+  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===id));
+  if(id==='board') setTimeout(resizeWB,50);
+  if(id==='model') startModel(); else stopModel();
+  history.replaceState(null,'','#'+id); window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextBtn(cur){ const i=TABS.findIndex(t=>t[0]===cur); if(i<TABS.length-1) return `<div class="row" style="justify-content:flex-end"><button class="btn alt" onclick="show('${TABS[i+1][0]}')">التالي: ${TABS[i+1][2]} ◀</button></div>`; return ''; }
+const sec = id => document.getElementById('t-'+id);
+
+/* ---------- أسئلة بالتلميح والعلاج ---------- */
+function mcq(el, q, opts){
+  // q: {q,o,a,hint,rem,sim:{q,o,a},why}
+  let tries=0, stage='main';
+  const box=document.createElement('div'); box.className='card'; el.append(box);
+  const render=(qq,isSim)=>{
+    box.innerHTML=`<div style="font-size:21px">${isSim?'🔁 سؤال مشابه: ':''}${qq.q}</div>`+qq.o.map((t,i)=>`<button class="opt" data-i="${i}">${'أبجد'[i]}) ${t}</button>`).join('')+`<div class="fb"></div><div class="ex"></div>`;
+    box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      const i=+b.dataset.i, fb=box.querySelector('.fb'), ex=box.querySelector('.ex');
+      if(b.disabled) return;
+      if(i===qq.a){ box.querySelectorAll('.opt').forEach(x=>x.disabled=true); b.classList.add('ok'); beep(true); addScore(isSim?5:(tries?5:10));
+        fb.className='fb ok'; fb.textContent='🌟 أحسنتِ يا عالمتي! '+(q.why||''); opts&&opts.onDone&&opts.onDone(tries===0&&!isSim);
+      } else { tries++; beep(false); b.classList.add('no'); b.disabled=true; fb.className='fb no';
+        if(!isSim && tries===1){ fb.textContent='فكّري مرة أخرى…'; ex.innerHTML=`<div class="hintbox">💡 تلميح: ${q.hint}</div>`; }
+        else if(!isSim){ fb.textContent=''; ex.innerHTML=`<div class="rembox">📘 لنفهم معًا: ${q.rem}</div><button class="btn" style="margin-top:8px">أجرّب سؤالًا مشابهًا ←</button>`;
+          ex.querySelector('button').onclick=()=>render(q.sim,true); }
+        else { fb.textContent='اقرئي الدليل مرة أخرى ثم اختاري.'; ex.innerHTML=`<div class="rembox">📘 ${q.rem}</div>`; }
+      }
+    });
+  };
+  render(q,false);
+}
+
+/* ---------- ١ مراجعة التنفس ---------- */
+(function(){
+  const s=sec('review');
+  s.insertAdjacentHTML('beforeend',`<h2>🫁 نتذكّر درس التنفس</h2><p class="muted">أجيبي بسرعة قبل أن نبدأ رحلة الدم!</p><div class="grid g2" id="revq"></div>
+  <div class="card"><b>رتّبي رحلة الهواء بالضغط بالترتيب:</b><div class="chain" id="airChain"></div><div class="grid g3" id="airPool"></div><div class="fb" id="airFb"></div></div>`+nextBtn('review'));
+  const R=[{q:'التنفس عملية إطلاق الطاقة المختزنة في جزيئات:',o:['الجلوكوز','الماء','الملح'],a:0,why:'وتحدث في الخلايا بوجود الأكسجين.'},
+           {q:'أين يحدث تبادل الغازات بين الدم والهواء؟',o:['الحنجرة','الحويصلات الهوائية','البلعوم'],a:1,why:'في الحويصلات الهوائية داخل الرئتين.'},
+           {q:'بأيّ تركيب تتبادل الحشرات الغازات؟',o:['القصيبات','الخياشيم','الرئات'],a:0,why:'أنابيب شديدة التفرع تُسمّى القصيبات.'},
+           {q:'العضلة التي تنظّم الشهيق والزفير:',o:['عضلة القلب','الحجاب الحاجز','عضلة الذراع'],a:1,why:'ينقبض الحجاب الحاجز وينبسط.'}];
+  const g=s.querySelector('#revq');
+  R.forEach(q=>{ const c=document.createElement('div'); c.className='card'; g.append(c);
+    c.innerHTML=`<div>${q.q}</div>`+q.o.map((t,i)=>`<button class="opt" data-i="${i}">${t}</button>`).join('')+`<div class="fb"></div>`;
+    c.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ if(b.disabled) return; const fb=c.querySelector('.fb');
+      if(+b.dataset.i===q.a){ c.querySelectorAll('.opt').forEach(x=>x.disabled=true); b.classList.add('ok'); beep(true); addScore(5); fb.className='fb ok'; fb.textContent='✔ '+q.why; }
+      else { b.classList.add('no'); b.disabled=true; beep(false); fb.className='fb no'; fb.textContent='حاولي مرة أخرى'; } }); });
+  orderGame(s.querySelector('#airChain'), s.querySelector('#airPool'), s.querySelector('#airFb'),
+    ['الأنف والفم','البلعوم','الحنجرة','القصبة الهوائية','الشعيبتان','الحويصلات الهوائية'], ()=>{ addScore(10); toast('رائع! الأكسجين وصل إلى الدم… والآن من ينقله إلى الخلايا؟ 🤔'); });
+})();
+
+function orderGame(chain, pool, fb, steps, done){
+  let next=0; chain.innerHTML='<span style="background:none;color:var(--muted)">ابدئي بالخطوة الأولى…</span>';
+  [...steps.keys()].sort(()=>Math.random()-.5).forEach(i=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=steps[i];
+    b.onclick=()=>{ if(i===next){ if(next===0) chain.innerHTML=''; chain.insertAdjacentHTML('beforeend',`<span>${steps[i]}</span>`); b.classList.add('used'); beep(true); next++;
+        fb.className='fb ok'; fb.textContent='صحيح ✔'; if(next===steps.length){ fb.textContent='🌟 أحسنتِ! اكتمل الترتيب.'; done&&done(); } }
+      else { beep(false); fb.className='fb no'; fb.textContent='فكّري: ما الخطوة التي تأتي الآن؟'; } };
+    pool.append(b); });
+}
+
+/* ---------- ٢ الأهداف والتمهيد ---------- */
+sec('intro').insertAdjacentHTML('beforeend',`<h2>🎯 أهدافي اليوم</h2>
+<div class="card"><ol style="margin:0">
+<li>أعرّف الدوران، وأذكر المواد التي ينقلها.</li><li>أميّز بين جهاز الدوران المفتوح والمغلق.</li>
+<li>أتتبّع الدورة الدموية في الإنسان، وأفرّق بين الدم المؤكسج وغير المؤكسج.</li><li>أستنتج عمل الصمامات بنموذج افتراضي.</li></ol></div>
+<div class="grid g2"><div class="card"><h3 style="margin-top:0">🤔 أنظر وأتساءل</h3>
+<p>بعد أن يصل الأكسجين إلى الرئتين، والجلوكوز إلى الأمعاء… <b>كيف يصلان إلى كل خلية في جسمك؟</b></p>
+<p>ولماذا يزداد نبض قلبك عندما تجرين؟</p>
+<button class="btn gold" onclick="this.nextElementSibling.hidden=false;this.remove()">💡 إظهار الإجابة</button>
+<p hidden style="color:var(--green)">✔ ينقلهما الدم عبر جهاز الدوران؛ والقلب يضخ أسرع ليوصل أكسجينًا أكثر إلى العضلات.</p></div>
+<div class="card" style="text-align:center"><img src="img/heart.jpg" alt="شكل الدوران والتنفس من الكتاب" style="max-width:100%;border-radius:12px;cursor:zoom-in" onclick="zoom(this.src)"><div class="muted">شكل الكتاب ص١١٦ — اضغطي للتكبير</div></div></div>`+nextBtn('intro'));
+
+/* ---------- ٣ المفردات ---------- */
+(function(){
+  const V=[['الدوران','حركة المواد المهمة ومنها الأكسجين والجلوكوز والفضلات في الجسم.','#2F80C8'],
+    ['جهاز الدوران المفتوح','يدفع القلب الدم مباشرة إلى أنسجة الجسم ليتم تبادل المواد مع الخلايا (المفصليات والرخويات).','#E3A21A'],
+    ['جهاز الدوران المغلق','يُدفع الدم خلال شبكة من الأوعية الدموية لا يمكنه مغادرتها (الفقاريات).','#E85D9A'],
+    ['الصمامات','تعمل على تدفّق الدم في اتجاه واحد لمنعه من التدفّق في اتجاه خاطئ.','#2E8B57'],
+    ['الشعيرات الدموية','أوعية دموية دقيقة جدرانها رقيقة، تنتقل عبرها المواد الغذائية والأكسجين إلى الخلايا.','#7A5BC9'],
+    ['متغيرة / ثابتة درجة الحرارة','المتغيرة: تتغير حرارة جسمها تبعًا للمحيط (الزواحف). الثابتة: تبقى ثابتة (الطيور والثدييات).','#2AA3A3']];
+  sec('vocab').insertAdjacentHTML('beforeend',`<h2>📚 مفردات الدرس</h2><p class="muted">اضغطي على البطاقة لتنقلب ويظهر التعريف من الكتاب (ص١١٤).</p><div class="grid g3">`+
+    V.map(([t,d,c])=>`<div class="flip" onclick="this.classList.toggle('on')"><div class="in"><div class="f" style="background:${c}">${t}</div><div class="b">${d}</div></div></div>`).join('')+`</div>`+nextBtn('vocab'));
+})();
+
+/* ---------- ٤ الفهم القرائي ---------- */
+const PAGES={
+  '114':{img:'img/p114.jpg',hl:[[[41.1,19.6,50.1,6.2]],[[41.1,26.8,50.1,23.2]],[[41.1,58.9,50.1,17.8]],[[1.5,1.1,37.7,22.1]]],
+    qs:[['المفردة','ما الدوران؟','حركة المواد المهمة، ومنها الأكسجين والجلوكوز والفضلات، في الجسم.'],
+        ['المقارنة','ما الفرق بين جهاز الدوران المفتوح والمغلق؟','المفتوح: يضخ القلب الدم مباشرة إلى الأنسجة · المغلق: يبقى الدم داخل الأوعية الدموية.'],
+        ['سؤال استنتاجي','لماذا تستدفئ الثعابين بالشمس؟','لأنها متغيرة درجة الحرارة؛ تتغير حرارة جسمها تبعًا لحرارة الوسط المحيط.'],
+        ['قراءة الشكل','ما أبسط أشكال الدوران؟ ومثاله؟','الانتشار؛ يتدفق الماء عبر أنابيب كما في الإسفنج.']]},
+  '116':{img:'img/p116.jpg',hl:[[[53.4,48.5,37.9,22.0]],[[12.6,47.1,36.6,15.4]],[[53.4,89.0,37.9,6.1],[12.1,62.3,40.9,6.8]],[[53.4,73.6,37.9,7.1]]],
+    qs:[['سؤال حرفي','أين يحدث تبادل الغازات للدم غير المؤكسج؟','في الحويصلات الهوائية داخل الرئتين؛ يدخل الأكسجين الدم ويخرج ثاني أكسيد الكربون.'],
+        ['أقرأ الشكل','أين يُضخّ الدم غير المؤكسج؟','إلى الرئتين؛ ليتخلص فيهما من ثاني أكسيد الكربون ويُحمَّل بالأكسجين.'],
+        ['سؤال استنتاجي','لماذا جدران الشعيرات الدموية رقيقة؟','لتنتقل عبرها المواد الغذائية والأكسجين إلى الخلايا، والفضلات منها إلى الدم.'],
+        ['الترتيب','ماذا يحدث للدم المؤكسج بعد الرئتين؟','يعود إلى القلب، فيضخّه إلى جميع أجزاء الجسم.']]},
+  '115':{img:'img/p115.jpg',hl:[],qs:[['ملاحظة','ماذا يمثّل الأنبوب الكرتوني في النشاط؟','يمثّل الوريد، وقطعتا الورق تمثّلان الصمامات.'],['نشاط أسري','كم درجة حرارة الجسم الطبيعية؟','٣٧° مئوية.']]}
+};
+(function(){
+  const s=sec('read');
+  s.insertAdjacentHTML('beforeend',`<h2>📖 الفهم القرائي من كتابي</h2>
+  <div class="row" style="margin-bottom:10px" id="pgsel">${Object.keys(PAGES).map(p=>`<button class="btn ghost" data-p="${p}">صفحة ${ar(p)}</button>`).join('')}</div>
+  <div class="reader"><div class="page" id="pageBox"><button class="btn gold zoombtn" id="pzoom">🔍 تكبير الصفحة</button><img id="pimg" alt="صفحة الكتاب"></div>
+  <div><p class="muted">اضغطي على السؤال: تظهر الإجابة ويتظلّل الدليل في صفحة الكتاب.</p><div id="qbox"></div></div></div>`+nextBtn('read'));
+  const load=p=>{ const P=PAGES[p]; s.querySelectorAll('#pgsel button').forEach(b=>{b.className='btn '+(b.dataset.p===p?'':'ghost')});
+    const box=s.querySelector('#pageBox'); box.querySelectorAll('.hl').forEach(h=>h.remove()); s.querySelector('#pimg').src=P.img;
+    const hls=P.hl.map(rs=>rs.map(([x,y,w,h])=>{ const d=document.createElement('div'); d.className='hl'; d.style.cssText=`right:${100-x-w}%;top:${y}%;width:${w}%;height:${h}%`; box.append(d); return d; }));
+    const qb=s.querySelector('#qbox'); qb.innerHTML='';
+    P.qs.forEach(([k,q,a],i)=>{ const c=document.createElement('div'); c.className='qcard'; c.style.background=['#E8F6DE','#FFF4D6','#FDE7F0','#E5EEFF'][i%4]; c.style.color='#1F2A3C';
+      c.innerHTML=`<div class="k">${k}</div><div>${q} 👆</div><div class="a">✔ ${a}</div>`;
+      c.onclick=()=>{ c.classList.toggle('open'); document.querySelectorAll('#pageBox .hl').forEach(h=>h.classList.remove('on')); if(c.classList.contains('open')&&hls[i]){ hls[i].forEach(h=>h.classList.add('on')); hls[i][0].scrollIntoView({behavior:'smooth',block:'center'}); if(!c.dataset.s){c.dataset.s=1;addScore(2);} } };
+      qb.append(c); });
+    s.querySelector('#pzoom').onclick=()=>zoom(P.img); };
+  s.querySelectorAll('#pgsel button').forEach(b=>b.onclick=()=>load(b.dataset.p)); load('114');
+})();
+
+/* ---------- ٥ السبورة ---------- */
+const BGS={'بيضاء':'','صفحة ١١٤':'img/p114.jpg','صفحة ١١٦':'img/p116.jpg','شكل الدورة الدموية':'img/heart.jpg','الجهاز التنفسي':'img/lungs.jpg'};
+let wbCtx, wbBg=new Image(), wbStrokes=[], pen={c:'#1E5E3A',w:4,er:false};
+(function(){
+  const s=sec('board');
+  s.insertAdjacentHTML('beforeend',`<h2>✏️ السبورة</h2>
+  <div class="wb-tools">${['#1E5E3A','#1F2A3C','#2F80C8','#D64545','#E3A21A','#E85D9A'].map((c,i)=>`<button class="sw${i?'':' on'}" style="background:${c}" data-c="${c}" aria-label="لون"></button>`).join('')}
+  <select id="wbw" class="btn ghost"><option value="3">رفيع</option><option value="6" selected>متوسط</option><option value="12">عريض</option></select>
+  <button class="btn ghost" id="wber">🧽 ممحاة</button><button class="btn ghost" id="wbundo">↶ تراجع</button><button class="btn ghost" id="wbclr">🗑 مسح الكل</button>
+  <select id="wbbg" class="btn ghost">${Object.keys(BGS).map(k=>`<option>${k}</option>`).join('')}</select>
+  <button class="btn gold" id="wbzoom">🔍 تكبير الخلفية</button></div>
+  <canvas id="wb"></canvas>
+  <p class="muted">اكتبي بالإصبع أو القلم أو الفأرة. اختاري «الخلفية» لتكتبي فوق صفحة الكتاب أو شكل الدورة الدموية.</p>`+nextBtn('board'));
+  const cv=s.querySelector('#wb'); wbCtx=cv.getContext('2d');
+  s.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{ s.querySelectorAll('.sw').forEach(x=>x.classList.remove('on')); b.classList.add('on'); pen.c=b.dataset.c; pen.er=false; s.querySelector('#wber').className='btn ghost'; });
+  s.querySelector('#wbw').onchange=e=>pen.w=+e.target.value; pen.w=6;
+  s.querySelector('#wber').onclick=e=>{ pen.er=!pen.er; e.target.className='btn '+(pen.er?'gold':'ghost'); };
+  s.querySelector('#wbclr').onclick=()=>{ wbStrokes=[]; drawWB(); };
+  s.querySelector('#wbundo').onclick=()=>{ wbStrokes.pop(); drawWB(); };
+  s.querySelector('#wbbg').onchange=e=>setBG(BGS[e.target.value]);
+  s.querySelector('#wbzoom').onclick=()=>{ if(wbBg.src) zoom(wbBg.src); else toast('اختاري خلفية من الكتاب أولًا'); };
+  let cur=null;
+  const pt=e=>{ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height]; };
+  cv.onpointerdown=e=>{ cv.setPointerCapture(e.pointerId); cur={c:pen.er?'#fff':pen.c,w:pen.er?pen.w*4:pen.w,er:pen.er,p:[pt(e)]}; wbStrokes.push(cur); };
+  cv.onpointermove=e=>{ if(!cur) return; cur.p.push(pt(e)); drawWB(); };
+  cv.onpointerup=cv.onpointercancel=()=>cur=null;
+  wbBg.onload=drawWB;
+})();
+function setBG(src){ if(src){ wbBg=new Image(); wbBg.onload=drawWB; wbBg.src=src; } else { wbBg=new Image(); drawWB(); } }
+function resizeWB(){ const cv=$('#wb'); const r=cv.getBoundingClientRect(); const d=window.devicePixelRatio||1; cv.width=r.width*d; cv.height=r.height*d; drawWB(); }
+function drawWB(){ const cv=$('#wb'); if(!cv||!cv.width) return; const c=wbCtx, W=cv.width, H=cv.height;
+  c.globalCompositeOperation='source-over'; c.fillStyle='#fff'; c.fillRect(0,0,W,H);
+  if(wbBg.src && wbBg.complete && wbBg.naturalWidth){ const s=Math.min(W/wbBg.naturalWidth,H/wbBg.naturalHeight); const w=wbBg.naturalWidth*s,h=wbBg.naturalHeight*s; c.drawImage(wbBg,(W-w)/2,(H-h)/2,w,h); }
+  const d=window.devicePixelRatio||1;
+  wbStrokes.forEach(st=>{ c.globalCompositeOperation=st.er&&!wbBg.src?'destination-out':'source-over'; c.strokeStyle=st.er?'rgba(255,255,255,1)':st.c; c.lineWidth=st.w*d; c.lineCap=c.lineJoin='round';
+    c.beginPath(); st.p.forEach(([x,y],i)=>i?c.lineTo(x*W,y*H):c.moveTo(x*W,y*H)); c.stroke(); });
+  c.globalCompositeOperation='source-over'; }
+window.addEventListener('resize',()=>{ if(sec('board').classList.contains('on')) resizeWB(); });
+
+/* ---------- التكبير ---------- */
+let zs=1,zx=0,zy=0;
+function zoom(src){ const img=$('#lbimg'); img.onload=fit; img.src=src; $('#lb').classList.add('on'); }
+function fit(){ const st=$('#stage'),img=$('#lbimg'); zs=Math.min(st.clientWidth/img.naturalWidth,st.clientHeight/img.naturalHeight); zx=(st.clientWidth-img.naturalWidth*zs)/2; zy=(st.clientHeight-img.naturalHeight*zs)/2; apply(); }
+function apply(){ $('#lbimg').style.transform=`translate(${zx}px,${zy}px) scale(${zs})`; }
+function zby(f,cx,cy){ const st=$('#stage'); cx=cx??st.clientWidth/2; cy=cy??st.clientHeight/2; zx=cx-(cx-zx)*f; zy=cy-(cy-zy)*f; zs*=f; apply(); }
+$('#zin').onclick=()=>zby(1.3); $('#zout').onclick=()=>zby(1/1.3); $('#zfit').onclick=fit; $('#zclose').onclick=()=>$('#lb').classList.remove('on');
+$('#zwb').onclick=()=>{ const src=$('#lbimg').getAttribute('src'); $('#lb').classList.remove('on'); show('board'); const k=Object.keys(BGS).find(k=>BGS[k]===src); if(k) $('#wbbg').value=k; setBG(src); };
+(function(){ const st=$('#stage'); let drag=null; const pts=new Map();
+  st.onwheel=e=>{ e.preventDefault(); const r=st.getBoundingClientRect(); zby(e.deltaY<0?1.15:1/1.15,e.clientX-r.left,e.clientY-r.top); };
+  st.onpointerdown=e=>{ st.setPointerCapture(e.pointerId); pts.set(e.pointerId,[e.clientX,e.clientY]); drag={x:e.clientX,y:e.clientY,d:null}; };
+  st.onpointermove=e=>{ if(!pts.has(e.pointerId)) return; const prev=pts.get(e.pointerId); pts.set(e.pointerId,[e.clientX,e.clientY]);
+    if(pts.size===2){ const [a,b]=[...pts.values()]; const d=Math.hypot(a[0]-b[0],a[1]-b[1]); if(drag.d){ const r=st.getBoundingClientRect(); zby(d/drag.d,(a[0]+b[0])/2-r.left,(a[1]+b[1])/2-r.top);} drag.d=d; }
+    else { zx+=e.clientX-prev[0]; zy+=e.clientY-prev[1]; apply(); } };
+  st.onpointerup=st.onpointercancel=e=>{ pts.delete(e.pointerId); if(pts.size<2&&drag) drag.d=null; };
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') $('#lb').classList.remove('on'); });
+})();
+
+/* ---------- ٦ النمذجة الافتراضية ---------- */
+sec('model').insertAdjacentHTML('beforeend',`<h2>🔬 جولة افتراضية: رحلة الدم</h2>
+<div class="grid g2">
+<div class="svgwrap"><svg id="circ" viewBox="0 0 420 520" style="width:100%;height:auto;max-height:72vh">
+  <defs><radialGradient id="hg" cx=".5" cy=".4"><stop offset="0" stop-color="#FF8A8A"/><stop offset="1" stop-color="#C62828"/></radialGradient></defs>
+  <text x="210" y="28" fill="#cfe" font-size="20" text-anchor="middle">الرئتان</text>
+  <ellipse cx="120" cy="90" rx="70" ry="52" fill="#F8B4C4" opacity=".9"/><ellipse cx="300" cy="90" rx="70" ry="52" fill="#F8B4C4" opacity=".9"/>
+  <text x="210" y="505" fill="#cfe" font-size="20" text-anchor="middle">خلايا الجسم</text>
+  <rect x="60" y="410" width="300" height="70" rx="30" fill="#FFE0B2" opacity=".9"/>
+  <path id="p1" d="M195 300 C 150 250, 120 200, 120 140" stroke="#3B6FD8" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="p2" d="M300 140 C 300 200, 270 250, 225 290" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="p3" d="M235 330 C 300 360, 320 390, 300 420" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="p4" d="M120 420 C 100 390, 130 350, 190 330" stroke="#3B6FD8" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path d="M120 140 C 160 110, 260 110, 300 140" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <path d="M300 420 C 260 450, 160 450, 120 420" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <g id="heart"><path d="M210 360 C 120 300, 150 240, 210 275 C 270 240, 300 300, 210 360 Z" fill="url(#hg)"/><text x="210" y="312" fill="#fff" font-size="20" text-anchor="middle">القلب</text></g>
+  <g id="cells"></g>
+  <text id="o2" x="210" y="120" fill="#FFEB3B" font-size="16" text-anchor="middle" opacity="0">يدخل الأكسجين ويخرج ثاني أكسيد الكربون</text>
+  <text id="food" x="210" y="452" fill="#5D4037" font-size="15" text-anchor="middle" opacity="0">الأكسجين والغذاء إلى الخلايا · الفضلات إلى الدم</text>
+</svg></div>
+<div><div class="card"><div class="row steps" id="steps"></div><div id="stepTxt" style="margin-top:8px;font-size:21px"></div>
+<div class="row" style="margin-top:8px"><button class="btn" id="play">▶ تشغيل الرحلة كاملة</button><button class="btn ghost" id="pause">⏸ إيقاف</button></div>
+<p class="muted">🔵 أزرق: دم غير مؤكسج · 🔴 أحمر: دم مؤكسج · القلب ينبض مع كل ضخّة.</p></div>
+<div class="card"><h3 style="margin-top:0">🧪 نشاط الكتاب ص١١٥: نموذج لصمام في الوريد</h3>
+<div class="grid g2" style="align-items:center"><div class="tube" id="tube"><div class="flap l" style="top:110px"></div><div class="flap r" style="top:110px"></div><div class="flap l" style="top:200px"></div><div class="flap r" style="top:200px"></div></div>
+<div><button class="btn" id="dropTop">⬇ أسقطي البذور من الأعلى</button><br><br><button class="btn alt" id="dropBot">⬆ أسقطيها من الطرف الآخر</button><div class="fb" id="valveFb"></div></div></div>
+<p class="muted">الأنبوب = الوريد، وقطعتا الورق = الصمامات.</p></div></div></div>`+nextBtn('model'));
+const STEPS=[['١','يتدفق الدم غير المؤكسج إلى القلب.','p4','#3B6FD8'],['٢','يُضخّ الدم غير المؤكسج إلى الرئتين.','p1','#3B6FD8'],
+ ['٣','يتخلص الدم في الرئتين من ثاني أكسيد الكربون ويُحمَّل بالأكسجين، ثم يعود إلى القلب.','p2','#E53935'],['٤','يُضخّ الدم المؤكسج إلى سائر أجزاء الجسم عبر الشعيرات الدموية.','p3','#E53935']];
+let mRAF=null, mStep=0, mT=0, mAuto=false, mStarted=false;
+function startModel(){ if(!mStarted){ mStarted=true; const st=$('#steps'); STEPS.forEach((s,i)=>{ const b=document.createElement('button'); b.textContent='الخطوة '+s[0]; b.onclick=()=>{mAuto=false;goStep(i)}; st.append(b); });
+  $('#play').onclick=()=>{ mAuto=true; goStep(0); }; $('#pause').onclick=()=>{ mAuto=false; cancelAnimationFrame(mRAF); mRAF=null; };
+  $('#dropTop').onclick=()=>valve(true); $('#dropBot').onclick=()=>valve(false); goStep(0,true); } }
+function stopModel(){ cancelAnimationFrame(mRAF); mRAF=null; }
+function goStep(i,still){ mStep=i; mT=0; document.querySelectorAll('#steps button').forEach((b,k)=>b.classList.toggle('on',k===i)); $('#stepTxt').innerHTML=`<b style="color:${STEPS[i][3]}">${STEPS[i][0]})</b> ${STEPS[i][1]}`;
+  ['p1','p2','p3','p4'].forEach(p=>document.getElementById(p).style.opacity=p===STEPS[i][2]?1:.25);
+  $('#o2').style.opacity=i===2?1:0; $('#food').style.opacity=i===3?1:0;
+  const g=$('#cells'); g.innerHTML=''; for(let k=0;k<6;k++){ const c=document.createElementNS('http://www.w3.org/2000/svg','circle'); c.setAttribute('r',9); c.setAttribute('fill',STEPS[i][3]); c.setAttribute('stroke','#fff'); c.setAttribute('stroke-width',2); g.append(c); }
+  if(!still){ cancelAnimationFrame(mRAF); tick(); addScore(1); } else place(0); }
+function place(t){ const path=document.getElementById(STEPS[mStep][2]), L=path.getTotalLength(); [...$('#cells').children].forEach((c,k)=>{ const p=path.getPointAtLength(((t+k/6)%1)*L); c.setAttribute('cx',p.x); c.setAttribute('cy',p.y); });
+  const beat=1+.06*Math.max(0,Math.sin(t*Math.PI*6)); $('#heart').setAttribute('transform',`translate(210 310) scale(${beat}) translate(-210 -310)`); }
+function tick(){ mT+=0.004; place(mT); if(mT>=1.2 && mAuto){ if(mStep<3){ goStep(mStep+1); return; } mAuto=false; toast('🌟 اكتملت الدورة الدموية!'); }
+  mRAF=requestAnimationFrame(tick); }
+function valve(fromTop){ const tube=$('#tube'); tube.querySelectorAll('.seed').forEach(s=>s.remove()); const fb=$('#valveFb'); const flaps=tube.querySelectorAll('.flap');
+  const seeds=[0,1,2].map(k=>{ const s=document.createElement('div'); s.className='seed'; s.style.left=(22+k*18)+'px'; s.style.top=fromTop?'-24px':'300px'; tube.append(s); return s; });
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    if(fromTop){ flaps.forEach(f=>f.style.transform=f.classList.contains('l')?'rotate(-70deg)':'rotate(70deg)'); seeds.forEach((s,k)=>{ s.style.transitionDelay=k*0.15+'s'; s.style.top='268px'; });
+      setTimeout(()=>{ flaps.forEach(f=>f.style.transform=''); fb.className='fb ok'; fb.textContent='✔ مرّت البذور؛ انفتح الصمامان مع اتجاه الحركة.'; beep(true); addScore(3); },1700); }
+    else { seeds.forEach((s,k)=>{ s.style.transitionDelay=k*0.15+'s'; s.style.top='212px'; }); setTimeout(()=>{ fb.className='fb no'; fb.textContent='✖ لم تمر! انغلق الصمام فمنع الرجوع — هكذا يبقى الدم في الوريد متجهًا نحو القلب.'; beep(false); },1500); }
+  })); }
+
+/* ---------- ٧ التفكير الناقد ---------- */
+sec('think').insertAdjacentHTML('beforeend',`<h2>🧠 أختبر نفسي والتفكير الناقد</h2>
+<div class="grid g2">
+<div class="card"><b style="color:var(--blue)">مشكلة وحل (ص١١٦).</b> لماذا يشعر متسلقو الجبال الشاهقة بالإرهاق والتعب؟
+<br><button class="btn gold" onclick="this.nextElementSibling.hidden=false">💡 الإجابة</button><p hidden style="color:var(--green)">✔ لأن هواء المرتفعات الشاهقة قليل الأكسجين، فتقل الطاقة التي تُطلقها خلاياهم.</p></div>
+<div class="card"><b style="color:var(--blue)">التفكير الناقد (ص١١٦).</b> هل جهاز التنفس جزء من جهاز الإخراج؟ وضّحي.
+<br><button class="btn gold" onclick="this.nextElementSibling.hidden=false">💡 الإجابة</button><p hidden style="color:var(--green)">✔ نعم؛ يطرح خارج الجسم فضلات التنفس الخلوي: ثاني أكسيد الكربون وبخار الماء مع هواء الزفير.</p></div>
+<div class="card"><b style="color:var(--blue)">أستنتج (نشاط ص١١٥).</b> ما أوجه الشبه بين تركيب الأوردة والنموذج الذي عملته؟
+<br><button class="btn gold" onclick="this.nextElementSibling.hidden=false">💡 الإجابة</button><p hidden style="color:var(--green)">✔ كلاهما أنبوب فيه صمامات تسمح بالمرور في اتجاه واحد وتمنع الرجوع؛ فيبقى الدم في الوريد متجهًا نحو القلب.</p></div>
+<div class="card"><b style="color:var(--blue)">فكّري.</b> لماذا تحتاج البرمائيات والزواحف إلى الشمس أكثر من الطيور؟
+<br><button class="btn gold" onclick="this.nextElementSibling.hidden=false">💡 الإجابة</button><p hidden style="color:var(--green)">✔ لأنها متغيرة درجة الحرارة؛ تستدفئ بالشمس لترتفع حرارة جسمها، أما الطيور فثابتة درجة الحرارة.</p></div>
+</div>
+<h3>🔍 اكتشفي الخطأ وصحّحي المفهوم</h3><div class="grid g3" id="miscon"></div>`+nextBtn('think'));
+[['يُضخّ الدم غير المؤكسج إلى سائر أجزاء الجسم.','يُضخّ إلى الرئتين، والمؤكسج إلى سائر الجسم.'],['في الجرادة يبقى الدم داخل الأوعية دائمًا.','جهاز الجرادة مفتوح: يتحرك الدم من القلب إلى الأنسجة ويتجمع في الجيوب.'],['جميع الحيوانات ثابتة درجة الحرارة.','البرمائيات والزواحف ومعظم الأسماك متغيرة درجة الحرارة.']]
+.forEach(([w,r])=>sec('think').querySelector('#miscon').insertAdjacentHTML('beforeend',`<div class="card" style="border-color:var(--red);cursor:pointer" onclick="this.querySelector('p').hidden=false;this.style.borderColor='var(--green)'"><div style="color:var(--red)">✘ ${w}</div><p hidden style="color:var(--green);margin:6px 0 0">✔ ${r}</p><div class="muted" style="font-size:15px">اضغطي للتصحيح</div></div>`));
+
+/* ---------- ٨ التقويم التكويني ---------- */
+(function(){ const s=sec('check'); s.insertAdjacentHTML('beforeend',`<h2>✅ التقويم التكويني</h2><p class="muted">عند الخطأ: تلميح ← محاولة ثانية ← نشاط علاجي ← سؤال مشابه.</p><div class="grid g2" id="ckq"></div>`+nextBtn('check'));
+  const Q=[{q:'حركة المواد المهمة ومنها الأكسجين والجلوكوز والفضلات في الجسم تُسمّى:',o:['التنفس','الدوران','الهضم'],a:1,hint:'تذكّري بطاقة المفردة الأولى.',rem:'«فالدوران هو حركة المواد المهمة ومنها الأكسجين والجلوكوز والفضلات في الجسم.» (ص١١٤)',sim:{q:'ماذا ينقل الدم إلى الخلايا؟',o:['الأكسجين والجلوكوز','الملح فقط','الهواء'],a:0},why:'الدوران ينقل الأكسجين والجلوكوز ويخلّص الخلايا من الفضلات.'},
+    {q:'أيّ الحيوانات جهاز دورانه مفتوح؟',o:['السمكة','القط','الجرادة'],a:2,hint:'في أيّها يتحرك الدم مباشرة إلى الأنسجة ويتجمع في جيوب؟',rem:'«هذه الجرادة جهاز دوراني مفتوح؛ حيث يتحرك الدم مباشرة من القلب إلى الأنسجة، ثم يجمع الدم في فتحات خاصة تسمى الجيوب.» (ص١١٤)',sim:{q:'في الدوران المغلق يبقى الدم:',o:['داخل الأوعية الدموية','في الجيوب','خارج الجسم'],a:0},why:'في الجرادة دوران مفتوح.'},
+    {q:'لماذا يُضخّ الدم غير المؤكسج إلى الرئتين؟',o:['ليُهضم فيهما الغذاء','ليتخلص من ثاني أكسيد الكربون ويُحمَّل بالأكسجين','ليتخلص من الماء'],a:1,hint:'تذكّري الخطوة ٣ في الجولة الافتراضية.',rem:'«يتخلص الدم في الرئتين من ثاني أكسيد الكربون ويُحمَّل بالأكسجين.» (ص١١٦)',sim:{q:'إلى أين يُضخّ الدم المؤكسج؟',o:['إلى الرئتين','إلى سائر أجزاء الجسم','إلى المعدة فقط'],a:1},why:'ثم يعود إلى القلب فيضخّه إلى الجسم.'},
+    {q:'ما وظيفة الصمامات؟',o:['تمنع رجوع الدم في الاتجاه الخاطئ','تصنع الدم','تُطلق الطاقة'],a:0,hint:'تذكّري البذور في نموذج الأنبوب.',rem:'«وتعمل صمامات خاصة في هذه الأجهزة على تدفّق الدم في اتجاه واحد لمنعه من التدفّق في اتجاه خاطئ.» (ص١١٤)',sim:{q:'في نموذج الأنبوب، البذور مرّت:',o:['من الاتجاهين','من اتجاه واحد فقط','لم تمر أبدًا'],a:1},why:'الصمامات تجعل الدم يتدفق في اتجاه واحد.'}];
+  const g=s.querySelector('#ckq'); Q.forEach(q=>mcq(g,q)); })();
+
+/* ---------- ٩ اللعبة ---------- */
+(function(){ const s=sec('game');
+  s.insertAdjacentHTML('beforeend',`<h2>🎮 سباق خلية الدم</h2>
+  <div class="grid g2"><div class="card"><b>١) رتّبي رحلة خلية الدم في الدورة الدموية:</b> <span class="muted" id="gtime"></span>
+  <div class="chain" id="bChain"></div><div class="grid g3" id="bPool"></div><div class="fb" id="bFb"></div></div>
+  <div class="card"><b>٢) صنّفي الحيوانات: اضغطي الحيوان ثم السلة الصحيحة.</b>
+  <div class="row" id="animals" style="margin:8px 0"></div>
+  <div class="bins"><div class="bin" data-k="o"><h4>🟡 دوران مفتوح</h4></div><div class="bin" data-k="c"><h4>🔴 دوران مغلق</h4></div></div><div class="fb" id="cFb"></div></div></div>`+nextBtn('game'));
+  let t0=Date.now(), timer=setInterval(()=>{ s.querySelector('#gtime').textContent='⏱ '+ar(Math.floor((Date.now()-t0)/1000))+' ث'; },1000);
+  orderGame(s.querySelector('#bChain'), s.querySelector('#bPool'), s.querySelector('#bFb'),
+    ['الجسم (دم غير مؤكسج)','القلب','الرئتان','القلب مرة أخرى','سائر أجزاء الجسم (دم مؤكسج)'], ()=>{ clearInterval(timer); const sec_=Math.floor((Date.now()-t0)/1000); addScore(sec_<40?15:10); toast('🏁 أنهيتِ السباق في '+ar(sec_)+' ثانية!'); });
+  const A=[['الجرادة','o'],['الحلزون (الرخويات)','o'],['السمكة','c'],['القط','c'],['الإنسان','c']];
+  let pick=null, left=A.length; const box=s.querySelector('#animals'), fb=s.querySelector('#cFb');
+  A.forEach(([n,k])=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=n; b.onclick=()=>{ box.querySelectorAll('.chip').forEach(x=>x.style.outline=''); pick={b,k,n}; b.style.outline='3px solid var(--gold)'; }; box.append(b); });
+  s.querySelectorAll('.bin').forEach(bin=>bin.onclick=()=>{ if(!pick) return toast('اختاري حيوانًا أولًا');
+    if(pick.k===bin.dataset.k){ bin.insertAdjacentHTML('beforeend',`<span class="chip" style="display:inline-block;margin:3px;border-color:var(--green)">${pick.n}</span>`); pick.b.remove(); beep(true); addScore(3); fb.className='fb ok'; fb.textContent='✔ صحيح'; if(--left===0) fb.textContent='🌟 صنّفتِ كل الحيوانات!'; }
+    else { beep(false); fb.className='fb no'; fb.textContent='فكّري: هل يبقى الدم داخل الأوعية؟'; } pick=null; });
+})();
+
+/* ---------- ١٠ التقويم النهائي ---------- */
+(function(){ const s=sec('final');
+  const F=[['أتذكر','حركة المواد المهمة في الجسم تُسمّى:',['الدوران','الهضم','التنفس'],0],
+           ['أفهم','في جهاز الدوران المغلق:',['يتحرك الدم من القلب إلى الأنسجة مباشرة','يبقى الدم داخل الأوعية الدموية','لا يوجد قلب'],1],
+           ['أطبق','الدم الذي يخرج من الرئتين إلى القلب يكون:',['مؤكسجًا (أحمر)','غير مؤكسج (أزرق)','بلا غازات'],0],
+           ['أستنتج','لو تعطّلت صمامات الأوردة، فماذا يحدث؟',['يتدفق الدم أسرع نحو القلب','يرجع الدم في الاتجاه الخاطئ','يتوقف التنفس'],1]];
+  let i=0, right=0, firstTry=true;
+  const render=()=>{ if(i>=F.length) return finish();
+    const [lvl,q,o,a]=F[i]; firstTry=true;
+    s.querySelector('#fbox').innerHTML=`<div class="stars">${'★'.repeat(i)}${'☆'.repeat(F.length-i)}</div><div class="strat">المستوى ${ar(i+1)}: ${lvl}</div><div style="font-size:22px">${q}</div>`+o.map((t,k)=>`<button class="opt" data-k="${k}">${'أبج'[k]}) ${t}</button>`).join('')+`<div class="fb"></div>`;
+    s.querySelectorAll('#fbox .opt').forEach(b=>b.onclick=()=>{ if(b.disabled) return; const fb=s.querySelector('#fbox .fb');
+      if(+b.dataset.k===a){ b.classList.add('ok'); beep(true); if(firstTry) right++; addScore(firstTry?10:5); fb.className='fb ok'; fb.textContent='🌟 أحسنتِ!'; s.querySelectorAll('#fbox .opt').forEach(x=>x.disabled=true); setTimeout(()=>{ i++; render(); },900); }
+      else { firstTry=false; b.classList.add('no'); b.disabled=true; beep(false); fb.className='fb no'; fb.textContent='حاولي مرة أخرى 💪'; } }); };
+  const finish=()=>{ s.querySelector('#fbox').innerHTML=`<div style="text-align:center"><div style="font-size:64px">🏅</div><h2>شهادة: عالمة الدوران</h2>
+    <div class="stars">${'⭐'.repeat(Math.max(1,right))}</div><p style="font-size:22px">أجبتِ صحيحًا من المحاولة الأولى عن ${ar(right)} من ${ar(F.length)} · مجموع نجومك ${ar(score)}</p>
+    <p class="muted">مبارك يا عالمتي الصغيرة! اكتشفتِ كيف يدور الدم في جسمك.</p><button class="btn" onclick="location.reload()">↺ ابدئي الدرس من جديد</button></div>`;
+    window.reportGame && window.reportGame(right, F.length); };
+  s.insertAdjacentHTML('beforeend',`<h2>🏆 تحدي العالمة الصغيرة</h2><div class="card" id="fbox"></div>`); render(); })();
+
+
+
+/* ---------- وضع العرض ---------- */
+[['greet','img/greet.jpg','صباح الخير طالباتي الجميلات'],['rules','img/rules.jpg','القوانين الصفية'],['flag','img/flag.jpg','العلم']].reverse().forEach(([id,src,alt])=>{
+  const s=document.createElement('section'); s.className='tab imgslide'; s.id='t-'+id; s.innerHTML=`<img src="${src}" alt="${alt}">`; main.prepend(s); });
+const SLIDES=['greet','rules','flag',...TABS.map(t=>t[0])];
+let cur='review';
+const _show=show;
+show=function(id){ cur=id; document.querySelectorAll('.imgslide').forEach(s=>s.classList.toggle('on',s.id==='t-'+id));
+  if(id==='greet'||id==='rules'||id==='flag'){ document.querySelectorAll('.tab:not(.imgslide)').forEach(t=>t.classList.remove('on')); stopModel(); } else _show(id);
+  const i=SLIDES.indexOf(id); $('#pcnt').textContent=ar(i+1)+' / '+ar(SLIDES.length); $('#pprog').style.width=((i+1)/SLIDES.length*100)+'%'; $('#main').scrollTop=0; };
+function step(d){ const i=SLIDES.indexOf(cur)+d; if(i>=0&&i<SLIDES.length) show(SLIDES[i]); }
+function present(on){ document.body.classList.toggle('present',on); setTimeout(setAH,60);
+  if(on){ show('greet'); try{ document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); }catch(e){} }
+  else { if(document.fullscreenElement) document.exitFullscreen(); if(['greet','rules','flag'].includes(cur)) show('review'); } }
+$('#presBtn').onclick=()=>present(true); $('#pexit').onclick=()=>present(false);
+$('#pnext').onclick=()=>step(1); $('#pprev').onclick=()=>step(-1);
+$('#pfs').onclick=()=>{ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); };
+document.addEventListener('fullscreenchange',()=>setTimeout(setAH,100));
+document.addEventListener('keydown',e=>{
+  if(!document.body.classList.contains('present')||$('#lb').classList.contains('on')) return;
+  if(/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  if(['ArrowRight','ArrowDown','PageDown','n','N',' '].includes(e.key)){ e.preventDefault(); step(1); }
+  else if(['ArrowLeft','ArrowUp','PageUp','p','P','Backspace'].includes(e.key)){ e.preventDefault(); step(-1); }
+  else if(e.key==='Home') show(SLIDES[0]); else if(e.key==='End') show(SLIDES[SLIDES.length-1]);
+  else if(e.key==='Escape' && !document.fullscreenElement) present(false);
+});
+if(/present/.test(location.search+location.hash)) document.body.classList.add('present');
+
+function setAH(){ document.documentElement.style.setProperty('--ah', (document.getElementById('main').clientHeight-(document.body.classList.contains('present')?64:0))+'px'); if(sec('board').classList.contains('on')) resizeWB(); }
+window.addEventListener('resize', setAH); window.addEventListener('orientationchange', ()=>setTimeout(setAH,300)); setAH();
+show((location.hash||'#review').slice(1).split('?')[0] in Object.fromEntries(TABS.map(t=>[t[0],1])) ? (location.hash||'#review').slice(1) : 'review');
+if(document.body.classList.contains('present')) show('greet');
+</script>
+<script src="../../assets/student.js"></script>
+</body>
+</html>
