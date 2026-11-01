@@ -18,7 +18,8 @@ const SHEETS = {
   activities: ['id', 'title', 'classes', 'questions', 'active', 'created', 'timer'],
   responses:  ['time', 'activity', 'class', 'name', 'answers', 'score', 'total'],
   games:      ['time', 'game', 'title', 'class', 'name', 'score', 'total'],
-  visits:     ['time', 'page', 'class', 'name']
+  visits:     ['time', 'page', 'class', 'name'],
+  wall:       ['id', 'time', 'class', 'name', 'title', 'desc', 'cat', 'image', 'link', 'likes', 'pinned']
 };
 
 // يعمل سواء فُتح الكود من داخل Google Sheet أو مباشرة من script.google.com
@@ -43,6 +44,7 @@ function setup() {
   });
   const props = PropertiesService.getScriptProperties();
   if (!props.getProperty('PIN')) props.setProperty('PIN', '1234');
+  wallFolder(); // يطلب إذن Google Drive لحفظ صور حائط المهام والإنجاز
   const first = ss.getSheetByName('Sheet1') || ss.getSheetByName('ورقة1');
   if (first && ss.getSheets().length > 3) ss.deleteSheet(first);
 }
@@ -109,6 +111,33 @@ function publicActivity(a) {
   };
 }
 
+// ---------- حائط المهام والإنجاز ----------
+function wallFolder() {
+  const props = PropertiesService.getScriptProperties();
+  const id = props.getProperty('WALL_FOLDER');
+  if (id) { try { const f = DriveApp.getFolderById(id); if (!f.isTrashed()) return f; } catch (e) {} }
+  const folder = DriveApp.createFolder('حائط المهام والإنجاز — صور الطالبات');
+  props.setProperty('WALL_FOLDER', folder.getId());
+  return folder;
+}
+function saveWallImage(dataUrl, name) {
+  const m = /^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+\/=]+)$/.exec(String(dataUrl || ''));
+  if (!m) return '';
+  if (m[2].length > 3000000) throw new Error('الصورة كبيرة جدًا');
+  const blob = Utilities.newBlob(Utilities.base64Decode(m[2]), 'image/' + m[1], name + '.' + (m[1] === 'jpeg' ? 'jpg' : m[1]));
+  const file = wallFolder().createFile(blob);
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return file.getId();
+}
+function wallPosts() {
+  return rows('wall').map(function (r) {
+    return { id: String(r.id), time: r.time instanceof Date ? r.time.getTime() : Number(new Date(r.time)) || 0,
+      cls: String(r.class), name: String(r.name), title: String(r.title), desc: String(r.desc || ''), cat: String(r.cat || ''),
+      image: String(r.image || ''), link: String(r.link || ''), likes: Number(r.likes) || 0, pinned: r.pinned === true || r.pinned === 'TRUE' };
+  }).reverse().slice(0, 400);
+}
+function findWall(id) { return rows('wall').filter(function (r) { return String(r.id) === String(id); })[0]; }
+
 // ---------- routes ----------
 function route(p) {
   const action = p.action;
@@ -137,6 +166,30 @@ function route(p) {
     const total = Math.max(0, Math.min(1000, Number(p.total) || 0)), score = Math.max(0, Math.min(total, Number(p.score) || 0));
     sheet('games').appendRow([new Date(), page, String(p.title || '').slice(0, 80), cls, name, score, total]);
     return { saved: true };
+  }
+
+  if (action === 'wall') return { posts: wallPosts() };
+  if (action === 'wallPost') {
+    const roster = studentsBy(), list = roster[p.cls] || [];
+    const name = list.length ? list.filter(function (n) { return norm(n) === norm(p.name); })[0] : String(p.name || '').trim().slice(0, 60);
+    if (!name) throw new Error('الاسم غير موجود في قائمة الفصل');
+    const title = String(p.title || '').trim().slice(0, 100);
+    if (!title) throw new Error('اكتبي عنوانًا لمهمتك أو إنجازك');
+    const link = /^https?:\/\//i.test(String(p.link || '')) ? String(p.link).slice(0, 400) : '';
+    const id = Utilities.getUuid().slice(0, 10);
+    const image = p.image ? saveWallImage(p.image, id) : '';
+    sheet('wall').appendRow([id, new Date(), String(p.cls || '').slice(0, 10), name, title,
+      String(p.desc || '').slice(0, 1000), String(p.cat || '').slice(0, 20), image, link, 0, false]);
+    return { id: id };
+  }
+  if (action === 'wallLike') {
+    const lock = LockService.getScriptLock(); lock.waitLock(10000);
+    try {
+      const r = findWall(p.id); if (!r) throw new Error('المشاركة غير موجودة');
+      const likes = (Number(r.likes) || 0) + 1;
+      sheet('wall').getRange(r._row, SHEETS.wall.indexOf('likes') + 1).setValue(likes);
+      return { likes: likes };
+    } finally { lock.releaseLock(); }
   }
 
   if (action === 'submit') {
@@ -238,6 +291,16 @@ function route(p) {
     const map = function (r) { const o = {}; Object.keys(r).forEach(function (k) { if (k !== '_row') o[k] = r[k]; }); return o; };
     const g = rows('games').map(map), v = rows('visits').map(map);
     return { games: g.slice(-2000), visits: v.slice(-3000), students: studentsBy() };
+  }
+
+  if (action === 'wallDelete') {
+    const r = findWall(p.id); if (!r) return {};
+    if (r.image) { try { DriveApp.getFileById(String(r.image)).setTrashed(true); } catch (e) {} }
+    sheet('wall').deleteRow(r._row); return {};
+  }
+  if (action === 'wallPin') {
+    const r = findWall(p.id); if (!r) throw new Error('المشاركة غير موجودة');
+    sheet('wall').getRange(r._row, SHEETS.wall.indexOf('pinned') + 1).setValue(!!p.pinned); return {};
   }
 
   if (action === 'resetResponses') {
