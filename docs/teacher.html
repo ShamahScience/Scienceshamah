@@ -99,17 +99,24 @@ function loginView(err) {
     h('label', { class: 'f', for: 'apiUrl' }, 'رابط Google Apps Script (مرة واحدة فقط)', apiIn),
     h('label', { class: 'f', for: 'pin' }, 'الرمز السري', pinIn),
     h('button', { class: 'btn primary', onclick: go }, 'دخول'), msg,
-    h('details', {}, h('summary', {}, 'كيف أحصل على الرابط؟'), setupSteps())));
+    h('details', { open: !getApi() }, h('summary', {}, 'كيف أحصل على الرابط؟'), setupSteps())));
   pinIn.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
 }
 function setupSteps() {
-  return h('ol', { class: 'steps small' },
-    h('li', {}, 'افتحي ', h('a', { href: 'https://sheets.new', target: '_blank', rel: 'noopener' }, 'Google Sheet جديد'), ' وسمّيه «منصة شامه».'),
-    h('li', {}, 'من القائمة: الإضافات (Extensions) ← Apps Script.'),
-    h('li', {}, 'احذفي الموجود والصقي محتوى ملف ', h('a', { href: 'https://github.com/ShamahScience/Scienceshamah/blob/platform/apps-script/Code.gs', target: '_blank', rel: 'noopener' }, 'Code.gs'), ' ثم احفظي.'),
-    h('li', {}, 'اختاري الدالة ', h('code', {}, 'setup'), ' واضغطي «تشغيل» (Run) ووافقي على الأذونات.'),
-    h('li', {}, 'نشر (Deploy) ← نشر جديد ← تطبيق ويب. التنفيذ باسم: أنا. من يمكنه الوصول: أي شخص (Anyone).'),
-    h('li', {}, 'انسخي رابط تطبيق الويب والصقيه هنا. الرمز السري الأول: ', h('code', {}, '1234')));
+  let code = '';
+  const copyBtn = h('button', { class: 'btn primary', disabled: true }, 'جارٍ تجهيز الكود…');
+  fetch('assets/server-code.txt', { cache: 'no-store' }).then(r => r.text()).then(t => { code = t; copyBtn.disabled = false; copyBtn.textContent = '📋 نسخ الكود'; })
+    .catch(() => { copyBtn.textContent = 'تعذّر تحميل الكود، حدّثي الصفحة'; });
+  copyBtn.onclick = () => copyText(code);
+  return h('div', { style: 'display:flex;flex-direction:column;gap:10px' },
+    h('ol', { class: 'steps small' },
+      h('li', {}, 'اضغطي «نسخ الكود» بالأسفل.'),
+      h('li', {}, 'في Safari اطلبي «موقع سطح المكتب» (زر ᴬA)، ثم افتحي ', h('a', { href: 'https://script.google.com/create', target: '_blank', rel: 'noopener' }, 'script.google.com/create'), ' بحساب Google الخاص بك.'),
+      h('li', {}, 'امسحي الأسطر الموجودة في المحرر، والصقي الكود، ثم اضغطي حفظ 💾.'),
+      h('li', {}, 'اختاري الدالة ', h('code', {}, 'setup'), ' واضغطي «تشغيل» (Run) ووافقي على الأذونات.'),
+      h('li', {}, 'نشر (Deploy) ← نشر جديد ← ⚙ تطبيق ويب. التنفيذ باسم: أنا. من يمكنه الوصول: أي شخص (Anyone) ← نشر.'),
+      h('li', {}, 'انسخي رابط تطبيق الويب والصقيه هنا. الرمز السري الأول: ', h('code', {}, '1234'))),
+    copyBtn);
 }
 
 // ---------------- home ----------------
