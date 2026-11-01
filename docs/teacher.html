@@ -146,6 +146,13 @@ async function home() {
       card('🏆', 'حائط المهام والإنجاز', 'حائط مثل بادلت: الطالبات ينشرن مهامهن وإنجازاتهن بالصور، ويضعن الإعجابات ❤️.', 'رابط الحائط', shareWall, 'primary'),
       card('🎡', 'عجلة الحصة', 'عجلة الأسماء مع أسئلة نافس والنقاط والشهادات.', 'فتح العجلة', () => location.href = 'wheel.html'),
       card('⚙️', 'إعداداتي', 'أسماء الفصلين، والرمز السري، وربط المنصة.', 'فتح الإعدادات', settings)));
+  api({ action: 'wall' }).catch(e => {
+    if (!/غير معروف/.test(e.message)) return;
+    app.prepend(h('div', { class: 'panel', style: 'border:2px solid var(--accent)' },
+      h('h3', {}, '🏆 حائط المهام والإنجاز ينتظر خطوة واحدة'),
+      h('p', { class: 'muted', style: 'margin:0' }, 'حدّثي كود الخادم مرة واحدة ليعمل الحائط عند الطالبات.'),
+      h('button', { class: 'btn primary', onclick: serverUpdate }, '🔄 ابدئي التحديث')));
+  });
 }
 
 function sharePortal() {
@@ -157,6 +164,25 @@ function sharePortal() {
     h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(link) }, 'نسخ الرابط'), h('a', { class: 'btn', href: link, target: '_blank', rel: 'noopener' }, 'تجربة كطالبة')));
 }
 
+// تحديث الخادم (Apps Script) من الجوال: نسخ الكود بضغطة واحدة مع خطوات مختصرة
+function serverUpdate() {
+  let code = '';
+  const copyBtn = h('button', { class: 'btn primary big', disabled: true }, 'جارٍ تجهيز الكود…');
+  fetch('assets/server-code.txt', { cache: 'no-store' }).then(r => r.text()).then(t => { code = t; copyBtn.disabled = false; copyBtn.textContent = '📋 نسخ كود التحديث'; })
+    .catch(() => { copyBtn.textContent = 'تعذّر تحميل الكود، حدّثي الصفحة'; });
+  copyBtn.onclick = () => copyText(code);
+  modal(h('h2', {}, '🔄 تحديث الخادم (مرة واحدة)'),
+    h('p', { class: 'muted', style: 'margin:0' }, 'يلزم لتشغيل حائط المهام والإنجاز. من الجوال: افتحي Safari واطلبي «موقع سطح المكتب» من زر ᴬA في شريط العنوان.'),
+    h('ol', { class: 'steps' },
+      h('li', {}, 'اضغطي الزر بالأسفل لنسخ الكود.'),
+      h('li', {}, 'افتحي ', h('a', { href: 'https://script.google.com/home', target: '_blank', rel: 'noopener' }, 'script.google.com'), ' وادخلي مشروع المنصة.'),
+      h('li', {}, 'بجانب الملف Code.gs اضغطي ⋮ ← حذف (Delete).'),
+      h('li', {}, 'اضغطي ＋ بجانب «الملفات» ← Script، وسمّيه Code. امسحي السطور الثلاثة الموجودة فيه، ثم الصقي الكود واضغطي حفظ 💾.'),
+      h('li', {}, 'من القائمة أعلى المحرر اختاري setup ← تشغيل (Run) ← وافقي على الأذونات.'),
+      h('li', {}, 'نشر (Deploy) ← إدارة عمليات النشر ← ✏️ ← الإصدار: إصدار جديد ← نشر.')),
+    copyBtn);
+}
+
 function shareWall() {
   const u = new URL(siteBase() + 'wall.html');
   if (!CONFIG_API && getApi()) u.searchParams.set('s', b64u.enc(getApi()));
@@ -165,7 +191,7 @@ function shareWall() {
     h('p', { class: 'muted', style: 'margin:0' }, 'تفتحه الطالبة، وتختار فصلها واسمها، وتنشر إنجازها بصورة فيظهر للجميع مباشرة، والكل يستطيع الإعجاب ❤️. عندما تفتحينه أنتِ من هذا الجهاز تظهر لك أزرار التثبيت والحذف.'),
     h('div', { style: 'text-align:center' }, qrBox(link, 260)),
     h('input', { type: 'text', value: link, readonly: true, dir: 'ltr', onclick: e => e.target.select() }),
-    h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(link) }, 'نسخ الرابط'), h('a', { class: 'btn primary', href: link, target: '_blank', rel: 'noopener' }, 'فتح الحائط')));
+    h('div', { class: 'row' }, h('button', { class: 'btn teal', onclick: () => copyText(link) }, 'نسخ الرابط'), h('a', { class: 'btn primary', href: link, target: '_blank', rel: 'noopener' }, 'فتح الحائط'), h('button', { class: 'btn sm', onclick: serverUpdate }, '🔄 تحديث الخادم')));
 }
 
 // ---------------- editor ----------------
