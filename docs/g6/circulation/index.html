@@ -264,6 +264,10 @@
   .vcol { display: flex; flex-direction: column; min-height: 0; }
   .vcol video { width: 100%; flex: 1; min-height: 0; max-height: 100%; object-fit: contain; background: #000; border-radius: 14px; border: 3px solid var(--leaf); }
   .vcol .cap { flex: none; }
+  .slide.tam { display: none; flex-direction: column; align-items: center; gap: 6px; }
+  .slide.tam.on { display: flex; }
+  .tamh { flex: none; background: var(--green); color: #fff; border-radius: 30px; padding: 4px 22px; font-size: 22px; }
+  .slide.tam video { flex: 1; min-height: 0; max-width: 100%; border-radius: 14px; background: #000; border: 3px solid var(--leaf); }
 </style>
 </head>
 <body>
@@ -292,6 +296,7 @@
     <div class="slide on"><img src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></div>
     <div class="slide"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
     <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
+    <div class="slide tam"><div class="tamh">🎬 تمهيد: شاهدي… كيف يدور الدم في جسمك؟</div><video id="tvid" src="img/circ.mp4" controls loop playsinline preload="metadata"></video></div>
     <div class="slide goals"><div class="box">
       <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
       <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
@@ -306,7 +311,7 @@
   </div>
   <div class="dots">
     <button class="btn" onclick="slide(-1)">→ السابق</button>
-    <span id="dotT">١ / ٤</span>
+    <span id="dotT">١ / ٥</span>
     <button class="btn main" onclick="slide(1)">التالي ←</button>
   </div>
 </section>
@@ -460,6 +465,7 @@ function slide(d) {
   const all = document.querySelectorAll('#start .slide');
   si = (si + d + all.length) % all.length;
   all.forEach((x, k) => x.classList.toggle('on', k === si));
+  const tv = document.getElementById('tvid'); if (tv) { if (all[si].contains(tv)) tv.play().catch(() => {}); else tv.pause(); }
   document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
 }
 // ───── Enlarged page with pen, highlighter and eraser; ink is kept per picture for this visit
