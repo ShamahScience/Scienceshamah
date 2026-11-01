@@ -798,6 +798,8 @@ function round() {
   });
 }
 station(0);
+// direct link to the video station: …/circulation/#video
+if (location.hash === "#video") { go("stations"); station(1); }
 // every content picture opens full size when tapped
 document.addEventListener('click', (e) => {
   const im = e.target.closest('main img');
