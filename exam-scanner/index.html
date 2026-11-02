@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f4f53">
+<meta name="referrer" content="no-referrer">
+<title>مصحّح الاختبارات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f6f4; --surface:#fff; --ink:#123033; --muted:#5b6f6f; --line:#d8e2df; --soft:#e9f1ef;
+  --accent:#e2a22b; --accent-ink:#3a2600; --teal:#14666b; --teal-ink:#fff; --ok:#1f8a5b; --bad:#c8463a; --warn:#b7791f;
+  --ok-soft:#dff3e8; --bad-soft:#fbe4e1; --warn-soft:#fdf1d8;
+  --band1:#0f4f53; --band2:#14666b;
+  --display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d1f21; --surface:#142c2f; --ink:#eaf3f1; --muted:#9db3b1; --line:#24423f; --soft:#1a3639;
+  --accent:#f0b443; --accent-ink:#2b1c00; --teal:#3fb3b0; --teal-ink:#06292a; --ok:#4cc38a; --bad:#f07a66; --warn:#f0b443;
+  --ok-soft:#173c2c; --bad-soft:#43231f; --warn-soft:#3d3218;
+  --band1:#0b3a3d; --band2:#12585c; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
+  padding:16px max(16px,env(safe-area-inset-right)) 110px max(16px,env(safe-area-inset-left))}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);line-height:1.25;margin:0}
+h2{font-size:24px} h3{font-size:18px}
+p{margin:0}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.muted{color:var(--muted)} .small{font-size:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.between{justify-content:space-between}
+.stack{display:flex;flex-direction:column;gap:12px}
+.btn{border-radius:14px;padding:10px 16px;font-weight:700;background:var(--surface);color:var(--ink);border:2px solid var(--line);display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;min-height:44px}
+.btn:hover:not(:disabled){border-color:var(--teal)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.teal{background:var(--teal);color:var(--teal-ink);border-color:var(--teal)}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:5px 11px;font-size:14px;border-radius:10px;min-height:36px}
+.btn:disabled{opacity:.5;cursor:default}
+.linkbtn{background:none;border:none;color:var(--muted);text-decoration:underline;padding:6px}
+.band{background:linear-gradient(135deg,var(--band1),var(--band2));color:#fff;border-radius:22px;padding:18px 20px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;position:relative;overflow:hidden}
+.band h1{font-size:clamp(24px,5vw,34px)}
+.band p{opacity:.9;font-size:15px}
+.band .btn{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.notice{background:var(--soft);border:1px dashed var(--teal);border-radius:14px;padding:12px 14px;font-size:14px}
+.notice.warn{border-color:var(--warn);background:var(--warn-soft)}
+.badge{display:inline-block;border-radius:999px;padding:1px 10px;font-size:13px;font-weight:700;background:var(--soft)}
+.badge.ok{background:var(--ok-soft);color:var(--ok)} .badge.bad{background:var(--bad-soft);color:var(--bad)} .badge.warn{background:var(--warn-soft);color:var(--warn)}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:14px;color:var(--muted);min-width:0;flex:1 1 160px}
+label.f input,label.f select,label.f textarea,.inp{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;color:var(--ink)}
+textarea{resize:vertical}
+.empty{text-align:center;padding:30px 12px;color:var(--muted)}
+.empty .big{font-size:52px}
+.steps{margin:0;padding-inline-start:22px;text-align:start;display:flex;flex-direction:column;gap:4px}
+
+/* tabs */
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;
+  padding:6px max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
+.tabs .in{display:flex;gap:2px;width:100%;max-width:640px}
+.tabs button{flex:1;border:none;background:none;border-radius:12px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:0;font-size:12px;color:var(--muted);font-weight:700}
+.tabs button .i{font-size:22px;line-height:1.2}
+.tabs button[aria-current="page"]{background:var(--soft);color:var(--teal)}
+
+/* lock */
+.lock{min-height:80vh;display:grid;place-items:center}
+.lockcard{width:min(420px,100%);background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:26px 22px;display:flex;flex-direction:column;gap:14px;text-align:center}
+.lockcard .logo{font-size:56px;line-height:1}
+.pin{font-size:26px;letter-spacing:8px;text-align:center;direction:ltr}
+.err{color:var(--bad);font-weight:700;min-height:1.4em}
+
+/* exam cards */
+.exam .meta{display:flex;gap:6px;flex-wrap:wrap}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+
+/* answer grid */
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:4px 14px}
+.arow{display:flex;align-items:center;gap:6px;padding:3px 6px;border-radius:10px}
+.arow .n{width:30px;text-align:center;font-weight:700;color:var(--muted);flex:none}
+.arow.flag{background:var(--warn-soft)}
+.bub{width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:var(--surface);font-weight:700;display:grid;place-items:center;padding:0;flex:none}
+.bub.sel{background:var(--teal);color:var(--teal-ink);border-color:var(--teal)}
+.bub.right{background:var(--ok);color:#fff;border-color:var(--ok)}
+.bub.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
+.bub.key{box-shadow:0 0 0 3px var(--ok) inset}
+.bub.right.key{box-shadow:none}
+.arow .st{font-size:13px;color:var(--muted);margin-inline-start:auto}
+
+/* scanner */
+.cam{position:relative;display:grid;background:#000;border-radius:16px;overflow:hidden;max-height:70vh;justify-items:center}
+.cam video,.cam canvas{grid-area:1/1;width:100%;height:auto;max-height:70vh;object-fit:contain;display:block}
+.cam canvas{pointer-events:none}
+.camhint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);color:#fff;border-radius:12px;padding:6px 14px;font-weight:700;font-size:15px;text-align:center;width:max-content;max-width:90%}
+.camidle{color:#cfe;padding:50px 16px;text-align:center}
+.review canvas{width:100%;max-width:520px;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff;align-self:center}
+.score{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.score .big{font-family:var(--display);font-size:44px;line-height:1;color:var(--teal)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.kpi{background:var(--soft);border-radius:14px;padding:10px 12px}
+.kpi b{display:block;font-family:var(--display);font-size:26px;line-height:1.2}
+.kpi span{font-size:13px;color:var(--muted)}
+
+/* tables & lists */
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th,.tbl td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:start;vertical-align:middle}
+.tbl th{font-size:13px;color:var(--muted);font-weight:700}
+.tbl tr.click{cursor:pointer}
+.tbl tr.click:hover td{background:var(--soft)}
+.scroll{overflow-x:auto}
+.ibar{display:flex;align-items:center;gap:8px;font-size:14px}
+.ibar .n{width:34px;font-weight:700;color:var(--muted)}
+.ibar .track{flex:1;height:12px;background:var(--soft);border-radius:999px;overflow:hidden}
+.ibar .fill{height:100%;background:var(--ok);border-radius:999px}
+.ibar.hard .fill{background:var(--bad)}
+.ibar .pct{width:46px;text-align:end;font-variant-numeric:tabular-nums}
+.ibar .dist{width:110px;font-size:12px;color:var(--muted);text-align:end}
+
+dialog{border:none;border-radius:20px;padding:0;background:var(--surface);color:var(--ink);width:min(680px,calc(100% - 24px));max-height:calc(100% - 24px)}
+dialog::backdrop{background:rgba(6,20,22,.72)}
+.dlg{padding:20px;display:flex;flex-direction:column;gap:14px}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;z-index:90;font-weight:700;max-width:90vw;text-align:center}
+.radio{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer}
+.radio:has(input:checked){border-color:var(--teal);background:var(--soft)}
+
+#printArea{display:none}
+@media print{
+  @page{size:A4;margin:0}
+  body{padding:0;background:#fff}
+  body>*:not(#printArea){display:none!important}
+  #printArea{display:block}
+  .page{width:210mm;height:297mm;page-break-after:always;break-after:page;overflow:hidden}
+  .page svg{display:block;width:210mm;height:297mm}
+  .slips{display:grid;grid-template-columns:1fr 1fr;gap:6mm;padding:10mm;font-family:var(--body);color:#000}
+  .slip{border:1px dashed #555;border-radius:4mm;padding:4mm 5mm;break-inside:avoid;font-size:11pt}
+  .slip b.sc{font-size:18pt}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== شاشة القفل ===== -->
+<div class="lock" id="lock">
+  <div class="lockcard">
+    <div class="logo" aria-hidden="true">📝</div>
+    <h1>مصحّح الاختبارات</h1>
+    <p id="lockMsg" class="muted"></p>
+    <form id="lockForm" class="stack" autocomplete="off">
+      <input id="pin1" class="inp pin" type="password" inputmode="numeric" autocomplete="off" maxlength="12" aria-label="الرمز السري" placeholder="••••">
+      <input id="pin2" class="inp pin" type="password" inputmode="numeric" autocomplete="off" maxlength="12" aria-label="تأكيد الرمز السري" placeholder="تأكيد" hidden>
+      <button class="btn primary" id="lockBtn" type="submit">دخول</button>
+    </form>
+    <p class="err" id="lockErr" role="alert"></p>
+    <button id="forgotBtn" class="linkbtn small" hidden>نسيتِ الرمز؟</button>
+    <p class="small muted">🔒 البيانات مشفّرة بالرمز السري ومحفوظة على هذا الجهاز فقط، ولا تُرفع الصور ولا النتائج إلى أي خادم.</p>
+  </div>
+</div>
+
+<!-- ===== التطبيق ===== -->
+<div class="wrap" id="app" hidden>
+  <header class="band">
+    <div>
+      <h1>مصحّح الاختبارات</h1>
+      <p>صحّحي أوراق الطالبات بكاميرا الجوال — بأمان وعلى جهازك فقط</p>
+    </div>
+    <button class="btn sm" id="lockNow">🔒 قفل</button>
+  </header>
+
+  <section id="v-exams" class="stack"></section>
+
+  <section id="v-scan" class="stack" hidden>
+    <div class="card">
+      <div class="row between">
+        <h2>تصحيح بالكاميرا</h2>
+        <span class="badge" id="scanCount"></span>
+      </div>
+      <div class="notice" id="keyModeNote" hidden></div>
+      <label class="f">الاختبار
+        <select id="scanExam"></select>
+      </label>
+      <div class="cam" id="camBox">
+        <div class="camidle" id="camIdle">📷<br>اضغطي «تشغيل الكاميرا» ثم وجّهيها نحو ورقة الإجابة</div>
+        <video id="video" playsinline muted hidden></video>
+        <canvas id="overlay" hidden></canvas>
+        <div class="camhint" id="camHint" hidden></div>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="camStart">📷 تشغيل الكاميرا</button>
+        <button class="btn" id="camStop" hidden>⏹ إيقاف</button>
+        <button class="btn" id="torchBtn" hidden aria-pressed="false">🔦 الفلاش</button>
+        <label class="btn">🖼️ صورة من الجهاز<input type="file" accept="image/*" id="fileIn" hidden></label>
+      </div>
+      <p class="small muted">ضعي الورقة على سطح مستوٍ في إضاءة جيدة، واجعلي <b>المربعات السوداء الأربعة</b> داخل الإطار. تُلتقط الصورة تلقائيًا عند ثبات الجوال.</p>
+    </div>
+    <div class="card review" id="review" hidden></div>
+  </section>
+
+  <section id="v-results" class="stack" hidden></section>
+  <section id="v-students" class="stack" hidden></section>
+  <section id="v-settings" class="stack" hidden></section>
+</div>
+
+<nav class="tabs" id="tabs" hidden aria-label="الأقسام">
+  <div class="in">
+    <button data-v="exams" aria-current="page"><span class="i">📋</span>الاختبارات</button>
+    <button data-v="scan"><span class="i">📷</span>التصحيح</button>
+    <button data-v="results"><span class="i">📊</span>النتائج</button>
+    <button data-v="students"><span class="i">👩‍🎓</span>الطالبات</button>
+    <button data-v="settings"><span class="i">⚙️</span>الإعدادات</button>
+  </div>
+</nav>
+
+<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+<div id="printArea"></div>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+'use strict';
+/* =====================================================================
+   محرك قراءة ورقة الإجابة (OMR) — يعمل بالكامل داخل المتصفح
+   الورقة مرسومة بإحداثيات ثابتة 1000×1414 (نسبة A4)، وأربعة مربعات سوداء
+   في الزوايا تُستخدم لتصحيح المنظور، وشريط أسود أعلى المنتصف لمعرفة الاتجاه،
+   و١٢ مربعًا صغيرًا أسفل الورقة تحمل رمز الاختبار.
+   ===================================================================== */
+const OMR = (() => {
+  const SW = 1000, SH = 1414;
+  const FIDC = [[65,65],[935,65],[935,1349],[65,1349]]; // مراكز مربعات الزوايا: أعلى يسار، أعلى يمين، أسفل يمين، أسفل يسار
+  const LET = ['أ','ب','ج','د','هـ'], LETTF = ['ص','خ'];
+  const AR = '٠١٢٣٤٥٦٧٨٩';
+  const ar = n => String(n).replace(/\d/g, d => AR[d]);
+  const letters = ex => ex.choices === 2 && ex.tf ? LETTF : LET.slice(0, ex.choices);
+
+  function layout(ex) {
+    const d = ex.idDigits, idCols = [];
+    for (let j = 0; j < d; j++) {
+      const x = 880 - (d - 1 - j) * 40, rows = [];
+      for (let k = 0; k < 10; k++) rows.push([x, 340 + k * 32]);
+      idCols.push({ x, rows, paper: [x + 20, 340 + 4.5 * 32] });
+    }
+    const n = ex.numQ, ch = ex.choices, perCol = 15, cols = Math.ceil(n / perCol), colW = 215;
+    const sp = ch <= 4 ? 38 : 32, right = 500 + cols * colW / 2, qs = [];
+    for (let i = 0; i < n; i++) {
+      const c = Math.floor(i / perCol), r = i % perCol, cr = right - c * colW, y = 718 + r * 37;
+      const b = [];
+      for (let k = 0; k < ch; k++) b.push([cr - 68 - k * sp, y]);
+      qs.push({ lx: cr - 28, y, b, paper: [cr - 47, y] });
+    }
+    return { idCols, qs, cols, right, colW, idLeft: idCols[0].x };
+  }
+
+  function codeBits(code) {
+    const bits = [];
+    for (let i = 0; i < 10; i++) bits.push((code >> i) & 1);
+    const c = popcount(code) & 3;
+    bits.push(c & 1, (c >> 1) & 1);
+    return bits;
+  }
+  function popcount(v) { let c = 0; while (v) { c += v & 1; v >>= 1; } return c; }
+
+  /* ---------- رسم ورقة الإجابة (SVG للطباعة) ---------- */
+  function sheetSVG(ex, opt = {}) {
+    const L = layout(ex), lets = letters(ex), st = opt.student, fillKey = opt.fillKey;
+    const T = (x, y, txt, a = '') => `<text x="${x}" y="${y}" ${a}>${txt}</text>`;
+    let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SW} ${SH}" width="210mm" height="297mm" font-family="'IBM Plex Sans Arabic',Tahoma,Arial,sans-serif">`;
+    s += `<rect width="${SW}" height="${SH}" fill="#fff"/>`;
+    FIDC.forEach(([x, y]) => s += `<rect x="${x-25}" y="${y-25}" width="50" height="50" fill="#000"/>`);
+    s += `<rect x="420" y="100" width="160" height="16" fill="#000"/>`;
+    // الترويسة
+    if (opt.school) s += T(500, 158, esc(opt.school), 'text-anchor="middle" font-size="20" fill="#333"');
+    s += T(500, 196, esc(ex.title) + (fillKey ? ' — نموذج الإجابة' : ''), 'text-anchor="middle" font-size="30" font-weight="700"');
+    s += T(500, 230, esc([ex.cls, 'عدد الأسئلة: ' + ar(ex.numQ), 'الدرجة: ' + ar(ex.total)].filter(Boolean).join('   •   ')), 'text-anchor="middle" font-size="18" fill="#333"');
+    s += `<line x1="70" y1="248" x2="930" y2="248" stroke="#000" stroke-width="2"/>`;
+    // الاسم والتعليمات
+    const xr = L.idLeft - 45, tA = 'direction="rtl" text-anchor="start"';
+    s += T(xr, 295, 'الاسم: ' + (st ? `<tspan font-weight="700">${esc(st.name)}</tspan>` : '…………………………………………'), tA + ' font-size="21"');
+    s += T(xr, 340, 'الفصل: ' + (st ? `<tspan font-weight="700">${esc(st.cls || '')}</tspan>` : '………………………'), tA + ' font-size="21"');
+    const ins = ['تعليمات:', '• ظلّلي الدائرة بالكامل بقلم رصاص غامق أو قلم أسود.', '• إجابة واحدة فقط لكل سؤال.', '• عند التعديل امسحي التظليل جيدًا.', '• لا تكتبي قرب المربعات السوداء ولا تطوي الورقة.'];
+    ins.forEach((t, i) => s += T(xr, 395 + i * 32, t, tA + ` font-size="${i ? 18 : 19}" ${i ? 'fill="#222"' : 'font-weight="700"'}`));
+    s += T(xr, 580, 'التظليل الصحيح:', tA + ' font-size="18"');
+    const ex0 = xr - 170;
+    s += `<circle cx="${ex0}" cy="574" r="13" fill="#000"/>`;
+    s += T(ex0 - 60, 580, 'الخاطئ:', tA + ' font-size="18"');
+    s += `<circle cx="${ex0 - 145}" cy="574" r="13" fill="none" stroke="#000" stroke-width="2"/><path d="M${ex0-152} 574 l5 6 l10 -12" stroke="#000" stroke-width="3" fill="none"/>`;
+    s += `<circle cx="${ex0 - 180}" cy="574" r="13" fill="none" stroke="#000" stroke-width="2"/><path d="M${ex0-188} 566 l16 16 M${ex0-172} 566 l-16 16" stroke="#000" stroke-width="3"/>`;
+    // رقم الطالبة
+    const idTxt = st ? String(st.num).padStart(ex.idDigits, '0') : '';
+    const idMid = (L.idLeft + 880) / 2;
+    s += T(idMid, 268, 'رقم الطالبة', 'text-anchor="middle" font-size="18" font-weight="700"');
+    L.idCols.forEach((c, j) => {
+      s += `<rect x="${c.x-15}" y="${280}" width="30" height="32" fill="none" stroke="#000" stroke-width="1.5"/>`;
+      if (idTxt) s += T(c.x, 304, ar(idTxt[j]), 'text-anchor="middle" font-size="20" font-weight="700"');
+      c.rows.forEach(([x, y], k) => {
+        const on = idTxt && +idTxt[j] === k;
+        s += `<circle cx="${x}" cy="${y}" r="13" fill="${on ? '#000' : '#fff'}" stroke="#000" stroke-width="2"/>`;
+        if (!on) s += T(x, y + 5, AR[k], 'text-anchor="middle" font-size="14" fill="#888"');
+      });
+    });
+    // الأسئلة
+    s += T(930, 672, 'الإجابات', 'direction="rtl" text-anchor="start" font-size="20" font-weight="700"');
+    s += `<line x1="70" y1="685" x2="930" y2="685" stroke="#000" stroke-width="2"/>`;
+    for (let c = 1; c < L.cols; c++) {
+      const x = L.right - c * L.colW + 4;
+      s += `<line x1="${x}" y1="700" x2="${x}" y2="1258" stroke="#bbb" stroke-width="1.5"/>`;
+    }
+    L.qs.forEach((q, i) => {
+      s += T(q.lx, q.y + 7, ar(i + 1), 'text-anchor="middle" font-size="19" font-weight="700"');
+      q.b.forEach(([x, y], k) => {
+        const on = fillKey && ex.key[i] === k;
+        s += `<circle cx="${x}" cy="${y}" r="13" fill="${on ? '#000' : '#fff'}" stroke="#000" stroke-width="2"/>`;
+        if (!on) s += T(x, y + 5, lets[k], 'text-anchor="middle" font-size="14" fill="#888"');
+      });
+    });
+    // رمز الاختبار
+    codeBits(ex.code).forEach((b, i) => { if (b) s += `<rect x="${280 + i * 38}" y="1338" width="22" height="22" fill="#000"/>`; });
+    s += T(500, 1398, 'مصحّح الاختبارات — رمز ' + ar(ex.code) + ' — لا تُطوى الورقة', 'text-anchor="middle" font-size="14" fill="#666"');
+    return s + '</svg>';
+  }
+
+  /* ---------- معالجة الصورة ---------- */
+  function gray(img) {
+    const { data, width: w, height: h } = img, g = new Uint8Array(w * h);
+    for (let i = 0, j = 0; i < g.length; i++, j += 4) g[i] = (data[j] * 77 + data[j + 1] * 150 + data[j + 2] * 29) >> 8;
+    return { g, w, h };
+  }
+
+  // البحث عن الكتل السوداء المصمتة المرشّحة لتكون مربعات الزوايا
+  function blobs(G) {
+    const { g, w, h } = G, N = w * h, W1 = w + 1;
+    const ii = new Uint32Array(W1 * (h + 1));
+    for (let y = 0; y < h; y++) {
+      let row = 0;
+      for (let x = 0; x < w; x++) { row += g[y * w + x]; ii[(y + 1) * W1 + x + 1] = ii[y * W1 + x + 1] + row; }
+    }
+    const R = Math.max(6, Math.round(Math.min(w, h) / 10)), bin = new Uint8Array(N);
+    for (let y = 0; y < h; y++) {
+      const y0 = Math.max(0, y - R), y1 = Math.min(h, y + R + 1);
+      for (let x = 0; x < w; x++) {
+        const x0 = Math.max(0, x - R), x1 = Math.min(w, x + R + 1);
+        const sum = ii[y1 * W1 + x1] - ii[y0 * W1 + x1] - ii[y1 * W1 + x0] + ii[y0 * W1 + x0];
+        const mean = sum / ((x1 - x0) * (y1 - y0)), v = g[y * w + x];
+        if (v < mean - Math.max(20, mean * 0.25)) bin[y * w + x] = 1;
+      }
+    }
+    const stack = new Int32Array(N), out = [];
+    const minA = Math.pow(Math.min(w, h) * 0.012, 2), maxA = N * 0.02;
+    for (let p = 0; p < N; p++) {
+      if (bin[p] !== 1) continue;
+      let sp = 0, cnt = 0, sx = 0, sy = 0, x0 = w, x1 = 0, y0 = h, y1 = 0;
+      stack[sp++] = p; bin[p] = 2;
+      while (sp) {
+        const q = stack[--sp], x = q % w, y = (q - x) / w;
+        cnt++; sx += x; sy += y;
+        if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+        if (x > 0 && bin[q - 1] === 1) { bin[q - 1] = 2; stack[sp++] = q - 1; }
+        if (x < w - 1 && bin[q + 1] === 1) { bin[q + 1] = 2; stack[sp++] = q + 1; }
+        if (y > 0 && bin[q - w] === 1) { bin[q - w] = 2; stack[sp++] = q - w; }
+        if (y < h - 1 && bin[q + w] === 1) { bin[q + w] = 2; stack[sp++] = q + w; }
+      }
+      if (cnt < minA || cnt > maxA) continue;
+      if (x0 === 0 || y0 === 0 || x1 === w - 1 || y1 === h - 1) continue;
+      const bw = x1 - x0 + 1, bh = y1 - y0 + 1, fill = cnt / (bw * bh), asp = bw / bh;
+      if (fill < 0.5 || asp < 0.4 || asp > 2.5) continue;
+      out.push({ x: sx / cnt, y: sy / cnt, a: cnt });
+    }
+    out.sort((a, b) => b.a - a.a);
+    return out.slice(0, 14);
+  }
+
+  function solve(A, b) {
+    const n = b.length;
+    for (let i = 0; i < n; i++) A[i] = A[i].concat(b[i]);
+    for (let c = 0; c < n; c++) {
+      let p = c;
+      for (let r = c + 1; r < n; r++) if (Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r;
+      [A[c], A[p]] = [A[p], A[c]];
+      if (Math.abs(A[c][c]) < 1e-12) return null;
+      for (let r = 0; r < n; r++) {
+        if (r === c) continue;
+        const f = A[r][c] / A[c][c];
+        for (let k = c; k <= n; k++) A[r][k] -= f * A[c][k];
+      }
+    }
+    return A.map((row, i) => row[n] / row[i]);
+  }
+  function homography(src, dst) {
+    const A = [], b = [];
+    for (let i = 0; i < 4; i++) {
+      const [x, y] = src[i], [u, v] = dst[i];
+      A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u);
+      A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v);
+    }
+    const h = solve(A, b);
+    return h ? [...h, 1] : null;
+  }
+  function apply(H, x, y) {
+    const z = H[6] * x + H[7] * y + H[8];
+    return [(H[0] * x + H[1] * y + H[2]) / z, (H[3] * x + H[4] * y + H[5]) / z];
+  }
+  function meanAt(G, H, cx, cy, rad) {
+    const { g, w, h } = G, st = Math.max(0.8, rad / 5);
+    let s = 0, n = 0;
+    for (let dy = -rad; dy <= rad + 1e-9; dy += st) for (let dx = -rad; dx <= rad + 1e-9; dx += st) {
+      if (dx * dx + dy * dy > rad * rad) continue;
+      const [u, v] = apply(H, cx + dx, cy + dy), xi = Math.round(u), yi = Math.round(v);
+      if (xi < 0 || yi < 0 || xi >= w || yi >= h) continue;
+      s += g[yi * w + xi]; n++;
+    }
+    return n ? s / n : 255;
+  }
+  const cross = (o, a, b) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+
+  // تحديد موقع الورقة واتجاهها في الصورة
+  function locate(G) {
+    const c = blobs(G);
+    if (c.length < 4) return null;
+    let best = null, bestA = G.w * G.h * 0.06;
+    for (let a = 0; a < c.length; a++) for (let b = a + 1; b < c.length; b++)
+    for (let d = b + 1; d < c.length; d++) for (let e = d + 1; e < c.length; e++) {
+      const q = [c[a], c[b], c[d], c[e]], ar_ = q.map(p => p.a);
+      if (Math.max(...ar_) > 3 * Math.min(...ar_)) continue;
+      const mx = (q[0].x + q[1].x + q[2].x + q[3].x) / 4, my = (q[0].y + q[1].y + q[2].y + q[3].y) / 4;
+      q.sort((p1, p2) => Math.atan2(p1.y - my, p1.x - mx) - Math.atan2(p2.y - my, p2.x - mx));
+      let conv = true;
+      for (let i = 0; i < 4; i++) if (cross(q[i], q[(i + 1) % 4], q[(i + 2) % 4]) <= 0) conv = false;
+      if (!conv) continue;
+      const area = Math.abs(cross(q[0], q[1], q[2]) + cross(q[0], q[2], q[3])) / 2;
+      if (area > bestA) { bestA = area; best = q; }
+    }
+    if (!best) return null;
+    let out = null;
+    for (let r = 0; r < 4; r++) {
+      const dst = [0, 1, 2, 3].map(i => [best[(i + r) % 4].x, best[(i + r) % 4].y]);
+      const H = homography(FIDC, dst);
+      if (!H) continue;
+      const black = FIDC.reduce((s, [x, y]) => s + meanAt(G, H, x, y, 12), 0) / 4;
+      const bar = (meanAt(G, H, 470, 108, 5) + meanAt(G, H, 500, 108, 5) + meanAt(G, H, 530, 108, 5)) / 3;
+      const white = Math.max(meanAt(G, H, 380, 108, 6), meanAt(G, H, 620, 108, 6));
+      const rng = white - black;
+      const score = rng > 30 ? (white - bar) / rng : 0;
+      if (!out || score > out.score) out = { H, black, white, score, pts: dst };
+    }
+    return out && out.score > 0.45 ? out : null;
+  }
+
+  function readCode(G, loc) {
+    const H = loc.H, cells = [], gaps = [meanAt(G, H, 300, 1310, 5), meanAt(G, H, 500, 1310, 5), meanAt(G, H, 700, 1310, 5)];
+    for (let i = 0; i < 12; i++) {
+      const cx = 280 + i * 38 + 11;
+      cells.push(meanAt(G, H, cx, 1349, 6));
+      if (i < 11) gaps.push(meanAt(G, H, cx + 19, 1349, 2.5));
+    }
+    const white = Math.max(...gaps), rng = Math.max(30, white - loc.black);
+    const bits = cells.map(m => (white - m) / rng > 0.5 ? 1 : 0);
+    let v = 0;
+    for (let i = 0; i < 10; i++) v |= bits[i] << i;
+    const chk = bits[10] | (bits[11] << 1);
+    return v > 0 && chk === (popcount(v) & 3) ? v : null;
+  }
+
+  function pick(sc) {
+    let top = -1, ti = -1;
+    sc.forEach((v, i) => { if (v > top) { top = v; ti = i; } });
+    if (top < 0.3) return { v: -1, flag: top > 0.2 };
+    const lim = Math.max(0.4, top * 0.65);
+    if (sc.filter(v => v >= lim).length > 1) return { v: -2, flag: true };
+    return { v: ti, flag: top < 0.45 };
+  }
+
+  function readSheet(G, loc, ex) {
+    const L = layout(ex), H = loc.H, black = loc.black;
+    const scores = (pts, paper) => {
+      const m = pts.map(([x, y]) => meanAt(G, H, x, y, 7));
+      const white = Math.max(...m, meanAt(G, H, paper[0], paper[1], 3));
+      const rng = Math.max(30, white - black);
+      return m.map(v => Math.max(0, (white - v) / rng));
+    };
+    const answers = [], flags = [];
+    L.qs.forEach(q => { const p = pick(scores(q.b, q.paper)); answers.push(p.v); flags.push(p.flag); });
+    let id = '', idFlag = false;
+    L.idCols.forEach(c => {
+      const p = pick(scores(c.rows, c.paper));
+      if (p.v >= 0) id += p.v; else { id += '?'; idFlag = true; }
+      if (p.flag) idFlag = true;
+    });
+    return { answers, flags, id, idFlag };
+  }
+
+  function rectify(img, H, outW) {
+    const outH = Math.round(outW * SH / SW), cv = document.createElement('canvas');
+    cv.width = outW; cv.height = outH;
+    const ctx = cv.getContext('2d'), out = ctx.createImageData(outW, outH), sc = SW / outW;
+    const { data, width: w, height: h } = img, o = out.data;
+    for (let y = 0; y < outH; y++) for (let x = 0; x < outW; x++) {
+      const [u, v] = apply(H, (x + .5) * sc, (y + .5) * sc), xi = Math.round(u), yi = Math.round(v), k = (y * outW + x) * 4;
+      if (xi >= 0 && yi >= 0 && xi < w && yi < h) { const j = (yi * w + xi) * 4; o[k] = data[j]; o[k + 1] = data[j + 1]; o[k + 2] = data[j + 2]; }
+      else { o[k] = o[k + 1] = o[k + 2] = 200; }
+      o[k + 3] = 255;
+    }
+    ctx.putImageData(out, 0, 0);
+    return cv;
+  }
+
+  function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+  return { layout, sheetSVG, gray, locate, readCode, readSheet, rectify, letters, ar };
+})();
+window.OMR = OMR;
+
+/* =====================================================================
+   التطبيق
+   ===================================================================== */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const ar = OMR.ar;
+const normDigits = s => String(s ?? '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+const round2 = n => Math.round(n * 100) / 100;
+const sidOf = s => { const t = normDigits(s).replace(/\D/g, ''); return t ? String(parseInt(t, 10)) : ''; };
+
+let toastT;
+function toast(msg, ms = 2600) {
+  const t = $('#toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, ms);
+}
+
+/* ---------- الخزنة المشفّرة ---------- */
+const VAULT = 'omr-vault-v1', TRIES = 'omr-tries-v1';
+let S = null, KEY = null, SALT = null;
+const enc = new TextEncoder(), dec = new TextDecoder();
+function b64(buf) { const a = new Uint8Array(buf); let s = ''; for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); }
+const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function deriveKey(pin, salt) {
+  const base = await crypto.subtle.importKey('raw', enc.encode(pin), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 310000, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+}
+async function seal(state, key, salt) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(JSON.stringify(state)));
+  return { app: 'omr', v: 1, salt: b64(salt), iv: b64(iv), ct: b64(ct) };
+}
+async function unseal(vault, pin) {
+  const salt = unb64(vault.salt), key = await deriveKey(pin, salt);
+  const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(vault.iv) }, key, unb64(vault.ct));
+  return { key, salt, state: JSON.parse(dec.decode(pt)) };
+}
+let saveChain = Promise.resolve(), saveTimer = 0;
+function save() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    if (!KEY || !S) return;
+    const snap = JSON.parse(JSON.stringify(S)), k = KEY, salt = SALT;
+    saveChain = saveChain.then(async () => {
+      try { localStorage.setItem(VAULT, JSON.stringify(await seal(snap, k, salt))); }
+      catch (e) { toast('تعذّر الحفظ: ' + (e.name === 'QuotaExceededError' ? 'امتلأت ذاكرة المتصفح' : e.message), 5000); }
+    });
+  }, 150);
+}
+const freshState = () => ({ v: 1, settings: { idDigits: 3, autoLockMin: 10, school: '' }, exams: [], students: [], results: [] });
+
+/* ---------- شاشة القفل ---------- */
+let lockMode = 'unlock';
+function showLock(msg) {
+  const has = !!localStorage.getItem(VAULT);
+  lockMode = has ? 'unlock' : 'create';
+  $('#app').hidden = $('#tabs').hidden = true; $('#lock').hidden = false;
+  $('#pin2').hidden = has;
+  $('#forgotBtn').hidden = !has;
+  $('#lockBtn').textContent = has ? 'دخول' : 'إنشاء الرمز والبدء';
+  $('#lockMsg').textContent = msg || (has ? 'أدخلي الرمز السري لفتح البيانات' : 'مرحبًا! اختاري رمزًا سريًا (٤ أرقام أو أكثر) لحماية نتائج الطالبات على هذا الجهاز.');
+  $('#pin1').value = $('#pin2').value = ''; $('#lockErr').textContent = '';
+  if (!window.crypto?.subtle) {
+    $('#lockErr').textContent = 'يجب فتح الصفحة عبر رابط آمن (https) حتى يعمل التشفير والكاميرا.';
+    $('#lockBtn').disabled = true;
+  }
+  setTimeout(() => $('#pin1').focus(), 50);
+}
+$('#lockForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const p1 = normDigits($('#pin1').value.trim()), err = $('#lockErr'), btn = $('#lockBtn');
+  err.textContent = '';
+  if (lockMode === 'create') {
+    if (p1.length < 4) return err.textContent = 'الرمز يجب أن يكون ٤ خانات على الأقل';
+    if (p1 !== normDigits($('#pin2').value.trim())) return err.textContent = 'الرمزان غير متطابقين';
+    btn.disabled = true;
+    SALT = crypto.getRandomValues(new Uint8Array(16)); KEY = await deriveKey(p1, SALT); S = freshState();
+    localStorage.setItem(VAULT, JSON.stringify(await seal(S, KEY, SALT)));
+    btn.disabled = false; openApp();
+    return;
+  }
+  const tr = JSON.parse(localStorage.getItem(TRIES) || '{"n":0,"t":0}');
+  const wait = tr.n >= 5 ? Math.ceil((tr.t + 30000 * 2 ** Math.min(tr.n - 5, 6) - Date.now()) / 1000) : 0;
+  if (wait > 0) return err.textContent = `محاولات كثيرة خاطئة. انتظري ${ar(wait)} ثانية`;
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    const r = await unseal(JSON.parse(localStorage.getItem(VAULT)), p1);
+    KEY = r.key; SALT = r.salt; S = Object.assign(freshState(), r.state);
+    S.settings = Object.assign(freshState().settings, S.settings);
+    localStorage.removeItem(TRIES);
+    openApp();
+  } catch {
+    tr.n++; tr.t = Date.now(); localStorage.setItem(TRIES, JSON.stringify(tr));
+    err.textContent = 'الرمز غير صحيح';
+    $('#pin1').value = '';
+  } finally { btn.disabled = false; btn.textContent = 'دخول'; }
+});
+$('#forgotBtn').addEventListener('click', () => {
+  if (!confirm('لا يمكن استرجاع الرمز السري لأن البيانات مشفّرة به.\nهل تريدين حذف جميع البيانات على هذا الجهاز والبدء من جديد؟\n(يمكنك لاحقًا استعادة نسخة احتياطية إن كنتِ تعرفين رمزها)')) return;
+  if (prompt('للتأكيد اكتبي كلمة: حذف') !== 'حذف') return;
+  localStorage.removeItem(VAULT); localStorage.removeItem(TRIES); showLock();
+});
+
+function lock(msg) {
+  stopCamera();
+  KEY = null; S = null; SALT = null; Scan.pending = null; Scan.keyFor = null; Scan.count = 0;
+  $$('#app section').forEach(s => { if (s.id !== 'v-scan') s.innerHTML = ''; });
+  $('#review').hidden = true; $('#review').innerHTML = '';
+  $('#printArea').innerHTML = '';
+  if ($('#dlg').open) $('#dlg').close();
+  showLock(msg);
+}
+$('#lockNow').addEventListener('click', () => lock('تم القفل. أدخلي الرمز للمتابعة'));
+let lastAct = Date.now();
+['pointerdown', 'keydown', 'touchstart'].forEach(ev => addEventListener(ev, () => lastAct = Date.now(), { passive: true }));
+setInterval(() => {
+  if (KEY && S && !Scan.running && Date.now() - lastAct > S.settings.autoLockMin * 60000) lock('أُغلق التطبيق تلقائيًا لعدم الاستخدام');
+}, 20000);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && KEY && S && Date.now() - lastAct > S.settings.autoLockMin * 60000) lock('أُغلق التطبيق تلقائيًا لعدم الاستخدام');
+  if (document.hidden && Scan.running) stopCamera();
+});
+
+/* ---------- التنقل ---------- */
+let view = 'exams';
+function openApp() {
+  $('#lock').hidden = true; $('#app').hidden = $('#tabs').hidden = false;
+  lastAct = Date.now(); go(view);
+}
+function go(v) {
+  view = v;
+  $$('#tabs button').forEach(b => b.dataset.v === v ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
+  $$('#app > section').forEach(s => s.hidden = s.id !== 'v-' + v);
+  if (v !== 'scan') stopCamera();
+  ({ exams: renderExams, scan: renderScan, results: renderResults, students: renderStudents, settings: renderSettings })[v]();
+  scrollTo(0, 0);
+}
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button[data-v]'); if (b) go(b.dataset.v); });
+
+/* ---------- نافذة حوار عامة ---------- */
+function modal(html) {
+  const d = $('#dlg'); $('#dlgBody').innerHTML = html;
+  if (!d.open) d.showModal();
+  return $('#dlgBody');
+}
+$('#dlg').addEventListener('click', e => { if (e.target.closest('[data-close]') || e.target === $('#dlg')) $('#dlg').close(); });
+
+/* ---------- أدوات البيانات ---------- */
+const examById = id => S.exams.find(e => e.id === id);
+const resultsOf = id => S.results.filter(r => r.examId === id);
+const studentBy = sid => S.students.find(s => sidOf(s.num) === sid);
+const classes = () => [...new Set(S.students.map(s => s.cls).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ar'));
+const keyDone = ex => ex.key.every(k => k >= 0);
+function grade(ex, answers) {
+  let correct = 0, wrong = 0, blank = 0, counted = 0;
+  ex.key.forEach((k, i) => {
+    if (k < 0) return;
+    counted++;
+    const a = answers[i];
+    if (a === k) correct++; else if (a === -1) blank++; else wrong++;
+  });
+  const score = counted ? round2(correct * ex.total / counted) : 0;
+  return { correct, wrong, blank, counted, score, pct: counted ? Math.round(correct * 100 / counted) : 0 };
+}
+const ansLabel = (ex, a) => a >= 0 ? OMR.letters(ex)[a] : a === -2 ? 'متعدد' : '—';
+const wrongList = (ex, answers) => ex.key.map((k, i) => k >= 0 && answers[i] !== k ? i + 1 : 0).filter(Boolean);
+
+/* ---------- شبكة الإجابات (للنموذج وللمراجعة) ---------- */
+function answerGrid(ex, answers, opt = {}) {
+  const lets = OMR.letters(ex);
+  return `<div class="agrid">${answers.map((a, i) => {
+    const k = ex.key[i];
+    const row = lets.map((l, j) => {
+      let c = 'bub';
+      if (opt.keyMode) { if (a === j) c += ' sel'; }
+      else {
+        if (a === j) c += k < 0 ? ' sel' : a === k ? ' right' : ' wrong';
+        if (k === j) c += ' key';
+      }
+      return `<button type="button" class="${c}" data-q="${i}" data-c="${j}" aria-label="سؤال ${i + 1} اختيار ${l}" aria-pressed="${a === j}">${l}</button>`;
+    }).join('');
+    const st = a === -2 ? '<span class="st">⚠️ متعدد</span>' : (opt.flags && opt.flags[i]) ? '<span class="st">⚠️ راجعي</span>' : '';
+    return `<div class="arow${(opt.flags && opt.flags[i]) || a === -2 ? ' flag' : ''}"><span class="n">${ar(i + 1)}</span>${row}${st}</div>`;
+  }).join('')}</div>`;
+}
+function bindGrid(root, answers, onChange) {
+  root.addEventListener('click', e => {
+    const b = e.target.closest('.bub[data-q]'); if (!b) return;
+    const q = +b.dataset.q, c = +b.dataset.c;
+    answers[q] = answers[q] === c ? -1 : c;
+    onChange(q);
+  });
+}
+
+/* =============================== الاختبارات =============================== */
+function renderExams() {
+  const el = $('#v-exams');
+  const list = [...S.exams].sort((a, b) => b.created - a.created);
+  el.innerHTML = `
+    <div class="row between"><h2>الاختبارات</h2><button class="btn primary" data-act="new">＋ اختبار جديد</button></div>
+    ${list.length ? '' : `<div class="card empty"><div class="big">📝</div>
+      <p><b>ابدئي بأربع خطوات:</b></p>
+      <ol class="steps"><li>أضيفي أسماء الطالبات وأرقامهن من تبويب «الطالبات».</li>
+      <li>أنشئي اختبارًا وحدّدي نموذج الإجابة.</li>
+      <li>اطبعي أوراق الإجابة (فارغة أو بأسماء الطالبات).</li>
+      <li>صوّري الأوراق من تبويب «التصحيح» لتظهر الدرجة فورًا.</li></ol></div>`}
+    ${list.map(ex => {
+      const n = resultsOf(ex.id).length, miss = ex.key.filter(k => k < 0).length;
+      return `<div class="card exam">
+        <div class="row between"><h3>${esc(ex.title)}</h3>
+          ${miss ? `<span class="badge warn">نموذج الإجابة ناقص (${ar(miss)})</span>` : '<span class="badge ok">نموذج الإجابة جاهز</span>'}</div>
+        <div class="meta small muted">${ex.cls ? `<span class="badge">${esc(ex.cls)}</span>` : ''}
+          <span class="badge">${ar(ex.numQ)} سؤال</span><span class="badge">${ex.choices === 2 ? 'صح/خطأ' : ar(ex.choices) + ' اختيارات'}</span>
+          <span class="badge">الدرجة ${ar(ex.total)}</span><span class="badge">صُحّحت ${ar(n)} ورقة</span></div>
+        <div class="acts">
+          <button class="btn sm" data-act="key" data-id="${ex.id}">✅ نموذج الإجابة</button>
+          <button class="btn sm" data-act="print" data-id="${ex.id}">🖨️ طباعة الأوراق</button>
+          <button class="btn sm teal" data-act="scan" data-id="${ex.id}">📷 تصحيح</button>
+          <button class="btn sm" data-act="results" data-id="${ex.id}">📊 النتائج</button>
+          <button class="btn sm" data-act="edit" data-id="${ex.id}">✏️ تعديل</button>
+          <button class="btn sm danger" data-act="del" data-id="${ex.id}" aria-label="حذف">🗑️</button>
+        </div></div>`;
+    }).join('')}`;
+}
+$('#v-exams').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const ex = examById(b.dataset.id);
+  switch (b.dataset.act) {
+    case 'new': return examForm();
+    case 'edit': return examForm(ex);
+    case 'key': return keyEditor(ex);
+    case 'print': return printDialog(ex);
+    case 'scan': Scan.examSel = ex.id; return go('scan');
+    case 'results': resultsExam = ex.id; return go('results');
+    case 'del':
+      if (!confirm(`حذف «${ex.title}» وجميع نتائجه (${resultsOf(ex.id).length})؟`)) return;
+      S.exams = S.exams.filter(x => x !== ex); S.results = S.results.filter(r => r.examId !== ex.id);
+      save(); renderExams();
+  }
+});
+
+function newCode() {
+  const used = new Set(S.exams.map(e => e.code));
+  for (let i = 0; i < 5000; i++) { const c = 1 + Math.floor(Math.random() * 1023); if (!used.has(c)) return c; }
+  return 1 + Math.floor(Math.random() * 1023);
+}
+function examForm(ex) {
+  const locked = ex && resultsOf(ex.id).length > 0;
+  const d = modal(`
+    <h2>${ex ? 'تعديل الاختبار' : 'اختبار جديد'}</h2>
+    <form id="exF" class="stack">
+      <label class="f">اسم الاختبار<input name="title" required maxlength="80" value="${esc(ex?.title || '')}" placeholder="مثال: اختبار الفترة — العلوم"></label>
+      <label class="f">الفصل/الشعبة (اختياري)<input name="cls" list="clsList" maxlength="40" value="${esc(ex?.cls || '')}"><datalist id="clsList">${classes().map(c => `<option value="${esc(c)}">`).join('')}</datalist></label>
+      <div class="row">
+        <label class="f">عدد الأسئلة (حتى ٦٠)<input name="numQ" type="number" inputmode="numeric" min="1" max="60" required value="${ex?.numQ || 20}" ${locked ? 'disabled' : ''}></label>
+        <label class="f">نوع الأسئلة<select name="choices" ${locked ? 'disabled' : ''}>
+          ${[[4, '٤ اختيارات (أ ب ج د)'], [3, '٣ اختيارات'], [5, '٥ اختيارات'], [2, 'صح / خطأ']].map(([v, t]) => `<option value="${v}" ${(ex?.choices || 4) === v ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
+      </div>
+      <div class="row">
+        <label class="f">الدرجة الكلية<input name="total" type="number" inputmode="decimal" min="1" max="1000" step="any" required value="${ex?.total || 20}"></label>
+        <label class="f">خانات رقم الطالبة<input name="idDigits" type="number" inputmode="numeric" min="1" max="6" required value="${ex?.idDigits || S.settings.idDigits}" ${locked ? 'disabled' : ''}></label>
+      </div>
+      ${locked ? '<p class="notice warn">تم تصحيح أوراق لهذا الاختبار، لذلك لا يمكن تغيير عدد الأسئلة أو شكل الورقة.</p>' : ''}
+      <p class="small muted">💡 للأسئلة المختلطة (اختيار متعدد + صح/خطأ) اختاري ٤ اختيارات، واعتبري (أ) = صح و(ب) = خطأ.</p>
+      <div class="row"><button class="btn primary" type="submit">حفظ</button><button class="btn" type="button" data-close>إلغاء</button></div>
+    </form>`);
+  $('#exF', d).addEventListener('submit', e => {
+    e.preventDefault();
+    const f = new FormData(e.target), num = k => +normDigits(f.get(k));
+    const title = f.get('title').trim(); if (!title) return;
+    const base = ex || { id: uid(), code: newCode(), created: Date.now(), key: [] };
+    base.title = title; base.cls = (f.get('cls') || '').trim(); base.total = Math.max(1, num('total') || 20);
+    if (!locked) {
+      base.numQ = Math.min(60, Math.max(1, num('numQ') | 0));
+      base.choices = +f.get('choices'); base.tf = base.choices === 2;
+      base.idDigits = Math.min(6, Math.max(1, num('idDigits') | 0));
+      base.key = Array.from({ length: base.numQ }, (_, i) => (base.key[i] ?? -1) < base.choices ? (base.key[i] ?? -1) : -1);
+    }
+    if (!ex) S.exams.push(base);
+    save(); $('#dlg').close(); renderExams();
+    if (!ex) keyEditor(base);
+  });
+}
+
+function keyEditor(ex) {
+  const key = [...ex.key];
+  const draw = () => {
+    const d = modal(`
+      <div class="row between"><h2>نموذج الإجابة</h2><span class="muted small">${esc(ex.title)}</span></div>
+      <p class="small muted">اضغطي على الإجابة الصحيحة لكل سؤال، أو ظلّلي ورقة إجابة كنموذج وصوّريها.</p>
+      <div id="kGrid">${answerGrid(ex, key, { keyMode: true })}</div>
+      <p class="small" id="kStat"></p>
+      <div class="row">
+        <button class="btn primary" id="kSave">حفظ النموذج</button>
+        <button class="btn" id="kScan">📷 مسح ورقة النموذج</button>
+        <button class="btn" data-close>إلغاء</button>
+      </div>`);
+    const stat = () => { const m = key.filter(k => k < 0).length; $('#kStat', d).textContent = m ? `متبقٍّ ${ar(m)} سؤال بدون إجابة` : '✔ جميع الأسئلة محددة'; };
+    stat();
+    bindGrid($('#kGrid', d), key, () => { $('#kGrid', d).innerHTML = answerGrid(ex, key, { keyMode: true }); stat(); });
+    $('#kSave', d).onclick = () => { applyKey(ex, key); $('#dlg').close(); toast('تم حفظ نموذج الإجابة'); };
+    $('#kScan', d).onclick = () => { $('#dlg').close(); Scan.keyFor = ex.id; Scan.examSel = ex.id; go('scan'); };
+  };
+  draw();
+}
+function applyKey(ex, key) {
+  ex.key = [...key];
+  resultsOf(ex.id).forEach(r => Object.assign(r, grade(ex, r.answers)));
+  save();
+  if (view === 'exams') renderExams();
+  if (view === 'results') renderResults();
+}
+
+/* ---------- الطباعة ---------- */
+function printDialog(ex) {
+  const cls = classes();
+  const d = modal(`
+    <h2>طباعة أوراق الإجابة</h2>
+    <p class="small muted">${esc(ex.title)} — اطبعي على ورق A4 بحجم ١٠٠٪ (يُفضّل عدم «ملاءمة الصفحة»، لكن البرنامج يتحمّلها).</p>
+    <label class="radio"><input type="radio" name="pm" value="named" ${S.students.length ? 'checked' : 'disabled'}>
+      <span><b>أوراق بأسماء الطالبات</b><br><span class="small muted">رقم الطالبة مظلّل مسبقًا فيُعرف صاحب الورقة تلقائيًا ولا يحدث خطأ في الرقم.</span>
+      <select class="inp" id="pCls" style="margin-top:6px">${['<option value="">كل الطالبات (' + ar(S.students.length) + ')</option>', ...cls.map(c => `<option ${c === ex.cls ? 'selected' : ''}>${esc(c)}</option>`)].join('')}</select></span></label>
+    <label class="radio"><input type="radio" name="pm" value="blank" ${S.students.length ? '' : 'checked'}>
+      <span><b>أوراق فارغة</b><br><span class="small muted">تكتب الطالبة اسمها وتظلّل رقمها.</span>
+      <input class="inp" id="pCount" type="number" min="1" max="200" value="1" style="margin-top:6px" aria-label="عدد النسخ"></span></label>
+    <label class="radio"><input type="radio" name="pm" value="key" ${keyDone(ex) ? '' : 'disabled'}>
+      <span><b>نموذج الإجابة مظلّلًا</b><br><span class="small muted">للمراجعة أو للأرشيف.</span></span></label>
+    <div class="row"><button class="btn primary" id="pGo">🖨️ طباعة</button><button class="btn" data-close>إلغاء</button></div>`);
+  $('#pGo', d).onclick = () => {
+    const m = $('input[name=pm]:checked', d)?.value, opt = { school: S.settings.school };
+    let pages = [];
+    if (m === 'named') {
+      const c = $('#pCls', d).value;
+      const sts = S.students.filter(s => !c || s.cls === c).sort((a, b) => +sidOf(a.num) - +sidOf(b.num));
+      const bad = sts.filter(s => sidOf(s.num).length > ex.idDigits);
+      if (bad.length) return alert(`أرقام بعض الطالبات أطول من ${ar(ex.idDigits)} خانات (مثل ${bad[0].name}). عدّلي «خانات رقم الطالبة» في الاختبار.`);
+      pages = sts.map(st => OMR.sheetSVG(ex, { ...opt, student: { ...st, num: sidOf(st.num) } }));
+    } else if (m === 'blank') {
+      const n = Math.min(200, Math.max(1, +normDigits($('#pCount', d).value) || 1));
+      const one = OMR.sheetSVG(ex, opt); pages = Array(n).fill(one);
+    } else if (m === 'key') pages = [OMR.sheetSVG(ex, { ...opt, fillKey: true })];
+    if (!pages.length) return alert('لا توجد طالبات في هذا الفصل');
+    $('#printArea').innerHTML = pages.map(p => `<div class="page">${p}</div>`).join('');
+    $('#dlg').close();
+    setTimeout(() => window.print(), 100);
+  };
+}
+addEventListener('afterprint', () => { $('#printArea').innerHTML = ''; });
+
+/* =============================== التصحيح =============================== */
+const Scan = { stream: null, track: null, running: false, paused: false, stable: 0, last: null, pending: null, examSel: 'auto', keyFor: null, count: 0, torch: false };
+const small = document.createElement('canvas'), big = document.createElement('canvas');
+
+function renderScan() {
+  const sel = $('#scanExam');
+  sel.innerHTML = `<option value="auto">تلقائي — يُعرف الاختبار من رمز الورقة</option>` +
+    [...S.exams].sort((a, b) => b.created - a.created).map(e => `<option value="${e.id}">${esc(e.title)}${e.cls ? ' — ' + esc(e.cls) : ''}</option>`).join('');
+  if (!examById(Scan.examSel)) Scan.examSel = 'auto';
+  sel.value = Scan.examSel;
+  const kf = Scan.keyFor && examById(Scan.keyFor);
+  $('#keyModeNote').hidden = !kf;
+  if (kf) $('#keyModeNote').innerHTML = `<b>وضع مسح نموذج الإجابة</b> لاختبار «${esc(kf.title)}»: صوّري ورقة مظلّلة بالإجابات الصحيحة. <button class="btn sm" id="cancelKey">إلغاء</button>`;
+  sel.disabled = !!kf;
+  $('#scanCount').textContent = Scan.count ? `صُحّح الآن: ${ar(Scan.count)}` : '';
+  if (!S.exams.length) $('#camHint').hidden = true;
+}
+$('#keyModeNote').addEventListener('click', e => { if (e.target.id === 'cancelKey') { Scan.keyFor = null; renderScan(); } });
+$('#scanExam').addEventListener('change', e => Scan.examSel = e.target.value);
+
+function hint(t) { const h = $('#camHint'); h.textContent = t; h.hidden = !t; }
+
+async function startCamera() {
+  if (!S.exams.length) return toast('أنشئي اختبارًا أولًا');
+  if (!navigator.mediaDevices?.getUserMedia) return toast('الكاميرا غير متاحة في هذا المتصفح — استخدمي «صورة من الجهاز»', 4000);
+  try {
+    Scan.stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1080 } } });
+  } catch (e) {
+    return toast(e.name === 'NotAllowedError' ? 'لم يُسمح بالكاميرا. فعّليها من إعدادات المتصفح' : 'تعذّر تشغيل الكاميرا', 4000);
+  }
+  const v = $('#video'); v.srcObject = Scan.stream; v.hidden = false; $('#overlay').hidden = false; $('#camIdle').hidden = true;
+  await v.play().catch(() => {});
+  Scan.track = Scan.stream.getVideoTracks()[0];
+  const caps = Scan.track.getCapabilities?.() || {};
+  $('#torchBtn').hidden = !caps.torch;
+  try { if (caps.focusMode?.includes('continuous')) await Scan.track.applyConstraints({ advanced: [{ focusMode: 'continuous' }] }); } catch {}
+  Scan.running = true; Scan.paused = !!Scan.pending; Scan.stable = 0;
+  $('#camStart').hidden = true; $('#camStop').hidden = false;
+  hint('وجّهي الكاميرا نحو الورقة كاملة');
+  loop();
+}
+function stopCamera() {
+  Scan.running = false;
+  Scan.stream?.getTracks().forEach(t => t.stop());
+  Scan.stream = Scan.track = null; Scan.torch = false;
+  const v = $('#video'); if (v) { v.srcObject = null; v.hidden = true; }
+  $('#overlay').hidden = true; $('#camIdle').hidden = false; $('#torchBtn').hidden = true; $('#torchBtn').setAttribute('aria-pressed', 'false');
+  $('#camStart').hidden = false; $('#camStop').hidden = true; hint('');
+}
+$('#camStart').onclick = startCamera;
+$('#camStop').onclick = stopCamera;
+$('#torchBtn').onclick = async () => {
+  Scan.torch = !Scan.torch;
+  try { await Scan.track.applyConstraints({ advanced: [{ torch: Scan.torch }] }); } catch { Scan.torch = false; }
+  $('#torchBtn').setAttribute('aria-pressed', String(Scan.torch));
+};
+
+function loop() {
+  if (!Scan.running) return;
+  const v = $('#video');
+  if (!Scan.paused && v.readyState >= 2 && v.videoWidth) {
+    const sc = 480 / Math.max(v.videoWidth, v.videoHeight), w = Math.round(v.videoWidth * sc), h = Math.round(v.videoHeight * sc);
+    small.width = w; small.height = h;
+    const sctx = small.getContext('2d', { willReadFrequently: true });
+    sctx.drawImage(v, 0, 0, w, h);
+    const loc = OMR.locate(OMR.gray(sctx.getImageData(0, 0, w, h)));
+    const ov = $('#overlay'); ov.width = w; ov.height = h;
+    const o = ov.getContext('2d'); o.clearRect(0, 0, w, h);
+    if (loc) {
+      o.strokeStyle = '#38d996'; o.lineWidth = 3; o.beginPath();
+      loc.pts.forEach(([x, y], i) => i ? o.lineTo(x, y) : o.moveTo(x, y)); o.closePath(); o.stroke();
+      o.fillStyle = '#38d996'; loc.pts.forEach(([x, y]) => { o.beginPath(); o.arc(x, y, 6, 0, 7); o.fill(); });
+      const moved = Scan.last ? Math.max(...loc.pts.map(([x, y], i) => Math.hypot(x - Scan.last[i][0], y - Scan.last[i][1]))) : 1e9;
+      Scan.stable = moved < Math.max(w, h) * 0.012 ? Scan.stable + 1 : 0;
+      Scan.last = loc.pts;
+      hint(Scan.stable ? 'ثبّتي الجوال…' : 'تم العثور على الورقة');
+      if (Scan.stable >= 3) { Scan.stable = 0; captureFrame(); }
+    } else { Scan.stable = 0; Scan.last = null; hint('اجعلي المربعات السوداء الأربعة داخل الإطار'); }
+  }
+  setTimeout(loop, 140);
+}
+function captureFrame() {
+  const v = $('#video'), sc = Math.min(1, 1600 / Math.max(v.videoWidth, v.videoHeight));
+  big.width = Math.round(v.videoWidth * sc); big.height = Math.round(v.videoHeight * sc);
+  const ctx = big.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(v, 0, 0, big.width, big.height);
+  const ok = processImage(ctx.getImageData(0, 0, big.width, big.height), true);
+  if (ok) { Scan.paused = true; navigator.vibrate?.(60); hint('✔ تم الالتقاط'); }
+}
+$('#fileIn').addEventListener('change', async e => {
+  const f = e.target.files[0]; e.target.value = '';
+  if (!f) return;
+  if (!S.exams.length) return toast('أنشئي اختبارًا أولًا');
+  try {
+    const bmp = await createImageBitmap(f, { imageOrientation: 'from-image' }).catch(() => createImageBitmap(f));
+    const sc = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    big.width = Math.round(bmp.width * sc); big.height = Math.round(bmp.height * sc);
+    const ctx = big.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(bmp, 0, 0, big.width, big.height); bmp.close?.();
+    if (!processImage(ctx.getImageData(0, 0, big.width, big.height), false)) toast('لم أجد المربعات السوداء الأربعة في الصورة. صوّري الورقة كاملة بإضاءة جيدة', 4500);
+    else if (Scan.running) Scan.paused = true;
+  } catch { toast('تعذّر فتح الصورة'); }
+});
+
+function processImage(img, live) {
+  const G = OMR.gray(img), loc = OMR.locate(G);
+  if (!loc) return false;
+  const code = OMR.readCode(G, loc);
+  let ex = null, note = '';
+  if (Scan.keyFor) {
+    ex = examById(Scan.keyFor);
+    if (code && code !== ex.code) { const o = S.exams.find(e => e.code === code); note = `⚠️ هذه الورقة تخص اختبار «${o ? o.title : 'آخر'}» وليس «${ex.title}».`; }
+  } else {
+    const byCode = code && S.exams.find(e => e.code === code);
+    const chosen = Scan.examSel !== 'auto' && examById(Scan.examSel);
+    if (byCode && chosen && byCode !== chosen) {
+      if (live) { hint(`⚠️ هذه ورقة «${byCode.title}» — غيّري الاختبار المختار أو اختاري «تلقائي»`); return false; }
+      note = `⚠️ رمز الورقة يخص «${byCode.title}». تم التصحيح على «${chosen.title}» كما اخترتِ.`;
+      ex = chosen;
+    } else ex = byCode || chosen;
+    if (!ex) {
+      if (live) { hint(code ? 'رمز هذه الورقة لا يطابق أي اختبار محفوظ' : 'تعذّرت قراءة رمز الاختبار — اختاريه من القائمة'); return false; }
+      toast(code ? 'رمز هذه الورقة لا يطابق أي اختبار محفوظ' : 'تعذّرت قراءة رمز الاختبار — اختاريه من القائمة أعلاه', 4500); return true;
+    }
+    if (!keyDone(ex)) note += (note ? '<br>' : '') + '⚠️ نموذج الإجابة غير مكتمل؛ الأسئلة بلا نموذج لا تُحتسب.';
+  }
+  const r = OMR.readSheet(G, loc, ex);
+  Scan.pending = { examId: ex.id, answers: r.answers, flags: r.flags, sid: r.id.includes('?') ? '' : String(parseInt(r.id, 10)), rawId: r.id, idFlag: r.idFlag, note, keyMode: !!Scan.keyFor };
+  Scan.rect = OMR.rectify(img, loc.H, 520);
+  renderReview();
+  return true;
+}
+
+function drawReviewCanvas(cv, ex, p) {
+  cv.width = Scan.rect.width; cv.height = Scan.rect.height;
+  const ctx = cv.getContext('2d'); ctx.drawImage(Scan.rect, 0, 0);
+  const k = cv.width / 1000, L = OMR.layout(ex);
+  const ring = (x, y, col, dash, w = 3) => { ctx.setLineDash(dash ? [4, 3] : []); ctx.strokeStyle = col; ctx.lineWidth = w; ctx.beginPath(); ctx.arc(x * k, y * k, 17 * k, 0, 7); ctx.stroke(); };
+  L.qs.forEach((q, i) => {
+    const a = p.answers[i], key = ex.key[i];
+    if (p.keyMode) { if (a >= 0) ring(...q.b[a], '#14666b'); }
+    else {
+      if (key >= 0 && a !== key) ring(...q.b[key], '#1f8a5b', true);
+      if (a >= 0) ring(...q.b[a], key < 0 ? '#14666b' : a === key ? '#1f8a5b' : '#c8463a');
+    }
+    if (p.flags[i] || a === -2) { ctx.setLineDash([]); ctx.fillStyle = 'rgba(240,180,67,.35)'; ctx.fillRect((q.lx - 18) * k, (q.y - 17) * k, 36 * k, 34 * k); }
+  });
+  ctx.setLineDash([]);
+}
+
+function renderReview() {
+  const p = Scan.pending, el = $('#review');
+  if (!p) { el.hidden = true; el.innerHTML = ''; return; }
+  const ex = examById(p.examId);
+  if (!ex) { Scan.pending = null; return renderReview(); }
+  el.hidden = false;
+  const flagged = p.flags.filter(Boolean).length + p.answers.filter(a => a === -2).length;
+  if (p.keyMode) {
+    const blanks = p.answers.filter(a => a < 0).length;
+    el.innerHTML = `
+      <h2>قراءة نموذج الإجابة</h2>
+      <p class="small">${esc(ex.title)}</p>
+      ${p.note ? `<p class="notice warn">${p.note}</p>` : ''}
+      ${blanks ? `<p class="notice warn">${ar(blanks)} سؤال بدون إجابة واضحة — حدّديها يدويًا قبل الاعتماد.</p>` : ''}
+      <canvas id="revCv"></canvas>
+      <div id="revGrid">${answerGrid(ex, p.answers, { keyMode: true, flags: p.flags })}</div>
+      <div class="row"><button class="btn primary" id="revKey">✔ اعتماد كنموذج إجابة</button><button class="btn" id="revSkip">إعادة المسح</button></div>`;
+  } else {
+    const g = grade(ex, p.answers), st = p.sid && studentBy(p.sid);
+    const dup = p.sid && S.results.find(r => r.examId === ex.id && r.sid === p.sid);
+    el.innerHTML = `
+      <div class="row between"><h2>${st ? esc(st.name) : 'طالبة غير معروفة'}</h2><span class="badge">${esc(ex.title)}</span></div>
+      ${p.note ? `<p class="notice warn">${p.note}</p>` : ''}
+      <div class="score"><span class="big">${ar(g.score)}</span><span class="muted">من ${ar(ex.total)}</span>
+        <span class="badge ${g.pct >= 50 ? 'ok' : 'bad'}">${ar(g.pct)}٪</span>
+        <span class="small muted">✔ ${ar(g.correct)} • ✘ ${ar(g.wrong)} • فارغ ${ar(g.blank)}</span></div>
+      <div class="row">
+        <label class="f" style="flex:0 1 180px">رقم الطالبة<input class="inp" id="revSid" inputmode="numeric" value="${esc(p.sid)}" placeholder="${p.rawId.includes('?') ? 'لم يُقرأ — اكتبيه' : ''}"></label>
+        <div class="small" style="flex:1 1 200px">${p.idFlag ? '<span class="badge warn">⚠️ تأكدي من الرقم</span> ' : ''}${st ? esc(st.cls || '') : p.sid ? '<span class="badge warn">الرقم غير موجود في قائمة الطالبات</span>' : ''}</div>
+      </div>
+      ${dup ? `<p class="notice warn">سبق تصحيح ورقة هذه الطالبة (${ar(dup.score)} من ${ar(ex.total)}). الحفظ سيستبدل النتيجة السابقة.</p>` : ''}
+      ${flagged ? `<p class="notice warn">⚠️ ${ar(flagged)} سؤال يحتاج مراجعة (مظلّل بالأصفر). اضغطي الإجابة الصحيحة لتعديلها.</p>` : ''}
+      <canvas id="revCv"></canvas>
+      <details ${flagged ? 'open' : ''}><summary class="small"><b>إجابات الطالبة</b> (اضغطي لتعديل أي إجابة)</summary>
+        <div id="revGrid" style="margin-top:10px">${answerGrid(ex, p.answers, { flags: p.flags })}</div></details>
+      <div class="row"><button class="btn primary" id="revSave">💾 حفظ ${Scan.running ? 'والمتابعة' : ''}</button><button class="btn" id="revSkip">تجاهل</button></div>`;
+    $('#revSid').addEventListener('change', e => { p.sid = sidOf(e.target.value); p.idFlag = false; renderReview(); });
+  }
+  drawReviewCanvas($('#revCv'), ex, p);
+  bindGrid($('#revGrid'), p.answers, q => { p.flags[q] = false; renderReview(); });
+  $('#revSkip').onclick = () => { Scan.pending = null; renderReview(); resume(); };
+  if (p.keyMode) $('#revKey').onclick = () => {
+    if (p.answers.some(a => a < 0) && !confirm('بعض الأسئلة بلا إجابة. اعتماد النموذج على أي حال؟')) return;
+    applyKey(ex, p.answers.map(a => a < 0 ? -1 : a));
+    Scan.keyFor = null; Scan.pending = null; renderReview(); renderScan(); stopCamera();
+    toast('✔ تم اعتماد نموذج الإجابة. يمكنك الآن تصحيح أوراق الطالبات');
+  };
+  else $('#revSave').onclick = () => {
+    if (!p.sid) { $('#revSid').focus(); return toast('اكتبي رقم الطالبة أولًا'); }
+    const st = studentBy(p.sid), g = grade(ex, p.answers);
+    S.results = S.results.filter(r => !(r.examId === ex.id && r.sid === p.sid));
+    S.results.push({ id: uid(), examId: ex.id, sid: p.sid, name: st?.name || '', cls: st?.cls || '', answers: [...p.answers], at: Date.now(), ...g });
+    save(); Scan.count++; Scan.pending = null; renderReview(); renderScan();
+    toast(`✔ حُفظت: ${st?.name || 'رقم ' + p.sid} — ${g.score} من ${ex.total}`);
+    resume();
+  };
+  if (!Scan.running) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function resume() { Scan.paused = false; Scan.stable = 0; Scan.last = null; if (Scan.running) hint('جاهزة للورقة التالية'); }
+
+/* =============================== النتائج =============================== */
+let resultsExam = null;
+function renderResults() {
+  const el = $('#v-results');
+  if (!S.exams.length) { el.innerHTML = `<h2>النتائج</h2><div class="card empty"><div class="big">📊</div>لا توجد اختبارات بعد.</div>`; return; }
+  const exs = [...S.exams].sort((a, b) => b.created - a.created);
+  if (!examById(resultsExam)) resultsExam = exs[0].id;
+  const ex = examById(resultsExam), rs = resultsOf(ex.id).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name, 'ar'));
+  const n = rs.length, avg = n ? round2(rs.reduce((s, r) => s + r.score, 0) / n) : 0;
+  const pass = rs.filter(r => r.score >= ex.total / 2).length;
+  const done = new Set(rs.map(r => r.sid));
+  const missing = S.students.filter(s => (!ex.cls || s.cls === ex.cls) && !done.has(sidOf(s.num)));
+  const lets = OMR.letters(ex);
+  const items = ex.key.map((k, i) => {
+    const c = rs.filter(r => r.answers[i] === k).length, pct = n ? Math.round(c * 100 / n) : 0;
+    const dist = lets.map((l, j) => `${l}:${ar(rs.filter(r => r.answers[i] === j).length)}`).join(' ');
+    return { i, pct, dist, k };
+  });
+  el.innerHTML = `
+    <h2>النتائج</h2>
+    <label class="f">الاختبار<select id="rEx">${exs.map(e => `<option value="${e.id}" ${e.id === ex.id ? 'selected' : ''}>${esc(e.title)}${e.cls ? ' — ' + esc(e.cls) : ''}</option>`).join('')}</select></label>
+    <div class="kpis">
+      <div class="kpi"><b>${ar(n)}</b><span>ورقة مصحّحة</span></div>
+      <div class="kpi"><b>${ar(avg)}</b><span>المتوسط من ${ar(ex.total)}</span></div>
+      <div class="kpi"><b>${n ? ar(rs[0].score) : '—'}</b><span>أعلى درجة</span></div>
+      <div class="kpi"><b>${n ? ar(rs[n - 1].score) : '—'}</b><span>أدنى درجة</span></div>
+      <div class="kpi"><b>${n ? ar(Math.round(pass * 100 / n)) + '٪' : '—'}</b><span>نسبة النجاح</span></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="rCsv" ${n ? '' : 'disabled'}>⬇️ تصدير Excel (CSV)</button>
+      <button class="btn" id="rSlips" ${n ? '' : 'disabled'}>🖨️ طباعة بطاقات النتائج</button>
+      <button class="btn teal" id="rScan">📷 تصحيح أوراق</button>
+    </div>
+    ${missing.length && S.students.length ? `<details class="card"><summary><b>لم تُصحّح أوراقهن بعد (${ar(missing.length)})</b></summary><p class="small">${missing.map(s => esc(s.name)).join('، ')}</p></details>` : ''}
+    <div class="card">
+      ${n ? `<div class="scroll"><table class="tbl"><thead><tr><th>#</th><th>الطالبة</th><th>الدرجة</th><th>٪</th><th></th></tr></thead><tbody>
+        ${rs.map((r, i) => `<tr class="click" data-r="${r.id}"><td>${ar(i + 1)}</td><td><b>${esc(r.name || 'رقم ' + r.sid)}</b><br><span class="small muted">رقم ${ar(r.sid)}${r.cls ? ' • ' + esc(r.cls) : ''}</span></td>
+          <td><b>${ar(r.score)}</b></td><td><span class="badge ${r.pct >= 50 ? 'ok' : 'bad'}">${ar(r.pct)}٪</span></td>
+          <td><button class="btn sm" data-share="${r.id}" aria-label="مشاركة النتيجة">📤</button></td></tr>`).join('')}
+      </tbody></table></div>` : '<p class="empty">لم تُصحّح أي ورقة لهذا الاختبار بعد.</p>'}
+    </div>
+    ${n ? `<div class="card"><h3>تحليل الأسئلة</h3><p class="small muted">نسبة الإجابة الصحيحة لكل سؤال — الأحمر أقل من ٥٠٪ ويحتاج إعادة شرح. (توزيع الاختيارات بجانب كل سؤال)</p>
+      <div class="stack" style="gap:6px">${items.map(it => `<div class="ibar ${it.pct < 50 ? 'hard' : ''}"><span class="n">س${ar(it.i + 1)}</span>
+        <span class="track"><span class="fill" style="width:${it.pct}%;display:block"></span></span><span class="pct">${ar(it.pct)}٪</span><span class="dist">${it.dist}</span></div>`).join('')}</div></div>` : ''}`;
+  $('#rEx').onchange = e => { resultsExam = e.target.value; renderResults(); };
+  $('#rScan').onclick = () => { Scan.examSel = ex.id; go('scan'); };
+  $('#rCsv').onclick = () => exportCsv(ex, rs);
+  $('#rSlips').onclick = () => printSlips(ex, rs);
+  el.querySelector('tbody')?.addEventListener('click', e => {
+    const sh = e.target.closest('[data-share]');
+    if (sh) { e.stopPropagation(); return shareResult(ex, S.results.find(r => r.id === sh.dataset.share)); }
+    const tr = e.target.closest('tr[data-r]'); if (tr) resultDetail(ex, S.results.find(r => r.id === tr.dataset.r));
+  });
+}
+function resultText(ex, r) {
+  const w = wrongList(ex, r.answers);
+  return `نتيجة ${r.name || 'الطالبة رقم ' + r.sid} في «${ex.title}»:\n${r.score} من ${ex.total} (${r.pct}٪)\nالإجابات الصحيحة: ${r.correct} من ${r.counted}` + (w.length ? `\nالأسئلة التي تحتاج مراجعة: ${w.join('، ')}` : '\nممتاز! جميع الإجابات صحيحة 🌟');
+}
+async function shareResult(ex, r) {
+  const text = resultText(ex, r);
+  if (navigator.share) { try { await navigator.share({ text }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  try { await navigator.clipboard.writeText(text); toast('نُسخت النتيجة — الصقيها في رسالة خاصة لولي الأمر'); }
+  catch { prompt('انسخي النتيجة:', text); }
+}
+function resultDetail(ex, r) {
+  const answers = [...r.answers];
+  const draw = () => {
+    const g = grade(ex, answers);
+    const d = modal(`
+      <div class="row between"><h2>${esc(r.name || 'رقم ' + r.sid)}</h2><button class="btn sm" data-close>✕</button></div>
+      <div class="score"><span class="big">${ar(g.score)}</span><span class="muted">من ${ar(ex.total)}</span><span class="badge ${g.pct >= 50 ? 'ok' : 'bad'}">${ar(g.pct)}٪</span></div>
+      <p class="small muted">الأخضر إجابة صحيحة، الأحمر خاطئة، والإطار الأخضر هو الإجابة الصحيحة. يمكنك تعديل أي إجابة.</p>
+      <div id="dGrid">${answerGrid(ex, answers)}</div>
+      <div class="row"><button class="btn primary" id="dSave">حفظ التعديل</button><button class="btn" id="dShare">📤 مشاركة</button><button class="btn danger" id="dDel">🗑️ حذف النتيجة</button></div>`);
+    bindGrid($('#dGrid', d), answers, draw);
+    $('#dSave', d).onclick = () => { r.answers = [...answers]; Object.assign(r, grade(ex, answers)); save(); $('#dlg').close(); renderResults(); toast('تم الحفظ'); };
+    $('#dShare', d).onclick = () => shareResult(ex, { ...r, answers, ...grade(ex, answers) });
+    $('#dDel', d).onclick = () => { if (!confirm('حذف هذه النتيجة؟')) return; S.results = S.results.filter(x => x !== r); save(); $('#dlg').close(); renderResults(); };
+  };
+  draw();
+}
+function download(name, blob) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+function exportCsv(ex, rs) {
+  const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const head = ['رقم الطالبة', 'الاسم', 'الفصل', 'الدرجة', 'من', 'النسبة', 'صحيح', 'خطأ', 'فارغ', ...ex.key.map((_, i) => 'س' + (i + 1))];
+  const lines = [head.map(q).join(','), ['', 'نموذج الإجابة', '', '', '', '', '', '', '', ...ex.key.map(k => ansLabel(ex, k))].map(q).join(',')];
+  [...rs].sort((a, b) => +a.sid - +b.sid).forEach(r => lines.push([r.sid, r.name, r.cls, r.score, ex.total, r.pct + '%', r.correct, r.wrong, r.blank, ...r.answers.map(a => ansLabel(ex, a))].map(q).join(',')));
+  download(`نتائج-${ex.title.replace(/[\\/:*?"<>|]/g, '-')}.csv`, new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' }));
+}
+function printSlips(ex, rs) {
+  const sorted = [...rs].sort((a, b) => (a.cls || '').localeCompare(b.cls || '', 'ar') || a.name.localeCompare(b.name, 'ar'));
+  const slip = r => { const w = wrongList(ex, r.answers); return `<div class="slip"><div><b>${esc(r.name || 'رقم ' + r.sid)}</b> ${r.cls ? '— ' + esc(r.cls) : ''}</div>
+    <div>${esc(ex.title)}</div><div>الدرجة: <b class="sc">${ar(r.score)}</b> من ${ar(ex.total)} (${ar(r.pct)}٪)</div>
+    <div style="font-size:9pt">${w.length ? 'راجعي الأسئلة: ' + w.map(ar).join('، ') : 'ممتاز! جميع الإجابات صحيحة 🌟'}</div></div>`; };
+  const pages = [];
+  for (let i = 0; i < sorted.length; i += 14) pages.push(`<div class="page"><div class="slips">${sorted.slice(i, i + 14).map(slip).join('')}</div></div>`);
+  $('#printArea').innerHTML = pages.join('');
+  setTimeout(() => window.print(), 100);
+}
+
+/* =============================== الطالبات =============================== */
+let stFilter = '';
+function renderStudents() {
+  const el = $('#v-students'), cls = classes();
+  const q = normDigits(stFilter.trim());
+  const list = S.students.filter(s => !q || s.name.includes(q) || sidOf(s.num) === sidOf(q) || (s.cls || '').includes(q))
+    .sort((a, b) => (a.cls || '').localeCompare(b.cls || '', 'ar') || +sidOf(a.num) - +sidOf(b.num));
+  el.innerHTML = `
+    <div class="row between"><h2>الطالبات</h2><span class="badge">${ar(S.students.length)} طالبة</span></div>
+    <div class="card">
+      <h3>إضافة طالبات</h3>
+      <p class="small muted">سطر لكل طالبة بالشكل: <b>الرقم، الاسم، الفصل</b> — ويمكن النسخ مباشرة من Excel (ثلاثة أعمدة). إن كتبتِ الاسم فقط يُعطى رقمًا تلقائيًا. الرقم هو ما تظلّله الطالبة في الورقة (مثل رقمها في كشف الفصل).</p>
+      <textarea class="inp" id="stIn" rows="5" placeholder="1، نورة أحمد، ثاني متوسط ١&#10;2، سارة خالد، ثاني متوسط ١"></textarea>
+      <div class="row"><button class="btn primary" id="stAdd">إضافة</button>
+        <label class="btn">📄 من ملف CSV<input type="file" accept=".csv,.txt,text/csv,text/plain" id="stFile" hidden></label></div>
+    </div>
+    ${S.students.length ? `<div class="card">
+      <input class="inp" id="stQ" placeholder="بحث بالاسم أو الرقم أو الفصل" value="${esc(stFilter)}">
+      <div class="scroll"><table class="tbl"><thead><tr><th>الرقم</th><th>الاسم</th><th>الفصل</th><th></th></tr></thead><tbody>
+      ${list.map(s => `<tr><td>${ar(sidOf(s.num))}</td><td>${esc(s.name)}</td><td>${esc(s.cls || '')}</td><td><button class="btn sm danger" data-del="${s.id}" aria-label="حذف">🗑️</button></td></tr>`).join('')}
+      </tbody></table></div>
+      <div class="row"><button class="btn danger sm" id="stClear">حذف ${cls.length > 1 ? 'فصل…' : 'الكل'}</button></div>
+    </div>` : ''}`;
+  $('#stAdd').onclick = () => { addStudents($('#stIn').value); };
+  $('#stFile').onchange = async e => { const f = e.target.files[0]; if (f) addStudents(await f.text()); };
+  $('#stQ')?.addEventListener('input', e => { stFilter = e.target.value; const pos = e.target.selectionStart; renderStudents(); const i = $('#stQ'); i.focus(); i.setSelectionRange(pos, pos); });
+  el.querySelector('tbody')?.addEventListener('click', e => {
+    const b = e.target.closest('[data-del]'); if (!b) return;
+    S.students = S.students.filter(s => s.id !== b.dataset.del); save(); renderStudents();
+  });
+  $('#stClear')?.addEventListener('click', () => {
+    let c = '';
+    if (cls.length > 1) { c = prompt('اكتبي اسم الفصل المراد حذفه كما هو، أو اكتبي «الكل»:\n' + cls.join('\n')); if (!c) return; c = c.trim(); }
+    if (c === 'الكل' || !c) { if (!confirm('حذف جميع الطالبات؟ (النتائج المحفوظة تبقى)')) return; S.students = []; }
+    else { if (!cls.includes(c)) return alert('الفصل غير موجود'); S.students = S.students.filter(s => s.cls !== c); }
+    save(); renderStudents();
+  });
+}
+function addStudents(txt) {
+  let next = Math.max(0, ...S.students.map(s => +sidOf(s.num) || 0)) + 1, added = 0, upd = 0;
+  normDigits(txt).replace(/^﻿/, '').split(/\r?\n/).forEach(line => {
+    const parts = line.split(/\t|,|،|;|؛/).map(x => x.trim().replace(/^"|"$/g, '')).filter(Boolean);
+    if (!parts.length) return;
+    let num, name, cls;
+    if (/^\d+$/.test(parts[0])) [num, name, cls] = parts;
+    else if (parts[1] && /^\d+$/.test(parts[1])) [name, num, cls] = parts;
+    else { [name, cls] = parts; num = String(next); }
+    if (!name || /^(الاسم|اسم|name)$/i.test(name)) return;
+    num = sidOf(num); if (+num >= next) next = +num + 1;
+    const ex = S.students.find(s => sidOf(s.num) === num);
+    if (ex) { ex.name = name; ex.cls = cls || ex.cls; upd++; }
+    else { S.students.push({ id: uid(), num, name, cls: cls || '' }); added++; }
+  });
+  save(); renderStudents();
+  toast(`أُضيفت ${ar(added)} طالبة` + (upd ? ` وحُدّثت ${ar(upd)}` : ''));
+}
+
+/* =============================== الإعدادات =============================== */
+function renderSettings() {
+  const el = $('#v-settings'), st = S.settings;
+  el.innerHTML = `
+    <h2>الإعدادات والأمان</h2>
+    <div class="card">
+      <label class="f">اسم المدرسة (يظهر أعلى ورقة الإجابة)<input class="inp" id="sSchool" maxlength="80" value="${esc(st.school)}"></label>
+      <div class="row">
+        <label class="f">خانات رقم الطالبة للاختبارات الجديدة<input class="inp" id="sDig" type="number" min="1" max="6" value="${st.idDigits}"></label>
+        <label class="f">القفل التلقائي بعد (دقائق)<input class="inp" id="sLock" type="number" min="1" max="120" value="${st.autoLockMin}"></label>
+      </div>
+      <div class="row"><button class="btn primary" id="sSave">حفظ</button></div>
+    </div>
+    <div class="card">
+      <h3>🔒 كيف تُحمى النتائج؟</h3>
+      <ul class="small" style="margin:0;padding-inline-start:20px">
+        <li>التصحيح يتم داخل الجوال نفسه؛ <b>لا تُرسل صور الأوراق ولا النتائج إلى أي خادم أو موقع</b>، ولا تُحفظ صور الأوراق أصلًا.</li>
+        <li>كل البيانات (الأسماء، الدرجات، النماذج) مشفّرة بمعيار AES-256 بمفتاح مشتق من رمزك السري، ولا يمكن قراءتها بدونه.</li>
+        <li>يُقفل التطبيق تلقائيًا بعد ${ar(st.autoLockMin)} دقائق دون استخدام، وتتباطأ المحاولات بعد ٥ رموز خاطئة.</li>
+        <li>مشاركة النتيجة تتم لكل طالبة على حدة (رسالة خاصة أو بطاقة مطبوعة) فلا تطّلع طالبة على درجة غيرها.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>الرمز السري</h3>
+      <div class="row">
+        <input class="inp pin" id="sOld" type="password" inputmode="numeric" placeholder="الحالي" aria-label="الرمز الحالي" style="flex:1 1 120px">
+        <input class="inp pin" id="sNew" type="password" inputmode="numeric" placeholder="الجديد" aria-label="الرمز الجديد" style="flex:1 1 120px">
+        <button class="btn" id="sPin">تغيير الرمز</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>النسخ الاحتياطي</h3>
+      <p class="small muted">البيانات محفوظة في متصفح هذا الجوال فقط؛ إن مُسحت بيانات المتصفح ضاعت. احفظي نسخة احتياطية مشفّرة بعد كل تصحيح، وتُستعاد بنفس الرمز السري.</p>
+      <div class="row">
+        <button class="btn" id="sBak">⬇️ تنزيل نسخة احتياطية مشفّرة</button>
+        <label class="btn">⬆️ استعادة نسخة<input type="file" accept=".json,application/json" id="sRes" hidden></label>
+      </div>
+    </div>
+    <div class="card">
+      <h3>منطقة الخطر</h3>
+      <div class="row"><button class="btn danger" id="sWipe">حذف جميع البيانات من هذا الجهاز</button></div>
+    </div>`;
+  $('#sSave').onclick = () => {
+    st.school = $('#sSchool').value.trim();
+    st.idDigits = Math.min(6, Math.max(1, +normDigits($('#sDig').value) | 0 || 3));
+    st.autoLockMin = Math.min(120, Math.max(1, +normDigits($('#sLock').value) | 0 || 10));
+    save(); toast('تم الحفظ'); renderSettings();
+  };
+  $('#sPin').onclick = async () => {
+    const o = normDigits($('#sOld').value.trim()), n = normDigits($('#sNew').value.trim());
+    if (n.length < 4) return toast('الرمز الجديد ٤ خانات على الأقل');
+    try { await unseal(JSON.parse(localStorage.getItem(VAULT)), o); } catch { return toast('الرمز الحالي غير صحيح'); }
+    await saveChain;
+    SALT = crypto.getRandomValues(new Uint8Array(16)); KEY = await deriveKey(n, SALT);
+    localStorage.setItem(VAULT, JSON.stringify(await seal(S, KEY, SALT)));
+    $('#sOld').value = $('#sNew').value = ''; toast('✔ تم تغيير الرمز السري');
+  };
+  $('#sBak').onclick = async () => {
+    await saveChain; clearTimeout(saveTimer);
+    const v = await seal(S, KEY, SALT);
+    const dt = new Date(), stamp = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`;
+    download(`نسخة-مصحح-الاختبارات-${stamp}.json`, new Blob([JSON.stringify(v)], { type: 'application/json' }));
+  };
+  $('#sRes').onchange = async e => {
+    const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+    let v; try { v = JSON.parse(await f.text()); if (v.app !== 'omr') throw 0; } catch { return toast('الملف ليس نسخة احتياطية صحيحة'); }
+    const pin = prompt('أدخلي الرمز السري الذي كان مستخدمًا عند حفظ النسخة:'); if (!pin) return;
+    try {
+      const r = await unseal(v, normDigits(pin.trim()));
+      if (!confirm(`النسخة تحتوي ${r.state.exams.length} اختبار و${r.state.results.length} نتيجة و${r.state.students.length} طالبة.\nستحل محل البيانات الحالية. متابعة؟`)) return;
+      S = Object.assign(freshState(), r.state); S.settings = Object.assign(freshState().settings, S.settings);
+      save(); toast('✔ تمت الاستعادة (الرمز السري الحالي لم يتغير)'); renderSettings();
+    } catch { toast('الرمز غير صحيح لهذه النسخة'); }
+  };
+  $('#sWipe').onclick = () => {
+    if (!confirm('سيتم حذف جميع الاختبارات والنتائج والطالبات نهائيًا من هذا الجهاز. متابعة؟')) return;
+    if (prompt('للتأكيد اكتبي كلمة: حذف') !== 'حذف') return;
+    clearTimeout(saveTimer); localStorage.removeItem(VAULT); localStorage.removeItem(TRIES); KEY = null; S = null; lock();
+  };
+}
+
+showLock();
+</script>
+</body>
+</html>
