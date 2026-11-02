@@ -287,6 +287,30 @@
     #starCard .sc-l { font-size: 15px; color: #555; margin: 4px; }
     #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
   }
+  .txin { position: fixed; z-index: 70; min-width: 160px; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; background: rgba(255,255,255,.92); border: 2px dashed #6b4fc0; border-radius: 8px; padding: 0 6px; direction: rtl; outline: none; }
+  /* القرعة */
+  #drawBox { display: flex; flex-direction: column; gap: 8px; }
+  @media (min-width: 900px) and (orientation: landscape) { #draw.on, #drawBox { height: 100%; } }
+  .dr-top { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; } .dr-top .strat { margin: 0; }
+  .dr-nr { font-size: 16px; margin-inline-start: auto; } .dr-top .btn { font-size: 16px; padding: 4px 12px; }
+  .dr-msg { margin: 0; text-align: center; font-size: 17px; color: #6b4fc0; }
+  .dr-cols { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .dr-col { border: 3px solid var(--green); border-radius: 20px; padding: 10px; display: flex; flex-direction: column; gap: 8px; min-height: 0; background: #f7fbf3; }
+  .dr-col[data-c="6b"] { border-color: var(--pink); background: #fff6f9; }
+  .dr-h { text-align: center; font-size: 24px; color: var(--green); } .dr-h span { background: var(--gold); color: #3b2c00; border-radius: 10px; padding: 0 10px; font-size: 20px; }
+  .dr-col[data-c="6b"] .dr-h { color: var(--pink); }
+  .dr-big { text-align: center; font-size: 40px; min-height: 70px; line-height: 70px; background: #fff; border: 3px dashed var(--gold); border-radius: 16px; color: var(--ink); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .dr-big.win { background: var(--gold); color: #3b2c00; border-style: solid; animation: bump .6s; box-shadow: 0 0 24px #f5c242; }
+  .dr-go { font-size: 22px !important; }
+  .dr-chips { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; justify-content: center; }
+  .dr-chip { background: #fff; border: 2px solid #c9d3c2; border-radius: 12px; padding: 2px 10px; font-size: 17px; transition: transform .08s; }
+  .dr-chip.hot { background: #fff3c4; border-color: var(--gold); transform: scale(1.15); }
+  .dr-chip.win { background: var(--gold); transform: scale(1.3); }
+  .dr-chip.out { opacity: .35; text-decoration: line-through; }
+  .dr-reset { font-size: 15px !important; padding: 3px 10px !important; align-self: center; }
+  .dr-edit { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; } .dr-edit[hidden] { display: none; }
+  .dr-edit label { font-size: 15px; } .dr-edit textarea { width: 100%; height: 110px; font: inherit; font-size: 16px; border: 2px solid var(--leaf); border-radius: 10px; }
+  .dr-edit .note { grid-column: 1 / -1; margin: 0; font-size: 14px; }
 
   .sbody { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) !important; }
   .scol { min-height: 0; display: flex; } .scol svg { width: 100%; height: 100%; border-radius: 16px; transition: transform .05s; }
@@ -319,14 +343,16 @@
   .fold b { display: block; color: #ffe082; font-size: 15px; }
   /* المهمات */
   #missions.on { display: flex; flex-direction: column; gap: 10px; }
-  .mcards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex: none; }
+  .alb { flex: none; text-align: center; background: linear-gradient(90deg, #6b4fc0, #c2366f); color: #fff; border-radius: 14px; padding: 4px 10px; font-size: 18px; } .alb b { color: #ffe082; }
+  .nout { display: block; text-align: center; background: #eef6ff; border: 2px dashed #1e5fd8; color: #1e3a8a; border-radius: 12px; padding: 2px 10px; font-size: 15px; margin: 4px 0; }
+  .mcards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; flex: none; }
   .mcard { position: relative; border: 3px solid var(--green); border-radius: 18px; background: #fff; padding: 6px 8px; font: inherit; cursor: pointer; color: var(--ink); text-align: center; line-height: 1.4; }
   .mcard .mi { font-size: 22px; } .mcard b { display: block; color: var(--green); font-size: 18px; } .mcard span { display: block; font-size: 17px; color: var(--pink); } .mcard small { font-size: 13px; color: #7a869e; }
   .mcard.on { background: var(--green); } .mcard.on b, .mcard.on span, .mcard.on small { color: #fff; }
   .mcard.done::after { content: '✔'; position: absolute; top: 4px; left: 10px; color: var(--leaf); font-size: 20px; } .mcard.on.done::after { color: #c9f0c0; }
   #mbody { flex: 1; min-height: 0; overflow-y: auto; margin: 0; }
   .mq { font-size: 24px !important; text-align: center; }
-  #mbody .opts { grid-template-columns: repeat(3, 1fr); } #mbody .opts .btn { text-align: center; font-size: 20px; }
+  #mbody .opts { grid-template-columns: repeat(3, 1fr); } #mbody .opts.o4 { grid-template-columns: repeat(2, 1fr); } #mbody .opts .btn { text-align: center; font-size: 20px; }
   .mend { text-align: center; } .mend .big { font-size: 70px; }
   .cmp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 14px; align-items: start; }
   .ctab { font-size: 15px; } .ctab td { vertical-align: top; width: 33%; } .ctab th:nth-child(2) { background: #6b4fc0; }
@@ -347,7 +373,6 @@
   .rub { font-size: 13px; margin: 6px 0; } .rub td, .rub th { padding: 3px; }
   .rx { margin: 8px auto; width: min(100%, 520px); height: 170px; border-radius: 20px; background: #c62828; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; user-select: none; }
   .rx.wait { background: #ef6c00; } .rx.go { background: #2e7d32; }
-  .txin { position: fixed; z-index: 70; min-width: 160px; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; background: rgba(255,255,255,.92); border: 2px dashed #6b4fc0; border-radius: 8px; padding: 0 6px; direction: rtl; outline: none; }
 </style>
 </head>
 <body>
@@ -364,9 +389,10 @@
 <nav class="tabs">
   <button class="tab on" data-p="start">🏁 البداية</button>
   <button class="tab" data-p="stations">📍 محطات الدرس</button>
-  <button class="tab" data-p="missions">🎯 المهمات</button>
+  <button class="tab" data-p="missions">🎯 المهمات – التعلم النشط</button>
   <button class="tab" data-p="games">🎮 الألعاب</button>
   <button class="tab" data-p="surprise">🎁 صندوق المفاجآت</button>
+  <button class="tab" data-p="draw">🎲 القرعة</button>
 </nav>
 
 <main>
@@ -411,6 +437,7 @@
 
 <!-- ═════ المهمات -->
 <section class="panel" id="missions">
+  <div class="alb">🧠 <b>التعلم النشط:</b> تعلّمي بالمهمات… فكّري، ناقشي زميلتك، طبّقي، ثم أنجزي المهمة!</div>
   <div class="mcards" id="mcards"></div>
   <div class="box" id="mbody"></div>
 </section>
@@ -447,6 +474,8 @@
     <p style="text-align:center;margin-top:12px"><button class="btn" onclick="buildGifts()">🔄 صناديق جديدة</button></p>
   </div>
 </section>
+<!-- ═════ القرعة -->
+<section class="panel" id="draw"><div class="box" id="drawBox"></div></section>
 </main>
 <div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><div id="rvX" class="rvx"></div><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
 <footer>أ/ شامه البقمي 💚</footer>
@@ -826,6 +855,7 @@ const MIS = [
   { ic: '🟡', n: 'المهمة الثانية', t: 'أقارن', d: 'أوجه الشبه والاختلاف', run: () => m2(0) },
   { ic: '🟠', n: 'المهمة الثالثة', t: 'أصنّف', d: 'كل عضو إلى جهازه', run: () => m3() },
   { ic: '🔴', n: 'المهمة الرابعة', t: 'أركّب – المهمة الأدائية', d: 'أصمّم نموذجًا', run: () => m4() },
+  { ic: '🏅', n: 'المهمة الخامسة', t: 'نافس – نواتج التعلم', d: 'أسئلة أجهزة الجسم', run: () => m5(0) },
 ];
 const mDone = new Set();
 let mCur = 0;
@@ -834,12 +864,12 @@ function mission(k) {
   $('#mcards').innerHTML = MIS.map((m, i) => `<button class="mcard ${i === k ? 'on' : ''} ${mDone.has(i) ? 'done' : ''}" onclick="mission(${i})"><span class="mi">${m.ic}</span><b>${m.n}</b><span>${m.t}</span><small>${m.d}</small></button>`).join('');
   MIS[k].run();
 }
-const mHead = (strat, title) => `<span class="strat"><b>الاستراتيجية:</b> ${strat}</span><h2>${title}</h2>`;
+const mHead = (strat, title) => `<span class="strat"><b>الاستراتيجية:</b> التعلم النشط – ${strat}</span><h2>${title}</h2>`;
 const praise = () => ['أحسنتِ يا عالمتي! 🌟', 'رائع! إجابة صحيحة 👏', 'ممتاز! أنتِ مبدعة ✨', 'بطلة! استمري 💪'][Math.floor(Math.random() * 4)];
 function mFinish(k, html) {
   mDone.add(k); confetti();
   $('#mbody').innerHTML = `<div class="mend"><div class="big">🏆</div><h2>أنجزتِ ${MIS[k].n}: ${MIS[k].t}!</h2>${html || ''}
-    ${k < 3 ? `<button class="btn main" onclick="mission(${k + 1})">إلى ${MIS[k + 1].n} ←</button>` : `<button class="btn main" onclick="go('games')">إلى الألعاب 🎮</button>`}</div>`;
+    ${k < MIS.length - 1 ? `<button class="btn main" onclick="mission(${k + 1})">إلى ${MIS[k + 1].n} ←</button>` : `<button class="btn main" onclick="go('games')">إلى الألعاب 🎮</button>`}</div>`;
   $('#mcards').querySelectorAll('.mcard')[k].classList.add('done');
 }
 // المهمة الأولى
@@ -862,6 +892,50 @@ function m1(i, sim) {
       tries++; b.classList.add('no'); b.disabled = true;
       if (sim || tries === 1) { m.className = 'msg bad'; m.innerHTML = `💡 تلميح: ${it.hint} حاولي مرة أخرى.`; }
       else { m.className = 'msg bad'; m.innerHTML = `📘 لنتعلّم معًا: ${it.fix}<br><button class="btn main" style="margin-top:6px" onclick="m1(${i}, true)">🔁 جرّبي سؤالًا مشابهًا</button>`; $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true); }
+    }
+  });
+}
+// المهمة الخامسة: أسئلة نافس من بنك المنصة (أجهزة الجسم) مع ناتج التعلم ومهارة نافس
+const O1 = 'يحدّد وظائف أجهزة جسم الإنسان وأعضاءها', O2 = 'يفسّر التنفس الخلوي وإطلاق الطاقة', O3 = 'يقارن بين أجهزة الدوران في المخلوقات الحية',
+  O4 = 'يستنتج تكامل عمل أجهزة الجسم', O5 = 'يوضّح كيف تعمل العضلات والعظام والجهاز العصبي معًا للحركة', O6 = 'يرتّب مستويات التنظيم في المخلوقات الحية', O7 = 'يقارن بين تراكيب التنفس في الحيوانات';
+const M5 = [
+  { o: O1, k: 'معرفة', q: 'أيّ جهاز في جسم الإنسان مسؤول عن ضخ الدم إلى جميع أجزاء الجسم؟', op: ['الجهاز الدوري', 'الجهاز التنفسي', 'الجهاز الهضمي', 'الجهاز العضلي'], a: 0, hint: 'يحتوي على القلب والأوعية الدموية.', fix: 'الجهاز الدوري: القلب يضخّ الدم في الأوعية إلى كل الجسم.', sim: { q: 'العضو الذي يضخّ الدم هو…', op: ['القلب', 'الرئة', 'المعدة'], a: 0 } },
+  { o: O1, k: 'معرفة', q: 'إلى أيّ جهاز تنتمي المعدة؟', op: ['الجهاز الدوري', 'الجهاز التنفسي', 'الجهاز الهضمي', 'الجهاز العضلي'], a: 2, hint: 'تهضم الطعام.', fix: 'المعدة من أعضاء الجهاز الهضمي مع الفم والمريء والأمعاء.', sim: { q: 'إلى أيّ جهاز تنتمي الأمعاء الدقيقة؟', op: ['الهضمي', 'الدوري', 'العصبي'], a: 0 } },
+  { o: O1, k: 'معرفة', q: 'ما وظيفة الجمجمة؟', op: ['تحمي القلب', 'تحمي القلب والرئتين', 'تحمي الدماغ', 'تساعد على التنفس'], a: 2, hint: 'تقع في الرأس.', fix: 'الجمجمة تحمي الدماغ، والقفص الصدري يحمي القلب والرئتين.', sim: { q: 'أيّ العظام تحمي القلب والرئتين؟', op: ['القفص الصدري', 'الجمجمة', 'الحوض'], a: 0 } },
+  { o: O1, k: 'تطبيق', q: 'كيف يساعد القفص الصدري الجسم؟', op: ['يحمي الدماغ', 'ينقل الدم', 'يحمي القلب والرئتين', 'يساعد على الهضم'], a: 2, hint: 'ماذا يوجد داخل الصدر؟', fix: 'القفص الصدري يحمي القلب والرئتين.', sim: { q: 'الجهاز الذي يحمي الأعضاء الطرية ويُكسب الجسم شكله:', op: ['الهيكلي', 'الهضمي', 'الإخراجي'], a: 0 } },
+  { o: O2, k: 'تطبيق', q: 'ما الذي يُستخدم في التنفس الخلوي؟', op: ['الضوء', 'الجلوكوز فقط', 'الكلوروفيل', 'الأكسجين'], a: 3, hint: 'غاز ندخله مع الشهيق.', fix: 'التنفس الخلوي يحتاج الأكسجين ليُطلق الطاقة من الجلوكوز.', sim: { q: 'ماذا يُطلق التنفس الخلوي؟', op: ['الطاقة', 'الضوء', 'العظام'], a: 0 } },
+  { o: O3, k: 'استنتاج', q: 'لماذا تحتاج المخلوقات إلى جهاز دوران؟', op: ['للتكاثر', 'لنقل الأكسجين والفضلات', 'للهضم', 'للتنفس فقط'], a: 1, hint: 'ماذا ينقل الدم؟', fix: 'الدوران ينقل الأكسجين والغذاء إلى الخلايا ويخلّصها من الفضلات.', sim: { q: 'ماذا ينقل الدم إلى الخلايا؟', op: ['الأكسجين والغذاء', 'الهواء فقط', 'العظام'], a: 0 } },
+  { o: O3, k: 'تحليل', q: 'ما الفرق بين أجهزة الدوران المفتوحة والمغلقة؟', op: ['المغلقة لا تحتوي على أوعية دموية', 'المغلقة لا تنقل الأكسجين', 'المفتوحة لا تحتوي على قلب', 'المفتوحة تدفع الدم مباشرة للأنسجة'], a: 3, hint: 'في أيّهما يبقى الدم داخل الأوعية؟', fix: 'المفتوح: يضخّ القلب الدم مباشرة إلى الأنسجة (الجرادة). المغلق: يبقى الدم في الأوعية (الإنسان).', sim: { q: 'أيّ الحيوانات جهاز دورانه مغلق؟', op: ['القط', 'الجرادة', 'الحلزون'], a: 0 } },
+  { o: O4, k: 'تحليل', q: 'إذا توقف عمل الرئتين، فما النتيجة التي تحدث لبقية أجهزة الجسم؟', op: ['تعمل بشكل أفضل', 'يقل الأكسجين فلا تعمل بكفاءة', 'تستمر بالعمل كالمعتاد', 'تزداد عملية الهضم'], a: 1, hint: 'ماذا تأخذ الرئتان من الهواء؟', fix: 'الرئتان تزوّدان الدم بالأكسجين؛ وبدونه لا تنتج الخلايا الطاقة.', sim: { q: 'أين يدخل الأكسجين إلى الدم؟', op: ['الحويصلات الهوائية', 'المعدة', 'الكلية'], a: 0 } },
+  { o: O4, k: 'تحليل', q: 'ماذا يحدث إذا توقف عمل المعدة في الجهاز الهضمي؟', op: ['لا يُهضم الطعام', 'يزداد تدفق الدم', 'يزداد التنفس', 'تزداد عملية الهضم'], a: 0, hint: 'ما وظيفة المعدة؟', fix: 'المعدة تهضم الطعام؛ فإذا توقفت لا يُهضم.', sim: { q: 'أين يُمتص معظم الغذاء المهضوم؟', op: ['الأمعاء الدقيقة', 'المريء', 'الفم'], a: 0 } },
+  { o: O5, k: 'تحليل', q: 'تعمل العضلات في أزواج متقابلة. ماذا يحدث إذا انقبضت العضلة الأولى دون أن تنبسط العضلة المقابلة لها؟', op: ['تصبح الحركة أكثر مرونة', 'تنكسر العظمة بسبب الشد', 'تنقلب العظمة في الاتجاه المعاكس', 'تبقى العظمة ثابتة ولا تتحرك'], a: 3, hint: 'كل عضلة تسحب في اتجاه معاكس للأخرى.', fix: 'ليتحرك العظم يجب أن تنبسط العضلة المقابلة؛ وإلا تتعادل القوتان فلا يتحرك.', sim: { q: 'عندما تنقبض ذات الرأسين فإن ذات الثلاثة رؤوس…', op: ['تنبسط', 'تنقبض أيضًا', 'تختفي'], a: 0 } },
+  { o: O5, k: 'استنتاج', q: 'ما الوظيفة المشتركة للدماغ والأعصاب معًا؟', op: ['التحكم في الحركة والحواس', 'إنتاج الغذاء', 'التكاثر', 'التخلص من الفضلات'], a: 0, hint: 'هما الجهاز العصبي.', fix: 'الدماغ والأعصاب يتحكّمان في الحركة والإحساس.', sim: { q: 'ما الذي ينقل أوامر الدماغ إلى العضلات؟', op: ['الأعصاب', 'الدم', 'العظام'], a: 0 } },
+  { o: O4, k: 'تركيب', q: 'أيّ تركيب لأعضاء الجسم معًا يحافظ على حياة الإنسان؟', op: ['القلب + المعدة', 'الكبد + المثانة', 'الدماغ + الأعصاب + الحواس', 'الكبد + القلب'], a: 2, hint: 'أعضاء تعمل معًا ليستجيب الجسم لما حوله.', fix: 'الدماغ والأعصاب وأعضاء الحس تكوّن الجهاز العصبي الذي ينظّم أنشطة الجسم.', sim: { q: 'أيّ مما يأتي من أعضاء الحس؟', op: ['العين', 'المعدة', 'الكلية'], a: 0 } },
+  { o: O6, k: 'تركيب', q: 'ما الذي تشكّله مجموعة من الأعضاء مثل القلب والمعدة والأمعاء التي تعمل معًا؟', op: ['نسيج', 'عنصر', 'جهاز حيوي', 'خلية'], a: 2, hint: 'أكبر من العضو.', fix: 'خلية ← نسيج ← عضو ← جهاز.', sim: { q: 'الترتيب الصحيح من الأصغر إلى الأكبر:', op: ['خلية ← نسيج ← عضو ← جهاز', 'عضو ← خلية ← جهاز ← نسيج', 'جهاز ← عضو ← نسيج ← خلية'], a: 0 } },
+  { o: O7, k: 'تطبيق', q: 'ما تركيب الأسماك الذي يؤدي وظيفة الرئتين نفسها؟', op: ['الخياشيم', 'الأوردة', 'القصبات', 'الزعانف'], a: 0, hint: 'على جانبي رأس السمكة.', fix: 'تتنفس الأسماك بالخياشيم فتأخذ الأكسجين من الماء.', sim: { q: 'تتنفس صغار البرمائيات بـ…', op: ['الخياشيم والجلد', 'الرئات فقط', 'الريش'], a: 0 } },
+  { o: O7, k: 'استنتاج', q: 'أيّ من الحيوانات التالية تمتلك رئات تشبه صفحات الكتاب؟', op: ['العنكبوت', 'السمك', 'الطيور', 'الضفدع'], a: 0, hint: 'من المفصليات وله ثمانية أرجل.', fix: 'العنكبوت له رئات كتابية.', sim: { q: 'تتبادل الديدان المفلطحة الغازات عن طريق…', op: ['الانتشار', 'الرئات', 'الخياشيم'], a: 0 } },
+];
+let m5s = 0;
+const shuf = (t) => { const idx = t.op.map((_, k) => k).sort(() => Math.random() - .5); return { q: t.q, op: idx.map((k) => t.op[k]), a: idx.indexOf(t.a) }; };
+function m5(i, sim) {
+  if (i === 0 && !sim) m5s = 0;
+  if (i >= M5.length) return mFinish(4, `<p class="score">⭐ ${ar(m5s)} / ${ar(M5.length)}</p><p>أسئلة من بنك منصة العلوم نافس – أجهزة الجسم</p>`);
+  const it = M5[i], t = shuf(sim ? it.sim : { q: it.q, op: it.op, a: it.a }); let tries = 0;
+  $('#mbody').innerHTML = mHead('نواتج التعلم – اختبار نافس', '🏅 المهمة الخامسة: نافس – نواتج التعلم') + `
+    <span class="nout">📌 ناتج التعلم: ${it.o} • مهارة نافس: <b>${it.k}</b></span>
+    <p class="score">${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M5.length)}`} • ⭐ ${ar(m5s)}</p>
+    <p class="mq">${t.q}</p><div class="opts o4">${t.op.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="m5m"></div>`;
+  $('#mbody').querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {
+    const m = $('#m5m');
+    if (+b.dataset.k === t.a) {
+      b.classList.add('ok'); if (!tries && !sim) { m5s++; award(['تحليل', 'تركيب', 'استنتاج'].includes(it.k) ? 2 : 1, b); }
+      m.className = 'msg good'; m.textContent = sim ? 'أحسنتِ! الآن فهمتِ الفكرة 💚' : praise();
+      $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true);
+      setTimeout(() => m5(i + 1), 1200);
+    } else {
+      tries++; b.classList.add('no'); b.disabled = true;
+      if (sim || tries === 1) { m.className = 'msg bad'; m.innerHTML = `💡 تلميح: ${it.hint} حاولي مرة أخرى.`; }
+      else { m.className = 'msg bad'; m.innerHTML = `📘 لنتعلّم معًا: ${it.fix}<br><button class="btn main" style="margin-top:6px" onclick="m5(${i}, true)">🔁 جرّبي سؤالًا مشابهًا</button>`; $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true); }
     }
   });
 }
@@ -1147,6 +1221,29 @@ function pulseCalc() {
   award(1, m);
 }
 
+// ───── Text on the whiteboards: tap where to write, type, then Enter (or tap elsewhere)
+function textAt(canvas, e, col, px, done) {
+  document.querySelectorAll('.txin').forEach((x) => x.blur());
+  const r = canvas.getBoundingClientRect(), k = canvas.width / r.width;
+  const x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
+  const inp = document.createElement('input');
+  inp.className = 'txin'; inp.placeholder = 'اكتبي هنا… ثم Enter';
+  Object.assign(inp.style, { right: (innerWidth - e.clientX) + 'px', top: (e.clientY - px * 0.9) + 'px', color: col, fontSize: px + 'px' });
+  document.body.appendChild(inp); inp.focus(); setTimeout(() => inp.focus(), 0);
+  let fin = false;
+  const commit = () => {
+    if (fin) return; fin = true;
+    const t = inp.value.trim(); inp.remove(); if (!t) return;
+    const g = canvas.getContext('2d');
+    g.save(); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.fillStyle = col; g.direction = 'rtl'; g.textAlign = 'right'; g.textBaseline = 'middle';
+    g.font = `bold ${Math.round(px * k)}px 'Noto Naskh Arabic', Tahoma, serif`;
+    g.lineWidth = Math.max(2, px * k / 6); g.strokeStyle = 'rgba(255,255,255,.85)'; g.strokeText(t, x, y); g.fillText(t, x, y); g.restore();
+    done && done();
+  };
+  inp.addEventListener('keydown', (ev) => { ev.stopPropagation(); if (ev.key === 'Enter') commit(); if (ev.key === 'Escape') { fin = true; inp.remove(); } });
+  inp.addEventListener('blur', commit);
+}
+
 // ───── قصة الواقع الافتراضي: «صوت في المطبخ» — every body system has its own animation
 const SYS = {
   ear:   { ic: '👂', n: 'أعضاء الحس', c: '#ffb74d' },
@@ -1359,29 +1456,7 @@ function rClick() {
   rTimer = setTimeout(() => { x.className = 'rx go'; x.textContent = 'اضغطي الآن! ⚡'; rT = performance.now(); }, 1200 + Math.random() * 2500);
 }
 mission(0);
-
-// ───── Text on the whiteboards: tap where to write, type, then Enter (or tap elsewhere)
-function textAt(canvas, e, col, px, done) {
-  document.querySelectorAll('.txin').forEach((x) => x.blur());
-  const r = canvas.getBoundingClientRect(), k = canvas.width / r.width;
-  const x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
-  const inp = document.createElement('input');
-  inp.className = 'txin'; inp.placeholder = 'اكتبي هنا… ثم Enter';
-  Object.assign(inp.style, { right: (innerWidth - e.clientX) + 'px', top: (e.clientY - px * 0.9) + 'px', color: col, fontSize: px + 'px' });
-  document.body.appendChild(inp); inp.focus(); setTimeout(() => inp.focus(), 0);
-  let fin = false;
-  const commit = () => {
-    if (fin) return; fin = true;
-    const t = inp.value.trim(); inp.remove(); if (!t) return;
-    const g = canvas.getContext('2d');
-    g.save(); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.fillStyle = col; g.direction = 'rtl'; g.textAlign = 'right'; g.textBaseline = 'middle';
-    g.font = `bold ${Math.round(px * k)}px 'Noto Naskh Arabic', Tahoma, serif`;
-    g.lineWidth = Math.max(2, px * k / 6); g.strokeStyle = 'rgba(255,255,255,.85)'; g.strokeText(t, x, y); g.fillText(t, x, y); g.restore();
-    done && done();
-  };
-  inp.addEventListener('keydown', (ev) => { ev.stopPropagation(); if (ev.key === 'Enter') commit(); if (ev.key === 'Escape') { fin = true; inp.remove(); } });
-  inp.addEventListener('blur', commit);
-}
 </script>
+<script src="../../assets/draw.js"></script>
 </body>
 </html>

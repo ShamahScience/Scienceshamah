@@ -288,6 +288,29 @@
     #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
   }
   .txin { position: fixed; z-index: 70; min-width: 160px; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; background: rgba(255,255,255,.92); border: 2px dashed #6b4fc0; border-radius: 8px; padding: 0 6px; direction: rtl; outline: none; }
+  /* القرعة */
+  #drawBox { display: flex; flex-direction: column; gap: 8px; }
+  @media (min-width: 900px) and (orientation: landscape) { #draw.on, #drawBox { height: 100%; } }
+  .dr-top { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; } .dr-top .strat { margin: 0; }
+  .dr-nr { font-size: 16px; margin-inline-start: auto; } .dr-top .btn { font-size: 16px; padding: 4px 12px; }
+  .dr-msg { margin: 0; text-align: center; font-size: 17px; color: #6b4fc0; }
+  .dr-cols { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .dr-col { border: 3px solid var(--green); border-radius: 20px; padding: 10px; display: flex; flex-direction: column; gap: 8px; min-height: 0; background: #f7fbf3; }
+  .dr-col[data-c="6b"] { border-color: var(--pink); background: #fff6f9; }
+  .dr-h { text-align: center; font-size: 24px; color: var(--green); } .dr-h span { background: var(--gold); color: #3b2c00; border-radius: 10px; padding: 0 10px; font-size: 20px; }
+  .dr-col[data-c="6b"] .dr-h { color: var(--pink); }
+  .dr-big { text-align: center; font-size: 40px; min-height: 70px; line-height: 70px; background: #fff; border: 3px dashed var(--gold); border-radius: 16px; color: var(--ink); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .dr-big.win { background: var(--gold); color: #3b2c00; border-style: solid; animation: bump .6s; box-shadow: 0 0 24px #f5c242; }
+  .dr-go { font-size: 22px !important; }
+  .dr-chips { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; justify-content: center; }
+  .dr-chip { background: #fff; border: 2px solid #c9d3c2; border-radius: 12px; padding: 2px 10px; font-size: 17px; transition: transform .08s; }
+  .dr-chip.hot { background: #fff3c4; border-color: var(--gold); transform: scale(1.15); }
+  .dr-chip.win { background: var(--gold); transform: scale(1.3); }
+  .dr-chip.out { opacity: .35; text-decoration: line-through; }
+  .dr-reset { font-size: 15px !important; padding: 3px 10px !important; align-self: center; }
+  .dr-edit { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; } .dr-edit[hidden] { display: none; }
+  .dr-edit label { font-size: 15px; } .dr-edit textarea { width: 100%; height: 110px; font: inherit; font-size: 16px; border: 2px solid var(--leaf); border-radius: 10px; }
+  .dr-edit .note { grid-column: 1 / -1; margin: 0; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -307,6 +330,7 @@
   <button class="tab" data-p="questions">❓ الأسئلة</button>
   <button class="tab" data-p="games">🎮 الألعاب</button>
   <button class="tab" data-p="surprise">🎁 صندوق المفاجآت</button>
+  <button class="tab" data-p="draw">🎲 القرعة</button>
 </nav>
 
 <main>
@@ -400,6 +424,8 @@
     <p style="text-align:center;margin-top:12px"><button class="btn" onclick="buildGifts()">🔄 صناديق جديدة</button></p>
   </div>
 </section>
+<!-- ═════ القرعة -->
+<section class="panel" id="draw"><div class="box" id="drawBox"></div></section>
 </main>
 <div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><div id="rvX" class="rvx"></div><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
 <footer>أ/ شامه البقمي 💚</footer>
@@ -1018,5 +1044,6 @@ function textAt(canvas, e, col, px, done) {
   inp.addEventListener('blur', commit);
 }
 </script>
+<script src="../../assets/draw.js"></script>
 </body>
 </html>
