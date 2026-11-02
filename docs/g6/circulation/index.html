@@ -311,6 +311,10 @@
   .dr-edit { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; } .dr-edit[hidden] { display: none; }
   .dr-edit label { font-size: 15px; } .dr-edit textarea { width: 100%; height: 110px; font: inherit; font-size: 16px; border: 2px solid var(--leaf); border-radius: 10px; }
   .dr-edit .note { grid-column: 1 / -1; margin: 0; font-size: 14px; }
+  .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; margin: 6px 0; }
+  .nhead img { width: 74px; flex: none; }
+  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
+  #nafs .box { overflow-y: auto; }
 </style>
 </head>
 <body>
@@ -328,6 +332,7 @@
   <button class="tab on" data-p="start">🏁 البداية</button>
   <button class="tab" data-p="stations">📍 محطات الدرس</button>
   <button class="tab" data-p="questions">❓ الأسئلة</button>
+  <button class="tab" data-p="nafs"><img src="img/nafs/logo.png" alt="" style="height:24px;vertical-align:middle"> نافس – نواتج التعلم</button>
   <button class="tab" data-p="games">🎮 الألعاب</button>
   <button class="tab" data-p="surprise">🎁 صندوق المفاجآت</button>
   <button class="tab" data-p="draw">🎲 القرعة</button>
@@ -391,6 +396,9 @@
     <div id="quiz"></div>
   </div>
 </section>
+
+<!-- ═════ نافس -->
+<section class="panel" id="nafs"><div class="box" id="nbody"></div></section>
 
 <!-- ═════ الألعاب -->
 <section class="panel" id="games">
@@ -1043,6 +1051,36 @@ function textAt(canvas, e, col, px, done) {
   inp.addEventListener('keydown', (ev) => { ev.stopPropagation(); if (ev.key === 'Enter') commit(); if (ev.key === 'Escape') { fin = true; inp.remove(); } });
   inp.addEventListener('blur', commit);
 }
+
+// ───── نافس – نواتج التعلم: أسئلة «تدريبات وأنشطة نافس – العلوم ٦» الخاصة بدرس التنفس والدوران
+const NO = 'تحديد أجهزة الجسم الرئيسة وأعضائها المتخصصة وربطها بوظائفها لدعم نمو المخلوقات الحية النبات والحيوان وبقائها';
+const NQ = [
+  { k: 'معرفة', q: 'أي جهاز في جسم الإنسان مسؤول عن ضخ الدم إلى جميع أجزاء الجسم؟', op: ['الجهاز الدوري', 'الجهاز التنفسي', 'الجهاز الهضمي', 'الجهاز العضلي'], a: 0, hint: 'يحتوي على القلب والأوعية الدموية.', fix: 'الجهاز الدوري: القلب يضخّ الدم في الأوعية إلى كل الجسم.', sim: { q: 'العضو الذي يضخّ الدم هو…', op: ['القلب', 'الرئة', 'المعدة'], a: 0 } },
+  { k: 'تحليل', q: 'إذا توقف عمل الرئتين، فما النتيجة التي تحدث لبقية أجهزة الجسم؟', op: ['تعمل بشكل أفضل', 'يقل الأكسجين فلا تعمل بكفاءة', 'تستمر بالعمل كالمعتاد', 'تزداد عملية الهضم'], a: 1, hint: 'ماذا تأخذ الرئتان من الهواء؟', fix: 'الرئتان تزوّدان الدم بالأكسجين؛ وبدونه لا تنتج الخلايا الطاقة.', sim: { q: 'أين يدخل الأكسجين إلى الدم؟', op: ['الحويصلات الهوائية', 'المعدة', 'الكلية'], a: 0 } },
+  { k: 'معرفة', q: 'ما وسيلة تنفس صغار البرمائيات؟', op: ['الرئات', 'القصيبات', 'الخياشيم والجلد', 'فتحات صغيرة'], a: 2, hint: 'تعيش صغارها (الشراغيف) في الماء.', fix: 'صغار البرمائيات تتنفس بالخياشيم والجلد، ثم تنمو لها رئات.', sim: { q: 'تتنفس الضفدع البالغة بـ…', op: ['الرئتين والجلد', 'الخياشيم فقط', 'الريش'], a: 0 } },
+  { k: 'تطبيق', q: 'ما تركيب الأسماك الذي يؤدي وظيفة الرئتين نفسها؟', op: ['الخياشيم', 'الأوردة', 'القصبات', 'الزعانف'], a: 0, hint: 'على جانبي رأس السمكة.', fix: 'تتنفس الأسماك بالخياشيم فتأخذ الأكسجين من الماء.', sim: { q: 'السمكة: الدم يمرّ من القلب إلى…', op: ['الخياشيم', 'الرئتين', 'الريش'], a: 0 } },
+  { k: 'تحليل', q: 'ما الفرق بين أجهزة الدوران المفتوحة والمغلقة؟', op: ['المغلقة لا تحتوي على أوعية دموية', 'المغلقة لا تنقل الأكسجين', 'المفتوحة لا تحتوي على قلب', 'المفتوحة تدفع الدم مباشرة للأنسجة'], a: 3, hint: 'في أيّهما يبقى الدم داخل الأوعية؟', fix: 'المفتوح: يضخّ القلب الدم مباشرة إلى الأنسجة (الجرادة). المغلق: يبقى الدم في الأوعية (الإنسان).', sim: { q: 'أيّ الحيوانات جهاز دورانه مفتوح؟', op: ['الجرادة', 'القط', 'السمكة'], a: 0 } },
+  { k: 'استنتاج', q: 'لماذا تحتاج المخلوقات إلى جهاز دوران؟', op: ['للتكاثر', 'لنقل الأكسجين والفضلات', 'للهضم', 'للتنفس فقط'], a: 1, hint: 'ماذا ينقل الدم؟', fix: 'الدوران ينقل الأكسجين والغذاء إلى الخلايا ويخلّصها من الفضلات.', sim: { q: 'ماذا ينقل الدم إلى الخلايا؟', op: ['الأكسجين والغذاء', 'الهواء فقط', 'العظام'], a: 0 } },
+];
+let ns = 0;
+function nafs(i, sim) {
+  if (i === 0 && !sim) ns = 0;
+  const box = $('#nbody');
+  const head = `<span class="strat"><b>الاستراتيجية:</b> التعلم النشط – نواتج التعلم – اختبار نافس</span>
+    <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${NO}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة${i < NQ.length ? ` • <span class="nlab sk">${NQ[i].k}</span>` : ''}</div></div>`;
+  if (i >= NQ.length) { box.innerHTML = head + `<div class="mend" style="text-align:center"><div style="font-size:64px">🏆</div><h2>أنجزتِ تدريبات نافس!</h2><p class="score">⭐ ${ar(ns)} / ${ar(NQ.length)}</p><button class="btn main" onclick="nafs(0)">🔁 من جديد</button></div>`; confetti(); return; }
+  const it = NQ[i], t = sim ? it.sim : it; let tries = 0;
+  box.innerHTML = head + `<p class="score">${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(NQ.length)}`} • ⭐ ${ar(ns)}</p>
+    <p style="text-align:center;font-size:24px">${t.q}</p><div class="opts" style="grid-template-columns:1fr 1fr">${t.op.map((o, k) => `<button class="btn" style="text-align:center" data-k="${k}">${'أبجد'[k]} . ${o}</button>`).join('')}</div><div class="msg" id="nm"></div>`;
+  box.querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {
+    const m = $('#nm');
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!tries && !sim) { ns++; award(['تحليل', 'تركيب', 'استنتاج'].includes(it.k) ? 2 : 1, b); } m.className = 'msg good'; m.textContent = sim ? 'أحسنتِ! الآن فهمتِ الفكرة 💚' : 'أحسنتِ يا عالمتي! 🌟'; box.querySelectorAll('.opts .btn').forEach((x) => x.disabled = true); setTimeout(() => nafs(i + 1), 1200); }
+    else { tries++; b.classList.add('no'); b.disabled = true;
+      if (sim || tries === 1) { m.className = 'msg bad'; m.innerHTML = `💡 تلميح: ${it.hint} حاولي مرة أخرى.`; }
+      else { m.className = 'msg bad'; m.innerHTML = `📘 لنتعلّم معًا: ${it.fix}<br><button class="btn main" style="margin-top:6px" onclick="nafs(${i}, true)">🔁 جرّبي سؤالًا مشابهًا</button>`; box.querySelectorAll('.opts .btn').forEach((x) => x.disabled = true); } }
+  });
+}
+nafs(0);
 </script>
 <script src="../../assets/draw.js"></script>
 </body>
