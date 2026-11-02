@@ -269,6 +269,12 @@
   .tamh { flex: none; background: var(--green); color: #fff; border-radius: 30px; padding: 4px 22px; font-size: 22px; }
   .slide.tam video { flex: 1; min-height: 0; max-width: 100%; border-radius: 14px; background: #000; border: 3px solid var(--leaf); }
 
+  .sbody { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) !important; }
+  .scol { min-height: 0; display: flex; } .scol svg { width: 100%; height: 100%; border-radius: 16px; transition: transform .05s; }
+  .vit { display: flex; gap: 10px; justify-content: center; font-size: 17px; } .vit span { background: #fff3f3; border: 2px solid #ef9a9a; border-radius: 12px; padding: 2px 10px; } .vit b { color: #c62828; font-size: 20px; }
+  .stxt { background: #1a2340; color: #fff; border-radius: 14px; padding: 8px 12px; font-size: 17px !important; line-height: 1.8 !important; min-height: 92px; margin: 6px 0 !important; } .stxt b { color: #ffd54f; } .stxt .sn { background: #ffd54f; color: #1a2340; border-radius: 8px; padding: 0 6px; font-size: 13px; }
+  .sysg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .sysb { font: inherit; font-size: 13px; border: 3px solid var(--c); background: #fff; border-radius: 12px; padding: 3px; cursor: pointer; line-height: 1.3; } .sysb span { display: block; font-size: 22px; } .sysb.on { background: var(--c); box-shadow: 0 0 10px var(--c); transform: scale(1.05); }
   .slide.tam > img.tamimg { position: static; width: auto; height: auto; flex: 1; min-height: 0; max-width: 100%; object-fit: contain; border-radius: 14px; border: 3px solid var(--leaf); }
   .model, .armbox { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 8px; align-items: center; background: #f7fbf3; border: 2px dashed var(--leaf); border-radius: 14px; padding: 6px; margin: 6px 0; }
   .arm { width: 100%; max-height: 24vh; display: block; }
@@ -322,6 +328,25 @@
   .rub { font-size: 13px; margin: 6px 0; } .rub td, .rub th { padding: 3px; }
   .rx { margin: 8px auto; width: min(100%, 520px); height: 170px; border-radius: 20px; background: #c62828; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; user-select: none; }
   .rx.wait { background: #ef6c00; } .rx.go { background: #2e7d32; }
+  .gift .e { font-family: inherit; }
+  .rvx { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .rvx:empty { display: none; }
+  .rvx input { font: inherit; font-size: 20px; border: 3px solid var(--gold); border-radius: 14px; padding: 4px 12px; text-align: center; }
+  #starCard { display: none; }
+  @media print {
+    @page { size: A5 landscape; margin: 8mm; }
+    body.printing > *:not(#starCard) { display: none !important; }
+    body.printing { background: #fff !important; overflow: visible !important; height: auto !important; display: block !important; }
+    body.printing #starCard { display: block; }
+    #starCard .sc-in { border: 6px double #d4a017; border-radius: 22px; padding: 10mm; text-align: center; color: #1b5e20; background: #fffdf3; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    #starCard .sc-st { font-size: 60px; line-height: 1; }
+    #starCard h1 { font-size: 40px; color: #c2366f; margin: 4px 0; }
+    #starCard .sc-to { font-size: 18px; margin: 4px; color: #333; }
+    #starCard .sc-name { font-size: 32px; border-bottom: 3px solid #d4a017; display: inline-block; min-width: 60%; padding: 0 20px 4px; margin: 4px 0 10px; }
+    #starCard .sc-msg { font-size: 22px; margin: 6px; }
+    #starCard .sc-l { font-size: 15px; color: #555; margin: 4px; }
+    #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
+  }
 </style>
 </head>
 <body>
@@ -422,9 +447,10 @@
   </div>
 </section>
 </main>
-<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
+<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><div id="rvX" class="rvx"></div><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
 <footer>أ/ شامه البقمي 💚</footer>
 <div class="vbox" id="vbox"><video id="vid" controls loop playsinline preload="none"></video><button class="btn" onclick="closeVid()">✕ إغلاق الفيديو</button></div>
+<div id="starCard"></div>
 <div class="zoom" id="zoom">
   <div class="tools" id="tools">
     <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
@@ -625,6 +651,17 @@ const STATIONS = [
       ${flip('أقرأ الشكل: كيف تنتقل أوامر الدماغ إلى باقي أجزاء الجسم؟', 'على شكل إشارات كهربائية عبر الحبل الشوكي ثم الأعصاب المنتشرة في الجسم حتى تصل إلى العضلات والأعضاء.', 'أقرأ الشكل')}
       ${flip('ماذا يحدث لو استغرقت الأوامر وقتًا طويلًا لتصل من الدماغ إلى رجل الأرنب؟', 'يتأخّر ردّ فعله فلا يهرب في الوقت المناسب، فيدركه الثعلب؛ لأن بقاءه يعتمد على سرعة الاستجابة.', 'التفكير الناقد')}
     </div></div>` },
+  { icon: '🌙', name: 'قصة: صوت في المطبخ (واقع افتراضي)', page: 125, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> القصة والمحاكاة – الواقع الافتراضي</span><h2>🌙 قصة سارة: صوت في المطبخ!</h2>
+    <div class="grid2 body sbody"><div class="scol">${storySVG()}</div><div class="txt">
+      <div class="vit"><span>❤️ النبض: <b id="vB">٧٥</b> / دقيقة</span><span>🫁 التنفّس: <b id="vR">١٦</b> / دقيقة</span></div>
+      <p id="stxt" class="stxt"></p>
+      <div class="steps"><button class="btn main" onclick="storyPlay()">▶ القصة كاملة</button><button class="btn" onclick="sAuto = false; story(sI - 1)">→ السابق</button><button class="btn" onclick="sAuto = false; story(sI + 1)">التالي ←</button></div>
+      <p style="margin:2px 0;font-size:15px">👆 اضغطي على أي جهاز ليعمل أمامك:</p>
+      <div class="sysg">${Object.entries(SYS).map(([k, v]) => `<button class="sysb" data-k="${k}" style="--c:${v.c}" onclick="sysPlay('${k}')"><span>${v.ic}</span>${v.n}</button>`).join('')}<button class="sysb" data-k="cat" style="--c:#fff59d" onclick="sysPlay('cat')"><span>🐱</span>النهاية</button></div>
+      ${flip('لماذا أفرزت الغدتان الكظريتان الأدرينالين؟', 'لتهيّئ الجسم للطوارئ: يسرّع القلب والتنفس فيصل أكسجين وغذاء أكثر إلى العضلات.', 'أستنتج')}
+      ${flip('أيّ جهاز بدأ الاستجابة؟ وأيّها أنهاها؟', 'بدأها الجهاز العصبي عندما فسّر الدماغ الصوت خطرًا، وأنهاها أيضًا عندما عرف أنها قطة فأرسل رسائل الهدوء.', 'التفكير الناقد')}
+    </div></div>`, after: () => { sAuto = false; story(0); } },
   { icon: '💓', name: 'تكامل عمل أجهزة الجسم', page: 125, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> نشاط – أجرّب وأستعمل الأرقام</span><h2>💓 نشاط: تكامل عمل أجهزة الجسم</h2>
     <div class="grid2 body"><div class="pagecol">${page(125)}</div><div class="txt">
@@ -993,32 +1030,16 @@ new MutationObserver((ms) => ms.forEach((m) => { if (m.target.classList && m.tar
 document.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.classList.contains('ok') && !b.dataset.snd) { b.dataset.snd = 1; setTimeout(() => { if (!document.querySelector('.award')) chime(1); }, 60); } });
 
 // ───── Surprise box: each girl picks a box; no prize repeats until all are used
-const PRIZES = [
-  ['🌟', 'نقاط', '+٤ نقاط', 'إجاباتك اليوم تستحق الزيادة!'],
-  ['✨', 'نقاط', '+٣ نقاط', 'عقلك يعمل مثل القلب… لا يتوقف عن العطاء ❤️'],
-  ['💎', 'نقاط', '+٥ نقاط', 'مفاجأة كبيرة لطالبة كبيرة!'],
-  ['⭐', 'نقاط', '+٢ نقطتان', 'كل خطوة صغيرة تصنع فرقًا كبيرًا.'],
-  ['🌟', 'نقاط', '+٤ نقاط', 'أنتِ نجمة تضيء فصلنا!'],
-  ['🎯', 'نقاط', '+٣ نقاط', 'تركيزك رائع، استمري!'],
-  ['🏅', 'هدية معنوية', 'وسام العالِمة الصغيرة', 'تستحقين لقب عالِمة الفصل اليوم.'],
-  ['👩‍🏫', 'هدية معنوية', 'المعلمة الصغيرة', 'ستشرحين معلومة لصديقاتك في الحصة القادمة.'],
-  ['📜', 'هدية معنوية', 'شهادة شكر', 'شهادة شكر من معلمتك لأنكِ رائعة.'],
-  ['🖼️', 'هدية معنوية', 'لوحة المتميّزات', 'يُكتب اسمك اليوم في لوحة المتميّزات.'],
-  ['👏', 'هدية معنوية', 'تصفيق جماعي', 'صفّقن لصديقتكن بحرارة! 👏👏👏'],
-  ['🧪', 'هدية معنوية', 'مساعدة المختبر', 'تساعدين المعلمة في التجربة القادمة.'],
-  ['👑', 'هدية معنوية', 'نجمة الأسبوع', 'أنتِ نجمة الأسبوع في العلوم!'],
-  ['🎤', 'هدية معنوية', 'المذيعة العلمية', 'تقرئين معلومة اليوم بصوتك الجميل.'],
-  ['💌', 'رسالة لكِ', 'رسالة من معلمتك', 'فخورة بكِ جدًا، أنتِ مستقبل مشرق 💚'],
-  ['🌷', 'رسالة لكِ', 'رسالة جميلة', 'ابتسامتك تجعل الفصل أجمل.'],
-  ['🚀', 'رسالة لكِ', 'رسالة جميلة', 'يومًا ما ستكونين عالِمة تكتشف ما لم يكتشفه أحد.'],
-  ['❤️', 'رسالة لكِ', 'رسالة جميلة', 'مثل القلب الذي لا يتعب… اجتهادك لا يتوقف.'],
-  ['🌈', 'رسالة لكِ', 'رسالة جميلة', 'أنتِ قادرة على كل شيء بإذن الله.'],
-  ['🦋', 'رسالة لكِ', 'رسالة جميلة', 'سؤالك الذكي هو بداية كل اكتشاف.'],
-  ['🌟', 'نقاط + رسالة', '+٤ نقاط', 'وثقتي بكِ أكبر من كل النقاط 💚'],
-  ['🍀', 'حظ سعيد', 'اختاري صديقة', 'تختارين صديقة لتفتح صندوقًا معكِ!'],
-  ['🎈', 'نقاط', '+١ نقطة ودعاء', 'وفقكِ الله ونفع بكِ.'],
-  ['🏆', 'هدية معنوية', 'كأس المتفوّقة', 'تحملين كأس الفصل حتى نهاية الحصة.'],
-];
+const MSGS = ['أنتِ نجمة تضيء فصلنا! 🌟', 'عقلك رائع… استمري في السؤال والاكتشاف 🔍', 'فخورة بكِ جدًا يا عالمتي 💚', 'ابتسامتك تجعل الفصل أجمل 🌷',
+  'كل يوم تكبرين علمًا وأدبًا 🌱', 'أنتِ قادرة على كل شيء بإذن الله 🌈', 'سؤالك الذكي بداية كل اكتشاف 🦋', 'اجتهادك مثل القلب… لا يتوقف ❤️',
+  'يومًا ما ستكونين عالمة عظيمة 🚀', 'تعاونك مع صديقاتك رائع 🤝', 'أنتِ مثال للطالبة المتميزة 🏅', 'وفّقكِ الله ونفع بكِ 🤲',
+  'تركيزك اليوم كان مذهلًا 🎯', 'أحببتُ مشاركتك الجميلة 🌸', 'خطّك وترتيبك يسعدانني ✍️', 'أنتِ فخر لأهلك ومدرستك 🏫',
+  'شجاعتك في الإجابة رائعة 🦁', 'استمري… فالقمة تنتظرك ⛰️', 'قلبك طيب وعقلك نيّر 💡', 'أنتِ هدية جميلة لفصلنا 🎀',
+  'معلمتك تثق بكِ كثيرًا 💌', 'أنتِ مبدعة بكل ما تعنيه الكلمة ✨', 'نجاحك قادم بإذن الله 🌟', 'أدبك وأخلاقك تاج على رأسك 👑'];
+const PRIZES = [];
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 5, 7, 9].forEach((n, k) => PRIZES.push({ n, m: MSGS[k] }));
+for (let k = 0; k < 6; k++) PRIZES.push({ star: 1, n: 10, m: ['أنتِ نجمة الفصل اليوم!', 'أنتِ نجمة العلوم!', 'أنتِ نجمة التميّز!', 'أنتِ نجمة الإبداع!', 'أنتِ نجمة الأخلاق!', 'أنتِ نجمة المشاركة!'][k] });
+const arP = (n) => n === 1 ? 'نقطة واحدة' : n === 2 ? 'نقطتان' : n <= 10 ? `${ar(n)} ${n <= 10 && n >= 3 ? 'نقاط' : 'نقطة'}` : `${ar(n)} نقطة`;
 let pool = [];
 function nextPrize() { if (!pool.length) pool = PRIZES.slice().sort(() => Math.random() - 0.5); return pool.pop(); }
 function buildGifts() {
@@ -1031,13 +1052,25 @@ function openGift(b) {
   b.classList.add('shake'); drumroll(1.1);
   setTimeout(() => {
     b.classList.remove('shake'); b.classList.add('done');
-    const [e, k, t, m] = nextPrize();
-    b.querySelector('.e').textContent = e;
-    $('#rvE').textContent = e; $('#rvK').textContent = k; $('#rvT').textContent = t; $('#rvM').textContent = m;
-    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500);
+    const P = nextPrize();
+    b.querySelector('.e').textContent = P.star ? '⭐' : '+' + ar(P.n);
+    $('#rvE').textContent = P.star ? '⭐' : '🎁';
+    $('#rvK').textContent = P.star ? 'بطاقة نجمة + ١٠ نقاط' : 'نقاط إضافية';
+    $('#rvT').textContent = P.star ? 'أنتِ نجمة! 🌟' : '+' + arP(P.n);
+    $('#rvM').textContent = P.m;
+    $('#rvX').innerHTML = P.star ? `<input id="stName" placeholder="اكتبي اسمك هنا"><button class="btn main" onclick="printStar('${P.m}')">🖨️ اطبعي بطاقتك</button>` : '';
+    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500); if (P.star) setTimeout(confetti, 1000);
   }, 1150);
 }
-function closeGift(e) { if (e && e.target.closest('.card') && !e.target.closest('button')) return; $('#reveal').classList.remove('on'); }
+function printStar(msg) {
+  const name = ($('#stName') && $('#stName').value.trim()) || '……………………';
+  const lesson = (document.querySelector('header h1') || {}).textContent || '';
+  const d = new Date().toLocaleDateString('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' });
+  $('#starCard').innerHTML = `<div class="sc-in"><div class="sc-st">⭐</div><h1>أنتِ نجمة!</h1><p class="sc-to">تُهدى هذه البطاقة إلى الطالبة</p><div class="sc-name">${name}</div>
+    <p class="sc-msg">${msg} 🌟</p><p class="sc-l">${lesson} • العلوم – الصف السادس</p><div class="sc-f"><span>معلمتك: أ/ شامه البقمي 💚</span><span>${d}</span></div></div>`;
+  document.body.classList.add('printing'); setTimeout(() => { window.print(); document.body.classList.remove('printing'); }, 150);
+}
+function closeGift(e) { if (e && e.target.closest('.card') && (!e.target.closest('button') || e.target.closest('.rvx'))) return; $('#reveal').classList.remove('on'); }
 buildGifts();
 
 // ───── Reading stations: pen and highlighter colours right on the book page
@@ -1110,6 +1143,126 @@ function pulseCalc() {
   m.className = 'msg good'; m.innerHTML = `نبضك = ${ar(n)} × ٤ = <b>${ar(n * 4)}</b> نبضة في الدقيقة 💓<br>قفزي ١٠ مرات… ثم قيسي مرة أخرى!`;
   award(1, m);
 }
+
+// ───── قصة الواقع الافتراضي: «صوت في المطبخ» — every body system has its own animation
+const SYS = {
+  ear:   { ic: '👂', n: 'أعضاء الحس', c: '#ffb74d' },
+  nerve: { ic: '🧠', n: 'الجهاز العصبي', c: '#ffd54f' },
+  gland: { ic: '💧', n: 'الغدد الصمّاء', c: '#ce93d8' },
+  heart: { ic: '❤️', n: 'الجهاز الدوري', c: '#ef5350' },
+  lung:  { ic: '🫁', n: 'الجهاز التنفسي', c: '#f48fb1' },
+  muscle:{ ic: '💪', n: 'الجهاز العضلي', c: '#e57373' },
+  bone:  { ic: '🦴', n: 'الجهاز الهيكلي', c: '#fff8e1' },
+};
+const STORY = [
+  { k: null,    bpm: 75,  br: 16, t: '🌙 في منتصف الليل، شعرت سارة بالعطش فذهبت إلى المطبخ بهدوء لتشرب الماء…' },
+  { k: 'ear',   bpm: 75,  br: 16, t: '💥 فجأة! سمعت صوتًا قويًا! التقطت <b>الأذن</b> (عضو حس) الصوت فورًا.', bang: 1 },
+  { k: 'nerve', bpm: 90,  br: 18, t: '🧠 <b>الجهاز العصبي:</b> أرسلت الأذن إشارة كهربائية عبر الأعصاب إلى <b>الدماغ</b>، ففسّرها «خطر!» وأرسل أوامره عبر <b>الحبل الشوكي</b> والأعصاب إلى أنحاء الجسم في أقل من ثانية.' },
+  { k: 'gland', bpm: 110, br: 22, t: '💧 <b>الغدد الصمّاء:</b> أفرزت <b>الغدتان الكظريتان</b> فوق الكليتين هرمون <b>الأدرينالين</b> في الدم مباشرة… هرمون الطوارئ!' },
+  { k: 'heart', bpm: 135, br: 24, t: '❤️ <b>الجهاز الدوري:</b> بسبب الأدرينالين <b>تسارعت دقات القلب</b> وزاد تدفّق الدم إلى العضلات ليحمل لها الأكسجين والغذاء.' },
+  { k: 'lung',  bpm: 135, br: 32, t: '🫁 <b>الجهاز التنفسي:</b> أصبح التنفّس <b>أسرع وأعمق</b> ليدخل أكسجين أكثر إلى الدم.' },
+  { k: 'muscle',bpm: 135, br: 32, t: '💪 <b>الجهاز العضلي:</b> انقبضت عضلات الرجلين والذراعين واستعدّت للهرب أو الدفاع.' },
+  { k: 'bone',  bpm: 135, br: 32, t: '🦴 <b>الجهاز الهيكلي:</b> سحبت العضلاتُ العظامَ عند المفاصل… فقفزت سارة خطوة إلى الخلف!' },
+  { k: 'cat',   bpm: 80,  br: 18, t: '🐱 «مياااو!» إنها <b>قطة</b> أسقطت الإناء! ضحكت سارة، فأرسل الدماغ رسائل الهدوء، وعاد النبض والتنفّس إلى طبيعتهما. <b>كل الأجهزة عملت معًا كفريق واحد!</b>', meow: 1 },
+];
+function storySVG() {
+  return `<svg id="sv" viewBox="0 0 420 400">
+    <defs><radialGradient id="moon" cx=".4" cy=".4"><stop offset="0" stop-color="#fffde7"/><stop offset="1" stop-color="#fff59d"/></radialGradient></defs>
+    <rect width="420" height="400" fill="#1a2340"/>
+    <rect x="300" y="30" width="90" height="80" rx="6" fill="#2b3a67" stroke="#8d9bc4" stroke-width="4"/><circle cx="335" cy="62" r="18" fill="url(#moon)"/>
+    <line x1="345" y1="30" x2="345" y2="110" stroke="#8d9bc4" stroke-width="3"/>
+    <rect x="18" y="60" width="70" height="230" rx="8" fill="#3c4a73"/><rect x="78" y="120" width="5" height="40" rx="2" fill="#aab4d4"/>
+    <rect x="250" y="250" width="170" height="16" fill="#6d4c41"/><rect x="258" y="266" width="154" height="70" fill="#4e342e"/>
+    <g id="pot"><rect x="300" y="226" width="34" height="24" rx="4" fill="#90a4ae"/></g>
+    <rect x="0" y="336" width="420" height="64" fill="#2a2f45"/>
+    <g id="cat" opacity="0"><text x="330" y="246" font-size="46">🐱</text><text id="meowT" x="300" y="200" font-size="22" fill="#fff59d">مياااو!</text></g>
+    <text id="bangT" x="285" y="215" font-size="34" opacity="0">💥</text>
+    <g id="girl">
+      <ellipse cx="170" cy="78" rx="30" ry="33" fill="#f8bbd0"/>
+      <circle cx="170" cy="84" r="22" fill="#ffe0cc"/>
+      <circle cx="162" cy="82" r="2.5" fill="#333"/><circle cx="178" cy="82" r="2.5" fill="#333"/>
+      <path id="mouth" d="M163 94 Q170 98 177 94" stroke="#a1574a" stroke-width="2" fill="none"/>
+      <rect x="140" y="112" width="60" height="120" rx="22" fill="#ce93d8" opacity=".55"/>
+      <g id="armL"><rect x="124" y="118" width="16" height="92" rx="8" fill="#ffe0cc" opacity=".8"/></g>
+      <g id="armR"><rect x="200" y="118" width="16" height="92" rx="8" fill="#ffe0cc" opacity=".8"/></g>
+      <g id="legs"><rect x="148" y="228" width="18" height="108" rx="8" fill="#ffe0cc" opacity=".8"/><rect x="174" y="228" width="18" height="108" rx="8" fill="#ffe0cc" opacity=".8"/></g>
+      <g class="ly" id="L_bone" opacity=".12"><circle cx="170" cy="76" r="17" fill="none" stroke="#fff8e1" stroke-width="4"/>
+        <path d="M170 100 V228 M150 130 Q170 122 190 130 M148 145 Q170 137 192 145 M150 160 Q170 152 190 160 M157 232 V330 M183 232 V330 M132 122 V205 M208 122 V205" stroke="#fff8e1" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <circle cx="157" cy="282" r="5" fill="#fff8e1"/><circle cx="183" cy="282" r="5" fill="#fff8e1"/></g>
+      <g class="ly" id="L_muscle" opacity=".12"><ellipse cx="157" cy="262" rx="10" ry="26" fill="#e53935"/><ellipse cx="183" cy="262" rx="10" ry="26" fill="#e53935"/>
+        <ellipse cx="132" cy="150" rx="8" ry="20" fill="#e53935"/><ellipse cx="208" cy="150" rx="8" ry="20" fill="#e53935"/></g>
+      <g class="ly" id="L_lung" opacity=".12"><ellipse id="lu1" cx="157" cy="148" rx="13" ry="22" fill="#f48fb1"/><ellipse id="lu2" cx="183" cy="148" rx="13" ry="22" fill="#f48fb1"/></g>
+      <g class="ly" id="L_heart" opacity=".12"><path id="hrt" d="M176 160 C166 152 166 140 176 145 C186 140 186 152 176 160 Z" fill="#d50000"/>
+        <path id="vess" d="M176 156 C200 180 196 300 186 330 M176 156 C150 180 150 300 160 330 M176 150 C140 140 135 180 132 200" stroke="#ef5350" stroke-width="3" fill="none" stroke-dasharray="6 6"/></g>
+      <g class="ly" id="L_gland" opacity=".12"><path d="M158 196 l6 -9 l6 9 Z M176 196 l6 -9 l6 9 Z" fill="#ab47bc"/><ellipse cx="164" cy="204" rx="6" ry="8" fill="#8d6e63"/><ellipse cx="182" cy="204" rx="6" ry="8" fill="#8d6e63"/><g id="drops"></g></g>
+      <g class="ly" id="L_nerve" opacity=".12"><ellipse cx="170" cy="72" rx="15" ry="10" fill="#ffd54f"/>
+        <path id="nv" d="M192 84 C186 74 180 72 172 72 L170 100 L170 226 L157 236 L157 330" stroke="#ffd54f" stroke-width="3" fill="none"/>
+        <path d="M170 126 L132 140 M170 126 L208 140 M170 226 L183 236 L183 330" stroke="#ffd54f" stroke-width="2.5" fill="none"/><g id="sig"></g></g>
+      <g class="ly" id="L_ear" opacity=".12"><circle cx="193" cy="84" r="6" fill="#ffb74d"/><g id="waves"></g></g>
+    </g>
+  </svg>`;
+}
+let sI = 0, sK = null, sT0 = 0, sRAF = null, sAuto = false, bpm = 75, br = 16, beatT = 0;
+function story(i) {
+  sI = Math.max(0, Math.min(STORY.length - 1, i)); const st = STORY[sI];
+  sK = st.k; sT0 = performance.now();
+  $('#stxt').innerHTML = `<span class="sn">${ar(sI + 1)} / ${ar(STORY.length)}</span> ${st.t}`;
+  document.querySelectorAll('.sysb').forEach((b) => b.classList.toggle('on', b.dataset.k === sK));
+  document.querySelectorAll('#sv .ly').forEach((g) => g.setAttribute('opacity', g.id === 'L_' + sK ? 1 : (st.k === 'cat' ? .12 : .18)));
+  $('#cat').setAttribute('opacity', st.k === 'cat' ? 1 : 0);
+  $('#pot').setAttribute('transform', sI >= 1 ? 'translate(18 70) rotate(70 317 238)' : '');
+  $('#mouth').setAttribute('d', sI >= 1 && sI < 8 ? 'M164 96 Q170 90 176 96' : 'M163 94 Q170 98 177 94');
+  if (st.bang) bang();
+  if (st.meow) meow();
+  tweenVitals(st.bpm, st.br);
+  if (!sRAF) sRAF = requestAnimationFrame(storyTick);
+  if (sI === STORY.length - 1) award(2, $('#stxt'));
+}
+function sysPlay(k) { const i = STORY.findIndex((s) => s.k === k); sAuto = false; story(i); }
+function storyPlay() { sAuto = true; story(0); }
+function tweenVitals(b2, r2) {
+  const b1 = bpm, r1 = br, t0 = performance.now();
+  const f = (t) => { const k = Math.min(1, (t - t0) / 1200); bpm = b1 + (b2 - b1) * k; br = r1 + (r2 - r1) * k; $('#vB').textContent = ar(Math.round(bpm)); $('#vR').textContent = ar(Math.round(br)); if (k < 1) requestAnimationFrame(f); };
+  requestAnimationFrame(f);
+}
+function storyTick(now) {
+  if (!document.getElementById('sv')) { sRAF = null; return; }
+  const t = (now - sT0) / 1000, T = now / 1000;
+  // heart beats at the current pulse, lungs breathe at the current rate
+  const ph = (T * bpm / 60) % 1, beat = 1 + .18 * Math.exp(-ph * 9);
+  $('#hrt').setAttribute('transform', `translate(176 152) scale(${beat}) translate(-176 -152)`);
+  if (sK === 'heart' && ph < beatT) thump(); beatT = ph;
+  $('#vess').setAttribute('stroke-dashoffset', -T * bpm / 6);
+  const bth = 1 + .14 * Math.sin(T * Math.PI * 2 * br / 60);
+  ['lu1', 'lu2'].forEach((id) => $('#' + id).setAttribute('transform', `translate(${id === 'lu1' ? 157 : 183} 148) scale(${bth}) translate(${id === 'lu1' ? -157 : -183} -148)`));
+  // ear: sound waves
+  $('#waves').innerHTML = sK === 'ear' ? [0, 1, 2].map((k) => { const r = 8 + ((t * 40 + k * 14) % 42); return `<circle cx="193" cy="84" r="${r}" fill="none" stroke="#ffb74d" stroke-width="2" opacity="${1 - r / 50}"/>`; }).join('') : '';
+  $('#bangT').setAttribute('opacity', sK === 'ear' && t < 1.2 ? 1 : 0);
+  // nerves: signal pulses from the ear to the brain and down to the legs
+  if (sK === 'nerve') { const p = $('#nv'), L = p.getTotalLength(); $('#sig').innerHTML = [0, .25, .5, .75].map((o) => { const q = p.getPointAtLength(((t * .45 + o) % 1) * L); return `<circle cx="${q.x}" cy="${q.y}" r="5" fill="#fff" stroke="#ff6f00" stroke-width="2"/>`; }).join(''); } else $('#sig').innerHTML = '';
+  // glands: adrenaline drops spreading into the blood
+  if (sK === 'gland') $('#drops').innerHTML = [0, 1, 2, 3, 4, 5].map((k) => { const a = k / 6 * Math.PI * 2, r = (t * 30 + k * 7) % 60; return `<circle cx="${173 + Math.cos(a) * r}" cy="${196 + Math.sin(a) * r}" r="3.5" fill="#ffeb3b" opacity="${1 - r / 60}"/>`; }).join(''); else $('#drops').innerHTML = '';
+  // muscles contract, bones jump back
+  const mus = sK === 'muscle' ? 1 + .25 * Math.abs(Math.sin(t * 6)) : 1;
+  $('#L_muscle').setAttribute('transform', `translate(170 200) scale(${mus} ${2 - mus}) translate(-170 -200)`);
+  const jump = sK === 'bone' ? Math.min(1, t / .5) : (sK === 'cat' ? 1 : 0);
+  $('#girl').setAttribute('transform', `translate(${-50 * jump} ${sK === 'bone' && t < .6 ? -25 * Math.sin(t / .6 * Math.PI) : 0})`);
+  const shake = sK === 'ear' && t < .5 ? Math.sin(t * 80) * 4 : 0;
+  $('#sv').style.transform = `translateX(${shake}px)`;
+  if (sAuto && t > 5.2 && sI < STORY.length - 1) story(sI + 1);
+  sRAF = requestAnimationFrame(storyTick);
+}
+// sounds made in the browser: a crash, heart thumps and a meow
+function bang() { if (!ctx()) return; const t = actx.currentTime, n = actx.sampleRate * .5, b = actx.createBuffer(1, n, actx.sampleRate), d = b.getChannelData(0);
+  for (let k = 0; k < n; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / n, 3);
+  const s = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain(); s.buffer = b; f.type = 'lowpass'; f.frequency.value = 1800; g.gain.value = .9; s.connect(f).connect(g).connect(actx.destination); s.start(t); tone(70, t, .4, .3, 'sine'); }
+function thump() { if (!ctx()) return; const t = actx.currentTime; tone(55, t, .12, .35, 'sine'); tone(48, t + .14, .1, .25, 'sine'); }
+function meow() { if (!ctx()) return; const t = actx.currentTime, o = actx.createOscillator(), g = actx.createGain(), v = actx.createOscillator(), vg = actx.createGain();
+  o.type = 'sawtooth'; o.frequency.setValueAtTime(520, t); o.frequency.linearRampToValueAtTime(820, t + .25); o.frequency.linearRampToValueAtTime(430, t + .8);
+  v.frequency.value = 7; vg.gain.value = 18; v.connect(vg).connect(o.frequency);
+  const f = actx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1100; f.Q.value = 2;
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.25, t + .08); g.gain.exponentialRampToValueAtTime(.0001, t + .85);
+  o.connect(f).connect(g).connect(actx.destination); o.start(t); v.start(t); o.stop(t + .9); v.stop(t + .9); }
 
 // ───── Straw-and-string arm model (book p121): upper straw fixed, lower straw turns at the slit
 function armModel(id) {

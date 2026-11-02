@@ -268,6 +268,25 @@
   .slide.tam.on { display: flex; }
   .tamh { flex: none; background: var(--green); color: #fff; border-radius: 30px; padding: 4px 22px; font-size: 22px; }
   .slide.tam video { flex: 1; min-height: 0; max-width: 100%; border-radius: 14px; background: #000; border: 3px solid var(--leaf); }
+  .gift .e { font-family: inherit; }
+  .rvx { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .rvx:empty { display: none; }
+  .rvx input { font: inherit; font-size: 20px; border: 3px solid var(--gold); border-radius: 14px; padding: 4px 12px; text-align: center; }
+  #starCard { display: none; }
+  @media print {
+    @page { size: A5 landscape; margin: 8mm; }
+    body.printing > *:not(#starCard) { display: none !important; }
+    body.printing { background: #fff !important; overflow: visible !important; height: auto !important; display: block !important; }
+    body.printing #starCard { display: block; }
+    #starCard .sc-in { border: 6px double #d4a017; border-radius: 22px; padding: 10mm; text-align: center; color: #1b5e20; background: #fffdf3; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    #starCard .sc-st { font-size: 60px; line-height: 1; }
+    #starCard h1 { font-size: 40px; color: #c2366f; margin: 4px 0; }
+    #starCard .sc-to { font-size: 18px; margin: 4px; color: #333; }
+    #starCard .sc-name { font-size: 32px; border-bottom: 3px solid #d4a017; display: inline-block; min-width: 60%; padding: 0 20px 4px; margin: 4px 0 10px; }
+    #starCard .sc-msg { font-size: 22px; margin: 6px; }
+    #starCard .sc-l { font-size: 15px; color: #555; margin: 4px; }
+    #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
+  }
 </style>
 </head>
 <body>
@@ -381,9 +400,10 @@
   </div>
 </section>
 </main>
-<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
+<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><div id="rvX" class="rvx"></div><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
 <footer>أ/ شامه البقمي 💚</footer>
 <div class="vbox" id="vbox"><video id="vid" controls loop playsinline preload="none"></video><button class="btn" onclick="closeVid()">✕ إغلاق الفيديو</button></div>
+<div id="starCard"></div>
 <div class="zoom" id="zoom">
   <div class="tools" id="tools">
     <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
@@ -858,32 +878,16 @@ new MutationObserver((ms) => ms.forEach((m) => { if (m.target.classList && m.tar
 document.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.classList.contains('ok') && !b.dataset.snd) { b.dataset.snd = 1; setTimeout(() => { if (!document.querySelector('.award')) chime(1); }, 60); } });
 
 // ───── Surprise box: each girl picks a box; no prize repeats until all are used
-const PRIZES = [
-  ['🌟', 'نقاط', '+٤ نقاط', 'إجاباتك اليوم تستحق الزيادة!'],
-  ['✨', 'نقاط', '+٣ نقاط', 'عقلك يعمل مثل القلب… لا يتوقف عن العطاء ❤️'],
-  ['💎', 'نقاط', '+٥ نقاط', 'مفاجأة كبيرة لطالبة كبيرة!'],
-  ['⭐', 'نقاط', '+٢ نقطتان', 'كل خطوة صغيرة تصنع فرقًا كبيرًا.'],
-  ['🌟', 'نقاط', '+٤ نقاط', 'أنتِ نجمة تضيء فصلنا!'],
-  ['🎯', 'نقاط', '+٣ نقاط', 'تركيزك رائع، استمري!'],
-  ['🏅', 'هدية معنوية', 'وسام العالِمة الصغيرة', 'تستحقين لقب عالِمة الفصل اليوم.'],
-  ['👩‍🏫', 'هدية معنوية', 'المعلمة الصغيرة', 'ستشرحين معلومة لصديقاتك في الحصة القادمة.'],
-  ['📜', 'هدية معنوية', 'شهادة شكر', 'شهادة شكر من معلمتك لأنكِ رائعة.'],
-  ['🖼️', 'هدية معنوية', 'لوحة المتميّزات', 'يُكتب اسمك اليوم في لوحة المتميّزات.'],
-  ['👏', 'هدية معنوية', 'تصفيق جماعي', 'صفّقن لصديقتكن بحرارة! 👏👏👏'],
-  ['🧪', 'هدية معنوية', 'مساعدة المختبر', 'تساعدين المعلمة في التجربة القادمة.'],
-  ['👑', 'هدية معنوية', 'نجمة الأسبوع', 'أنتِ نجمة الأسبوع في العلوم!'],
-  ['🎤', 'هدية معنوية', 'المذيعة العلمية', 'تقرئين معلومة اليوم بصوتك الجميل.'],
-  ['💌', 'رسالة لكِ', 'رسالة من معلمتك', 'فخورة بكِ جدًا، أنتِ مستقبل مشرق 💚'],
-  ['🌷', 'رسالة لكِ', 'رسالة جميلة', 'ابتسامتك تجعل الفصل أجمل.'],
-  ['🚀', 'رسالة لكِ', 'رسالة جميلة', 'يومًا ما ستكونين عالِمة تكتشف ما لم يكتشفه أحد.'],
-  ['❤️', 'رسالة لكِ', 'رسالة جميلة', 'مثل القلب الذي لا يتعب… اجتهادك لا يتوقف.'],
-  ['🌈', 'رسالة لكِ', 'رسالة جميلة', 'أنتِ قادرة على كل شيء بإذن الله.'],
-  ['🦋', 'رسالة لكِ', 'رسالة جميلة', 'سؤالك الذكي هو بداية كل اكتشاف.'],
-  ['🌟', 'نقاط + رسالة', '+٤ نقاط', 'وثقتي بكِ أكبر من كل النقاط 💚'],
-  ['🍀', 'حظ سعيد', 'اختاري صديقة', 'تختارين صديقة لتفتح صندوقًا معكِ!'],
-  ['🎈', 'نقاط', '+١ نقطة ودعاء', 'وفقكِ الله ونفع بكِ.'],
-  ['🏆', 'هدية معنوية', 'كأس المتفوّقة', 'تحملين كأس الفصل حتى نهاية الحصة.'],
-];
+const MSGS = ['أنتِ نجمة تضيء فصلنا! 🌟', 'عقلك رائع… استمري في السؤال والاكتشاف 🔍', 'فخورة بكِ جدًا يا عالمتي 💚', 'ابتسامتك تجعل الفصل أجمل 🌷',
+  'كل يوم تكبرين علمًا وأدبًا 🌱', 'أنتِ قادرة على كل شيء بإذن الله 🌈', 'سؤالك الذكي بداية كل اكتشاف 🦋', 'اجتهادك مثل القلب… لا يتوقف ❤️',
+  'يومًا ما ستكونين عالمة عظيمة 🚀', 'تعاونك مع صديقاتك رائع 🤝', 'أنتِ مثال للطالبة المتميزة 🏅', 'وفّقكِ الله ونفع بكِ 🤲',
+  'تركيزك اليوم كان مذهلًا 🎯', 'أحببتُ مشاركتك الجميلة 🌸', 'خطّك وترتيبك يسعدانني ✍️', 'أنتِ فخر لأهلك ومدرستك 🏫',
+  'شجاعتك في الإجابة رائعة 🦁', 'استمري… فالقمة تنتظرك ⛰️', 'قلبك طيب وعقلك نيّر 💡', 'أنتِ هدية جميلة لفصلنا 🎀',
+  'معلمتك تثق بكِ كثيرًا 💌', 'أنتِ مبدعة بكل ما تعنيه الكلمة ✨', 'نجاحك قادم بإذن الله 🌟', 'أدبك وأخلاقك تاج على رأسك 👑'];
+const PRIZES = [];
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 5, 7, 9].forEach((n, k) => PRIZES.push({ n, m: MSGS[k] }));
+for (let k = 0; k < 6; k++) PRIZES.push({ star: 1, n: 10, m: ['أنتِ نجمة الفصل اليوم!', 'أنتِ نجمة العلوم!', 'أنتِ نجمة التميّز!', 'أنتِ نجمة الإبداع!', 'أنتِ نجمة الأخلاق!', 'أنتِ نجمة المشاركة!'][k] });
+const arP = (n) => n === 1 ? 'نقطة واحدة' : n === 2 ? 'نقطتان' : n <= 10 ? `${ar(n)} ${n <= 10 && n >= 3 ? 'نقاط' : 'نقطة'}` : `${ar(n)} نقطة`;
 let pool = [];
 function nextPrize() { if (!pool.length) pool = PRIZES.slice().sort(() => Math.random() - 0.5); return pool.pop(); }
 function buildGifts() {
@@ -896,13 +900,25 @@ function openGift(b) {
   b.classList.add('shake'); drumroll(1.1);
   setTimeout(() => {
     b.classList.remove('shake'); b.classList.add('done');
-    const [e, k, t, m] = nextPrize();
-    b.querySelector('.e').textContent = e;
-    $('#rvE').textContent = e; $('#rvK').textContent = k; $('#rvT').textContent = t; $('#rvM').textContent = m;
-    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500);
+    const P = nextPrize();
+    b.querySelector('.e').textContent = P.star ? '⭐' : '+' + ar(P.n);
+    $('#rvE').textContent = P.star ? '⭐' : '🎁';
+    $('#rvK').textContent = P.star ? 'بطاقة نجمة + ١٠ نقاط' : 'نقاط إضافية';
+    $('#rvT').textContent = P.star ? 'أنتِ نجمة! 🌟' : '+' + arP(P.n);
+    $('#rvM').textContent = P.m;
+    $('#rvX').innerHTML = P.star ? `<input id="stName" placeholder="اكتبي اسمك هنا"><button class="btn main" onclick="printStar('${P.m}')">🖨️ اطبعي بطاقتك</button>` : '';
+    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500); if (P.star) setTimeout(confetti, 1000);
   }, 1150);
 }
-function closeGift(e) { if (e && e.target.closest('.card') && !e.target.closest('button')) return; $('#reveal').classList.remove('on'); }
+function printStar(msg) {
+  const name = ($('#stName') && $('#stName').value.trim()) || '……………………';
+  const lesson = (document.querySelector('header h1') || {}).textContent || '';
+  const d = new Date().toLocaleDateString('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' });
+  $('#starCard').innerHTML = `<div class="sc-in"><div class="sc-st">⭐</div><h1>أنتِ نجمة!</h1><p class="sc-to">تُهدى هذه البطاقة إلى الطالبة</p><div class="sc-name">${name}</div>
+    <p class="sc-msg">${msg} 🌟</p><p class="sc-l">${lesson} • العلوم – الصف السادس</p><div class="sc-f"><span>معلمتك: أ/ شامه البقمي 💚</span><span>${d}</span></div></div>`;
+  document.body.classList.add('printing'); setTimeout(() => { window.print(); document.body.classList.remove('printing'); }, 150);
+}
+function closeGift(e) { if (e && e.target.closest('.card') && (!e.target.closest('button') || e.target.closest('.rvx'))) return; $('#reveal').classList.remove('on'); }
 buildGifts();
 
 // ───── Reading stations: pen and highlighter colours right on the book page
