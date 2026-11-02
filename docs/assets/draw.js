@@ -8,12 +8,20 @@
   const set = (k, v) => { try { localStorage.setItem(K + k, JSON.stringify(v)); } catch (e) {} };
   let names = get('names', { '6a': [], '6b': [] }), out = get('out', { '6a': [], '6b': [] }), noRepeat = get('norep', true);
   const box = document.getElementById('drawBox'); if (!box) return;
+  // the names wheel (عجلة الأسماء) on the same site keeps its names in this browser: use them
+  function wheelNames() { try { const w = JSON.parse(localStorage.getItem('tamayoz:state') || 'null'); return w && w.names ? w.names : null; } catch (e) { return null; } }
+  function fromWheel() {
+    const w = wheelNames(); if (!w) return false; let got = false;
+    CLS.forEach((c) => { if ((w[c.id] || []).length) { names[c.id] = w[c.id].slice(); out[c.id] = out[c.id].filter((n) => names[c.id].includes(n)); got = true; } });
+    if (got) { set('names', names); set('out', out); } return got;
+  }
+  if (!names['6a'].length && !names['6b'].length) fromWheel();
   const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   function render(msg) {
     box.innerHTML = `<div class="dr-top"><span class="strat"><b>الاستراتيجية:</b> القرعة العادلة – المشاركة للجميع</span>
       <label class="dr-nr"><input type="checkbox" id="drNr" ${noRepeat ? 'checked' : ''}> لا تتكرّر من خرج اسمها</label>
-      <button class="btn" id="drSet">⚙️ الأسماء</button></div>
+      <button class="btn" id="drWh">📥 من عجلة الأسماء</button><button class="btn" id="drSet">⚙️ الأسماء</button></div>
       ${msg ? `<p class="dr-msg">${msg}</p>` : ''}
       <div class="dr-cols">${CLS.map((c) => `<div class="dr-col" data-c="${c.id}">
         <div class="dr-h">🎓 ${c.n} <span>${c.s}</span></div>
@@ -24,6 +32,7 @@
       <div class="dr-edit" id="drEdit" hidden>${CLS.map((c) => `<label>${c.n} (${c.s}) – اسم في كل سطر:<textarea id="ta_${c.id}">${esc((names[c.id] || []).join('\n'))}</textarea></label>`).join('')}
         <p class="note">🔒 تُحفظ الأسماء في هذا المتصفح فقط، ولا تُرفع إلى الموقع.</p><button class="btn main" id="drSave">💾 حفظ الأسماء</button></div>`;
     box.querySelector('#drNr').onchange = (e) => { noRepeat = e.target.checked; set('norep', noRepeat); };
+    box.querySelector('#drWh').onclick = () => render(fromWheel() ? '✔ نُقلت الأسماء من عجلة الأسماء.' : 'لم أجد أسماء في عجلة الأسماء على هذا المتصفح. افتحي العجلة أولًا من منصة نافس على هذا اللابتوب.');
     box.querySelector('#drSet').onclick = () => { const e = box.querySelector('#drEdit'); e.hidden = !e.hidden; };
     box.querySelector('#drSave').onclick = () => {
       CLS.forEach((c) => { names[c.id] = box.querySelector('#ta_' + c.id).value.split('\n').map((x) => x.trim()).filter(Boolean); out[c.id] = out[c.id].filter((n) => names[c.id].includes(n)); });
@@ -67,7 +76,7 @@
     let url = '', pin = '';
     try { url = JSON.parse(localStorage.getItem('platform:api') || '""'); pin = JSON.parse(localStorage.getItem('platform:pin') || '""'); } catch (e) {}
     const empty = !names['6a'].length && !names['6b'].length;
-    if (!url || !pin) { render(empty ? '👋 لتظهر الأسماء: سجّلي الدخول في لوحة المعلمة على هذا الجهاز، أو اضغطي «⚙️ الأسماء» والصقيها.' : ''); return; }
+    if (!url || !pin) { render(empty ? '👋 لتظهر الأسماء: افتحي «عجلة الأسماء» في منصة نافس على هذا اللابتوب ثم اضغطي «📥 من عجلة الأسماء»، أو اضغطي «⚙️ الأسماء» والصقيها.' : ''); return; }
     render('⏳ جارٍ تحميل الأسماء من جدول المنصة…');
     try {
       const r = await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'students', pin }) }); const j = await r.json();
