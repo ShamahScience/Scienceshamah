@@ -348,7 +348,7 @@
   /* المهمات */
   #missions.on { display: flex; flex-direction: column; gap: 10px; }
   .alb { flex: none; text-align: center; background: linear-gradient(90deg, #6b4fc0, #c2366f); color: #fff; border-radius: 14px; padding: 4px 10px; font-size: 18px; } .alb b { color: #ffe082; }
-  .revb { background: #e3f2fd; border: 2px solid #1e88e5; color: #0d47a1; border-radius: 12px; padding: 0 10px; font-size: 14px; } .revb.own { background: #fff3e0; border-color: #fb8c00; color: #8a4b00; }
+  .revb { background: #e3f2fd; border: 2px solid #1e88e5; color: #0d47a1; border-radius: 12px; padding: 0 10px; font-size: 14px; } .revb.s0 { background: #fff3e0; border-color: #fb8c00; color: #8a4b00; } .revb.s1 { background: #fce4ec; border-color: #ec407a; color: #880e4f; } .revb.s2 { background: #ffebee; border-color: #e53935; color: #b71c1c; } .revb.s3 { background: #fffde7; border-color: #fbc02d; color: #6d5200; } .revb.s4 { background: #f1f8e9; border-color: #7cb342; color: #33691e; }
   .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; }
   .nhead img { width: 74px; flex: none; }
   .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
@@ -865,7 +865,7 @@ const MIS = [
   { ic: '🟡', n: 'المهمة الثانية', t: 'أقارن', d: 'أوجه الشبه والاختلاف', run: () => m2(0) },
   { ic: '🟠', n: 'المهمة الثالثة', t: 'أصنّف', d: 'كل عضو إلى جهازه', run: () => m3() },
   { ic: '🔴', n: 'المهمة الرابعة', t: 'أركّب – المهمة الأدائية', d: 'أصمّم نموذجًا', run: () => m4() },
-  { ic: '<img class="nlogo" src="img/nafs/logo.png" alt="نافس">', n: 'المهمة الخامسة', t: 'نافس – نواتج التعلم', d: 'الدرس + مراجعة تكامل الأجهزة', run: () => m5(0) },
+  { ic: '<img class="nlogo" src="img/nafs/logo.png" alt="نافس">', n: 'المهمة الخامسة', t: 'مراجعة نواتج التعلم (نافس)', d: 'مراجعة نهاية الفصل: كل الأجهزة', run: () => m5(0) },
 ];
 const mDone = new Set();
 let mCur = 0;
@@ -930,18 +930,25 @@ const M5 = [
   { o: O7, k: 'استنتاج', q: 'أيّ من الحيوانات التالية تمتلك رئات تشبه صفحات الكتاب؟', op: ['العنكبوت', 'السمك', 'الطيور', 'الضفدع'], a: 0, hint: 'من المفصليات وله ثمانية أرجل.', fix: 'العنكبوت له رئات كتابية.', sim: { q: 'تتبادل الديدان المفلطحة الغازات عن طريق…', op: ['الانتشار', 'الرئات', 'الخياشيم'], a: 0 } },
 ];
 // درس الحركة والإحساس: أسئلة نافس الخاصة به فقط (الهيكلي والعضلي والعصبي وتكامل الأجهزة)
-// أسئلة الدرس أولًا، ثم بقية أسئلة أجهزة الجسم مراجعةً لتكامل الأجهزة
-{ const own = (q) => /العضو في الصورة|القفص الصدري|أزواج متقابلة|لهذه الأعضاء|تركيب لأعضاء/.test(q.q);
-  const a = M5.filter(own), b = M5.filter((q) => !own(q)); b.forEach((q) => q.rev = 1); M5.splice(0, M5.length, ...a, ...b); }
+// مراجعة نهاية الفصل: كل نواتج التعلم في أجهزة الجسم، مرتّبة حسب الجهاز
+M5.push(
+  { o: O1, k: 'تركيب', q: 'ما الذي يشترك فيه الطيور والثدييات؟', op: ['تستخدم الأجنحة في الطيران', 'تعيش في الماء', 'لها ريش يغطي أجسامها', 'تستخدم الرئات في التنفس'], a: 3, hint: 'فكّري في جهاز التنفس لكليهما.', fix: 'الطيور والثدييات تتنفس بالرئات.', sim: { q: 'تتنفس الأسماك بـ…', op: ['الخياشيم', 'الرئات', 'الجلد فقط'], a: 0 } },
+  { o: O1, k: 'معرفة', mine: 1, q: 'ما العضو الرئيس في الجهاز البولي الذي ينقّي الدم من الفضلات؟', op: ['الكليتان', 'الرئتان', 'المعدة', 'القلب'], a: 0, hint: 'عضوان على شكل حبة الفاصوليا.', fix: 'الكليتان تنقّيان الدم وتكوّنان البول.', sim: { q: 'أين يُخزَّن البول قبل خروجه؟', op: ['المثانة', 'الكلية', 'المعدة'], a: 0 } },
+  { o: O1, k: 'تحليل', mine: 1, q: 'أيّ مما يأتي يعمل عضوًا إخراجيًا ويخلّص الجسم من ثاني أكسيد الكربون؟', op: ['الرئتان', 'الأمعاء الدقيقة', 'العظام', 'الدماغ'], a: 0, hint: 'نُخرجه مع الزفير.', fix: 'الرئتان تُخرجان ثاني أكسيد الكربون وبخار الماء، والجلد يُخرج العرق، والكليتان البول.', sim: { q: 'يتخلّص الجلد من الفضلات عن طريق…', op: ['العرق', 'الزفير', 'البول'], a: 0 } },
+);
+const SYSR = [['🍽️ الجهاز الهضمي', /هذا العضو|توقف عمل المعدة/], ['🫁 الجهاز التنفسي', /الرئتين|البرمائيات|الأسماك|المفلطحة|صفحات الكتاب|الطيور والثدييات|التنفس الخلوي/],
+  ['❤️ الجهاز الدوري', /ضخ الدم|الدوران|جهاز دوران/], ['🚽 الجهاز الإخراجي', /البولي|إخراجيًا/], ['🦴 الحركة والإحساس', /العضو في الصورة|القفص الصدري|أزواج متقابلة|لهذه الأعضاء|تركيب لأعضاء/], ['🔬 الخلية وتكامل الأجهزة', /./]];
+M5.forEach((q) => { q.sys = SYSR.findIndex(([, re]) => re.test(q.q)); });
+M5.sort((x, y) => x.sys - y.sys);
 let m5s = 0;
 const shuf0 = (t) => { const idx = t.op.map((_, k) => k).sort(() => Math.random() - .5); return { q: t.q, op: idx.map((k) => t.op[k]), a: idx.indexOf(t.a) }; };
 function m5(i, sim) {
   if (i === 0 && !sim) m5s = 0;
-  if (i >= M5.length) return mFinish(4, `<p class="score">⭐ ${ar(m5s)} / ${ar(M5.length)}</p><p>أسئلة من «تدريبات وأنشطة نافس – العلوم ٦» – أجهزة الجسم</p>`);
+  if (i >= M5.length) return mFinish(4, `<p class="score">⭐ ${ar(m5s)} / ${ar(M5.length)}</p><p>راجعتِ نواتج التعلم في: الهضم، والتنفس، والدوران، والإخراج، والحركة والإحساس 💚</p>`);
   const it = M5[i], t = shuf0(sim ? it.sim : { q: it.q, op: it.op, a: it.a }); let tries = 0;
-  $('#mbody').innerHTML = mHead('نواتج التعلم – اختبار نافس', 'المهمة الخامسة: نافس – نواتج التعلم') + `
+  $('#mbody').innerHTML = mHead('نواتج التعلم – اختبار نافس', 'المهمة الخامسة: مراجعة نواتج التعلم لأجهزة الجسم – نهاية الفصل') + `
     <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${it.o}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة • <span class="nlab sk">${it.k}</span></div></div>
-    <p class="score" style="margin:2px">${it.rev ? '<span class="revb">🔄 مراجعة: تكامل أجهزة الجسم</span> ' : '<span class="revb own">🦴 من درس الحركة والإحساس</span> '}${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M5.length)}`} • ⭐ ${ar(m5s)}</p>
+    <p class="score" style="margin:2px"><span class="revb s${it.sys}">${SYSR[it.sys][0]}</span> ${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M5.length)}`} • ⭐ ${ar(m5s)}</p>
     <div class="nq">${it.img && !sim ? `<img src="img/nafs/${it.img}.png" alt="">` : ''}<p class="mq">${t.q}</p></div><div class="opts o4">${t.op.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="m5m"></div>`;
   $('#mbody').querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {
     const m = $('#m5m');
