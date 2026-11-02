@@ -154,7 +154,7 @@ textarea{min-height:240px;resize:vertical;line-height:1.7}
       <button role="tab" data-view="play" aria-selected="true">الحصة</button>
       <button role="tab" data-view="board" aria-selected="false">الصدارة</button>
       <button role="tab" data-view="bank" aria-selected="false">بنك الأسئلة</button>
-      
+      <button role="tab" data-view="students" aria-selected="false">الطالبات</button>
     </div>
   </div>
 
@@ -712,6 +712,18 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', draw);
 new MutationObserver(draw).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
 window.addEventListener('resize', resize);
 fillTopics(); save(); renderAll(); resize();
+(function importFromLink(){
+  const m = location.hash.match(/^#names=(.+)$/); if(!m) return;
+  try{
+    const b = m[1].replace(/-/g,'+').replace(/_/g,'/'); const j = JSON.parse(decodeURIComponent(escape(atob(b))));
+    CLASSES.forEach(c => { if(Array.isArray(j[c.id]) && j[c.id].length){ S.names[c.id] = j[c.id]; S.excluded[c.id] = []; S.scores[c.id] = S.scores[c.id] || {}; } });
+    save(); renderAll(); history.replaceState(null, '', location.pathname);
+    const n = CLASSES.map(c => `${c.name}: ${(S.names[c.id]||[]).length}`).join(' • ');
+    const t = document.createElement('div'); t.textContent = '✅ حُفظت أسماء الطالبات على هذا الجهاز — ' + n;
+    Object.assign(t.style, {position:'fixed', top:'14px', left:'50%', transform:'translateX(-50%)', background:'#1b5e20', color:'#fff', padding:'10px 22px', borderRadius:'14px', fontSize:'20px', zIndex:99});
+    document.body.appendChild(t); setTimeout(() => t.remove(), 6000);
+  }catch(e){ alert('تعذّر قراءة رابط الأسماء'); }
+})();
 // names come from the platform's Google Sheet (teacher must be signed in on this device)
 (async () => {
   let url = '', pin = '';
