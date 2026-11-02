@@ -904,7 +904,7 @@ function openGift(b) {
     b.querySelector('.e').textContent = P.star ? '⭐' : '+' + ar(P.n);
     $('#rvE').textContent = P.star ? '⭐' : '🎁';
     $('#rvK').textContent = P.star ? 'بطاقة نجمة + ١٠ نقاط' : 'نقاط إضافية';
-    $('#rvT').textContent = P.star ? 'أنتِ نجمة! 🌟' : '+' + arP(P.n);
+    $('#rvT').textContent = P.star ? 'أنتِ نجمة! 🌟' : `+${ar(P.n)} ${P.n === 1 ? 'نقطة' : P.n === 2 ? 'نقطتان' : 'نقاط'}`;
     $('#rvM').textContent = P.m;
     $('#rvX').innerHTML = P.star ? `<input id="stName" placeholder="اكتبي اسمك هنا"><button class="btn main" onclick="printStar('${P.m}')">🖨️ اطبعي بطاقتك</button>` : '';
     $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500); if (P.star) setTimeout(confetti, 1000);
