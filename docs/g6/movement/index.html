@@ -311,6 +311,10 @@
   .dr-edit { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; } .dr-edit[hidden] { display: none; }
   .dr-edit label { font-size: 15px; } .dr-edit textarea { width: 100%; height: 110px; font: inherit; font-size: 16px; border: 2px solid var(--leaf); border-radius: 10px; }
   .dr-edit .note { grid-column: 1 / -1; margin: 0; font-size: 14px; }
+  .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; margin: 6px 0; }
+  .nhead img { width: 74px; flex: none; }
+  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
+  #nafs .box { overflow-y: auto; }
 
   .sbody { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) !important; }
   .scol { min-height: 0; display: flex; } .scol svg { width: 100%; height: 100%; border-radius: 16px; transition: transform .05s; }
@@ -344,6 +348,7 @@
   /* المهمات */
   #missions.on { display: flex; flex-direction: column; gap: 10px; }
   .alb { flex: none; text-align: center; background: linear-gradient(90deg, #6b4fc0, #c2366f); color: #fff; border-radius: 14px; padding: 4px 10px; font-size: 18px; } .alb b { color: #ffe082; }
+  .revb { background: #e3f2fd; border: 2px solid #1e88e5; color: #0d47a1; border-radius: 12px; padding: 0 10px; font-size: 14px; } .revb.own { background: #fff3e0; border-color: #fb8c00; color: #8a4b00; }
   .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; }
   .nhead img { width: 74px; flex: none; }
   .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
@@ -860,7 +865,7 @@ const MIS = [
   { ic: '🟡', n: 'المهمة الثانية', t: 'أقارن', d: 'أوجه الشبه والاختلاف', run: () => m2(0) },
   { ic: '🟠', n: 'المهمة الثالثة', t: 'أصنّف', d: 'كل عضو إلى جهازه', run: () => m3() },
   { ic: '🔴', n: 'المهمة الرابعة', t: 'أركّب – المهمة الأدائية', d: 'أصمّم نموذجًا', run: () => m4() },
-  { ic: '<img class="nlogo" src="img/nafs/logo.png" alt="نافس">', n: 'المهمة الخامسة', t: 'نافس – نواتج التعلم', d: 'الهيكلي والعضلي والعصبي', run: () => m5(0) },
+  { ic: '<img class="nlogo" src="img/nafs/logo.png" alt="نافس">', n: 'المهمة الخامسة', t: 'نافس – نواتج التعلم', d: 'الدرس + مراجعة تكامل الأجهزة', run: () => m5(0) },
 ];
 const mDone = new Set();
 let mCur = 0;
@@ -925,7 +930,9 @@ const M5 = [
   { o: O7, k: 'استنتاج', q: 'أيّ من الحيوانات التالية تمتلك رئات تشبه صفحات الكتاب؟', op: ['العنكبوت', 'السمك', 'الطيور', 'الضفدع'], a: 0, hint: 'من المفصليات وله ثمانية أرجل.', fix: 'العنكبوت له رئات كتابية.', sim: { q: 'تتبادل الديدان المفلطحة الغازات عن طريق…', op: ['الانتشار', 'الرئات', 'الخياشيم'], a: 0 } },
 ];
 // درس الحركة والإحساس: أسئلة نافس الخاصة به فقط (الهيكلي والعضلي والعصبي وتكامل الأجهزة)
-M5.splice(0, M5.length, ...M5.filter((q) => /العضو في الصورة|القفص الصدري|أزواج متقابلة|لهذه الأعضاء|تركيب لأعضاء/.test(q.q)));
+// أسئلة الدرس أولًا، ثم بقية أسئلة أجهزة الجسم مراجعةً لتكامل الأجهزة
+{ const own = (q) => /العضو في الصورة|القفص الصدري|أزواج متقابلة|لهذه الأعضاء|تركيب لأعضاء/.test(q.q);
+  const a = M5.filter(own), b = M5.filter((q) => !own(q)); b.forEach((q) => q.rev = 1); M5.splice(0, M5.length, ...a, ...b); }
 let m5s = 0;
 const shuf0 = (t) => { const idx = t.op.map((_, k) => k).sort(() => Math.random() - .5); return { q: t.q, op: idx.map((k) => t.op[k]), a: idx.indexOf(t.a) }; };
 function m5(i, sim) {
@@ -934,7 +941,7 @@ function m5(i, sim) {
   const it = M5[i], t = shuf0(sim ? it.sim : { q: it.q, op: it.op, a: it.a }); let tries = 0;
   $('#mbody').innerHTML = mHead('نواتج التعلم – اختبار نافس', 'المهمة الخامسة: نافس – نواتج التعلم') + `
     <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${it.o}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة • <span class="nlab sk">${it.k}</span></div></div>
-    <p class="score" style="margin:2px">${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M5.length)}`} • ⭐ ${ar(m5s)}</p>
+    <p class="score" style="margin:2px">${it.rev ? '<span class="revb">🔄 مراجعة: تكامل أجهزة الجسم</span> ' : '<span class="revb own">🦴 من درس الحركة والإحساس</span> '}${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M5.length)}`} • ⭐ ${ar(m5s)}</p>
     <div class="nq">${it.img && !sim ? `<img src="img/nafs/${it.img}.png" alt="">` : ''}<p class="mq">${t.q}</p></div><div class="opts o4">${t.op.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="m5m"></div>`;
   $('#mbody').querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {
     const m = $('#m5m');
@@ -1254,6 +1261,7 @@ function textAt(canvas, e, col, px, done) {
   inp.addEventListener('keydown', (ev) => { ev.stopPropagation(); if (ev.key === 'Enter') commit(); if (ev.key === 'Escape') { fin = true; inp.remove(); } });
   inp.addEventListener('blur', commit);
 }
+
 
 // ───── قصة الواقع الافتراضي: «صوت في المطبخ» — every body system has its own animation
 const SYS = {
