@@ -268,6 +268,25 @@
   .slide.tam.on { display: flex; }
   .tamh { flex: none; background: var(--green); color: #fff; border-radius: 30px; padding: 4px 22px; font-size: 22px; }
   .slide.tam video { flex: 1; min-height: 0; max-width: 100%; border-radius: 14px; background: #000; border: 3px solid var(--leaf); }
+  .gift .e { font-family: inherit; }
+  .rvx { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .rvx:empty { display: none; }
+  .rvx input { font: inherit; font-size: 20px; border: 3px solid var(--gold); border-radius: 14px; padding: 4px 12px; text-align: center; }
+  #starCard { display: none; }
+  @media print {
+    @page { size: A5 landscape; margin: 8mm; }
+    body.printing > *:not(#starCard) { display: none !important; }
+    body.printing { background: #fff !important; overflow: visible !important; height: auto !important; display: block !important; }
+    body.printing #starCard { display: block; }
+    #starCard .sc-in { border: 6px double #d4a017; border-radius: 22px; padding: 10mm; text-align: center; color: #1b5e20; background: #fffdf3; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    #starCard .sc-st { font-size: 60px; line-height: 1; }
+    #starCard h1 { font-size: 40px; color: #c2366f; margin: 4px 0; }
+    #starCard .sc-to { font-size: 18px; margin: 4px; color: #333; }
+    #starCard .sc-name { font-size: 32px; border-bottom: 3px solid #d4a017; display: inline-block; min-width: 60%; padding: 0 20px 4px; margin: 4px 0 10px; }
+    #starCard .sc-msg { font-size: 22px; margin: 6px; }
+    #starCard .sc-l { font-size: 15px; color: #555; margin: 4px; }
+    #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
+  }
 
   .sbody { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) !important; }
   .scol { min-height: 0; display: flex; } .scol svg { width: 100%; height: 100%; border-radius: 16px; transition: transform .05s; }
@@ -328,25 +347,6 @@
   .rub { font-size: 13px; margin: 6px 0; } .rub td, .rub th { padding: 3px; }
   .rx { margin: 8px auto; width: min(100%, 520px); height: 170px; border-radius: 20px; background: #c62828; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; user-select: none; }
   .rx.wait { background: #ef6c00; } .rx.go { background: #2e7d32; }
-  .gift .e { font-family: inherit; }
-  .rvx { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
-  .rvx:empty { display: none; }
-  .rvx input { font: inherit; font-size: 20px; border: 3px solid var(--gold); border-radius: 14px; padding: 4px 12px; text-align: center; }
-  #starCard { display: none; }
-  @media print {
-    @page { size: A5 landscape; margin: 8mm; }
-    body.printing > *:not(#starCard) { display: none !important; }
-    body.printing { background: #fff !important; overflow: visible !important; height: auto !important; display: block !important; }
-    body.printing #starCard { display: block; }
-    #starCard .sc-in { border: 6px double #d4a017; border-radius: 22px; padding: 10mm; text-align: center; color: #1b5e20; background: #fffdf3; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    #starCard .sc-st { font-size: 60px; line-height: 1; }
-    #starCard h1 { font-size: 40px; color: #c2366f; margin: 4px 0; }
-    #starCard .sc-to { font-size: 18px; margin: 4px; color: #333; }
-    #starCard .sc-name { font-size: 32px; border-bottom: 3px solid #d4a017; display: inline-block; min-width: 60%; padding: 0 20px 4px; margin: 4px 0 10px; }
-    #starCard .sc-msg { font-size: 22px; margin: 6px; }
-    #starCard .sc-l { font-size: 15px; color: #555; margin: 4px; }
-    #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
-  }
 </style>
 </head>
 <body>
@@ -375,7 +375,7 @@
     <div class="slide on"><img src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></div>
     <div class="slide"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
     <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
-    <div class="slide tam"><div class="tamh">🦜 تمهيد: يطير الببغاء أكثر من ٧٠٠ كم يوميًا… فما الذي يحرّك أجنحته؟</div><img class="tamimg" src="img/parrot.jpg" alt="ببغاء يطير"></div>
+    <div class="slide tam"><div class="tamh">🦜 تمهيد: يطير الببغاء أكثر من ٧٠٠ كم يوميًا… فما الذي يحرّك أجنحته؟</div><video id="tvid" src="vid/parrot.mp4" poster="img/parrot.jpg" controls loop playsinline preload="metadata"></video></div>
     <div class="slide goals"><div class="box">
       <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
       <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
@@ -634,7 +634,7 @@ const STATIONS = [
   { icon: '💪', name: 'الجهاز العضلي', page: 123, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – السبب والنتيجة</span><h2>💪 الجهاز العضلي: عضلات تعمل في أزواج</h2>
     <div class="grid2 body"><div class="pagecol">${page(123)}</div><div class="txt">
-      <div class="armbox">${bicepsSVG()}<div class="mctl"><button class="btn main" onclick="flex(1)">💪 اثني الذراع</button><button class="btn" onclick="flex(0)">✋ مدّي الذراع</button><div class="msg" id="armmsg">اضغطي لتري العضلتين المتقابلتين.</div></div></div>
+      <button class="btn vidb" onclick="openVid('vid/rabbit.mp4')">🎬 فيديو: الأرنب يركض… شاهدي العظام والعضلات</button><div class="armbox">${bicepsSVG()}<div class="mctl"><button class="btn main" onclick="flex(1)">💪 اثني الذراع</button><button class="btn" onclick="flex(0)">✋ مدّي الذراع</button><div class="msg" id="armmsg">اضغطي لتري العضلتين المتقابلتين.</div></div></div>
       ${flip('هل تدفع العضلات العظام أم تسحبها؟', 'تسحبها فقط ولا تدفعها أبدًا؛ لذلك تعمل العضلات في أزواج.', 'السبب والنتيجة')}
       ${flip('ماذا يحدث لعضلات رجل الأرنب عندما يركض؟', 'تنقبض مجموعة فتسحب رجله إلى أعلى وتنبسط المقابلة، ثم تنقبض المقابلة فتسحبها إلى أسفل، وتستمر ما دام يركض.', 'ألخّص')}
       ${flip('العضلات التي تحرّك أصابعك موجودة في ذراعك… فكيف تتحرّك أصابعك؟', 'تتصل العضلات بعظام الأصابع بأوتار طويلة قوية؛ فإذا انقبضت العضلة سحبت الوتر فتحرّكت الأصابع.', 'التفكير الناقد')}
@@ -643,7 +643,7 @@ const STATIONS = [
   { icon: '🧠', name: 'الجهاز العصبي والغدد الصماء', page: 124, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ الشكل</span><h2>🧠 الأرنب يرى الثعلب… ماذا يحدث؟</h2>
     <div class="grid2 body"><div class="pagecol">${page(124)}</div><div class="txt">
-      <div class="chain" id="chain">${CHAIN.map((c, k) => `<div class="nd" data-k="${k}"><span>${c[0]}</span>${c[1]}</div>`).join('<b class="ar">⬅</b>')}</div>
+      <button class="btn vidb" onclick="openVid('vid/glands.mp4')">🎬 فيديو: الغدة الصمّاء تفرز الهرمونات في الدم</button><div class="chain" id="chain">${CHAIN.map((c, k) => `<div class="nd" data-k="${k}"><span>${c[0]}</span>${c[1]}</div>`).join('<b class="ar">⬅</b>')}</div>
       <div class="horm" id="horm">💧 الغدتان الكظريتان ⬅ <b>الأدرينالين</b> في الدم ⬅ ❤️ يتسارع نبض القلب ⬅ دم أكثر للعضلات</div>
       <div class="steps"><button class="btn main" onclick="signal()">▶ تتبّعي الإشارة</button></div>
       ${flip('ما الجهاز العصبي؟', 'يشتمل على الدماغ والحبل الشوكي والأعصاب وأعضاء الحس، ويعمل مع جهاز الغدد الصمّاء لتنظيم أنشطة الجسم.', 'المفردة')}
@@ -665,14 +665,14 @@ const STATIONS = [
   { icon: '💓', name: 'تكامل عمل أجهزة الجسم', page: 125, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> نشاط – أجرّب وأستعمل الأرقام</span><h2>💓 نشاط: تكامل عمل أجهزة الجسم</h2>
     <div class="grid2 body"><div class="pagecol">${page(125)}</div><div class="txt">
-      <button class="btn vidb" onclick="openVid()" hidden>🎬 شاهدي فيديو تكامل الأجهزة</button>
+      <button class="btn vidb" onclick="openVid('../systems/systems.mp4')">🎬 شاهدي فيديو تكامل الأجهزة</button>
       <p style="margin:0">⏱️ عُدّي نبضك <b>٣٠ ثانية</b> في كل حالة، ثم اكتبي العدد:</p>
       <div class="pulse"><button class="btn main" id="pBtn" onclick="pulseGo(30)">⏱️ ابدئي ٣٠ ثانية</button><span id="pT" class="pt">٣٠</span><button class="btn" onclick="pulseEx()">📖 مثال الكتاب</button></div>
       <div class="pgrid">${['🪑 راحة', '🚶‍♀️ مشي دقيقة', '🏃‍♀️ هرولة دقيقة'].map((n, k) => `<label>${n}<input id="pv${k}" type="number" min="5" max="120" placeholder="؟" oninput="pulseDraw()"></label>`).join('')}</div>
       <div class="bars" id="bars"></div>
       ${flip('أستنتج: لماذا يزداد النبض كلّما زاد النشاط؟', 'تحتاج العضلات غذاءً وأكسجينًا أكثر، فيسرع القلب في ضخّ الدم إليها؛ فالجهازان الدوري والعضلي يعملان معًا.', 'أستنتج')}
       ${flip('ما وظيفة كل جهاز في التكامل؟', 'الهضمي يوفّر الغذاء، والتنفسي الأكسجين، والدوري ينقلهما، والإخراج يخلّص الجسم من الفضلات، والعصبي ينظّم جميع الأنشطة.', 'ألخّص')}
-    </div></div>`, after: () => { pulseDraw(); document.querySelectorAll('.vidb').forEach((b) => b.hidden = !HAS_VID); } },
+    </div></div>`, after: () => pulseDraw() },
   { icon: '🔗', name: 'الربط: الدين والوطن والحياة', page: 126, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الربط والتكامل – الدين والوطن والحياة</span><h2>🔗 الحركة والإحساس في ديني ووطني وحياتي</h2>
     <div class="links">
@@ -1129,7 +1129,7 @@ function rClear() { const cv = $('#rink'); if (!cv) return; cv.getContext('2d').
 
 // ───── Lesson video (the teacher's own clip at img/circ.mp4); its button shows only when the file is there
 (function () { const v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = () => { HAS_VID = true; document.querySelectorAll('.vidb').forEach((b) => b.hidden = false); }; v.src = '../systems/systems.mp4'; })();
-function openVid() { const v = $('#vid'); if (!v.src) v.src = '../systems/systems.mp4'; $('#vbox').classList.add('on'); v.play().catch(() => {}); }
+function openVid(src) { const v = $('#vid'); v.src = src || '../systems/systems.mp4'; $('#vbox').classList.add('on'); v.play().catch(() => {}); }
 function closeVid() { const v = $('#vid'); v.pause(); $('#vbox').classList.remove('on'); }
 // ───── Pulse activity: count for 15 seconds, then ×4
 let pTimer = null;
