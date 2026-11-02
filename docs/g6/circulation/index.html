@@ -287,6 +287,7 @@
     #starCard .sc-l { font-size: 15px; color: #555; margin: 4px; }
     #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
   }
+  .txin { position: fixed; z-index: 70; min-width: 160px; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; background: rgba(255,255,255,.92); border: 2px dashed #6b4fc0; border-radius: 8px; padding: 0 6px; direction: rtl; outline: none; }
 </style>
 </head>
 <body>
@@ -409,6 +410,7 @@
     <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
     <button class="tl" data-tool="hl" title="تظليل">🖍️ تظليل</button>
     <button class="tl" data-tool="er" title="ممحاة">🧽 ممحاة</button>
+    <button class="tl" data-tool="tx" title="كتابة نص">🔤 نص</button>
     <span class="sep"></span>
     <button class="cl on" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
     <button class="cl" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
@@ -530,12 +532,12 @@ function stroke(a, b) {
 }
 (function initInk() {
   const c = cv();
-  c.addEventListener('pointerdown', (e) => { drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
+  c.addEventListener('pointerdown', (e) => { if (tool === 'tx') { e.preventDefault(); textAt(c, e, color, 26, saveInk); return; } drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
   c.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); stroke(last, p); last = p; });
   const end = () => { if (drawing) { drawing = false; saveInk(); } };
   c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
   document.querySelectorAll('#tools .tl[data-tool]').forEach((b) => b.onclick = () => { tool = b.dataset.tool; document.querySelectorAll('#tools .tl[data-tool]').forEach((x) => x.classList.toggle('on', x === b)); });
-  document.querySelectorAll('#tools .cl').forEach((b) => b.onclick = () => { color = b.dataset.c; if (tool === 'er') document.querySelector('#tools [data-tool="pen"]').click(); document.querySelectorAll('#tools .cl').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .cl').forEach((b) => b.onclick = () => { color = b.dataset.c; if (tool === 'er' || tool === 'hl') document.querySelector('#tools [data-tool="pen"]').click(); document.querySelectorAll('#tools .cl').forEach((x) => x.classList.toggle('on', x === b)); });
   document.querySelectorAll('#tools .sz').forEach((b) => b.onclick = () => { size = +b.dataset.s; document.querySelectorAll('#tools .sz').forEach((x) => x.classList.toggle('on', x === b)); });
   window.addEventListener('resize', () => { if ($('#zoom').classList.contains('on')) { saveInk(); fitInk(); } });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#zoom').classList.contains('on')) closeZoom(); });
@@ -937,6 +939,7 @@ function readingBoard(i) {
       <button class="c" data-c="#1e5fd8" style="background:#1e5fd8" title="قلم أزرق"></button>
       <button class="c" data-c="#111111" style="background:#111" title="قلم أسود"></button>
       <button data-e="1" title="ممحاة">🧽</button>
+      <button data-t="1" title="كتابة نص">🔤 نص</button>
       <button onclick="rClear()" title="مسح الصفحة">🗑️</button>
       <button onclick="zoom('${src}')" title="تكبير الصفحة">🔍 تكبير</button>
     </div>
@@ -955,7 +958,7 @@ function readingBoard(i) {
   im.complete ? place() : (im.onload = place);
   new ResizeObserver(place).observe(im);
   const pos = (e) => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]; };
-  cv.onpointerdown = (e) => { rDown = true; rLast = pos(e); cv.setPointerCapture(e.pointerId); };
+  cv.onpointerdown = (e) => { if (rTool.tx) { e.preventDefault(); textAt(cv, e, rTool.c, 20, () => { RINK[i] = cv.toDataURL(); }); return; } rDown = true; rLast = pos(e); cv.setPointerCapture(e.pointerId); };
   cv.onpointermove = (e) => {
     if (!rDown) return; const p = pos(e);
     g.globalCompositeOperation = rTool.er ? 'destination-out' : rTool.hl ? 'multiply' : 'source-over';
@@ -965,10 +968,10 @@ function readingBoard(i) {
     g.beginPath(); g.moveTo(...rLast); g.lineTo(...p); g.stroke(); rLast = p;
   };
   cv.onpointerup = cv.onpointercancel = () => { if (rDown) { rDown = false; RINK[i] = cv.toDataURL(); } };
-  col.querySelectorAll('.rbar button[data-c], .rbar button[data-e]').forEach((b) => {
+  col.querySelectorAll('.rbar button[data-c], .rbar button[data-e], .rbar button[data-t]').forEach((b) => {
     if (!rTool.er && b.dataset.c === rTool.c) b.classList.add('sel'); else if (!b.dataset.c && rTool.er) b.classList.add('sel'); else b.classList.remove('sel');
     b.onclick = () => {
-      rTool = b.dataset.e ? { ...rTool, er: true } : { c: b.dataset.c, hl: !!b.dataset.h, er: false };
+      rTool = b.dataset.e ? { ...rTool, er: true, tx: false } : b.dataset.t ? { c: rTool.hl ? '#d23b3b' : rTool.c, hl: false, er: false, tx: true } : { c: b.dataset.c, hl: !!b.dataset.h, er: false, tx: false };
       col.querySelectorAll('.rbar button').forEach((x) => x.classList.toggle('sel', x === b));
     };
   });
@@ -990,6 +993,29 @@ function pulseCalc() {
   if (!n) { m.className = 'msg bad'; m.textContent = 'اكتبي عدد النبضات أولًا 💡'; return; }
   m.className = 'msg good'; m.innerHTML = `نبضك = ${ar(n)} × ٤ = <b>${ar(n * 4)}</b> نبضة في الدقيقة 💓<br>قفزي ١٠ مرات… ثم قيسي مرة أخرى!`;
   award(1, m);
+}
+
+// ───── Text on the whiteboards: tap where to write, type, then Enter (or tap elsewhere)
+function textAt(canvas, e, col, px, done) {
+  document.querySelectorAll('.txin').forEach((x) => x.blur());
+  const r = canvas.getBoundingClientRect(), k = canvas.width / r.width;
+  const x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
+  const inp = document.createElement('input');
+  inp.className = 'txin'; inp.placeholder = 'اكتبي هنا… ثم Enter';
+  Object.assign(inp.style, { right: (innerWidth - e.clientX) + 'px', top: (e.clientY - px * 0.9) + 'px', color: col, fontSize: px + 'px' });
+  document.body.appendChild(inp); inp.focus(); setTimeout(() => inp.focus(), 0);
+  let fin = false;
+  const commit = () => {
+    if (fin) return; fin = true;
+    const t = inp.value.trim(); inp.remove(); if (!t) return;
+    const g = canvas.getContext('2d');
+    g.save(); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.fillStyle = col; g.direction = 'rtl'; g.textAlign = 'right'; g.textBaseline = 'middle';
+    g.font = `bold ${Math.round(px * k)}px 'Noto Naskh Arabic', Tahoma, serif`;
+    g.lineWidth = Math.max(2, px * k / 6); g.strokeStyle = 'rgba(255,255,255,.85)'; g.strokeText(t, x, y); g.fillText(t, x, y); g.restore();
+    done && done();
+  };
+  inp.addEventListener('keydown', (ev) => { ev.stopPropagation(); if (ev.key === 'Enter') commit(); if (ev.key === 'Escape') { fin = true; inp.remove(); } });
+  inp.addEventListener('blur', commit);
 }
 </script>
 </body>
