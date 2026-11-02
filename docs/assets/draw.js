@@ -16,6 +16,7 @@
     if (got) { set('names', names); set('out', out); } return got;
   }
   if (!names['6a'].length && !names['6b'].length) fromWheel();
+  document.addEventListener('click', (e) => { const t = e.target.closest('.tab[data-p="draw"]'); if (t && !names['6a'].length && !names['6b'].length && fromWheel()) render(); });
   const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   function render(msg) {
@@ -81,8 +82,10 @@
     try {
       const r = await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'students', pin }) }); const j = await r.json();
       if (!j.ok) throw new Error(j.error);
-      CLS.forEach((c) => { names[c.id] = j.students[c.id] || []; out[c.id] = out[c.id].filter((n) => names[c.id].includes(n)); });
-      set('names', names); render();
-    } catch (e) { render('تعذّر تحميل الأسماء من الجدول، فاستخدمت الأسماء المحفوظة.'); }
+      let got = false;
+      CLS.forEach((c) => { const l = (j.students || {})[c.id] || []; if (l.length) { names[c.id] = l; out[c.id] = out[c.id].filter((n) => names[c.id].includes(n)); got = true; } });
+      if (got) set('names', names); else fromWheel();
+      render();
+    } catch (e) { fromWheel(); render(); }
   })();
 })();

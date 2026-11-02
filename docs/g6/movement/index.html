@@ -351,6 +351,7 @@
   .revb { background: #e3f2fd; border: 2px solid #1e88e5; color: #0d47a1; border-radius: 12px; padding: 0 10px; font-size: 14px; } .revb.s0 { background: #fff3e0; border-color: #fb8c00; color: #8a4b00; } .revb.s1 { background: #fce4ec; border-color: #ec407a; color: #880e4f; } .revb.s2 { background: #ffebee; border-color: #e53935; color: #b71c1c; } .revb.s3 { background: #fffde7; border-color: #fbc02d; color: #6d5200; } .revb.s4 { background: #f1f8e9; border-color: #7cb342; color: #33691e; }
   .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; }
   .nhead img { width: 74px; flex: none; }
+  .nlab.pg { background: #1e5fd8; font-size: 14px; } .nlab.pg.mine { background: #8d6e63; }
   .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
   .nq { display: flex; align-items: center; justify-content: center; gap: 14px; } .nq img { max-height: 80px; } .nq .mq { margin: 4px 0; }
   .mcard .nlogo { height: 34px; display: block; margin: 0 auto; }
@@ -940,6 +941,11 @@ const SYSR = [['🍽️ الجهاز الهضمي', /هذا العضو|توقف 
   ['❤️ الجهاز الدوري', /ضخ الدم|الدوران|جهاز دوران/], ['🚽 الجهاز الإخراجي', /البولي|إخراجيًا/], ['🦴 الحركة والإحساس', /العضو في الصورة|القفص الصدري|أزواج متقابلة|لهذه الأعضاء|تركيب لأعضاء/], ['🔬 الخلية وتكامل الأجهزة', /./]];
 M5.forEach((q) => { q.sys = SYSR.findIndex(([, re]) => re.test(q.q)); });
 M5.sort((x, y) => x.sys - y.sys);
+// أرقام صفحات «تدريبات وأنشطة نافس – العلوم ٦» (ملف PDF) لكل سؤال
+const NPG = [[/ضخ الدم|توقف عمل الرئتين/, '٨'], [/تركيب لأعضاء/, '٨، ٩'], [/هذا العضو|توقف عمل المعدة|لهذه الأعضاء/, '٩'],
+  [/البرمائيات|الأسماك|الدوران المفتوحة|الطيور والثدييات|جهاز دوران/, '١٠'], [/العضو في الصورة|القفص الصدري|أزواج متقابلة|المفلطحة|صفحات الكتاب/, '١١'],
+  [/التنفس الخلوي/, '٥'], [/مجموعة من الأعضاء/, '٢']];
+const npg = (q) => { const f = NPG.find(([re]) => re.test(q)); return f ? f[1] : ''; };
 let m5s = 0;
 const shuf0 = (t) => { const idx = t.op.map((_, k) => k).sort(() => Math.random() - .5); return { q: t.q, op: idx.map((k) => t.op[k]), a: idx.indexOf(t.a) }; };
 function m5(i, sim) {
@@ -947,7 +953,7 @@ function m5(i, sim) {
   if (i >= M5.length) return mFinish(4, `<p class="score">⭐ ${ar(m5s)} / ${ar(M5.length)}</p><p>راجعتِ نواتج التعلم في: الهضم، والتنفس، والدوران، والإخراج، والحركة والإحساس 💚</p>`);
   const it = M5[i], t = shuf0(sim ? it.sim : { q: it.q, op: it.op, a: it.a }); let tries = 0;
   $('#mbody').innerHTML = mHead('نواتج التعلم – اختبار نافس', 'المهمة الخامسة: مراجعة نواتج التعلم لأجهزة الجسم – نهاية الفصل') + `
-    <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${it.o}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة • <span class="nlab sk">${it.k}</span></div></div>
+    <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${it.o} ${npg(it.q) ? `<span class="nlab pg">📄 المذكرة ص${npg(it.q)}</span>` : '<span class="nlab pg mine">✍️ من إعداد المعلمة</span>'}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة • <span class="nlab sk">${it.k}</span></div></div>
     <p class="score" style="margin:2px"><span class="revb s${it.sys}">${SYSR[it.sys][0]}</span> ${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M5.length)}`} • ⭐ ${ar(m5s)}</p>
     <div class="nq">${it.img && !sim ? `<img src="img/nafs/${it.img}.png" alt="">` : ''}<p class="mq">${t.q}</p></div><div class="opts o4">${t.op.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="m5m"></div>`;
   $('#mbody').querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {

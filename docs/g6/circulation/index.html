@@ -313,6 +313,7 @@
   .dr-edit .note { grid-column: 1 / -1; margin: 0; font-size: 14px; }
   .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; margin: 6px 0; }
   .nhead img { width: 74px; flex: none; }
+  .nlab.pg { background: #1e5fd8; font-size: 14px; }
   .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
   #nafs .box { overflow-y: auto; }
 </style>
@@ -1062,12 +1063,17 @@ const NQ = [
   { k: 'تحليل', q: 'ما الفرق بين أجهزة الدوران المفتوحة والمغلقة؟', op: ['المغلقة لا تحتوي على أوعية دموية', 'المغلقة لا تنقل الأكسجين', 'المفتوحة لا تحتوي على قلب', 'المفتوحة تدفع الدم مباشرة للأنسجة'], a: 3, hint: 'في أيّهما يبقى الدم داخل الأوعية؟', fix: 'المفتوح: يضخّ القلب الدم مباشرة إلى الأنسجة (الجرادة). المغلق: يبقى الدم في الأوعية (الإنسان).', sim: { q: 'أيّ الحيوانات جهاز دورانه مفتوح؟', op: ['الجرادة', 'القط', 'السمكة'], a: 0 } },
   { k: 'استنتاج', q: 'لماذا تحتاج المخلوقات إلى جهاز دوران؟', op: ['للتكاثر', 'لنقل الأكسجين والفضلات', 'للهضم', 'للتنفس فقط'], a: 1, hint: 'ماذا ينقل الدم؟', fix: 'الدوران ينقل الأكسجين والغذاء إلى الخلايا ويخلّصها من الفضلات.', sim: { q: 'ماذا ينقل الدم إلى الخلايا؟', op: ['الأكسجين والغذاء', 'الهواء فقط', 'العظام'], a: 0 } },
 ];
+// أرقام صفحات «تدريبات وأنشطة نافس – العلوم ٦» (ملف PDF) لكل سؤال
+const NPG = [[/ضخ الدم|توقف عمل الرئتين/, '٨'], [/تركيب لأعضاء/, '٨، ٩'], [/هذا العضو|توقف عمل المعدة|لهذه الأعضاء/, '٩'],
+  [/البرمائيات|الأسماك|الدوران المفتوحة|الطيور والثدييات|جهاز دوران/, '١٠'], [/العضو في الصورة|القفص الصدري|أزواج متقابلة|المفلطحة|صفحات الكتاب/, '١١'],
+  [/التنفس الخلوي/, '٥'], [/مجموعة من الأعضاء/, '٢']];
+const npg = (q) => { const f = NPG.find(([re]) => re.test(q)); return f ? f[1] : ''; };
 let ns = 0;
 function nafs(i, sim) {
   if (i === 0 && !sim) ns = 0;
   const box = $('#nbody');
   const head = `<span class="strat"><b>الاستراتيجية:</b> التعلم النشط – نواتج التعلم – اختبار نافس</span>
-    <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${NO}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة${i < NQ.length ? ` • <span class="nlab sk">${NQ[i].k}</span>` : ''}</div></div>`;
+    <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${NO} ${i < NQ.length && npg(NQ[i].q) ? `<span class="nlab pg">📄 المذكرة ص${npg(NQ[i].q)}</span>` : ''}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة${i < NQ.length ? ` • <span class="nlab sk">${NQ[i].k}</span>` : ''}</div></div>`;
   if (i >= NQ.length) { box.innerHTML = head + `<div class="mend" style="text-align:center"><div style="font-size:64px">🏆</div><h2>أنجزتِ تدريبات نافس!</h2><p class="score">⭐ ${ar(ns)} / ${ar(NQ.length)}</p><button class="btn main" onclick="nafs(0)">🔁 من جديد</button></div>`; confetti(); return; }
   const it = NQ[i], t = sim ? it.sim : it; let tries = 0;
   box.innerHTML = head + `<p class="score">${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(NQ.length)}`} • ⭐ ${ar(ns)}</p>
