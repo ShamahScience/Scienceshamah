@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ماذا يحدث عندما يتغير النظام البيئي؟ – درس تفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --green: #1b5e20; --leaf: #2f8a3a; --mint: #e3f4d7; --cream: #fffbef; --ink: #23293a; --pink: #c2366f; --red: #d23b3b; --gold: #f5c242; --sky: #dff1fb; --rose: #fde4ec; --yel: #fff3c4; --lav: #eee8fb; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #eef5e8; }
+  img { max-width: 100%; display: block; }
+  main img { cursor: zoom-in; }
+  .flags { width: 100%; height: 70px; object-fit: cover; object-position: center top; }
+  header { max-width: 1100px; margin: 0 auto; padding: 8px 14px 0; display: flex; align-items: center; gap: 12px; }
+  header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 20%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
+  header h1 { margin: 0; font-size: 26px; color: var(--green); line-height: 1.4; }
+  header p { margin: 0; font-size: 16px; color: #4a5468; }
+  .tabs { max-width: 1100px; margin: 10px auto 0; padding: 0 14px; display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: #eef5e8; padding-bottom: 8px; }
+  .tab { flex: 1; min-width: 120px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 16px; padding: 10px 8px; font: inherit; font-size: 19px; cursor: pointer; }
+  .tab.on { background: var(--green); color: #fff; box-shadow: 0 4px 0 #0f3a13; }
+  main { max-width: 1100px; margin: 0 auto; padding: 6px 14px 30px; }
+  .panel { display: none; } .panel.on { display: block; }
+  .box { background: #fff; border: 3px solid var(--green); border-radius: 22px; padding: 16px; box-shadow: 0 5px 0 #c8dfc0; margin-bottom: 14px; }
+  .strat { display: inline-block; background: var(--cream); border: 2px dashed var(--gold); border-radius: 30px; padding: 2px 14px; font-size: 16px; margin-bottom: 8px; }
+  .strat b { color: var(--pink); }
+  h2 { margin: 2px 0 8px; color: var(--green); font-size: 24px; }
+  p, li { font-size: 19px; line-height: 1.9; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .page { border: 3px solid var(--leaf); border-radius: 14px; cursor: zoom-in; }
+  .cap { text-align: center; font-size: 14px; color: #5a6785; margin-top: 4px; }
+  .flip { border: 3px solid var(--ink); border-radius: 16px; background: var(--yel); padding: 10px 12px; margin: 10px 0; cursor: pointer; font-size: 19px; line-height: 1.8; }
+  .flip .a { display: none; margin-top: 6px; padding-top: 6px; border-top: 2px dashed #b9a24a; color: var(--leaf); }
+  .flip.open { background: #f3fbe9; border-color: var(--leaf); }
+  .flip.open .a { display: block; }
+  .flip .k { font-size: 14px; color: #6b4fc0; display: block; }
+  .flip .hint { font-size: 13px; color: #7a869e; }
+  /* stations layout like a video chapter list */
+  .stations { display: grid; grid-template-columns: 290px 1fr; gap: 14px; align-items: start; }
+  @media (max-width: 860px) { .stations { grid-template-columns: 1fr; } }
+  .list { background: linear-gradient(180deg, #1b5e20, #2f8a3a); border-radius: 22px; padding: 12px; color: #fff; position: sticky; top: 70px; }
+  @media (max-width: 860px) { .list { position: static; } }
+  .list h3 { margin: 4px 6px 8px; font-size: 20px; }
+  .list small { display: block; margin: -6px 6px 8px; font-size: 13px; opacity: .85; }
+  .st { display: flex; align-items: center; gap: 8px; width: 100%; background: rgba(255,255,255,.12); border: 2px solid transparent; color: #fff; border-radius: 14px; padding: 8px 10px; margin: 6px 0; font: inherit; font-size: 17px; cursor: pointer; text-align: right; }
+  .st .n { background: #fff; color: var(--green); border-radius: 8px; padding: 0 8px; font-size: 14px; }
+  .st.on { background: #fff; color: var(--green); border-color: var(--gold); }
+  .st.done::after { content: '✔'; margin-inline-start: auto; color: #c9f0c0; }
+  .st.on.done::after { color: var(--leaf); }
+  .nav { display: flex; gap: 10px; margin-top: 10px; }
+  .btn { border: 3px solid var(--ink); border-radius: 14px; background: var(--cream); color: var(--ink); font: inherit; font-size: 18px; padding: 9px 14px; cursor: pointer; }
+  .btn.main { background: var(--leaf); border-color: var(--green); color: #fff; }
+  .btn.ok { background: #c9f0c0; border-color: var(--leaf); }
+  .btn.no { background: #fde2e2; border-color: var(--red); animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .ce { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 6px; align-items: center; margin: 6px 0; }
+  .ce .c { background: var(--rose); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e { background: var(--sky); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e.hide { color: transparent; background: repeating-linear-gradient(45deg, #eef2f7, #eef2f7 8px, #e2e8f0 8px, #e2e8f0 16px); cursor: pointer; }
+  .ce .ar { text-align: center; font-size: 22px; color: #e67e22; }
+  .verse { text-align: center; font-size: 24px; color: var(--green); background: var(--mint); border-radius: 14px; padding: 8px; margin: 8px 0; }
+  .vocab { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media (max-width: 600px) { .vocab { grid-template-columns: repeat(2, 1fr); } }
+  .vocab .flip { text-align: center; margin: 0; }
+  /* virtual experiment */
+  .lab { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; }
+  .pot { background: #fbfdf9; border: 3px dashed var(--leaf); border-radius: 18px; padding: 8px; }
+  .pot svg { width: 100%; max-width: 220px; height: auto; }
+  .day { display: flex; align-items: center; gap: 10px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
+  .day input { width: 220px; accent-color: var(--leaf); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 16px; }
+  th, td { border: 2px solid #9cc79a; padding: 5px; text-align: center; }
+  th { background: var(--green); color: #fff; }
+  /* games */
+  .gamecards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 760px) { .gamecards { grid-template-columns: 1fr; } }
+  .gcard { border: 3px solid var(--green); border-radius: 20px; background: var(--cream); padding: 12px; text-align: center; cursor: pointer; font: inherit; color: var(--ink); }
+  .gcard .ic { font-size: 46px; }
+  .gcard b { display: block; font-size: 20px; color: var(--green); }
+  .play { margin-top: 12px; }
+  .opts { display: grid; gap: 8px; }
+  .opts .btn { text-align: right; }
+  .pic { width: 220px; max-width: 70%; margin: 6px auto; border-radius: 16px; border: 3px solid var(--leaf); }
+  .msg { min-height: 30px; text-align: center; font-size: 19px; margin-top: 6px; }
+  .msg.good { color: var(--leaf); } .msg.bad { color: var(--red); }
+  .score { text-align: center; font-size: 18px; }
+  .level { display: inline-block; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-bottom: 4px; }
+  .zoom { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 20; padding: 12px; }
+  .zoom.on { display: flex; }
+  footer { text-align: center; color: #6b4fc0; font-size: 18px; padding: 10px; }
+  .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
+
+  /* ── Computer screen: everything fits in one landscape screen, no page scrolling ── */
+  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: #6b4fc0; border-radius: 30px; padding: 4px 16px; font-size: 19px; white-space: nowrap; }
+  .fs { border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
+  @media (min-width: 900px) and (orientation: landscape) and (max-height: 720px) {
+    header p { display: none; } header img.girl { width: 40px; height: 40px; } header h1 { font-size: 21px; }
+    .tab { padding: 4px 8px; font-size: 17px; } .box { padding: 10px 14px; }
+  }
+  @media (min-width: 900px) and (orientation: landscape) {
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .flags { height: 6vh; min-height: 34px; }
+    header, .tabs, main { max-width: none; width: 100%; }
+    header { padding: 4px 18px 0; }
+    header img.girl { width: 52px; height: 52px; }
+    header h1 { font-size: 24px; }
+    .tabs { margin-top: 6px; padding: 0 18px 6px; position: static; }
+    .tab { padding: 6px 8px; font-size: 19px; }
+    main { flex: 1; min-height: 0; padding: 4px 18px 4px; }
+    footer { padding: 0 0 4px; font-size: 15px; }
+    .panel.on { height: 100%; }
+    .box { margin-bottom: 0; }
+    .scroll { overflow-y: auto; min-height: 0; }
+    /* start: rules | flag | goals */
+    #start.on { display: flex; flex-direction: column; }
+    #start .show { flex: 1; height: auto; min-height: 0; }
+    /* stations: list | content (book page | explanation) */
+    .stations { height: 100%; grid-template-columns: 260px 1fr; }
+    .list { position: static; height: 100%; overflow-y: auto; }
+    #stBody, #stBody > .box { height: 100%; min-height: 0; }
+    #stBody > .box { display: flex; flex-direction: column; }
+    #stBody .body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 16px; }
+    #stBody .body > .pagecol { min-height: 0; position: relative; }
+    #stBody .body > .pagecol img.page { position: absolute; top: 0; right: 0; left: 0; bottom: 24px; width: 100%; height: calc(100% - 24px); object-fit: contain; border: 0; }
+    #stBody .body > .pagecol .cap { position: absolute; bottom: 0; right: 0; left: 0; }
+    #stBody .body > .txt { overflow-y: auto; min-height: 0; padding-inline-end: 4px; }
+    #stBody .extra { display: none; }
+    #stBody > .box { overflow: hidden; }
+    #stBody .nav { flex: none; }
+    #stBody .txt img { max-height: 24vh; width: auto; margin: 0 auto; }
+    #stBody .txt .flip { margin: 6px 0; padding: 6px 10px; font-size: 17px; line-height: 1.6; }
+    #stBody .txt p { font-size: 17px; line-height: 1.7; margin: 4px 0; }
+    #stBody .txt h2 { font-size: 18px !important; margin: 4px 0; }
+    #stBody .txt .verse { font-size: 18px !important; padding: 4px; margin: 4px 0; }
+    #stBody .txt .ce { margin: 3px 0; } #stBody .txt .ce .c, #stBody .txt .ce .e { font-size: 16px; padding: 3px 8px; }
+    #stBody .txt .grid2 { gap: 8px; }
+    #stBody .txt .cap { font-size: 12px; margin: 0; }
+    #stBody .txt .lab svg { max-height: 16vh; }
+    #stBody .txt .vocab .flip { font-size: 15px; padding: 4px; }
+    #stBody > .box h2 { font-size: 21px; margin: 0 0 4px; }
+    .nav { margin-top: 6px; }
+    /* questions: three columns */
+    #questions.on { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    #questions .box { overflow-y: auto; min-height: 0; }
+    /* games: games | exit ticket */
+    #games.on { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+    #games .box { overflow-y: auto; min-height: 0; }
+    #games .gamecards { grid-template-columns: repeat(3, 1fr); }
+    .gcard .ic { font-size: 36px; }
+    .pic { width: auto; max-height: 22vh; }
+    #play .opts { grid-template-columns: repeat(3, 1fr); }
+    #play .opts .btn { text-align: center; }
+  }
+
+  /* start slideshow: one picture at a time, always shown whole */
+  .show { position: relative; height: 62vh; min-height: 260px; }
+  .slide { display: none; position: absolute; inset: 0; }
+  .slide.on { display: block; }
+  .slide > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 14px; }
+  .slide.goals { overflow-y: auto; }
+  .slide.goals .box { max-width: 760px; margin: 0 auto; }
+  .dots { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; font-size: 18px; }
+
+  .zoom { flex-direction: column; gap: 8px; padding: 8px; background: rgba(24, 36, 26, .92); }
+  .zoom .tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; background: #fff; border-radius: 16px; padding: 6px 10px; border: 3px solid var(--green); }
+  .zoom .tools button { font: inherit; font-size: 16px; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 4px 10px; cursor: pointer; color: var(--ink); }
+  .zoom .tools .tl.on, .zoom .tools .sz.on { background: var(--mint); border-color: var(--leaf); }
+  .zoom .tools .cl { width: 32px; height: 32px; border-radius: 50%; padding: 0; }
+  .zoom .tools .cl.on { outline: 4px solid var(--green); outline-offset: 2px; }
+  .zoom .tools .sz { width: 40px; height: 36px; padding: 0; line-height: 1; color: var(--ink); }
+  .zoom .tools .close { background: var(--red); color: #fff; border-color: var(--red); }
+  .zoom .tools .sep { width: 2px; height: 26px; background: #dde5d7; }
+  .stage { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+  .stage img { max-width: 100%; max-height: 100%; border-radius: 8px; user-select: none; -webkit-user-drag: none; }
+  .stage canvas { position: absolute; touch-action: none; cursor: crosshair; }
+
+  .startot { border: 3px solid var(--gold); background: #fff8dc; color: #8a6400; border-radius: 30px; padding: 4px 14px; font: inherit; font-size: 18px; cursor: pointer; white-space: nowrap; margin-inline-start: auto; }
+  .startot.snd { margin-inline-start: auto; padding: 4px 10px; }
+  .startot.snd + .startot { margin-inline-start: 0; }
+  .startot.bump { animation: bump .5s; } @keyframes bump { 40% { transform: scale(1.25); } }
+  .teacher { margin-inline-start: 0 !important; }
+  .award { position: fixed; z-index: 40; pointer-events: none; text-align: center; transform: translate(-50%, -50%); animation: rise 1.6s ease-out forwards; }
+  .award .s { font-size: 54px; line-height: 1; filter: drop-shadow(0 3px 2px rgba(0,0,0,.25)); }
+  .award .t { display: inline-block; margin-top: 4px; background: #fff; border: 3px solid var(--gold); color: var(--pink); border-radius: 20px; padding: 2px 14px; font-size: 20px; white-space: nowrap; }
+  .award.two .t { background: #6b4fc0; color: #fff; border-color: #fff3c4; }
+  @keyframes rise { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.4); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 70% { opacity: 1; transform: translate(-50%, -80%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -140%) scale(.9); } }
+  .flip[data-stars="2"] .k::after { content: ' ⭐⭐'; }
+  .sim { border: 3px dashed var(--leaf); border-radius: 16px; background: #fbfdf9; padding: 8px 10px; margin: 6px 0; text-align: center; }
+  .simtop { display: flex; justify-content: space-between; font-size: 17px; }
+  .pandas { font-size: 34px; letter-spacing: 2px; min-height: 48px; margin: 4px 0; }
+  .simbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .simbtns .btn { font-size: 16px; padding: 5px 8px; }
+  .btn.no2 { background: #fde2e2; border-color: var(--red); }
+  .note2 { background: var(--cream); border: 2px dashed var(--gold); border-radius: 12px; padding: 6px 10px; font-size: 16px; margin: 6px 0; line-height: 1.7; }
+</style>
+</head>
+<body>
+<img class="flags" src="img/flags.jpg" alt="">
+<header>
+  <img class="girl" src="img/girl.jpg" alt="العالمة الصغيرة">
+  <div><h1>ماذا يحدث عندما يتغيّر النظام البيئي؟</h1><p>العلوم – الصف الرابع الابتدائي • الدرس الثالث (تابع) • ص١٢٦–١٢٩</p></div>
+  <button class="startot snd" id="sndBtn" title="صوت التعزيز" onclick="toggleSound()">🔔</button>
+  <button class="startot" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ نجوم الفصل: <b id="starN">٠</b></button>
+  <span class="teacher">💚 أ/ شامه البقمي</span>
+  <button class="fs" id="fsBtn" onclick="fullscreen()">⛶ ملء الشاشة</button>
+</header>
+
+<nav class="tabs">
+  <button class="tab on" data-p="start">🏁 البداية</button>
+  <button class="tab" data-p="stations">📍 محطات الدرس</button>
+  <button class="tab" data-p="questions">❓ الأسئلة</button>
+  <button class="tab" data-p="games">🎮 الألعاب</button>
+</nav>
+
+<main>
+<!-- ═════ البداية -->
+<section class="panel on" id="start">
+  <div class="show">
+    <div class="slide on"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
+    <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
+    <div class="slide goals"><div class="box">
+      <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
+      <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
+      <ol>
+        <li>أعرّف المواءمة، وأذكر مثالًا عليها.</li>
+        <li>أوضّح لماذا تنتقل بعض المخلوقات إلى أماكن جديدة.</li>
+        <li>أعرّف الانقراض، وأذكر أسبابه.</li>
+        <li>أذكر طرقًا لمنع الانقراض، وجهود المملكة في حماية البيئة.</li>
+      </ol>
+      <button class="btn main" onclick="go('stations')">ابدئي المحطات 🚀</button>
+    </div></div>
+  </div>
+  <div class="dots">
+    <button class="btn" onclick="slide(-1)">→ السابق</button>
+    <span id="dotT">١ / ٣</span>
+    <button class="btn main" onclick="slide(1)">التالي ←</button>
+  </div>
+</section>
+
+<!-- ═════ محطات الدرس -->
+<section class="panel" id="stations">
+  <div class="stations">
+    <aside class="list">
+      <h3>📍 محطات الدرس</h3>
+      <small>اضغطي على المحطة للانتقال إليها</small>
+      <div id="stList"></div>
+    </aside>
+    <div id="stBody"></div>
+  </div>
+</section>
+
+<!-- ═════ الأسئلة -->
+<section class="panel" id="questions">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> مستويات التفكير الثلاثة</span>
+    <h2>❓ التقويم التكويني</h2>
+    <p style="margin:0">فكّري أولًا… ثم اضغطي على السؤال لتظهر الإجابة.</p>
+    <div id="formative"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> أختبر نفسي (من الكتاب)</span>
+    <h2>📖 أسئلة الكتاب</h2>
+    <div id="book"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التقويم الختامي</span>
+    <h2>🏆 اختبري نفسك</h2>
+    <div id="quiz"></div>
+  </div>
+</section>
+
+<!-- ═════ الألعاب -->
+<section class="panel" id="games">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم باللعب</span>
+    <h2>🎮 اختاري لعبة</h2>
+    <div class="gamecards">
+      <button class="gcard" onclick="game('what')"><div class="ic">🧭</div><b>ماذا يحدث له؟</b>مواءمة أم انتقال أم انقراض؟</button>
+      <button class="gcard" onclick="game('save')"><div class="ic">🛡️</div><b>أنقذي الحيوان</b>يحميه أم يهدّده؟</button>
+      <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي الكلمة من وصفها</button>
+    </div>
+    <div class="play" id="play"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> بطاقة الخروج</span>
+    <h2>🎫 بطاقة الخروج</h2>
+    <p>١) المواءمة هي: ……………………………………</p>
+    <p>٢) الانقراض هو: ……………………………………</p>
+    <p>٣) طريقة لمنع الانقراض: ……………………………</p>
+    <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
+  </div>
+</section>
+</main>
+<footer>أ/ شامه البقمي 💚</footer>
+<div class="zoom" id="zoom">
+  <div class="tools" id="tools">
+    <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
+    <button class="tl" data-tool="hl" title="تظليل">🖍️ تظليل</button>
+    <button class="tl" data-tool="er" title="ممحاة">🧽 ممحاة</button>
+    <span class="sep"></span>
+    <button class="cl on" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
+    <button class="cl" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
+    <button class="cl" data-c="#1b8a3a" style="background:#1b8a3a" title="أخضر"></button>
+    <button class="cl" data-c="#111111" style="background:#111" title="أسود"></button>
+    <button class="cl" data-c="#ffd400" style="background:#ffd400" title="أصفر"></button>
+    <span class="sep"></span>
+    <button class="sz" data-s="3" title="رفيع">●</button>
+    <button class="sz on" data-s="6" title="متوسط" style="font-size:22px">●</button>
+    <button class="sz" data-s="11" title="عريض" style="font-size:30px">●</button>
+    <span class="sep"></span>
+    <button class="tl" onclick="undo()">↩️ رجوع</button>
+    <button class="tl" onclick="clearInk()">🗑️ مسح الكل</button>
+    <button class="tl close" onclick="closeZoom()">✕ إغلاق</button>
+  </div>
+  <div class="stage" id="stage"><img id="zimg" alt=""><canvas id="ink"></canvas></div>
+</div>
+
+<script src="scenes.js"></script>
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = (s) => document.querySelector(s);
+// Higher-order questions (critical thinking, challenge, inference) earn two stars, the rest one
+const CRIT = /التفكير الناقد|أتحدّى نفسي|أستنتج/;
+const flip = (q, a, k) => `<div class="flip" data-stars="${CRIT.test((k || '') + q) ? 2 : 1}" onclick="openFlip(this)">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
+const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي – اضغطي للتكبير</div>`;
+
+
+// Soft reward chime made in the browser: one star = gentle chime, two stars = brighter double chime
+let soundOn = true, actx = null;
+function toggleSound() { soundOn = !soundOn; document.getElementById('sndBtn').textContent = soundOn ? '🔔' : '🔕'; }
+function chime(n) {
+  if (!soundOn) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+    const notes = n > 1 ? [659.3, 830.6, 987.8, 1318.5] : [784, 1046.5];
+    notes.forEach((f, i) => {
+      const t = actx.currentTime + i * 0.11, o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.5);
+    });
+  } catch (e) { /* no audio available */ }
+}
+let starTotal = 0;
+function award(n, el) {
+  starTotal += n;
+  chime(n);
+  const t = document.getElementById('starN'); t.textContent = ar(starTotal);
+  const b = document.getElementById('starTot'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  const r = el ? el.getBoundingClientRect() : { left: innerWidth / 2, width: 0, top: innerHeight / 2, height: 0 };
+  const a = document.createElement('div');
+  a.className = 'award' + (n > 1 ? ' two' : '');
+  a.innerHTML = `<div class="s">${'⭐'.repeat(n)}</div><div class="t">${n > 1 ? 'تفكير ناقد رائع! نجمتان' : 'أحسنتِ! نجمة'}</div>`;
+  a.style.left = Math.min(innerWidth - 120, Math.max(120, r.left + r.width / 2)) + 'px';
+  a.style.top = Math.max(90, r.top + r.height / 2) + 'px';
+  document.body.appendChild(a); setTimeout(() => a.remove(), 1700);
+  if (n > 1) confetti();
+}
+function resetStars() { starTotal = 0; document.getElementById('starN').textContent = ar(0); }
+function openFlip(el) {
+  el.classList.toggle('open');
+  if (el.classList.contains('open') && !el.dataset.got) { el.dataset.got = 1; award(+el.dataset.stars || 1, el); }
+}
+function fullscreen() {
+  const d = document;
+  if (!d.fullscreenElement && !d.webkitFullscreenElement) (d.documentElement.requestFullscreen || d.documentElement.webkitRequestFullscreen).call(d.documentElement);
+  else (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+}
+document.addEventListener('fullscreenchange', () => { document.getElementById('fsBtn').textContent = document.fullscreenElement ? '✕ خروج من ملء الشاشة' : '⛶ ملء الشاشة'; });
+let si = 0;
+function slide(d) {
+  const all = document.querySelectorAll('#start .slide');
+  si = (si + d + all.length) % all.length;
+  all.forEach((x, k) => x.classList.toggle('on', k === si));
+  document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
+}
+// ───── Enlarged page with pen, highlighter and eraser; ink is kept per picture for this visit
+const INK = {};
+let tool = 'pen', color = '#d23b3b', size = 6, drawing = false, last = null, curSrc = '';
+const cv = () => document.getElementById('ink');
+function zoom(src) {
+  curSrc = src;
+  const im = $('#zimg');
+  im.onload = fitInk;
+  im.src = src;
+  $('#zoom').classList.add('on');
+  if (im.complete) fitInk();
+}
+function closeZoom() { saveInk(); $('#zoom').classList.remove('on'); }
+function fitInk() {
+  const im = $('#zimg'), c = cv(), st = $('#stage').getBoundingClientRect(), r = im.getBoundingClientRect();
+  c.style.left = (r.left - st.left) + 'px'; c.style.top = (r.top - st.top) + 'px';
+  c.style.width = r.width + 'px'; c.style.height = r.height + 'px';
+  // drawing buffer in picture pixels, so ink stays put at any window size
+  c.width = im.naturalWidth * 2; c.height = im.naturalHeight * 2;
+  const g = c.getContext('2d'); g.clearRect(0, 0, c.width, c.height);
+  const st0 = INK[curSrc];
+  if (st0 && st0.length) restore(st0[st0.length - 1]);
+}
+function restore(url) { const g = cv().getContext('2d'), i = new Image(); i.onload = () => { g.clearRect(0, 0, cv().width, cv().height); g.drawImage(i, 0, 0); }; i.src = url; }
+function saveInk() { if (!curSrc) return; (INK[curSrc] = INK[curSrc] || []).push(cv().toDataURL()); if (INK[curSrc].length > 30) INK[curSrc].shift(); }
+function undo() {
+  const h = INK[curSrc] || [];
+  h.pop();
+  if (h.length) restore(h[h.length - 1]); else cv().getContext('2d').clearRect(0, 0, cv().width, cv().height);
+}
+function clearInk() { cv().getContext('2d').clearRect(0, 0, cv().width, cv().height); saveInk(); }
+function pos(e) { const c = cv(), r = c.getBoundingClientRect(); return [(e.clientX - r.left) * c.width / r.width, (e.clientY - r.top) * c.height / r.height]; }
+function stroke(a, b) {
+  const c = cv(), g = c.getContext('2d'), k = c.width / c.getBoundingClientRect().width;
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  if (tool === 'er') { g.globalCompositeOperation = 'destination-out'; g.lineWidth = 28 * k; g.globalAlpha = 1; }
+  else if (tool === 'hl') { g.globalCompositeOperation = 'multiply'; g.lineWidth = 22 * k; g.globalAlpha = 0.35; g.strokeStyle = color; }
+  else { g.globalCompositeOperation = 'source-over'; g.lineWidth = size * k; g.globalAlpha = 1; g.strokeStyle = color; }
+  g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke();
+}
+(function initInk() {
+  const c = cv();
+  c.addEventListener('pointerdown', (e) => { drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
+  c.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); stroke(last, p); last = p; });
+  const end = () => { if (drawing) { drawing = false; saveInk(); } };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+  document.querySelectorAll('#tools .tl[data-tool]').forEach((b) => b.onclick = () => { tool = b.dataset.tool; document.querySelectorAll('#tools .tl[data-tool]').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .cl').forEach((b) => b.onclick = () => { color = b.dataset.c; if (tool === 'er') document.querySelector('#tools [data-tool="pen"]').click(); document.querySelectorAll('#tools .cl').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .sz').forEach((b) => b.onclick = () => { size = +b.dataset.s; document.querySelectorAll('#tools .sz').forEach((x) => x.classList.toggle('on', x === b)); });
+  window.addEventListener('resize', () => { if ($('#zoom').classList.contains('on')) { saveInk(); fitInk(); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#zoom').classList.contains('on')) closeZoom(); });
+})();
+function confetti() {
+  for (let k = 0; k < 14; k++) {
+    const s = document.createElement('div'); s.className = 'confetti'; s.textContent = ['⭐', '🌿', '💚', '✨'][k % 4];
+    s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .4 + 's';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 2200);
+  }
+}
+function go(p) {
+  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.dataset.p === p));
+  document.querySelectorAll('.panel').forEach((x) => x.classList.toggle('on', x.id === p));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.tab').forEach((t) => t.onclick = () => go(t.dataset.p));
+
+// ───── Stations
+const STATIONS = [
+  { icon: '🔥', name: 'ماذا يحدث عند الحريق؟', page: 126, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> أتخيّل – العصف الذهني</span><h2>🔥 ماذا يحدث عندما يتغيّر النظام البيئي؟</h2>
+    <div class="grid2 body"><div class="pagecol">${page(126)}</div><div class="txt">
+      <img src="img/fire.jpg" alt="حريق في الغابة" class="pic">
+      <p>أتخيّل: اندلع حريق في الغابة، وامتدّت ألسنة اللهب بين الأشجار… ${watch('fire')}</p>
+      ${flip('ماذا يفعل الغزال عندما يشمّ رائحة الحريق؟', 'يرفع رأسه ويستنشق الهواء، ثم يهرب.')}
+      ${flip('كيف تبقى النباتات والحيوانات على قيد الحياة؟', 'بعضها يغيّر سلوكه، وبعضها ينتقل إلى مكان آخر.')}
+      <p style="color:var(--pink)">🤔 فكّري… ثم شاركي زميلتك</p></div></div>` },
+  { icon: '🦌', name: 'المواءمة', page: 126, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> المفردة البصرية – المثال واللامثال</span><h2>🦌 المواءمة</h2>
+    <div class="grid2 body"><div class="pagecol">${page(126)}</div><div class="txt">
+      ${flip('المواءمة هي…', 'استجابة الحيوان للتغيّر الحادث في بيئته.', 'المفردة')}
+      <p>وهب الله بعض المخلوقات القدرة على الاستمرار في الحياة؛ فقد تغيّر سلوكها أو مسكنها. ${watch('adapt')}</p>
+      ${flip('الحرائق دمّرت الأوراق… فماذا يأكل الغزال؟', 'يأكل لحاء الأشجار بدل الأوراق.')}
+      ${flip('وبعض الحيوانات الأخرى ماذا تفعل؟', 'تتّخذ من نباتات أو مواد جديدة مسكنًا لها.')}
+      <div class="ce"><div class="c">🔥 الحريق يدمّر الغذاء</div><div class="ar">←</div><div class="e hide" onclick="if(this.classList.contains('hide')){this.classList.remove('hide');award(1,this)}">الغزال يغيّر غذاءه</div></div>
+      <div class="ce"><div class="c">🏚️ تهدّم المسكن</div><div class="ar">←</div><div class="e hide" onclick="if(this.classList.contains('hide')){this.classList.remove('hide');award(1,this)}">يتّخذ مسكنًا جديدًا</div></div>
+    </div></div>` },
+  { icon: '🐦', name: 'الانتقال إلى أماكن جديدة', page: 126, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> أقرأ الصورة – السبب والنتيجة</span><h2>🐦 الانتقال إلى أماكن جديدة</h2>
+    <div class="grid2 body"><div class="pagecol">${page(126)}</div><div class="txt">
+      <p>ليست كل المخلوقات قادرة على التعايش مع التغيّرات؛ لذا يلجأ بعضها إلى تغيير مسكنه. ${watch('move')}</p>
+      ${flip('عن ماذا تبحث المخلوقات في المكان الجديد؟', 'عن الغذاء والماء والمسكن المناسب.')}
+      <img src="img/crow.jpg" alt="غراب على غصن" class="pic">
+      ${flip('أقرأ الصورة: هل المباني في المدن هي النظام البيئي الطبيعي للطيور؟', 'لا؛ بيئتها الطبيعية الأشجار والغابات، لكنها انتقلت إلى المدن.')}
+      ${flip('أستنتج: كيف يكون الحريق أحيانًا مفيدًا للغابة؟', 'يرحل بعض الحيوانات، فتجد المخلوقات الباقية حاجاتها بوفرة ولا تحتاج إلى التنافس.', 'أستنتج')}
+    </div></div>` },
+  { icon: '🦖', name: 'الانقراض', page: 127, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – بطاقات المفردات</span><h2>🦖 الانقراض</h2>
+    <div class="grid2 body"><div class="pagecol">${page(127)}</div><div class="txt">
+      ${flip('الانقراض هو…', 'اختفاء أو عدم وجود أفراد النوع كلّها.', 'المفردة')}
+      <p>إذا لم تتكيّف المخلوقات مع تغيّرات بيئتها، ولم تحصل على الغذاء والمأوى، فسوف تموت. ${watch('extinct')}</p>
+      <div class="grid2"><div><img src="img/fossil.jpg" alt="أحفورة ديناصور" style="border-radius:10px"><div class="cap">أحفورة ديناصور 🦴</div></div><div><img src="img/leopard.jpg" alt="النمر العربي" style="border-radius:10px"><div class="cap">النمر العربي ⚠️</div></div></div>
+      ${flip('كيف عرف العلماء المخلوقات المنقرضة؟', 'من دراسة الأحافير: بقايا وآثار المخلوقات في الصخور.')}
+      ${flip('ما الأنواع المهدّدة بالانقراض؟', 'الأنواع التي بقيت منها أعداد قليلة.')}
+      ${flip('اذكري حيوانين مهدّدين بالانقراض في المملكة.', 'طائر الحبارى (بسبب الصيد الجائر)، والنمر العربي.')}
+    </div></div>` },
+  { icon: '🐼', name: 'كيف نمنع الانقراض؟', page: 128, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> المحاكاة – حلّ المشكلات</span><h2>🐼 كيف يمكن للناس منع الانقراض؟</h2>
+    <div class="grid2 body"><div class="pagecol">${page(128)}</div><div class="txt">
+      <p>أحيانًا يكون <b>الناس</b> سبب الانقراض: يبنون البيوت، ويزرعون، ويصيدون. ${watch('protect')}</p>
+      ${flip('لماذا أصبحت الدببة العملاقة (الباندا) مهدّدة؟', 'لأن الناس قطعوا أشجار الخيزران التي تأكلها.')}
+      <div class="sim" id="sim"></div>
+      <div class="note2">🔍 <b>حقيقة:</b> ليست الأنواع المهدّدة بالانقراض كلّها ستنقرض بالفعل.</div>
+    </div></div>`, after: () => sim(0) },
+  { icon: '🇸🇦', name: 'جهود المملكة', page: 128, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الربط بالوطن – رؤية ٢٠٣٠</span><h2>🇸🇦 المملكة تحمي البيئة</h2>
+    <div class="grid2 body"><div class="pagecol">${page(128)}</div><div class="txt">
+      <p>حماية البيئة نظام أساسي اهتمّت به المملكة ضمن رؤية ٢٠٣٠. ${watch('oryx')}</p>
+      <img src="img/oryx.jpg" alt="المها العربي" class="pic">
+      ${flip('١) ماذا أنشأت المملكة لحماية البيئة؟', 'المحميات الملكية، ولجانًا متخصصة، وقوانين لدخولها.')}
+      ${flip('٢) ما معنى إعادة توطين الحيوانات؟', 'إطلاقها في المحميات لتعيش وتتكاثر من جديد.')}
+      <table><tr><th>الحيوان</th><th>العدد المُطلَق</th></tr>
+        <tr><td>🐐 وعل جبلي</td><td>١٥٠</td></tr><tr><td>🦌 مها عربي</td><td>٦٨</td></tr><tr><td>🦅 صقر محلي</td><td>٣٠</td></tr><tr><td>🦌 ظبي إدمي</td><td>٣٠</td></tr><tr><td>🦌 ظبي الريم</td><td>٥٢١</td></tr></table>
+      ${flip('أقرأ الجدول: أيّ الحيوانات أُطلق منها العدد الأكبر؟', 'ظبي الريم (٥٢١).')}
+    </div></div>` },
+  { icon: '📝', name: 'مراجعة الدرس والمطوية', page: 129, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> المطويات – أنظّم أفكاري</span><h2>📝 مراجعة الدرس</h2>
+    <div class="grid2 body"><div class="pagecol">${page(129)}</div><div class="txt">
+      <p>🗂️ مطويتي: اضغطي على كل جزء لتفتحيه</p>
+      ${flip('تتغيّر الأنظمة البيئية بسبب…', 'ظواهر طبيعية، ومخلوقات حية، ونشاطات بشرية.', 'الجزء ١')}
+      ${flip('عندما يتغيّر النظام البيئي فإن المخلوقات…', 'تتواءم، أو تنتقل إلى مكان آخر، أو تنقرض.', 'الجزء ٢')}
+      ${flip('يستطيع الناس…', 'حماية المخلوقات الحية وبيئاتها.', 'الجزء ٣')}
+      <div class="grid2">
+        <div class="note2">✍️ <b>العلوم والكتابة:</b> أكتب مقالة لصحيفة أدعو فيها إلى حماية منطقة طبيعية.</div>
+        <div class="note2">🤝 <b>العلوم والمجتمع:</b> أبحث عن حيوان أو نبات مهدّد في بيئتي، وأقترح طريقة لحمايته.</div>
+      </div>
+    </div></div>` },
+];
+// ───── Simulation: protect the pandas
+let pandas = 6, simWas = 'safe';
+function sim(d, el) {
+  if (d === 'reset') pandas = 6; else pandas = Math.max(0, Math.min(10, pandas + d));
+  const st = pandas === 0 ? 'gone' : pandas <= 3 ? 'risk' : 'safe';
+  if (st === 'safe' && simWas === 'risk') award(2, el);
+  simWas = st;
+  const label = { safe: ['💚 آمنة', 'var(--leaf)'], risk: ['⚠️ مهدّدة بالانقراض', '#e67e22'], gone: ['😢 انقرضت! ولن تعود أبدًا', 'var(--red)'] }[st];
+  const box = document.getElementById('sim'); if (!box) return;
+  box.innerHTML = `<div class="simtop"><b>🧪 محاكاة: عدد الباندا</b><span style="color:${label[1]}">${label[0]}</span></div>
+    <div class="pandas">${pandas ? '🐼'.repeat(pandas) : '🦴'}</div>
+    ${st === 'gone' ? `<button class="btn main" onclick="sim('reset')">🔄 أعيدي المحاولة</button>` : `<div class="simbtns">
+      <button class="btn no2" onclick="sim(-2,this)">✂️ قطع الخيزران</button><button class="btn no2" onclick="sim(-2,this)">🏹 الصيد الجائر</button>
+      <button class="btn ok" onclick="sim(1,this)">🛡️ إنشاء محمية</button><button class="btn ok" onclick="sim(1,this)">🍼 مساعدتها على التكاثر</button></div>`}`;
+}
+const done = new Set();
+let cur = 0;
+function station(i) {
+  cur = i; done.add(i);
+  $('#stList').innerHTML = STATIONS.map((s, k) => `<button class="st ${k === i ? 'on' : ''} ${done.has(k) ? 'done' : ''}" onclick="station(${k})"><span class="n">ص${ar(s.page)}</span>${s.icon} ${s.name}</button>`).join('');
+  const s = STATIONS[i];
+  $('#stBody').innerHTML = `<div class="box">${s.html()}<div class="nav">
+    ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
+    ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('questions')">إلى الأسئلة ❓</button>`}</div></div>`;
+  if (s.after) s.after();
+  if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
+}
+// ───── Questions
+$('#formative').innerHTML = [
+  ['🟢 أكتشف', 'ما المواءمة؟', 'استجابة الحيوان للتغيّر الحادث في بيئته.'],
+  ['🟡 أفكّر', 'لماذا تنتقل بعض الحيوانات إلى أماكن جديدة؟', 'لتبحث عن الغذاء والماء والمسكن المناسب.'],
+  ['🔴 أتحدّى نفسي', 'لو انقرض نوع من المخلوقات، هل يمكن أن يعود؟ ولماذا؟', 'لا؛ لأن الانقراض اختفاء جميع أفراد النوع.'],
+].map(([l, q, a]) => flip(q, a, l)).join('');
+$('#book').innerHTML = [
+  ['ص١٢٧ • السبب والنتيجة', 'ماذا يحدث لنباتات وحيوانات نظام بيئي بعد الحرائق؟', 'تُدمَّر النباتات ومصادر الغذاء، فتغيّر بعض الحيوانات غذاءها أو مسكنها، ويهاجر بعضها.'],
+  ['ص١٢٧ • التفكير الناقد', 'لماذا تُعدّ النباتات أول المخلوقات التي تنتشر في المناطق الجديدة؟', 'لأن بذورها تنتقل مع الرياح والماء والحيوانات، فتنبت وتوفّر الغذاء والمأوى لغيرها.'],
+  ['ص١٢٨ • السبب والنتيجة', 'أصبحت بعض المخلوقات مهدّدة بالانقراض. ماذا يحدث عندما تنقرض؟', 'تختفي من الأرض ولا تعود، فيختلّ توازن النظام البيئي.'],
+  ['ص١٢٨ • التفكير الناقد', 'ماذا يحدث للباندا إذا لم يساعدها العلماء على التكاثر؟', 'يقلّ عددها شيئًا فشيئًا حتى تنقرض.'],
+  ['ص١٢٩ • المفردات', 'استجابة المخلوق الحي للتغيّر الحادث في بيئته تسمى…', 'المواءمة.'],
+  ['ص١٢٩ • السبب والنتيجة', 'ماذا يحدث عندما تُقطع أشجار الغابات لبناء المساكن والمنشآت؟', 'تفقد الحيوانات غذاءها ومأواها، فتنتقل إلى أماكن أخرى أو تنقرض.'],
+  ['ص١٢٩ • التفكير الناقد', 'ينقل الناس مع البضائع دون قصد نباتات وحيوانات. كيف يؤثر ذلك في النظام البيئي؟', 'تصبح مخلوقات دخيلة تنافس المخلوقات الأصلية على الغذاء والمأوى، فيختلّ التوازن.'],
+  ['ص١٢٩ • أختار الإجابة', 'أيّ الظواهر الطبيعية جميعها تؤثر في النظام البيئي؟ (أ / ب / ج / د)', '(ج) الإعصار، الفيضان، الانزلاقات الأرضية.'],
+  ['ص١٢٩ • السؤال الأساسي', 'كيف تؤثر التغيّرات في النظام البيئي في المخلوقات الحية؟', 'تتواءم مع التغيّر، أو تنتقل إلى مكان آخر، وإن عجزت تموت وتنقرض.'],
+].map(([k, q, a]) => flip(q, a, k)).join('');
+const QUIZ = [
+  { q: 'استجابة الحيوان للتغيّر الحادث في بيئته تسمى…', o: ['الانقراض', 'المواءمة', 'التلوّث'], a: 1 },
+  { q: 'بعد الحريق، الغزال يأكل…', o: ['لحاء الأشجار', 'الصخور', 'الرماد'], a: 0 },
+  { q: 'تنتقل بعض الحيوانات إلى مكان جديد لتبحث عن…', o: ['الغذاء والماء والمسكن', 'الحريق', 'الصيد'], a: 0 },
+  { q: 'الانقراض هو…', o: ['انتقال الحيوان', 'اختفاء جميع أفراد النوع', 'زيادة عدد الحيوانات'], a: 1 },
+  { q: 'أيّ مما يلي يمنع الانقراض؟', o: ['الصيد الجائر', 'قطع الأشجار', 'إنشاء المحميات'], a: 2 },
+];
+let qi = 0, qs = 0, qtry = 0;
+function quiz() {
+  if (qi >= QUIZ.length) {
+    $('#quiz').innerHTML = `<div class="score" style="font-size:26px;color:var(--green)">🏆 ${ar(qs)} / ${ar(QUIZ.length)}</div><p class="score">${qs >= 4 ? 'أبدعتِ يا عالمتي! 🌟' : 'أحسنتِ! راجعي المحطات وحاولي مرة أخرى 💪'}</p><button class="btn main" onclick="qi=0;qs=0;quiz()">أعيدي الاختبار 🔄</button>`;
+    if (qs >= 4) confetti(); return;
+  }
+  const t = QUIZ[qi]; qtry = 0;
+  $('#quiz').innerHTML = `<p class="score">السؤال ${ar(qi + 1)} من ${ar(QUIZ.length)} • ⭐ ${ar(qs)}</p><p>${t.q}</p><div class="opts">${t.o.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="qmsg"></div>`;
+  document.querySelectorAll('#quiz .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!qtry) { qs++; award(1, b); } $('#qmsg').className = 'msg good'; $('#qmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { qi++; quiz(); }, 900); }
+    else { qtry++; b.classList.add('no'); b.disabled = true; $('#qmsg').className = 'msg bad'; $('#qmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+quiz();
+
+// ───── Games
+const GAMES = {
+  what: { title: '🧭 ماذا يحدث له؟', items: [
+    { q: 'غزال احترقت الأوراق حوله، فأصبح يأكل لحاء الأشجار.', o: ['مواءمة 🦌', 'انتقال 🧳', 'انقراض 🦴'], a: 0 },
+    { q: 'طيور احترقت غابتها، فطارت إلى غابة أخرى فيها غذاء.', img: 'crow', o: ['مواءمة 🦌', 'انتقال 🧳', 'انقراض 🦴'], a: 1 },
+    { q: 'الديناصورات لم تتكيّف مع تغيّر بيئتها، فاختفت تمامًا.', img: 'fossil', o: ['مواءمة 🦌', 'انتقال 🧳', 'انقراض 🦴'], a: 2 },
+    { q: 'حيوان تهدّم مسكنه، فاتّخذ من نبات جديد مسكنًا له.', o: ['مواءمة 🦌', 'انتقال 🧳', 'انقراض 🦴'], a: 0 },
+    { q: 'حيوانات جفّ الماء في منطقتها، فرحلت إلى منطقة فيها ماء.', o: ['مواءمة 🦌', 'انتقال 🧳', 'انقراض 🦴'], a: 1 },
+  ] },
+  save: { title: '🛡️ أنقذي الحيوان: يحميه أم يهدّده؟', two: true, labels: ['⚠️ يهدّده', '🛡️ يحميه'], items: [
+    { q: 'إنشاء المحميات الملكية', img: 'oryx', a: 1 }, { q: 'الصيد الجائر لطائر الحبارى', a: 0 },
+    { q: 'قطع أشجار الخيزران', img: 'panda', a: 0 }, { q: 'سنّ قوانين تمنع الصيد', a: 1 },
+    { q: 'إعادة توطين المها في المحميات', a: 1 }, { q: 'بناء البيوت مكان الغابات', a: 0 },
+  ] },
+  who: { title: '🕵️ من أنا؟', items: [
+    { q: 'أنا استجابة الحيوان للتغيّر الحادث في بيئته.', o: ['المواءمة', 'الانقراض', 'الأحفورة'], a: 0 },
+    { q: 'أنا اختفاء جميع أفراد النوع.', o: ['المحمية', 'الانقراض', 'المواءمة'], a: 1 },
+    { q: 'أنا بقايا وآثار مخلوقات عُثر عليها في الصخور.', img: 'fossil', o: ['الأحافير', 'المحميات', 'الخيزران'], a: 0 },
+    { q: 'أنا مكان يحمي الحيوانات والنباتات من الصيد والقطع.', o: ['المدينة', 'المصنع', 'المحمية'], a: 2 },
+    { q: 'أنا حيوان مهدّد بالانقراض في شبه الجزيرة العربية.', img: 'leopard', o: ['النمر العربي', 'الغراب', 'الدجاجة'], a: 0 },
+  ] },
+};
+let G, gi, gs, gtry;
+function game(k) { G = GAMES[k]; gi = 0; gs = 0; round(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
+function round() {
+  if (gi >= G.items.length) {
+    $('#play').innerHTML = `<div class="box" style="text-align:center"><h2>🏆 أنهيتِ اللعبة!</h2><div style="font-size:30px">⭐ ${ar(gs)} / ${ar(G.items.length)}</div><p>النجمة للإجابة الصحيحة من أول محاولة.</p></div>`;
+    confetti(); return;
+  }
+  const t = G.items[gi]; gtry = 0;
+  const opts = G.two ? G.labels : t.o;
+  $('#play').innerHTML = `<div class="box"><h2>${G.title}</h2><p class="score">${ar(gi + 1)} / ${ar(G.items.length)} • ⭐ ${ar(gs)}</p>
+    ${t.img ? `<img class="pic" src="img/${t.img}.jpg" alt="">` : ''}<p style="text-align:center;font-size:22px">${t.q}</p>
+    <div class="opts" ${G.two ? 'style="grid-template-columns:1fr 1fr"' : ''}>${opts.map((o, k) => `<button class="btn" data-k="${k}" ${G.two ? 'style="text-align:center;font-size:22px"' : ''}>${o}</button>`).join('')}</div><div class="msg" id="gmsg"></div></div>`;
+  document.querySelectorAll('#play .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!gtry) { gs++; award(1, b); } $('#gmsg').className = 'msg good'; $('#gmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { gi++; round(); }, 900); }
+    else { gtry++; b.classList.add('no'); b.disabled = true; $('#gmsg').className = 'msg bad'; $('#gmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+station(0);
+// every content picture opens full size when tapped
+document.addEventListener('click', (e) => {
+  const im = e.target.closest('main img');
+  if (im && !im.classList.contains('page')) zoom(im.src);
+});
+</script>
+</body>
+</html>
