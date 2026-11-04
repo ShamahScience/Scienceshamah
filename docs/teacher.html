@@ -155,11 +155,12 @@ async function home() {
       card('🎡', 'عجلة الحصة', 'عجلة الأسماء مع أسئلة نافس والنقاط والشهادات.', 'فتح العجلة', () => location.href = 'wheel.html'),
       card('⚙️', 'إعداداتي', 'أسماء الفصلين، والرمز السري، وربط المنصة.', 'فتح الإعدادات', settings)));
   // نسخة الخادم: 2 = تعليق المعلمة على صور الحائط
-  api({ action: 'version' }).then(r => Number(r.version) || 0).catch(e => /غير معروف/.test(e.message) ? 0 : 99).then(v => {
+  // التعليقات تعمل الآن دون تحديث كود Google، فلا حاجة لتنبيه التحديث إلا إن غاب الحائط كله
+  api({ action: 'wall' }).then(() => 2).catch(e => /غير معروف/.test(e.message) ? 0 : 99).then(v => {
     if (v >= 2) return;
     app.prepend(h('div', { class: 'panel', style: 'border:2px solid var(--accent)' },
-      h('h3', {}, '💬 تحديث جديد: تعليق المعلمة على صور الحائط'),
-      h('p', { class: 'muted', style: 'margin:0' }, 'حدّثي كود الخادم مرة واحدة لتظهر التعليقات. المشاركات والرابط لا يتغيّران.'),
+      h('h3', {}, '🏆 حائط المهام والإنجاز ينتظر خطوة واحدة'),
+      h('p', { class: 'muted', style: 'margin:0' }, 'حدّثي كود الخادم مرة واحدة ليعمل الحائط عند الطالبات.'),
       h('button', { class: 'btn primary', onclick: serverUpdate }, '🔄 ابدئي التحديث')));
   });
 }

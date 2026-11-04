@@ -184,7 +184,12 @@ async function load() {
   try {
     const { posts } = await api({ action: 'wall' });
     const ids = WALL.classes.map(c => c.id);
-    POSTS = posts.filter(p => ids.includes(p.cls)); render();
+    // تعليقات المعلمة تُحفظ كصفوف خاصة (الفصل tc، العنوان c:رقم الصورة) حتى تعمل دون تحديث كود Google
+    const notes = {};
+    posts.filter(p => p.cls === 'tc' && String(p.title).startsWith('c:')).sort((a, b) => a.time - b.time)
+      .forEach(c => { const t = c.title.slice(2); (notes[t] = notes[t] || { ids: [] }).ids.push(c.id); notes[t].text = c.desc; });
+    POSTS = posts.filter(p => ids.includes(p.cls)).map(p => Object.assign(p, { comment: notes[p.id] ? notes[p.id].text : (p.comment || ''), noteIds: notes[p.id] ? notes[p.id].ids : [] }));
+    render();
     firstLoad = false;
   } catch (e) {
     if (firstLoad) $('#state').replaceChildren(h('div', { class: 'panel', style: 'text-align:center' },
@@ -251,8 +256,12 @@ function commentBox(p) {
   const msg = h('p', { class: 'msg err' });
   const save = async text => {
     msg.textContent = '';
-    try { await tapi({ action: 'wallComment', id: p.id, comment: text }); p.comment = text.trim(); ov.remove(); render(); toast(text.trim() ? 'تم حفظ التعليق 💬' : 'تم حذف التعليق'); }
-    catch (e) { msg.textContent = /غير معروف/.test(e.message) ? 'حدّثي كود الخادم أولًا من لوحة المعلمة (التنبيه البرتقالي في الأعلى).' : e.message; }
+    text = String(text || '').trim();
+    try {
+      for (const id of p.noteIds || []) await tapi({ action: 'wallDelete', id });
+      if (text) await api({ action: 'wallPost', cls: 'tc', name: 'المعلمة', title: 'c:' + p.id, desc: text.slice(0, 300), cat: 'comment', image: '', link: '' });
+      ov.remove(); toast(text ? 'تم حفظ التعليق 💬' : 'تم حذف التعليق'); await load();
+    } catch (e) { msg.textContent = e.message; }
   };
   const ov = modal(h('h2', {}, '💬 تعليق على صورة ' + p.name),
     h('div', { class: 'small muted' }, 'اضغطي عبارة لحفظها مباشرة، أو اكتبي تعليقك:'),
