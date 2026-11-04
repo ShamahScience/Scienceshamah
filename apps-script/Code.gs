@@ -19,8 +19,9 @@ const SHEETS = {
   responses:  ['time', 'activity', 'class', 'name', 'answers', 'score', 'total'],
   games:      ['time', 'game', 'title', 'class', 'name', 'score', 'total'],
   visits:     ['time', 'page', 'class', 'name'],
-  wall:       ['id', 'time', 'class', 'name', 'title', 'desc', 'cat', 'image', 'link', 'likes', 'pinned']
+  wall:       ['id', 'time', 'class', 'name', 'title', 'desc', 'cat', 'image', 'link', 'likes', 'pinned', 'comment']
 };
+const SERVER_VERSION = 2; // 2: تعليق المعلمة على صور الحائط
 
 // يعمل سواء فُتح الكود من داخل Google Sheet أو مباشرة من script.google.com
 function getSS() {
@@ -133,7 +134,7 @@ function wallPosts() {
   return rows('wall').map(function (r) {
     return { id: String(r.id), time: r.time instanceof Date ? r.time.getTime() : Number(new Date(r.time)) || 0,
       cls: String(r.class), name: String(r.name), title: String(r.title), desc: String(r.desc || ''), cat: String(r.cat || ''),
-      image: String(r.image || ''), link: String(r.link || ''), likes: Number(r.likes) || 0, pinned: r.pinned === true || r.pinned === 'TRUE' };
+      image: String(r.image || ''), link: String(r.link || ''), likes: Number(r.likes) || 0, pinned: r.pinned === true || r.pinned === 'TRUE', comment: String(r.comment || '') };
   }).reverse().slice(0, 400);
 }
 function findWall(id) { return rows('wall').filter(function (r) { return String(r.id) === String(id); })[0]; }
@@ -168,6 +169,7 @@ function route(p) {
     return { saved: true };
   }
 
+  if (action === 'version') return { version: SERVER_VERSION };
   if (action === 'wall') return { posts: wallPosts() };
   if (action === 'wallPost') {
     const roster = studentsBy(), list = roster[p.cls] || [];
@@ -297,6 +299,12 @@ function route(p) {
     const r = findWall(p.id); if (!r) return {};
     if (r.image) { try { DriveApp.getFileById(String(r.image)).setTrashed(true); } catch (e) {} }
     sheet('wall').deleteRow(r._row); return {};
+  }
+  if (action === 'wallComment') {
+    const r = findWall(p.id); if (!r) throw new Error('المشاركة غير موجودة');
+    const sh = sheet('wall'), col = SHEETS.wall.indexOf('comment') + 1;
+    if (!sh.getRange(1, col).getValue()) sh.getRange(1, col).setValue('comment');
+    sh.getRange(r._row, col).setValue(String(p.comment || '').trim().slice(0, 300)); return {};
   }
   if (action === 'wallPin') {
     const r = findWall(p.id); if (!r) throw new Error('المشاركة غير موجودة');
