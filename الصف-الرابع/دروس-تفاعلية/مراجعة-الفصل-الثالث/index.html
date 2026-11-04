@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مراجعة الفصل الثالث – موقع تفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --green: #1b5e20; --leaf: #2f8a3a; --mint: #e3f4d7; --cream: #fffbef; --ink: #23293a; --pink: #c2366f; --red: #d23b3b; --gold: #f5c242; --sky: #dff1fb; --rose: #fde4ec; --yel: #fff3c4; --lav: #eee8fb; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #eef5e8; }
+  img { max-width: 100%; display: block; }
+  main img { cursor: zoom-in; }
+  .flags { width: 100%; height: 70px; object-fit: cover; object-position: center top; }
+  header { max-width: 1100px; margin: 0 auto; padding: 8px 14px 0; display: flex; align-items: center; gap: 12px; }
+  header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 20%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
+  header h1 { margin: 0; font-size: 26px; color: var(--green); line-height: 1.4; }
+  header p { margin: 0; font-size: 16px; color: #4a5468; }
+  .tabs { max-width: 1100px; margin: 10px auto 0; padding: 0 14px; display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: #eef5e8; padding-bottom: 8px; }
+  .tab { flex: 1; min-width: 120px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 16px; padding: 10px 8px; font: inherit; font-size: 19px; cursor: pointer; }
+  .tab.on { background: var(--green); color: #fff; box-shadow: 0 4px 0 #0f3a13; }
+  main { max-width: 1100px; margin: 0 auto; padding: 6px 14px 30px; }
+  .panel { display: none; } .panel.on { display: block; }
+  .box { background: #fff; border: 3px solid var(--green); border-radius: 22px; padding: 16px; box-shadow: 0 5px 0 #c8dfc0; margin-bottom: 14px; }
+  .strat { display: inline-block; background: var(--cream); border: 2px dashed var(--gold); border-radius: 30px; padding: 2px 14px; font-size: 16px; margin-bottom: 8px; }
+  .strat b { color: var(--pink); }
+  h2 { margin: 2px 0 8px; color: var(--green); font-size: 24px; }
+  p, li { font-size: 19px; line-height: 1.9; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .page { border: 3px solid var(--leaf); border-radius: 14px; cursor: zoom-in; }
+  .cap { text-align: center; font-size: 14px; color: #5a6785; margin-top: 4px; }
+  .flip { border: 3px solid var(--ink); border-radius: 16px; background: var(--yel); padding: 10px 12px; margin: 10px 0; cursor: pointer; font-size: 19px; line-height: 1.8; }
+  .flip .a { display: none; margin-top: 6px; padding-top: 6px; border-top: 2px dashed #b9a24a; color: var(--leaf); }
+  .flip.open { background: #f3fbe9; border-color: var(--leaf); }
+  .flip.open .a { display: block; }
+  .flip .k { font-size: 14px; color: #6b4fc0; display: block; }
+  .flip .hint { font-size: 13px; color: #7a869e; }
+  /* stations layout like a video chapter list */
+  .stations { display: grid; grid-template-columns: 290px 1fr; gap: 14px; align-items: start; }
+  @media (max-width: 860px) { .stations { grid-template-columns: 1fr; } }
+  .list { background: linear-gradient(180deg, #1b5e20, #2f8a3a); border-radius: 22px; padding: 12px; color: #fff; position: sticky; top: 70px; }
+  @media (max-width: 860px) { .list { position: static; } }
+  .list h3 { margin: 4px 6px 8px; font-size: 20px; }
+  .list small { display: block; margin: -6px 6px 8px; font-size: 13px; opacity: .85; }
+  .st { display: flex; align-items: center; gap: 8px; width: 100%; background: rgba(255,255,255,.12); border: 2px solid transparent; color: #fff; border-radius: 14px; padding: 8px 10px; margin: 6px 0; font: inherit; font-size: 17px; cursor: pointer; text-align: right; }
+  .st .n { background: #fff; color: var(--green); border-radius: 8px; padding: 0 8px; font-size: 14px; }
+  .st.on { background: #fff; color: var(--green); border-color: var(--gold); }
+  .st.done::after { content: '✔'; margin-inline-start: auto; color: #c9f0c0; }
+  .st.on.done::after { color: var(--leaf); }
+  .nav { display: flex; gap: 10px; margin-top: 10px; }
+  .btn { border: 3px solid var(--ink); border-radius: 14px; background: var(--cream); color: var(--ink); font: inherit; font-size: 18px; padding: 9px 14px; cursor: pointer; }
+  .btn.main { background: var(--leaf); border-color: var(--green); color: #fff; }
+  .btn.ok { background: #c9f0c0; border-color: var(--leaf); }
+  .btn.no { background: #fde2e2; border-color: var(--red); animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .ce { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 6px; align-items: center; margin: 6px 0; }
+  .ce .c { background: var(--rose); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e { background: var(--sky); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e.hide { color: transparent; background: repeating-linear-gradient(45deg, #eef2f7, #eef2f7 8px, #e2e8f0 8px, #e2e8f0 16px); cursor: pointer; }
+  .ce .ar { text-align: center; font-size: 22px; color: #e67e22; }
+  .verse { text-align: center; font-size: 24px; color: var(--green); background: var(--mint); border-radius: 14px; padding: 8px; margin: 8px 0; }
+  .vocab { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media (max-width: 600px) { .vocab { grid-template-columns: repeat(2, 1fr); } }
+  .vocab .flip { text-align: center; margin: 0; }
+  /* virtual experiment */
+  .lab { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; }
+  .pot { background: #fbfdf9; border: 3px dashed var(--leaf); border-radius: 18px; padding: 8px; }
+  .pot svg { width: 100%; max-width: 220px; height: auto; }
+  .day { display: flex; align-items: center; gap: 10px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
+  .day input { width: 220px; accent-color: var(--leaf); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 16px; }
+  th, td { border: 2px solid #9cc79a; padding: 5px; text-align: center; }
+  th { background: var(--green); color: #fff; }
+  /* games */
+  .gamecards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 760px) { .gamecards { grid-template-columns: 1fr; } }
+  .gcard { border: 3px solid var(--green); border-radius: 20px; background: var(--cream); padding: 12px; text-align: center; cursor: pointer; font: inherit; color: var(--ink); }
+  .gcard .ic { font-size: 46px; }
+  .gcard b { display: block; font-size: 20px; color: var(--green); }
+  .play { margin-top: 12px; }
+  .opts { display: grid; gap: 8px; }
+  .opts .btn { text-align: right; }
+  .pic { width: 220px; max-width: 70%; margin: 6px auto; border-radius: 16px; border: 3px solid var(--leaf); }
+  .msg { min-height: 30px; text-align: center; font-size: 19px; margin-top: 6px; }
+  .msg.good { color: var(--leaf); } .msg.bad { color: var(--red); }
+  .score { text-align: center; font-size: 18px; }
+  .level { display: inline-block; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-bottom: 4px; }
+  .zoom { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 20; padding: 12px; }
+  .zoom.on { display: flex; }
+  footer { text-align: center; color: #6b4fc0; font-size: 18px; padding: 10px; }
+  .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
+
+  /* ── Computer screen: everything fits in one landscape screen, no page scrolling ── */
+  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: #6b4fc0; border-radius: 30px; padding: 4px 16px; font-size: 19px; white-space: nowrap; }
+  .fs { border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
+  @media (min-width: 900px) and (orientation: landscape) and (max-height: 720px) {
+    header p { display: none; } header img.girl { width: 40px; height: 40px; } header h1 { font-size: 21px; }
+    .tab { padding: 4px 8px; font-size: 17px; } .box { padding: 10px 14px; }
+  }
+  @media (min-width: 900px) and (orientation: landscape) {
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .flags { height: 6vh; min-height: 34px; }
+    header, .tabs, main { max-width: none; width: 100%; }
+    header { padding: 4px 18px 0; }
+    header img.girl { width: 52px; height: 52px; }
+    header h1 { font-size: 24px; }
+    .tabs { margin-top: 6px; padding: 0 18px 6px; position: static; }
+    .tab { padding: 6px 8px; font-size: 19px; }
+    main { flex: 1; min-height: 0; padding: 4px 18px 4px; }
+    footer { padding: 0 0 4px; font-size: 15px; }
+    .panel.on { height: 100%; }
+    .box { margin-bottom: 0; }
+    .scroll { overflow-y: auto; min-height: 0; }
+    /* start: rules | flag | goals */
+    #start.on { display: flex; flex-direction: column; }
+    #start .show { flex: 1; height: auto; min-height: 0; }
+    /* stations: list | content (book page | explanation) */
+    .stations { height: 100%; grid-template-columns: 260px 1fr; }
+    .list { position: static; height: 100%; overflow-y: auto; }
+    #stBody, #stBody > .box { height: 100%; min-height: 0; }
+    #stBody > .box { display: flex; flex-direction: column; }
+    #stBody .body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 16px; }
+    #stBody .body > .pagecol { min-height: 0; position: relative; }
+    #stBody .body > .pagecol img.page { position: absolute; top: 0; right: 0; left: 0; bottom: 24px; width: 100%; height: calc(100% - 24px); object-fit: contain; border: 0; }
+    #stBody .body > .pagecol .cap { position: absolute; bottom: 0; right: 0; left: 0; }
+    #stBody .body > .txt { overflow-y: auto; min-height: 0; padding-inline-end: 4px; }
+    #stBody .extra { display: none; }
+    #stBody > .box { overflow: hidden; }
+    #stBody .nav { flex: none; }
+    #stBody .txt img { max-height: 24vh; width: auto; margin: 0 auto; }
+    #stBody .txt .flip { margin: 6px 0; padding: 6px 10px; font-size: 17px; line-height: 1.6; }
+    #stBody .txt p { font-size: 17px; line-height: 1.7; margin: 4px 0; }
+    #stBody .txt h2 { font-size: 18px !important; margin: 4px 0; }
+    #stBody .txt .verse { font-size: 18px !important; padding: 4px; margin: 4px 0; }
+    #stBody .txt .ce { margin: 3px 0; } #stBody .txt .ce .c, #stBody .txt .ce .e { font-size: 16px; padding: 3px 8px; }
+    #stBody .txt .grid2 { gap: 8px; }
+    #stBody .txt .cap { font-size: 12px; margin: 0; }
+    #stBody .txt .lab svg { max-height: 16vh; }
+    #stBody .txt .vocab .flip { font-size: 15px; padding: 4px; }
+    #stBody > .box h2 { font-size: 21px; margin: 0 0 4px; }
+    .nav { margin-top: 6px; }
+    /* questions: three columns */
+    #questions.on { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    #questions .box { overflow-y: auto; min-height: 0; }
+    /* games: games | exit ticket */
+    #games.on { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+    #games .box { overflow-y: auto; min-height: 0; }
+    #games .gamecards { grid-template-columns: repeat(3, 1fr); }
+    .gcard .ic { font-size: 36px; }
+    .pic { width: auto; max-height: 22vh; }
+    #play .opts { grid-template-columns: repeat(3, 1fr); }
+    #play .opts .btn { text-align: center; }
+  }
+
+  /* start slideshow: one picture at a time, always shown whole */
+  .show { position: relative; height: 62vh; min-height: 260px; }
+  .slide { display: none; position: absolute; inset: 0; }
+  .slide.on { display: block; }
+  .slide > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 14px; }
+  .slide.goals { overflow-y: auto; }
+  .slide.goals .box { max-width: 760px; margin: 0 auto; }
+  .dots { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; font-size: 18px; }
+
+  .zoom { flex-direction: column; gap: 8px; padding: 8px; background: rgba(24, 36, 26, .92); }
+  .zoom .tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; background: #fff; border-radius: 16px; padding: 6px 10px; border: 3px solid var(--green); }
+  .zoom .tools button { font: inherit; font-size: 16px; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 4px 10px; cursor: pointer; color: var(--ink); }
+  .zoom .tools .tl.on, .zoom .tools .sz.on { background: var(--mint); border-color: var(--leaf); }
+  .zoom .tools .cl { width: 32px; height: 32px; border-radius: 50%; padding: 0; }
+  .zoom .tools .cl.on { outline: 4px solid var(--green); outline-offset: 2px; }
+  .zoom .tools .sz { width: 40px; height: 36px; padding: 0; line-height: 1; color: var(--ink); }
+  .zoom .tools .close { background: var(--red); color: #fff; border-color: var(--red); }
+  .zoom .tools .sep { width: 2px; height: 26px; background: #dde5d7; }
+  .stage { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+  .stage img { max-width: 100%; max-height: 100%; border-radius: 8px; user-select: none; -webkit-user-drag: none; }
+  .stage canvas { position: absolute; touch-action: none; cursor: crosshair; }
+
+  .startot { border: 3px solid var(--gold); background: #fff8dc; color: #8a6400; border-radius: 30px; padding: 4px 14px; font: inherit; font-size: 18px; cursor: pointer; white-space: nowrap; margin-inline-start: auto; }
+  .startot.snd { margin-inline-start: auto; padding: 4px 10px; }
+  .startot.snd + .startot { margin-inline-start: 0; }
+  .startot.bump { animation: bump .5s; } @keyframes bump { 40% { transform: scale(1.25); } }
+  .teacher { margin-inline-start: 0 !important; }
+  .award { position: fixed; z-index: 40; pointer-events: none; text-align: center; transform: translate(-50%, -50%); animation: rise 1.6s ease-out forwards; }
+  .award .s { font-size: 54px; line-height: 1; filter: drop-shadow(0 3px 2px rgba(0,0,0,.25)); }
+  .award .t { display: inline-block; margin-top: 4px; background: #fff; border: 3px solid var(--gold); color: var(--pink); border-radius: 20px; padding: 2px 14px; font-size: 20px; white-space: nowrap; }
+  .award.two .t { background: #6b4fc0; color: #fff; border-color: #fff3c4; }
+  @keyframes rise { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.4); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 70% { opacity: 1; transform: translate(-50%, -80%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -140%) scale(.9); } }
+  .flip[data-stars="2"] .k::after { content: ' ⭐⭐'; }
+  .sim { border: 3px dashed var(--leaf); border-radius: 16px; background: #fbfdf9; padding: 8px 10px; margin: 6px 0; text-align: center; }
+  .simtop { display: flex; justify-content: space-between; font-size: 17px; }
+  .pandas { font-size: 34px; letter-spacing: 2px; min-height: 48px; margin: 4px 0; }
+  .simbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .simbtns .btn { font-size: 16px; padding: 5px 8px; }
+  .btn.no2 { background: #fde2e2; border-color: var(--red); }
+  .mq { border: 3px solid var(--ink); border-radius: 16px; background: var(--sky); padding: 8px 10px; margin: 8px 0; }
+  .mq .k { font-size: 14px; color: #6b4fc0; display: block; }
+  .mq .mqq { font-size: 18px; line-height: 1.7; margin-bottom: 6px; }
+  .mqo { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; } .mqo .btn { font-size: 16px; padding: 5px 8px; text-align: right; }
+  .mqo.tf .btn { text-align: center; font-size: 18px; }
+  .bank { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; background: var(--yel); border: 3px dashed var(--gold); border-radius: 14px; padding: 8px; margin-bottom: 6px; }
+  .chip { font: inherit; font-size: 17px; border: 2px solid var(--green); background: #fff; color: var(--green); border-radius: 20px; padding: 2px 12px; cursor: pointer; }
+  .chip.used { opacity: .35; text-decoration: line-through; } .chip.no { animation: shake .35s; border-color: var(--red); }
+  .vrow { border: 2px solid #c9d3c2; border-radius: 12px; padding: 4px 8px; margin: 4px 0; font-size: 16px; line-height: 1.7; cursor: pointer; background: #fff; }
+  .vrow .n { background: var(--green); color: #fff; border-radius: 8px; padding: 0 7px; font-size: 13px; }
+  .vrow.act { border-color: var(--pink); background: var(--rose); } .vrow.ok { border-color: var(--leaf); background: #f3fbe9; } .vrow.ok b { color: var(--leaf); }
+  .pyr { text-align: center; background: var(--cream); border: 2px dashed var(--gold); border-radius: 14px; padding: 4px; font-size: 16px; line-height: 1.7; }
+  .pbuild { display: flex; flex-direction: column; align-items: center; gap: 3px; margin: 6px 0 10px; }
+  .pbuild .lvl { background: #eef2f7; border: 2px dashed #b0b8c8; border-radius: 8px; text-align: center; font-size: 17px; padding: 2px; }
+  .pbuild .lvl.on { background: var(--mint); border: 2px solid var(--leaf); }
+  @media (max-width: 600px) { .mqo { grid-template-columns: 1fr; } }
+  .note2 { background: var(--cream); border: 2px dashed var(--gold); border-radius: 12px; padding: 6px 10px; font-size: 16px; margin: 6px 0; line-height: 1.7; }
+</style>
+</head>
+<body>
+<img class="flags" src="img/flags.jpg" alt="">
+<header>
+  <img class="girl" src="img/girl.jpg" alt="العالمة الصغيرة">
+  <div><h1>مراجعة الفصل الثالث ونماذج الاختبار</h1><p>العلوم – الصف الرابع الابتدائي • ص١٣١–١٣٦</p></div>
+  <button class="startot snd" id="sndBtn" title="صوت التعزيز" onclick="toggleSound()">🔔</button>
+  <button class="startot" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ نجوم الفصل: <b id="starN">٠</b></button>
+  <span class="teacher">💚 أ/ شامه البقمي</span>
+  <button class="fs" id="fsBtn" onclick="fullscreen()">⛶ ملء الشاشة</button>
+</header>
+
+<nav class="tabs">
+  <button class="tab on" data-p="start">🏁 البداية</button>
+  <button class="tab" data-p="stations">📍 محطات المراجعة</button>
+  <button class="tab" data-p="questions">❓ الأسئلة</button>
+  <button class="tab" data-p="games">🎮 الألعاب</button>
+</nav>
+
+<main>
+<!-- ═════ البداية -->
+<section class="panel on" id="start">
+  <div class="show">
+    <div class="slide on"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
+    <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
+    <div class="slide goals"><div class="box">
+      <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
+      <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
+      <ol>
+        <li>أراجع مفردات الفصل الثالث.</li>
+        <li>أطبّق مهارات التفكير على أسئلة المراجعة.</li>
+        <li>أحلّ نموذجي الاختبار (١) و(٢).</li>
+        <li>أحدّد الدرس الذي أحتاج إلى مراجعته.</li>
+      </ol>
+      <button class="btn main" onclick="go('stations')">ابدئي المراجعة 🚀</button>
+    </div></div>
+  </div>
+  <div class="dots">
+    <button class="btn" onclick="slide(-1)">→ السابق</button>
+    <span id="dotT">١ / ٣</span>
+    <button class="btn main" onclick="slide(1)">التالي ←</button>
+  </div>
+</section>
+
+<!-- ═════ محطات الدرس -->
+<section class="panel" id="stations">
+  <div class="stations">
+    <aside class="list">
+      <h3>📍 محطات المراجعة</h3>
+      <small>اضغطي على المحطة للانتقال إليها</small>
+      <div id="stList"></div>
+    </aside>
+    <div id="stBody"></div>
+  </div>
+</section>
+
+<!-- ═════ الأسئلة -->
+<section class="panel" id="questions">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> مستويات التفكير الثلاثة</span>
+    <h2>❓ التقويم التكويني</h2>
+    <p style="margin:0">فكّري أولًا… ثم اضغطي على السؤال لتظهر الإجابة.</p>
+    <div id="formative"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التقويم الذاتي</span>
+    <h2>🔍 أتحقّق من فهمي</h2>
+    <div id="book"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التقويم الختامي</span>
+    <h2>🏆 اختبري نفسك</h2>
+    <div id="quiz"></div>
+  </div>
+</section>
+
+<!-- ═════ الألعاب -->
+<section class="panel" id="games">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم باللعب</span>
+    <h2>🎮 اختاري لعبة</h2>
+    <div class="gamecards">
+      <button class="gcard" onclick="pyrStart()"><div class="ic">🔺</div><b>ابني الهرم</b>رتّبي هرم الطاقة</button>
+      <button class="gcard" onclick="game('tf')"><div class="ic">✅</div><b>صواب أم خطأ؟</b>احكمي على العبارة</button>
+      <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي الكلمة من وصفها</button>
+    </div>
+    <div class="play" id="play"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> بطاقة الخروج</span>
+    <h2>🎫 بطاقة الخروج</h2>
+    <p>١) مفردة تعلّمتها في هذا الفصل ومعناها: ……………………</p>
+    <p>٢) سؤال أخطأتُ فيه وصحّحته: ……………………………</p>
+    <p>٣) أحتاج إلى مراجعة درس: ……………………………</p>
+    <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
+  </div>
+</section>
+</main>
+<footer>أ/ شامه البقمي 💚</footer>
+<div class="zoom" id="zoom">
+  <div class="tools" id="tools">
+    <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
+    <button class="tl" data-tool="hl" title="تظليل">🖍️ تظليل</button>
+    <button class="tl" data-tool="er" title="ممحاة">🧽 ممحاة</button>
+    <span class="sep"></span>
+    <button class="cl on" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
+    <button class="cl" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
+    <button class="cl" data-c="#1b8a3a" style="background:#1b8a3a" title="أخضر"></button>
+    <button class="cl" data-c="#111111" style="background:#111" title="أسود"></button>
+    <button class="cl" data-c="#ffd400" style="background:#ffd400" title="أصفر"></button>
+    <span class="sep"></span>
+    <button class="sz" data-s="3" title="رفيع">●</button>
+    <button class="sz on" data-s="6" title="متوسط" style="font-size:22px">●</button>
+    <button class="sz" data-s="11" title="عريض" style="font-size:30px">●</button>
+    <span class="sep"></span>
+    <button class="tl" onclick="undo()">↩️ رجوع</button>
+    <button class="tl" onclick="clearInk()">🗑️ مسح الكل</button>
+    <button class="tl close" onclick="closeZoom()">✕ إغلاق</button>
+  </div>
+  <div class="stage" id="stage"><img id="zimg" alt=""><canvas id="ink"></canvas></div>
+</div>
+
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = (s) => document.querySelector(s);
+// Higher-order questions (critical thinking, challenge, inference) earn two stars, the rest one
+const CRIT = /التفكير الناقد|أتحدّى نفسي|أستنتج|الفكرة العامة/;
+const flip = (q, a, k) => `<div class="flip" data-stars="${CRIT.test((k || '') + q) ? 2 : 1}" onclick="openFlip(this)">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
+const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي – اضغطي للتكبير</div>`;
+
+
+// Soft reward chime made in the browser: one star = gentle chime, two stars = brighter double chime
+let soundOn = true, actx = null;
+function toggleSound() { soundOn = !soundOn; document.getElementById('sndBtn').textContent = soundOn ? '🔔' : '🔕'; }
+function chime(n) {
+  if (!soundOn) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+    const notes = n > 1 ? [659.3, 830.6, 987.8, 1318.5] : [784, 1046.5];
+    notes.forEach((f, i) => {
+      const t = actx.currentTime + i * 0.11, o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.5);
+    });
+  } catch (e) { /* no audio available */ }
+}
+let starTotal = 0;
+function award(n, el) {
+  starTotal += n;
+  chime(n);
+  const t = document.getElementById('starN'); t.textContent = ar(starTotal);
+  const b = document.getElementById('starTot'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  const r = el ? el.getBoundingClientRect() : { left: innerWidth / 2, width: 0, top: innerHeight / 2, height: 0 };
+  const a = document.createElement('div');
+  a.className = 'award' + (n > 1 ? ' two' : '');
+  a.innerHTML = `<div class="s">${'⭐'.repeat(n)}</div><div class="t">${n > 1 ? 'تفكير ناقد رائع! نجمتان' : 'أحسنتِ! نجمة'}</div>`;
+  a.style.left = Math.min(innerWidth - 120, Math.max(120, r.left + r.width / 2)) + 'px';
+  a.style.top = Math.max(90, r.top + r.height / 2) + 'px';
+  document.body.appendChild(a); setTimeout(() => a.remove(), 1700);
+  if (n > 1) confetti();
+}
+function resetStars() { starTotal = 0; document.getElementById('starN').textContent = ar(0); }
+function openFlip(el) {
+  el.classList.toggle('open');
+  if (el.classList.contains('open') && !el.dataset.got) { el.dataset.got = 1; award(+el.dataset.stars || 1, el); }
+}
+function fullscreen() {
+  const d = document;
+  if (!d.fullscreenElement && !d.webkitFullscreenElement) (d.documentElement.requestFullscreen || d.documentElement.webkitRequestFullscreen).call(d.documentElement);
+  else (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+}
+document.addEventListener('fullscreenchange', () => { document.getElementById('fsBtn').textContent = document.fullscreenElement ? '✕ خروج من ملء الشاشة' : '⛶ ملء الشاشة'; });
+let si = 0;
+function slide(d) {
+  const all = document.querySelectorAll('#start .slide');
+  si = (si + d + all.length) % all.length;
+  all.forEach((x, k) => x.classList.toggle('on', k === si));
+  document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
+}
+// ───── Enlarged page with pen, highlighter and eraser; ink is kept per picture for this visit
+const INK = {};
+let tool = 'pen', color = '#d23b3b', size = 6, drawing = false, last = null, curSrc = '';
+const cv = () => document.getElementById('ink');
+function zoom(src) {
+  curSrc = src;
+  const im = $('#zimg');
+  im.onload = fitInk;
+  im.src = src;
+  $('#zoom').classList.add('on');
+  if (im.complete) fitInk();
+}
+function closeZoom() { saveInk(); $('#zoom').classList.remove('on'); }
+function fitInk() {
+  const im = $('#zimg'), c = cv(), st = $('#stage').getBoundingClientRect(), r = im.getBoundingClientRect();
+  c.style.left = (r.left - st.left) + 'px'; c.style.top = (r.top - st.top) + 'px';
+  c.style.width = r.width + 'px'; c.style.height = r.height + 'px';
+  // drawing buffer in picture pixels, so ink stays put at any window size
+  c.width = im.naturalWidth * 2; c.height = im.naturalHeight * 2;
+  const g = c.getContext('2d'); g.clearRect(0, 0, c.width, c.height);
+  const st0 = INK[curSrc];
+  if (st0 && st0.length) restore(st0[st0.length - 1]);
+}
+function restore(url) { const g = cv().getContext('2d'), i = new Image(); i.onload = () => { g.clearRect(0, 0, cv().width, cv().height); g.drawImage(i, 0, 0); }; i.src = url; }
+function saveInk() { if (!curSrc) return; (INK[curSrc] = INK[curSrc] || []).push(cv().toDataURL()); if (INK[curSrc].length > 30) INK[curSrc].shift(); }
+function undo() {
+  const h = INK[curSrc] || [];
+  h.pop();
+  if (h.length) restore(h[h.length - 1]); else cv().getContext('2d').clearRect(0, 0, cv().width, cv().height);
+}
+function clearInk() { cv().getContext('2d').clearRect(0, 0, cv().width, cv().height); saveInk(); }
+function pos(e) { const c = cv(), r = c.getBoundingClientRect(); return [(e.clientX - r.left) * c.width / r.width, (e.clientY - r.top) * c.height / r.height]; }
+function stroke(a, b) {
+  const c = cv(), g = c.getContext('2d'), k = c.width / c.getBoundingClientRect().width;
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  if (tool === 'er') { g.globalCompositeOperation = 'destination-out'; g.lineWidth = 28 * k; g.globalAlpha = 1; }
+  else if (tool === 'hl') { g.globalCompositeOperation = 'multiply'; g.lineWidth = 22 * k; g.globalAlpha = 0.35; g.strokeStyle = color; }
+  else { g.globalCompositeOperation = 'source-over'; g.lineWidth = size * k; g.globalAlpha = 1; g.strokeStyle = color; }
+  g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke();
+}
+(function initInk() {
+  const c = cv();
+  c.addEventListener('pointerdown', (e) => { drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
+  c.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); stroke(last, p); last = p; });
+  const end = () => { if (drawing) { drawing = false; saveInk(); } };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+  document.querySelectorAll('#tools .tl[data-tool]').forEach((b) => b.onclick = () => { tool = b.dataset.tool; document.querySelectorAll('#tools .tl[data-tool]').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .cl').forEach((b) => b.onclick = () => { color = b.dataset.c; if (tool === 'er') document.querySelector('#tools [data-tool="pen"]').click(); document.querySelectorAll('#tools .cl').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .sz').forEach((b) => b.onclick = () => { size = +b.dataset.s; document.querySelectorAll('#tools .sz').forEach((x) => x.classList.toggle('on', x === b)); });
+  window.addEventListener('resize', () => { if ($('#zoom').classList.contains('on')) { saveInk(); fitInk(); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#zoom').classList.contains('on')) closeZoom(); });
+})();
+function confetti() {
+  for (let k = 0; k < 14; k++) {
+    const s = document.createElement('div'); s.className = 'confetti'; s.textContent = ['⭐', '🌿', '💚', '✨'][k % 4];
+    s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .4 + 's';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 2200);
+  }
+}
+function go(p) {
+  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.dataset.p === p));
+  document.querySelectorAll('.panel').forEach((x) => x.classList.toggle('on', x.id === p));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.tab').forEach((t) => t.onclick = () => go(t.dataset.p));
+
+// ───── Stations
+let MQN = 0; const MQ = {};
+const ABJ = ['أ', 'ب', 'ج', 'د'];
+function mcq(q, o, a, k, tf) {
+  const id = 'm' + (MQN++); MQ[id] = { a, tried: 0, stars: CRIT.test((k || '') + q) ? 2 : 1 };
+  return `<div class="mq" id="${id}">${k ? `<span class="k">${k}</span>` : ''}<div class="mqq">${q}</div><div class="mqo${tf ? ' tf' : ''}">${o.map((x, i) => `<button class="btn" onclick="pick('${id}',${i},this)">${tf ? '' : ABJ[i] + ') '}${x}</button>`).join('')}</div></div>`;
+}
+function pick(id, i, b) {
+  const s = MQ[id]; if (s.done) return;
+  if (i === s.a) { b.classList.add('ok'); s.done = 1; if (!s.tried) award(s.stars, b); }
+  else { s.tried++; b.classList.add('no'); b.disabled = true; }
+}
+// ───── Vocabulary word bank (p131)
+const VOC = [
+  ['تتشارك سلسلتان غذائيتان أو أكثر لتكوين…', 'شبكة غذائية'],
+  ['المخلوق الذي لا يستطيع صنع غذائه بنفسه هو من…', 'المستهلكات'],
+  ['النظام البيئي الكبير الذي له نباتاته وحيواناته الخاصة يسمى…', 'المنطقة الحيوية'],
+  ['النظام البيئي الذي يعيش فيه المخلوق الحي، ويجد فيه جميع احتياجاته يسمى…', 'الموطن'],
+  ['المخلوق الحي الذي يستعمل طاقة الشمس لصنع الغذاء هو من…', 'المنتجات'],
+  ['العوامل الحيوية وغير الحيوية في بيئة معيّنة تكوّن…', 'النظام البيئي'],
+  ['استجابة المخلوق الحي للتغيّرات في نظامه البيئي تسمى…', 'المواءمة'],
+  ['عند اختفاء أو عدم وجود أفراد النوع كلها فإن الأنواع…', 'تنقرض'],
+];
+let vAct = 0; const vDone = new Set(); const vWords = VOC.map((v) => v[1]).sort(() => Math.random() - .5);
+function vRender() {
+  const el = document.getElementById('voc'); if (!el) return;
+  el.innerHTML = `<div class="bank">${vWords.map((w) => `<button class="chip ${VOC.some((v, k) => v[1] === w && vDone.has(k)) ? 'used' : ''}" onclick="vPick('${w}',this)">${w}</button>`).join('')}</div>
+    ${VOC.map((v, k) => `<div class="vrow ${k === vAct ? 'act' : ''} ${vDone.has(k) ? 'ok' : ''}" onclick="vAct=${k};vRender()"><span class="n">${ar(k + 1)}</span> ${v[0]} <b>${vDone.has(k) ? v[1] : '……'}</b></div>`).join('')}
+    <div class="msg" id="vmsg">${vDone.size === VOC.length ? '🏆 أكملتِ المفردات كلها!' : '👆 اختاري الجملة، ثم اضغطي الكلمة المناسبة'}</div>`;
+}
+function vPick(w, b) {
+  if (vDone.has(vAct)) return;
+  if (VOC[vAct][1] === w) {
+    vDone.add(vAct); award(1, b);
+    const nx = VOC.findIndex((_, k) => !vDone.has(k)); vAct = nx < 0 ? vAct : nx; vRender();
+    if (vDone.size === VOC.length) confetti();
+  } else { b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); const m = document.getElementById('vmsg'); m.className = 'msg bad'; m.textContent = 'حاولي مرة أخرى 💡'; }
+}
+const STATIONS = [
+  { icon: '📸', name: 'الملخص المصوّر', page: 131, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الملخص المصوّر – استرجاع المعلومات</span><h2>📸 ملخص الفصل الثالث</h2>
+    <div class="grid2 body"><div class="pagecol">${page(131)}</div><div class="txt">
+      <p>تذكّري… ثم اضغطي لتتأكدي:</p>
+      ${flip('الدرس الأول: المخلوقات الحية في أي نظام بيئي تعتمد على…', 'الأشياء غير الحية، وتكوّن الأنظمة البيئية مناطق حيوية عديدة على اليابسة.', '🌊 الدرس الأول')}
+      ${flip('الدرس الثاني: تنتقل الطاقة…', 'من مخلوق حي إلى آخر في النظام البيئي.', '🦎 الدرس الثاني')}
+      ${flip('الدرس الثالث: عندما تتغيّر الأنظمة البيئية فإن…', 'بعض المخلوقات تستطيع البقاء، وبعضها لا يستطيع.', '🌵 الدرس الثالث')}
+      <div class="note2">🗂️ <b>المطويات:</b> ألصقي مطويات الدروس الثلاثة على ورقة كبيرة، واستعيني بها في المراجعة.</div>
+    </div></div>` },
+  { icon: '🔤', name: 'المفردات', page: 131, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> بنك الكلمات – أكمل الفراغ</span><h2>🔤 المفردات: أكملي كل جملة بالكلمة المناسبة</h2>
+    <div class="grid2 body"><div class="pagecol">${page(131)}</div><div class="txt"><div id="voc"></div></div></div>`, after: vRender },
+  { icon: '🧠', name: 'المهارات والأفكار العلمية', page: 132, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> مهارات التفكير – فكّري، زاوجي، شاركي</span><h2>🧠 المهارات والأفكار العلمية (٩–١٤)</h2>
+    <div class="grid2 body"><div class="pagecol">${page(132)}</div><div class="txt">
+      ${mcq('٩) «الصحراء منطقة حيوية غير ملائمة لحياة المخلوقات الحية». هذه العبارة:', ['حقيقة', 'رأي'], 1, 'حقيقة أم رأي؟', 1)}
+      ${flip('أوضّح: لماذا هي رأي؟', 'لأن مخلوقات كثيرة تكيّفت للعيش في الصحراء.')}
+      ${flip('١٠) إذا ذهبتِ في رحلة إلى البر، ما الحيوانات والنباتات التي تتوقعين أن تريها؟', 'نباتات: النخيل، الأثل، الرمث. حيوانات: الجمل، الضب، اليربوع، الصقر.', 'أتوقّع')}
+      ${flip('١١) صفي ثلاث طرائق يغيّر بها الناس الأنظمة البيئية.', 'قطع الأشجار، وبناء المدن والطرق، وتلويث الماء والهواء والتربة.', 'كتابة وصفية')}
+      ${flip('١٢) أيّ المخلوقات في الهرم يُعدّ من المستهلكات، وأيّها من المنتجات؟', 'المنتجات: النباتات في القاعدة. المستهلكات: الجنادب، ثم الطيور، ثم الصقور.', 'أفسّر البيانات')}
+      ${flip('١٣) بدأت شركة بناء بيوت في منطقة عشبية. ماذا تتوقعين أن يحدث لسلاسل الغذاء؟', 'تُزال النباتات، فتفقد الحيوانات غذاءها ومأواها، وتنقطع السلاسل الغذائية.', 'التفكير الناقد')}
+      ${mcq('١٤) الأسد في الصورة يُعدّ:', ['محلّلًا', 'مفترسًا', 'آكل أعشاب', 'قارتًا'], 1, 'أختار الإجابة الصحيحة')}
+    </div></div>` },
+  { icon: '✅', name: 'صواب أم خطأ؟ والفكرة العامة', page: 132, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> صواب أم خطأ – أفسّر إجابتي</span><h2>✅ صواب أم خطأ؟ (١٥–١٧)</h2>
+    <div class="grid2 body"><div class="pagecol">${page(132)}</div><div class="txt">
+      ${mcq('١٥) هرم الطاقة يبيّن جميع سلاسل الغذاء في النظام البيئي.', ['✔ صواب', '✘ خطأ'], 1, 'صواب أم خطأ؟', 1)}
+      ${flip('أفسّر إجابتي', 'خطأ؛ هرم الطاقة يبيّن انتقال الطاقة في سلسلة غذائية واحدة.')}
+      ${mcq('١٦) بعض الظواهر الطبيعية قد تسبّب تغيّرات مفاجئة في النظام البيئي.', ['✔ صواب', '✘ خطأ'], 0, 'صواب أم خطأ؟', 1)}
+      ${flip('أفسّر إجابتي', 'صواب؛ مثل البراكين والفيضانات والحرائق.')}
+      ${flip('١٧) أين تعيش النباتات والحيوانات؟ وكيف يعتمد كل منها على الآخر؟', 'تعيش في مواطنها. النباتات تعطي الحيوانات الغذاء والأكسجين والمأوى، والحيوانات تنشر بذور النباتات.', 'الفكرة العامة – التفكير الناقد')}
+      <div class="note2">🌍 <b>التقويم الأدائي:</b> أعمل نموذجًا للمناطق الحيوية: ثلاث قطع ورق (الصحراوية، العشبية، الغابة)، أكتب على كل قطعة ٤ نباتات و٤ حيوانات، ثم أقارن بين منطقتين.</div>
+    </div></div>` },
+  { icon: '📝', name: 'نموذج اختبار ١ (١–٤)', page: 133, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التقويم الختامي – أختار الإجابة الصحيحة</span><h2>📝 نموذج اختبار (١)</h2>
+    <div class="grid2 body"><div class="pagecol">${page(133)}</div><div class="txt">
+      ${mcq('١) في موطن البركة: أيّ مما يأتي يُعدّ من العوامل اللاحيوية؟', ['السلحفاة', 'الصخر', 'العشب', 'الطائر'], 1)}
+      ${mcq('٢) أيّ الحيوانات التالية ينافس الذئب في الشبكة الغذائية؟', ['السحلية', 'الفأر', 'السلحفاة', 'الأفعى المجلجلة'], 3)}
+      ${mcq('٣) أيّ مما يلي يصف انتقال الطاقة في الشكل؟', ['من الخنفساء إلى الضفدع', 'من الضفدع إلى الثعبان', 'من اللبوة إلى الثعبان', 'من اللبوة إلى الضفدع'], 0)}
+      ${mcq('٤) وُضع قانون لحماية الأنواع المهددة بالانقراض. ماذا تتوقعين أن يكون نص القانون؟', ['منع صيد جميع أنواع المخلوقات', 'السماح بصيد المهددة بالانقراض', 'توفير الحماية للمخلوقات المهددة بالانقراض', 'منع هجرة الطيور'], 2)}
+    </div></div>` },
+  { icon: '📝', name: 'نموذج اختبار ١ (٥–٧)', page: 134, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> قراءة الأشكال – الخريطة المفاهيمية</span><h2>📝 نموذج اختبار (١) – تابع</h2>
+    <div class="grid2 body"><div class="pagecol">${page(134)}</div><div class="txt">
+      ${mcq('٥) تربة جافة • أمطار قليلة • درجات حرارة متقلبة. أيّ الأنظمة البيئية يوضع في الفراغ؟', ['منطقة الغابات', 'الصحراء', 'المنطقة العشبية', 'التندرا'], 1)}
+      ${mcq('٦) فيمَ استُخدمت هذه الخريطة؟', ['توقّع حالة الطقس', 'توزيع المناطق الحيوية في جزء من العالم', 'توزيع اليابسة والمحيطات', 'توزيع المستهلكات'], 1)}
+      ${flip('٧) في الهرم: ماذا يحدث للبومة والسرعوف إذا ماتت جميع العصافير؟', 'يزداد السرعوف لأن العصفور الذي يأكله اختفى، ويقلّ البوم لأن الثعابين تقلّ.', 'أتوقّع – التفكير الناقد')}
+      <div class="pyr">🦉 البومة<br>🐍 الثعبان<br><s>🐦 العصفور</s> ❌<br>🦗 السرعوف<br>🐛 اليرقة<br>🌱 النبات</div>
+    </div></div>` },
+  { icon: '📝', name: 'نموذج اختبار ٢ (١–٤)', page: 135, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التقويم الختامي – أقرأ الصورة</span><h2>📝 نموذج اختبار (٢)</h2>
+    <div class="grid2 body"><div class="pagecol">${page(135)}</div><div class="txt">
+      ${mcq('١) تشير الأشكال (من اليمين إلى اليسار) إلى:', ['هرم طاقة، سلسلة غذائية، شبكة غذائية', 'سلسلة غذائية، شبكة غذائية، هرم طاقة', 'شبكة غذائية، سلسلة غذائية، هرم طاقة', 'هرم طاقة، شبكة غذائية، سلسلة غذائية'], 1)}
+      ${mcq('٢) ما الجزء في الصورة الذي يشير إلى المنتجات؟', ['(١)', '(٢)', '(٣)', '(٤)'], 1)}
+      ${mcq('٣) ما المصطلح المناسب لوصف الصحراء بالنسبة للجمل؟', ['موطن', 'منطقة حيوية', 'إطار بيئي', 'نظام بيئي'], 0)}
+      ${mcq('٤) الصور تشير إلى المناطق الحيوية. أيّ ترتيب صحيح (من اليمين)؟', ['الغابات، الجبلية، الصحراء، العشبية', 'الجبلية، الغابات، الصحراء، العشبية', 'العشبية، الجبلية، الغابات، الصحراء', 'الجبلية، الصحراء، الغابات، العشبية'], 0)}
+    </div></div>` },
+  { icon: '✍️', name: 'نموذج اختبار ٢ (٥–٩)', page: 136, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الأسئلة المقالية – أفكّر وأكتب</span><h2>✍️ نموذج اختبار (٢) – تابع</h2>
+    <div class="grid2 body"><div class="pagecol">${page(136)}</div><div class="txt">
+      <p style="color:var(--pink)">✏️ اكتبي إجابتك على الصفحة بالقلم أولًا، ثم افتحي البطاقة.</p>
+      ${flip('٥) بعد حريق اختفت كل المخلوقات الحية. هل تُعدّ الغابة نظامًا بيئيًا؟', 'لا؛ لأن النظام البيئي عوامل حيوية وغير حيوية معًا، ولم يبقَ إلا غير الحيوية.', 'التفكير الناقد')}
+      ${flip('٦) في حديقة الحي: حدّدي الجماعات الحيوية والمجتمع الحيوي.', 'الجماعات: الحمام، النخيل، النمل. المجتمع الحيوي: كل هذه الجماعات معًا.')}
+      ${flip('٧) قارني بين العوامل الحيوية وغير الحيوية في شاطئ البحر والصحراء.', 'الشاطئ: أسماك وطحالب ونوارس / ماء مالح ورمل. الصحراء: نخيل وضب وجمل / رمل وحرارة وقلة ماء.')}
+      ${flip('٨) بركة صغيرة: ماذا يحدث إذا اختفى أحد العوامل الحيوية أو غير الحيوية؟', 'يختلّ التوازن؛ إذا اختفت النباتات قلّ الغذاء والأكسجين فتموت الأسماك.', 'أستنتج')}
+      ${flip('٩) ما أثر مبادرة السعودية الخضراء على النظام البيئي في مدينتك؟', 'زراعة الأشجار تقلّل التلوث والتصحر، وتلطّف الحرارة، وتوفّر مواطن للمخلوقات.', '🇸🇦 الربط بالوطن')}
+    </div></div>` },
+];
+const done = new Set();
+let cur = 0;
+function station(i) {
+  cur = i; done.add(i);
+  $('#stList').innerHTML = STATIONS.map((s, k) => `<button class="st ${k === i ? 'on' : ''} ${done.has(k) ? 'done' : ''}" onclick="station(${k})"><span class="n">ص${ar(s.page)}</span>${s.icon} ${s.name}</button>`).join('');
+  const s = STATIONS[i];
+  $('#stBody').innerHTML = `<div class="box">${s.html()}<div class="nav">
+    ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
+    ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('questions')">إلى الأسئلة ❓</button>`}</div></div>`;
+  if (s.after) s.after();
+  if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
+}
+// ───── Questions
+$('#formative').innerHTML = [
+  ['🟢 أتذكّر', 'ما الفرق بين المنتجات والمستهلكات؟', 'المنتجات تصنع غذاءها بنفسها، والمستهلكات لا تصنع غذاءها.'],
+  ['🟡 أفكّر', 'لماذا تكون المنتجات في قاعدة هرم الطاقة؟', 'لأنها تأخذ الطاقة من الشمس، وكل المخلوقات تعتمد عليها.'],
+  ['🔴 أتحدّى نفسي', 'لو اختفت كل النباتات من النظام البيئي، ماذا يحدث؟', 'تموت آكلات الأعشاب، ثم آكلات اللحوم، فينهار النظام البيئي.'],
+].map(([l, q, a]) => flip(q, a, l)).join('');
+$('#book').innerHTML = `<p style="margin:0 0 6px">إذا أخطأتِ في سؤال من نموذج اختبار (١)، ارجعي إلى الصفحة:</p>
+  <table><tr><th>السؤال</th><th>المرجع</th><th>السؤال</th><th>المرجع</th></tr>
+  <tr><td>١</td><td>ص١٠٠</td><td>٥</td><td>ص١٠٣</td></tr><tr><td>٢</td><td>ص١١٥</td><td>٦</td><td>ص١٠٣</td></tr>
+  <tr><td>٣</td><td>ص١١٢</td><td>٧</td><td>ص١١٢–١١٦</td></tr><tr><td>٤</td><td>ص١٢٧–١٢٨</td><td></td><td></td></tr></table>
+  ${flip('كم سؤالًا أجبتِ عنه صحيحًا من أول محاولة؟', 'اكتبي العدد في دفترك، وحدّدي الدرس الذي تحتاجين مراجعته. 💪', 'أقيّم نفسي')}`;
+const QUIZ = [
+  { q: 'المخلوق الذي يصنع غذاءه بنفسه من…', o: ['المستهلكات', 'المنتجات', 'المحلّلات'], a: 1 },
+  { q: 'أيّ مما يلي عامل غير حيوي؟', o: ['الماء', 'السمكة', 'العشب'], a: 0 },
+  { q: 'تتشارك سلسلتان غذائيتان أو أكثر لتكوين…', o: ['هرم طاقة', 'شبكة غذائية', 'موطن'], a: 1 },
+  { q: 'الحيوان الذي يصطاد حيوانًا آخر ويأكله يسمى…', o: ['مفترسًا', 'منتجًا', 'محلّلًا'], a: 0 },
+  { q: 'استجابة المخلوق الحي للتغيّرات في بيئته تسمى…', o: ['الانقراض', 'المواءمة', 'الموطن'], a: 1 },
+  { q: 'الصحراء بالنسبة للجمل…', o: ['موطن', 'هرم طاقة', 'سلسلة غذائية'], a: 0 },
+];
+let qi = 0, qs = 0, qtry = 0;
+function quiz() {
+  if (qi >= QUIZ.length) {
+    $('#quiz').innerHTML = `<div class="score" style="font-size:26px;color:var(--green)">🏆 ${ar(qs)} / ${ar(QUIZ.length)}</div><p class="score">${qs >= 5 ? 'أبدعتِ يا عالمتي! 🌟' : 'أحسنتِ! راجعي المحطات وحاولي مرة أخرى 💪'}</p><button class="btn main" onclick="qi=0;qs=0;quiz()">أعيدي الاختبار 🔄</button>`;
+    if (qs >= 4) confetti(); return;
+  }
+  const t = QUIZ[qi]; qtry = 0;
+  $('#quiz').innerHTML = `<p class="score">السؤال ${ar(qi + 1)} من ${ar(QUIZ.length)} • ⭐ ${ar(qs)}</p><p>${t.q}</p><div class="opts">${t.o.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="qmsg"></div>`;
+  document.querySelectorAll('#quiz .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!qtry) { qs++; award(1, b); } $('#qmsg').className = 'msg good'; $('#qmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { qi++; quiz(); }, 900); }
+    else { qtry++; b.classList.add('no'); b.disabled = true; $('#qmsg').className = 'msg bad'; $('#qmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+quiz();
+
+// ───── Games
+const GAMES = {
+  tf: { title: '✅ صواب أم خطأ؟', two: true, labels: ['✔ صواب', '✘ خطأ'], items: [
+    { q: 'المنتجات تصنع غذاءها بنفسها من طاقة الشمس.', a: 0 }, { q: 'هرم الطاقة يبيّن جميع السلاسل الغذائية.', a: 1 },
+    { q: 'الصخر والماء من العوامل الحيوية.', a: 1 }, { q: 'الحرائق والبراكين قد تغيّر النظام البيئي فجأة.', a: 0 },
+    { q: 'الأسد من آكلات الأعشاب.', a: 1 }, { q: 'إذا انقرض نوع فإنه لا يعود أبدًا.', a: 0 },
+  ] },
+  who: { title: '🕵️ من أنا؟', items: [
+    { q: 'أنا النظام البيئي الذي يعيش فيه المخلوق ويجد فيه كل احتياجاته.', o: ['الموطن', 'المنطقة الحيوية', 'الشبكة الغذائية'], a: 0 },
+    { q: 'أنا نظام بيئي كبير له نباتاته وحيواناته الخاصة.', o: ['الموطن', 'المنطقة الحيوية', 'الجماعة الحيوية'], a: 1 },
+    { q: 'أنا مجموعة من نوع واحد تعيش في مكان واحد.', o: ['الجماعة الحيوية', 'المجتمع الحيوي', 'هرم الطاقة'], a: 0 },
+    { q: 'أنا كل الجماعات الحيوية التي تعيش معًا في مكان واحد.', o: ['الموطن', 'المجتمع الحيوي', 'المنتجات'], a: 1 },
+    { q: 'أنا مخلوق أحلّل بقايا المخلوقات الميتة.', o: ['المحلّلات', 'المفترسات', 'المنتجات'], a: 0 },
+  ] },
+};
+// ───── Pyramid builder: tap organisms from the base up
+const PYR = [['🌱', 'النبات'], ['🐛', 'اليرقة'], ['🦗', 'السرعوف'], ['🐦', 'العصفور'], ['🐍', 'الثعبان'], ['🦉', 'البومة']];
+let pyrN = 0, pyrMix = [];
+function pyrStart() { pyrN = 0; pyrMix = PYR.map((_, i) => i).sort(() => Math.random() - .5); pyrDraw(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
+function pyrDraw(msg) {
+  $('#play').innerHTML = `<div class="box"><h2>🔺 ابني هرم الطاقة</h2><p class="score">اضغطي المخلوقات بالترتيب: من القاعدة (المنتج) إلى القمة</p>
+    <div class="pbuild">${PYR.map((p, i) => `<div class="lvl ${i < pyrN ? 'on' : ''}" style="width:${40 + (6 - i) * 10}%">${i < pyrN ? p[0] + ' ' + p[1] : '…'}</div>`).reverse().join('')}</div>
+    <div class="opts" style="grid-template-columns:repeat(3,1fr)">${pyrMix.map((i) => `<button class="btn" ${i < pyrN ? 'disabled style="opacity:.35"' : ''} onclick="pyrTap(${i},this)" style="text-align:center">${PYR[i][0]} ${PYR[i][1]}</button>`).join('')}</div>
+    <div class="msg ${msg ? msg[0] : ''}" id="gmsg">${msg ? msg[1] : ''}</div></div>`;
+}
+function pyrTap(i, b) {
+  if (i === pyrN) { pyrN++; award(1, b); pyrDraw(pyrN === PYR.length ? ['good', '🏆 أحسنتِ! الطاقة تنتقل من النبات إلى البومة، وتقلّ كلما صعدنا.'] : ['good', 'أحسنتِ! 🌟']); if (pyrN === PYR.length) confetti(); }
+  else { b.classList.add('no'); $('#gmsg').className = 'msg bad'; $('#gmsg').textContent = 'فكّري: من يأكل ' + (pyrN ? PYR[pyrN - 1][1] : 'لا أحد… من يصنع غذاءه؟') + '؟'; }
+}
+let G, gi, gs, gtry;
+function game(k) { G = GAMES[k]; gi = 0; gs = 0; round(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
+function round() {
+  if (gi >= G.items.length) {
+    $('#play').innerHTML = `<div class="box" style="text-align:center"><h2>🏆 أنهيتِ اللعبة!</h2><div style="font-size:30px">⭐ ${ar(gs)} / ${ar(G.items.length)}</div><p>النجمة للإجابة الصحيحة من أول محاولة.</p></div>`;
+    confetti(); return;
+  }
+  const t = G.items[gi]; gtry = 0;
+  const opts = G.two ? G.labels : t.o;
+  $('#play').innerHTML = `<div class="box"><h2>${G.title}</h2><p class="score">${ar(gi + 1)} / ${ar(G.items.length)} • ⭐ ${ar(gs)}</p>
+    ${t.img ? `<img class="pic" src="img/${t.img}.jpg" alt="">` : ''}<p style="text-align:center;font-size:22px">${t.q}</p>
+    <div class="opts" ${G.two ? 'style="grid-template-columns:1fr 1fr"' : ''}>${opts.map((o, k) => `<button class="btn" data-k="${k}" ${G.two ? 'style="text-align:center;font-size:22px"' : ''}>${o}</button>`).join('')}</div><div class="msg" id="gmsg"></div></div>`;
+  document.querySelectorAll('#play .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!gtry) { gs++; award(1, b); } $('#gmsg').className = 'msg good'; $('#gmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { gi++; round(); }, 900); }
+    else { gtry++; b.classList.add('no'); b.disabled = true; $('#gmsg').className = 'msg bad'; $('#gmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+station(0);
+// every content picture opens full size when tapped
+document.addEventListener('click', (e) => {
+  const im = e.target.closest('main img');
+  if (im && !im.classList.contains('page')) zoom(im.src);
+});
+</script>
+</body>
+</html>
