@@ -92,6 +92,7 @@
 
   <main class="wall" id="wall" aria-live="polite"></main>
   <div id="state"><div class="spinner"></div></div>
+  <div style="text-align:center"><button class="btn sm" id="teacherLogin" hidden>👩‍🏫 دخول المعلمة (للحذف والتثبيت)</button></div>
 </div>
 <script src="assets/qrcode.js"></script>
 <script src="assets/common.js"></script>
@@ -126,6 +127,20 @@ let POSTS = [], seen = new Set(), firstLoad = true, cat = '', ROSTER = null;
 const liked = new Set(store.get('wallLiked', []));
 
 $('#teacherBar').hidden = !TEACHER;
+$('#teacherLogin').hidden = TEACHER;
+$('#teacherLogin').onclick = () => {
+  const pin = h('input', { type: 'password', inputmode: 'numeric', placeholder: 'الرمز السري' });
+  const msg = h('p', { class: 'msg err' });
+  const go = h('button', { class: 'btn primary' }, 'دخول');
+  go.onclick = async () => {
+    go.disabled = true; msg.textContent = '';
+    try { await api({ action: 'login', pin: pin.value.trim() }); store.set('pin', pin.value.trim()); location.reload(); }
+    catch (e) { msg.textContent = e.message; go.disabled = false; }
+  };
+  pin.addEventListener('keydown', e => { if (e.key === 'Enter') go.click(); });
+  modal(h('h2', {}, '👩‍🏫 دخول المعلمة'), h('p', { class: 'muted', style: 'margin:0' }, 'بعد الدخول يظهر زر «حذف» و«تثبيت» تحت كل صورة.'), pin, msg, go);
+  setTimeout(() => pin.focus(), 50);
+};
 WALL.classes.forEach(c => $('#clsFilter').add(new Option(c.name, c.id)));
 ['#q', '#clsFilter', '#sort'].forEach(s => $(s).addEventListener('input', render));
 
