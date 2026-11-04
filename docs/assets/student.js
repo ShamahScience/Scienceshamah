@@ -2,7 +2,7 @@
 // ملف مستقل (لا يحتاج common.js) حتى لا يتعارض مع متغيرات الألعاب.
 (function () {
   // يجب أن يطابق CONFIG_API في assets/common.js
-  const CONFIG_API = '';
+  const CONFIG_API = 'https://script.google.com/macros/s/AKfycbyPLUgC_PL0VoYvWu8hK1mvFgE7iRa5X7v7r9h7kgGo2J9N3VJiedplcQiEptRCp56-/exec';
   const PLATFORM = { classes: [{ id: '6a', name: 'سادس أول' }, { id: '6b', name: 'سادس ثاني' }] };
   const store = {
     get(k, d) { try { const v = localStorage.getItem('platform:' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },

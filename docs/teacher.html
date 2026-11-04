@@ -96,10 +96,10 @@ function loginView(err) {
   };
   show(h('div', { class: 'panel', style: 'max-width:560px;margin:auto;width:100%' },
     h('h2', {}, 'دخول المعلمة'),
-    h('label', { class: 'f', for: 'apiUrl' }, 'رابط Google Apps Script (مرة واحدة فقط)', apiIn),
+    CONFIG_API ? null : h('label', { class: 'f', for: 'apiUrl' }, 'رابط Google Apps Script (مرة واحدة فقط)', apiIn),
     h('label', { class: 'f', for: 'pin' }, 'الرمز السري', pinIn),
     h('button', { class: 'btn primary', onclick: go }, 'دخول'), msg,
-    h('details', { open: !getApi() }, h('summary', {}, 'كيف أحصل على الرابط؟'), setupSteps())));
+    CONFIG_API ? null : h('details', { open: !getApi() }, h('summary', {}, 'كيف أحصل على الرابط؟'), setupSteps())));
   pinIn.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
 }
 function setupSteps() {
