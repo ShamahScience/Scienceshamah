@@ -316,6 +316,7 @@
   .nlab.pg { background: #1e5fd8; font-size: 14px; }
   .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
   #nafs .box { overflow-y: auto; }
+  .sbtn { position: absolute; bottom: 10px; left: 10px; z-index: 3; font-size: 16px; padding: 4px 12px; box-shadow: 0 2px 8px #0003; }
 </style>
 </head>
 <body>
@@ -343,7 +344,8 @@
 <!-- ═════ البداية -->
 <section class="panel on" id="start">
   <div class="show">
-    <div class="slide on"><img src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></div>
+    <div class="slide on"><img src="img/morning.jpg" alt="صباح العلم والعطاء"></div>
+    <div class="slide"><img src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></div>
     <div class="slide"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
     <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
     <div class="slide tam"><div class="tamh">🎬 تمهيد مشوّق: كيف تتعاون أجهزة جسمك لتمنحك الطاقة؟</div><video id="tvid" src="../systems/systems.mp4" controls playsinline preload="metadata"></video></div>
@@ -361,7 +363,7 @@
   </div>
   <div class="dots">
     <button class="btn" onclick="slide(-1)">→ السابق</button>
-    <span id="dotT">١ / ٥</span>
+    <span id="dotT">١ / ٦</span>
     <button class="btn main" onclick="slide(1)">التالي ←</button>
   </div>
 </section>
@@ -446,6 +448,8 @@
     <button class="tl" data-tool="hl" title="تظليل">🖍️ تظليل</button>
     <button class="tl" data-tool="er" title="ممحاة">🧽 ممحاة</button>
     <button class="tl" data-tool="tx" title="كتابة نص">🔤 نص</button>
+    <button class="tl" data-tool="dy" title="كتابة اليوم">📅 اليوم</button>
+    <button class="tl" data-tool="dt" title="كتابة التاريخ الهجري">🗓️ التاريخ</button>
     <span class="sep"></span>
     <button class="cl on" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
     <button class="cl" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
@@ -567,7 +571,7 @@ function stroke(a, b) {
 }
 (function initInk() {
   const c = cv();
-  c.addEventListener('pointerdown', (e) => { if (tool === 'tx') { e.preventDefault(); textAt(c, e, color, 26, saveInk); return; } drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
+  c.addEventListener('pointerdown', (e) => { if (tool === 'tx' || tool === 'dy' || tool === 'dt') { e.preventDefault(); textAt(c, e, color, 26, saveInk, tool === 'dy' ? arDay() : tool === 'dt' ? arDate() : ''); return; } drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
   c.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); stroke(last, p); last = p; });
   const end = () => { if (drawing) { drawing = false; saveInk(); } };
   c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
@@ -1031,12 +1035,23 @@ function pulseCalc() {
 }
 
 // ───── Text on the whiteboards: tap where to write, type, then Enter (or tap elsewhere)
-function textAt(canvas, e, col, px, done) {
+// ───── Today's day and Hijri date in Arabic, for the date tools on the whiteboard
+function arDay() { try { return new Intl.DateTimeFormat('ar-SA', { weekday: 'long' }).format(new Date()); } catch (e) { return ''; } }
+function arDate() {
+  try { return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date()).replace(/\s*هـ$/, '') + ' هـ'; }
+  catch (e) { return ''; }
+}
+// ───── A whiteboard button on every opening picture (write the day and date, draw, highlight)
+document.querySelectorAll('#start .slide > img').forEach((im) => {
+  const b = document.createElement('button'); b.className = 'btn sbtn'; b.innerHTML = '✏️ السبورة واكتبي التاريخ';
+  b.onclick = () => zoom(im.getAttribute('src')); im.parentNode.appendChild(b);
+});
+function textAt(canvas, e, col, px, done, init) {
   document.querySelectorAll('.txin').forEach((x) => x.blur());
   const r = canvas.getBoundingClientRect(), k = canvas.width / r.width;
   const x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
   const inp = document.createElement('input');
-  inp.className = 'txin'; inp.placeholder = 'اكتبي هنا… ثم Enter';
+  inp.className = 'txin'; inp.placeholder = 'اكتبي هنا… ثم Enter'; if (init) { inp.value = init; inp.size = init.length + 2; }
   Object.assign(inp.style, { right: (innerWidth - e.clientX) + 'px', top: (e.clientY - px * 0.9) + 'px', color: col, fontSize: px + 'px' });
   document.body.appendChild(inp); inp.focus(); setTimeout(() => inp.focus(), 0);
   let fin = false;
