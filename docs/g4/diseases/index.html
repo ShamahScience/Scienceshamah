@@ -38,7 +38,14 @@
   .flip .k { font-size: 14px; color: #6b4fc0; display: block; }
   .flip .hint { font-size: 13px; color: #7a869e; }
   /* stations layout like a video chapter list */
-  .stations { display: grid; grid-template-columns: 290px 1fr; gap: 14px; align-items: start; }
+  .stations { display: grid; grid-template-columns: 290px 1fr 170px; gap: 14px; align-items: start; }
+  @media (max-width: 760px) { header { flex-wrap: wrap; gap: 6px; } header > div { flex: 1 1 60%; } header h1 { font-size: 19px; } header p { font-size: 13px; } .startot, .teacher, .fs { font-size: 14px !important; padding: 3px 10px !important; } .tab { min-width: 0; font-size: 15px; padding: 6px 4px; } }
+  .guide { position: sticky; top: 70px; text-align: center; }
+  .guide .bub { background: #fff; border: 3px solid var(--leaf); border-radius: 18px; padding: 6px 8px; font-size: 16px; line-height: 1.6; color: var(--green); position: relative; margin-bottom: 10px; animation: pop .4s; }
+  .guide .bub::after { content: ''; position: absolute; bottom: -12px; left: 50%; margin-left: -10px; border: 10px solid transparent; border-top-color: var(--leaf); border-bottom: 0; }
+  .guide img { width: 100%; border-radius: 18px; animation: bob 2.4s ease-in-out infinite alternate; filter: drop-shadow(0 4px 4px rgba(142,42,107,.25)); }
+  @keyframes bob { to { transform: translateY(-6px); } } @keyframes pop { from { transform: scale(.6); opacity: 0; } }
+  @media (max-width: 860px) { .guide { position: static; display: flex; align-items: center; gap: 8px; order: -1; } .guide img { width: 90px; } .guide .bub { flex: 1; margin: 0; } .guide .bub::after { display: none; } }
   @media (max-width: 860px) { .stations { grid-template-columns: 1fr; } }
   .list { background: linear-gradient(180deg, #8e2a6b, #c2366f); border-radius: 22px; padding: 12px; color: #fff; position: sticky; top: 70px; }
   @media (max-width: 860px) { .list { position: static; } }
@@ -119,7 +126,8 @@
     #start.on { display: flex; flex-direction: column; }
     #start .show { flex: 1; height: auto; min-height: 0; }
     /* stations: list | content (book page | explanation) */
-    .stations { height: 100%; grid-template-columns: 260px 1fr; }
+    .stations { height: 100%; grid-template-columns: 240px 1fr 150px; }
+    .guide { position: static; align-self: end; } .guide img { max-height: 52vh; width: auto; max-width: 100%; margin: 0 auto; }
     .list { position: static; height: 100%; overflow-y: auto; }
     #stBody, #stBody > .box { height: 100%; min-height: 0; }
     #stBody > .box { display: flex; flex-direction: column; }
@@ -295,6 +303,7 @@
       <div id="stList"></div>
     </aside>
     <div id="stBody"></div>
+    <aside class="guide" id="guide"></aside>
   </div>
 </section>
 
@@ -696,6 +705,8 @@ const STATIONS = [
     </div></div>` },
 ];
 function reveal(td) { if (!td.classList.contains('hidecell')) return; td.classList.remove('hidecell'); award(1, td); }
+const GUIDE = ['لنتعرّف معًا مفردات مهمتنا! 📇', 'انظري معي من خلال المجهر 🔬', 'هيا نجمع النفايات ونكتشف! 🗑️', 'ما المرض؟ لنرسم الخريطة ✍️', 'ليست كل الأمراض معدية! 🤔', 'الحساسية وفقر الدم… لنقرأ الصور 🩸', 'كيف تنتقل العدوى؟ اكتشفي الطرق 🤧', 'إلى المختبر يا طبيبات! 🧪', 'الفطريات… النافعة والضارة 🍄', 'كيف أحمي نفسي من العدوى؟ 🏡'];
+function guideSay(i) { const g = document.getElementById('guide'); if (!g) return; g.innerHTML = `<div class="bub">${GUIDE[i] || 'أحسنتِ يا طبيبتي! 🩺'}</div><img src="img/${i % 2 ? 'doctor2' : 'doctor'}.png" alt="الطبيبة الصغيرة">`; }
 const done = new Set();
 let cur = 0;
 function station(i) {
@@ -705,6 +716,7 @@ function station(i) {
   $('#stBody').innerHTML = `<div class="box">${s.html()}<div class="nav">
     ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
     ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('questions')">إلى الأسئلة ❓</button>`}</div></div>`;
+  guideSay(i);
   if (s.after) s.after();
   if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
 }
