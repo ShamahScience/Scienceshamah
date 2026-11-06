@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأمراض – درس تفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --green: #8e2a6b; --leaf: #c2366f; --leafg: #2f8a3a; --mint: #fde4ef; --cream: #fffbef; --ink: #23293a; --pink: #c2366f; --red: #d23b3b; --gold: #f5c242; --sky: #dff1fb; --rose: #fde4ec; --yel: #fff3c4; --lav: #eee8fb; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #fdf0f6; }
+  img { max-width: 100%; display: block; }
+  main img { cursor: zoom-in; }
+  .flags { width: 100%; height: 70px; object-fit: cover; object-position: center top; }
+  header { max-width: 1100px; margin: 0 auto; padding: 8px 14px 0; display: flex; align-items: center; gap: 12px; }
+  header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 20%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
+  header h1 { margin: 0; font-size: 26px; color: var(--green); line-height: 1.4; }
+  header p { margin: 0; font-size: 16px; color: #4a5468; }
+  .tabs { max-width: 1100px; margin: 10px auto 0; padding: 0 14px; display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: #fdf0f6; padding-bottom: 8px; }
+  .tab { flex: 1; min-width: 120px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 16px; padding: 10px 8px; font: inherit; font-size: 19px; cursor: pointer; }
+  .tab.on { background: var(--green); color: #fff; box-shadow: 0 4px 0 #5a1a44; }
+  main { max-width: 1100px; margin: 0 auto; padding: 6px 14px 30px; }
+  .panel { display: none; } .panel.on { display: block; }
+  .box { background: #fff; border: 3px solid var(--green); border-radius: 22px; padding: 16px; box-shadow: 0 5px 0 #f1c9dc; margin-bottom: 14px; }
+  .strat { display: inline-block; background: var(--cream); border: 2px dashed var(--gold); border-radius: 30px; padding: 2px 14px; font-size: 16px; margin-bottom: 8px; }
+  .strat b { color: var(--pink); }
+  h2 { margin: 2px 0 8px; color: var(--green); font-size: 24px; }
+  p, li { font-size: 19px; line-height: 1.9; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .page { border: 3px solid var(--leaf); border-radius: 14px; cursor: zoom-in; }
+  .cap { text-align: center; font-size: 14px; color: #5a6785; margin-top: 4px; }
+  .flip { border: 3px solid var(--ink); border-radius: 16px; background: var(--yel); padding: 10px 12px; margin: 10px 0; cursor: pointer; font-size: 19px; line-height: 1.8; }
+  .flip .a { display: none; margin-top: 6px; padding-top: 6px; border-top: 2px dashed #b9a24a; color: var(--leaf); }
+  .flip.open { background: #f3fbe9; border-color: var(--leaf); }
+  .flip.open .a { display: block; }
+  .flip .k { font-size: 14px; color: #6b4fc0; display: block; }
+  .flip .hint { font-size: 13px; color: #7a869e; }
+  /* stations layout like a video chapter list */
+  .stations { display: grid; grid-template-columns: 290px 1fr; gap: 14px; align-items: start; }
+  @media (max-width: 860px) { .stations { grid-template-columns: 1fr; } }
+  .list { background: linear-gradient(180deg, #8e2a6b, #c2366f); border-radius: 22px; padding: 12px; color: #fff; position: sticky; top: 70px; }
+  @media (max-width: 860px) { .list { position: static; } }
+  .list h3 { margin: 4px 6px 8px; font-size: 20px; }
+  .list small { display: block; margin: -6px 6px 8px; font-size: 13px; opacity: .85; }
+  .st { display: flex; align-items: center; gap: 8px; width: 100%; background: rgba(255,255,255,.12); border: 2px solid transparent; color: #fff; border-radius: 14px; padding: 8px 10px; margin: 6px 0; font: inherit; font-size: 17px; cursor: pointer; text-align: right; }
+  .st .n { background: #fff; color: var(--green); border-radius: 8px; padding: 0 8px; font-size: 14px; }
+  .st.on { background: #fff; color: var(--green); border-color: var(--gold); }
+  .st.done::after { content: '✔'; margin-inline-start: auto; color: #c9f0c0; }
+  .st.on.done::after { color: var(--leaf); }
+  .nav { display: flex; gap: 10px; margin-top: 10px; }
+  .btn { border: 3px solid var(--ink); border-radius: 14px; background: var(--cream); color: var(--ink); font: inherit; font-size: 18px; padding: 9px 14px; cursor: pointer; }
+  .btn.main { background: var(--leaf); border-color: var(--green); color: #fff; }
+  .btn.ok { background: #c9f0c0; border-color: var(--leaf); }
+  .btn.no { background: #fde2e2; border-color: var(--red); animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .ce { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 6px; align-items: center; margin: 6px 0; }
+  .ce .c { background: var(--rose); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e { background: var(--sky); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e.hide { color: transparent; background: repeating-linear-gradient(45deg, #eef2f7, #eef2f7 8px, #e2e8f0 8px, #e2e8f0 16px); cursor: pointer; }
+  .ce .ar { text-align: center; font-size: 22px; color: #e67e22; }
+  .verse { text-align: center; font-size: 24px; color: var(--green); background: var(--mint); border-radius: 14px; padding: 8px; margin: 8px 0; }
+  .vocab { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media (max-width: 600px) { .vocab { grid-template-columns: repeat(2, 1fr); } }
+  .vocab .flip { text-align: center; margin: 0; }
+  /* virtual experiment */
+  .lab { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; }
+  .pot { background: #fbfdf9; border: 3px dashed var(--leaf); border-radius: 18px; padding: 8px; }
+  .pot svg { width: 100%; max-width: 220px; height: auto; }
+  .day { display: flex; align-items: center; gap: 10px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
+  .day input { width: 220px; accent-color: var(--leaf); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 16px; }
+  th, td { border: 2px solid #e7a9c1; padding: 5px; text-align: center; }
+  th { background: var(--green); color: #fff; }
+  /* games */
+  .gamecards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 760px) { .gamecards { grid-template-columns: 1fr; } }
+  .gcard { border: 3px solid var(--green); border-radius: 20px; background: var(--cream); padding: 12px; text-align: center; cursor: pointer; font: inherit; color: var(--ink); }
+  .gcard .ic { font-size: 46px; }
+  .gcard b { display: block; font-size: 20px; color: var(--green); }
+  .play { margin-top: 12px; }
+  .opts { display: grid; gap: 8px; }
+  .opts .btn { text-align: right; }
+  .pic { width: 220px; max-width: 70%; margin: 6px auto; border-radius: 16px; border: 3px solid var(--leaf); }
+  .msg { min-height: 30px; text-align: center; font-size: 19px; margin-top: 6px; }
+  .msg.good { color: var(--leaf); } .msg.bad { color: var(--red); }
+  .score { text-align: center; font-size: 18px; }
+  .level { display: inline-block; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-bottom: 4px; }
+  .zoom { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 20; padding: 12px; }
+  .zoom.on { display: flex; }
+  footer { text-align: center; color: #6b4fc0; font-size: 18px; padding: 10px; }
+  .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
+
+  /* ── Computer screen: everything fits in one landscape screen, no page scrolling ── */
+  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: #6b4fc0; border-radius: 30px; padding: 4px 16px; font-size: 19px; white-space: nowrap; }
+  .fs { border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
+  @media (min-width: 900px) and (orientation: landscape) and (max-height: 720px) {
+    header p { display: none; } header img.girl { width: 40px; height: 40px; } header h1 { font-size: 21px; }
+    .tab { padding: 4px 8px; font-size: 17px; } .box { padding: 10px 14px; }
+  }
+  @media (min-width: 900px) and (orientation: landscape) {
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .flags { height: 6vh; min-height: 34px; }
+    header, .tabs, main { max-width: none; width: 100%; }
+    header { padding: 4px 18px 0; }
+    header img.girl { width: 52px; height: 52px; }
+    header h1 { font-size: 24px; }
+    .tabs { margin-top: 6px; padding: 0 18px 6px; position: static; }
+    .tab { padding: 6px 8px; font-size: 19px; }
+    main { flex: 1; min-height: 0; padding: 4px 18px 4px; }
+    footer { padding: 0 0 4px; font-size: 15px; }
+    .panel.on { height: 100%; }
+    .box { margin-bottom: 0; }
+    .scroll { overflow-y: auto; min-height: 0; }
+    /* start: rules | flag | goals */
+    #start.on { display: flex; flex-direction: column; }
+    #start .show { flex: 1; height: auto; min-height: 0; }
+    /* stations: list | content (book page | explanation) */
+    .stations { height: 100%; grid-template-columns: 260px 1fr; }
+    .list { position: static; height: 100%; overflow-y: auto; }
+    #stBody, #stBody > .box { height: 100%; min-height: 0; }
+    #stBody > .box { display: flex; flex-direction: column; }
+    #stBody .body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 16px; }
+    #stBody .body > .pagecol { min-height: 0; position: relative; }
+    #stBody .body > .pagecol img.page { position: absolute; top: 0; right: 0; left: 0; bottom: 24px; width: 100%; height: calc(100% - 24px); object-fit: contain; border: 0; }
+    #stBody .body > .pagecol .cap { position: absolute; bottom: 0; right: 0; left: 0; }
+    #stBody .body > .txt { overflow-y: auto; min-height: 0; padding-inline-end: 4px; }
+    #stBody .extra { display: none; }
+    #stBody > .box { overflow: hidden; }
+    #stBody .nav { flex: none; }
+    #stBody .txt img { max-height: 24vh; width: auto; margin: 0 auto; }
+    #stBody .txt .flip { margin: 6px 0; padding: 6px 10px; font-size: 17px; line-height: 1.6; }
+    #stBody .txt p { font-size: 17px; line-height: 1.7; margin: 4px 0; }
+    #stBody .txt h2 { font-size: 18px !important; margin: 4px 0; }
+    #stBody .txt .verse { font-size: 18px !important; padding: 4px; margin: 4px 0; }
+    #stBody .txt .ce { margin: 3px 0; } #stBody .txt .ce .c, #stBody .txt .ce .e { font-size: 16px; padding: 3px 8px; }
+    #stBody .txt .grid2 { gap: 8px; }
+    #stBody .txt .cap { font-size: 12px; margin: 0; }
+    #stBody .txt .lab svg { max-height: 16vh; }
+    #stBody .txt .vocab .flip { font-size: 15px; padding: 4px; }
+    #stBody > .box h2 { font-size: 21px; margin: 0 0 4px; }
+    .nav { margin-top: 6px; }
+    /* questions: three columns */
+    #questions.on { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    #questions .box { overflow-y: auto; min-height: 0; }
+    /* games: games | exit ticket */
+    #games.on { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+    #clinic.on { display: block; } #clinic .box { height: 100%; overflow-y: auto; }
+    #games .box { overflow-y: auto; min-height: 0; }
+    #games .gamecards { grid-template-columns: repeat(3, 1fr); }
+    .gcard .ic { font-size: 36px; }
+    .pic { width: auto; max-height: 22vh; }
+    #play .opts { grid-template-columns: repeat(3, 1fr); }
+    #play .opts .btn { text-align: center; }
+  }
+
+  /* start slideshow: one picture at a time, always shown whole */
+  .show { position: relative; height: 62vh; min-height: 260px; }
+  .slide { display: none; position: absolute; inset: 0; }
+  .slide.on { display: block; }
+  .slide > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 14px; }
+  .slide.goals { overflow-y: auto; }
+  .slide.goals .box { max-width: 760px; margin: 0 auto; }
+  .dots { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; font-size: 18px; }
+
+  .zoom { flex-direction: column; gap: 8px; padding: 8px; background: rgba(24, 36, 26, .92); }
+  .zoom .tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; background: #fff; border-radius: 16px; padding: 6px 10px; border: 3px solid var(--green); }
+  .zoom .tools button { font: inherit; font-size: 16px; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 4px 10px; cursor: pointer; color: var(--ink); }
+  .zoom .tools .tl.on, .zoom .tools .sz.on { background: var(--mint); border-color: var(--leaf); }
+  .zoom .tools .cl { width: 32px; height: 32px; border-radius: 50%; padding: 0; }
+  .zoom .tools .cl.on { outline: 4px solid var(--green); outline-offset: 2px; }
+  .zoom .tools .sz { width: 40px; height: 36px; padding: 0; line-height: 1; color: var(--ink); }
+  .zoom .tools .close { background: var(--red); color: #fff; border-color: var(--red); }
+  .zoom .tools .sep { width: 2px; height: 26px; background: #dde5d7; }
+  .stage { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+  .stage img { max-width: 100%; max-height: 100%; border-radius: 8px; user-select: none; -webkit-user-drag: none; }
+  .stage canvas { position: absolute; touch-action: none; cursor: crosshair; }
+
+  .startot { border: 3px solid var(--gold); background: #fff8dc; color: #8a6400; border-radius: 30px; padding: 4px 14px; font: inherit; font-size: 18px; cursor: pointer; white-space: nowrap; margin-inline-start: auto; }
+  .startot.snd { margin-inline-start: auto; padding: 4px 10px; }
+  .startot.snd + .startot { margin-inline-start: 0; }
+  .startot.bump { animation: bump .5s; } @keyframes bump { 40% { transform: scale(1.25); } }
+  .teacher { margin-inline-start: 0 !important; }
+  .award { position: fixed; z-index: 40; pointer-events: none; text-align: center; transform: translate(-50%, -50%); animation: rise 1.6s ease-out forwards; }
+  .award .s { font-size: 54px; line-height: 1; filter: drop-shadow(0 3px 2px rgba(0,0,0,.25)); }
+  .award .t { display: inline-block; margin-top: 4px; background: #fff; border: 3px solid var(--gold); color: var(--pink); border-radius: 20px; padding: 2px 14px; font-size: 20px; white-space: nowrap; }
+  .award.two .t { background: #6b4fc0; color: #fff; border-color: #fff3c4; }
+  @keyframes rise { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.4); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 70% { opacity: 1; transform: translate(-50%, -80%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -140%) scale(.9); } }
+  .flip[data-stars="2"] .k::after { content: ' ⭐⭐'; }
+  .slide .datebox { position: absolute; top: 4%; right: 3%; background: #fff; border: 2px dashed var(--leaf); border-radius: 12px; padding: 2px 12px; font-size: 17px; color: var(--green); }
+  .slide .cases { position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .modal { position: fixed; inset: 0; background: rgba(60, 20, 50, .6); display: none; align-items: center; justify-content: center; z-index: 35; padding: 14px; }
+  .modal.on { display: flex; } .mbox { background: #fff; border-radius: 22px; border: 4px solid var(--leaf); padding: 16px; max-width: 560px; width: 100%; }
+  .file { background: #fffaf0; border: 3px solid #e2c68a; border-radius: 6px 18px 18px 18px; padding: 10px 14px; position: relative; margin: 10px 0 8px; }
+  .file .ftab { display: inline-block; background: #f5c242; color: #5a3a00; border-radius: 10px 10px 0 0; padding: 2px 14px; margin: -10px 0 6px; font-size: 17px; }
+  .file p { margin: 4px 0; }
+  .clinic { display: grid; grid-template-columns: 220px 1fr; gap: 14px; align-items: start; }
+  .clinic .doc { width: 100%; border-radius: 18px; border: 3px solid var(--mint); }
+  @media (max-width: 760px) { .clinic { grid-template-columns: 1fr; } .clinic .doc { max-width: 180px; margin: 0 auto; } }
+  .ctabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .explain { background: #f3fbe9; border: 2px solid var(--leafg); border-radius: 12px; padding: 6px 10px; margin: 8px 0; font-size: 17px; line-height: 1.8; }
+  .mq { border: 3px solid var(--ink); border-radius: 16px; background: var(--sky); padding: 6px 10px; margin: 6px 0; }
+  .mq .k { font-size: 14px; color: #6b4fc0; display: block; } .mq .mqq { font-size: 17px; line-height: 1.6; margin-bottom: 4px; }
+  .mqo { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; } .mqo .btn { font-size: 16px; padding: 5px 8px; }
+  .mq .why { font-size: 15px; color: var(--leafg); }
+  .cmap { width: 100%; height: auto; max-height: 30vh; } .cmap text { font-family: inherit; font-size: 19px; fill: #3a1f44; font-weight: 700; }
+  .cmap .nd { opacity: 0; animation: fadeUp .5s forwards; } @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .cmap .arw { fill: none; stroke: #8e2a6b; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 400; stroke-dashoffset: 400; animation: draw 1s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .guess { width: 100%; min-height: 60px; font: inherit; font-size: 16px; border: 2px dashed var(--leaf); border-radius: 12px; padding: 6px; background: #fffdf7; }
+  .guess.s { min-height: 44px; } .pt td { padding: 3px; }
+  .places { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 6px 0; }
+  .place { border: 3px dashed #c9a9c4; border-radius: 16px; text-align: center; padding: 6px; cursor: pointer; background: #fff; position: relative; }
+  .place.g { border: 3px solid var(--pink); background: var(--rose); } .place .pi { font-size: 34px; }
+  .place .bin { min-height: 26px; font-size: 16px; word-break: break-all; } .place .tr { animation: fadeUp .8s; display: inline-block; }
+  .place .flies { display: block; font-size: 20px; animation: buzz .6s infinite alternate; } @keyframes buzz { to { transform: translate(4px, -3px) rotate(4deg); } }
+  .step { font-size: 17px; } .more { background: var(--lav); border-radius: 14px; padding: 6px 10px; margin-top: 6px; font-size: 16px; }
+  .more .row { font-size: 18px; min-height: 24px; word-break: break-all; }
+  .routes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; position: relative; margin: 4px 0; }
+  .routes .hub { grid-column: 1 / -1; text-align: center; background: var(--green); color: #fff; border-radius: 30px; padding: 2px; font-size: 18px; }
+  .rt { font: inherit; border: 2px dashed var(--leaf); background: #fff; border-radius: 14px; padding: 4px; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+  .rt span { font-size: 26px; } .rt em { font-style: normal; font-size: 14px; visibility: hidden; } .rt.on { background: var(--mint); border-style: solid; } .rt.on em { visibility: visible; }
+  .specs { display: flex; gap: 6px; } .spec { flex: 1; font: inherit; font-size: 17px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 4px; cursor: pointer; }
+  .spec.on { background: var(--green); color: #fff; }
+  .lens { text-align: center; } .lens p { font-size: 16px !important; text-align: right; }
+  .scope { width: 150px; height: 150px; margin: 6px auto; border-radius: 50%; overflow: hidden; border: 8px solid #3a1f44; box-shadow: 0 0 0 4px #c9a9c4, inset 0 0 20px rgba(0,0,0,.5); animation: focus 1s; }
+  .scope img { width: 100%; height: 100%; object-fit: cover; } @keyframes focus { from { filter: blur(8px); transform: scale(.7); } to { filter: none; transform: none; } }
+  .cmp td, .cmp th { font-size: 15px; } .hidecell { color: transparent !important; background: repeating-linear-gradient(45deg, #f6eef4, #f6eef4 8px, #efe2ec 8px, #efe2ec 16px); cursor: pointer; }
+  .folders { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; } .folder { font: inherit; font-size: 22px; border: 2px solid #e2c68a; background: #fffaf0; border-radius: 12px; padding: 4px; cursor: pointer; }
+  .folder b { display: block; font-size: 15px; } .folder.open { background: #f3fbe9; border-color: var(--leafg); cursor: default; }
+  .arena { position: relative; height: 200px; background: linear-gradient(#fdf0f6, #fff); border: 3px dashed #e7a9c1; border-radius: 18px; overflow: hidden; }
+  .bubble { position: absolute; left: 50%; top: -60px; transform: translateX(-50%); background: radial-gradient(circle at 30% 30%, #fff, #f8c8dc); border: 3px solid var(--pink); border-radius: 40px; padding: 8px 22px; font-size: 22px; animation: drop 7s linear forwards; white-space: nowrap; }
+  @keyframes drop { to { top: 150px; } }
+  .baskets { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  .basket { font: inherit; font-size: 21px; border-radius: 0 0 30px 30px; padding: 10px; cursor: pointer; border: 3px solid; }
+  .basket.inf { background: #fde2e2; border-color: var(--red); } .basket.non { background: #e3f4fb; border-color: #3b8fc0; } .basket.no { animation: shake .35s; }
+
+  .sim { border: 3px dashed var(--leaf); border-radius: 16px; background: #fbfdf9; padding: 8px 10px; margin: 6px 0; text-align: center; }
+  .simtop { display: flex; justify-content: space-between; font-size: 17px; }
+  .pandas { font-size: 34px; letter-spacing: 2px; min-height: 48px; margin: 4px 0; }
+  .simbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .simbtns .btn { font-size: 16px; padding: 5px 8px; }
+  .btn.no2 { background: #fde2e2; border-color: var(--red); }
+  .note2 { background: var(--cream); border: 2px dashed var(--gold); border-radius: 12px; padding: 6px 10px; font-size: 16px; margin: 6px 0; line-height: 1.7; }
+</style>
+</head>
+<body>
+<img class="flags" src="img/flags.jpg" alt="">
+<header>
+  <img class="girl" src="img/girl.jpg" alt="الطبيبة الصغيرة">
+  <div><h1>🩺 الأمراض: مهمة اكتشاف المرض</h1><p>العلوم – الصف الرابع الابتدائي • الوحدة الثالثة: صحة الإنسان • الفصل الرابع • ص١٣٨–١٤٥</p></div>
+  <button class="startot snd" id="sndBtn" title="صوت التعزيز" onclick="toggleSound()">🔔</button>
+  <button class="startot" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ نجوم الفصل: <b id="starN">٠</b></button>
+  <span class="teacher">💚 أ/ شامه البقمي</span>
+  <button class="fs" id="fsBtn" onclick="fullscreen()">⛶ ملء الشاشة</button>
+</header>
+
+<nav class="tabs">
+  <button class="tab on" data-p="start">🏁 البداية</button>
+  <button class="tab" data-p="stations">📍 رحلة الطبيبة</button>
+  <button class="tab" data-p="clinic">🩺 العيادة</button>
+  <button class="tab" data-p="questions">❓ التحدي والتقويم</button>
+  <button class="tab" data-p="games">🎮 الألعاب</button>
+</nav>
+
+<main>
+<!-- ═════ البداية -->
+<section class="panel on" id="start">
+  <div class="show">
+    <div class="slide on"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
+    <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
+    <div class="slide"><img src="img/board.jpg" alt="السبورة المنظمة"><span class="datebox">📅 التاريخ: ……………</span></div>
+    <div class="slide"><img src="img/goals.jpg" alt="أهداف الدرس"></div>
+    <div class="slide"><img src="img/mission.jpg" alt="مهمة اليوم">
+      <div class="cases"><button class="btn main" onclick="caseFile(0)">📁 افتحي ملف الحالة ١</button><button class="btn main" onclick="caseFile(1)">📁 ملف الحالة ٢</button><button class="btn main" onclick="caseFile(2)">📁 ملف الحالة ٣</button></div></div>
+  </div>
+  <div class="dots">
+    <button class="btn" onclick="slide(-1)">→ السابق</button>
+    <span id="dotT">١ / ٥</span>
+    <button class="btn main" onclick="slide(1)">التالي ←</button>
+    <button class="btn ok" onclick="go('stations')">ابدئي المهمة 🩺</button>
+  </div>
+</section>
+
+<!-- ═════ محطات الدرس -->
+<section class="panel" id="stations">
+  <div class="stations">
+    <aside class="list">
+      <h3>📍 رحلة الطبيبة الصغيرة</h3>
+      <small>اضغطي على المحطة للانتقال إليها</small>
+      <div id="stList"></div>
+    </aside>
+    <div id="stBody"></div>
+  </div>
+</section>
+
+<!-- ═════ العيادة -->
+<section class="panel" id="clinic">
+  <div class="box clinicbox">
+    <span class="strat"><b>الاستراتيجية:</b> لعب الأدوار – التشخيص وتفسير الإجابة</span>
+    <h2>🩺 عيادة الطبيبة الصغيرة: شخّصي الحالة</h2>
+    <div class="clinic">
+      <img class="doc" src="img/doctor.png" alt="الطبيبة الصغيرة">
+      <div id="clinicBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════ التحدي والتقويم -->
+<section class="panel" id="questions">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> مستويات التفكير الثلاثة</span>
+    <h2>❓ التقويم التكويني</h2>
+    <div id="formative"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> تحدي التفكير الناقد (أسئلة الكتاب)</span>
+    <h2>🧠 تحدي التفكير الناقد</h2>
+    <div id="book"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التقويم الختامي</span>
+    <h2>🗂️ افتحي الملف الطبي السري</h2>
+    <div id="secret"></div>
+  </div>
+</section>
+
+<!-- ═════ الألعاب -->
+<section class="panel" id="games">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم باللعب</span>
+    <h2>🎮 اختاري لعبة</h2>
+    <div class="gamecards">
+      <button class="gcard" onclick="catchStart()"><div class="ic">🎯</div><b>صيد المفاهيم</b>معدٍ أم غير معدٍ؟</button>
+      <button class="gcard" onclick="game('cause')"><div class="ic">🔬</div><b>من المسبّب؟</b>فيروس أم بكتيريا أم فطريات؟</button>
+      <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي المفردة من وصفها</button>
+    </div>
+    <div class="play" id="play"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> بطاقة الخروج</span>
+    <h2>🎫 ماذا تعلّمت اليوم؟</h2>
+    <p>١) تعلّمت أن المرض: ……………………………</p>
+    <p>٢) مرض معدٍ: …………… ومرض غير معدٍ: ……………</p>
+    <p>٣) طريقة تنتقل بها العدوى: ……………………</p>
+    <p>٤) سأحمي نفسي من العدوى بـ: ……………………</p>
+    <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
+  </div>
+</section>
+</main>
+<div class="modal" id="modal" onclick="if(event.target===this)this.classList.remove('on')"><div class="mbox" id="mbox"></div></div>
+<div class="zoom" id="zoom">
+  <div class="tools" id="tools">
+    <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
+    <button class="tl" data-tool="hl" title="تظليل">🖍️ تظليل</button>
+    <button class="tl" data-tool="er" title="ممحاة">🧽 ممحاة</button>
+    <span class="sep"></span>
+    <button class="cl on" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
+    <button class="cl" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
+    <button class="cl" data-c="#1b8a3a" style="background:#1b8a3a" title="أخضر"></button>
+    <button class="cl" data-c="#111111" style="background:#111" title="أسود"></button>
+    <button class="cl" data-c="#ffd400" style="background:#ffd400" title="أصفر"></button>
+    <span class="sep"></span>
+    <button class="sz" data-s="3" title="رفيع">●</button>
+    <button class="sz on" data-s="6" title="متوسط" style="font-size:22px">●</button>
+    <button class="sz" data-s="11" title="عريض" style="font-size:30px">●</button>
+    <span class="sep"></span>
+    <button class="tl" onclick="undo()">↩️ رجوع</button>
+    <button class="tl" onclick="clearInk()">🗑️ مسح الكل</button>
+    <button class="tl close" onclick="closeZoom()">✕ إغلاق</button>
+  </div>
+  <div class="stage" id="stage"><img id="zimg" alt=""><canvas id="ink"></canvas></div>
+</div>
+
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = (s) => document.querySelector(s);
+// Higher-order questions (critical thinking, challenge, inference) earn two stars, the rest one
+const CRIT = /التفكير الناقد|أتحدّى نفسي|أستنتج|أتوقّع/;
+const flip = (q, a, k) => `<div class="flip" data-stars="${CRIT.test((k || '') + q) ? 2 : 1}" onclick="openFlip(this)">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
+const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي – اضغطي للتكبير</div>`;
+
+
+// Soft reward chime made in the browser: one star = gentle chime, two stars = brighter double chime
+let soundOn = true, actx = null;
+function toggleSound() { soundOn = !soundOn; document.getElementById('sndBtn').textContent = soundOn ? '🔔' : '🔕'; }
+function chime(n) {
+  if (!soundOn) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+    const notes = n > 1 ? [659.3, 830.6, 987.8, 1318.5] : [784, 1046.5];
+    notes.forEach((f, i) => {
+      const t = actx.currentTime + i * 0.11, o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.5);
+    });
+  } catch (e) { /* no audio available */ }
+}
+let starTotal = 0;
+function award(n, el) {
+  starTotal += n;
+  chime(n);
+  const t = document.getElementById('starN'); t.textContent = ar(starTotal);
+  const b = document.getElementById('starTot'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  const r = el ? el.getBoundingClientRect() : { left: innerWidth / 2, width: 0, top: innerHeight / 2, height: 0 };
+  const a = document.createElement('div');
+  a.className = 'award' + (n > 1 ? ' two' : '');
+  a.innerHTML = `<div class="s">${'⭐'.repeat(n)}</div><div class="t">${n > 1 ? 'تفكير ناقد رائع! نجمتان' : 'أحسنتِ! نجمة'}</div>`;
+  a.style.left = Math.min(innerWidth - 120, Math.max(120, r.left + r.width / 2)) + 'px';
+  a.style.top = Math.max(90, r.top + r.height / 2) + 'px';
+  document.body.appendChild(a); setTimeout(() => a.remove(), 1700);
+  if (n > 1) confetti();
+}
+function resetStars() { starTotal = 0; document.getElementById('starN').textContent = ar(0); }
+function openFlip(el) {
+  el.classList.toggle('open');
+  if (el.classList.contains('open') && !el.dataset.got) { el.dataset.got = 1; award(+el.dataset.stars || 1, el); }
+}
+function fullscreen() {
+  const d = document;
+  if (!d.fullscreenElement && !d.webkitFullscreenElement) (d.documentElement.requestFullscreen || d.documentElement.webkitRequestFullscreen).call(d.documentElement);
+  else (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+}
+document.addEventListener('fullscreenchange', () => { document.getElementById('fsBtn').textContent = document.fullscreenElement ? '✕ خروج من ملء الشاشة' : '⛶ ملء الشاشة'; });
+let si = 0;
+function slide(d) {
+  const all = document.querySelectorAll('#start .slide');
+  si = (si + d + all.length) % all.length;
+  all.forEach((x, k) => x.classList.toggle('on', k === si));
+  document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
+}
+// ───── Enlarged page with pen, highlighter and eraser; ink is kept per picture for this visit
+const INK = {};
+let tool = 'pen', color = '#d23b3b', size = 6, drawing = false, last = null, curSrc = '';
+const cv = () => document.getElementById('ink');
+function zoom(src) {
+  curSrc = src;
+  const im = $('#zimg');
+  im.onload = fitInk;
+  im.src = src;
+  $('#zoom').classList.add('on');
+  if (im.complete) fitInk();
+}
+function closeZoom() { saveInk(); $('#zoom').classList.remove('on'); }
+function fitInk() {
+  const im = $('#zimg'), c = cv(), st = $('#stage').getBoundingClientRect(), r = im.getBoundingClientRect();
+  c.style.left = (r.left - st.left) + 'px'; c.style.top = (r.top - st.top) + 'px';
+  c.style.width = r.width + 'px'; c.style.height = r.height + 'px';
+  // drawing buffer in picture pixels, so ink stays put at any window size
+  c.width = im.naturalWidth * 2; c.height = im.naturalHeight * 2;
+  const g = c.getContext('2d'); g.clearRect(0, 0, c.width, c.height);
+  const st0 = INK[curSrc];
+  if (st0 && st0.length) restore(st0[st0.length - 1]);
+}
+function restore(url) { const g = cv().getContext('2d'), i = new Image(); i.onload = () => { g.clearRect(0, 0, cv().width, cv().height); g.drawImage(i, 0, 0); }; i.src = url; }
+function saveInk() { if (!curSrc) return; (INK[curSrc] = INK[curSrc] || []).push(cv().toDataURL()); if (INK[curSrc].length > 30) INK[curSrc].shift(); }
+function undo() {
+  const h = INK[curSrc] || [];
+  h.pop();
+  if (h.length) restore(h[h.length - 1]); else cv().getContext('2d').clearRect(0, 0, cv().width, cv().height);
+}
+function clearInk() { cv().getContext('2d').clearRect(0, 0, cv().width, cv().height); saveInk(); }
+function pos(e) { const c = cv(), r = c.getBoundingClientRect(); return [(e.clientX - r.left) * c.width / r.width, (e.clientY - r.top) * c.height / r.height]; }
+function stroke(a, b) {
+  const c = cv(), g = c.getContext('2d'), k = c.width / c.getBoundingClientRect().width;
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  if (tool === 'er') { g.globalCompositeOperation = 'destination-out'; g.lineWidth = 28 * k; g.globalAlpha = 1; }
+  else if (tool === 'hl') { g.globalCompositeOperation = 'multiply'; g.lineWidth = 22 * k; g.globalAlpha = 0.35; g.strokeStyle = color; }
+  else { g.globalCompositeOperation = 'source-over'; g.lineWidth = size * k; g.globalAlpha = 1; g.strokeStyle = color; }
+  g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke();
+}
+(function initInk() {
+  const c = cv();
+  c.addEventListener('pointerdown', (e) => { drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
+  c.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); stroke(last, p); last = p; });
+  const end = () => { if (drawing) { drawing = false; saveInk(); } };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+  document.querySelectorAll('#tools .tl[data-tool]').forEach((b) => b.onclick = () => { tool = b.dataset.tool; document.querySelectorAll('#tools .tl[data-tool]').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .cl').forEach((b) => b.onclick = () => { color = b.dataset.c; if (tool === 'er') document.querySelector('#tools [data-tool="pen"]').click(); document.querySelectorAll('#tools .cl').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .sz').forEach((b) => b.onclick = () => { size = +b.dataset.s; document.querySelectorAll('#tools .sz').forEach((x) => x.classList.toggle('on', x === b)); });
+  window.addEventListener('resize', () => { if ($('#zoom').classList.contains('on')) { saveInk(); fitInk(); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#zoom').classList.contains('on')) closeZoom(); });
+})();
+function confetti() {
+  for (let k = 0; k < 14; k++) {
+    const s = document.createElement('div'); s.className = 'confetti'; s.textContent = ['⭐', '🌿', '💚', '✨'][k % 4];
+    s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .4 + 's';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 2200);
+  }
+}
+function go(p) {
+  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.dataset.p === p));
+  document.querySelectorAll('.panel').forEach((x) => x.classList.toggle('on', x.id === p));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.tab').forEach((t) => t.onclick = () => go(t.dataset.p));
+
+// ───── Stations
+// ───── Multiple-choice widget (instant feedback + stars)
+let MQN = 0; const MQ = {};
+const ABJ = ['أ', 'ب', 'ج', 'د'];
+function mcq(q, o, a, k, why) {
+  const id = 'm' + (MQN++); MQ[id] = { a, tried: 0, stars: CRIT.test((k || '') + q) ? 2 : 1, why };
+  return `<div class="mq" id="${id}">${k ? `<span class="k">${k}</span>` : ''}<div class="mqq">${q}</div><div class="mqo">${o.map((x, i) => `<button class="btn" onclick="pick('${id}',${i},this)">${ABJ[i]}) ${x}</button>`).join('')}</div><div class="why"></div></div>`;
+}
+function pick(id, i, b) {
+  const s = MQ[id]; if (s.done) return;
+  const w = document.querySelector('#' + id + ' .why');
+  if (i === s.a) { b.classList.add('ok'); s.done = 1; if (!s.tried) award(s.stars, b); if (w) w.innerHTML = '✔ أحسنتِ! ' + (s.why || ''); }
+  else { s.tried++; b.classList.add('no'); b.disabled = true; if (w) w.innerHTML = '<span style="color:var(--red)">✘ ليست هذه… فكّري مرة أخرى 💡</span>'; }
+}
+// ───── Modal + case files from «مهمة اليوم»
+const CASES = [
+  { t: 'الحالة ١', ic: '🙍‍♀️', s: 'ظهر عند المريضة احمرار وتهيّج في الجلد بعد أن بدأت أسرتها تربية قطة في المنزل.', o: ['الحساسية', 'الكوليرا', 'فقر الدم', 'السل'], a: 0, type: 0,
+    why: 'الحساسية: تفاعل جهاز المناعة بشدّة ضد المواد الغريبة، وقد تكون من بعض الأطعمة أو من لدغ الحشرات. وهي مرض غير معدٍ.' },
+  { t: 'الحالة ٢', ic: '🤧', s: 'المريض يسعل، وأعراضه تشبه أعراض الزكام لكنها أكثر شدة، والعدوى أصابت الرئتين والشعب الهوائية.', o: ['السكري', 'الأنفلونزا', 'السمنة', 'الحساسية'], a: 1, type: 1,
+    why: 'الأنفلونزا: عدوى فيروسية تصيب الرئتين والشعب الهوائية، وتشبه أعراضها أعراض الزكام لكنها أكثر شدة. وهي مرض معدٍ.' },
+  { t: 'الحالة ٣', ic: '🛌', s: 'المريضة في السرير، تعاني إسهالًا وجفافًا شديدًا بعد أن شربت ماءً ملوّثًا في رحلة.', o: ['فقر الدم', 'السمنة', 'الكوليرا', 'السكري'], a: 2, type: 1,
+    why: 'الكوليرا: مرض بكتيري ينتشر عادة عن طريق شرب الماء الملوّث، ويسبّب الإصابة بإسهال وجفاف شديد. وهي مرض معدٍ.' },
+];
+function modal(h) { $('#mbox').innerHTML = h + `<div style="text-align:center;margin-top:10px"><button class="btn" onclick="$('#modal').classList.remove('on')">✕ إغلاق</button></div>`; $('#modal').classList.add('on'); }
+function caseFile(i) {
+  const c = CASES[i];
+  modal(`<div class="file"><div class="ftab">📁 ملف ${c.t}</div><div style="font-size:60px;text-align:center">${c.ic}</div><p><b>الأعراض:</b> ${c.s}</p>
+    <p style="color:var(--pink)">🔍 ما المرض؟ وهل هو معدٍ أم غير معدٍ؟ احتفظي بتوقعك… وسنشخّص الحالة في <b>العيادة</b> بعد المحطات!</p></div>`);
+}
+// ───── Clinic: diagnosis → type → explanation
+let ci = 0; const cState = CASES.map(() => ({ d: 0, t: 0, tried: 0 }));
+function clinic() {
+  const c = CASES[ci], st = cState[ci];
+  $('#clinicBody').innerHTML = `<div class="ctabs">${CASES.map((x, k) => `<button class="btn ${k === ci ? 'main' : ''}" onclick="ci=${k};clinic()">${cState[k].t ? '✔ ' : ''}📁 ${x.t}</button>`).join('')}</div>
+    <div class="file"><div class="ftab">📁 ${c.t} ${c.ic}</div><p><b>الأعراض:</b> ${c.s}</p>
+    <p><b>١) التشخيص:</b> ما المرض؟</p><div class="mqo">${c.o.map((o, k) => `<button class="btn ${st.d && k === c.a ? 'ok' : ''}" onclick="diag(${k},this)">${o}</button>`).join('')}</div>
+    ${st.d ? `<p><b>٢) نوعه:</b></p><div class="mqo"><button class="btn ${st.t && c.type === 1 ? 'ok' : ''}" onclick="dtype(1,this)">🦠 مرض معدٍ</button><button class="btn ${st.t && c.type === 0 ? 'ok' : ''}" onclick="dtype(0,this)">🧍‍♀️ مرض غير معدٍ</button></div>` : ''}
+    ${st.t ? `<div class="explain">📖 <b>أفسّر إجابتي (من الكتاب):</b> ${c.why}</div>${ci < 2 ? `<button class="btn main" onclick="ci++;clinic()">الحالة التالية ←</button>` : `<button class="btn main" onclick="go('questions')">إلى التحدي ❓</button>`}` : ''}
+    <div class="msg" id="cmsg"></div></div>`;
+}
+function diag(k, b) { const c = CASES[ci], st = cState[ci]; if (st.d) return; if (k === c.a) { st.d = 1; if (!st.tried) award(1, b); clinic(); } else { st.tried++; b.classList.add('no'); b.disabled = true; $('#cmsg').className = 'msg bad'; $('#cmsg').textContent = 'راجعي الأعراض مرة أخرى 💡'; } }
+function dtype(k, b) { const c = CASES[ci], st = cState[ci]; if (st.t) return; if (k === c.type) { st.t = 1; award(2, b); clinic(); } else { b.classList.add('no'); $('#cmsg').className = 'msg bad'; $('#cmsg').textContent = 'فكّري: هل ينتقل من المصاب إلى السليم؟ 🤔'; } }
+
+// ───── Hand-drawn concept map (arrows draw themselves)
+function cmap(nodes, edges, h) {
+  const wob = (x, y, w, hh) => `M${x + 4},${y + 2} Q${x + w / 2},${y - 3} ${x + w - 3},${y + 3} Q${x + w + 3},${y + hh / 2} ${x + w - 2},${y + hh - 2} Q${x + w / 2},${y + hh + 3} ${x + 3},${y + hh - 3} Q${x - 3},${y + hh / 2} ${x + 4},${y + 2} Z`;
+  return `<svg class="cmap" viewBox="0 0 600 ${h || 300}">${edges.map(([a, b], i) => {
+    const A = nodes[a], B = nodes[b], x1 = A.x + A.w / 2, y1 = A.y + A.h, x2 = B.x + B.w / 2, y2 = B.y - 4, my = (y1 + y2) / 2;
+    return `<path class="arw" style="animation-delay:${.4 + i * .5}s" d="M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}" marker-end="url(#ah)"/>`;
+  }).join('')}<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8e2a6b"/></marker></defs>
+  ${nodes.map((n, i) => `<g class="nd" style="animation-delay:${i * .35}s"><path d="${wob(n.x, n.y, n.w, n.h)}" fill="${n.c || '#fff'}" stroke="#4a2a55" stroke-width="2.5"/>${n.t.split('|').map((l, k, arr) => `<text x="${n.x + n.w / 2}" y="${n.y + n.h / 2 + 7 + (k - (arr.length - 1) / 2) * 22}" text-anchor="middle">${l}</text>`).join('')}</g>`).join('')}</svg>`;
+}
+
+// ───── Explore: school waste simulation (p141)
+const PLACES = [['🍽️', 'المقصف', 9, 'كبيرة'], ['🏃‍♀️', 'الساحة', 5, 'متوسطة'], ['📚', 'الفصل الدراسي', 2, 'قليلة']];
+let wGuess = null, wDone = false, wFlies = false;
+function waste() {
+  const el = $('#sim'); if (!el) return;
+  el.innerHTML = `<div class="step"><b>١) أتوقّع:</b> ما المرفق الأكثر نفايات في مدرستي؟</div>
+    <div class="places">${PLACES.map((p, k) => `<div class="place ${wGuess === k ? 'g' : ''}" onclick="if(!wDone){wGuess=${k};waste()}"><div class="pi">${p[0]}</div><b>${p[1]}</b><div class="bin">${wDone ? '🗑️'.repeat(0) + '<span class="tr">' + '🧃🍬🥤📄🍌'.repeat(3).slice(0, p[2] * 2) + '</span>' : ''}${wDone && wFlies && k === 0 ? '<span class="flies">🪰🦠🪰🦠🐭</span>' : ''}</div></div>`).join('')}</div>
+    ${wGuess === null ? '<p class="cap">👆 اضغطي على المرفق الذي تتوقعينه</p>' : wDone ? '' : `<button class="btn main" onclick="collect(this)">🧹 ابدئي جمع النفايات</button>`}
+    ${wDone ? `<table><tr><th>المرفق</th><th>مستوى كمية النفايات</th></tr>${PLACES.map((p) => `<tr><td>${p[0]} ${p[1]}</td><td>${p[3]}</td></tr>`).join('')}</table>
+      <div class="explain">${wGuess === 0 ? '✔ توقّعك صحيح! المقصف أكثر المرافق نفايات.' : '💡 توقّعتِ ' + PLACES[wGuess][1] + '، والنتيجة: المقصف أكثر المرافق نفايات.'}</div>
+      ${!wFlies ? `<button class="btn" onclick="wFlies=true;waste()">⏳ ماذا لو تُركت النفايات أيامًا؟</button>` : '<div class="explain">🪰 تراكمت النفايات… فجذبت الحشرات والقوارض، وتكاثرت فيها الجراثيم!</div>'}
+      <p class="cap">* نتائج المحاكاة توضيحية، ونطبّق النشاط فعليًا في مدرستنا.</p>` : ''}`;
+}
+function collect(b) { wDone = true; award(1, b); waste(); }
+function more(v) { if (!$('#ppl')) return; $('#pplT').textContent = ar(v); $('#ppl').innerHTML = '🧍‍♀️'.repeat(v); $('#trash').innerHTML = '🗑️'.repeat(Math.ceil(v / 2)); }
+
+// ───── Transmission routes (p143)
+const ROUTES = [['🤝', 'الاتصال المباشر بالشخص المصاب'], ['💧', 'الماء'], ['💨', 'الهواء'], ['🍽️', 'الطعام'], ['🥄', 'استعمال الأدوات الملوّثة'], ['🦟', 'الاتصال بالمخلوقات الحيّة الحاملة للمرض']];
+const seenR = new Set();
+function route(k, el) { if (!seenR.has(k)) { seenR.add(k); award(1, el); } el.classList.add('on'); if (seenR.size === ROUTES.length) $('#rmsg').innerHTML = '🎉 اكتشفتِ طرق انتقال العدوى الست كلها!'; }
+
+// ───── Micro-organisms lab (p143–144)
+const LAB = {
+  v: { n: 'الفيروسات', ic: '🦠', img: 'virus', img2: 'corona', d: 'تسلك سلوك المخلوقات الحيّة أحيانًا، وسلوك الأشياء غير الحيّة أحيانًا أخرى. تهاجم جسم المخلوق الحي وتسبّب له المرض.', ex: 'فيروس كورونا المستجد (COVID-19)، والرشح (الزكام)، والحصبة، والأنفلونزا.' },
+  b: { n: 'البكتيريا', ic: '🧫', img: 'bacteria', img2: 'tb', d: 'مخلوقات حيّة وحيدة الخلية مجهرية، توجد في التربة والهواء ومياه الأنهار والبحار والأطعمة، وفي داخل جسم الإنسان وعلى الجلد.', ex: 'نافعة: بكتيريا الجهاز الهضمي وبكتيريا اللبن. ضارة: تسبّب التهاب الحلق والسل والالتهاب الرئوي والكوليرا.' },
+  f: { n: 'الفطريات', ic: '🍄', img: 'fungi', d: 'مخلوقات حيّة واسعة الانتشار في الأوساط المختلفة.', ex: 'نافعة: الكمأة. ومنها فطريات ضارة تسبّب الأمراض المعدية.' },
+};
+function lab(k, b) {
+  const L = LAB[k]; document.querySelectorAll('.spec').forEach((x) => x.classList.toggle('on', x === b));
+  $('#lens').innerHTML = `<div class="scope"><img src="img/${L.img}.jpg" alt="${L.n}" onclick="zoom(this.src)"></div>${L.img2 ? `<img class="pic" src="img/${L.img2}.jpg" alt="" style="max-height:12vh">` : ''}
+    <h3 style="margin:4px 0;color:var(--green)">${L.ic} ${L.n}</h3><p>${L.d}</p><p><b>أمثلة:</b> ${L.ex}</p>`;
+  if (!b.dataset.got) { b.dataset.got = 1; award(1, b); }
+}
+// ───── Life situations (prevention)
+const LIFE = [
+  ['🏠 المنزل', 'أخي مصاب بالزكام ويجلس قريبًا جدًا مني. ماذا أفعل؟', ['أقترب منه أكثر', 'أبتعد عنه مسافة مترين تقريبًا', 'أشاركه كوبه'], 1, 'كلما ابتعدنا عن المصاب قلّت خطورة انتقال الفيروس.'],
+  ['🏫 المدرسة', 'قبل الأكل في المقصف…', ['أغسل يديّ بالماء والصابون', 'آكل مباشرة', 'أمسح يديّ بملابسي'], 0, 'تنظيف اليدين بالطريقة السليمة يحميني من العدوى.'],
+  ['🏠 المنزل', 'أختي مريضة، وأريد أن أشرب الماء…', ['أستعمل كوبها', 'أستعمل كوبي الخاص', 'أشرب من القارورة نفسها'], 1, 'العدوى تنتقل باستعمال الأدوات الملوّثة.'],
+  ['🚌 الرحلة', 'وجدنا ماءً غير نظيف في الطريق…', ['أشربه', 'أشرب ماءً نظيفًا فقط', 'أغسل به الفاكهة وآكلها'], 1, 'الكوليرا تنتشر عن طريق شرب الماء الملوّث.'],
+  ['🏫 المدرسة', 'تراكمت النفايات في ساحة المدرسة…', ['نتركها', 'نضعها في سلة النفايات', 'نرميها تحت المقاعد'], 1, 'تراكم النفايات يجذب الحشرات والقوارض الحاملة للمرض.'],
+  ['💉 الصحة', 'جاء موعد التطعيم في المدرسة…', ['أرفض التطعيم', 'آخذ التطعيم', 'أؤجّله دائمًا'], 1, 'التطعيم طريقة لتكوين المناعة ضد الأمراض.'],
+];
+
+const STATIONS = [
+  { icon: '📇', name: 'مفردات الدرس', page: 139, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> بطاقات المفردات التفاعلية</span><h2>📇 مفردات الفكرة العامة</h2>
+    <div class="grid2 body"><div class="pagecol">${page(139)}</div><div class="txt">
+      <p>اضغطي على البطاقة لتظهر الكلمة وتعريفها من الكتاب:</p>
+      <div class="vocab">${[['🤒', 'المرض', 'حالة غير طبيعية تؤثّر على جسم المخلوق الحي.'], ['🦠', 'الأمراض المعدية', 'الأمراض التي تنقلها المخلوقات الحيّة إلى الإنسان.'], ['🩸', 'الأمراض غير المعدية', 'الأمراض التي لا تنتقل من مخلوق حي إلى الإنسان.'], ['🤧', 'العدوى', 'انتقال المرض من المخلوق الحي المصاب إلى المخلوق الحي السليم.'], ['⚪', 'خلايا الدم البيضاء', 'هي الخلايا المسؤولة عن حماية الجسم ومحاربة الأمراض والجراثيم داخل أجسامنا.'], ['💉', 'التطعيم', 'طريقة لتكوين المناعة ضد الأمراض.']].map(([i, w, d]) => flip(`${i} ${w}`, d)).join('')}</div>
+    </div></div>` },
+  { icon: '🔬', name: 'أنظر وأتساءل', page: 140, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> أنظر وأتساءل – التوقّع</span><h2>🔬 أنظر وأتساءل</h2>
+    <div class="grid2 body"><div class="pagecol">${page(140)}</div><div class="txt">
+      ${flip('ماذا ترين في الصورة؟', 'مجهرًا، وطبقًا نمت فيه مخلوقات حيّة دقيقة.')}
+      ${flip('هل شاهدتِها من قبل؟', 'لا؛ لأنها مخلوقات دقيقة لا تُرى بالعين المجرّدة، وإنما تُرى بالمجهر.')}
+      ${flip('كيف نحمي أجسامنا من خطر الإصابة بها؟', 'نكتشف ذلك معًا في الدرس… 🔍 سجّلي توقعك أولًا!')}
+      <p style="margin:4px 0">✏️ <b>توقّعاتي:</b></p><textarea class="guess" placeholder="أتوقّع أن…"></textarea>
+    </div></div>` },
+  { icon: '🗑️', name: 'أستكشف: محاكاة النفايات', page: 141, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الاستقصاء – المحاكاة الافتراضية</span><h2>🗑️ أين تُجمع النفايات في مدرستك؟</h2>
+    <div class="grid2 body"><div class="pagecol">${page(141)}</div><div class="txt">
+      <div id="sim"></div>
+      ${flip('أفسّر البيانات: ما سبب الاختلاف في كمية النفايات في المرافق الثلاثة؟', 'لاختلاف عدد مرتاديها ونوع النشاط فيها؛ ففي المقصف يتناول عدد كبير الطعام.', 'أفسّر البيانات')}
+      ${flip('أتوقّع: كيف يؤدي تراكم النفايات إلى انتقال الأمراض؟', 'تجذب الحشرات والقوارض، وتتكاثر فيها الجراثيم، فتنتقل الأمراض بالملامسة أو عبر الطعام.', 'أتوقّع')}
+      <div class="more"><b>🧪 أستكشف أكثر – أجرّب:</b> هل تتأثر كمية النفايات بعدد الأشخاص؟<br>
+        عدد الأشخاص: <input type="range" min="2" max="20" value="4" oninput="more(+this.value)"> <b id="pplT">٤</b>
+        <div id="ppl" class="row"></div><div id="trash" class="row"></div></div>
+    </div></div>`, after: () => { waste(); more(4); } },
+  { icon: '🤒', name: 'ما المرض؟', page: 142, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> خريطة المفاهيم – التفكير البصري</span><h2>🤒 ما المرض؟</h2>
+    <div class="grid2 body"><div class="pagecol">${page(142)}</div><div class="txt">
+      ${flip('يُعرَّف المرض على أنه…', 'حالة غير طبيعية تؤثّر على جسم المخلوق الحي، ترتبط غالبًا بأعراض وعلامات مختلفة.', 'المفردة')}
+      ${cmap([{ x: 200, y: 6, w: 200, h: 50, t: '🤒 المرض', c: '#fde4ef' }, { x: 20, y: 120, w: 250, h: 62, t: 'ينتج عن أسباب خارجية', c: '#e8f5ff' }, { x: 330, y: 120, w: 250, h: 62, t: 'ينتج عن مشكلات داخلية', c: '#fff3c4' }, { x: 20, y: 236, w: 250, h: 54, t: '🦠 الأمراض المعدية', c: '#e8f5ff' }, { x: 330, y: 236, w: 250, h: 54, t: '🩸 الأمراض غير المعدية', c: '#fff3c4' }], [[0, 1], [0, 2], [1, 3], [2, 4]], 300)}
+      <p class="cap">✍️ الأسهم ترسم نفسها… اضغطي الصفحة للتكبير والكتابة عليها</p>
+    </div></div>` },
+  { icon: '🍬', name: 'الأمراض غير المعدية', page: 142, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> مهارة القراءة – التوقّع</span><h2>🍬 الأمراض غير المعدية</h2>
+    <div class="grid2 body"><div class="pagecol">${page(142)}</div><div class="txt">
+      <table class="pt"><tr><th>ما أتوقّع</th><th>ما يحدث</th></tr><tr><td><textarea class="guess s" placeholder="هل كل الأمراض معدية؟"></textarea></td><td><textarea class="guess s" placeholder="بعد القراءة…"></textarea></td></tr></table>
+      ${flip('ليست كل الأمراض معدية… الأمراض غير المعدية هي…', 'الأمراض التي لا تنتقل من الشخص المصاب إلى الشخص السليم، مثل السمنة والسكري وفقر الدم والسرطان والضغط والحساسية وأمراض القلب.', 'المفردة')}
+      <div class="grid2"><div><img src="img/diabetes.jpg" alt="السكري" style="border-radius:10px"><div class="cap">السكري مرض مزمن غير معدٍ</div></div><div><img src="img/obesity.jpg" alt="السمنة" style="border-radius:10px"><div class="cap">السمنة مرض غير معدٍ</div></div></div>
+      ${flip('🍬 السكري', 'مرض مزمن غير معدٍ ينتج عن خلل في مستويات الأنسولين التي يفرزها البنكرياس، وقد ينتج عن عوامل وراثية.')}
+      ${flip('⚖️ السمنة', 'تراكم مفرط أو غير طبيعي للدهون في الجسم، قد تنتج عن الإفراط في تناول الأكل وقلة النشاط البدني، أو الإصابة ببعض الأمراض والعوامل الوراثية وتناول بعض الأنواع من الأدوية.')}
+    </div></div>` },
+  { icon: '🤧', name: 'الحساسية وفقر الدم', page: 143, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم البصري – أقرأ الصورة</span><h2>🤧 الحساسية وفقر الدم</h2>
+    <div class="grid2 body"><div class="pagecol">${page(143)}</div><div class="txt">
+      <div class="grid2"><div><img src="img/allergy.jpg" alt="الحساسية" style="border-radius:10px"><div class="cap">من أعراض الحساسية احمرار وتهيّج الجلد</div></div><div><img src="img/anemia.jpg" alt="فقر الدم" style="border-radius:10px"><div class="cap">يفتقر الدم إلى ما يكفي من خلايا الدم الحمراء</div></div></div>
+      ${flip('🌸 الحساسية', 'هي تفاعل جهاز المناعة بشدّة ضد المواد الغريبة، ويختلف هذا التفاعل حسب نوع الحساسية. وقد تكون من بعض أنواع الأطعمة، أو من لدغ الحشرات. وقد يُصاب بعض الأشخاص بالحساسية نتيجة عوامل وراثية.')}
+      ${flip('🩸 فقر الدم', 'حالة يفتقر فيها الدم إلى ما يكفي من خلايا الدم الحمراء التي تنقل الأكسجين والغذاء إلى أنسجة الجسم. ومن أسبابه نقص الحديد أو العوامل الوراثية.')}
+      ${cmap([{ x: 175, y: 6, w: 250, h: 50, t: '🧍‍♀️ أمراض غير معدية', c: '#fff3c4' }, { x: 0, y: 120, w: 140, h: 50, t: 'السكري' }, { x: 152, y: 120, w: 140, h: 50, t: 'السمنة' }, { x: 304, y: 120, w: 140, h: 50, t: 'الحساسية' }, { x: 456, y: 120, w: 140, h: 50, t: 'فقر الدم' }], [[0, 1], [0, 2], [0, 3], [0, 4]], 180)}
+    </div></div>` },
+  { icon: '🦠', name: 'الأمراض المعدية وطرق انتقالها', page: 143, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الخريطة الذهنية – الاكتشاف</span><h2>🦠 الأمراض المعدية وطرق انتقال العدوى</h2>
+    <div class="grid2 body"><div class="pagecol">${page(143)}</div><div class="txt">
+      ${flip('الأمراض المعدية هي…', 'الأمراض الناتجة عن الفيروسات والبكتيريا والفطريات الضارة، وتنتقل من الشخص المصاب أو من البيئة إلى الشخص السليم.', 'المفردة')}
+      <p style="margin:4px 0">👆 <b>كيف تنتقل العدوى؟</b> اضغطي كل طريق لتكتشفيه:</p>
+      <div class="routes"><div class="hub">🦠 العدوى</div>${ROUTES.map(([i, t], k) => `<button class="rt" onclick="route(${k},this)"><span>${i}</span><em>${t}</em></button>`).join('')}</div>
+      <div class="msg good" id="rmsg"></div>
+      <div class="grid2"><div><img src="img/lowrisk.jpg" alt="خطورة منخفضة" style="border-radius:10px"><div class="cap">خطورة منخفضة (٢ متر)</div></div><div><img src="img/highrisk.jpg" alt="خطورة عالية" style="border-radius:10px"><div class="cap">خطورة عالية لانتقال الفيروس</div></div></div>
+      ${flip('ما الذي يسبّب لنا الأمراض؟', 'عندما اخترع المجهر توصّل العلماء إلى أن بعض المخلوقات الحيّة الدقيقة تسبّب الأمراض للإنسان، مثل الفيروسات والبكتيريا والفطريات.')}
+    </div></div>`, after: () => seenR.clear() },
+  { icon: '🧪', name: 'مختبر المخلوقات الدقيقة', page: 144, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> المختبر الافتراضي – المقارنة</span><h2>🧪 مختبر المخلوقات الدقيقة</h2>
+    <div class="grid2 body"><div class="pagecol">${page(144)}</div><div class="txt">
+      <p style="margin:2px 0">🔬 ضعي العيّنة تحت المجهر:</p>
+      <div class="specs">${Object.entries(LAB).map(([k, L]) => `<button class="spec" onclick="lab('${k}',this)">${L.ic} ${L.n}</button>`).join('')}</div>
+      <div id="lens" class="lens"><p class="cap">اختاري عيّنة لتظهر مكبّرة 🔍</p></div>
+      <h3 style="margin:6px 0 2px;color:var(--green)">📊 أقارن (اضغطي لتظهر الإجابة)</h3>
+      <table class="cmp"><tr><th></th><th>🦠 الفيروسات</th><th>🧫 البكتيريا</th><th>🍄 الفطريات</th></tr>
+        <tr><td>مثال نافع</td>${['لم يُذكر في الدرس', 'بكتيريا اللبن', 'الكمأة'].map((x) => `<td class="hidecell" onclick="reveal(this)">${x}</td>`).join('')}</tr>
+        <tr><td>مثال ضار</td>${['كورونا، الأنفلونزا', 'السل، الكوليرا', 'الفطريات الضارة'].map((x) => `<td class="hidecell" onclick="reveal(this)">${x}</td>`).join('')}</tr></table>
+      ${flip('🫁 السل', 'مرض مزمن ومعدٍ يُصاب به الشخص نتيجة العدوى بالبكتيريا التي عادة ما تستقر في الرئة.')}
+      ${flip('💧 الكوليرا', 'مرض بكتيري عادة ما ينتشر عن طريق شرب الماء الملوّث. تتسبّب الكوليرا في الإصابة بإسهال وجفاف شديد.')}
+    </div></div>` },
+  { icon: '🏡', name: 'الربط بالحياة: أحمي نفسي', page: 143, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الربط بالحياة – حلّ المشكلات</span><h2>🏡 مواقف من المنزل والمدرسة: كيف أقي نفسي من العدوى؟</h2>
+    <div class="grid2 body"><div class="pagecol">${page(143)}</div><div class="txt">
+      ${LIFE.map(([k, q, o, a, w]) => mcq(q, o, a, k, w)).join('')}
+    </div></div>` },
+];
+function reveal(td) { if (!td.classList.contains('hidecell')) return; td.classList.remove('hidecell'); award(1, td); }
+const done = new Set();
+let cur = 0;
+function station(i) {
+  cur = i; done.add(i);
+  $('#stList').innerHTML = STATIONS.map((s, k) => `<button class="st ${k === i ? 'on' : ''} ${done.has(k) ? 'done' : ''}" onclick="station(${k})"><span class="n">ص${ar(s.page)}</span>${s.icon} ${s.name}</button>`).join('');
+  const s = STATIONS[i];
+  $('#stBody').innerHTML = `<div class="box">${s.html()}<div class="nav">
+    ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
+    ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('questions')">إلى الأسئلة ❓</button>`}</div></div>`;
+  if (s.after) s.after();
+  if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
+}
+// ───── Questions
+$('#formative').innerHTML = [
+  ['🟢 أكتشف', 'ما الفرق بين الأمراض المعدية والأمراض غير المعدية؟', 'المعدية تنتقل من المصاب إلى السليم، وغير المعدية لا تنتقل.'],
+  ['🟡 أفكّر', 'اذكري ثلاثة مخلوقات دقيقة تسبّب الأمراض.', 'الفيروسات، والبكتيريا، والفطريات.'],
+  ['🔴 أتحدّى نفسي', 'لماذا تكون خطورة انتقال الفيروس منخفضة عند الابتعاد مسافة مترين؟', 'لأن الاتصال المباشر بالمصاب يقلّ، فيقلّ انتقال العدوى.'],
+].map(([l, q, a]) => flip(q, a, l)).join('');
+$('#book').innerHTML = [
+  ['ص١٤٣ • التفكير الناقد', 'لماذا يُصنَّف السكري من الأمراض غير المعدية؟', 'لأنه لا تسبّبه مخلوقات دقيقة، ولا ينتقل من الشخص المصاب إلى الشخص السليم.'],
+  ['ص١٤٣ • أتوقّع', 'ما سبب إصابة بعض الأشخاص بالحساسية عند تربية بعض الحيوانات الأليفة في منازلهم؟', 'لأن جهاز المناعة عندهم يتفاعل بشدّة ضد المواد الغريبة.'],
+  ['ص١٤١ • أفسّر البيانات', 'ما سبب الاختلاف في كمية النفايات في المرافق الثلاثة المختارة؟', 'اختلاف عدد مرتاديها ونوع النشاط فيها.'],
+  ['ص١٤١ • أتوقّع', 'كيف يؤدي تراكم النفايات إلى انتقال الأمراض؟', 'تجذب الحشرات والقوارض الحاملة للمرض، وتتكاثر فيها الجراثيم.'],
+  ['ص١٤١ • أستكشف أكثر', 'هل تتأثر كمية النفايات في المرافق المختارة بعدد الأشخاص؟', 'فرضيتي: كلما زاد عدد الأشخاص زادت كمية النفايات.'],
+].map(([k, q, a]) => flip(q, a, k)).join('');
+const SECRET = [
+  { q: 'المرض حالة … تؤثّر على جسم المخلوق الحي.', o: ['طبيعية', 'غير طبيعية', 'مفيدة'], a: 1 },
+  { q: 'أيّ مما يلي مرض معدٍ؟', o: ['السكري', 'الكوليرا', 'السمنة'], a: 1 },
+  { q: 'انتقال المرض من المخلوق الحي المصاب إلى السليم يُسمّى…', o: ['العدوى', 'التطعيم', 'الحساسية'], a: 0 },
+  { q: 'الخلايا المسؤولة عن حماية الجسم ومحاربة الأمراض والجراثيم:', o: ['خلايا الدم الحمراء', 'خلايا الدم البيضاء', 'خلايا الجلد'], a: 1 },
+  { q: 'مخلوقات حيّة وحيدة الخلية مجهرية:', o: ['البكتيريا', 'الفيروسات', 'الكمأة'], a: 0 },
+  { q: 'تسلك سلوك المخلوقات الحيّة أحيانًا، وسلوك الأشياء غير الحيّة أحيانًا أخرى:', o: ['الفطريات', 'البكتيريا', 'الفيروسات'], a: 2 },
+  { q: 'من الفطريات النافعة:', o: ['الكمأة', 'السل', 'الحصبة'], a: 0 },
+  { q: 'طريقة لتكوين المناعة ضد الأمراض:', o: ['السمنة', 'التطعيم', 'العدوى'], a: 1 },
+  { q: 'ينتج السكري عن خلل في مستويات…', o: ['الحديد', 'الأنسولين', 'الأكسجين'], a: 1 },
+  { q: 'من أسباب فقر الدم:', o: ['نقص الحديد', 'لدغ الحشرات', 'شرب الماء'], a: 0 },
+];
+const sDone = new Set(); let sCur = -1, sTry = 0;
+function secret() {
+  if (sCur < 0) {
+    $('#secret').innerHTML = `<p style="margin:0 0 6px">اختاري ملفًا سريًا وافتحيه بالإجابة الصحيحة 🔐</p><div class="folders">${SECRET.map((_, k) => `<button class="folder ${sDone.has(k) ? 'open' : ''}" onclick="${sDone.has(k) ? '' : `sCur=${k};sTry=0;secret()`}">${sDone.has(k) ? '📂✔' : '📁🔒'}<b>${ar(k + 1)}</b></button>`).join('')}</div>
+      <p class="score">الملفات المفتوحة: ${ar(sDone.size)} / ${ar(SECRET.length)}</p>${sDone.size === SECRET.length ? '<p class="score" style="color:var(--green)">🏆 فتحتِ جميع الملفات! أنتِ طبيبة صغيرة ماهرة 🩺</p>' : ''}`;
+    return;
+  }
+  const t = SECRET[sCur];
+  $('#secret').innerHTML = `<div class="file"><div class="ftab">📁 الملف السري ${ar(sCur + 1)}</div><p>${t.q}</p><div class="opts">${t.o.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="smsg"></div></div><button class="btn" onclick="sCur=-1;secret()">→ رجوع للملفات</button>`;
+  document.querySelectorAll('#secret .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!sTry) award(1, b); sDone.add(sCur); $('#smsg').className = 'msg good'; $('#smsg').textContent = '🔓 فُتح الملف! أحسنتِ 🌟'; setTimeout(() => { sCur = -1; secret(); if (sDone.size === SECRET.length) confetti(); }, 900); }
+    else { sTry++; b.classList.add('no'); b.disabled = true; $('#smsg').className = 'msg bad'; $('#smsg').textContent = 'الملف ما زال مقفلًا… حاولي مرة أخرى 💡'; }
+  });
+}
+// ───── Games
+const GAMES = {
+  cause: { title: '🔬 من المسبّب؟', items: [
+    { q: 'فيروس كورونا المستجد (COVID-19)', img: 'corona', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 0 },
+    { q: 'السل', img: 'tb', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 1 },
+    { q: 'الأنفلونزا', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 0 },
+    { q: 'الكوليرا', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 1 },
+    { q: 'الكمأة النافعة', img: 'fungi', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 2 },
+    { q: 'الحصبة', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 0 },
+    { q: 'التهاب الحلق والالتهاب الرئوي', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 1 },
+  ] },
+  who: { title: '🕵️ من أنا؟', items: [
+    { q: 'أنا تفاعل جهاز المناعة بشدّة ضد المواد الغريبة.', o: ['الحساسية', 'السمنة', 'السل'], a: 0 },
+    { q: 'أنا حالة يفتقر فيها الدم إلى ما يكفي من خلايا الدم الحمراء.', o: ['السكري', 'فقر الدم', 'الكوليرا'], a: 1 },
+    { q: 'أنا تراكم مفرط أو غير طبيعي للدهون في الجسم.', o: ['السمنة', 'الحساسية', 'الأنفلونزا'], a: 0 },
+    { q: 'أنا عدوى فيروسية تصيب الرئتين والشعب الهوائية.', o: ['السل', 'الأنفلونزا', 'فقر الدم'], a: 1 },
+    { q: 'أنا طريقة لتكوين المناعة ضد الأمراض.', o: ['العدوى', 'التطعيم', 'المرض'], a: 1 },
+  ] },
+};
+// ───── Catch the concept: infectious or not
+const CATCH = [['السكري', 0], ['كورونا المستجد', 1], ['السمنة', 0], ['الزكام', 1], ['فقر الدم', 0], ['السل', 1], ['الحساسية', 0], ['الكوليرا', 1], ['أمراض القلب', 0], ['الحصبة', 1], ['الضغط', 0], ['الأنفلونزا', 1]];
+let cq = [], cx = 0, cScore = 0, cTimer = null;
+function catchStart() { cq = CATCH.slice().sort(() => Math.random() - .5); cx = 0; cScore = 0; catchRound(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
+function catchRound(msg) {
+  clearTimeout(cTimer);
+  if (cx >= cq.length) { $('#play').innerHTML = `<div class="box" style="text-align:center"><h2>🎯 انتهى الصيد!</h2><div style="font-size:30px">⭐ ${ar(cScore)} / ${ar(cq.length)}</div><button class="btn main" onclick="catchStart()">العبي مرة أخرى 🔄</button></div>`; confetti(); return; }
+  const [n] = cq[cx];
+  $('#play').innerHTML = `<div class="box"><h2>🎯 صيد المفاهيم: صِيدي المرض قبل أن يسقط!</h2><p class="score">${ar(cx + 1)} / ${ar(cq.length)} • ⭐ ${ar(cScore)}</p>
+    <div class="arena"><div class="bubble" id="bub">${n}</div></div>
+    <div class="baskets"><button class="basket inf" onclick="catchPick(1,this)">🦠 مرض معدٍ</button><button class="basket non" onclick="catchPick(0,this)">🧍‍♀️ مرض غير معدٍ</button></div>
+    <div class="msg ${msg ? msg[0] : ''}" id="gmsg">${msg ? msg[1] : ''}</div></div>`;
+  cTimer = setTimeout(() => { const ok = cq[cx][1] ? 'معدٍ' : 'غير معدٍ'; cx++; catchRound(['bad', `⏱️ سقط! «${n}» مرض ${ok}.`]); }, 7000);
+}
+function catchPick(k, b) {
+  const [n, a] = cq[cx]; clearTimeout(cTimer);
+  if (k === a) { cScore++; award(1, b); cx++; setTimeout(() => catchRound(['good', `✔ صحيح! «${n}» مرض ${a ? 'معدٍ' : 'غير معدٍ'}.`]), 500); }
+  else { b.classList.add('no'); cx++; setTimeout(() => catchRound(['bad', `✘ «${n}» مرض ${a ? 'معدٍ' : 'غير معدٍ'}.`]), 700); }
+}
+let G, gi, gs, gtry;
+function game(k) { G = GAMES[k]; gi = 0; gs = 0; round(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
+function round() {
+  if (gi >= G.items.length) {
+    $('#play').innerHTML = `<div class="box" style="text-align:center"><h2>🏆 أنهيتِ اللعبة!</h2><div style="font-size:30px">⭐ ${ar(gs)} / ${ar(G.items.length)}</div><p>النجمة للإجابة الصحيحة من أول محاولة.</p></div>`;
+    confetti(); return;
+  }
+  const t = G.items[gi]; gtry = 0;
+  const opts = G.two ? G.labels : t.o;
+  $('#play').innerHTML = `<div class="box"><h2>${G.title}</h2><p class="score">${ar(gi + 1)} / ${ar(G.items.length)} • ⭐ ${ar(gs)}</p>
+    ${t.img ? `<img class="pic" src="img/${t.img}.jpg" alt="">` : ''}<p style="text-align:center;font-size:22px">${t.q}</p>
+    <div class="opts" ${G.two ? 'style="grid-template-columns:1fr 1fr"' : ''}>${opts.map((o, k) => `<button class="btn" data-k="${k}" ${G.two ? 'style="text-align:center;font-size:22px"' : ''}>${o}</button>`).join('')}</div><div class="msg" id="gmsg"></div></div>`;
+  document.querySelectorAll('#play .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!gtry) { gs++; award(1, b); } $('#gmsg').className = 'msg good'; $('#gmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { gi++; round(); }, 900); }
+    else { gtry++; b.classList.add('no'); b.disabled = true; $('#gmsg').className = 'msg bad'; $('#gmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+station(0); clinic(); secret();
+// every content picture opens full size when tapped
+document.addEventListener('click', (e) => {
+  const im = e.target.closest('main img');
+  if (im && !im.classList.contains('page')) zoom(im.src);
+});
+</script>
+</body>
+</html>
