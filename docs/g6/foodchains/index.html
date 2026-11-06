@@ -386,6 +386,22 @@
   .rx { margin: 8px auto; width: min(100%, 520px); height: 170px; border-radius: 20px; background: #c62828; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; user-select: none; }
   .rx.wait { background: #ef6c00; } .rx.go { background: #2e7d32; }
 
+  .labw .txt .steps { margin: 3px 0; } .labw .tray { min-height: 30px; padding: 2px; } .ls { font-size: 12px; }
+  .labw { grid-template-columns: minmax(0, .45fr) minmax(0, 1.55fr) !important; }
+  .lsteps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .ls { font: inherit; font-size: 13px; border: 2px solid #c9d3c2; background: #fff; border-radius: 10px; padding: 2px; cursor: pointer; }
+  .ls b { display: block; width: 22px; height: 22px; line-height: 22px; margin: 0 auto; border-radius: 50%; background: #c9d3c2; color: #fff; }
+  .ls.on { border-color: var(--leaf); background: var(--mint); } .ls.on b { background: var(--leaf); } .ls.done b { background: var(--gold); }
+  .lmsg { background: #1a2340; color: #fff; border-radius: 10px; padding: 3px 10px; font-size: 14px; margin: 3px 0; min-height: 40px; line-height: 1.5; } .lmsg b { color: #ffd54f; }
+  .labbox { background: linear-gradient(#fdfbf5, #f3ecdc); border: 2px solid #d7c4a3; border-radius: 12px; }
+  #labsvg { width: 100%; height: 24vh; display: block; } #labsvg .str { stroke: #8d6e63; stroke-width: 1.5; } #labsvg .str.cut { stroke: #ccc; stroke-dasharray: 3 3; }
+  #labsvg .hc { animation: drop .5s ease-out; } #labsvg .hc.fall { opacity: .45; filter: grayscale(1); transform: translateY(6px); transition: .6s; }
+  @keyframes drop { from { transform: translateY(-30px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .tray { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; min-height: 40px; background: #efe6d2; border-radius: 10px; padding: 4px; margin-top: 4px; }
+  .tc { font: inherit; font-size: 15px; border: 2px solid var(--c); background: #fff; border-radius: 7px; padding: 0 4px; cursor: pointer; line-height: 1.1; animation: drop .3s; }
+  .tc small { display: block; font-size: 10px; } .tc.go { box-shadow: 0 0 8px var(--c); transform: scale(1.08); }
+  .tnote { font-size: 14px; color: #8d6e63; }
+  .obs { display: flex; gap: 6px; align-items: center; font-size: 15px; } .obs input { width: 60px; font: inherit; text-align: center; border: 2px solid var(--leaf); border-radius: 8px; }
   .wr { background: #f3f8ff; border: 2px dashed #1e5fd8; border-radius: 12px; padding: 6px 10px; margin: 6px 0; font-size: 16px; }
   .wr textarea { width: 100%; height: 60px; font: inherit; font-size: 17px; border: 2px solid #1e5fd8; border-radius: 10px; margin: 4px 0; }
   .sim { background: #f7fbf3; border: 2px dashed var(--leaf); border-radius: 14px; padding: 6px; margin: 6px 0; }
@@ -694,15 +710,14 @@ const STATIONS = [
         <button class="btn main" onclick="wrCheck()">✔ تحقّقي</button><div class="msg" id="wrMsg"></div></div>
     </div></div>` },
   { icon: '🧪', name: 'أستكشف: نموذج لسلسلة غذائية', page: 137, html: () => `
-    <span class="strat"><b>الاستراتيجية:</b> الاستقصاء – محاكاة نشاط الكتاب</span><h2>🧪 كيف يمكن عمل نموذج لسلسلة غذائية؟</h2>
-    <div class="grid2 body"><div class="pagecol">${page(137)}</div><div class="txt">
-      ${flip('أتوقّع: كيف تبدو العلاقة بين ٢٠ مخلوقًا حيًّا اعتمادًا على ما تتغذّى عليه؟', 'إذا كان نموذج السلسلة الغذائية يتضمن ٢٠ مخلوقًا فإنه سيبدو شبكة غذائية متشابكة تبدأ من الشمس.', 'توقّعي أولًا')}
-      <div class="sim" id="hang"></div>
-      <div class="steps"><button class="btn main" onclick="hangBuild()">🔁 أعيدي بناء النموذج</button><button class="btn" onclick="drought()">☀️ جفاف: تموت النباتات</button></div>
-      <div class="msg" id="hmsg">٢٠ بطاقة: ٨ نباتات · ٦ آكلات أعشاب · ٤ آكلات لحوم · ٢ يتغذّيان عليها.</div>
-      ${flip('ألاحظ: ماذا حدث لعدد المخلوقات كلما ابتعدنا عن الشمس؟', 'يقل العدد في كل مستوى: ٨ نباتات ثم ٦ ثم ٤ ثم ٢؛ فالطاقة تقل كلما ابتعدنا عن الشمس.', 'ألاحظ')}
-      ${flip('أستنتج: ماذا يحدث لجماعات الحيوانات لو جفّت جميع النباتات؟', 'تموت آكلات الأعشاب لفقد غذائها، ثم تموت آكلات اللحوم التي تتغذّى عليها، فينهار النظام البيئي كله.', 'أستنتج')}
-    </div></div>`, after: () => hangBuild() },
+    <span class="strat"><b>الاستراتيجية:</b> الاستقصاء – مختبر افتراضي لتجربة الكتاب</span><h2>🧪 كيف يمكن عمل نموذج لسلسلة غذائية؟</h2>
+    <div class="grid2 body labw"><div class="pagecol">${page(137)}</div><div class="txt">
+      <div class="lsteps" id="lsteps">${LSTEPS.map((t, k) => `<button class="ls" data-k="${k}" onclick="labStep(${k})"><b>${ar(k + 1)}</b>${t[0]}</button>`).join('')}</div>
+      <div class="lmsg" id="lmsg"></div>
+      <div class="labbox"><svg id="labsvg" viewBox="0 0 560 262"></svg></div>
+      <div class="tray" id="tray"></div>
+      <div class="steps" id="lbtn"></div>
+    </div></div>`, after: () => labStep(0) },
   { icon: '🌿', name: 'ما السلاسل الغذائية؟ المنتجات', page: 138, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – التتابع</span><h2>🌿 ما السلاسل الغذائية؟</h2>
     <div class="grid2 body"><div class="pagecol">${page(138)}</div><div class="txt">
@@ -1268,17 +1283,80 @@ new MutationObserver(() => document.querySelectorAll('.vidb[data-src]:not([data-
   b.dataset.chk = 1; const v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = () => { b.hidden = false; }; v.src = b.dataset.src;
 })).observe(document.body, { childList: true, subtree: true });
 // ───── Explore activity (p137): hanging model with 20 cards, and a drought
-const LV = [['☀️', 'الشمس', 1], ['🌿', 'نبات', 8], ['🐇', 'آكل أعشاب', 6], ['🦊', 'آكل لحوم', 4], ['🦅', 'المستوى الأعلى', 2]];
-function hangBuild() {
-  const h = $('#hang'); if (!h) return;
-  h.innerHTML = LV.map(([e, n, c], k) => `<div class="lvl" data-l="${k}"><span class="lb">${n}${k ? ` (${ar(c)})` : ''}</span>${Array.from({ length: c }, () => `<span class="org">${e}</span>`).join('')}</div>`).join('<div class="ar2">⬆ الطاقة ⬆</div>');
-  if ($('#hmsg')) { $('#hmsg').className = 'msg'; $('#hmsg').textContent = '٢٠ بطاقة: ٨ نباتات · ٦ آكلات أعشاب · ٤ آكلات لحوم · ٢ يتغذّيان عليها.'; }
-  h.querySelectorAll('.lvl').forEach((l) => l.onclick = () => { const k = +l.dataset.l; $('#hmsg').className = 'msg good'; $('#hmsg').textContent = k ? `${LV[k][1]}: ${ar(LV[k][2])} – كلما ابتعدنا عن الشمس قلّ العدد.` : 'الشمس مصدر الطاقة.'; });
+// ───── Virtual lab for the explore activity (p137): cards, the sun disk on the bottle, hanging, observing, drought
+const LSTEPS = [['أتوقّع', 'كيف تبدو العلاقة بين ٢٠ مخلوقًا حيًّا اعتمادًا على ما تتغذّى عليه؟ اكتبي توقّعك في دفترك ثم اضغطي «التالي».'],
+  ['أقصّ البطاقات', 'قصّي ٢٠ بطاقة واكتبي على كل بطاقة اسم مخلوق حي: ٨ نباتات، ٦ حيوانات تتغذّى على النباتات، ٤ تتغذّى على لحوم آكلات النباتات، و٢ يتغذّيان على آكلات اللحوم.'],
+  ['أعمل نموذجًا', 'ثبّتي القرص (الشمس) فوق القارورة، ثم علّقي البطاقات: اضغطي على البطاقة المضيئة في الأسفل لتعلّقيها في مكانها.'],
+  ['ألاحظ', 'ما عدد المستويات في النموذج تحت الشمس؟ وماذا حدث لعدد المخلوقات كلما ابتعدنا عن الشمس؟'],
+  ['أستنتج', 'ماذا يحدث لجماعات الحيوانات لو جفّت جميع النباتات؟ اضغطي «☀️ جفاف» وشاهدي.']];
+const LC = [  // name, emoji, level, x, parent index (in the level above)
+  ['عشب', '🌿', 0, 50], ['قمح', '🌾', 0, 115], ['جزر', '🥕', 0, 180], ['برسيم', '☘️', 0, 245], ['ذرة', '🌽', 0, 315], ['شجيرة', '🌳', 0, 380], ['تفاح', '🍎', 0, 445], ['نخلة', '🌴', 0, 510],
+  ['جرادة', '🦗', 1, 50, 0], ['أرنب', '🐇', 1, 160, 2], ['فأر', '🐭', 1, 245, 1], ['بقرة', '🐄', 1, 330, 3], ['غزال', '🦌', 1, 410, 5], ['جمل', '🐪', 1, 510, 7],
+  ['طائر', '🐦', 2, 70, 8], ['ثعلب', '🦊', 2, 190, 9], ['أفعى', '🐍', 2, 290, 10], ['ذئب', '🐺', 2, 420, 12],
+  ['صقر', '🦅', 3, 180, 16], ['أسد', '🦁', 3, 360, 17]];
+const LY = [82, 132, 182, 232], LCOL = ['#43a047', '#fb8c00', '#e53935', '#6b4fc0'], LNAME = ['نبات', 'آكل نباتات', 'آكل لحوم', 'يأكل آكلات اللحوم'];
+let lstep = 0, hung = new Set();
+const pIdx = (i) => i < 8 ? -1 : LC[i][4];
+function labSvg(dead) {
+  const g = (i) => { const [n, e, l, x] = LC[i]; return { n, e, l, x, y: LY[l] }; };
+  let h = `<rect x="0" y="252" width="560" height="10" fill="#d7c4a3"/>
+    <path d="M262 252 V112 Q262 92 272 84 V40 H288 V84 Q298 92 298 112 V252 Z" fill="#dff1fb" stroke="#90caf9" stroke-width="2" opacity=".85"/>
+    <ellipse cx="280" cy="40" rx="250" ry="14" fill="#ffe082" stroke="#f5b300" stroke-width="2"/>
+    <text x="280" y="45" text-anchor="middle" font-size="13" fill="#8a6400">☀️ الشمس (قرص الورق المقوّى)</text>`;
+  for (let k = 0; k < 8; k++) h += `<circle cx="${LC[k][3]}" cy="46" r="3" fill="#8a6400"/>`;
+  hung.forEach((i) => { const c = g(i), pi = pIdx(i), py = pi < 0 ? 46 : LY[LC[pi][2]] + 16, px = pi < 0 ? c.x : LC[pi][3];
+    h += `<line class="str ${dead && dead.has(i) ? 'cut' : ''}" x1="${px}" y1="${py}" x2="${c.x}" y2="${c.y - 14}"/>`; });
+  hung.forEach((i) => { const c = g(i), d = dead && dead.has(i);
+    h += `<g class="hc ${d ? 'fall' : ''}" style="--c:${LCOL[c.l]}"><rect x="${c.x - 27}" y="${c.y - 14}" width="54" height="30" rx="5" fill="#fff" stroke="${LCOL[c.l]}" stroke-width="2.5"/>
+      <text x="${c.x}" y="${c.y + 2}" text-anchor="middle" font-size="15">${d ? (c.l ? '💀' : '🥀') : c.e}</text><text x="${c.x}" y="${c.y + 13}" text-anchor="middle" font-size="9" fill="#333">${c.n}</text></g>`; });
+  if (lstep >= 3) LY.forEach((y, l) => { h += `<text x="6" y="${y + 4}" font-size="11" fill="${LCOL[l]}" class="cnt">${ar([8, 6, 4, 2][l])}</text>`; });
+  $('#labsvg').innerHTML = h;
 }
-function drought() {
-  hangBuild(); const lv = document.querySelectorAll('#hang .lvl');
-  [1, 2, 3, 4].forEach((k, i) => setTimeout(() => { lv[k].classList.add('dead'); lv[k].querySelectorAll('.org').forEach((o) => o.textContent = k === 1 ? '🥀' : '💀'); }, 900 * i));
-  setTimeout(() => { $('#hmsg').className = 'msg bad'; $('#hmsg').innerHTML = '☀️ جفّت النباتات ← ماتت آكلات الأعشاب ← ثم آكلات اللحوم ← فانهار النظام البيئي كله!'; award(2, $('#hang')); }, 3700);
+function trayDraw() {
+  const t = $('#tray'); if (!t) return;
+  const nextL = [0, 1, 2, 3].find((l) => LC.some((c, i) => c[2] === l && !hung.has(i)));
+  t.innerHTML = lstep < 1 ? '<span class="tnote">🗒️ الطاولة: لا توجد بطاقات بعد</span>' : LC.map((c, i) => hung.has(i) ? '' :
+    `<button class="tc ${lstep === 2 && c[2] === nextL ? 'go' : ''}" style="--c:${LCOL[c[2]]}" onclick="hang(${i})">${c[1]}<small>${c[0]}</small></button>`).join('');
+}
+function labStep(k) {
+  lstep = k; if (k <= 1) hung = new Set();
+  document.querySelectorAll('#lsteps .ls').forEach((b, j) => { b.classList.toggle('on', j === k); b.classList.toggle('done', j < k); });
+  const m = $('#lmsg'); m.innerHTML = `<b>${LSTEPS[k][0]}:</b> ${LSTEPS[k][1]}`;
+  const nx = k < 4 ? `<button class="btn main" onclick="labStep(${k + 1})">التالي ←</button>` : '';
+  const btn = { 0: nx, 1: `<button class="btn main" onclick="cutCards()">✂️ قصّي البطاقات واكتبي الأسماء</button>`,
+    2: `<button class="btn" onclick="hangAll()">⏩ علّقي الباقي</button>`, 3: `<div class="obs"><label>عدد المستويات تحت الشمس: <input id="lvN" type="number" min="1" max="9"></label><button class="btn" onclick="obsCheck()">تحقّقي</button></div>` + nx,
+    4: `<button class="btn main" onclick="labDrought()">☀️ جفاف: تجفّ النباتات</button><button class="btn" onclick="labStep(2); hangAll()">🔁 أعيدي النموذج</button>` }[k];
+  $('#lbtn').innerHTML = btn; labSvg(); trayDraw(); const tx = $('#lsteps') && $('#lsteps').closest('.txt'); if (tx) tx.scrollTop = 0;
+}
+function cutCards() {
+  lstep = 1; const t = $('#tray'); t.innerHTML = '';
+  LC.forEach((c, i) => setTimeout(() => { t.insertAdjacentHTML('beforeend', `<button class="tc" style="--c:${LCOL[c[2]]}">${c[1]}<small>${c[0]}</small></button>`); try { tone(900 + (i % 3) * 80, actx.currentTime, .05, .04, 'square'); } catch (e) {} }, 70 * i));
+  setTimeout(() => { $('#lmsg').innerHTML = '<b>أقصّ البطاقات:</b> ✔ ٢٠ بطاقة جاهزة بالألوان: 🟩 ٨ نباتات · 🟧 ٦ آكلات نباتات · 🟥 ٤ آكلات لحوم · 🟪 ٢ في الأعلى.'; $('#lbtn').innerHTML = `<button class="btn main" onclick="labStep(2)">التالي: أعمل نموذجًا ←</button>`; award(1, $('#tray')); }, 70 * 20 + 200);
+}
+function hang(i) {
+  if (lstep !== 2) return;
+  const l = LC[i][2], need = [0, 1, 2, 3].find((v) => LC.some((c, j) => c[2] === v && !hung.has(j)));
+  if (l !== need) { $('#lmsg').innerHTML = `<b>💡 تلميح:</b> علّقي أولًا بطاقات «${LNAME[need]}»؛ ${need ? 'فهي تتغذّى على المستوى الذي فوقها.' : 'فالنباتات تعلّق مباشرة في قرص الشمس.'}`; return; }
+  hung.add(i); try { tone(520 + l * 90, actx.currentTime, .12, .06, 'triangle'); } catch (e) {}
+  const pi = pIdx(i);
+  $('#lmsg').innerHTML = pi < 0 ? `<b>أعمل نموذجًا:</b> علّقتِ «${LC[i][0]}» في قرص الشمس 🌞 – النبات يأخذ طاقته من الشمس.` : `<b>أعمل نموذجًا:</b> ربطتِ «${LC[i][0]}» أسفل «${LC[pi][0]}» لأنه يتغذّى عليه.`;
+  labSvg(); trayDraw();
+  if (hung.size === 20) { $('#lmsg').innerHTML = '<b>✔ اكتمل النموذج!</b> الطاقة تنتقل من الشمس إلى النباتات ثم إلى الحيوانات.'; $('#lbtn').innerHTML = `<button class="btn main" onclick="labStep(3)">التالي: ألاحظ ←</button>`; award(2, $('#labsvg')); }
+}
+function hangAll() { lstep = 2; LC.forEach((_, i) => hung.add(i)); labSvg(); trayDraw(); $('#lbtn').innerHTML = `<button class="btn main" onclick="labStep(3)">التالي: ألاحظ ←</button>`; }
+function obsCheck() {
+  const v = +$('#lvN').value, m = $('#lmsg');
+  if (v === 4) { m.innerHTML = '<b>✔ ألاحظ:</b> ٤ مستويات تحت الشمس، والعدد يقل: ٨ ← ٦ ← ٤ ← ٢؛ فالطاقة تقل كلما ابتعدنا عن الشمس.'; award(1, m); }
+  else m.innerHTML = '<b>💡 تلميح:</b> عُدّي صفوف البطاقات المعلّقة تحت قرص الشمس (لكل صف لون).';
+}
+function labDrought() {
+  if (hung.size < 20) hangAll(); lstep = 4; const dead = new Set();
+  [0, 1, 2, 3].forEach((l, k) => setTimeout(() => {
+    LC.forEach((c, i) => { if (c[2] === l) dead.add(i); }); labSvg(dead);
+    $('#lmsg').innerHTML = ['<b>☀️ جفاف:</b> جفّت جميع النباتات 🥀', '<b>☀️ جفاف:</b> ماتت آكلات النباتات لأنها فقدت غذاءها 💀', '<b>☀️ جفاف:</b> ماتت آكلات اللحوم لأن فرائسها ماتت 💀', '<b>أستنتج:</b> ماتت الحيوانات في الأعلى أيضًا… <b>انهار النظام البيئي كله</b> لأن كل المستويات تعتمد على النباتات!'][k];
+    try { tone(300 - k * 40, actx.currentTime, .3, .06, 'sine'); } catch (e) {}
+    if (k === 3) award(2, $('#labsvg'));
+  }, 1300 * k));
 }
 // ───── Food chain in a forest (p139): tap each living thing, then follow the energy
 const CH = [['☀️', 'الشمس', 'مصدر الطاقة'], ['🌿', 'النبات', 'منتج'], ['🦗', 'الجرادة', 'مستهلك أول'], ['🦜', 'الببغاء', 'مستهلك ثانٍ'], ['🐆', 'أسد الجبال', 'مستهلك ثالث'], ['🍄', 'الفطريات', 'محلّل']];
