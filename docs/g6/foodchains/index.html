@@ -426,6 +426,8 @@
   .slot { min-width: 120px; min-height: 40px; border: 3px dashed #b9a24a; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #999; padding: 2px 6px; }
   .slot.ok { border-style: solid; border-color: var(--leaf); color: var(--ink); background: #f3fbe9; font-size: 18px; } .slot.glow { box-shadow: 0 0 12px #f5c242; background: #fff3c4; }
   .sbtn { position: absolute; bottom: 10px; left: 10px; z-index: 3; font-size: 16px; padding: 4px 12px; box-shadow: 0 2px 8px #0003; }
+  .cmpimg img { display: block; width: 100%; max-height: 30vh; object-fit: contain; border: 3px solid var(--leaf); border-radius: 12px; cursor: zoom-in; background: #fff; }
+  .cmpimg .cap { margin: 2px 0 4px; }
 </style>
 </head>
 <body>
@@ -737,6 +739,7 @@ const STATIONS = [
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ الشكل</span><h2>🦗 المستهلكات والمحلّلات</h2>
     <div class="grid2 body"><div class="pagecol">${page(139)}</div><div class="txt">
       ${vbtn('vid/decomposers.mp4', '🎬 فيديو: الفطريات تحلّل بقايا المخلوقات')}
+      <div class="cmpimg"><img src="img/compare.jpg" alt="مقارنة بين المنتج والمستهلك والمحلّل" onclick="zoom(this.src)"><div class="cap">🖼️ مقارنة بين المنتج والمستهلك والمحلّل <button class="sbr" onclick="zoom('img/compare.jpg')">✏️ السبورة</button></div></div>
       <div class="sim" id="chainSim"></div>
       <div class="steps"><button class="btn main" onclick="chainFlow()">⚡ تتبّعي انتقال الطاقة</button></div>
       ${flip('ما المستهلك؟', 'مخلوق حي لا يستطيع إنتاج غذائه، فيتغذّى على المنتجات مباشرة أو على مستهلكات أخرى.', 'المفردة')}
