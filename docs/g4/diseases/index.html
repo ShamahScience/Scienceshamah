@@ -229,7 +229,7 @@
   .scope { width: 150px; height: 150px; margin: 6px auto; border-radius: 50%; overflow: hidden; border: 8px solid #3a1f44; box-shadow: 0 0 0 4px #c9a9c4, inset 0 0 20px rgba(0,0,0,.5); animation: focus 1s; }
   .scope img { width: 100%; height: 100%; object-fit: cover; } @keyframes focus { from { filter: blur(8px); transform: scale(.7); } to { filter: none; transform: none; } }
   .cmp td, .cmp th { font-size: 15px; } .hidecell { color: transparent !important; background: repeating-linear-gradient(45deg, #f6eef4, #f6eef4 8px, #efe2ec 8px, #efe2ec 16px); cursor: pointer; }
-  .folders { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; } .folder { font: inherit; font-size: 22px; border: 2px solid #e2c68a; background: #fffaf0; border-radius: 12px; padding: 4px; cursor: pointer; }
+  .folders { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; } .folder { font: inherit; font-size: 22px; border: 2px solid #e2c68a; background: #fffaf0; border-radius: 12px; padding: 4px; cursor: pointer; }
   .folder b { display: block; font-size: 15px; } .folder.open { background: #f3fbe9; border-color: var(--leafg); cursor: default; }
   .arena { position: relative; height: 200px; background: linear-gradient(#fdf0f6, #fff); border: 3px dashed #e7a9c1; border-radius: 18px; overflow: hidden; }
   .bubble { position: absolute; left: 50%; top: -60px; transform: translateX(-50%); background: radial-gradient(circle at 30% 30%, #fff, #f8c8dc); border: 3px solid var(--pink); border-radius: 40px; padding: 8px 22px; font-size: 22px; animation: drop 7s linear forwards; white-space: nowrap; }
@@ -578,7 +578,7 @@ function route(k, el) { if (!seenR.has(k)) { seenR.add(k); award(1, el); } el.cl
 const LAB = {
   v: { n: 'الفيروسات', ic: '🦠', img: 'virus', img2: 'corona', d: 'تسلك سلوك المخلوقات الحيّة أحيانًا، وسلوك الأشياء غير الحيّة أحيانًا أخرى. تهاجم جسم المخلوق الحي وتسبّب له المرض.', ex: 'فيروس كورونا المستجد (COVID-19)، والرشح (الزكام)، والحصبة، والأنفلونزا.' },
   b: { n: 'البكتيريا', ic: '🧫', img: 'bacteria', img2: 'tb', d: 'مخلوقات حيّة وحيدة الخلية مجهرية، توجد في التربة والهواء ومياه الأنهار والبحار والأطعمة، وفي داخل جسم الإنسان وعلى الجلد.', ex: 'نافعة: بكتيريا الجهاز الهضمي وبكتيريا اللبن. ضارة: تسبّب التهاب الحلق والسل والالتهاب الرئوي والكوليرا.' },
-  f: { n: 'الفطريات', ic: '🍄', img: 'fungi', d: 'مخلوقات حيّة واسعة الانتشار في الأوساط المختلفة.', ex: 'نافعة: الكمأة. ومنها فطريات ضارة تسبّب الأمراض المعدية.' },
+  f: { n: 'الفطريات', ic: '🍄', img: 'fungi', img2: 'foot', d: 'مخلوقات حيّة واسعة الانتشار في الأوساط المختلفة. تتنوّع في أحجامها وأشكالها؛ فمنها الكبير الذي يُرى بالعين المجردة، ومنها الدقيق الذي لا يُرى إلا بالمجهر فقط.', ex: 'نافعة: الكمأة. ضارة: تسبّب العديد من الأمراض الجلدية كالقدم الرياضي والطفح الجلدي، وأنواع أخرى تسبّب عدوى في الرئتين.' },
 };
 function lab(k, b) {
   const L = LAB[k]; document.querySelectorAll('.spec').forEach((x) => x.classList.toggle('on', x === b));
@@ -664,9 +664,21 @@ const STATIONS = [
       <h3 style="margin:6px 0 2px;color:var(--green)">📊 أقارن (اضغطي لتظهر الإجابة)</h3>
       <table class="cmp"><tr><th></th><th>🦠 الفيروسات</th><th>🧫 البكتيريا</th><th>🍄 الفطريات</th></tr>
         <tr><td>مثال نافع</td>${['لم يُذكر في الدرس', 'بكتيريا اللبن', 'الكمأة'].map((x) => `<td class="hidecell" onclick="reveal(this)">${x}</td>`).join('')}</tr>
-        <tr><td>مثال ضار</td>${['كورونا، الأنفلونزا', 'السل، الكوليرا', 'الفطريات الضارة'].map((x) => `<td class="hidecell" onclick="reveal(this)">${x}</td>`).join('')}</tr></table>
+        <tr><td>مثال ضار</td>${['كورونا، الأنفلونزا', 'السل، الكوليرا', 'القدم الرياضي'].map((x) => `<td class="hidecell" onclick="reveal(this)">${x}</td>`).join('')}</tr></table>
       ${flip('🫁 السل', 'مرض مزمن ومعدٍ يُصاب به الشخص نتيجة العدوى بالبكتيريا التي عادة ما تستقر في الرئة.')}
       ${flip('💧 الكوليرا', 'مرض بكتيري عادة ما ينتشر عن طريق شرب الماء الملوّث. تتسبّب الكوليرا في الإصابة بإسهال وجفاف شديد.')}
+    </div></div>` },
+  { icon: '🍄', name: 'الفطريات', page: 145, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> أقرأ الصورة – المقارنة</span><h2>🍄 الفطريات</h2>
+    <div class="grid2 body"><div class="pagecol">${page(145)}</div><div class="txt">
+      ${flip('الفطريات هي…', 'مخلوقات حيّة واسعة الانتشار في الأوساط المختلفة.', 'المفردة')}
+      <img src="img/fungivar.jpg" alt="تنوّع الفطريات" class="pic">
+      <div class="cap">تتنوّع الفطريات في أحجامها وأشكالها: منها الكبير الذي يُرى بالعين المجردة، ومنها الدقيق الذي لا يُرى إلا بالمجهر.</div>
+      <div class="ce"><div class="c">👍 فطريات نافعة</div><div class="ar">←</div><div class="e hide" onclick="if(this.classList.contains('hide')){this.classList.remove('hide');award(1,this)}">مثل الكمأة</div></div>
+      <div class="ce"><div class="c">👎 فطريات ضارة</div><div class="ar">←</div><div class="e hide" onclick="if(this.classList.contains('hide')){this.classList.remove('hide');award(1,this)}">أمراض جلدية وعدوى في الرئتين</div></div>
+      <div class="grid2"><div><img src="img/fungi.jpg" alt="فطريات" style="border-radius:10px"><div class="cap">الفطريات تسبّب بعض الأمراض الجلدية</div></div><div><img src="img/foot.jpg" alt="القدم الرياضي" style="border-radius:10px"><div class="cap">المسبّب الرئيس لمرض القدم الرياضي</div></div></div>
+      ${flip('🦶 القدم الرياضي', 'هو طفح جلدي معدٍ، يصيب القدم بسبب عدوى فطرية.')}
+      ${flip('أين تنتشر الفطريات المسبّبة للقدم الرياضي؟', 'في الأماكن الدافئة والمعرّضة للتعرّق، وبالتالي تنتشر بين أصابع القدم.')}
     </div></div>` },
   { icon: '🏡', name: 'الربط بالحياة: أحمي نفسي', page: 143, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الربط بالحياة – حلّ المشكلات</span><h2>🏡 مواقف من المنزل والمدرسة: كيف أقي نفسي من العدوى؟</h2>
@@ -696,6 +708,8 @@ $('#formative').innerHTML = [
 $('#book').innerHTML = [
   ['ص١٤٣ • التفكير الناقد', 'لماذا يُصنَّف السكري من الأمراض غير المعدية؟', 'لأنه لا تسبّبه مخلوقات دقيقة، ولا ينتقل من الشخص المصاب إلى الشخص السليم.'],
   ['ص١٤٣ • أتوقّع', 'ما سبب إصابة بعض الأشخاص بالحساسية عند تربية بعض الحيوانات الأليفة في منازلهم؟', 'لأن جهاز المناعة عندهم يتفاعل بشدّة ضد المواد الغريبة.'],
+  ['ص١٤٥ • التفكير الناقد', 'لماذا ينصح الأطباء بعدم مخالطة الأشخاص المصابين بالأمراض المعدية؟', 'لأن الأمراض المعدية تنتقل من المصاب إلى السليم بالاتصال المباشر أو الهواء أو الأدوات الملوّثة.'],
+  ['ص١٤٥ • أتوقّع', 'هل توجد فيروسات مفيدة وفيروسات ضارة؟', 'نعم؛ معظم الفيروسات ضارة تسبّب الأمراض كالأنفلونزا، وبعضها مفيد يُستخدم في صناعة اللقاحات.'],
   ['ص١٤١ • أفسّر البيانات', 'ما سبب الاختلاف في كمية النفايات في المرافق الثلاثة المختارة؟', 'اختلاف عدد مرتاديها ونوع النشاط فيها.'],
   ['ص١٤١ • أتوقّع', 'كيف يؤدي تراكم النفايات إلى انتقال الأمراض؟', 'تجذب الحشرات والقوارض الحاملة للمرض، وتتكاثر فيها الجراثيم.'],
   ['ص١٤١ • أستكشف أكثر', 'هل تتأثر كمية النفايات في المرافق المختارة بعدد الأشخاص؟', 'فرضيتي: كلما زاد عدد الأشخاص زادت كمية النفايات.'],
@@ -711,6 +725,8 @@ const SECRET = [
   { q: 'طريقة لتكوين المناعة ضد الأمراض:', o: ['السمنة', 'التطعيم', 'العدوى'], a: 1 },
   { q: 'ينتج السكري عن خلل في مستويات…', o: ['الحديد', 'الأنسولين', 'الأكسجين'], a: 1 },
   { q: 'من أسباب فقر الدم:', o: ['نقص الحديد', 'لدغ الحشرات', 'شرب الماء'], a: 0 },
+  { q: 'القدم الرياضي مرض تسبّبه…', o: ['الفيروسات', 'البكتيريا', 'الفطريات'], a: 2 },
+  { q: 'ينصح الأطباء بعدم مخالطة المصابين بالأمراض المعدية لأنها…', o: ['لا تنتقل أبدًا', 'تنتقل من المصاب إلى السليم', 'وراثية فقط'], a: 1 },
 ];
 const sDone = new Set(); let sCur = -1, sTry = 0;
 function secret() {
@@ -735,6 +751,7 @@ const GAMES = {
     { q: 'الكوليرا', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 1 },
     { q: 'الكمأة النافعة', img: 'fungi', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 2 },
     { q: 'الحصبة', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 0 },
+    { q: 'القدم الرياضي', img: 'foot', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 2 },
     { q: 'التهاب الحلق والالتهاب الرئوي', o: ['🦠 فيروس', '🧫 بكتيريا', '🍄 فطريات'], a: 1 },
   ] },
   who: { title: '🕵️ من أنا؟', items: [
@@ -743,10 +760,11 @@ const GAMES = {
     { q: 'أنا تراكم مفرط أو غير طبيعي للدهون في الجسم.', o: ['السمنة', 'الحساسية', 'الأنفلونزا'], a: 0 },
     { q: 'أنا عدوى فيروسية تصيب الرئتين والشعب الهوائية.', o: ['السل', 'الأنفلونزا', 'فقر الدم'], a: 1 },
     { q: 'أنا طريقة لتكوين المناعة ضد الأمراض.', o: ['العدوى', 'التطعيم', 'المرض'], a: 1 },
+    { q: 'أنا طفح جلدي معدٍ يصيب القدم بسبب عدوى فطرية.', o: ['القدم الرياضي', 'الحساسية', 'السكري'], a: 0 },
   ] },
 };
 // ───── Catch the concept: infectious or not
-const CATCH = [['السكري', 0], ['كورونا المستجد', 1], ['السمنة', 0], ['الزكام', 1], ['فقر الدم', 0], ['السل', 1], ['الحساسية', 0], ['الكوليرا', 1], ['أمراض القلب', 0], ['الحصبة', 1], ['الضغط', 0], ['الأنفلونزا', 1]];
+const CATCH = [['السكري', 0], ['كورونا المستجد', 1], ['السمنة', 0], ['الزكام', 1], ['فقر الدم', 0], ['السل', 1], ['الحساسية', 0], ['الكوليرا', 1], ['أمراض القلب', 0], ['الحصبة', 1], ['الضغط', 0], ['الأنفلونزا', 1], ['القدم الرياضي', 1]];
 let cq = [], cx = 0, cScore = 0, cTimer = null;
 function catchStart() { cq = CATCH.slice().sort(() => Math.random() - .5); cx = 0; cScore = 0; catchRound(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
 function catchRound(msg) {
