@@ -244,6 +244,7 @@
   .simbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
   .simbtns .btn { font-size: 16px; padding: 5px 8px; }
   .btn.no2 { background: #fde2e2; border-color: var(--red); }
+  .sims { background: #fff3c4; border: 2px dashed var(--gold); border-radius: 14px; padding: 4px 10px; margin: 4px 0; font-size: 16px; line-height: 2; }
   .note2 { background: var(--cream); border: 2px dashed var(--gold); border-radius: 12px; padding: 6px 10px; font-size: 16px; margin: 6px 0; line-height: 1.7; }
 </style>
 </head>
@@ -375,6 +376,7 @@
   <div class="stage" id="stage"><img id="zimg" alt=""><canvas id="ink"></canvas></div>
 </div>
 
+<script src="scenes.js"></script>
 <script>
 const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 const $ = (s) => document.querySelector(s);
@@ -614,6 +616,7 @@ const STATIONS = [
   { icon: '🗑️', name: 'أستكشف: محاكاة النفايات', page: 141, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الاستقصاء – المحاكاة الافتراضية</span><h2>🗑️ أين تُجمع النفايات في مدرستك؟</h2>
     <div class="grid2 body"><div class="pagecol">${page(141)}</div><div class="txt">
+      <div class="sims">🎬 <b>شاهدي المحاكاة:</b> ${watch('waste')} النفايات والأمراض</div>
       <div id="sim"></div>
       ${flip('أفسّر البيانات: ما سبب الاختلاف في كمية النفايات في المرافق الثلاثة؟', 'لاختلاف عدد مرتاديها ونوع النشاط فيها؛ ففي المقصف يتناول عدد كبير الطعام.', 'أفسّر البيانات')}
       ${flip('أتوقّع: كيف يؤدي تراكم النفايات إلى انتقال الأمراض؟', 'تجذب الحشرات والقوارض، وتتكاثر فيها الجراثيم، فتنتقل الأمراض بالملامسة أو عبر الطعام.', 'أتوقّع')}
@@ -624,6 +627,7 @@ const STATIONS = [
   { icon: '🤒', name: 'ما المرض؟', page: 142, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> خريطة المفاهيم – التفكير البصري</span><h2>🤒 ما المرض؟</h2>
     <div class="grid2 body"><div class="pagecol">${page(142)}</div><div class="txt">
+      <div class="sims">🎬 <b>شاهدي المحاكاة:</b> ${watch('disease')} ما المرض؟</div>
       ${flip('يُعرَّف المرض على أنه…', 'حالة غير طبيعية تؤثّر على جسم المخلوق الحي، ترتبط غالبًا بأعراض وعلامات مختلفة.', 'المفردة')}
       ${cmap([{ x: 200, y: 6, w: 200, h: 50, t: '🤒 المرض', c: '#fde4ef' }, { x: 20, y: 120, w: 250, h: 62, t: 'ينتج عن أسباب خارجية', c: '#e8f5ff' }, { x: 330, y: 120, w: 250, h: 62, t: 'ينتج عن مشكلات داخلية', c: '#fff3c4' }, { x: 20, y: 236, w: 250, h: 54, t: '🦠 الأمراض المعدية', c: '#e8f5ff' }, { x: 330, y: 236, w: 250, h: 54, t: '🩸 الأمراض غير المعدية', c: '#fff3c4' }], [[0, 1], [0, 2], [1, 3], [2, 4]], 300)}
       <p class="cap">✍️ الأسهم ترسم نفسها… اضغطي الصفحة للتكبير والكتابة عليها</p>
@@ -633,6 +637,7 @@ const STATIONS = [
     <div class="grid2 body"><div class="pagecol">${page(142)}</div><div class="txt">
       <table class="pt"><tr><th>ما أتوقّع</th><th>ما يحدث</th></tr><tr><td><textarea class="guess s" placeholder="هل كل الأمراض معدية؟"></textarea></td><td><textarea class="guess s" placeholder="بعد القراءة…"></textarea></td></tr></table>
       ${flip('ليست كل الأمراض معدية… الأمراض غير المعدية هي…', 'الأمراض التي لا تنتقل من الشخص المصاب إلى الشخص السليم، مثل السمنة والسكري وفقر الدم والسرطان والضغط والحساسية وأمراض القلب.', 'المفردة')}
+      <div class="sims">🎬 <b>شاهدي المحاكاة:</b> ${watch('diabetes')} السكري ${watch('obesity')} السمنة</div>
       <div class="grid2"><div><img src="img/diabetes.jpg" alt="السكري" style="border-radius:10px"><div class="cap">السكري مرض مزمن غير معدٍ</div></div><div><img src="img/obesity.jpg" alt="السمنة" style="border-radius:10px"><div class="cap">السمنة مرض غير معدٍ</div></div></div>
       ${flip('🍬 السكري', 'مرض مزمن غير معدٍ ينتج عن خلل في مستويات الأنسولين التي يفرزها البنكرياس، وقد ينتج عن عوامل وراثية.')}
       ${flip('⚖️ السمنة', 'تراكم مفرط أو غير طبيعي للدهون في الجسم، قد تنتج عن الإفراط في تناول الأكل وقلة النشاط البدني، أو الإصابة ببعض الأمراض والعوامل الوراثية وتناول بعض الأنواع من الأدوية.')}
@@ -640,6 +645,7 @@ const STATIONS = [
   { icon: '🤧', name: 'الحساسية وفقر الدم', page: 143, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> التعلّم البصري – أقرأ الصورة</span><h2>🤧 الحساسية وفقر الدم</h2>
     <div class="grid2 body"><div class="pagecol">${page(143)}</div><div class="txt">
+      <div class="sims">🎬 <b>شاهدي المحاكاة:</b> ${watch('allergy')} الحساسية ${watch('anemia')} فقر الدم</div>
       <div class="grid2"><div><img src="img/allergy.jpg" alt="الحساسية" style="border-radius:10px"><div class="cap">من أعراض الحساسية احمرار وتهيّج الجلد</div></div><div><img src="img/anemia.jpg" alt="فقر الدم" style="border-radius:10px"><div class="cap">يفتقر الدم إلى ما يكفي من خلايا الدم الحمراء</div></div></div>
       ${flip('🌸 الحساسية', 'هي تفاعل جهاز المناعة بشدّة ضد المواد الغريبة، ويختلف هذا التفاعل حسب نوع الحساسية. وقد تكون من بعض أنواع الأطعمة، أو من لدغ الحشرات. وقد يُصاب بعض الأشخاص بالحساسية نتيجة عوامل وراثية.')}
       ${flip('🩸 فقر الدم', 'حالة يفتقر فيها الدم إلى ما يكفي من خلايا الدم الحمراء التي تنقل الأكسجين والغذاء إلى أنسجة الجسم. ومن أسبابه نقص الحديد أو العوامل الوراثية.')}
@@ -649,6 +655,7 @@ const STATIONS = [
     <span class="strat"><b>الاستراتيجية:</b> الخريطة الذهنية – الاكتشاف</span><h2>🦠 الأمراض المعدية وطرق انتقال العدوى</h2>
     <div class="grid2 body"><div class="pagecol">${page(143)}</div><div class="txt">
       ${flip('الأمراض المعدية هي…', 'الأمراض الناتجة عن الفيروسات والبكتيريا والفطريات الضارة، وتنتقل من الشخص المصاب أو من البيئة إلى الشخص السليم.', 'المفردة')}
+      <div class="sims">🎬 <b>شاهدي المحاكاة:</b> ${watch('spread')} العدوى بالهواء ${watch('cholera')} الكوليرا والماء الملوّث</div>
       <p style="margin:4px 0">👆 <b>كيف تنتقل العدوى؟</b> اضغطي كل طريق لتكتشفيه:</p>
       <div class="routes"><div class="hub">🦠 العدوى</div>${ROUTES.map(([i, t], k) => `<button class="rt" onclick="route(${k},this)"><span>${i}</span><em>${t}</em></button>`).join('')}</div>
       <div class="msg good" id="rmsg"></div>
@@ -658,6 +665,7 @@ const STATIONS = [
   { icon: '🧪', name: 'مختبر المخلوقات الدقيقة', page: 144, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> المختبر الافتراضي – المقارنة</span><h2>🧪 مختبر المخلوقات الدقيقة</h2>
     <div class="grid2 body"><div class="pagecol">${page(144)}</div><div class="txt">
+      <div class="sims">🎬 <b>شاهدي المحاكاة:</b> ${watch('virus')} الفيروسات ${watch('bacteria')} البكتيريا</div>
       <p style="margin:2px 0">🔬 ضعي العيّنة تحت المجهر:</p>
       <div class="specs">${Object.entries(LAB).map(([k, L]) => `<button class="spec" onclick="lab('${k}',this)">${L.ic} ${L.n}</button>`).join('')}</div>
       <div id="lens" class="lens"><p class="cap">اختاري عيّنة لتظهر مكبّرة 🔍</p></div>
@@ -672,6 +680,7 @@ const STATIONS = [
     <span class="strat"><b>الاستراتيجية:</b> أقرأ الصورة – المقارنة</span><h2>🍄 الفطريات</h2>
     <div class="grid2 body"><div class="pagecol">${page(145)}</div><div class="txt">
       ${flip('الفطريات هي…', 'مخلوقات حيّة واسعة الانتشار في الأوساط المختلفة.', 'المفردة')}
+      <div class="sims">🎬 <b>شاهدي المحاكاة:</b> ${watch('fungi')} الفطريات والقدم الرياضي</div>
       <img src="img/fungivar.jpg" alt="تنوّع الفطريات" class="pic">
       <div class="cap">تتنوّع الفطريات في أحجامها وأشكالها: منها الكبير الذي يُرى بالعين المجردة، ومنها الدقيق الذي لا يُرى إلا بالمجهر.</div>
       <div class="ce"><div class="c">👍 فطريات نافعة</div><div class="ar">←</div><div class="e hide" onclick="if(this.classList.contains('hide')){this.classList.remove('hide');award(1,this)}">مثل الكمأة</div></div>
