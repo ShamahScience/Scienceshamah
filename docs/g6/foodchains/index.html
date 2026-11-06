@@ -428,6 +428,15 @@
   .sbtn { position: absolute; bottom: 10px; left: 10px; z-index: 3; font-size: 16px; padding: 4px 12px; box-shadow: 0 2px 8px #0003; }
   .cmpimg img { display: block; width: 100%; max-height: 30vh; object-fit: contain; border: 3px solid var(--leaf); border-radius: 12px; cursor: zoom-in; background: #fff; }
   .cmpimg .cap { margin: 2px 0 4px; }
+  .lt { position: relative; margin-inline-start: auto; width: min(470px, 46%); height: 46px; cursor: pointer; flex: none; }
+  .lt img { position: absolute; left: 0; bottom: -8px; height: 118px; filter: drop-shadow(0 3px 4px #0003); animation: ltbob 3s ease-in-out infinite; transform-origin: bottom center; }
+  .ltb { position: absolute; left: 96px; right: 0; bottom: 2px; background: #fff; border: 2px solid #c58ad8; border-radius: 16px; padding: 4px 10px; font-size: 14px; line-height: 1.45; color: #4a2a5a; box-shadow: 0 2px 8px #0002; animation: ltin .5s ease-out; }
+  .ltb::before { content: ''; position: absolute; left: -10px; bottom: 12px; border: 8px solid transparent; border-right-color: #c58ad8; border-left: 0; }
+  .ltb.pop { animation: ltin .4s ease-out; }
+  @keyframes ltbob { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-3deg) translateY(-2px); } }
+  @keyframes ltin { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+  @media (max-width: 860px) { .lt { width: 100%; } }
+  #stBody .txt { padding-bottom: 64px; }
 </style>
 </head>
 <body>
@@ -833,6 +842,21 @@ function valve(fromTop) {
 }
 const done = new Set();
 let cur = 0;
+// ───── The little teacher in the corner of every station: a speech bubble explains the station; tap her to hear it
+const LT_TIPS = ["شاهدي الفيديو وتوقّعي: علامَ تتغذّى الأسماك الصغيرة؟ ثم ناقشي زميلتك 🐟", "اقرئي كل مفردة وتعريفها من الكتاب وظلّليها، ثم اكتبي جملة من إنشائك ✍️", "نفّذي خطوات التجربة بالترتيب، ولاحظي ماذا يحدث للنموذج عند الجفاف 🔬", "السلسلة الغذائية تبدأ دائمًا بالمنتج، والشمس مصدر الطاقة ☀️", "المنتج يصنع غذاءه، والمستهلك يتغذّى على غيره، والمحلّل يحلّل البقايا 🍄", "اربطي ما تعلّمتِه بديننا ووطننا وحياتنا اليومية 🇸🇦"];
+function teach(i) {
+  const nav = document.querySelector('#stBody .nav'); if (!nav) return;
+  const s = STATIONS[i], tmp = document.createElement('div'); tmp.innerHTML = s.html();
+  const st = tmp.querySelector('.strat'), strat = st ? st.textContent.replace('الاستراتيجية:', '').trim() : '';
+  const tip = LT_TIPS[i] || `هيا نتعلّم معًا في محطة «${s.name}»! ${strat ? 'استراتيجيتنا: ' + strat + '.' : ''} اقرئي الصفحة وظلّلي، ثم أجيبي 💚`;
+  nav.insertAdjacentHTML('beforeend', `<div class="lt" onclick="ltSay()" title="اضغطي لتسمعي الشرح"><div class="ltb" id="ltb">${tip}</div><img src="../../assets/lt.png" alt="المعلمة الصغيرة"></div>`);
+}
+function ltSay() {
+  const b = document.getElementById('ltb'); if (!b) return;
+  b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(b.textContent.replace(/[^؀-ۿ\s،.؟!«»:0-9٠-٩]/g, '')); u.lang = 'ar-SA'; u.rate = .9;
+    const v = speechSynthesis.getVoices().find((x) => /^ar/.test(x.lang)); if (v) u.voice = v; speechSynthesis.speak(u); } catch (e) {}
+}
 function station(i) {
   cur = i; done.add(i);
   $('#stList').innerHTML = STATIONS.map((s, k) => `<button class="st ${k === i ? 'on' : ''} ${done.has(k) ? 'done' : ''}" onclick="station(${k})"><span class="n">ص${ar(s.page)}</span>${s.icon} ${s.name}</button>`).join('');
@@ -841,6 +865,7 @@ function station(i) {
     ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
     ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('missions')">إلى المهمات 🎯</button>`}</div></div>`;
   if (s.after) s.after();
+  teach(i);
   if (/القرائي|القراءة/.test(s.html())) readingBoard(i);
   if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
 }
