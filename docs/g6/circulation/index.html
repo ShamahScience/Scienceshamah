@@ -334,6 +334,23 @@
   .gift { background: #fff; border-color: #b79be8; box-shadow: 0 4px 0 #d9ccf2; } .gift .n { color: #7e57c2; }
   .gift .e { font-size: 40px; } .gift.done .e { font-size: 26px; color: #7e57c2; font-weight: 700; }
   #rvE { animation: envOpen .7s ease-out; } @keyframes envOpen { from { transform: scale(.4) rotate(-15deg); opacity: 0; } to { transform: none; opacity: 1; } }
+  /* the envelope opens and the letter slides out */
+  .reveal .card.envcard { background: transparent; border: 0; box-shadow: none; padding: 0; max-width: 520px; animation: pop .45s ease-out; }
+  .envc { position: relative; width: min(460px, 86vw); height: 250px; margin: 210px auto 16px; perspective: 900px; }
+  .env-back { position: absolute; inset: 0; background: #c3a9f0; border-radius: 14px; }
+  .letter { position: absolute; left: 18px; right: 18px; bottom: 12px; height: 226px; background: #fffdf6; border: 2px solid #e8dcc0; border-radius: 12px; padding: 14px 14px 0; text-align: center;
+    z-index: 2; transform: translateY(0); transition: transform 1s .75s cubic-bezier(.2, .9, .25, 1); box-shadow: 0 4px 12px #0002; overflow: hidden;
+    background-image: repeating-linear-gradient(#fffdf6 0 34px, #efe6fb 34px 36px); }
+  .envc.go .letter { transform: translateY(-200px); }
+  .letter .big { display: none; } .letter .kind { background: #efe6fb; color: #6b4fb0; }
+  .letter h3 { margin: 6px 0 2px; } .letter p { margin: 4px 0; font-size: 23px; color: #4a2a7a; line-height: 1.6; }
+  .env-front { position: absolute; inset: 0; z-index: 3; background: #b293ea; border-radius: 14px; clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%); box-shadow: inset 0 -6px 0 #9d7bdf; }
+  .env-flap { position: absolute; left: 0; right: 0; top: 0; height: 58%; z-index: 4; background: #9f7fe0; clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center; transition: transform .7s ease-in-out, z-index 0s .35s; }
+  .env-flap span { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); font-size: 34px; transition: opacity .3s; }
+  .envc.go .env-flap { transform: rotateX(180deg); z-index: 1; } .envc.go .env-flap span { opacity: 0; }
+  .envcard .btn { opacity: 0; transition: opacity .4s 1.6s; } .reveal.on .envc.go ~ .btn { opacity: 1; }
+  @media (max-height: 700px) { .envc { margin-top: 190px; } .envc.go .letter { transform: translateY(-185px); } }
 </style>
 </head>
 <body>
@@ -455,7 +472,7 @@
 <!-- ═════ القرعة -->
 <section class="panel" id="draw"><div class="box" id="drawBox"></div></section>
 </main>
-<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><div id="rvX" class="rvx"></div><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
+<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card envcard"><div class="envc" id="envc"><div class="env-back"></div><div class="letter"><span class="big" id="rvE"></span><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p></div><div class="env-front"></div><div class="env-flap"><span>💜</span></div></div><div id="rvX" class="rvx"></div><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
 <footer>أ/ شامه البقمي 💚</footer>
 <div class="vbox" id="vbox"><video id="vid" controls loop playsinline preload="none"></video><button class="btn" onclick="closeVid()">✕ إغلاق الفيديو</button></div>
 <div id="starCard"></div>
@@ -975,12 +992,13 @@ function openGift(b) {
     b.classList.remove('shake'); b.classList.add('done');
     const P = nextPrize();
     b.querySelector('.e').textContent = '+' + ar(P.n);
-    $('#rvE').textContent = '💌';
+    $('#rvE').textContent = '';
     $('#rvK').textContent = 'رسالة من معلمتك';
     $('#rvT').textContent = `+${ar(P.n)} ${P.n === 1 ? 'نقطة' : P.n === 2 ? 'نقطتان' : P.n <= 10 ? 'نقاط' : 'نقطة'}`;
     $('#rvM').textContent = P.m;
     $('#rvX').innerHTML = '';
-    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500); if (P.n >= 8) setTimeout(confetti, 1000);
+    const ev = $('#envc'); ev.classList.remove('go'); $('#reveal').classList.add('on'); void ev.offsetWidth; setTimeout(() => ev.classList.add('go'), 350);
+    setTimeout(() => { fanfare(); confetti(); }, 1300); setTimeout(confetti, 1800); if (P.n >= 8) setTimeout(confetti, 2300);
   }, 1150);
 }
 function printStar(msg) {
