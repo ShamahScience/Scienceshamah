@@ -462,6 +462,7 @@
   .envc.go .env-flap { transform: rotateX(180deg); z-index: 1; } .envc.go .env-flap span { opacity: 0; }
   .envcard .btn { opacity: 0; transition: opacity .4s 1.6s; } .reveal.on .envc.go ~ .btn { opacity: 1; }
   @media (max-height: 700px) { .envc { margin-top: 190px; } .envc.go .letter { transform: translateY(-185px); } }
+  .gifts { grid-template-columns: repeat(8, 1fr); }
 </style>
 </head>
 <body>
@@ -1196,21 +1197,16 @@ new MutationObserver((ms) => ms.forEach((m) => { if (m.target.classList && m.tar
 document.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.classList.contains('ok') && !b.dataset.snd) { b.dataset.snd = 1; setTimeout(() => { if (!document.querySelector('.award')) chime(1); }, 60); } });
 
 // ───── Surprise box: each girl picks a box; no prize repeats until all are used
-const MSGS = ['أنتِ نجمة تضيء فصلنا! 🌟', 'عقلك رائع… استمري في السؤال والاكتشاف 🔍', 'فخورة بكِ جدًا يا عالمتي 💚', 'ابتسامتك تجعل الفصل أجمل 🌷',
-  'كل يوم تكبرين علمًا وأدبًا 🌱', 'أنتِ قادرة على كل شيء بإذن الله 🌈', 'سؤالك الذكي بداية كل اكتشاف 🦋', 'اجتهادك مثل القلب… لا يتوقف ❤️',
-  'يومًا ما ستكونين عالمة عظيمة 🚀', 'تعاونك مع صديقاتك رائع 🤝', 'أنتِ مثال للطالبة المتميزة 🏅', 'وفّقكِ الله ونفع بكِ 🤲',
-  'تركيزك اليوم كان مذهلًا 🎯', 'أحببتُ مشاركتك الجميلة 🌸', 'خطّك وترتيبك يسعدانني ✍️', 'أنتِ فخر لأهلك ومدرستك 🏫',
-  'شجاعتك في الإجابة رائعة 🦁', 'استمري… فالقمة تنتظرك ⛰️', 'قلبك طيب وعقلك نيّر 💡', 'أنتِ هدية جميلة لفصلنا 🎀',
-  'معلمتك تثق بكِ كثيرًا 💌', 'أنتِ مبدعة بكل ما تعنيه الكلمة ✨', 'نجاحك قادم بإذن الله 🌟', 'أدبك وأخلاقك تاج على رأسك 👑',
-  'أنتِ بطلة العلوم 🔬', 'إجابتك اليوم أسعدتني 😊', 'استمري في القراءة… فأنتِ متميزة 📚', 'أنتِ صديقة رائعة لزميلاتك 💞', 'جهدك لا يضيع… أحسنتِ 🌼', 'أنتِ تستحقين كل خير 🌷'];
-const PRIZES = Array.from({ length: 30 }, (_, k) => ({ n: (k % 10) + 1, m: MSGS[k] }));
+const MSGS = ['💗 أنتِ نجمة تضيء سماء الإبداع!', '🦋 وجودكِ يجعل حصتنا أجمل!', '👑 يا ملكة العلوم، فخورة بكِ!', '🌷 ابتسمي، فأنتِ رائعة كما أنتِ!', '💎 أنتِ جوهرة ثمينة لا تشبه أحدًا!', '🎀 هناك نجمة مميزة اليوم… إنها أنتِ!', '🌈 أحلامكِ جميلة، وقدراتكِ أكبر!', '🧸 يا حلوة الروح، أنتِ مصدر بهجة!', '✨ اجتهادكِ اليوم يصنع نجاحكِ غدًا!', '💕 هل تعلمين؟ أنتِ سبب ابتسامتي اليوم!', '🌸 لكِ في قلبي وردة وفي السماء نجمة!', '🪄 لديكِ قوة سحرية اسمها الإصرار!', '🏆 تستحقين التصفيق يا بطلة!', '🦄 أنتِ حكاية جميلة من حكايات النجاح!', '💌 رسالة سرية: معلمتكِ تؤمن بقدراتكِ!', '🍓 يا قطعة سكر، مشاركتكِ تسعدني!', '🌟 أنتِ قادرة على صنع أشياء مذهلة!', '🎁 أجمل هدية لحصتنا هي حضوركِ!', '🩷 كل محاولة منكِ تستحق نجمة!', '👑 ارتدي تاج الثقة، فأنتِ مبدعة!'];
+const SURP = [['مفاجأة! حصلتِ على نجمتين إضافيتين! ⭐⭐', 2], ['مبروك! أنتِ أميرة الحصة اليوم! 👑', 10], ['هدية لكِ: اختاري اللعبة القادمة! 🎮', 7], ['يا محظوظة! حصلتِ على ٥ نقاط إضافية! 🎁', 5]];
+const PRIZES = MSGS.map((m, k) => ({ n: (k % 10) + 1, m })).concat(SURP.map(([m, n]) => ({ n, m, sp: 1 })));
 const arP = (n) => n === 1 ? 'نقطة واحدة' : n === 2 ? 'نقطتان' : n <= 10 ? `${ar(n)} ${n <= 10 && n >= 3 ? 'نقاط' : 'نقطة'}` : `${ar(n)} نقطة`;
 let pool = [];
 function nextPrize() { if (!pool.length) pool = PRIZES.slice().sort(() => Math.random() - 0.5); return pool.pop(); }
 function buildGifts() {
   pool = [];
   const em = ['✉️', '💌', '✉️', '💌'];
-  $('#gifts').innerHTML = Array.from({ length: 30 }, (_, i) => `<button class="gift" onclick="openGift(this)"><span class="e">${em[i % 4]}</span><span class="n">${ar(i + 1)}</span></button>`).join('');
+  $('#gifts').innerHTML = Array.from({ length: PRIZES.length }, (_, i) => `<button class="gift" onclick="openGift(this)"><span class="e">${em[i % 4]}</span><span class="n">${ar(i + 1)}</span></button>`).join('');
 }
 function openGift(b) {
   if (b.classList.contains('done') || b.classList.contains('shake')) return;
@@ -1220,7 +1216,7 @@ function openGift(b) {
     const P = nextPrize();
     b.querySelector('.e').textContent = '+' + ar(P.n);
     $('#rvE').textContent = '';
-    $('#rvK').textContent = 'رسالة من معلمتك';
+    $('#rvK').textContent = P.sp ? '🎉 ظرف المفاجأة!' : 'رسالة من معلمتك';
     $('#rvT').textContent = `+${ar(P.n)} ${P.n === 1 ? 'نقطة' : P.n === 2 ? 'نقطتان' : P.n <= 10 ? 'نقاط' : 'نقطة'}`;
     $('#rvM').textContent = P.m;
     $('#rvX').innerHTML = '';
