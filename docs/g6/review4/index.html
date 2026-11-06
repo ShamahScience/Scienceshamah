@@ -1,0 +1,1389 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مراجعة الفصل الرابع – درس تفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --green: #1b5e20; --leaf: #2f8a3a; --mint: #e3f4d7; --cream: #fffbef; --ink: #23293a; --pink: #c2366f; --red: #d23b3b; --gold: #f5c242; --sky: #dff1fb; --rose: #fde4ec; --yel: #fff3c4; --lav: #eee8fb; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #eef5e8; }
+  img { max-width: 100%; display: block; }
+  main img { cursor: zoom-in; }
+  .flags { width: 100%; height: 70px; object-fit: cover; object-position: center top; }
+  header { max-width: 1100px; margin: 0 auto; padding: 8px 14px 0; display: flex; align-items: center; gap: 12px; }
+  header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 20%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
+  header h1 { margin: 0; font-size: 26px; color: var(--green); line-height: 1.4; }
+  header p { margin: 0; font-size: 16px; color: #4a5468; }
+  .tabs { max-width: 1100px; margin: 10px auto 0; padding: 0 14px; display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: #eef5e8; padding-bottom: 8px; }
+  .tab { flex: 1; min-width: 120px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 16px; padding: 10px 8px; font: inherit; font-size: 19px; cursor: pointer; }
+  .tab.on { background: var(--green); color: #fff; box-shadow: 0 4px 0 #0f3a13; }
+  main { max-width: 1100px; margin: 0 auto; padding: 6px 14px 30px; }
+  .panel { display: none; } .panel.on { display: block; }
+  .box { background: #fff; border: 3px solid var(--green); border-radius: 22px; padding: 16px; box-shadow: 0 5px 0 #c8dfc0; margin-bottom: 14px; }
+  .strat { display: inline-block; background: var(--cream); border: 2px dashed var(--gold); border-radius: 30px; padding: 2px 14px; font-size: 16px; margin-bottom: 8px; }
+  .strat b { color: var(--pink); }
+  h2 { margin: 2px 0 8px; color: var(--green); font-size: 24px; }
+  p, li { font-size: 19px; line-height: 1.9; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .page { border: 3px solid var(--leaf); border-radius: 14px; cursor: zoom-in; }
+  .cap { text-align: center; font-size: 14px; color: #5a6785; margin-top: 4px; }
+  .flip { border: 3px solid var(--ink); border-radius: 16px; background: var(--yel); padding: 10px 12px; margin: 10px 0; cursor: pointer; font-size: 19px; line-height: 1.8; }
+  .flip .a { display: none; margin-top: 6px; padding-top: 6px; border-top: 2px dashed #b9a24a; color: var(--leaf); }
+  .flip.open { background: #f3fbe9; border-color: var(--leaf); }
+  .flip.open .a { display: block; }
+  .flip .k { font-size: 14px; color: #6b4fc0; display: block; }
+  .flip .hint { font-size: 13px; color: #7a869e; }
+  /* stations layout like a video chapter list */
+  .stations { display: grid; grid-template-columns: 290px 1fr; gap: 14px; align-items: start; }
+  @media (max-width: 860px) { .stations { grid-template-columns: 1fr; } }
+  .list { background: linear-gradient(180deg, #1b5e20, #2f8a3a); border-radius: 22px; padding: 12px; color: #fff; position: sticky; top: 70px; }
+  @media (max-width: 860px) { .list { position: static; } }
+  .list h3 { margin: 4px 6px 8px; font-size: 20px; }
+  .list small { display: block; margin: -6px 6px 8px; font-size: 13px; opacity: .85; }
+  .st { display: flex; align-items: center; gap: 8px; width: 100%; background: rgba(255,255,255,.12); border: 2px solid transparent; color: #fff; border-radius: 14px; padding: 8px 10px; margin: 6px 0; font: inherit; font-size: 17px; cursor: pointer; text-align: right; }
+  .st .n { background: #fff; color: var(--green); border-radius: 8px; padding: 0 8px; font-size: 14px; }
+  .st.on { background: #fff; color: var(--green); border-color: var(--gold); }
+  .st.done::after { content: '✔'; margin-inline-start: auto; color: #c9f0c0; }
+  .st.on.done::after { color: var(--leaf); }
+  .nav { display: flex; gap: 10px; margin-top: 10px; }
+  .btn { border: 3px solid var(--ink); border-radius: 14px; background: var(--cream); color: var(--ink); font: inherit; font-size: 18px; padding: 9px 14px; cursor: pointer; }
+  .btn.main { background: var(--leaf); border-color: var(--green); color: #fff; }
+  .btn.ok { background: #c9f0c0; border-color: var(--leaf); }
+  .btn.no { background: #fde2e2; border-color: var(--red); animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .ce { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 6px; align-items: center; margin: 6px 0; }
+  .ce .c { background: var(--rose); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e { background: var(--sky); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e.hide { color: transparent; background: repeating-linear-gradient(45deg, #eef2f7, #eef2f7 8px, #e2e8f0 8px, #e2e8f0 16px); cursor: pointer; }
+  .ce .ar { text-align: center; font-size: 22px; color: #e67e22; }
+  .verse { text-align: center; font-size: 24px; color: var(--green); background: var(--mint); border-radius: 14px; padding: 8px; margin: 8px 0; }
+  .vocab { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media (max-width: 600px) { .vocab { grid-template-columns: repeat(2, 1fr); } }
+  .vocab .flip { text-align: center; margin: 0; }
+  /* virtual experiment */
+  .lab { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; }
+  .pot { background: #fbfdf9; border: 3px dashed var(--leaf); border-radius: 18px; padding: 8px; }
+  .pot svg { width: 100%; max-width: 220px; height: auto; }
+  .day { display: flex; align-items: center; gap: 10px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
+  .day input { width: 220px; accent-color: var(--leaf); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 16px; }
+  th, td { border: 2px solid #9cc79a; padding: 5px; text-align: center; }
+  th { background: var(--green); color: #fff; }
+  /* games */
+  .gamecards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 760px) { .gamecards { grid-template-columns: 1fr; } }
+  .gcard { border: 3px solid var(--green); border-radius: 20px; background: var(--cream); padding: 12px; text-align: center; cursor: pointer; font: inherit; color: var(--ink); }
+  .gcard .ic { font-size: 46px; }
+  .gcard b { display: block; font-size: 20px; color: var(--green); }
+  .play { margin-top: 12px; }
+  .opts { display: grid; gap: 8px; }
+  .opts .btn { text-align: right; }
+  .pic { width: 220px; max-width: 70%; margin: 6px auto; border-radius: 16px; border: 3px solid var(--leaf); }
+  .msg { min-height: 30px; text-align: center; font-size: 19px; margin-top: 6px; }
+  .msg.good { color: var(--leaf); } .msg.bad { color: var(--red); }
+  .score { text-align: center; font-size: 18px; }
+  .level { display: inline-block; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-bottom: 4px; }
+  .zoom { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 20; padding: 12px; }
+  .zoom.on { display: flex; }
+  footer { text-align: center; color: #6b4fc0; font-size: 18px; padding: 10px; }
+  .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
+
+  /* ── Computer screen: everything fits in one landscape screen, no page scrolling ── */
+  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: #6b4fc0; border-radius: 30px; padding: 4px 16px; font-size: 19px; white-space: nowrap; }
+  .fs { border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
+  @media (min-width: 900px) and (orientation: landscape) and (max-height: 720px) {
+    header p { display: none; } header img.girl { width: 40px; height: 40px; } header h1 { font-size: 21px; }
+    .tab { padding: 4px 8px; font-size: 17px; } .box { padding: 10px 14px; }
+  }
+  @media (min-width: 900px) and (orientation: landscape) {
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .flags { height: 6vh; min-height: 34px; }
+    header, .tabs, main { max-width: none; width: 100%; }
+    header { padding: 4px 18px 0; }
+    header img.girl { width: 52px; height: 52px; }
+    header h1 { font-size: 24px; }
+    .tabs { margin-top: 6px; padding: 0 18px 6px; position: static; }
+    .tab { padding: 6px 8px; font-size: 19px; }
+    main { flex: 1; min-height: 0; padding: 4px 18px 4px; }
+    footer { padding: 0 0 4px; font-size: 15px; }
+    .panel.on { height: 100%; }
+    .box { margin-bottom: 0; }
+    .scroll { overflow-y: auto; min-height: 0; }
+    /* start: rules | flag | goals */
+    #start.on { display: flex; flex-direction: column; }
+    #start .show { flex: 1; height: auto; min-height: 0; }
+    /* stations: list | content (book page | explanation) */
+    .stations { height: 100%; grid-template-columns: 260px 1fr; }
+    .list { position: static; height: 100%; overflow-y: auto; }
+    #stBody, #stBody > .box { height: 100%; min-height: 0; }
+    #stBody > .box { display: flex; flex-direction: column; }
+    #stBody .body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 16px; }
+    #stBody .body > .pagecol { min-height: 0; position: relative; }
+    #stBody .body > .pagecol img.page { position: absolute; top: 0; right: 0; left: 0; bottom: 24px; width: 100%; height: calc(100% - 24px); object-fit: contain; border: 0; }
+    #stBody .body > .pagecol .cap { position: absolute; bottom: 0; right: 0; left: 0; }
+    #stBody .body > .txt { overflow-y: auto; min-height: 0; padding-inline-end: 4px; }
+    #stBody .extra { display: none; }
+    #stBody > .box { overflow: hidden; }
+    #stBody .nav { flex: none; }
+    #stBody .txt img { max-height: 15vh; width: auto; margin: 0 auto; }
+    #stBody .txt .flip { margin: 6px 0; padding: 6px 10px; font-size: 17px; line-height: 1.6; }
+    #stBody .txt p { font-size: 17px; line-height: 1.7; margin: 4px 0; }
+    #stBody .txt h2 { font-size: 18px !important; margin: 4px 0; }
+    #stBody .txt .verse { font-size: 18px !important; padding: 4px; margin: 4px 0; }
+    #stBody .txt .ce { margin: 3px 0; } #stBody .txt .ce .c, #stBody .txt .ce .e { font-size: 16px; padding: 3px 8px; }
+    #stBody .txt .grid2 { gap: 8px; }
+    #stBody .txt .cap { font-size: 12px; margin: 0; }
+    #stBody .txt .lab svg { max-height: 16vh; }
+    #stBody .txt .vocab .flip { font-size: 15px; padding: 4px; }
+    #stBody > .box h2 { font-size: 21px; margin: 0 0 4px; }
+    .nav { margin-top: 6px; }
+    /* questions: three columns */
+    #questions.on { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    #questions .box { overflow-y: auto; min-height: 0; }
+    /* games: games | exit ticket */
+    #games.on { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+    #games .box { overflow-y: auto; min-height: 0; }
+    #games .gamecards { grid-template-columns: repeat(3, 1fr); }
+    .gcard .ic { font-size: 36px; }
+    .pic { width: auto; max-height: 22vh; }
+    #play .opts { grid-template-columns: repeat(3, 1fr); }
+    #play .opts .btn { text-align: center; }
+  }
+
+  /* start slideshow: one picture at a time, always shown whole */
+  .show { position: relative; height: 62vh; min-height: 260px; }
+  .slide { display: none; position: absolute; inset: 0; }
+  .slide.on { display: block; }
+  .slide > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 14px; }
+  .slide.goals { overflow-y: auto; }
+  .slide.goals .box { max-width: 760px; margin: 0 auto; }
+  .dots { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; font-size: 18px; }
+
+  .zoom { flex-direction: column; gap: 8px; padding: 8px; background: rgba(24, 36, 26, .92); }
+  .zoom .tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; background: #fff; border-radius: 16px; padding: 6px 10px; border: 3px solid var(--green); }
+  .zoom .tools button { font: inherit; font-size: 16px; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 4px 10px; cursor: pointer; color: var(--ink); }
+  .zoom .tools .tl.on, .zoom .tools .sz.on { background: var(--mint); border-color: var(--leaf); }
+  .zoom .tools .cl { width: 32px; height: 32px; border-radius: 50%; padding: 0; }
+  .zoom .tools .cl.on { outline: 4px solid var(--green); outline-offset: 2px; }
+  .zoom .tools .sz { width: 40px; height: 36px; padding: 0; line-height: 1; color: var(--ink); }
+  .zoom .tools .close { background: var(--red); color: #fff; border-color: var(--red); }
+  .zoom .tools .sep { width: 2px; height: 26px; background: #dde5d7; }
+  .stage { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+  .stage img { max-width: 100%; max-height: 100%; border-radius: 8px; user-select: none; -webkit-user-drag: none; }
+  .stage canvas { position: absolute; touch-action: none; cursor: crosshair; }
+
+  .startot { border: 3px solid var(--gold); background: #fff8dc; color: #8a6400; border-radius: 30px; padding: 4px 14px; font: inherit; font-size: 18px; cursor: pointer; white-space: nowrap; margin-inline-start: auto; }
+  .startot.snd { margin-inline-start: auto; padding: 4px 10px; }
+  .startot.snd + .startot { margin-inline-start: 0; }
+  .startot.bump { animation: bump .5s; } @keyframes bump { 40% { transform: scale(1.25); } }
+  .teacher { margin-inline-start: 0 !important; }
+  .award { position: fixed; z-index: 40; pointer-events: none; text-align: center; transform: translate(-50%, -50%); animation: rise 1.6s ease-out forwards; }
+  .award .s { font-size: 54px; line-height: 1; filter: drop-shadow(0 3px 2px rgba(0,0,0,.25)); }
+  .award .t { display: inline-block; margin-top: 4px; background: #fff; border: 3px solid var(--gold); color: var(--pink); border-radius: 20px; padding: 2px 14px; font-size: 20px; white-space: nowrap; }
+  .award.two .t { background: #6b4fc0; color: #fff; border-color: #fff3c4; }
+  @keyframes rise { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.4); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 70% { opacity: 1; transform: translate(-50%, -80%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -140%) scale(.9); } }
+  .flip[data-stars="2"] .k::after { content: ' ⭐⭐'; }
+  /* الجولة الافتراضية والصمام */
+  .vr { background: #0f1e2e; border-radius: 16px; padding: 6px; }
+  .vr svg { width: 100%; height: auto; max-height: 46vh; display: block; margin: auto; }
+  .steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .steps .btn { font-size: 16px; padding: 4px 10px; }
+  .steps .btn.on { background: var(--green); color: #fff; }
+  .tube { position: relative; width: 80px; height: 230px; margin: 4px auto; background: #f3e6d3; border: 6px solid #c9a27a; border-radius: 10px; }
+  .flapv { position: absolute; height: 8px; width: 32px; background: #5aa9e6; border: 1px solid #2f80c8; transition: transform .4s; }
+  .flapv.l { right: 3px; transform-origin: right center; } .flapv.r { left: 3px; transform-origin: left center; }
+  .seed { position: absolute; width: 13px; height: 15px; border-radius: 50%; background: #8b5a2b; transition: top 1.2s ease-in; }
+  .animals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .animals img { border-radius: 10px; height: 13vh; width: 100%; object-fit: cover; }
+  @media (min-width: 900px) and (orientation: landscape) { #stBody .txt .vr svg { max-height: 44vh; } #stBody .txt .animals img { max-height: 12vh; } }
+  /* صندوق المفاجآت */
+  .gifts { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; margin-top: 10px; }
+  .gift { position: relative; border: 3px solid var(--pink); background: var(--rose); border-radius: 16px; padding: 6px 0 4px; font: inherit; cursor: pointer; box-shadow: 0 4px 0 #e7a9c0; transition: transform .15s; }
+  .gift:hover { transform: translateY(-3px) rotate(-3deg); }
+  .gift .e { font-size: 38px; display: block; line-height: 1.2; }
+  .gift .n { font-size: 18px; color: var(--pink); }
+  .gift.shake { animation: gshake .12s linear infinite; }
+  @keyframes gshake { 0% { transform: rotate(-8deg) scale(1.08); } 50% { transform: rotate(8deg) scale(1.12); } 100% { transform: rotate(-8deg) scale(1.08); } }
+  .gift.done { background: #f1f1f1; border-color: #bbb; box-shadow: none; cursor: default; opacity: .55; }
+  .gift.done:hover { transform: none; }
+  .reveal { position: fixed; inset: 0; background: rgba(20, 40, 25, .55); display: none; align-items: center; justify-content: center; z-index: 40; }
+  .reveal.on { display: flex; }
+  .reveal .card { background: #fff; border: 5px solid var(--gold); border-radius: 30px; padding: 22px 34px; text-align: center; max-width: 620px; width: 90%; box-shadow: 0 10px 0 #d9a520; animation: pop .55s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes pop { from { transform: scale(.2) rotate(-12deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+  .reveal .big { font-size: 96px; line-height: 1.1; }
+  .reveal .kind { display: inline-block; background: var(--yel); border-radius: 30px; padding: 2px 16px; font-size: 18px; color: #8a6400; }
+  .reveal h3 { margin: 8px 0 4px; font-size: 34px; color: var(--pink); }
+  .reveal p { font-size: 24px; margin: 6px 0 14px; color: var(--green); }
+  .sbr { font: inherit; font-size: 15px; border: 2px solid var(--green); background: var(--mint); color: var(--green); border-radius: 12px; padding: 0 10px; cursor: pointer; }
+  #stBody .body > .pagecol .cap { display: flex; gap: 8px; justify-content: center; align-items: center; }
+  /* سبورة الفهم القرائي على صفحة الكتاب نفسها */
+  .rd { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 6px; }
+  .rbar { flex: none; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; justify-content: center; background: #fff; border: 2px solid var(--leaf); border-radius: 14px; padding: 4px 6px; }
+  .rbar button { font: inherit; font-size: 14px; border: 2px solid #c9d3c2; background: #fff; border-radius: 10px; padding: 1px 7px; cursor: pointer; }
+  .rbar .c { width: 28px; height: 28px; border-radius: 50%; padding: 0; }
+  .rbar .hl { width: 34px; height: 24px; border-radius: 6px; padding: 0; }
+  .rbar .sel { outline: 3px solid var(--green); outline-offset: 2px; }
+  .rbox { position: relative; flex: 1; min-height: 0; overflow-y: auto; border: 2px solid var(--leaf); border-radius: 12px; }
+  .rbox .pw { position: relative; }
+  .rbox img.page { position: static !important; display: block; width: 100% !important; height: auto !important; cursor: crosshair; border: none; border-radius: 0; }
+  .rbox canvas { position: absolute; touch-action: none; cursor: crosshair; }
+  .rd .cap { position: static !important; }
+  /* الربط */
+  .links { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 860px) { .links { grid-template-columns: 1fr; } }
+  .lk { border-radius: 18px; padding: 8px 12px; border: 3px solid; }
+  .lk h3 { margin: 0 0 6px; font-size: 21px; }
+  .lk .flip { font-size: 16px !important; line-height: 1.6; margin: 6px 0; padding: 6px 10px; }
+  .lk.din { background: #f3fbe9; border-color: var(--leaf); } .lk.din h3 { color: var(--green); }
+  .lk.watan { background: #eef8f0; border-color: #0d7a3e; } .lk.watan h3 { color: #0d7a3e; }
+  .lk.hayah { background: #fff4f7; border-color: var(--pink); } .lk.hayah h3 { color: var(--pink); }
+  .hadith { font-size: 17px !important; line-height: 1.9; background: #fff !important; border: 2px dashed var(--gold); }
+  .verse span { font-size: 13px; color: #6b7280; }
+  .pulse { display: flex; gap: 8px; align-items: center; justify-content: center; margin: 6px 0; font-size: 16px; flex-wrap: wrap; }
+  .pulse .btn { font-size: 16px; padding: 4px 10px; }
+  .pulse input { width: 70px; font: inherit; font-size: 18px; text-align: center; border: 2px solid var(--pink); border-radius: 10px; }
+  .pt { font-size: 30px; color: var(--pink); min-width: 46px; text-align: center; }
+  .lk .msg { font-size: 16px; min-height: 0; }
+  /* الفيديو */
+  .vbox { position: fixed; inset: 0; background: rgba(10, 20, 14, .9); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 10px; z-index: 25; }
+  .vbox.on { display: flex; }
+  .vbox video { max-width: 94vw; max-height: 82vh; border-radius: 14px; background: #000; }
+  .vidb { display: block; width: 100%; margin: 0 0 6px; background: var(--pink); border-color: #8f1f4f; color: #fff; font-size: 18px; padding: 5px; }
+  .vidb[hidden] { display: none; }
+  @media (min-width: 900px) and (orientation: landscape) { #stBody .txt .vr svg { max-height: 36vh; } }
+  .mbs { margin: 0 0 6px; text-align: center; }
+  .mbs img { width: 100%; max-height: 24vh; object-fit: cover; object-position: center 25%; border-radius: 14px; border: 3px solid #0d7a3e; }
+  .mbs figcaption { font-size: 14px; color: #0d7a3e; line-height: 1.6; margin-top: 3px; }
+  .vbody { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) !important; }
+  .vcol { display: flex; flex-direction: column; min-height: 0; }
+  .vcol video { width: 100%; flex: 1; min-height: 0; max-height: 100%; object-fit: contain; background: #000; border-radius: 14px; border: 3px solid var(--leaf); }
+  .vcol .cap { flex: none; }
+  .slide.tam { display: none; flex-direction: column; align-items: center; gap: 6px; }
+  .slide.tam.on { display: flex; }
+  .tamh { flex: none; background: var(--green); color: #fff; border-radius: 30px; padding: 4px 22px; font-size: 22px; }
+  .slide.tam video { flex: 1; min-height: 0; max-width: 100%; border-radius: 14px; background: #000; border: 3px solid var(--leaf); }
+  .gift .e { font-family: inherit; }
+  .rvx { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .rvx:empty { display: none; }
+  .rvx input { font: inherit; font-size: 20px; border: 3px solid var(--gold); border-radius: 14px; padding: 4px 12px; text-align: center; }
+  #starCard { display: none; }
+  @media print {
+    @page { size: A5 landscape; margin: 8mm; }
+    body.printing > *:not(#starCard) { display: none !important; }
+    body.printing { background: #fff !important; overflow: visible !important; height: auto !important; display: block !important; }
+    body.printing #starCard { display: block; }
+    #starCard .sc-in { border: 6px double #d4a017; border-radius: 22px; padding: 10mm; text-align: center; color: #1b5e20; background: #fffdf3; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    #starCard .sc-st { font-size: 60px; line-height: 1; }
+    #starCard h1 { font-size: 40px; color: #c2366f; margin: 4px 0; }
+    #starCard .sc-to { font-size: 18px; margin: 4px; color: #333; }
+    #starCard .sc-name { font-size: 32px; border-bottom: 3px solid #d4a017; display: inline-block; min-width: 60%; padding: 0 20px 4px; margin: 4px 0 10px; }
+    #starCard .sc-msg { font-size: 22px; margin: 6px; }
+    #starCard .sc-l { font-size: 15px; color: #555; margin: 4px; }
+    #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
+  }
+  .txin { position: fixed; z-index: 70; min-width: 160px; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; background: rgba(255,255,255,.92); border: 2px dashed #6b4fc0; border-radius: 8px; padding: 0 6px; direction: rtl; outline: none; }
+  /* القرعة */
+  #drawBox { display: flex; flex-direction: column; gap: 8px; }
+  @media (min-width: 900px) and (orientation: landscape) { #draw.on, #drawBox { height: 100%; } }
+  .dr-top { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; } .dr-top .strat { margin: 0; }
+  .dr-nr { font-size: 16px; margin-inline-start: auto; } .dr-top .btn { font-size: 16px; padding: 4px 12px; }
+  .dr-msg { margin: 0; text-align: center; font-size: 17px; color: #6b4fc0; }
+  .dr-cols { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .dr-col { border: 3px solid var(--green); border-radius: 20px; padding: 10px; display: flex; flex-direction: column; gap: 8px; min-height: 0; background: #f7fbf3; }
+  .dr-col[data-c="6b"] { border-color: var(--pink); background: #fff6f9; }
+  .dr-h { text-align: center; font-size: 24px; color: var(--green); } .dr-h span { background: var(--gold); color: #3b2c00; border-radius: 10px; padding: 0 10px; font-size: 20px; }
+  .dr-col[data-c="6b"] .dr-h { color: var(--pink); }
+  .dr-big { text-align: center; font-size: 40px; min-height: 70px; line-height: 70px; background: #fff; border: 3px dashed var(--gold); border-radius: 16px; color: var(--ink); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .dr-big.win { background: var(--gold); color: #3b2c00; border-style: solid; animation: bump .6s; box-shadow: 0 0 24px #f5c242; }
+  .dr-go { font-size: 22px !important; }
+  .dr-chips { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; justify-content: center; }
+  .dr-chip { background: #fff; border: 2px solid #c9d3c2; border-radius: 12px; padding: 2px 10px; font-size: 17px; transition: transform .08s; }
+  .dr-chip.hot { background: #fff3c4; border-color: var(--gold); transform: scale(1.15); }
+  .dr-chip.win { background: var(--gold); transform: scale(1.3); }
+  .dr-chip.out { opacity: .35; text-decoration: line-through; }
+  .dr-reset { font-size: 15px !important; padding: 3px 10px !important; align-self: center; }
+  .dr-edit { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; } .dr-edit[hidden] { display: none; }
+  .dr-edit label { font-size: 15px; } .dr-edit textarea { width: 100%; height: 110px; font: inherit; font-size: 16px; border: 2px solid var(--leaf); border-radius: 10px; }
+  .dr-edit .note { grid-column: 1 / -1; margin: 0; font-size: 14px; }
+  .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; margin: 6px 0; }
+  .nhead img { width: 74px; flex: none; }
+  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
+  #nafs .box { overflow-y: auto; }
+
+  .vids2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; } .vids2 .vidb { margin: 0 0 6px; font-size: 15px; }
+  .sbody { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) !important; }
+  .scol { min-height: 0; display: flex; } .scol svg { width: 100%; height: 100%; border-radius: 16px; transition: transform .05s; }
+  .vit { display: flex; gap: 10px; justify-content: center; font-size: 17px; } .vit span { background: #fff3f3; border: 2px solid #ef9a9a; border-radius: 12px; padding: 2px 10px; } .vit b { color: #c62828; font-size: 20px; }
+  .stxt { background: #1a2340; color: #fff; border-radius: 14px; padding: 8px 12px; font-size: 17px !important; line-height: 1.8 !important; min-height: 92px; margin: 6px 0 !important; } .stxt b { color: #ffd54f; } .stxt .sn { background: #ffd54f; color: #1a2340; border-radius: 8px; padding: 0 6px; font-size: 13px; }
+  .sysg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .sysb { font: inherit; font-size: 13px; border: 3px solid var(--c); background: #fff; border-radius: 12px; padding: 3px; cursor: pointer; line-height: 1.3; } .sysb span { display: block; font-size: 22px; } .sysb.on { background: var(--c); box-shadow: 0 0 10px var(--c); transform: scale(1.05); }
+  .slide.tam > img.tamimg { position: static; width: auto; height: auto; flex: 1; min-height: 0; max-width: 100%; object-fit: contain; border-radius: 14px; border: 3px solid var(--leaf); }
+  .model, .armbox { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 8px; align-items: center; background: #f7fbf3; border: 2px dashed var(--leaf); border-radius: 14px; padding: 6px; margin: 6px 0; }
+  .arm { width: 100%; max-height: 24vh; display: block; }
+  .leg { display: flex; gap: 10px; justify-content: center; font-size: 13px; }
+  .m4 .arm { max-height: 20vh; } .m4 .prt { margin: 2px 0; } .m4 .card4 p { font-size: 15px !important; }
+  .mctl { display: flex; flex-direction: column; gap: 6px; } .mctl .btn { font-size: 16px; padding: 5px 8px; } .mctl .msg { font-size: 15px; text-align: right; }
+  .chain { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; justify-content: center; direction: rtl; }
+  .chain .nd { background: #fff; border: 2px solid #c9d3c2; border-radius: 12px; padding: 2px 8px; font-size: 14px; text-align: center; transition: .3s; }
+  .chain .nd span { display: block; font-size: 24px; }
+  .chain .nd.lit { background: #fff3c4; border-color: var(--gold); transform: scale(1.1); box-shadow: 0 0 12px #f5c242; }
+  .chain .ar { color: #e67e22; }
+  .horm { margin: 6px 0; background: #fde4ec; border-radius: 12px; padding: 4px 10px; font-size: 15px; opacity: .45; transition: .4s; text-align: center; }
+  .horm.lit { opacity: 1; box-shadow: 0 0 12px #f48fb1; }
+  .pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 15px; text-align: center; }
+  .pgrid input { display: block; width: 100%; font: inherit; font-size: 18px; text-align: center; border: 2px solid var(--pink); border-radius: 10px; margin-top: 2px; }
+  .bars { display: flex; gap: 14px; align-items: flex-end; justify-content: center; height: 150px; margin: 8px 0; position: relative; padding-bottom: 18px; }
+  .bar { width: 70px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; text-align: center; font-size: 15px; }
+  .bv { background: linear-gradient(#ef5350, #c62828); border-radius: 8px 8px 0 0; transition: height .5s; position: relative; min-height: 2px; }
+  .bv span { position: absolute; top: -22px; left: 0; right: 0; color: #c62828; font-size: 15px; }
+  .bars small { position: absolute; bottom: -4px; font-size: 12px; color: #7a869e; }
+  .fold { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px; }
+  .fold div { background: #2e7d32; color: #fff; border-radius: 10px; padding: 6px; font-size: 14px; text-align: center; line-height: 1.5; }
+  .fold b { display: block; color: #ffe082; font-size: 15px; }
+  /* المهمات */
+  #missions.on { display: flex; flex-direction: column; gap: 10px; }
+  .alb { flex: none; text-align: center; background: linear-gradient(90deg, #6b4fc0, #c2366f); color: #fff; border-radius: 14px; padding: 4px 10px; font-size: 18px; } .alb b { color: #ffe082; }
+  .revb { background: #e3f2fd; border: 2px solid #1e88e5; color: #0d47a1; border-radius: 12px; padding: 0 10px; font-size: 14px; } .revb.s0 { background: #fff3e0; border-color: #fb8c00; color: #8a4b00; } .revb.s1 { background: #fce4ec; border-color: #ec407a; color: #880e4f; } .revb.s2 { background: #ffebee; border-color: #e53935; color: #b71c1c; } .revb.s3 { background: #fffde7; border-color: #fbc02d; color: #6d5200; } .revb.s4 { background: #f1f8e9; border-color: #7cb342; color: #33691e; }
+  .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; }
+  .nhead img { width: 74px; flex: none; }
+  .nlab.pg { background: #1e5fd8; font-size: 14px; } .nlab.pg.mine { background: #8d6e63; }
+  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
+  .nq { display: flex; align-items: center; justify-content: center; gap: 14px; } .nq img { max-height: 80px; } .nq .mq { margin: 4px 0; }
+  .mcard .nlogo { height: 34px; display: block; margin: 0 auto; }
+  .nout { display: block; text-align: center; background: #eef6ff; border: 2px dashed #1e5fd8; color: #1e3a8a; border-radius: 12px; padding: 2px 10px; font-size: 15px; margin: 4px 0; }
+  .mcards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; flex: none; }
+  .mcard { position: relative; border: 3px solid var(--green); border-radius: 18px; background: #fff; padding: 6px 8px; font: inherit; cursor: pointer; color: var(--ink); text-align: center; line-height: 1.4; }
+  .mcard .mi { font-size: 22px; } .mcard b { display: block; color: var(--green); font-size: 18px; } .mcard span { display: block; font-size: 17px; color: var(--pink); } .mcard small { font-size: 13px; color: #7a869e; }
+  .mcard.on { background: var(--green); } .mcard.on b, .mcard.on span, .mcard.on small { color: #fff; }
+  .mcard.done::after { content: '✔'; position: absolute; top: 4px; left: 10px; color: var(--leaf); font-size: 20px; } .mcard.on.done::after { color: #c9f0c0; }
+  #mbody { flex: 1; min-height: 0; overflow-y: auto; margin: 0; }
+  .mq { font-size: 24px !important; text-align: center; }
+  #mbody .opts { grid-template-columns: repeat(3, 1fr); } #mbody .opts.o4 { grid-template-columns: repeat(2, 1fr); } #mbody .opts .btn { text-align: center; font-size: 20px; }
+  .mend { text-align: center; } .mend .big { font-size: 70px; }
+  .cmp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 14px; align-items: start; }
+  .ctab { font-size: 15px; } .ctab td { vertical-align: top; width: 33%; } .ctab th:nth-child(2) { background: #6b4fc0; }
+  .chip { display: inline-block; margin: 3px; padding: 3px 10px; border-radius: 12px; background: var(--yel); border: 2px solid #b9a24a; font: inherit; font-size: 15px; }
+  .chip.fixd { background: #fde2e2; border-color: var(--red); }
+  .ctab .chip { display: block; }
+  .pool { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; min-height: 40px; margin: 6px 0; }
+  .pick { cursor: pointer; font-size: 17px; } .pick.sel { background: var(--gold); transform: scale(1.12); box-shadow: 0 0 10px var(--gold); }
+  .binz { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .bin { border: 3px dashed var(--leaf); border-radius: 16px; min-height: 140px; cursor: pointer; background: #f7fbf3; }
+  .bin .bh { background: var(--green); color: #fff; border-radius: 12px 12px 0 0; padding: 4px; text-align: center; font-size: 17px; }
+  .bin.shake { animation: shake .35s; border-color: var(--red); }
+  .m4 { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 14px; }
+  .prt { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0; } .prt span { min-width: 120px; font-size: 17px; color: var(--pink); } .prt .btn { font-size: 15px; padding: 3px 10px; }
+  .m4 .model { opacity: .55; } .m4 .model:has(.built), .m4 .model .arm.built { opacity: 1; }
+  .card4 { background: var(--cream); border: 3px solid var(--gold); border-radius: 18px; padding: 8px 12px; }
+  .card4 h3 { margin: 0 0 4px; color: var(--pink); } .card4 p { font-size: 16px !important; margin: 3px 0; line-height: 1.7; }
+  .rub { font-size: 13px; margin: 6px 0; } .rub td, .rub th { padding: 3px; }
+  .rx { margin: 8px auto; width: min(100%, 520px); height: 170px; border-radius: 20px; background: #c62828; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; user-select: none; }
+  .rx.wait { background: #ef6c00; } .rx.go { background: #2e7d32; }
+
+  .fold6 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 6px; }
+  .bank { background: #fff8e1; border: 2px dashed #e0a800; border-radius: 12px; padding: 4px 8px; margin: 4px 0; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+  .vb.sel { background: #ffe082; border-color: #e0a800; transform: scale(1.06); } .vb.used { opacity: .35; }
+  .vs { margin: 4px 0; font-size: 18px; line-height: 1.8; }
+  .blank { font: inherit; font-weight: 700; min-width: 120px; border: 0; border-bottom: 3px dashed #6b4fc0; background: #f4f0ff; border-radius: 6px; cursor: pointer; color: #6b4fc0; }
+  .blank.ok { background: #e3f6e8; border-bottom-color: var(--leaf); color: #1b7a3a; } .blank.fixd { background: #fff1e0; color: #c26a00; }
+  .sk .flip { font-size: 15px; margin: 3px 0; }
+  .tq { background: #f7f5ff; border: 2px solid #c9bdf5; border-radius: 14px; padding: 6px 10px; }
+  .tq .opts.o2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; } .tq .mq { margin: 4px 0; }
+  .vd { position: relative; height: 200px; margin: 4px auto; max-width: 560px; }
+  .vc { position: absolute; top: 0; width: 60%; height: 100%; border-radius: 50%; border: 3px solid #1e88e5; display: flex; flex-direction: column; align-items: center; padding-top: 10px; }
+  .va { right: 0; background: rgba(30,136,229,.08); } .va > div { width: 100%; padding-inline: 8% 34%; }
+  .vb2 { left: 0; border-color: #e91e63; background: rgba(233,30,99,.07); } .vb2 > div { width: 100%; padding-inline: 34% 8%; }
+  .vm { position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 20%; height: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 10px; }
+  .vc b, .vm b { font-size: 15px; } .vm b { color: #6b4fc0; }
+  .vd i { display: block; font-style: normal; font-size: 12px; line-height: 1.3; background: #fff; border-radius: 6px; padding: 1px 4px; margin: 2px 0; box-shadow: 0 1px 3px #0002; text-align: center; animation: drop .3s; }
+  .vd i.fixd { background: #fff1e0; } .vq { text-align: center; } #vs { font-weight: 700; font-size: 17px; }
+  @keyframes drop { from { transform: translateY(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .zt { width: 100%; border-collapse: collapse; font-size: 15px; margin: 4px 0; } .zt th { background: #6b4fc0; color: #fff; padding: 2px; }
+  .zt td { border: 1px solid #ddd; padding: 2px 4px; text-align: center; } .zt .ze { font-size: 22px; margin-inline-end: 4px; }
+  .zb { padding: 1px 10px !important; font-size: 14px !important; margin: 1px; }
+  .chk { background: #eef7ee; border: 2px solid var(--leaf); border-radius: 12px; padding: 6px; margin: 6px 0; font-size: 15px; }
+  .chk table { border-collapse: collapse; margin-top: 4px; width: 100%; } .chk th, .chk td { border: 1px solid #b7d8b7; padding: 2px; text-align: center; } .chk th { background: #d6efd6; }
+  .fold4 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 6px 0; }
+  .fl { background: #fff3c4; border: 2px solid #e0b84a; border-radius: 10px; padding: 4px; font-size: 13px; min-height: 70px; box-shadow: 2px 3px 0 #e8c463; }
+  .fl b { display: block; color: #8a5a00; } .fl.ok { background: #e3f6e8; border-color: var(--leaf); } .fl.cur { outline: 3px dashed #6b4fc0; }
+</style>
+</head>
+<body>
+<img class="flags" src="img/flags.jpg" alt="">
+<header>
+  <img class="girl" src="img/girl.jpg" alt="العالمة الصغيرة">
+  <div><h1>مراجعة الفصل الرابع: أجهزة الجسم</h1><p>العلوم – الصف السادس الابتدائي • ص١٢٩–١٣٢</p></div>
+  <button class="startot snd" id="sndBtn" title="صوت التعزيز" onclick="toggleSound()">🔔</button>
+  <button class="startot" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ نجوم الفصل: <b id="starN">٠</b></button>
+  <span class="teacher">💚 أ/ شامه البقمي</span>
+  <button class="fs" id="fsBtn" onclick="fullscreen()">⛶ ملء الشاشة</button>
+</header>
+
+<nav class="tabs">
+  <button class="tab on" data-p="start">🏁 البداية</button>
+  <button class="tab" data-p="stations">📍 محطات الدرس</button>
+  <button class="tab" data-p="missions">🎯 المهمات – التعلم النشط</button>
+  <button class="tab" data-p="games">🎮 الألعاب</button>
+  <button class="tab" data-p="surprise">🎁 صندوق المفاجآت</button>
+  <button class="tab" data-p="draw">🎲 القرعة</button>
+</nav>
+
+<main>
+<!-- ═════ البداية -->
+<section class="panel on" id="start">
+  <div class="show">
+    <div class="slide on"><img src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></div>
+    <div class="slide"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
+    <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
+    <div class="slide tam"><div class="tamh">🦜 تمهيد: يطير الببغاء ويأكل ويتنفّس ويستجيب لما حوله… فأيّ أجهزة جسمه تعمل معًا؟ هيا نراجع الفصل الرابع!</div><img class="tamimg" src="img/parrot.jpg" alt="ببغاء"></div>
+    <div class="slide goals"><div class="box">
+      <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
+      <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
+      <ol>
+        <li>أراجع مفردات الفصل الرابع وأستخدمها في جمل.</li>
+        <li>أربط كل جهاز من أجهزة الجسم بوظيفته.</li>
+        <li>أقارن بين أنواع أجهزة الدوران والهضم في الحيوانات.</li>
+        <li>أطبّق ما تعلّمته في نموذج الاختبار.</li>
+        <li>أنظّم معلوماتي في مطوية عن تنوّع الأجهزة الحيوية.</li>
+      </ol>
+      <button class="btn main" onclick="go('stations')">ابدئي المحطات 🚀</button>
+    </div></div>
+  </div>
+  <div class="dots">
+    <button class="btn" onclick="slide(-1)">→ السابق</button>
+    <span id="dotT">١ / ٥</span>
+    <button class="btn main" onclick="slide(1)">التالي ←</button>
+  </div>
+</section>
+
+<!-- ═════ محطات الدرس -->
+<section class="panel" id="stations">
+  <div class="stations">
+    <aside class="list">
+      <h3>📍 محطات الدرس</h3>
+      <small>اضغطي على المحطة للانتقال إليها</small>
+      <div id="stList"></div>
+    </aside>
+    <div id="stBody"></div>
+  </div>
+</section>
+
+<!-- ═════ المهمات -->
+<section class="panel" id="missions">
+  <div class="alb">🧠 <b>التعلم النشط:</b> تعلّمي بالمهمات… فكّري، ناقشي زميلتك، طبّقي، ثم أنجزي المهمة!</div>
+  <div class="mcards" id="mcards"></div>
+  <div class="box" id="mbody"></div>
+</section>
+
+<!-- ═════ الألعاب -->
+<section class="panel" id="games">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم باللعب</span>
+    <h2>🎮 اختاري لعبة</h2>
+    <div class="gamecards">
+      <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي المفردة من وصفها</button>
+      <button class="gcard" onclick="game('sys')"><div class="ic">🫀</div><b>إلى أيّ جهاز أنتمي؟</b>العضو وجهازه</button>
+      <button class="gcard" onclick="game('tf')"><div class="ic">✅</div><b>صواب أم خطأ؟</b>صحّحي العبارة</button>
+    </div>
+    <div class="play" id="play"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> بطاقة الخروج</span>
+    <h2>🎫 بطاقة الخروج</h2>
+    <p>١) الهضم هو: ……………………………</p>
+    <p>٢) الجهاز الذي يفرز الهرمونات في الدم مباشرة هو: ……………</p>
+    <p>٣) فرق واحد بين جهاز الدوران المغلق والمفتوح: ……………</p>
+    <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
+    <p style="text-align:center"><button class="btn" style="border-color:var(--pink);background:var(--rose)" onclick="go('surprise')">🎁 إلى صندوق المفاجآت</button></p>
+  </div>
+</section>
+<!-- ═════ صندوق المفاجآت -->
+<section class="panel" id="surprise">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعزيز الإيجابي – صندوق المفاجآت</span>
+    <h2>🎁 صندوق المفاجآت</h2>
+    <p>كل طالبة تختار صندوقًا وتضغط عليه… ماذا تخبّئ لكِ المفاجأة؟ 🤩</p>
+    <div class="gifts" id="gifts"></div>
+    <p style="text-align:center;margin-top:12px"><button class="btn" onclick="buildGifts()">🔄 صناديق جديدة</button></p>
+  </div>
+</section>
+<!-- ═════ القرعة -->
+<section class="panel" id="draw"><div class="box" id="drawBox"></div></section>
+</main>
+<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card"><div class="big" id="rvE"></div><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p><div id="rvX" class="rvx"></div><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
+<footer>أ/ شامه البقمي 💚</footer>
+<div class="vbox" id="vbox"><video id="vid" controls loop playsinline preload="none"></video><button class="btn" onclick="closeVid()">✕ إغلاق الفيديو</button></div>
+<div id="starCard"></div>
+<div class="zoom" id="zoom">
+  <div class="tools" id="tools">
+    <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
+    <button class="tl" data-tool="hl" title="تظليل">🖍️ تظليل</button>
+    <button class="tl" data-tool="er" title="ممحاة">🧽 ممحاة</button>
+    <button class="tl" data-tool="tx" title="كتابة نص">🔤 نص</button>
+    <span class="sep"></span>
+    <button class="cl on" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
+    <button class="cl" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
+    <button class="cl" data-c="#1b8a3a" style="background:#1b8a3a" title="أخضر"></button>
+    <button class="cl" data-c="#111111" style="background:#111" title="أسود"></button>
+    <button class="cl" data-c="#ffd400" style="background:#ffd400" title="أصفر"></button>
+    <span class="sep"></span>
+    <button class="sz" data-s="3" title="رفيع">●</button>
+    <button class="sz on" data-s="6" title="متوسط" style="font-size:22px">●</button>
+    <button class="sz" data-s="11" title="عريض" style="font-size:30px">●</button>
+    <span class="sep"></span>
+    <button class="tl" onclick="undo()">↩️ رجوع</button>
+    <button class="tl" onclick="clearInk()">🗑️ مسح الكل</button>
+    <button class="tl close" onclick="closeZoom()">✕ إغلاق</button>
+  </div>
+  <div class="stage" id="stage"><img id="zimg" alt=""><canvas id="ink"></canvas></div>
+</div>
+
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = (s) => document.querySelector(s);
+let HAS_VID = false;
+// Higher-order questions (critical thinking, challenge, inference) earn two stars, the rest one
+const CRIT = /التفكير الناقد|أتحدّى نفسي|أستنتج/;
+const flip = (q, a, k) => `<div class="flip" data-stars="${CRIT.test((k || '') + q) ? 2 : 1}" onclick="openFlip(this)">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
+const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي <button class="sbr" onclick="zoom('img/p${n}.jpg')">✏️ السبورة</button></div>`;
+
+
+// Soft reward chime made in the browser: one star = gentle chime, two stars = brighter double chime
+let soundOn = true, actx = null;
+function toggleSound() { soundOn = !soundOn; document.getElementById('sndBtn').textContent = soundOn ? '🔔' : '🔕'; }
+function chime(n) {
+  if (!soundOn) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+    const notes = n > 1 ? [659.3, 830.6, 987.8, 1318.5] : [784, 1046.5];
+    notes.forEach((f, i) => {
+      const t = actx.currentTime + i * 0.11, o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.5);
+    });
+  } catch (e) { /* no audio available */ }
+}
+let starTotal = 0;
+function award(n, el) {
+  starTotal += n;
+  chime(n);
+  const t = document.getElementById('starN'); t.textContent = ar(starTotal);
+  const b = document.getElementById('starTot'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  const r = el ? el.getBoundingClientRect() : { left: innerWidth / 2, width: 0, top: innerHeight / 2, height: 0 };
+  const a = document.createElement('div');
+  a.className = 'award' + (n > 1 ? ' two' : '');
+  a.innerHTML = `<div class="s">${'⭐'.repeat(n)}</div><div class="t">${n > 1 ? 'تفكير ناقد رائع! نجمتان' : 'أحسنتِ! نجمة'}</div>`;
+  a.style.left = Math.min(innerWidth - 120, Math.max(120, r.left + r.width / 2)) + 'px';
+  a.style.top = Math.max(90, r.top + r.height / 2) + 'px';
+  document.body.appendChild(a); setTimeout(() => a.remove(), 1700);
+  if (n > 1) confetti();
+}
+function resetStars() { starTotal = 0; document.getElementById('starN').textContent = ar(0); }
+function openFlip(el) {
+  el.classList.toggle('open');
+  if (el.classList.contains('open') && !el.dataset.got) { el.dataset.got = 1; award(+el.dataset.stars || 1, el); }
+}
+function fullscreen() {
+  const d = document;
+  if (!d.fullscreenElement && !d.webkitFullscreenElement) (d.documentElement.requestFullscreen || d.documentElement.webkitRequestFullscreen).call(d.documentElement);
+  else (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+}
+document.addEventListener('fullscreenchange', () => { document.getElementById('fsBtn').textContent = document.fullscreenElement ? '✕ خروج من ملء الشاشة' : '⛶ ملء الشاشة'; });
+let si = 0;
+function slide(d) {
+  const all = document.querySelectorAll('#start .slide');
+  si = (si + d + all.length) % all.length;
+  all.forEach((x, k) => x.classList.toggle('on', k === si));
+  const tv = document.getElementById('tvid'); if (tv) { if (all[si].contains(tv)) tv.play().catch(() => {}); else tv.pause(); }
+  document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
+}
+// ───── Enlarged page with pen, highlighter and eraser; ink is kept per picture for this visit
+const INK = {};
+let tool = 'pen', color = '#d23b3b', size = 6, drawing = false, last = null, curSrc = '';
+const cv = () => document.getElementById('ink');
+function zoom(src) {
+  curSrc = src;
+  const im = $('#zimg');
+  im.onload = fitInk;
+  im.src = src;
+  $('#zoom').classList.add('on');
+  if (im.complete) fitInk();
+}
+function closeZoom() { saveInk(); $('#zoom').classList.remove('on'); }
+function fitInk() {
+  const im = $('#zimg'), c = cv(), st = $('#stage').getBoundingClientRect(), r = im.getBoundingClientRect();
+  c.style.left = (r.left - st.left) + 'px'; c.style.top = (r.top - st.top) + 'px';
+  c.style.width = r.width + 'px'; c.style.height = r.height + 'px';
+  // drawing buffer in picture pixels, so ink stays put at any window size
+  c.width = im.naturalWidth * 2; c.height = im.naturalHeight * 2;
+  const g = c.getContext('2d'); g.clearRect(0, 0, c.width, c.height);
+  const st0 = INK[curSrc];
+  if (st0 && st0.length) restore(st0[st0.length - 1]);
+}
+function restore(url) { const g = cv().getContext('2d'), i = new Image(); i.onload = () => { g.clearRect(0, 0, cv().width, cv().height); g.drawImage(i, 0, 0); }; i.src = url; }
+function saveInk() { if (!curSrc) return; (INK[curSrc] = INK[curSrc] || []).push(cv().toDataURL()); if (INK[curSrc].length > 30) INK[curSrc].shift(); }
+function undo() {
+  const h = INK[curSrc] || [];
+  h.pop();
+  if (h.length) restore(h[h.length - 1]); else cv().getContext('2d').clearRect(0, 0, cv().width, cv().height);
+}
+function clearInk() { cv().getContext('2d').clearRect(0, 0, cv().width, cv().height); saveInk(); }
+function pos(e) { const c = cv(), r = c.getBoundingClientRect(); return [(e.clientX - r.left) * c.width / r.width, (e.clientY - r.top) * c.height / r.height]; }
+function stroke(a, b) {
+  const c = cv(), g = c.getContext('2d'), k = c.width / c.getBoundingClientRect().width;
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  if (tool === 'er') { g.globalCompositeOperation = 'destination-out'; g.lineWidth = 28 * k; g.globalAlpha = 1; }
+  else if (tool === 'hl') { g.globalCompositeOperation = 'multiply'; g.lineWidth = 22 * k; g.globalAlpha = 0.35; g.strokeStyle = color; }
+  else { g.globalCompositeOperation = 'source-over'; g.lineWidth = size * k; g.globalAlpha = 1; g.strokeStyle = color; }
+  g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke();
+}
+(function initInk() {
+  const c = cv();
+  c.addEventListener('pointerdown', (e) => { if (tool === 'tx') { e.preventDefault(); textAt(c, e, color, 26, saveInk); return; } drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
+  c.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); stroke(last, p); last = p; });
+  const end = () => { if (drawing) { drawing = false; saveInk(); } };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+  document.querySelectorAll('#tools .tl[data-tool]').forEach((b) => b.onclick = () => { tool = b.dataset.tool; document.querySelectorAll('#tools .tl[data-tool]').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .cl').forEach((b) => b.onclick = () => { color = b.dataset.c; if (tool === 'er' || tool === 'hl') document.querySelector('#tools [data-tool="pen"]').click(); document.querySelectorAll('#tools .cl').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .sz').forEach((b) => b.onclick = () => { size = +b.dataset.s; document.querySelectorAll('#tools .sz').forEach((x) => x.classList.toggle('on', x === b)); });
+  window.addEventListener('resize', () => { if ($('#zoom').classList.contains('on')) { saveInk(); fitInk(); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#zoom').classList.contains('on')) closeZoom(); });
+})();
+function confetti() {
+  for (let k = 0; k < 14; k++) {
+    const s = document.createElement('div'); s.className = 'confetti'; s.textContent = ['⭐', '🌿', '💚', '✨'][k % 4];
+    s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .4 + 's';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 2200);
+  }
+}
+function go(p) {
+  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.dataset.p === p));
+  document.querySelectorAll('.panel').forEach((x) => x.classList.toggle('on', x.id === p));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.tab').forEach((t) => t.onclick = () => go(t.dataset.p));
+
+// ───── Stations
+const STATIONS = [
+  { icon: '📸', name: 'ملخص مصوّر والمطويات', page: 129, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – ملخص مصوّر وأنظّم أفكاري</span><h2>📸 ملخص مصوّر للفصل الرابع</h2>
+    <div class="grid2 body"><div class="pagecol">${page(129)}</div><div class="txt">
+      ${flip('الدرس الأول: ما الفكرة الرئيسة؟', 'جميع الحيوانات لها أجهزة وأعضاء تؤدي وظائف محدّدة.', 'ملخص مصوّر')}
+      ${flip('الدرس الثاني: ما الفكرة الرئيسة؟', 'تعمل أجهزة الجسم معًا لتمكّنه من الحصول على الطاقة والحركة والاستجابة للمؤثرات من حوله.', 'ملخص مصوّر')}
+      <p style="margin:4px 0">📒 <b>أنظّم أفكاري – المطوية:</b> افتحي كل لسان وأكملي العبارة:</p>
+      <div class="fold6">
+        ${flip('في عملية الهضم…', 'يتحوّل الغذاء المعقّد إلى مواد بسيطة تستفيد منها الخلايا.', 'لسان ١')}
+        ${flip('يتطلّب التنفس…', 'التزوّد بالأكسجين والتخلّص من ثاني أكسيد الكربون.', 'لسان ٢')}
+        ${flip('الدوران هو…', 'نقل الأكسجين والغذاء والفضلات بالدم إلى أجزاء الجسم ومنها.', 'لسان ٣')}
+        ${flip('الجهاز الهيكلي والجهاز العضلي', 'الهيكل يدعم الجسم ويحميه، والعضلات تنقبض وترتخي فتشدّ العظام فيتحرّك الجسم.', 'لسان ٤')}
+        ${flip('الجهاز العصبي وجهاز الغدد الصمّاء', 'العصبي يستقبل المؤثرات ويستجيب لها، والغدد الصمّاء تفرز الهرمونات في الدم لتنظيم عمل الجسم.', 'لسان ٥')}
+        ${flip('تكامل عمل أجهزة الجسم', 'تعمل الأجهزة معًا؛ فلا يستطيع جهاز أن يعمل وحده.', 'لسان ٦')}
+      </div>
+    </div></div>` },
+  { icon: '📖', name: 'المفردات', page: 129, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> مهارات تعزيز القراءة والكتابة – بنك الكلمات</span><h2>📖 أكمل كلًّا من الجمل التالية بالعبارة المناسبة</h2>
+    <div class="grid2 body"><div class="pagecol">${page(129)}</div><div class="txt">
+      <p style="margin:0">١) اضغطي على كلمة من <b>بنك الكلمات</b> ٢) ثم اضغطي على الفراغ المناسب.</p>
+      <div id="voc"></div>
+    </div></div>`, after: () => vocab() },
+  { icon: '🧠', name: 'المهارات والأفكار العلمية', page: 130, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التفكير الناقد – أجيب عن الأسئلة</span><h2>🧠 المهارات والأفكار العلمية (٧–١٤)</h2>
+    <div class="grid2 body"><div class="pagecol">${page(130)}</div><div class="txt sk">
+      <p style="margin:0">🤔 فكّري وناقشي زميلتك أولًا… ثم اضغطي لتري الحل.</p>
+      ${flip('٧) المشكلة والحل: كيف يتمّ تنقية الدم من ثاني أكسيد الكربون وتزويده بالأكسجين في جسم الإنسان؟', 'يُضخّ الدم غير المؤكسج إلى الرئتين، فيتخلّص فيهما من ثاني أكسيد الكربون مع هواء الزفير، ويُحمَّل بالأكسجين من الحويصلات الهوائية.', 'المشكلة والحل')}
+      ${flip('٨) ألخّص التكامل في عمل الجهاز الهيكلي والجهاز العضلي في حركة الجسم.', 'تنقبض العضلات وترتخي فتشدّ العظام بواسطة الأوتار، فتتحرّك العظام عند المفاصل؛ فالهيكل يدعم الجسم، والعضلات تولّد قوة الحركة.', 'ألخّص')}
+      ${flip('٩) أقارن: ما الفرق بين الجهاز الهضمي في الفقاريات والجهاز الهضمي في دودة الأرض؟', 'الفقاريات لها جهاز هضمي معقّد فيه معدة وأمعاء وأعضاء مساعدة كالكبد، وفي دودة الأرض أنبوب داخل أنبوب له فتحتان يُهضم فيه الغذاء.', 'أقارن')}
+      ${flip('١٠) التفكير الناقد: هل تستطيع السحالي العيش في المناطق القطبية الباردة؟ ولماذا؟', 'لا؛ لأنها متغيّرة درجة الحرارة، فحرارة جسمها تتبع حرارة البيئة، والبرد الشديد يُبطئ عملياتها الحيوية ويوقف نشاطها.', 'التفكير الناقد')}
+      ${flip('١١) الكتابة الوصفية: أصف نوعَي أجهزة الدوران في أجسام المخلوقات الحية.', 'المغلق: يُدفَع الدم في شبكة أوعية لا يغادرها كما في الفقاريات. المفتوح: يدفعه القلب مباشرة إلى الأنسجة كما في المفصليات والرخويات.', 'الكتابة الوصفية')}
+      ${flip('١٢) صواب أم خطأ: تتبادل البرمائيات الغازات مع البيئة المحيطة عن طريق رئاتها فقط.', '✖ خطأ — والصواب: تستخدم البرمائيات البالغة الرئتين وجلدها معًا، وتتبادل صغارها الغازات بواسطة الخياشيم والجلد.', 'صواب أم خطأ')}
+      ${flip('١٣) اختاري: ما الجهاز الذي يمثّله الشكل (الرئتان والقصبة الهوائية)؟ أ. الدوراني  ب. التنفسي  ج. الهضمي  د. العصبي', '(ب) الجهاز التنفسي.', 'اختيار')}
+      ${flip('١٤) الفكرة العامة: ما الوظائف الحيوية التي تؤديها الأجهزة الحيوية في الإنسان والحيوانات؟', 'الحصول على الغذاء وهضمه، والتنفس، ونقل المواد بالدم، والإخراج، والحركة والدعامة، والاستجابة للمؤثرات، وتنظيم عمل الجسم.', 'الفكرة العامة')}
+    </div></div>` },
+  { icon: '🦁', name: 'التقويم الأدائي: تنوّع الأجهزة الحيوية', page: 130, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التقويم الأدائي – التعلم بالمشروع</span><h2>🦁 تنوّع الأجهزة الحيوية</h2>
+    <div class="grid2 body"><div class="pagecol">${page(130)}</div><div class="txt">
+      <p style="margin:0"><b>🎯 الهدف:</b> أتعرّف تنوّع بعض الأجهزة الحيوية في الحيوانات. <b>🦓 رحلتي الافتراضية إلى المحمية:</b> حدّدي لكل حيوان نوع الهيكل ونوع جهاز الدوران:</p>
+      <div id="zoo"></div>
+      ${flip('أحلّل النتائج: هل هناك تشابه أو اختلاف فيما بين الأجهزة الحيوية التي تعرّفتها في هذه الحيوانات؟', 'نعم؛ تتشابه في أدائها الوظائف نفسها كالهضم والتنفس والدوران، وتختلف في تركيبها؛ فالأسماك تتنفّس بالخياشيم، والثدييات بالرئتين.', 'أحلّل النتائج')}
+      ${flip('ماذا أعمل؟ خطوات المشروع', '١) أزور حديقة حيوانات أو محمية طبيعية. ٢) أكتب قائمة بخمسة حيوانات (ثدييات وطيور وزواحف ومفصليات). ٣) أبحث عن هيكل كل حيوان وجهاز دورانه. ٤) أنظّم الصور والمعلومات في مطوية وأعرضها على زميلاتي.', 'ماذا أعمل؟')}
+    </div></div>`, after: () => zoo() },
+  { icon: '✅', name: 'نموذج اختبار (١–٤)', page: 131, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التقويم – نموذج اختبار: أختار الإجابة الصحيحة</span><h2>✅ نموذج اختبار: الأسئلة ١–٤</h2>
+    <div class="grid2 body"><div class="pagecol">${page(131)}</div><div class="txt">
+      <div class="tq" id="tqA" data-r="1-4"></div>
+    </div></div>`, after: () => tq('tqA', 1) },
+  { icon: '⭕', name: 'نموذج اختبار (٥–٧)', page: 132, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التقويم – نموذج اختبار، وأنظّم إجابتي بشكل ڤن</span><h2>⭕ نموذج اختبار: الأسئلة ٥–٧</h2>
+    <div class="grid2 body"><div class="pagecol">${page(132)}</div><div class="txt">
+      <div class="tq" id="tqB" data-r="5-6"></div>
+      <p style="margin:4px 0"><b>٧) فيمَ يختلف جهاز الدوران المغلق عن جهاز الدوران المفتوح؟ وفيمَ يتشابهان؟</b> ضعي كل عبارة في مكانها من الشكل:</p>
+      <div id="venn"></div>
+    </div></div>`, after: () => { tq('tqB', 5); venn(); } },
+  { icon: '🔎', name: 'نموذج اختبار (٨–٩) وأتحقق من فهمي', page: 132, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التفكير الناقد – أتحقّق من فهمي</span><h2>🔎 نموذج اختبار: السؤالان ٨–٩</h2>
+    <div class="grid2 body"><div class="pagecol">${page(132)}</div><div class="txt">
+      ${flip('٨) كيف تساعد الرئتان الجسم على التخلّص من الفضلات؟', 'تطرح الرئتان ثاني أكسيد الكربون — وهو من فضلات عملية التنفس — وبخار الماء إلى خارج الجسم مع هواء الزفير.', 'أفسّر')}
+      ${flip('٩) كيف تقوم الأنواع المختلفة من اللافقاريات بعملية الهضم؟', 'الإسفنجيات تصفّي الغذاء العالق في الماء عبر ثقوب أجسامها، واللاسعات والديدان المفلطحة تهضمه في تجويف هضمي له فتحة واحدة، ودودة الأرض في أنبوب له فتحتان.', 'أقارن')}
+      <div class="chk"><b>📋 أتحقّق من فهمي:</b> إذا أخطأتِ في سؤال، ارجعي إلى صفحته في الكتاب:
+        <table><tr><th>السؤال</th>${['١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'].map((x) => `<td>${x}</td>`).join('')}</tr>
+        <tr><th>المرجع</th>${['١١٠', '١١١', '١١٤', '١١٢', '١١٣', '١٢٤', '١١٤', '١١٦', '١١١'].map((x) => `<td>ص${x}</td>`).join('')}</tr></table></div>
+      <p style="color:var(--pink)">🌟 أنا طالبة معدّة للحياة، ومنافسة عالميًا!</p>
+    </div></div>` },
+];
+
+// ───── الجولة الافتراضية في الدورة الدموية
+const CIRC_SVG = `<svg id="circ" viewBox="0 0 420 520">
+  <defs><radialGradient id="hg" cx=".5" cy=".4"><stop offset="0" stop-color="#FF8A8A"/><stop offset="1" stop-color="#C62828"/></radialGradient></defs>
+  <text x="210" y="28" fill="#cfe" font-size="22" text-anchor="middle">الرئتان</text>
+  <ellipse cx="120" cy="90" rx="70" ry="52" fill="#F8B4C4"/><ellipse cx="300" cy="90" rx="70" ry="52" fill="#F8B4C4"/>
+  <text x="210" y="510" fill="#cfe" font-size="22" text-anchor="middle">خلايا الجسم</text>
+  <rect x="60" y="410" width="300" height="70" rx="30" fill="#FFE0B2"/>
+  <path id="cp1" d="M195 300 C 150 250, 120 200, 120 140" stroke="#3B6FD8" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="cp2" d="M300 140 C 300 200, 270 250, 225 290" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="cp3" d="M235 330 C 300 360, 320 390, 300 420" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="cp4" d="M120 420 C 100 390, 130 350, 190 330" stroke="#3B6FD8" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path d="M120 140 C 160 110, 260 110, 300 140" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <path d="M300 420 C 260 450, 160 450, 120 420" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <g id="cheart"><path d="M210 360 C 120 300, 150 240, 210 275 C 270 240, 300 300, 210 360 Z" fill="url(#hg)"/><text x="210" y="312" fill="#fff" font-size="22" text-anchor="middle">القلب</text></g>
+  <g id="ccells"></g>
+  <text id="co2" x="210" y="160" fill="#FFEB3B" font-size="17" text-anchor="middle" opacity="0">يدخل الأكسجين ويخرج ثاني أكسيد الكربون</text>
+  <text id="cfood" x="210" y="400" fill="#FFE0B2" font-size="16" text-anchor="middle" opacity="0">الأكسجين والغذاء إلى الخلايا</text>
+</svg>`;
+const CSTEPS = [['١', 'يتدفّق الدم غير المؤكسج (غير المحمّل بالأكسجين) إلى القلب.', 'cp4', '#3B6FD8'],
+  ['٢', 'يُضخّ الدم غير المؤكسج إلى الرئتين.', 'cp1', '#3B6FD8'],
+  ['٣', 'يتخلّص الدم في الرئتين من ثاني أكسيد الكربون ويُحمَّل بالأكسجين، ثم يعود إلى القلب.', 'cp2', '#E53935'],
+  ['٤', 'يتدفّق الدم المؤكسج إلى القلب، ثم يُضخّ إلى سائر أجزاء الجسم.', 'cp3', '#E53935']];
+let cRAF = null, cS = 0, cT = 0, cAuto = false;
+function cstep(i, still) {
+  if (!document.getElementById('circ')) return;
+  cS = i; cT = 0; cancelAnimationFrame(cRAF);
+  document.querySelectorAll('.steps .btn').forEach((b, k) => b.classList.toggle('on', k === i));
+  $('#ctxt').innerHTML = `<b style="color:${CSTEPS[i][3]}">${CSTEPS[i][0]})</b> ${CSTEPS[i][1]}`;
+  ['cp1', 'cp2', 'cp3', 'cp4'].forEach((p) => document.getElementById(p).style.opacity = p === CSTEPS[i][2] ? 1 : .25);
+  $('#co2').style.opacity = i === 2 ? 1 : 0; $('#cfood').style.opacity = i === 3 ? 1 : 0;
+  const g = $('#ccells'); g.innerHTML = '';
+  for (let k = 0; k < 6; k++) { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', 9); c.setAttribute('fill', CSTEPS[i][3]); c.setAttribute('stroke', '#fff'); c.setAttribute('stroke-width', 2); g.append(c); }
+  cplace(0); if (!still) ctick();
+}
+function cplace(t) {
+  const path = document.getElementById(CSTEPS[cS][2]); if (!path) return; const L = path.getTotalLength();
+  [...$('#ccells').children].forEach((c, k) => { const p = path.getPointAtLength(((t + k / 6) % 1) * L); c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); });
+  const beat = 1 + .06 * Math.max(0, Math.sin(t * Math.PI * 6));
+  $('#cheart').setAttribute('transform', `translate(210 310) scale(${beat}) translate(-210 -310)`);
+}
+function ctick() {
+  if (!document.getElementById('circ')) return;
+  cT += 0.004; cplace(cT);
+  if (cT >= 1.2 && cAuto) { if (cS < 3) { cstep(cS + 1); return; } cAuto = false; award(1, $('#circ')); }
+  cRAF = requestAnimationFrame(ctick);
+}
+function cplay() { cAuto = true; cstep(0); }
+// ───── تجربة صمام الوريد
+function valve(fromTop) {
+  const tube = $('#tube'); tube.querySelectorAll('.seed').forEach((s) => s.remove());
+  const flaps = tube.querySelectorAll('.flapv'), m = $('#vmsg');
+  const seeds = [0, 1, 2].map((k) => { const s = document.createElement('div'); s.className = 'seed'; s.style.left = (16 + k * 17) + 'px'; s.style.top = fromTop ? '-22px' : '228px'; tube.append(s); return s; });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (fromTop) {
+      flaps.forEach((f) => f.style.transform = f.classList.contains('l') ? 'rotate(-70deg)' : 'rotate(70deg)');
+      seeds.forEach((s, k) => { s.style.transitionDelay = k * .15 + 's'; s.style.top = '205px'; });
+      setTimeout(() => { flaps.forEach((f) => f.style.transform = ''); m.className = 'msg good'; m.textContent = '✔ مرّت البذور؛ انفتح الصمامان مع اتجاه الحركة.'; award(1, m); }, 1700);
+    } else {
+      seeds.forEach((s, k) => { s.style.transitionDelay = k * .15 + 's'; s.style.top = '172px'; });
+      setTimeout(() => { m.className = 'msg bad'; m.textContent = '✖ لم تمرّ! انغلق الصمام فمنع الرجوع.'; }, 1500);
+    }
+  }));
+}
+const done = new Set();
+let cur = 0;
+function station(i) {
+  cur = i; done.add(i);
+  $('#stList').innerHTML = STATIONS.map((s, k) => `<button class="st ${k === i ? 'on' : ''} ${done.has(k) ? 'done' : ''}" onclick="station(${k})"><span class="n">ص${ar(s.page)}</span>${s.icon} ${s.name}</button>`).join('');
+  const s = STATIONS[i];
+  $('#stBody').innerHTML = `<div class="box">${s.html()}<div class="nav">
+    ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
+    ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('missions')">إلى المهمات 🎯</button>`}</div></div>`;
+  if (s.after) s.after();
+  if (/القرائي|القراءة/.test(s.html())) setTimeout(() => readingBoard(i), 0);
+  if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
+}
+function plant(id) {
+  return `<svg viewBox="0 0 200 200" id="pl_${id}"><path d="M60,150 L140,150 L130,195 L70,195 Z" fill="#c8773c" stroke="#5a3a1e" stroke-width="4"/>
+    <rect x="52" y="140" width="96" height="14" rx="5" fill="#a85f2c" stroke="#5a3a1e" stroke-width="4"/>
+    <g class="stem"><path d="M100,142 Q98,100 100,60" fill="none" stroke="#3f8f3a" stroke-width="7" stroke-linecap="round"/>
+    <ellipse class="lf" cx="76" cy="100" rx="24" ry="11" transform="rotate(-25 76 100)" fill="#4caf50" stroke="#2e6b2f" stroke-width="3"/>
+    <ellipse class="lf" cx="124" cy="88" rx="24" ry="11" transform="rotate(25 124 88)" fill="#4caf50" stroke="#2e6b2f" stroke-width="3"/>
+    <circle cx="100" cy="52" r="16" fill="#ff9800" stroke="#c35b00" stroke-width="3"/></g></svg>`;
+}
+function grow(d) {
+  d = +d;
+  const names = ['', 'الأول', 'الثاني', 'الثالث', 'الرابع'];
+  if ($('#dayT')) $('#dayT').textContent = names[d];
+  const b = document.getElementById('pl_b'); if (!b) return;
+  const cols = ['#4caf50', '#8bc34a', '#c0ca33', '#d4a537'];
+  b.querySelectorAll('.lf').forEach((l) => l.setAttribute('fill', cols[d - 1]));
+  b.querySelector('.stem').setAttribute('transform', `rotate(${(d - 1) * 9} 100 142)`);
+}
+
+// ───── المهمات: أتذكّر • أقارن • أصنّف • أركّب (المهمة الأدائية)
+// Teacher's assessment path for every item: hint → second try → remediation → a similar question → praise
+const M1 = [
+  { q: 'الجهاز الذي يدعم الجسم ويحمي أعضاءه هو…', o: ['الجهاز الهيكلي', 'الجهاز الهضمي', 'الجهاز الإخراجي'], a: 0, hint: 'يتكوّن من العظام والأوتار والأربطة.', fix: 'الجهاز الهيكلي يدعم الجسم ويحميه، والعضلات تحرّكه.', sim: { q: 'تتكوّن من العظام والأوتار والأربطة:', o: ['الجهاز الهيكلي', 'الجهاز التنفسي', 'الجهاز الدوري'], a: 0 } },
+  { q: 'العضو الذي ينقّي الدم من الفضلات ويكوّن البول…', o: ['الكليتان', 'المعدة', 'القلب'], a: 0, hint: 'عضوان في الجهاز الإخراجي.', fix: 'الكليتان تنقّيان الدم وتكوّنان البول.', sim: { q: 'عملية يتخلّص فيها الجسم من الفضلات:', o: ['الإخراج', 'الهضم', 'الحركة'], a: 0 } },
+  { q: 'تتنفّس الأسماك بواسطة…', o: ['الخياشيم', 'الرئتين', 'القصبة الهوائية'], a: 0, hint: 'تأخذ الأكسجين من الماء.', fix: 'الأسماك تتنفّس بالخياشيم، والثدييات بالرئتين.', sim: { q: 'تتنفّس الثدييات بواسطة…', o: ['الرئتين', 'الخياشيم', 'الجلد فقط'], a: 0 } },
+  { q: 'حيوانات تتبع حرارة أجسامها حرارة البيئة المحيطة…', o: ['متغيّرة درجة الحرارة', 'ثابتة درجة الحرارة', 'الثدييات'], a: 0, hint: 'مثل السحالي.', fix: 'متغيّرة درجة الحرارة مثل الزواحف، وثابتة درجة الحرارة مثل الطيور والثدييات.', sim: { q: 'الطيور والثدييات حيوانات…', o: ['ثابتة درجة الحرارة', 'متغيّرة درجة الحرارة', 'بلا جهاز دوران'], a: 0 } },
+  { q: 'يتكوّن الجهاز العصبي من الدماغ والأعصاب و…', o: ['الحبل الشوكي', 'القلب', 'الكليتين'], a: 0, hint: 'يمرّ داخل الفقرات.', fix: 'الجهاز العصبي: الدماغ + الحبل الشوكي + الأعصاب + أعضاء الحس.', sim: { q: 'العضو الذي يفسّر المعلومات ويتحكّم في الحركة:', o: ['الدماغ', 'المعدة', 'المثانة'], a: 0 } },
+];
+const M2 = [
+  { t: 'الجهاز الهضمي في الفقاريات', u: 'الجهاز الهضمي في دودة الأرض', items: [
+    ['فيه معدة وأمعاء وأعضاء مساعدة كالكبد', 0, 'جهاز معقّد كما في الإنسان.'], ['أنبوب داخل أنبوب له فتحتان', 1, 'جسمها أنبوبي طويل.'],
+    ['يُهضم فيه الغذاء ليستفيد منه الجسم', 2, 'هذه وظيفة كل جهاز هضمي.'], ['يوجد في الإنسان والطيور والأسماك', 0, 'هذه من الفقاريات.'],
+    ['يوجد في حيوان لافقاري يعيش في التربة', 1, 'فكّري في دودة الأرض.'], ['يحصل منه الجسم على الطاقة من الغذاء', 2, 'كلاهما يهضم الغذاء.']] },
+  { t: 'ثابتة درجة الحرارة', u: 'متغيّرة درجة الحرارة', items: [
+    ['تبقى حرارة أجسامها ثابتة مهما تغيّرت حرارة البيئة', 0, 'يساعدها الجلد والعرق.'], ['تتبع حرارة أجسامها حرارة البيئة', 1, 'مثل السحالي.'],
+    ['مثل الطيور والثدييات', 0, 'لها ريش أو شعر.'], ['البرد الشديد يُبطئ عملياتها الحيوية', 1, 'تذكّري سؤال السحالي ص١٣٠.'],
+    ['حيوانات لها أجهزة تؤدي وظائف محدّدة', 2, 'جميع الحيوانات لها أجهزة.'], ['تحتاج إلى الطاقة من الغذاء', 2, 'كل الحيوانات تحتاج إلى الطاقة.']] },
+];
+const BINS = [['🍽️', 'الجهاز الهضمي'], ['🫁', 'الجهاز التنفسي'], ['❤️', 'الجهاز الدوري'], ['🚽', 'الجهاز الإخراجي']];
+const M3 = [['المعدة', 0], ['المريء', 0], ['الأمعاء الدقيقة', 0], ['الكبد', 0], ['القصبة الهوائية', 1], ['الحويصلات الهوائية', 1], ['الحجاب الحاجز', 1], ['القلب', 2], ['الأوعية الدموية', 2], ['الدم', 2], ['الكليتان', 3], ['المثانة', 3]];
+const M4 = [
+  ['في عملية الهضم…', 1, ['تنقبض العضلات وترتخي', 'يتحوّل الغذاء المعقّد إلى مواد بسيطة تستفيد منها الخلايا', 'يُفرز الأدرينالين في الدم'], 'ماذا يحدث للطعام في المعدة والأمعاء؟'],
+  ['يتطلّب التنفس…', 0, ['التزوّد بالأكسجين والتخلّص من ثاني أكسيد الكربون', 'تكوين البول في الكليتين', 'هضم الغذاء في الأمعاء'], 'شهيق وزفير.'],
+  ['الدوران هو…', 2, ['حركة العظام عند المفاصل', 'إفراز الهرمونات', 'نقل الأكسجين والغذاء والفضلات بالدم'], 'يضخّ فيه القلب الدم.'],
+  ['الجهاز الهيكلي والجهاز العضلي…', 0, ['يعملان معًا لدعم الجسم وتحريكه', 'ينقلان الدم إلى الرئتين', 'يفرزان العصارات الهاضمة'], 'العضلات تشدّ العظام.'],
+  ['الجهاز العصبي وجهاز الغدد الصمّاء…', 1, ['يهضمان الغذاء', 'ينظّمان عمل الجسم واستجابته للمؤثرات', 'يتخلّصان من البول'], 'الدماغ والهرمونات.'],
+];
+const MIS = [
+  { ic: '🟢', n: 'المهمة الأولى', t: 'أتذكّر', d: 'أسئلة بسيطة', run: () => m1(0) },
+  { ic: '🟡', n: 'المهمة الثانية', t: 'أقارن', d: 'أوجه الشبه والاختلاف', run: () => m2(0) },
+  { ic: '🟠', n: 'المهمة الثالثة', t: 'أصنّف', d: 'كل عضو إلى جهازه', run: () => m3() },
+  { ic: '🔴', n: 'المهمة الرابعة', t: 'أركّب – المهمة الأدائية', d: 'أكمل مطويتي', run: () => m4(0) },
+  { ic: '<img class="nlogo" src="img/nafs/logo.png" alt="نافس">', n: 'المهمة الخامسة', t: 'مراجعة نواتج التعلم (نافس)', d: 'مراجعة نهاية الفصل: كل الأجهزة', run: () => m5(0) },
+];
+const mDone = new Set();
+let mCur = 0;
+function mission(k) {
+  mCur = k;
+  $('#mcards').innerHTML = MIS.map((m, i) => `<button class="mcard ${i === k ? 'on' : ''} ${mDone.has(i) ? 'done' : ''}" onclick="mission(${i})"><span class="mi">${m.ic}</span><b>${m.n}</b><span>${m.t}</span><small>${m.d}</small></button>`).join('');
+  MIS[k].run();
+}
+const mHead = (strat, title) => `<span class="strat"><b>الاستراتيجية:</b> التعلم النشط – ${strat}</span><h2>${title}</h2>`;
+const praise = () => ['أحسنتِ يا عالمتي! 🌟', 'رائع! إجابة صحيحة 👏', 'ممتاز! أنتِ مبدعة ✨', 'بطلة! استمري 💪'][Math.floor(Math.random() * 4)];
+function mFinish(k, html) {
+  mDone.add(k); confetti();
+  $('#mbody').innerHTML = `<div class="mend"><div class="big">🏆</div><h2>أنجزتِ ${MIS[k].n}: ${MIS[k].t}!</h2>${html || ''}
+    ${k < MIS.length - 1 ? `<button class="btn main" onclick="mission(${k + 1})">إلى ${MIS[k + 1].n} ←</button>` : `<button class="btn main" onclick="go('games')">إلى الألعاب 🎮</button>`}</div>`;
+  $('#mcards').querySelectorAll('.mcard')[k].classList.add('done');
+}
+// المهمة الأولى
+let m1s = 0;
+function m1(i, sim) {
+  if (i === 0 && !sim) m1s = 0;
+  if (i >= M1.length) return mFinish(0, `<p class="score">⭐ ${ar(m1s)} / ${ar(M1.length)}</p>`);
+  const it = M1[i], t = sim ? it.sim : it; let tries = 0;
+  $('#mbody').innerHTML = mHead('مستويات التفكير – أتذكّر', '🟢 المهمة الأولى: أتذكّر') + `
+    <p class="score">${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M1.length)}`} • ⭐ ${ar(m1s)}</p>
+    <p class="mq">${t.q}</p><div class="opts">${t.o.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="m1m"></div>`;
+  $('#mbody').querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {
+    const m = $('#m1m');
+    if (+b.dataset.k === t.a) {
+      b.classList.add('ok'); if (!tries && !sim) { m1s++; award(1, b); }
+      m.className = 'msg good'; m.textContent = sim ? 'أحسنتِ! الآن فهمتِ الفكرة 💚' : praise();
+      $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true);
+      setTimeout(() => m1(i + 1), 1200);
+    } else {
+      tries++; b.classList.add('no'); b.disabled = true;
+      if (sim || tries === 1) { m.className = 'msg bad'; m.innerHTML = `💡 تلميح: ${it.hint} حاولي مرة أخرى.`; }
+      else { m.className = 'msg bad'; m.innerHTML = `📘 لنتعلّم معًا: ${it.fix}<br><button class="btn main" style="margin-top:6px" onclick="m1(${i}, true)">🔁 جرّبي سؤالًا مشابهًا</button>`; $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true); }
+    }
+  });
+}
+// المهمة الخامسة: أسئلة نافس من بنك المنصة (أجهزة الجسم) مع ناتج التعلم ومهارة نافس
+// نواتج التعلم بالنص الرسمي من «تدريبات وأنشطة نافس – العلوم ٦ – الفصل الأول ١٤٤٨هـ» (المجال الفرعي: علوم الحياة)
+const O1 = 'تحديد أجهزة الجسم الرئيسة وأعضائها المتخصصة وربطها بوظائفها لدعم نمو المخلوقات الحية النبات والحيوان وبقائها',
+  O2 = 'تحديد الاختلافات الأساسية من حيث التركيب والوظيفة بين الخلية النباتية والحيوانية',
+  O6 = 'وصف تراكيب الخلية، وربطها بوظائفها الحيوية', O3 = O1, O4 = O1, O5 = O1, O7 = O1;
+const M5 = [
+  { o: O1, k: 'معرفة', q: 'أيّ جهاز في جسم الإنسان مسؤول عن ضخ الدم إلى جميع أجزاء الجسم؟', op: ['الجهاز الدوري', 'الجهاز التنفسي', 'الجهاز الهضمي', 'الجهاز العضلي'], a: 0, hint: 'يحتوي على القلب والأوعية الدموية.', fix: 'الجهاز الدوري: القلب يضخّ الدم في الأوعية إلى كل الجسم.', sim: { q: 'العضو الذي يضخّ الدم هو…', op: ['القلب', 'الرئة', 'المعدة'], a: 0 } },
+  { o: O1, k: 'معرفة', img: 'stomach', q: 'ما اسم الجهاز الذي ينتمي إليه هذا العضو؟', op: ['الجهاز الدوري', 'الجهاز التنفسي', 'الجهاز الهضمي', 'الجهاز العضلي'], a: 2, hint: 'تهضم الطعام.', fix: 'المعدة من أعضاء الجهاز الهضمي مع الفم والمريء والأمعاء.', sim: { q: 'إلى أيّ جهاز تنتمي الأمعاء الدقيقة؟', op: ['الهضمي', 'الدوري', 'العصبي'], a: 0 } },
+  { o: O1, k: 'معرفة', img: 'skull', q: 'ما وظيفة العضو في الصورة المجاورة؟', op: ['تحمي القلب', 'تحمي القلب والرئتين', 'تحمي الدماغ', 'تساعد على التنفس'], a: 2, hint: 'تقع في الرأس.', fix: 'الجمجمة تحمي الدماغ، والقفص الصدري يحمي القلب والرئتين.', sim: { q: 'أيّ العظام تحمي القلب والرئتين؟', op: ['القفص الصدري', 'الجمجمة', 'الحوض'], a: 0 } },
+  { o: O1, k: 'تطبيق', q: 'كيف يساعد القفص الصدري الجسم؟', op: ['يحمي الدماغ', 'ينقل الدم', 'يحمي القلب والرئتين', 'يساعد على الهضم'], a: 2, hint: 'ماذا يوجد داخل الصدر؟', fix: 'القفص الصدري يحمي القلب والرئتين.', sim: { q: 'الجهاز الذي يحمي الأعضاء الطرية ويُكسب الجسم شكله:', op: ['الهيكلي', 'الهضمي', 'الإخراجي'], a: 0 } },
+  { o: O2, k: 'تطبيق', q: 'ما الذي يُستخدم في التنفس الخلوي؟', op: ['الضوء', 'الجلوكوز فقط', 'الكلوروفيل', 'الأكسجين'], a: 3, hint: 'غاز ندخله مع الشهيق.', fix: 'التنفس الخلوي يحتاج الأكسجين ليُطلق الطاقة من الجلوكوز.', sim: { q: 'ماذا يُطلق التنفس الخلوي؟', op: ['الطاقة', 'الضوء', 'العظام'], a: 0 } },
+  { o: O3, k: 'استنتاج', q: 'لماذا تحتاج المخلوقات إلى جهاز دوران؟', op: ['للتكاثر', 'لنقل الأكسجين والفضلات', 'للهضم', 'للتنفس فقط'], a: 1, hint: 'ماذا ينقل الدم؟', fix: 'الدوران ينقل الأكسجين والغذاء إلى الخلايا ويخلّصها من الفضلات.', sim: { q: 'ماذا ينقل الدم إلى الخلايا؟', op: ['الأكسجين والغذاء', 'الهواء فقط', 'العظام'], a: 0 } },
+  { o: O3, k: 'تحليل', q: 'ما الفرق بين أجهزة الدوران المفتوحة والمغلقة؟', op: ['المغلقة لا تحتوي على أوعية دموية', 'المغلقة لا تنقل الأكسجين', 'المفتوحة لا تحتوي على قلب', 'المفتوحة تدفع الدم مباشرة للأنسجة'], a: 3, hint: 'في أيّهما يبقى الدم داخل الأوعية؟', fix: 'المفتوح: يضخّ القلب الدم مباشرة إلى الأنسجة (الجرادة). المغلق: يبقى الدم في الأوعية (الإنسان).', sim: { q: 'أيّ الحيوانات جهاز دورانه مغلق؟', op: ['القط', 'الجرادة', 'الحلزون'], a: 0 } },
+  { o: O4, k: 'تحليل', q: 'إذا توقف عمل الرئتين، فما النتيجة التي تحدث لبقية أجهزة الجسم؟', op: ['تعمل بشكل أفضل', 'يقل الأكسجين فلا تعمل بكفاءة', 'تستمر بالعمل كالمعتاد', 'تزداد عملية الهضم'], a: 1, hint: 'ماذا تأخذ الرئتان من الهواء؟', fix: 'الرئتان تزوّدان الدم بالأكسجين؛ وبدونه لا تنتج الخلايا الطاقة.', sim: { q: 'أين يدخل الأكسجين إلى الدم؟', op: ['الحويصلات الهوائية', 'المعدة', 'الكلية'], a: 0 } },
+  { o: O4, k: 'تحليل', img: 'stomach', q: 'ماذا يحدث إذا توقف عمل المعدة في هذا الجهاز؟', op: ['لا يُهضم الطعام', 'يزداد تدفق الدم', 'يزداد التنفس', 'تزداد عملية الهضم'], a: 0, hint: 'ما وظيفة المعدة؟', fix: 'المعدة تهضم الطعام؛ فإذا توقفت لا يُهضم.', sim: { q: 'أين يُمتص معظم الغذاء المهضوم؟', op: ['الأمعاء الدقيقة', 'المريء', 'الفم'], a: 0 } },
+  { o: O5, k: 'تحليل', q: 'تقوم العضلات بالعمل في أزواج متقابلة. ماذا سيحدث إذا انقبضت العضلة الأولى في الزوج دون أن تنبسط العضلة المقابلة لها؟', op: ['ستصبح الحركة أكثر مرونة', 'ستنكسر العظمة بسبب الشد', 'ستنقلب العظمة في الاتجاه المعاكس', 'ستبقى العظمة ثابتة ولا تتحرك'], a: 3, hint: 'كل عضلة تسحب في اتجاه معاكس للأخرى.', fix: 'ليتحرك العظم يجب أن تنبسط العضلة المقابلة؛ وإلا تتعادل القوتان فلا يتحرك.', sim: { q: 'عندما تنقبض ذات الرأسين فإن ذات الثلاثة رؤوس…', op: ['تنبسط', 'تنقبض أيضًا', 'تختفي'], a: 0 } },
+  { o: O5, k: 'استنتاج', img: 'brain', q: 'ما الوظيفة المشتركة لهذه الأعضاء معًا؟', op: ['التحكم في الحركة والحواس', 'إنتاج الغذاء', 'التكاثر', 'التخلص من الفضلات'], a: 0, hint: 'هما الجهاز العصبي.', fix: 'الدماغ والأعصاب يتحكّمان في الحركة والإحساس.', sim: { q: 'ما الذي ينقل أوامر الدماغ إلى العضلات؟', op: ['الأعصاب', 'الدم', 'العظام'], a: 0 } },
+  { o: O4, k: 'تركيب', q: 'أيّ تركيب لأعضاء الجسم معًا يحافظ على حياة الإنسان؟', op: ['القلب + المعدة', 'الكبد + المثانة', 'الدماغ + الأعصاب + الحواس', 'الكبد + القلب'], a: 2, hint: 'أعضاء تعمل معًا ليستجيب الجسم لما حوله.', fix: 'الدماغ والأعصاب وأعضاء الحس تكوّن الجهاز العصبي الذي ينظّم أنشطة الجسم.', sim: { q: 'أيّ مما يأتي من أعضاء الحس؟', op: ['العين', 'المعدة', 'الكلية'], a: 0 } },
+  { o: O6, k: 'تركيب', q: 'ما الذي تشكّله مجموعة من الأعضاء مثل القلب والمعدة والأمعاء التي تعمل معًا؟', op: ['نسيج', 'عنصر', 'جهاز حيوي', 'خلية'], a: 2, hint: 'أكبر من العضو.', fix: 'خلية ← نسيج ← عضو ← جهاز.', sim: { q: 'الترتيب الصحيح من الأصغر إلى الأكبر:', op: ['خلية ← نسيج ← عضو ← جهاز', 'عضو ← خلية ← جهاز ← نسيج', 'جهاز ← عضو ← نسيج ← خلية'], a: 0 } },
+  { o: O7, k: 'معرفة', q: 'ما وسيلة تنفس صغار البرمائيات؟', op: ['الرئات', 'القصيبات', 'الخياشيم والجلد', 'فتحات صغيرة'], a: 2, hint: 'تعيش صغارها (الشراغيف) في الماء.', fix: 'صغار البرمائيات تتنفس بالخياشيم والجلد، ثم تنمو لها رئات.', sim: { q: 'تتنفس الضفدع البالغة بـ…', op: ['الرئتين والجلد', 'الخياشيم فقط', 'الريش'], a: 0 } },
+  { o: O7, k: 'تطبيق', q: 'ما تركيب الأسماك الذي يؤدي وظيفة الرئتين نفسها؟', op: ['الخياشيم', 'الأوردة', 'القصبات', 'الزعانف'], a: 0, hint: 'على جانبي رأس السمكة.', fix: 'تتنفس الأسماك بالخياشيم فتأخذ الأكسجين من الماء.', sim: { q: 'تتنفس صغار البرمائيات بـ…', op: ['الخياشيم والجلد', 'الرئات فقط', 'الريش'], a: 0 } },
+  { o: O7, k: 'تركيب', img: 'snails', q: 'الديدان المفلطحة والحلازين والبزّاقات تتبادل الغازات عن طريق:', op: ['القشور', 'الانتشار', 'القصيبات', 'الرئات'], a: 1, hint: 'انتقال المواد من التركيز المرتفع إلى المنخفض عبر الجلد.', fix: 'تتبادل الغازات بالانتشار عبر سطح الجسم.', sim: { q: 'أيّ من الحيوانات التالية تمتلك رئات تشبه صفحات الكتاب؟', op: ['العنكبوت', 'السمك', 'الطيور'], a: 0 } },
+  { o: O7, k: 'استنتاج', q: 'أيّ من الحيوانات التالية تمتلك رئات تشبه صفحات الكتاب؟', op: ['العنكبوت', 'السمك', 'الطيور', 'الضفدع'], a: 0, hint: 'من المفصليات وله ثمانية أرجل.', fix: 'العنكبوت له رئات كتابية.', sim: { q: 'تتبادل الديدان المفلطحة الغازات عن طريق…', op: ['الانتشار', 'الرئات', 'الخياشيم'], a: 0 } },
+];
+// درس الحركة والإحساس: أسئلة نافس الخاصة به فقط (الهيكلي والعضلي والعصبي وتكامل الأجهزة)
+// مراجعة نهاية الفصل: كل نواتج التعلم في أجهزة الجسم، مرتّبة حسب الجهاز
+M5.push(
+  { o: O1, k: 'تركيب', q: 'ما الذي يشترك فيه الطيور والثدييات؟', op: ['تستخدم الأجنحة في الطيران', 'تعيش في الماء', 'لها ريش يغطي أجسامها', 'تستخدم الرئات في التنفس'], a: 3, hint: 'فكّري في جهاز التنفس لكليهما.', fix: 'الطيور والثدييات تتنفس بالرئات.', sim: { q: 'تتنفس الأسماك بـ…', op: ['الخياشيم', 'الرئات', 'الجلد فقط'], a: 0 } },
+  { o: O1, k: 'معرفة', mine: 1, q: 'ما العضو الرئيس في الجهاز البولي الذي ينقّي الدم من الفضلات؟', op: ['الكليتان', 'الرئتان', 'المعدة', 'القلب'], a: 0, hint: 'عضوان على شكل حبة الفاصوليا.', fix: 'الكليتان تنقّيان الدم وتكوّنان البول.', sim: { q: 'أين يُخزَّن البول قبل خروجه؟', op: ['المثانة', 'الكلية', 'المعدة'], a: 0 } },
+  { o: O1, k: 'تحليل', mine: 1, q: 'أيّ مما يأتي يعمل عضوًا إخراجيًا ويخلّص الجسم من ثاني أكسيد الكربون؟', op: ['الرئتان', 'الأمعاء الدقيقة', 'العظام', 'الدماغ'], a: 0, hint: 'نُخرجه مع الزفير.', fix: 'الرئتان تُخرجان ثاني أكسيد الكربون وبخار الماء، والجلد يُخرج العرق، والكليتان البول.', sim: { q: 'يتخلّص الجلد من الفضلات عن طريق…', op: ['العرق', 'الزفير', 'البول'], a: 0 } },
+);
+const SYSR = [['🍽️ الجهاز الهضمي', /هذا العضو|توقف عمل المعدة/], ['🫁 الجهاز التنفسي', /الرئتين|البرمائيات|الأسماك|المفلطحة|صفحات الكتاب|الطيور والثدييات|التنفس الخلوي/],
+  ['❤️ الجهاز الدوري', /ضخ الدم|الدوران|جهاز دوران/], ['🚽 الجهاز الإخراجي', /البولي|إخراجيًا/], ['🦴 الحركة والإحساس', /العضو في الصورة|القفص الصدري|أزواج متقابلة|لهذه الأعضاء|تركيب لأعضاء/], ['🔬 الخلية وتكامل الأجهزة', /./]];
+M5.forEach((q) => { q.sys = SYSR.findIndex(([, re]) => re.test(q.q)); });
+M5.sort((x, y) => x.sys - y.sys);
+// أرقام صفحات «تدريبات وأنشطة نافس – العلوم ٦» (ملف PDF) لكل سؤال
+const NPG = [[/ضخ الدم|توقف عمل الرئتين/, '٨'], [/تركيب لأعضاء/, '٨، ٩'], [/هذا العضو|توقف عمل المعدة|لهذه الأعضاء/, '٩'],
+  [/البرمائيات|الأسماك|الدوران المفتوحة|الطيور والثدييات|جهاز دوران/, '١٠'], [/العضو في الصورة|القفص الصدري|أزواج متقابلة|المفلطحة|صفحات الكتاب/, '١١'],
+  [/التنفس الخلوي/, '٥'], [/مجموعة من الأعضاء/, '٢']];
+const npg = (q) => { const f = NPG.find(([re]) => re.test(q)); return f ? f[1] : ''; };
+let m5s = 0;
+const shuf0 = (t) => { const idx = t.op.map((_, k) => k).sort(() => Math.random() - .5); return { q: t.q, op: idx.map((k) => t.op[k]), a: idx.indexOf(t.a) }; };
+function m5(i, sim) {
+  if (i === 0 && !sim) m5s = 0;
+  if (i >= M5.length) return mFinish(4, `<p class="score">⭐ ${ar(m5s)} / ${ar(M5.length)}</p><p>راجعتِ نواتج التعلم في: الهضم، والتنفس، والدوران، والإخراج، والحركة والإحساس 💚</p>`);
+  const it = M5[i], t = shuf0(sim ? it.sim : { q: it.q, op: it.op, a: it.a }); let tries = 0;
+  $('#mbody').innerHTML = mHead('نواتج التعلم – اختبار نافس', 'المهمة الخامسة: مراجعة نواتج التعلم لأجهزة الجسم – نهاية الفصل') + `
+    <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${it.o} ${npg(it.q) ? `<span class="nlab pg">📄 المذكرة ص${npg(it.q)}</span>` : '<span class="nlab pg mine">✍️ من إعداد المعلمة</span>'}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة • <span class="nlab sk">${it.k}</span></div></div>
+    <p class="score" style="margin:2px"><span class="revb s${it.sys}">${SYSR[it.sys][0]}</span> ${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M5.length)}`} • ⭐ ${ar(m5s)}</p>
+    <div class="nq">${it.img && !sim ? `<img src="img/nafs/${it.img}.png" alt="">` : ''}<p class="mq">${t.q}</p></div><div class="opts o4">${t.op.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="m5m"></div>`;
+  $('#mbody').querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {
+    const m = $('#m5m');
+    if (+b.dataset.k === t.a) {
+      b.classList.add('ok'); if (!tries && !sim) { m5s++; award(['تحليل', 'تركيب', 'استنتاج'].includes(it.k) ? 2 : 1, b); }
+      m.className = 'msg good'; m.textContent = sim ? 'أحسنتِ! الآن فهمتِ الفكرة 💚' : praise();
+      $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true);
+      setTimeout(() => m5(i + 1), 1200);
+    } else {
+      tries++; b.classList.add('no'); b.disabled = true;
+      if (sim || tries === 1) { m.className = 'msg bad'; m.innerHTML = `💡 تلميح: ${it.hint} حاولي مرة أخرى.`; }
+      else { m.className = 'msg bad'; m.innerHTML = `📘 لنتعلّم معًا: ${it.fix}<br><button class="btn main" style="margin-top:6px" onclick="m5(${i}, true)">🔁 جرّبي سؤالًا مشابهًا</button>`; $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true); }
+    }
+  });
+}
+// المهمة الثانية
+function m2(c) {
+  if (c >= M2.length) return mFinish(1);
+  const C = M2[c], cols = [C.t, C.u, 'كلاهما'];
+  let idx = 0, tries = 0;
+  $('#mbody').innerHTML = mHead('المقارنة – جدول أوجه الشبه والاختلاف', `🟡 المهمة الثانية: أقارن بين ${C.t} و${C.u}`) + `
+    <div class="cmp"><div class="cq"><p class="score">العبارة <span id="ci"></span></p><p class="mq" id="cs"></p>
+      <div class="opts c3">${cols.map((x, k) => `<button class="btn" data-k="${k}">${x}</button>`).join('')}</div><div class="msg" id="cm"></div></div>
+      <table class="ctab"><tr><th>${C.t}</th><th>كلاهما</th><th>${C.u}</th></tr><tr><td id="col0"></td><td id="col2"></td><td id="col1"></td></tr></table></div>`;
+  const show = () => {
+    if (idx >= C.items.length) { $('#cm').className = 'msg good'; $('#cm').innerHTML = `اكتمل الجدول! 👏 <button class="btn main" onclick="m2(${c + 1})">${c + 1 < M2.length ? 'المقارنة التالية ←' : 'إنهاء المهمة ✔'}</button>`; $('#cs').textContent = '✔'; $('#mbody').querySelectorAll('.cq .opts .btn').forEach((x) => x.disabled = true); return; }
+    tries = 0; $('#ci').textContent = `${ar(idx + 1)} من ${ar(C.items.length)}`; $('#cs').textContent = C.items[idx][0];
+    $('#mbody').querySelectorAll('.cq .opts .btn').forEach((x) => { x.disabled = false; x.className = 'btn'; });
+  };
+  $('#mbody').querySelectorAll('.cq .opts .btn').forEach((b) => b.onclick = () => {
+    const it = C.items[idx], m = $('#cm');
+    if (+b.dataset.k === it[1]) {
+      b.classList.add('ok'); if (!tries) award(1, b);
+      $('#col' + it[1]).insertAdjacentHTML('beforeend', `<div class="chip">${it[0]}</div>`);
+      m.className = 'msg good'; m.textContent = praise(); idx++; setTimeout(show, 800);
+    } else if (!tries) { tries++; b.classList.add('no'); m.className = 'msg bad'; m.textContent = '💡 تلميح: ' + it[2]; }
+    else { $('#col' + it[1]).insertAdjacentHTML('beforeend', `<div class="chip fixd">${it[0]}</div>`); m.className = 'msg bad'; m.textContent = `📘 الصحيح: «${cols[it[1]]}». انظري إلى الجدول.`; idx++; setTimeout(show, 1800); }
+  });
+  show();
+}
+// المهمة الثالثة
+let m3sel = null;
+function m3() {
+  const items = M3.slice().sort(() => Math.random() - .5);
+  $('#mbody').innerHTML = mHead('التصنيف – أنظّم أفكاري', '🟠 المهمة الثالثة: صنّفي كل عضو إلى جهازه') + `
+    <p style="margin:0">اضغطي على البطاقة، ثم اضغطي على الجهاز الذي تنتمي إليه.</p>
+    <div class="pool" id="pool">${items.map((it) => `<button class="chip pick" data-b="${it[1]}" data-t="0">${it[0]}</button>`).join('')}</div>
+    <div class="binz">${BINS.map((b, k) => `<div class="bin" data-k="${k}"><div class="bh">${b[0]} ${b[1]}</div><div class="bc2"></div></div>`).join('')}</div><div class="msg" id="m3m"></div>`;
+  m3sel = null;
+  $('#mbody').querySelectorAll('.pick').forEach((c) => c.onclick = () => { $('#mbody').querySelectorAll('.pick').forEach((x) => x.classList.remove('sel')); c.classList.add('sel'); m3sel = c; });
+  $('#mbody').querySelectorAll('.bin').forEach((bin) => bin.onclick = () => {
+    if (!m3sel) { $('#m3m').className = 'msg bad'; $('#m3m').textContent = 'اختاري بطاقة أولًا 👆'; return; }
+    const c = m3sel, ok = +c.dataset.b === +bin.dataset.k, m = $('#m3m');
+    if (ok || +c.dataset.t >= 1) {
+      const dest = $('#mbody').querySelectorAll('.bin')[+c.dataset.b].querySelector('.bc2');
+      c.classList.remove('sel', 'pick'); c.onclick = null; if (!ok) c.classList.add('fixd'); dest.appendChild(c); m3sel = null;
+      if (ok && +c.dataset.t === 0) award(1, bin);
+      m.className = ok ? 'msg good' : 'msg bad'; m.textContent = ok ? praise() : `📘 «${c.textContent}» من ${BINS[+c.dataset.b][1]}.`;
+      if (!$('#pool').children.length) setTimeout(() => mFinish(2), 900);
+    } else { c.dataset.t = 1; bin.classList.add('shake'); setTimeout(() => bin.classList.remove('shake'), 400); m.className = 'msg bad'; m.textContent = '💡 تلميح: ' + ['يهضم الطعام ويحوّله إلى مواد بسيطة.', 'يدخل منه الهواء ويخرج.', 'ينقل الدم في الجسم.', 'يخلّص الجسم من الفضلات.'][+c.dataset.b] + ' حاولي مرة أخرى.'; }
+  });
+}
+// المهمة الرابعة (الأدائية): أكمل مطويتي، ثم مشروع «تنوّع الأجهزة الحيوية»
+function m4(c) {
+  if (c >= M4.length) return mFinish(3, `<div class="card4" style="text-align:right;max-width:760px;margin:auto">${M4CARD}</div>`);
+  const C = M4[c]; let tries = 0;
+  $('#mbody').innerHTML = mHead('المهمة الأدائية – أنظّم أفكاري في مطوية', '🔴 المهمة الرابعة: أكمل مطويتي') + `
+    <div class="fold4">${M4.map((x, k) => `<div class="fl ${k < c ? 'ok' : k === c ? 'cur' : ''}"><b>${x[0]}</b>${k < c ? `<span>${x[2][x[1]]}</span>` : '<span>…</span>'}</div>`).join('')}</div>
+    <p class="mq">${C[0]}</p><div class="opts">${C[2].map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="m4m"></div>`;
+  $('#mbody').querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {
+    const m = $('#m4m');
+    if (+b.dataset.k === C[1]) {
+      b.classList.add('ok'); if (!tries) award(1, b); m.className = 'msg good'; m.textContent = praise();
+      $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true); setTimeout(() => m4(c + 1), 1100);
+    } else if (!tries) { tries++; b.classList.add('no'); b.disabled = true; m.className = 'msg bad'; m.textContent = '💡 تلميح: ' + C[3] + ' حاولي مرة أخرى.'; }
+    else { b.classList.add('no'); $('#mbody').querySelectorAll('.opts .btn').forEach((x) => { x.disabled = true; if (+x.dataset.k === C[1]) x.classList.add('ok'); });
+      m.className = 'msg bad'; m.innerHTML = `📘 لنتعلّم معًا: ${C[0]} ${C[2][C[1]]}.<br><button class="btn main" style="margin-top:6px" onclick="m4(${c + 1})">التالي ←</button>`; }
+  });
+}
+const M4CARD = `<h3>🛠️ المهمة الأدائية: تنوّع الأجهزة الحيوية (ص١٣٠)</h3>
+  <p><b>المطلوب:</b> اختاري خمسة حيوانات (ثدييات وطيور وزواحف ومفصليات)، وابحثي عن هيكل كل حيوان وجهاز دورانه، ونظّمي الصور والمعلومات في مطوية.</p>
+  <p><b>الأدوات:</b> ورقة مقوّاة كبيرة، صور أو رسوم للحيوانات، أقلام ملوّنة، لاصق.</p>
+  <p><b>أضيفي إبداعك:</b> لسانًا لكل حيوان، واكتبي تحته كيف يتنفّس.</p>
+  <table class="rub"><tr><th>المعيار</th><th>⭐⭐⭐</th><th>⭐⭐</th><th>⭐</th></tr>
+    <tr><td>الدقة العلمية</td><td>نوع الهيكل والدوران صحيح للخمسة</td><td>خطأ بسيط</td><td>أخطاء كثيرة</td></tr>
+    <tr><td>التنوّع</td><td>ثدييات وطيور وزواحف ومفصليات</td><td>ينقصه نوع</td><td>نوع واحد</td></tr>
+    <tr><td>التنظيم</td><td>مطوية مرتّبة بالصور والعناوين</td><td>مرتّبة دون صور</td><td>غير منظّمة</td></tr>
+    <tr><td>الشرح</td><td>تحلّل التشابه والاختلاف بالمفردات</td><td>بمساعدة</td><td>تحتاج دعمًا</td></tr></table>
+  <p style="color:var(--pink)">📸 صوّري مطويتك واعرضيها على زميلاتك!</p>`;
+
+
+// ───── Games
+const GAMES = {
+  who: { title: '🕵️ من أنا؟', items: [
+    { q: 'أنا عملية يتخلّص فيها الجسم من الفضلات التي يكوّنها.', o: ['الإخراج', 'الهضم', 'الدوران'], a: 0 },
+    { q: 'أنا جهاز أفرز الهرمونات في الدم مباشرة.', o: ['الجهاز العصبي', 'جهاز الغدد الصمّاء', 'الجهاز الهضمي'], a: 1 },
+    { q: 'أنا عضلة أنقبض وأنبسط لتنظيم عملية التنفس.', o: ['الحجاب الحاجز', 'القلب', 'المعدة'], a: 0 },
+    { q: 'أنا جهاز دوران يبقى فيه الدم داخل الأوعية.', o: ['المفتوح', 'المغلق', 'الإخراجي'], a: 1 },
+    { q: 'أنا عملية تمكّن الجسم من التزوّد بالأكسجين.', o: ['التنفس', 'الهضم', 'الإخراج'], a: 0 },
+    { q: 'أنا حيوان تتبع حرارة جسمي حرارة البيئة.', o: ['السحلية', 'الصقر', 'الجمل'], a: 0 },
+  ] },
+  sys: { title: '🫀 إلى أيّ جهاز أنتمي؟', items: [
+    { q: 'الأمعاء الدقيقة', o: ['الهضمي', 'التنفسي', 'العصبي'], a: 0 },
+    { q: 'الحويصلات الهوائية', o: ['الدوري', 'التنفسي', 'الإخراجي'], a: 1 },
+    { q: 'الكليتان', o: ['الإخراجي', 'العضلي', 'الهضمي'], a: 0 },
+    { q: 'الحبل الشوكي', o: ['الهيكلي', 'العصبي', 'الدوري'], a: 1 },
+    { q: 'الأوتار والأربطة', o: ['الهيكلي', 'التنفسي', 'الغدد الصمّاء'], a: 0 },
+    { q: 'القلب', o: ['الدوري', 'الهضمي', 'الإخراجي'], a: 0 },
+  ] },
+  tf: { title: '✅ صواب أم خطأ؟', items: [
+    { q: 'تتبادل البرمائيات الغازات عن طريق رئاتها فقط.', o: ['صواب', 'خطأ: تستخدم الرئتين والجلد معًا'], a: 1 },
+    { q: 'يتّجه الطعام بعد المعدة إلى الأمعاء الدقيقة.', o: ['صواب', 'خطأ'], a: 0 },
+    { q: 'تستطيع السحالي العيش في المناطق القطبية الباردة.', o: ['صواب', 'خطأ: لأنها متغيّرة درجة الحرارة'], a: 1 },
+    { q: 'العضلات تشدّ العظام بواسطة الأوتار.', o: ['صواب', 'خطأ'], a: 0 },
+    { q: 'دودة الأرض لها جهاز هضمي فيه فتحة واحدة.', o: ['صواب', 'خطأ: أنبوب له فتحتان'], a: 1 },
+  ] },
+};
+let G, gi, gs, gtry;
+function game(k) { G = GAMES[k]; gi = 0; gs = 0; round(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
+function round() {
+  if (gi >= G.items.length) {
+    $('#play').innerHTML = `<div class="box" style="text-align:center"><h2>🏆 أنهيتِ اللعبة!</h2><div style="font-size:30px">⭐ ${ar(gs)} / ${ar(G.items.length)}</div><p>النجمة للإجابة الصحيحة من أول محاولة.</p></div>`;
+    confetti(); return;
+  }
+  const t = G.items[gi]; gtry = 0;
+  const opts = G.two ? ['🟡 مفتوح', '🔴 مغلق'] : t.o;
+  $('#play').innerHTML = `<div class="box"><h2>${G.title}</h2><p class="score">${ar(gi + 1)} / ${ar(G.items.length)} • ⭐ ${ar(gs)}</p>
+    ${t.img ? `<img class="pic" src="img/${t.img}.jpg" alt="">` : ''}<p style="text-align:center;font-size:22px">${t.q}</p>
+    <div class="opts" ${G.two ? 'style="grid-template-columns:1fr 1fr"' : ''}>${opts.map((o, k) => `<button class="btn" data-k="${k}" ${G.two ? 'style="text-align:center;font-size:22px"' : ''}>${o}</button>`).join('')}</div><div class="msg" id="gmsg"></div></div>`;
+  document.querySelectorAll('#play .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!gtry) { gs++; award(1, b); } $('#gmsg').className = 'msg good'; $('#gmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { gi++; round(); }, 900); }
+    else { gtry++; b.classList.add('no'); b.disabled = true; $('#gmsg').className = 'msg bad'; $('#gmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+station(0);
+// direct link to the video station: …/circulation/#video
+if (location.hash === "#video") { go("stations"); station(1); }
+// every content picture opens full size when tapped
+document.addEventListener('click', (e) => {
+  const im = e.target.closest('main img');
+  if (im && !im.classList.contains('page')) zoom(im.src);
+});
+// ───── Praise sounds: a bright "ta-da" for every correct answer, applause for two stars, a soft tone to try again
+function tone(f, t, d, v, type) {
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = type || 'sine'; o.frequency.value = f;
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.connect(g).connect(actx.destination); o.start(t); o.stop(t + d + 0.05);
+}
+function claps(t0, dur) {
+  const n = Math.floor(dur * 22);
+  for (let i = 0; i < n; i++) {
+    const t = t0 + Math.random() * dur, len = 0.05, b = actx.createBuffer(1, actx.sampleRate * len, actx.sampleRate), d = b.getChannelData(0);
+    for (let k = 0; k < d.length; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / d.length, 4);
+    const src = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
+    src.buffer = b; f.type = 'bandpass'; f.frequency.value = 1200 + Math.random() * 1400; g.gain.value = 0.35 * (1 - (t - t0) / dur * 0.6);
+    src.connect(f).connect(g).connect(actx.destination); src.start(t);
+  }
+}
+function ctx() { if (!soundOn) return null; try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); return actx; } catch (e) { return null; } }
+chime = function (n) {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, t + i * 0.09, 0.35, 0.1, 'triangle'));
+  tone(1568, t + 0.4, 0.6, 0.05);
+  if (n > 1) claps(t + 0.35, 1.6);
+};
+function tryAgain() {
+  if (!ctx()) return;
+  const t = actx.currentTime; tone(440, t, 0.25, 0.07, 'triangle'); tone(392, t + 0.18, 0.35, 0.07, 'triangle');
+}
+function fanfare() {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  [392, 523.3, 659.3, 784, 659.3, 784, 1046.5].forEach((f, i) => tone(f, t + i * 0.12 + (i > 3 ? 0.1 : 0), i === 6 ? 0.9 : 0.25, 0.1, 'triangle'));
+  claps(t + 0.6, 2.4);
+}
+function drumroll(sec) {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  for (let i = 0; i < sec * 18; i++) tone(110 + (i % 2) * 8, t + i / 18, 0.06, 0.08, 'square');
+}
+// a soft tone whenever a wrong answer is marked
+new MutationObserver((ms) => ms.forEach((m) => { if (m.target.classList && m.target.classList.contains('bad') && m.attributeName === 'class') tryAgain(); }))
+  .observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+// a correct answer on the second try still gets the praise sound (the star stays for the first try)
+document.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.classList.contains('ok') && !b.dataset.snd) { b.dataset.snd = 1; setTimeout(() => { if (!document.querySelector('.award')) chime(1); }, 60); } });
+
+// ───── Surprise box: each girl picks a box; no prize repeats until all are used
+const MSGS = ['أنتِ نجمة تضيء فصلنا! 🌟', 'عقلك رائع… استمري في السؤال والاكتشاف 🔍', 'فخورة بكِ جدًا يا عالمتي 💚', 'ابتسامتك تجعل الفصل أجمل 🌷',
+  'كل يوم تكبرين علمًا وأدبًا 🌱', 'أنتِ قادرة على كل شيء بإذن الله 🌈', 'سؤالك الذكي بداية كل اكتشاف 🦋', 'اجتهادك مثل القلب… لا يتوقف ❤️',
+  'يومًا ما ستكونين عالمة عظيمة 🚀', 'تعاونك مع صديقاتك رائع 🤝', 'أنتِ مثال للطالبة المتميزة 🏅', 'وفّقكِ الله ونفع بكِ 🤲',
+  'تركيزك اليوم كان مذهلًا 🎯', 'أحببتُ مشاركتك الجميلة 🌸', 'خطّك وترتيبك يسعدانني ✍️', 'أنتِ فخر لأهلك ومدرستك 🏫',
+  'شجاعتك في الإجابة رائعة 🦁', 'استمري… فالقمة تنتظرك ⛰️', 'قلبك طيب وعقلك نيّر 💡', 'أنتِ هدية جميلة لفصلنا 🎀',
+  'معلمتك تثق بكِ كثيرًا 💌', 'أنتِ مبدعة بكل ما تعنيه الكلمة ✨', 'نجاحك قادم بإذن الله 🌟', 'أدبك وأخلاقك تاج على رأسك 👑'];
+const PRIZES = [];
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 5, 7, 9].forEach((n, k) => PRIZES.push({ n, m: MSGS[k] }));
+for (let k = 0; k < 6; k++) PRIZES.push({ star: 1, n: 10, m: ['أنتِ نجمة الفصل اليوم!', 'أنتِ نجمة العلوم!', 'أنتِ نجمة التميّز!', 'أنتِ نجمة الإبداع!', 'أنتِ نجمة الأخلاق!', 'أنتِ نجمة المشاركة!'][k] });
+const arP = (n) => n === 1 ? 'نقطة واحدة' : n === 2 ? 'نقطتان' : n <= 10 ? `${ar(n)} ${n <= 10 && n >= 3 ? 'نقاط' : 'نقطة'}` : `${ar(n)} نقطة`;
+let pool = [];
+function nextPrize() { if (!pool.length) pool = PRIZES.slice().sort(() => Math.random() - 0.5); return pool.pop(); }
+function buildGifts() {
+  pool = [];
+  const em = ['🎁', '🎀', '🎁', '💝'];
+  $('#gifts').innerHTML = Array.from({ length: 30 }, (_, i) => `<button class="gift" onclick="openGift(this)"><span class="e">${em[i % 4]}</span><span class="n">${ar(i + 1)}</span></button>`).join('');
+}
+function openGift(b) {
+  if (b.classList.contains('done') || b.classList.contains('shake')) return;
+  b.classList.add('shake'); drumroll(1.1);
+  setTimeout(() => {
+    b.classList.remove('shake'); b.classList.add('done');
+    const P = nextPrize();
+    b.querySelector('.e').textContent = P.star ? '⭐' : '+' + ar(P.n);
+    $('#rvE').textContent = P.star ? '⭐' : '🎁';
+    $('#rvK').textContent = P.star ? 'بطاقة نجمة + ١٠ نقاط' : 'نقاط إضافية';
+    $('#rvT').textContent = P.star ? 'أنتِ نجمة! 🌟' : `+${ar(P.n)} ${P.n === 1 ? 'نقطة' : P.n === 2 ? 'نقطتان' : 'نقاط'}`;
+    $('#rvM').textContent = P.m;
+    $('#rvX').innerHTML = P.star ? `<input id="stName" placeholder="اكتبي اسمك هنا"><button class="btn main" onclick="printStar('${P.m}')">🖨️ اطبعي بطاقتك</button>` : '';
+    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500); if (P.star) setTimeout(confetti, 1000);
+  }, 1150);
+}
+function printStar(msg) {
+  const name = ($('#stName') && $('#stName').value.trim()) || '……………………';
+  const lesson = (document.querySelector('header h1') || {}).textContent || '';
+  const d = new Date().toLocaleDateString('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' });
+  $('#starCard').innerHTML = `<div class="sc-in"><div class="sc-st">⭐</div><h1>أنتِ نجمة!</h1><p class="sc-to">تُهدى هذه البطاقة إلى الطالبة</p><div class="sc-name">${name}</div>
+    <p class="sc-msg">${msg} 🌟</p><p class="sc-l">${lesson} • العلوم – الصف السادس</p><div class="sc-f"><span>معلمتك: أ/ شامه البقمي 💚</span><span>${d}</span></div></div>`;
+  document.body.classList.add('printing'); setTimeout(() => { window.print(); document.body.classList.remove('printing'); }, 150);
+}
+function closeGift(e) { if (e && e.target.closest('.card') && (!e.target.closest('button') || e.target.closest('.rvx'))) return; $('#reveal').classList.remove('on'); }
+buildGifts();
+
+// ───── Reading stations: pen and highlighter colours right on the book page
+const RINK = {};
+let rTool = { c: '#ffd400', hl: true, er: false }, rDown = false, rLast = null;
+function readingBoard(i) {
+  const col = document.querySelector('#stBody .pagecol'); if (!col) return;
+  const img = col.querySelector('img.page'); const src = img.getAttribute('src');
+  col.innerHTML = `<div class="rd">
+    <div class="rbar">
+      <button class="hl ${rTool.hl && rTool.c === '#ffd400' ? 'sel' : ''}" data-c="#ffd400" data-h="1" style="background:#ffe766" title="تظليل أصفر"></button>
+      <button class="hl" data-c="#7ee07e" data-h="1" style="background:#a6ec9f" title="تظليل أخضر"></button>
+      <button class="hl" data-c="#ff8fc0" data-h="1" style="background:#ffb3d4" title="تظليل وردي"></button>
+      <button class="hl" data-c="#7cc8ff" data-h="1" style="background:#a9dcff" title="تظليل أزرق"></button>
+      <button class="c" data-c="#d23b3b" style="background:#d23b3b" title="قلم أحمر"></button>
+      <button class="c" data-c="#1e5fd8" style="background:#1e5fd8" title="قلم أزرق"></button>
+      <button class="c" data-c="#111111" style="background:#111" title="قلم أسود"></button>
+      <button data-e="1" title="ممحاة">🧽</button>
+      <button data-t="1" title="كتابة نص">🔤 نص</button>
+      <button onclick="rClear()" title="مسح الصفحة">🗑️</button>
+      <button onclick="zoom('${src}')" title="تكبير الصفحة">🔍 تكبير</button>
+    </div>
+    <div class="rbox"><div class="pw"><img class="page" src="${src}" alt=""><canvas id="rink"></canvas></div></div>
+    <div class="cap">✏️ السبورة: ظلّلي الإجابة في الكتاب – مرّري لأسفل لبقية الصفحة</div></div>`;
+  const im = col.querySelector('img.page'), cv = col.querySelector('#rink'), g = cv.getContext('2d');
+  cv.dataset.key = i;
+  const place = () => {
+    if (!im.naturalWidth) return;
+    Object.assign(cv.style, { width: im.clientWidth + 'px', height: im.clientHeight + 'px', left: '0px', top: '0px' });
+    if (cv.width !== im.naturalWidth) {
+      cv.width = im.naturalWidth; cv.height = im.naturalHeight;
+      if (RINK[i]) { const o = new Image(); o.onload = () => g.drawImage(o, 0, 0); o.src = RINK[i]; }
+    }
+  };
+  im.complete ? place() : (im.onload = place);
+  new ResizeObserver(place).observe(im);
+  const pos = (e) => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]; };
+  cv.onpointerdown = (e) => { if (rTool.tx) { e.preventDefault(); textAt(cv, e, rTool.c, 20, () => { RINK[i] = cv.toDataURL(); }); return; } rDown = true; rLast = pos(e); cv.setPointerCapture(e.pointerId); };
+  cv.onpointermove = (e) => {
+    if (!rDown) return; const p = pos(e);
+    g.globalCompositeOperation = rTool.er ? 'destination-out' : rTool.hl ? 'multiply' : 'source-over';
+    g.globalAlpha = rTool.hl && !rTool.er ? 0.35 : 1;
+    g.strokeStyle = rTool.c; g.lineCap = rTool.hl ? 'butt' : 'round'; g.lineJoin = 'round';
+    g.lineWidth = rTool.er ? 60 : rTool.hl ? 34 : 6;
+    g.beginPath(); g.moveTo(...rLast); g.lineTo(...p); g.stroke(); rLast = p;
+  };
+  cv.onpointerup = cv.onpointercancel = () => { if (rDown) { rDown = false; RINK[i] = cv.toDataURL(); } };
+  col.querySelectorAll('.rbar button[data-c], .rbar button[data-e], .rbar button[data-t]').forEach((b) => {
+    if (!rTool.er && b.dataset.c === rTool.c) b.classList.add('sel'); else if (!b.dataset.c && rTool.er) b.classList.add('sel'); else b.classList.remove('sel');
+    b.onclick = () => {
+      rTool = b.dataset.e ? { ...rTool, er: true, tx: false } : b.dataset.t ? { c: rTool.hl ? '#d23b3b' : rTool.c, hl: false, er: false, tx: true } : { c: b.dataset.c, hl: !!b.dataset.h, er: false, tx: false };
+      col.querySelectorAll('.rbar button').forEach((x) => x.classList.toggle('sel', x === b));
+    };
+  });
+}
+function rClear() { const cv = $('#rink'); if (!cv) return; cv.getContext('2d').clearRect(0, 0, cv.width, cv.height); RINK[cv.dataset.key] = null; }
+
+// ───── Lesson video (the teacher's own clip at img/circ.mp4); its button shows only when the file is there
+(function () { const v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = () => { HAS_VID = true; document.querySelectorAll('.vidb').forEach((b) => b.hidden = false); }; v.src = '../systems/systems.mp4'; })();
+function openVid(src) { const v = $('#vid'); v.src = src || '../systems/systems.mp4'; $('#vbox').classList.add('on'); v.play().catch(() => {}); }
+function closeVid() { const v = $('#vid'); v.pause(); $('#vbox').classList.remove('on'); }
+// ───── Pulse activity: count for 15 seconds, then ×4
+let pTimer = null;
+function pulseGo(sec) {
+  clearInterval(pTimer); let t = sec || 15; $('#pT').textContent = ar(t); $('#pBtn').disabled = true;
+  pTimer = setInterval(() => { t--; $('#pT').textContent = ar(t); if (t <= 0) { clearInterval(pTimer); $('#pBtn').disabled = false; $('#pT').textContent = '⏰'; chime(1); if ($('#pMsg')) { $('#pMsg').className = 'msg good'; $('#pMsg').textContent = 'توقّفي! اكتبي عدد النبضات.'; } } }, 1000);
+}
+function pulseCalc() {
+  const n = +$('#pN').value; const m = $('#pMsg');
+  if (!n) { m.className = 'msg bad'; m.textContent = 'اكتبي عدد النبضات أولًا 💡'; return; }
+  m.className = 'msg good'; m.innerHTML = `نبضك = ${ar(n)} × ٤ = <b>${ar(n * 4)}</b> نبضة في الدقيقة 💓<br>قفزي ١٠ مرات… ثم قيسي مرة أخرى!`;
+  award(1, m);
+}
+
+// ───── Text on the whiteboards: tap where to write, type, then Enter (or tap elsewhere)
+function textAt(canvas, e, col, px, done) {
+  document.querySelectorAll('.txin').forEach((x) => x.blur());
+  const r = canvas.getBoundingClientRect(), k = canvas.width / r.width;
+  const x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
+  const inp = document.createElement('input');
+  inp.className = 'txin'; inp.placeholder = 'اكتبي هنا… ثم Enter';
+  Object.assign(inp.style, { right: (innerWidth - e.clientX) + 'px', top: (e.clientY - px * 0.9) + 'px', color: col, fontSize: px + 'px' });
+  document.body.appendChild(inp); inp.focus(); setTimeout(() => inp.focus(), 0);
+  let fin = false;
+  const commit = () => {
+    if (fin) return; fin = true;
+    const t = inp.value.trim(); inp.remove(); if (!t) return;
+    const g = canvas.getContext('2d');
+    g.save(); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.fillStyle = col; g.direction = 'rtl'; g.textAlign = 'right'; g.textBaseline = 'middle';
+    g.font = `bold ${Math.round(px * k)}px 'Noto Naskh Arabic', Tahoma, serif`;
+    g.lineWidth = Math.max(2, px * k / 6); g.strokeStyle = 'rgba(255,255,255,.85)'; g.strokeText(t, x, y); g.fillText(t, x, y); g.restore();
+    done && done();
+  };
+  inp.addEventListener('keydown', (ev) => { ev.stopPropagation(); if (ev.key === 'Enter') commit(); if (ev.key === 'Escape') { fin = true; inp.remove(); } });
+  inp.addEventListener('blur', commit);
+}
+
+
+// ───── Vocabulary (p129): word bank → blank, with the hint → remediation path
+const VOC = [
+  ['يتحرّك الجسم بفعل قوة يتّجها ____.', 'الجهاز العضلي', 'جهاز ينقبض ويرتخي.', 'العضلات تنقبض وتشدّ العظام فيتحرّك الجسم.'],
+  ['الهرمونات مواد كيميائية يفرزها ____.', 'جهاز الغدد الصمّاء', 'غدد تفرز موادها في الدم مباشرة.', 'جهاز الغدد الصمّاء يفرز الهرمونات في الدم.'],
+  ['يساعد الجلد والعرق على المحافظة على درجات حرارة أجسام الحيوانات ____.', 'الثابتة درجة الحرارة', 'مثل الطيور والثدييات.', 'الحيوانات الثابتة درجة الحرارة تحافظ على حرارة أجسامها.'],
+  ['____ عملية يتخلّص فيها الجسم من الفضلات التي يكوّنها.', 'الإخراج', 'تقوم به الكليتان والرئتان والجلد.', 'الإخراج: التخلّص من الفضلات.'],
+  ['يتكوّن ____ من العظام والأوتار والأربطة.', 'الجهاز الهيكلي', 'يدعم الجسم ويحميه.', 'الجهاز الهيكلي = عظام + أوتار + أربطة.'],
+  ['____ عملية تمكّن الجسم من التزوّد بالأكسجين والتخلّص من ثاني أكسيد الكربون.', 'التنفس', 'شهيق وزفير.', 'التنفس: أكسجين يدخل وثاني أكسيد الكربون يخرج.'],
+];
+const BANKW = ['الجهاز العضلي', 'التنفس', 'جهاز الغدد الصمّاء', 'الثابتة درجة الحرارة', 'الإخراج', 'الجهاز الهيكلي'];
+let vSel = null, vT = {};
+function vocab() {
+  vSel = null; vT = {};
+  $('#voc').innerHTML = `<div class="bank"><b>🏦 بنك الكلمات:</b> ${BANKW.map((w) => `<button class="chip vb" onclick="vPick(this)">${w}</button>`).join('')}</div>`
+    + VOC.map((v, k) => `<p class="vs"><b>${ar(k + 1)})</b> ${v[0].replace('____', `<button class="blank" id="vb${k}" onclick="vPut(${k})">……………</button>`)}</p>`).join('')
+    + '<div class="msg" id="vm"></div>';
+}
+function vPick(b) { document.querySelectorAll('.vb').forEach((x) => x.classList.remove('sel')); b.classList.add('sel'); vSel = b; }
+function vPut(k) {
+  const m = $('#vm'), bl = $('#vb' + k), V = VOC[k];
+  if (bl.classList.contains('ok')) return;
+  if (!vSel) { m.className = 'msg bad'; m.textContent = 'اختاري كلمة من بنك الكلمات أولًا 👆'; return; }
+  const useW = (w) => { if (w) { w.disabled = true; w.classList.add('used'); w.classList.remove('sel'); } vSel = null; };
+  if (vSel.textContent === V[1]) {
+    bl.textContent = V[1]; bl.classList.add('ok'); if (!vT[k]) award(1, bl); useW(vSel);
+    m.className = 'msg good'; m.textContent = praise();
+  } else {
+    vT[k] = (vT[k] || 0) + 1; m.className = 'msg bad';
+    if (vT[k] === 1) { m.textContent = '💡 تلميح: ' + V[2] + ' حاولي مرة أخرى.'; vSel.classList.remove('sel'); vSel = null; }
+    else { m.innerHTML = `📘 لنتعلّم معًا: الإجابة «${V[1]}» — ${V[3]}`; bl.textContent = V[1]; bl.classList.add('ok', 'fixd');
+      vSel.classList.remove('sel'); useW([...document.querySelectorAll('.vb')].find((x) => x.textContent === V[1])); }
+  }
+  if (document.querySelectorAll('#voc .blank.ok').length === VOC.length) { m.className = 'msg good'; m.textContent = '🏆 أكملتِ المفردات كلها! أحسنتِ يا عالمتي'; confetti(); }
+}
+// ───── Test model (pp.131-132): choose the answer, hint → second try → remediation (with the book page) → a similar question
+const TQ = [
+  { q: 'أيّ العمليات الآتية مسؤولة عن تحويل المواد الغذائية المعقّدة إلى مواد بسيطة يمكن للخلايا الاستفادة منها؟', o: ['التنفس', 'الهضم', 'الدوران', 'الإخراج'], a: 1, hint: 'تبدأ في الفم وتكتمل في الأمعاء.', fix: 'الهضم يحوّل الغذاء المعقّد إلى مواد بسيطة تستفيد منها الخلايا. 📖 راجعي ص١١٠', sim: { q: 'العضو الذي يبدأ فيه هضم الطعام هو…', o: ['الفم', 'الرئتان', 'الكلية'], a: 0 } },
+  { q: 'يمثّل الشكل بعض أجزاء الجهاز الهضمي في الإنسان. إلى أين يتّجه الطعام بعد هضمه جزئيًا في المعدة؟', o: ['إلى الكبد', 'إلى المريء', 'إلى البنكرياس', 'إلى الأمعاء الدقيقة'], a: 3, hint: 'العضو الطويل الملتفّ بعد المعدة.', fix: 'من المعدة ينتقل الطعام إلى الأمعاء الدقيقة فيكتمل هضمه. 📖 راجعي ص١١١', sim: { q: 'ينتقل الطعام من الفم إلى المعدة عبر…', o: ['المريء', 'القصبة الهوائية', 'الأمعاء الغليظة'], a: 0 } },
+  { q: 'أيّ الأجهزة الآتية مسؤول عن نقل الأكسجين والجلوكوز والفضلات في الجسم؟', o: ['الجهاز الهضمي', 'الجهاز التنفسي', 'جهاز الإخراج', 'جهاز الدوران'], a: 3, hint: 'يضخّ فيه القلب الدم.', fix: 'جهاز الدوران ينقل المواد بالدم إلى الخلايا ومنها. 📖 راجعي ص١١٤', sim: { q: 'العضو الذي يضخّ الدم إلى أجزاء الجسم:', o: ['القلب', 'المعدة', 'الرئة'], a: 0 } },
+  { q: 'ما العملية التي تتمّ في جسم الحيوان لإطلاق الطاقة المختزنة في جزيئات الجلوكوز؟', o: ['التنفس', 'الهضم', 'الدوران', 'الإخراج'], a: 0, hint: 'تحتاج إلى الأكسجين.', fix: 'في التنفس تُطلَق الطاقة المختزنة في الجلوكوز باستعمال الأكسجين. 📖 راجعي ص١١٢', sim: { q: 'الغاز الذي تحتاجه الخلايا لإطلاق الطاقة من الغذاء:', o: ['الأكسجين', 'ثاني أكسيد الكربون', 'بخار الماء'], a: 0 } },
+  { q: 'يمثّل الشكل بعض أجزاء الجهاز التنفسي. أيّ الأجزاء ينبسط وينقبض لتنظيم عملية التنفس؟', o: ['الأنف', 'الفم', 'القصبة الهوائية', 'الحجاب الحاجز'], a: 3, hint: 'عضلة تقع أسفل الرئتين.', fix: 'الحجاب الحاجز عضلة تحت الرئتين تنقبض وتنبسط فيدخل الهواء ويخرج. 📖 راجعي ص١١٣', sim: { q: 'الأنبوب الذي يمرّ فيه الهواء إلى الرئتين:', o: ['القصبة الهوائية', 'المريء', 'الأمعاء'], a: 0 } },
+  { q: 'أيّ الأجهزة الآتية يفرز الهرمونات مباشرة في الدم؟', o: ['الجهاز الهضمي', 'الجهاز التنفسي', 'الجهاز العصبي', 'الغدد الصمّاء'], a: 3, hint: 'غدد تصبّ إفرازها في الدم.', fix: 'الغدد الصمّاء تفرز الهرمونات في الدم مباشرة. 📖 راجعي ص١٢٤', sim: { q: 'هرمون يُسرّع نبض القلب عند الخطر:', o: ['الأدرينالين', 'اللعاب', 'العرق'], a: 0 } },
+];
+function tq(id, i, sim) {
+  const box = $('#' + id); if (!box) return;
+  const [from, to] = box.dataset.r.split('-').map(Number);
+  if (i > to) { box.innerHTML = `<div class="msg good">🏆 أنهيتِ الأسئلة ${ar(from)}–${ar(to)}! ممتاز</div><button class="btn" onclick="tq('${id}', ${from})">↺ أعيدي المحاولة</button>`; confetti(); return; }
+  const it = TQ[i - 1], t = sim ? it.sim : it; let tries = 0;
+  box.innerHTML = `<p class="score">${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i)}`}</p><p class="mq">${t.q}</p>
+    <div class="opts o2">${t.o.map((o, k) => `<button class="btn" data-k="${k}">${sim ? '' : ['أ', 'ب', 'ج', 'د'][k] + '. '}${o}</button>`).join('')}</div><div class="msg"></div>`;
+  const m = box.querySelector('.msg'), bs = box.querySelectorAll('.opts .btn');
+  bs.forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) {
+      b.classList.add('ok'); if (!tries && !sim) award(1, b); m.className = 'msg good'; m.textContent = sim ? 'أحسنتِ! الآن فهمتِ الفكرة 💚' : praise();
+      bs.forEach((x) => x.disabled = true); setTimeout(() => tq(id, i + 1), 1300);
+    } else {
+      tries++; b.classList.add('no'); b.disabled = true; m.className = 'msg bad';
+      if (sim || tries === 1) m.innerHTML = `💡 تلميح: ${it.hint} حاولي مرة أخرى.`;
+      else { m.innerHTML = `📘 لنتعلّم معًا: ${it.fix}<br><button class="btn main" style="margin-top:6px" onclick="tq('${id}', ${i}, true)">🔁 جرّبي سؤالًا مشابهًا</button>`; bs.forEach((x) => x.disabled = true); }
+    }
+  });
+}
+// ───── Q7 (p132): Venn diagram, closed vs open circulation
+const VENN = [['يبقى الدم داخل الأوعية لا يغادرها', 0, 'في أيّهما يبقى الدم داخل شبكة أوعية؟'], ['يضخّ القلب الدم مباشرة إلى الأنسجة', 1, 'في أيّهما يخرج الدم من الأوعية؟'],
+  ['ينقل الأكسجين والغذاء والفضلات', 2, 'ماذا ينقل كل جهاز دوران؟'], ['يوجد في الفقاريات مثل الإنسان', 0, 'دوران الإنسان مغلق.'],
+  ['يوجد في المفصليات والرخويات', 1, 'مثل الجرادة والحلزون.'], ['فيه قلب يدفع الدم', 2, 'في كليهما قلب.']];
+function venn() {
+  const el = $('#venn'); if (!el) return; let idx = 0, tries = 0;
+  el.innerHTML = `<div class="vd"><div class="vc va"><b>المغلق</b><div id="vz0"></div></div><div class="vc vb2"><b>المفتوح</b><div id="vz1"></div></div><div class="vm"><b>التشابه</b><div id="vz2"></div></div></div>
+    <div class="vq"><span id="vs"></span><div class="opts c3">${['المغلق', 'المفتوح', 'التشابه'].map((x, k) => `<button class="btn" data-k="${k}">${x}</button>`).join('')}</div><div class="msg" id="vmm"></div></div>`;
+  const bs = el.querySelectorAll('.vq .btn'), m = $('#vmm');
+  const show = () => { tries = 0; bs.forEach((b) => { b.disabled = false; b.className = 'btn'; });
+    if (idx >= VENN.length) { $('#vs').textContent = '✔ اكتمل الشكل!'; bs.forEach((b) => b.disabled = true); m.className = 'msg good'; m.textContent = '🏆 أحسنتِ! نظّمتِ إجابتك في شكل ڤن.'; confetti(); return; }
+    $('#vs').textContent = `(${ar(idx + 1)}/${ar(VENN.length)}) ${VENN[idx][0]}`; };
+  bs.forEach((b) => b.onclick = () => {
+    const V = VENN[idx];
+    if (+b.dataset.k === V[1]) { $('#vz' + V[1]).insertAdjacentHTML('beforeend', `<i>${V[0]}</i>`); if (!tries) award(1, b); m.className = 'msg good'; m.textContent = praise(); idx++; setTimeout(show, 700); }
+    else if (!tries) { tries++; b.classList.add('no'); b.disabled = true; m.className = 'msg bad'; m.textContent = '💡 تلميح: ' + V[2]; }
+    else { $('#vz' + V[1]).insertAdjacentHTML('beforeend', `<i class="fixd">${V[0]}</i>`); m.className = 'msg bad'; m.textContent = `📘 مكانها: «${['المغلق', 'المفتوح', 'التشابه'][V[1]]}». انظري إلى الشكل.`; idx++; setTimeout(show, 1800); }
+  });
+  show();
+}
+// ───── Performance task (p130): a virtual zoo visit — skeleton and circulation of five animals
+const ZOO = [['🐪', 'الجمل', 'ثدييات', 0, 0], ['🦅', 'الصقر', 'طيور', 0, 0], ['🦎', 'الضب', 'زواحف', 0, 0], ['🦗', 'الجرادة', 'مفصليات', 1, 1], ['🕷️', 'العنكبوت', 'مفصليات', 1, 1]];
+const ZOH = [['داخلي', 'خارجي', 'هل له عمود فقري؟ الفقاريات لها هيكل داخلي، والمفصليات لها هيكل خارجي.'], ['مغلق', 'مفتوح', 'الفقاريات دورانها مغلق، والمفصليات دورانها مفتوح.']];
+function zoo() {
+  const el = $('#zoo'); if (!el) return;
+  el.innerHTML = `<table class="zt"><tr><th>الحيوان</th><th>المجموعة</th><th>🦴 الهيكل</th><th>❤️ الدوران</th></tr>${ZOO.map((z, r) => `<tr><td><span class="ze">${z[0]}</span>${z[1]}</td><td>${z[2]}</td>${[0, 1].map((c) =>
+    `<td>${ZOH[c].slice(0, 2).map((o, k) => `<button class="btn zb" data-r="${r}" data-c="${c}" data-k="${k}">${o}</button>`).join('')}</td>`).join('')}</tr>`).join('')}</table><div class="msg" id="zm"></div>`;
+  const tr = {};
+  el.querySelectorAll('.zb').forEach((b) => b.onclick = () => {
+    const r = +b.dataset.r, c = +b.dataset.c, ok = ZOO[r][3 + c], key = r + '_' + c, m = $('#zm');
+    const done = () => { el.querySelectorAll(`.zb[data-r="${r}"][data-c="${c}"]`).forEach((x) => { x.disabled = true; if (+x.dataset.k === ok) x.classList.add('ok'); }); };
+    if (+b.dataset.k === ok) { done(); if (!tr[key]) award(1, b); m.className = 'msg good'; m.textContent = `${ZOO[r][1]}: ${['هيكل', 'دوران'][c]} ${ZOH[c][ok]} ✔`; }
+    else if (!tr[key]) { tr[key] = 1; b.classList.add('no'); b.disabled = true; m.className = 'msg bad'; m.textContent = '💡 تلميح: ' + ZOH[c][2]; }
+    else { done(); m.className = 'msg bad'; m.textContent = `📘 ${ZOO[r][1]} من ال${ZOO[r][2]}: ${['هيكله', 'دورانه'][c]} ${ZOH[c][ok]}.`; }
+    if (el.querySelectorAll('.zb.ok').length === ZOO.length * 2) { m.className = 'msg good'; m.textContent = '🏆 أكملتِ الجدول! الآن أجيبي: هل تتشابه الأجهزة أم تختلف؟ 👇'; confetti(); }
+  });
+}
+mission(0);
+</script>
+<script src="../../assets/draw.js"></script>
+</body>
+</html>
