@@ -331,6 +331,9 @@
   .list { background: linear-gradient(180deg, #9a7ddc, #bba6ec); }
   .tab.on { box-shadow: 0 4px 0 #6b4fb0; } .box { box-shadow: 0 5px 0 #e4daf7; }
   .msg.good { color: #2f8a3a; } .btn.ok { border-color: #2f8a3a; }
+  .gift { background: #fff; border-color: #b79be8; box-shadow: 0 4px 0 #d9ccf2; } .gift .n { color: #7e57c2; }
+  .gift .e { font-size: 40px; } .gift.done .e { font-size: 26px; color: #7e57c2; font-weight: 700; }
+  #rvE { animation: envOpen .7s ease-out; } @keyframes envOpen { from { transform: scale(.4) rotate(-15deg); opacity: 0; } to { transform: none; opacity: 1; } }
 </style>
 </head>
 <body>
@@ -350,7 +353,7 @@
   <button class="tab" data-p="questions">❓ الأسئلة</button>
   <button class="tab" data-p="nafs"><img src="img/nafs/logo.png" alt="" style="height:24px;vertical-align:middle"> نافس – نواتج التعلم</button>
   <button class="tab" data-p="games">🎮 الألعاب</button>
-  <button class="tab" data-p="surprise">🎁 صندوق المفاجآت</button>
+  <button class="tab" data-p="surprise">💌 افتحي ظرفك</button>
   <button class="tab" data-p="draw">🎲 القرعة</button>
 </nav>
 
@@ -436,17 +439,17 @@
     <p>٢) الفرق بين الدوران المفتوح والمغلق: ……………………</p>
     <p>٣) لماذا يُضخّ الدم غير المؤكسج إلى الرئتين؟ ……………</p>
     <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
-    <p style="text-align:center"><button class="btn" style="border-color:var(--pink);background:var(--rose)" onclick="go('surprise')">🎁 إلى صندوق المفاجآت</button></p>
+    <p style="text-align:center"><button class="btn" style="border-color:var(--pink);background:var(--rose)" onclick="go('surprise')">💌 افتحي ظرفك</button></p>
   </div>
 </section>
 <!-- ═════ صندوق المفاجآت -->
 <section class="panel" id="surprise">
   <div class="box">
-    <span class="strat"><b>الاستراتيجية:</b> التعزيز الإيجابي – صندوق المفاجآت</span>
-    <h2>🎁 صندوق المفاجآت</h2>
-    <p>كل طالبة تختار صندوقًا وتضغط عليه… ماذا تخبّئ لكِ المفاجأة؟ 🤩</p>
+    <span class="strat"><b>الاستراتيجية:</b> التعزيز الإيجابي – رسائل تشجيعية</span>
+    <h2>💌 افتحي ظرفك… هناك رسالة تنتظرك</h2>
+    <p>اختاري ظرفًا وافتحيه… فيه رسالة من معلمتك ونقاط من ١ إلى ١٠ 💜</p>
     <div class="gifts" id="gifts"></div>
-    <p style="text-align:center;margin-top:12px"><button class="btn" onclick="buildGifts()">🔄 صناديق جديدة</button></p>
+    <p style="text-align:center;margin-top:12px"><button class="btn" onclick="buildGifts()">🔄 ظروف جديدة</button></p>
   </div>
 </section>
 <!-- ═════ القرعة -->
@@ -954,16 +957,15 @@ const MSGS = ['أنتِ نجمة تضيء فصلنا! 🌟', 'عقلك رائع�
   'يومًا ما ستكونين عالمة عظيمة 🚀', 'تعاونك مع صديقاتك رائع 🤝', 'أنتِ مثال للطالبة المتميزة 🏅', 'وفّقكِ الله ونفع بكِ 🤲',
   'تركيزك اليوم كان مذهلًا 🎯', 'أحببتُ مشاركتك الجميلة 🌸', 'خطّك وترتيبك يسعدانني ✍️', 'أنتِ فخر لأهلك ومدرستك 🏫',
   'شجاعتك في الإجابة رائعة 🦁', 'استمري… فالقمة تنتظرك ⛰️', 'قلبك طيب وعقلك نيّر 💡', 'أنتِ هدية جميلة لفصلنا 🎀',
-  'معلمتك تثق بكِ كثيرًا 💌', 'أنتِ مبدعة بكل ما تعنيه الكلمة ✨', 'نجاحك قادم بإذن الله 🌟', 'أدبك وأخلاقك تاج على رأسك 👑'];
-const PRIZES = [];
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 5, 7, 9].forEach((n, k) => PRIZES.push({ n, m: MSGS[k] }));
-for (let k = 0; k < 6; k++) PRIZES.push({ star: 1, n: 10, m: ['أنتِ نجمة الفصل اليوم!', 'أنتِ نجمة العلوم!', 'أنتِ نجمة التميّز!', 'أنتِ نجمة الإبداع!', 'أنتِ نجمة الأخلاق!', 'أنتِ نجمة المشاركة!'][k] });
+  'معلمتك تثق بكِ كثيرًا 💌', 'أنتِ مبدعة بكل ما تعنيه الكلمة ✨', 'نجاحك قادم بإذن الله 🌟', 'أدبك وأخلاقك تاج على رأسك 👑',
+  'أنتِ بطلة العلوم 🔬', 'إجابتك اليوم أسعدتني 😊', 'استمري في القراءة… فأنتِ متميزة 📚', 'أنتِ صديقة رائعة لزميلاتك 💞', 'جهدك لا يضيع… أحسنتِ 🌼', 'أنتِ تستحقين كل خير 🌷'];
+const PRIZES = Array.from({ length: 30 }, (_, k) => ({ n: (k % 10) + 1, m: MSGS[k] }));
 const arP = (n) => n === 1 ? 'نقطة واحدة' : n === 2 ? 'نقطتان' : n <= 10 ? `${ar(n)} ${n <= 10 && n >= 3 ? 'نقاط' : 'نقطة'}` : `${ar(n)} نقطة`;
 let pool = [];
 function nextPrize() { if (!pool.length) pool = PRIZES.slice().sort(() => Math.random() - 0.5); return pool.pop(); }
 function buildGifts() {
   pool = [];
-  const em = ['🎁', '🎀', '🎁', '💝'];
+  const em = ['✉️', '💌', '✉️', '💌'];
   $('#gifts').innerHTML = Array.from({ length: 30 }, (_, i) => `<button class="gift" onclick="openGift(this)"><span class="e">${em[i % 4]}</span><span class="n">${ar(i + 1)}</span></button>`).join('');
 }
 function openGift(b) {
@@ -972,13 +974,13 @@ function openGift(b) {
   setTimeout(() => {
     b.classList.remove('shake'); b.classList.add('done');
     const P = nextPrize();
-    b.querySelector('.e').textContent = P.star ? '⭐' : '+' + ar(P.n);
-    $('#rvE').textContent = P.star ? '⭐' : '🎁';
-    $('#rvK').textContent = P.star ? 'بطاقة نجمة + ١٠ نقاط' : 'نقاط إضافية';
-    $('#rvT').textContent = P.star ? 'أنتِ نجمة! 🌟' : `+${ar(P.n)} ${P.n === 1 ? 'نقطة' : P.n === 2 ? 'نقطتان' : 'نقاط'}`;
+    b.querySelector('.e').textContent = '+' + ar(P.n);
+    $('#rvE').textContent = '💌';
+    $('#rvK').textContent = 'رسالة من معلمتك';
+    $('#rvT').textContent = `+${ar(P.n)} ${P.n === 1 ? 'نقطة' : P.n === 2 ? 'نقطتان' : P.n <= 10 ? 'نقاط' : 'نقطة'}`;
     $('#rvM').textContent = P.m;
-    $('#rvX').innerHTML = P.star ? `<input id="stName" placeholder="اكتبي اسمك هنا"><button class="btn main" onclick="printStar('${P.m}')">🖨️ اطبعي بطاقتك</button>` : '';
-    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500); if (P.star) setTimeout(confetti, 1000);
+    $('#rvX').innerHTML = '';
+    $('#reveal').classList.add('on'); fanfare(); confetti(); setTimeout(confetti, 500); if (P.n >= 8) setTimeout(confetti, 1000);
   }, 1150);
 }
 function printStar(msg) {
