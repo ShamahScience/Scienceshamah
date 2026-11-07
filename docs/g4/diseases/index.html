@@ -158,7 +158,7 @@
     #games.on { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
     #clinic.on { display: block; } #clinic .box { height: 100%; overflow-y: auto; }
     #games .box { overflow-y: auto; min-height: 0; }
-    #games .gamecards { grid-template-columns: repeat(3, 1fr); }
+    #games .gamecards { grid-template-columns: repeat(4, 1fr); }
     .gcard .ic { font-size: 36px; }
     .pic { width: auto; max-height: 22vh; }
     #play .opts { grid-template-columns: repeat(3, 1fr); }
@@ -252,6 +252,21 @@
   .simbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
   .simbtns .btn { font-size: 16px; padding: 5px 8px; }
   .btn.no2 { background: #fde2e2; border-color: var(--red); }
+  .rbx { border: 4px solid #3a1f6b; border-radius: 22px; overflow: hidden; background: #7cc4f5; }
+  .rbsky { position: relative; text-align: center; padding: 26px 10px 18px; background: linear-gradient(#5fb4f0, #a9dcfb); min-height: 260px; }
+  .rbsky .cl { position: absolute; font-size: 46px; opacity: .95; animation: cloud 9s linear infinite alternate; } .c1 { top: 10px; right: 6%; } .c2 { top: 30px; left: 8%; animation-delay: -3s; } .c3 { bottom: 20px; right: 30%; font-size: 34px; }
+  @keyframes cloud { to { transform: translateX(40px); } }
+  .rbtitle { font-size: 52px; line-height: 1.15; color: #ffd52e; -webkit-text-stroke: 3px #3a2a00; text-shadow: 0 5px 0 #3a2a00; font-weight: 900; }
+  .rbsub { font-size: 19px; color: #1b2a5a; margin: 8px 0; }
+  .rbgo { font: inherit; font-size: 22px; background: #ffd52e; color: #6b2a00; border: 4px solid #3a2a00; border-radius: 30px; padding: 6px 26px; cursor: pointer; box-shadow: 0 5px 0 #3a2a00; animation: bump 1.2s infinite; }
+  .rbsig { position: absolute; bottom: 6px; left: 12px; font-size: 13px; color: #1b2a5a; }
+  .rbbar { display: flex; justify-content: space-between; align-items: center; background: #3a1f6b; color: #fff; padding: 4px 14px; font-size: 18px; }
+  .rbmaze { display: block; width: 100%; height: auto; max-height: 46vh; }
+  .rbq { background: #fff; padding: 8px 12px; } .rbqq { font-size: 19px; margin: 6px 0; }
+  .rblv { display: inline-block; border-radius: 20px; padding: 2px 14px; font-size: 16px; color: #fff; }
+  .rblv.lv1 { background: #43a047; } .rblv.lv2 { background: #1e88e5; } .rblv.lv3 { background: #fb8c00; } .rblv.lv4 { background: #8e24aa; }
+  .rbq .opts { grid-template-columns: 1fr !important; } .rbq .opts .btn { text-align: right !important; }
+  .rbcard { background: linear-gradient(#7cc4f5, #c9ecff); border-color: #3a1f6b; }
   .sims { background: #fff3c4; border: 2px dashed var(--gold); border-radius: 14px; padding: 4px 10px; margin: 4px 0; font-size: 16px; line-height: 2; }
   .note2 { background: var(--cream); border: 2px dashed var(--gold); border-radius: 12px; padding: 6px 10px; font-size: 16px; margin: 6px 0; line-height: 1.7; }
 </style>
@@ -344,6 +359,7 @@
     <span class="strat"><b>الاستراتيجية:</b> التعلّم باللعب</span>
     <h2>🎮 اختاري لعبة</h2>
     <div class="gamecards">
+      <button class="gcard rbcard" onclick="rbIntro()"><div class="ic">🧱</div><b>استراتيجية روبلوكس</b>متاهة الطبيبة: ٤ بوابات</button>
       <button class="gcard" onclick="catchStart()"><div class="ic">🎯</div><b>صيد المفاهيم</b>معدٍ أم غير معدٍ؟</button>
       <button class="gcard" onclick="game('cause')"><div class="ic">🔬</div><b>من المسبّب؟</b>فيروس أم بكتيريا أم فطريات؟</button>
       <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي المفردة من وصفها</button>
@@ -784,6 +800,88 @@ const GAMES = {
     { q: 'أنا طفح جلدي معدٍ يصيب القدم بسبب عدوى فطرية.', o: ['القدم الرياضي', 'الحساسية', 'السكري'], a: 0 },
   ] },
 };
+// ───── Roblox-style strategy: maze with 4 graded questions
+const range = (n, f) => Array.from({ length: n }, (_, i) => f(i)).join('');
+const RB_PATH = [[0,4],[1,4],[2,4],[2,3],[1,3],[0,3],[0,2],[0,1],[1,1],[2,1],[3,1],[3,2],[4,2],[4,3],[4,4],[5,4],[6,4],[6,3],[6,2],[5,2],[5,1],[5,0],[6,0],[7,0],[8,0],[8,1],[7,1],[7,2],[8,2],[9,2],[9,1],[9,0]];
+const RB_CP = [5, 13, 20, 27], RB_C = 76, RB_X = 20, RB_Y = 14;
+const RB_Q = [
+  { lv: 'المستوى ١: أتذكّر', deg: 1, q: 'المرض حالة … تؤثّر على جسم المخلوق الحي.', o: ['طبيعية', 'غير طبيعية', 'مفيدة'], a: 1, why: 'المرض: حالة غير طبيعية تؤثّر على جسم المخلوق الحي.' },
+  { lv: 'المستوى ٢: أفهم', deg: 2, q: 'أيّ الأمراض التالية ينتقل من الشخص المصاب إلى الشخص السليم؟', o: ['السكري', 'الأنفلونزا', 'فقر الدم'], a: 1, why: 'الأنفلونزا عدوى فيروسية، والأمراض المعدية تنتقل من المصاب إلى السليم.' },
+  { lv: 'المستوى ٣: أطبّق', deg: 3, q: 'زميلتك مصابة بالزكام وتعطس بجانبك. ماذا تفعلين؟', o: ['أقترب منها أكثر', 'أبتعد عنها مسافة مترين تقريبًا', 'أستعمل كوبها'], a: 1, why: 'كلما ابتعدنا عن المصاب قلّت خطورة انتقال الفيروس.' },
+  { lv: 'المستوى ٤: أفكّر تفكيرًا ناقدًا', deg: 4, q: 'لماذا يُصنَّف السكري من الأمراض غير المعدية؟', o: ['لأنه ينتقل بالهواء', 'لأنه لا تسبّبه مخلوقات دقيقة ولا ينتقل من المصاب إلى السليم', 'لأنه تسبّبه البكتيريا'], a: 1, why: 'السكري ينتج عن خلل في مستويات الأنسولين، ولا ينتقل من شخص إلى آخر.' },
+];
+let rbPos = 0, rbStep = 0, rbDeg = 0, rbTry = 0, rbBusy = false;
+const rbXY = (k) => [RB_X + RB_PATH[k][0] * RB_C + RB_C / 2, RB_Y + RB_PATH[k][1] * RB_C + RB_C / 2];
+function rbWalls() {
+  const key = (a, b) => a + ',' + b, open = new Set();
+  for (let i = 1; i < RB_PATH.length; i++) { const [x1, y1] = RB_PATH[i - 1], [x2, y2] = RB_PATH[i]; open.add(key(key(x1, y1), key(x2, y2))); open.add(key(key(x2, y2), key(x1, y1))); }
+  let w = '', n = 0;
+  const brick = (x, y, wd, ht) => { const c = n++ % 3 ? '#7e3fd6' : '#2bc4c9'; return `<rect x="${x}" y="${y}" width="${wd}" height="${ht}" rx="3" fill="${c}" stroke="#3a1f6b" stroke-width="1.5"/>${wd > ht ? range(Math.floor(wd / 19), (k) => `<rect x="${x + 5 + k * 19}" y="${y + 2}" width="9" height="3" rx="1" fill="rgba(255,255,255,.35)"/>`) : range(Math.floor(ht / 19), (k) => `<rect x="${x + 2}" y="${y + 5 + k * 19}" width="3" height="9" rx="1" fill="rgba(255,255,255,.35)"/>`)}`; };
+  for (let cx = 0; cx < 10; cx++) for (let cy = 0; cy < 5; cy++) {
+    const X = RB_X + cx * RB_C, Y = RB_Y + cy * RB_C;
+    if (cx < 9 && !open.has(key(key(cx, cy), key(cx + 1, cy)))) w += brick(X + RB_C - 6, Y - 6, 12, RB_C + 12);
+    if (cy < 4 && !open.has(key(key(cx, cy), key(cx, cy + 1)))) w += brick(X - 6, Y + RB_C - 6, RB_C + 12, 12);
+  }
+  const W = RB_C * 10, H = RB_C * 5;
+  w += brick(RB_X - 6, RB_Y - 6, W - RB_C + 6, 12) + brick(RB_X - 6, RB_Y + H - 6, W + 12, 12) + brick(RB_X - 6, RB_Y - 6, 12, H + 12) + brick(RB_X + W - 6, RB_Y + RB_C - 6, 12, H - RB_C + 12);
+  return w;
+}
+function rbHero() {
+  return `<g id="rbHero" style="transition:transform .22s linear"><g transform="translate(-20,-46)">
+    <rect x="9" y="56" width="9" height="16" fill="#3b4a8a" stroke="#222" stroke-width="1.5"/><rect x="22" y="56" width="9" height="16" fill="#3b4a8a" stroke="#222" stroke-width="1.5"/>
+    <rect x="4" y="30" width="32" height="28" rx="3" fill="#f06292" stroke="#222" stroke-width="2"/><rect x="-3" y="32" width="8" height="20" rx="2" fill="#ffd9bf" stroke="#222" stroke-width="1.5"/><rect x="35" y="32" width="8" height="20" rx="2" fill="#ffd9bf" stroke="#222" stroke-width="1.5"/>
+    <rect x="16" y="34" width="8" height="4" fill="#fff"/>
+    <rect x="2" y="0" width="36" height="34" rx="6" fill="#fff" stroke="#222" stroke-width="2"/><rect x="9" y="7" width="22" height="20" rx="3" fill="#ffd9bf" stroke="#222" stroke-width="1.5"/>
+    <rect x="13" y="13" width="4" height="4" fill="#222"/><rect x="23" y="13" width="4" height="4" fill="#222"/><path d="M15,21 q5,4 10,0" fill="none" stroke="#222" stroke-width="2"/></g></g>`;
+}
+function rbIntro() {
+  rbPos = 0; rbStep = 0; rbDeg = 0; rbBusy = false;
+  $('#play').innerHTML = `<div class="rbx"><div class="rbsky"><span class="cl c1">☁️</span><span class="cl c2">☁️</span><span class="cl c3">☁️</span>
+    <div class="rbtitle">استراتيجية<br>روبلوكس</div><p class="rbsub">ساعدي الطبيبة الصغيرة على عبور المتاهة! أجيبي عند كل بوابة 🧱</p>
+    <button class="rbgo" onclick="rbStart()">هيّا ننطلق! LET'S GO 🚀</button><div class="rbsig">أ/ شامه البقمي</div></div></div>`;
+  $('#play').scrollIntoView({ behavior: 'smooth' });
+}
+function rbStart() {
+  const [fx, fy] = rbXY(RB_PATH.length - 1);
+  $('#play').innerHTML = `<div class="rbx"><div class="rbbar"><b>🧱 متاهة الطبيبة</b><span id="rbScore">الدرجة: ٠ / ١٠</span></div>
+    <svg class="rbmaze" viewBox="0 0 800 414"><rect width="800" height="414" fill="#7cc4f5"/><rect x="${RB_X}" y="${RB_Y}" width="${RB_C * 10}" height="${RB_C * 5}" fill="#f6f1e7"/>
+      ${rbWalls()}
+      ${RB_CP.map((k, i) => { const [x, y] = rbXY(k); return `<g id="rbCp${i}"><rect x="${x - 22}" y="${y - 22}" width="44" height="44" rx="6" fill="#fff" stroke="#555" stroke-width="2.5"/><text x="${x}" y="${y + 12}" text-anchor="middle" font-size="30" font-weight="700" fill="#333">${i + 1}</text></g>`; }).join('')}
+      <g transform="translate(${fx - 22},${fy - 30})"><rect width="44" height="12" fill="#222"/><rect width="11" height="6" fill="#fff"/><rect x="22" width="11" height="6" fill="#fff"/><rect x="11" y="6" width="11" height="6" fill="#fff"/><rect x="33" y="6" width="11" height="6" fill="#fff"/><text x="22" y="46" text-anchor="middle" font-size="30">🏆</text></g>
+      ${rbHero()}</svg>
+    <div id="rbQ" class="rbq"><p class="score">🚶‍♀️ الطبيبة تمشي إلى البوابة ١…</p></div></div>`;
+  rbPlace(0); setTimeout(() => rbWalk(RB_CP[0], () => rbAsk(0)), 500);
+}
+function rbPlace(k) { const [x, y] = rbXY(k); const h = document.getElementById('rbHero'); if (h) h.setAttribute('transform', `translate(${x},${y})`), h.style.transform = `translate(${x}px,${y}px)`; }
+function rbWalk(to, done) {
+  rbBusy = true;
+  const tick = () => { if (!document.getElementById('rbHero')) return; if (rbPos >= to) { rbBusy = false; done && done(); return; } rbPos++; rbPlace(rbPos); setTimeout(tick, 230); };
+  tick();
+}
+function rbAsk(i) {
+  const t = RB_Q[i]; rbTry = 0;
+  $('#rbQ').innerHTML = `<div class="rblv lv${i + 1}">${t.lv} • ${'⭐'.repeat(t.deg)} (${ar(t.deg)} ${t.deg > 2 ? 'درجات' : t.deg === 2 ? 'درجتان' : 'درجة'})</div>
+    <p class="rbqq">🚪 البوابة ${ar(i + 1)}: ${t.q}</p><div class="opts">${t.o.map((o, k) => `<button class="btn" data-k="${k}">${ABJ[k]}) ${o}</button>`).join('')}</div><div class="msg" id="rbMsg"></div>`;
+  document.querySelectorAll('#rbQ .opts .btn').forEach((b) => b.onclick = () => {
+    if (rbBusy) return;
+    if (+b.dataset.k === t.a) {
+      b.classList.add('ok'); const got = rbTry ? Math.max(1, t.deg - 1) : t.deg; rbDeg += got;
+      award(Math.min(2, t.deg > 2 ? 2 : 1), b);
+      $('#rbScore').textContent = 'الدرجة: ' + ar(rbDeg) + ' / ١٠';
+      $('#rbMsg').className = 'msg good'; $('#rbMsg').innerHTML = `✔ أحسنتِ! +${ar(got)} • ${t.why}`;
+      const cp = document.querySelector('#rbCp' + i + ' rect'); if (cp) cp.setAttribute('fill', '#c9f0c0');
+      setTimeout(() => {
+        if (i < 3) { $('#rbQ').innerHTML = `<p class="score">🚶‍♀️ إلى البوابة ${ar(i + 2)}…</p>`; rbWalk(RB_CP[i + 1], () => rbAsk(i + 1)); }
+        else { $('#rbQ').innerHTML = `<p class="score">🏁 إلى خط النهاية…</p>`; rbWalk(RB_PATH.length - 1, rbWin); }
+      }, 1600);
+    } else { rbTry++; b.classList.add('no'); b.disabled = true; $('#rbMsg').className = 'msg bad'; $('#rbMsg').textContent = 'البوابة مقفلة… فكّري مرة أخرى 💡'; }
+  });
+}
+function rbWin() {
+  confetti();
+  $('#rbQ').innerHTML = `<div style="text-align:center"><div style="font-size:54px">🏆</div><h2 style="margin:0">عبرتِ المتاهة يا طبيبتي!</h2><p class="score" style="font-size:22px">درجتك: ${ar(rbDeg)} / ١٠ ${rbDeg === 10 ? '🌟 ممتاز!' : ''}</p><button class="btn main" onclick="rbIntro()">العبي مرة أخرى 🔄</button></div>`;
+}
+
 // ───── Catch the concept: infectious or not
 const CATCH = [['السكري', 0], ['كورونا المستجد', 1], ['السمنة', 0], ['الزكام', 1], ['فقر الدم', 0], ['السل', 1], ['الحساسية', 0], ['الكوليرا', 1], ['أمراض القلب', 0], ['الحصبة', 1], ['الضغط', 0], ['الأنفلونزا', 1], ['القدم الرياضي', 1]];
 let cq = [], cx = 0, cScore = 0, cTimer = null;
