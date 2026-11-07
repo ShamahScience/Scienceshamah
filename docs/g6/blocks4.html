@@ -1,113 +1,111 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-game="blocks4" data-title="مغامرة المكعّبات: أجهزة الجسم">
+<html lang="ar" dir="rtl" data-game="blocks4" data-title="متاهة المكعّبات: أجهزة الجسم">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>مغامرة المكعّبات</title>
+<title>متاهة المكعّبات</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap">
 <style>
-  :root { --p: #7e57c2; --p2: #b07fe0; --ink: #2b2340; --gold: #f5c242; --ok: #2f8a3a; --bad: #d23b3b; }
+  :root { --p: #7b3fe4; --t: #22b8c8; --ink: #2b2340; --gold: #f5c242; --ok: #2f8a3a; --bad: #d23b3b; }
   * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; overflow: hidden; background: #cfe6ff; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); }
+  html, body { margin: 0; height: 100%; overflow: hidden; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink);
+    background: linear-gradient(#5db7f3, #9fd8ff 70%, #c9ecff); }
   #c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
-  .hud { position: fixed; top: 10px; inset-inline: 10px; display: flex; gap: 8px; align-items: center; z-index: 5; pointer-events: none; flex-wrap: wrap; }
-  .pill { background: #fffffff0; border: 3px solid var(--p); border-radius: 999px; padding: 2px 14px; font-size: 18px; box-shadow: 0 3px 0 #0002; }
-  .bar { flex: 1; min-width: 140px; height: 16px; background: #fff; border: 3px solid var(--p); border-radius: 999px; overflow: hidden; }
-  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--p), var(--p2)); transition: width .5s; }
-  .hud .home { pointer-events: auto; text-decoration: none; color: var(--ink); }
-  .toast { position: fixed; top: 64px; left: 50%; transform: translateX(-50%); background: #2b2340e6; color: #fff; border-radius: 16px; padding: 6px 18px; font-size: 20px; z-index: 6; display: none; text-align: center; }
-  .ov { position: fixed; inset: 0; background: #2b234088; display: none; align-items: center; justify-content: center; z-index: 10; padding: 14px; }
+  .hud { position: fixed; top: 8px; inset-inline: 10px; display: flex; gap: 8px; align-items: center; z-index: 5; flex-wrap: wrap; }
+  .pill { background: #fffffff2; border: 3px solid var(--p); border-radius: 999px; padding: 1px 14px; font-size: 18px; box-shadow: 0 3px 0 #0002; text-decoration: none; color: var(--ink); }
+  button.pill { font: inherit; font-size: 16px; cursor: pointer; }
+  .bar { flex: 1; min-width: 120px; height: 16px; background: #fff; border: 3px solid var(--p); border-radius: 999px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--p), var(--t)); transition: width .5s; }
+  .toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: #2b2340e6; color: #fff; border-radius: 16px; padding: 6px 18px; font-size: 20px; z-index: 6; display: none; text-align: center; }
+  .ov { position: fixed; inset: 0; background: #2b234077; display: none; align-items: center; justify-content: center; z-index: 10; padding: 14px; }
   .ov.on { display: flex; }
-  .card { background: #fff; border: 5px solid var(--p); border-radius: 26px; padding: 18px 24px; max-width: 760px; width: 100%; max-height: 94vh; overflow: auto; box-shadow: 0 10px 0 #5b3a9e55; text-align: center; animation: pop .35s ease-out; }
+  .card { background: #fff; border: 5px solid var(--p); border-radius: 26px; padding: 18px 24px; max-width: 760px; width: 100%; max-height: 94vh; overflow: auto; box-shadow: 0 10px 0 #4a1fa055; text-align: center; animation: pop .35s ease-out; }
   @keyframes pop { from { transform: scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
-  .card h1 { margin: 4px 0; font-size: 34px; color: var(--p); } .card h2 { margin: 2px 0 6px; font-size: 24px; }
-  .tag { display: inline-block; color: #fff; border-radius: 999px; padding: 2px 16px; font-size: 17px; }
-  .q { font-size: 23px; margin: 10px 0; line-height: 1.6; }
+  .num { display: inline-flex; width: 56px; height: 56px; align-items: center; justify-content: center; background: #fff; border: 4px solid #cfcfcf; border-radius: 12px; font-size: 32px; box-shadow: 0 4px 0 #bbb; vertical-align: middle; margin-inline-end: 8px; font-family: Tahoma, sans-serif; }
+  .tag { display: inline-block; color: #fff; border-radius: 999px; padding: 2px 16px; font-size: 18px; vertical-align: middle; }
+  .q { font-size: 24px; margin: 12px 0; line-height: 1.6; }
   .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .btn { font: inherit; font-size: 19px; border: 3px solid var(--ink); background: #fffbef; color: var(--ink); border-radius: 16px; padding: 8px 14px; cursor: pointer; box-shadow: 0 4px 0 #0002; }
+  .btn { font: inherit; font-size: 19px; border: 3px solid var(--ink); background: #fffbef; color: var(--ink); border-radius: 16px; padding: 8px 14px; cursor: pointer; box-shadow: 0 4px 0 #0002; text-decoration: none; }
   .btn:active { transform: translateY(2px); box-shadow: none; }
-  .btn.main { background: var(--p); border-color: #5b3a9e; color: #fff; }
+  .btn.main { background: var(--p); border-color: #4a1fa0; color: #fff; }
   .btn.ok { background: #c9f0c0; border-color: var(--ok); } .btn.no { background: #fde2e2; border-color: var(--bad); }
   .msg { min-height: 30px; margin-top: 10px; font-size: 19px; line-height: 1.6; } .msg.good { color: var(--ok); } .msg.bad { color: var(--bad); }
-  .keys { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 8px 0; font-size: 16px; }
-  .keys span { background: #f4f0ff; border: 2px solid var(--p2); border-radius: 10px; padding: 2px 10px; }
-  .skins { display: flex; gap: 10px; justify-content: center; margin: 8px 0; }
-  .skin { width: 54px; height: 54px; border-radius: 14px; border: 4px solid #fff; box-shadow: 0 0 0 3px #ccc; cursor: pointer; }
-  .skin.on { box-shadow: 0 0 0 4px var(--ink); }
-  .name { font: inherit; font-size: 20px; border: 3px solid var(--p2); border-radius: 14px; padding: 4px 12px; text-align: center; width: min(320px, 90%); }
-  .lt { height: 120px; float: left; margin: -6px 0 0 -6px; }
-  /* touch controls */
-  .pad { position: fixed; bottom: 14px; z-index: 5; display: none; gap: 6px; user-select: none; -webkit-user-select: none; }
-  .pad.l { left: 14px; display: none; grid-template-columns: repeat(3, 64px); grid-template-rows: repeat(2, 64px); }
-  .pad.r { right: 14px; }
-  .touch .pad.l { display: grid; } .touch .pad.r { display: flex; }
-  .pb { width: 64px; height: 64px; border-radius: 18px; border: 3px solid #fff; background: #7e57c2cc; color: #fff; font-size: 28px; display: flex; align-items: center; justify-content: center; touch-action: none; }
-  .pb.jump { width: 96px; height: 96px; border-radius: 50%; font-size: 22px; background: #e0457bcc; }
-  /* certificate */
+  /* cover */
+  #ovStart { background: linear-gradient(#5db7f3, #9fd8ff 70%, #c9ecff); padding: 0; }
+  .cover { position: relative; width: 100%; height: 100%; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cover > *:not(.cloud):not(.cvs):not(.road) { position: relative; z-index: 2; }
+  .cover h1 { margin: 0; font-size: clamp(46px, 9vw, 110px); line-height: 1.15; color: #ffd83a; text-align: center; -webkit-text-stroke: 3px #7a4b00; text-shadow: 0 6px 0 #7a4b00, 0 10px 18px #0004; animation: bob 2.4s ease-in-out infinite; }
+  .cover h2 { margin: 6px 0 4px; font-size: clamp(20px, 3vw, 32px); color: #fff; text-shadow: 0 3px 0 #2b5f9e; }
+  @keyframes bob { 50% { transform: translateY(-8px); } }
+  .cover .go { margin-top: 10px; background: #ffd83a; border: 4px solid #7a4b00; color: #7a4b00; font-size: 28px; padding: 6px 46px; border-radius: 999px; box-shadow: 0 6px 0 #7a4b00; }
+  .cover .ctl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; margin-top: 10px; background: #ffffffd9; border-radius: 18px; padding: 6px 14px; font-size: 17px; }
+  .name { font: inherit; font-size: 19px; border: 3px solid var(--p); border-radius: 14px; padding: 2px 12px; text-align: center; width: 220px; }
+  .skin { width: 34px; height: 34px; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 0 0 2px #aaa; cursor: pointer; display: inline-block; vertical-align: middle; }
+  .skin.on { box-shadow: 0 0 0 3px var(--ink); }
+  .cvs { position: absolute; bottom: 0; height: 46%; pointer-events: none; }
+  .cvs.l { left: 1%; } .cvs.r { right: 1%; }
+  .cloud { position: absolute; background: #fff; border-radius: 999px; opacity: .95; animation: drift 30s linear infinite; }
+  .cloud::before, .cloud::after { content: ''; position: absolute; background: #fff; border-radius: 50%; }
+  .cloud::before { width: 55%; height: 160%; left: 15%; top: -70%; } .cloud::after { width: 40%; height: 130%; right: 12%; top: -45%; }
+  @keyframes drift { from { transform: translateX(-30px); } 50% { transform: translateX(30px); } to { transform: translateX(-30px); } }
+  .road { position: absolute; bottom: 0; left: 0; right: 0; height: 13%; background: repeating-linear-gradient(90deg, #f2c84b 0 60px, #e7b93a 60px 120px); border-top: 6px solid #d9a520; }
+  /* touch */
+  .pad { position: fixed; bottom: 12px; left: 12px; z-index: 5; display: none; grid-template-columns: repeat(3, 58px); grid-template-rows: repeat(2, 58px); gap: 6px; }
+  .touch .pad { display: grid; }
+  .pb { border-radius: 16px; border: 3px solid #fff; background: #7b3fe4cc; color: #fff; font-size: 26px; display: flex; align-items: center; justify-content: center; touch-action: none; user-select: none; }
   #cert { max-width: 100%; border-radius: 12px; box-shadow: 0 4px 14px #0003; }
-  @media print { body * { visibility: hidden; } #printImg, #printImg * { visibility: visible; } #printImg { position: fixed; inset: 0; width: 100%; } }
-  #printImg { display: none; } @media print { #printImg { display: block; } }
-  @media (max-width: 700px) { .opts { grid-template-columns: 1fr; } .card h1 { font-size: 26px; } .q { font-size: 20px; } .lt { height: 80px; } }
+  #printImg { display: none; }
+  @media print { body * { visibility: hidden; } #printImg { display: block; visibility: visible; position: fixed; inset: 0; width: 100%; } }
+  @media (max-width: 700px) { .opts { grid-template-columns: 1fr; } .q { font-size: 20px; } }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 <div class="hud">
-  <a class="pill home" href="index.html">🏠</a>
-  <span class="pill" id="hStage">🚪 البوابة ١ / ١٠</span>
+  <a class="pill" href="index.html">🏠</a>
+  <span class="pill" id="hNum">🔢 المحطة ١ / ١٠</span>
   <span class="pill" id="hStar">⭐ ٠</span>
   <div class="bar"><i id="hBar"></i></div>
+  <button class="pill" id="bNew" title="متاهة جديدة">🔀 متاهة جديدة</button>
+  <a class="pill" href="blocks4-3d.html" title="المغامرة ثلاثية الأبعاد">🧱 ثلاثية الأبعاد</a>
 </div>
 <div class="toast" id="toast"></div>
+<div class="pad"><span></span><div class="pb" data-d="u">⬆️</div><span></span><div class="pb" data-d="r">➡️</div><div class="pb" data-d="d">⬇️</div><div class="pb" data-d="l">⬅️</div></div>
 
-<div class="pad l" id="padL">
-  <span></span><div class="pb" data-k="f">⬆️</div><span></span>
-  <div class="pb" data-k="r">➡️</div><div class="pb" data-k="b">⬇️</div><div class="pb" data-k="l">⬅️</div>
-</div>
-<div class="pad r"><div class="pb jump" data-k="j">قفز</div></div>
-
-<!-- start -->
-<div class="ov on" id="ovStart"><div class="card">
-  <img class="lt" src="../assets/lt.png" alt="">
-  <h1>🧱 مغامرة المكعّبات</h1>
-  <h2>أجهزة الجسم – تعزيز مهارات الفصل الرابع</h2>
-  <p style="font-size:18px;margin:4px 0">اقفزي بين المكعّبات، وأجيبي عن سؤال كل بوابة لتفتحيها… عشر بوابات، وفي النهاية <b>شهادتك</b>! 🏆</p>
-  <div class="keys"><span>⬆️⬇️⬅️➡️ أو W A S D للحركة</span><span>المسافة للقفز</span><span>📱 في الجوال: أزرار على الشاشة</span></div>
-  <p style="margin:6px 0 2px">اختاري لون حجابك:</p>
-  <div class="skins" id="skins"></div>
-  <p style="margin:6px 0 2px">اكتبي اسمك للشهادة:</p>
-  <input class="name" id="nm" maxlength="30" placeholder="اسمك هنا">
-  <p style="margin-top:12px"><button class="btn main" id="go" style="font-size:24px;padding:8px 40px">ابدئي المغامرة 🚀</button></p>
+<div class="ov on" id="ovStart"><div class="cover" id="cover">
+  <div class="road"></div>
+  <h1>استراتيجية<br>المكعّبات</h1>
+  <h2>متاهة مراجعة الفصل الرابع: أجهزة الجسم</h2>
+  <div class="ctl">لون حجابك: <span id="skins"></span> • اسمك للشهادة: <input class="name" id="nm" maxlength="30" placeholder="اسمك هنا"></div>
+  <button class="btn go" id="go">هيا بنا! 🚀</button>
+  <div class="ctl" style="font-size:15px">⬆️⬇️⬅️➡️ للحركة في المتاهة • عند كل رقم سؤال • المعلمة تستطيع الضغط على أي رقم لعرض سؤاله</div>
 </div></div>
 
-<!-- question -->
 <div class="ov" id="ovQ"><div class="card">
-  <span class="tag" id="qTag"></span>
+  <span class="num" id="qNum"></span><span class="tag" id="qTag"></span>
   <p class="q" id="qText"></p>
   <div class="opts" id="qOpts"></div>
   <div class="msg" id="qMsg"></div>
 </div></div>
 
-<!-- certificate -->
 <div class="ov" id="ovEnd"><div class="card" style="max-width:900px">
   <canvas id="cert" width="1600" height="1130"></canvas>
   <p style="margin:10px 0 0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
     <button class="btn main" id="bPrint">🖨️ اطبعي شهادتك</button>
-    <a class="btn" id="bSave" download="شهادة-مغامرة-المكعبات.png">📥 احفظي الشهادة صورة</a>
+    <a class="btn" id="bSave" download="شهادة-متاهة-المكعبات.png">📥 احفظي الشهادة صورة</a>
     <button class="btn" id="bAgain">🔁 العبي مرة أخرى</button>
     <a class="btn" href="index.html">🏠 منصة نافس</a>
   </p>
 </div></div>
 <img id="printImg" alt="">
 
-<script src="../assets/three.min.js"></script>
 <script>
 (() => {
 const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 const $ = (s) => document.querySelector(s);
-// ───── the ten gates: one skill of chapter 4 each (book content + the Nafes outcome)
+const hex = (n) => '#' + n.toString(16).padStart(6, '0');
 const Q = [
   { sys: '🍽️ الجهاز الهضمي', col: 0xe0457b, q: 'عملية تحويل الغذاء المعقّد إلى مواد بسيطة تستفيد منها الخلايا هي…', o: ['التنفس', 'الهضم', 'الدوران', 'الإخراج'], a: 1, hint: 'تبدأ في الفم وتكتمل في الأمعاء.', fix: 'الهضم يحوّل الغذاء المعقّد إلى مواد بسيطة تستفيد منها الخلايا. 📖 ص١١٠', sim: { q: 'إلى أين يتّجه الطعام بعد هضمه جزئيًا في المعدة؟', o: ['إلى الأمعاء الدقيقة', 'إلى المريء', 'إلى الكبد'], a: 0 } },
   { sys: '🚽 الجهاز الإخراجي', col: 0x2f9b8f, q: 'أيّ مما يأتي يخلّص الجسم من ثاني أكسيد الكربون وبخار الماء؟', o: ['الرئتان', 'المعدة', 'العظام', 'الدماغ'], a: 0, hint: 'نُخرجهما مع هواء الزفير.', fix: 'الرئتان تطرحان ثاني أكسيد الكربون وبخار الماء مع الزفير، والكليتان تنقّيان الدم. 📖 ص١١٦', sim: { q: 'العضو الذي ينقّي الدم ويكوّن البول:', o: ['الكليتان', 'القلب', 'المريء'], a: 0 } },
@@ -120,222 +118,188 @@ const Q = [
   { sys: '🔗 تكامل الأجهزة', col: 0x3c9a52, q: 'رأى الأرنب الثعلب… ما الترتيب الصحيح لما يحدث؟', o: ['العينان ← الدماغ ← الأعصاب ← العضلات', 'العضلات ← العينان ← الدماغ ← الأعصاب', 'الدماغ ← العضلات ← العينان ← الأعصاب', 'الأعصاب ← المعدة ← الدماغ ← العينان'], a: 0, hint: 'يبدأ بعضو الحس الذي رأى الثعلب.', fix: 'العينان ترسلان المعلومات إلى الدماغ، فيرسل أوامره عبر الحبل الشوكي والأعصاب إلى عضلات الأرجل. 📖 ص١٢٥', sim: { q: 'ما الذي تفرزه الغدد الصمّاء وقت الخطر فيتسارع القلب؟', o: ['الأدرينالين', 'اللعاب', 'البول'], a: 0 } },
   { sys: '🏅 نافس: نواتج التعلم', col: 0xf0a23b, q: 'ما الذي تشكّله مجموعة من الأعضاء مثل القلب والمعدة والأمعاء التي تعمل معًا؟', o: ['نسيج', 'عنصر', 'جهاز حيوي', 'خلية'], a: 2, hint: 'أكبر من العضو.', fix: 'خلية ← نسيج ← عضو ← جهاز. 📖 مذكرة نافس ص٢', sim: { q: 'الترتيب الصحيح من الأصغر إلى الأكبر:', o: ['خلية ← نسيج ← عضو ← جهاز', 'جهاز ← عضو ← خلية ← نسيج', 'عضو ← خلية ← جهاز ← نسيج'], a: 0 } },
 ];
+
 const SKINS = ['#8e6ad4', '#e0457b', '#3b7fd8', '#2f9b8f'];
 let skin = SKINS[0];
-$('#skins').innerHTML = SKINS.map((c, k) => `<div class="skin ${k ? '' : 'on'}" data-k="${k}" style="background:${c}"></div>`).join('');
-$('#skins').onclick = (e) => { const d = e.target.closest('.skin'); if (!d) return; skin = SKINS[+d.dataset.k]; document.querySelectorAll('.skin').forEach((x) => x.classList.toggle('on', x === d)); paintSkin(); };
+$('#skins').innerHTML = SKINS.map((c, k) => `<span class="skin ${k ? '' : 'on'}" data-k="${k}" style="background:${c}"></span>`).join(' ');
+$('#skins').onclick = (e) => { const d = e.target.closest('.skin'); if (!d) return; skin = SKINS[+d.dataset.k]; document.querySelectorAll('.skin').forEach((x) => x.classList.toggle('on', x === d)); drawCover(); };
 try { const n = localStorage.getItem('blocks4:name'); if (n) $('#nm').value = n; } catch (e) {}
 setTimeout(() => { try { const m = window.currentStudent && window.currentStudent(); if (m && !$('#nm').value) $('#nm').value = m.name; } catch (e) {} }, 1500);
 if (matchMedia('(pointer: coarse)').matches) document.body.classList.add('touch');
 
-// ───── sound
 let AC = null;
 const tone = (f, d, t = 'sine', v = .12, at = 0) => { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(), s = AC.currentTime + at; o.type = t; o.frequency.value = f; g.gain.setValueAtTime(v, s); g.gain.exponentialRampToValueAtTime(.001, s + d); o.connect(g).connect(AC.destination); o.start(s); o.stop(s + d); } catch (e) {} };
-const SND = { jump: () => tone(520, .12, 'square', .05), coin: () => { tone(988, .08); tone(1319, .15, 'sine', .12, .08); },
+const SND = { step: () => tone(660, .05, 'square', .025), bump: () => tone(140, .08, 'square', .04),
   ok: () => [523, 659, 784, 1047].forEach((f, k) => tone(f, .18, 'triangle', .12, k * .09)), bad: () => tone(200, .25, 'sawtooth', .06),
-  fall: () => tone(300, .4, 'triangle', .08), win: () => [523, 659, 784, 1047, 784, 1047, 1319].forEach((f, k) => tone(f, .22, 'triangle', .12, k * .13)) };
+  win: () => [523, 659, 784, 1047, 784, 1047, 1319].forEach((f, k) => tone(f, .22, 'triangle', .12, k * .13)) };
 
-// ───── three.js world
-const R = new THREE.WebGLRenderer({ canvas: $('#c'), antialias: true });
-R.setPixelRatio(Math.min(2, devicePixelRatio)); R.shadowMap.enabled = true;
-const S = new THREE.Scene(); S.background = new THREE.Color(0xa9d4ff); S.fog = new THREE.Fog(0xa9d4ff, 45, 120);
-const CAM = new THREE.PerspectiveCamera(60, 1, .1, 300);
-S.add(new THREE.HemisphereLight(0xffffff, 0x9a8fc0, .75));
-const sun = new THREE.DirectionalLight(0xffffff, .75); sun.position.set(12, 30, 10); sun.castShadow = true;
-sun.shadow.mapSize.set(1024, 1024); Object.assign(sun.shadow.camera, { left: -30, right: 30, top: 30, bottom: -30, far: 90 }); S.add(sun, sun.target);
-function resize() { R.setSize(innerWidth, innerHeight, false); CAM.aspect = innerWidth / innerHeight; CAM.updateProjectionMatrix(); }
+// ───── a blocky student drawn in flat blocks (used on the cover and in the maze)
+function drawGirl(g, x, y, s, col, dir = 1, step = 0) {
+  // x,y = feet centre; s = height in px
+  const u = s / 10, leg = Math.sin(step) * u * .5;
+  const R = (cx, cy, w, h, c) => { g.fillStyle = c; g.fillRect(cx - w / 2, cy, w, h); };
+  g.save(); g.translate(x, y); g.scale(dir, 1);
+  g.fillStyle = '#0002'; g.beginPath(); g.ellipse(0, 0, u * 2.4, u * .5, 0, 0, 7); g.fill();
+  R(-u * .75, -u * 2.6 + leg, u * 1.1, u * 2.6 - leg, '#4a3f6b'); R(u * .75, -u * 2.6 - leg, u * 1.1, u * 2.6 + leg, '#4a3f6b');
+  R(0, -u * 5.6, u * 3.4, u * 3.2, '#ffffff'); g.strokeStyle = '#d8d0ec'; g.lineWidth = u * .15; g.strokeRect(-u * 1.7, -u * 5.6, u * 3.4, u * 3.2);
+  R(-u * 2.2, -u * 5.5, u * 1, u * 2.6, '#ffffff'); R(u * 2.2, -u * 5.5, u * 1, u * 2.6, '#ffffff');
+  R(-u * 2.2, -u * 2.9, u * .9, u * .7, '#f6d0b0'); R(u * 2.2, -u * 2.9, u * .9, u * .7, '#f6d0b0');
+  R(u * 1.2, -u * 4.6, u * 1.2, u * 1.6, '#7b3fe4');                     // science book
+  R(0, -u * 9.9, u * 3.8, u * 4.6, col);                                     // hijab
+  R(0, -u * 6.1, u * 4.4, u * 1, col);
+  R(0, -u * 9.1, u * 2.6, u * 2.8, '#f6d0b0');                               // face
+  g.fillStyle = '#2b2340'; g.fillRect(-u * .8, -u * 8.3, u * .45, u * .7); g.fillRect(u * .35, -u * 8.3, u * .45, u * .7);
+  g.fillStyle = '#f48fb1'; g.fillRect(-u * 1.2, -u * 7.4, u * .5, u * .3); g.fillRect(u * .7, -u * 7.4, u * .5, u * .3);
+  g.strokeStyle = '#c2366f'; g.lineWidth = u * .25; g.beginPath(); g.arc(0, -u * 7.3, u * .55, .3, Math.PI - .3); g.stroke();
+  g.restore();
+}
+
+// ───── cover: sky, clouds and three blocky students
+function drawCover() {
+  document.querySelectorAll('.cvs').forEach((c) => c.remove());
+  const cv = $('#cover');
+  [['l', [SKINS[1], SKINS[2]]], ['r', [skin, SKINS[3]]]].forEach(([side, cols]) => {
+    const c = document.createElement('canvas'); c.className = 'cvs ' + side; c.width = 520; c.height = 520; const g = c.getContext('2d');
+    cols.forEach((col, k) => drawGirl(g, 150 + k * 220, 500 - k * 10, 420 - k * 40, col, side === 'l' ? 1 : -1));
+    cv.appendChild(c);
+  });
+}
+[[6, 12, 140], [70, 8, 170], [40, 26, 110], [82, 30, 120], [20, 40, 90]].forEach(([l, t, w], k) => {
+  const d = document.createElement('div'); d.className = 'cloud'; Object.assign(d.style, { left: l + '%', top: t + '%', width: w + 'px', height: w * .38 + 'px', animationDelay: -k * 6 + 's' }); $('#cover').appendChild(d);
+});
+drawCover();
+
+// ───── the maze (a perfect maze from a seed; the ten stations lie on the one path from start to finish)
+const W = 12, H = 7, CW = W * 2 + 1, CH = H * 2 + 1;
+let grid, path, stations, seed = 4;
+function rng(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function build(sd) {
+  const r = rng(sd); grid = Array.from({ length: CH }, () => Array(CW).fill(1));
+  const st = [[0, 0]], seen = new Set(['0,0']); grid[1][1] = 0;
+  while (st.length) {
+    const [cx, cy] = st[st.length - 1];
+    const nb = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dy]) => [cx + dx, cy + dy, dx, dy]).filter(([x, y]) => x >= 0 && y >= 0 && x < W && y < H && !seen.has(x + ',' + y));
+    if (!nb.length) { st.pop(); continue; }
+    const [nx, ny, dx, dy] = nb[Math.floor(r() * nb.length)]; seen.add(nx + ',' + ny);
+    grid[cy * 2 + 1 + dy][cx * 2 + 1 + dx] = 0; grid[ny * 2 + 1][nx * 2 + 1] = 0; st.push([nx, ny]);
+  }
+  // shortest path from start (bottom-right, RTL reading) to finish (top-left)
+  const S0 = [CW - 2, CH - 2], E0 = [1, 1], prev = {}, q = [S0], key = (p) => p[0] + ',' + p[1]; prev[key(S0)] = null;
+  while (q.length) { const c = q.shift(); if (c[0] === E0[0] && c[1] === E0[1]) break;
+    [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const n = [c[0] + dx, c[1] + dy]; if (!grid[n[1]][n[0]] && !(key(n) in prev)) { prev[key(n)] = c; q.push(n); } }); }
+  path = []; for (let c = E0; c; c = prev[key(c)]) path.unshift(c);
+  stations = Q.map((_, k) => { const p = path[Math.round((k + 1) * (path.length - 1) / 11)]; return { x: p[0], y: p[1], k, done: false }; });
+  return path.length;
+}
+// pick a seed whose path is long enough so the stations are spread out
+function goodSeed(from) { let s = from; while (build(s) < 60) s++; seed = s; }
+goodSeed(seed);
+
+const C = $('#c'), G = C.getContext('2d');
+let tile = 40, ox = 0, oy = 0;
+function resize() {
+  const dpr = Math.min(2, devicePixelRatio); C.width = innerWidth * dpr; C.height = innerHeight * dpr; G.setTransform(dpr, 0, 0, dpr, 0, 0);
+  tile = Math.floor(Math.min((innerWidth - 20) / CW, (innerHeight - 70) / CH)); ox = (innerWidth - tile * CW) / 2; oy = 58 + (innerHeight - 64 - tile * CH) / 2;
+}
 addEventListener('resize', resize); resize();
 
-// blocky stud texture
-function studTex(hex) {
-  const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
-  g.fillStyle = hex; g.fillRect(0, 0, 64, 64); g.strokeStyle = '#00000022'; g.lineWidth = 4; g.strokeRect(2, 2, 60, 60);
-  g.fillStyle = '#ffffff33'; g.beginPath(); g.arc(32, 32, 12, 0, 7); g.fill();
-  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
-}
-const hex = (n) => '#' + n.toString(16).padStart(6, '0');
-function textTex(lines, bg, w = 512, h = 256) {
-  const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d');
-  g.fillStyle = bg; g.fillRect(0, 0, w, h); g.strokeStyle = '#fff'; g.lineWidth = 12; g.strokeRect(8, 8, w - 16, h - 16);
-  g.fillStyle = '#fff'; g.textAlign = 'center'; g.direction = 'rtl';
-  lines.forEach(([t, px], k) => { g.font = `bold ${px}px 'Noto Naskh Arabic', Tahoma, serif`; g.fillText(t, w / 2, h * (k + 1) / (lines.length + 1) + px / 3); });
-  return new THREE.CanvasTexture(c);
-}
-const solids = [];
-function box(cx, top, cz, w, d, col, o = {}) {
-  const h = o.h || 1, tex = studTex(hex(col)); tex.repeat.set(Math.max(1, w / 1.5), Math.max(1, d / 1.5));
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshLambertMaterial({ map: tex }));
-  m.position.set(cx, top - h / 2, cz); m.castShadow = m.receiveShadow = true; S.add(m);
-  const b = { m, w, h, d, kind: o.kind || 'plat', move: o.move || null, base: cx, dx: 0, on: true };
-  solids.push(b); return b;
-}
-const bmin = (b) => [b.m.position.x - b.w / 2, b.m.position.y - b.h / 2, b.m.position.z - b.d / 2];
-const bmax = (b) => [b.m.position.x + b.w / 2, b.m.position.y + b.h / 2, b.m.position.z + b.d / 2];
-
-// course: 10 stages, then the finish
-const SEG = 34, gates = [], coins = [], checkpoints = [];
-const PAL = [0xa5d6a7, 0xffe082, 0x90caf9, 0xf48fb1, 0xce93d8];
-for (let s = 0; s < 10; s++) {
-  const z0 = -s * SEG, c = Q[s].col;
-  box(0, 0, z0, 7, 7, 0xc5b3ef); checkpoints.push(z0);
-  const sign = new THREE.Mesh(new THREE.PlaneGeometry(4, 1.2), new THREE.MeshBasicMaterial({ map: textTex([[`المرحلة ${ar(s + 1)}`, 120]], hex(c), 512, 160), transparent: true }));
-  sign.position.set(-3.4, 3.2, z0 - 2.6); sign.rotation.y = .3; S.add(sign);
-  const pole = new THREE.Mesh(new THREE.BoxGeometry(.2, 2, .2), new THREE.MeshLambertMaterial({ color: 0x8d6e63 })); pole.position.set(-3.4, 1, z0 - 2.65); pole.scale.y = 1.6; pole.position.y = 1.6; S.add(pole);
-  const t = s % 3, P = (k) => PAL[(s + k) % PAL.length];
-  if (t === 0) {
-    [[-1, .0, -7], [1, .6, -11.5], [-1, 1.2, -16], [.8, .6, -20.5]].forEach(([x, y, z], k) => { const b = box(x, y, z0 + z, 3.2, 3.2, P(k)); coin(b, x, y, z0 + z); });
-  } else if (t === 1) {
-    [[0, -7.5], [0, -13.5]].forEach(([x, z], k) => { const b = box(x, 0, z0 + z, 3.4, 3.4, P(k), { move: { amp: 2.3, sp: 1 + s * .05, ph: k * 1.5 } }); coin(b, x, 0, z0 + z); });
-    const br = box(0, 0, z0 - 19.5, 1.8, 6, P(3)); coin(br, 0, 0, z0 - 19.5);
-  } else {
-    [[0, .8, -6.5], [0, 1.6, -9.5], [0, 2.4, -12.5]].forEach(([x, y, z], k) => box(x, y, z0 + z, 4, 3, P(k)));
-    const b = box(0, 2.4, z0 - 17, 3, 3, P(3), { move: { amp: 2, sp: 1.1, ph: 0 } }); coin(b, 0, 2.4, z0 - 17);
-    box(0, 1.2, z0 - 21, 4, 3, P(4));
+const me = { x: CW - 2, y: CH - 2, fx: CW - 2, fy: CH - 2, dir: -1, step: 0 };
+let stars = 0, playing = false, busy = false, next = 0, finished = false;
+function wallCol(x, y) { return ((Math.floor(x / 3) + Math.floor(y / 2)) % 3 === 0) ? ['#22b8c8', '#1a8f9c', '#7ee3ee'] : ['#7b3fe4', '#5a24b8', '#a77ef5']; }
+function draw(t) {
+  G.clearRect(0, 0, innerWidth, innerHeight);
+  // floor board
+  G.fillStyle = '#fbf4e6'; G.fillRect(ox, oy, tile * CW, tile * CH);
+  for (let y = 0; y < CH; y++) for (let x = 0; x < CW; x++) {
+    if (!grid[y][x]) continue;
+    const [c, d, l] = wallCol(x, y), X = ox + x * tile, Y = oy + y * tile, s = tile;
+    G.fillStyle = d; G.fillRect(X, Y + s * .18, s, s * .82);                 // side
+    G.fillStyle = c; G.fillRect(X, Y, s, s * .8);                            // top
+    G.fillStyle = l; G.beginPath(); G.arc(X + s * .3, Y + s * .38, s * .12, 0, 7); G.arc(X + s * .7, Y + s * .38, s * .12, 0, 7); G.fill();
   }
-  box(0, 0, z0 - 25, 7, 7, 0xb3d4f5);
-  // the gate: a wall with the skill's name, it sinks when the question is answered
-  const g = box(0, 4.2, z0 - 27.9, 7, .8, c, { h: 4.2, kind: 'gate' });
-  const face = new THREE.Mesh(new THREE.PlaneGeometry(6.2, 3.1), new THREE.MeshBasicMaterial({ map: textTex([[Q[s].sys, 54], ['🔒 أجيبي لتفتحي البوابة', 40]], hex(c)) }));
-  face.position.set(0, 0, .41); g.m.add(face);
-  gates.push({ b: g, s, open: false });
+  // start and finish
+  const lab = (x, y, txt, bg) => { const X = ox + x * tile, Y = oy + y * tile; G.fillStyle = bg; G.fillRect(X + 2, Y + 2, tile - 4, tile - 4); G.font = `bold ${tile * .5}px Tahoma`; G.textAlign = 'center'; G.textBaseline = 'middle'; G.fillText(txt, X + tile / 2, Y + tile / 2 + 1); };
+  const sx = CW - 2, sy = CH - 2; G.fillStyle = '#ffe082'; G.fillRect(ox + sx * tile + 3, oy + sy * tile + 3, tile - 6, tile - 6);
+  G.fillStyle = '#7a4b00'; G.font = `bold ${tile * .32}px 'Noto Naskh Arabic', Tahoma`; G.textAlign = 'center'; G.textBaseline = 'middle'; G.fillText('ابدئي', ox + sx * tile + tile / 2, oy + sy * tile + tile / 2);
+  // finish: checkered tile and a trophy
+  for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { G.fillStyle = (i + j) % 2 ? '#222' : '#fff'; G.fillRect(ox + tile + i * tile / 4, oy + tile + j * tile / 4, tile / 4, tile / 4); }
+  G.font = `${tile * .8}px serif`; G.fillText('🏆', ox + tile * 1.5, oy + tile * 1.5 + Math.sin(t / 300) * 2);
+  // stations
+  stations.forEach((st) => {
+    const X = ox + st.x * tile, Y = oy + st.y * tile, s = tile, pad = s * .06;
+    G.fillStyle = st.done ? '#43a047' : '#bdbdbd'; G.fillRect(X + pad, Y + pad + s * .08, s - pad * 2, s - pad * 2);
+    G.fillStyle = st.done ? '#c8f5c4' : '#ffffff'; G.fillRect(X + pad, Y + pad, s - pad * 2, s - pad * 2 - s * .06);
+    G.fillStyle = st.k === next && !st.done ? '#7b3fe4' : '#2b2340'; G.font = `bold ${s * .62}px Tahoma, sans-serif`; G.textAlign = 'center'; G.textBaseline = 'middle';
+    G.fillText(st.done ? '✔' : String(st.k + 1), X + s / 2, Y + s / 2);
+    if (st.k === next && !st.done) { G.strokeStyle = '#ffd83a'; G.lineWidth = 3 + Math.sin(t / 200) * 1.5; G.strokeRect(X + 1, Y + 1, s - 2, s - 2); }
+  });
+  // the student
+  me.fx += (me.x - me.fx) * .35; me.fy += (me.y - me.fy) * .35;
+  drawGirl(G, ox + (me.fx + .5) * tile, oy + (me.fy + .95) * tile, tile * 1.15, skin, me.dir, me.step);
+  requestAnimationFrame(draw);
 }
-const zF = -10 * SEG;
-box(0, 0, zF, 9, 9, 0xffe082); checkpoints.push(zF);
-const trophy = new THREE.Group();
-[[1.6, .5, 1.6, 0xf5c242, .25], [.5, 1.2, .5, 0xf5c242, 1.1], [1.8, 1.2, 1.8, 0xffd54f, 2.3]].forEach(([w, h, d, col, y]) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshLambertMaterial({ color: col, emissive: 0x332200 })); m.position.y = y; m.castShadow = true; trophy.add(m); });
-trophy.position.set(0, 0, zF - 2.5); S.add(trophy);
-const fin = new THREE.Mesh(new THREE.PlaneGeometry(7, 1.6), new THREE.MeshBasicMaterial({ map: textTex([['🏆 خط النهاية', 110]], '#7e57c2', 512, 128), transparent: true }));
-fin.position.set(0, 5.2, zF - 2.5); S.add(fin);
-// clouds below
-const sea = new THREE.Mesh(new THREE.PlaneGeometry(400, 800), new THREE.MeshLambertMaterial({ color: 0x9fc4f0 }));
-sea.rotation.x = -Math.PI / 2; sea.position.set(0, -14, -170); S.add(sea);
-for (let k = 0; k < 60; k++) { const cl = new THREE.Mesh(new THREE.BoxGeometry(3 + Math.random() * 5, 1 + Math.random(), 2 + Math.random() * 3), new THREE.MeshLambertMaterial({ color: 0xffffff })); cl.position.set((Math.random() - .5) * 70, -12 + Math.random() * 3, -Math.random() * 360 + 10); S.add(cl); }
+requestAnimationFrame(draw);
 
-function coin(b, x, y, z) {
-  const m = new THREE.Mesh(new THREE.BoxGeometry(.6, .6, .2), new THREE.MeshLambertMaterial({ color: 0xffc928, emissive: 0x553300 }));
-  m.position.set(0, b.h / 2 + .9, 0); b.m.add(m); coins.push({ m, b, got: false });
+function hud() {
+  $('#hNum').textContent = next < 10 ? `🔢 المحطة ${ar(next + 1)} / ١٠` : '🏆 إلى الكأس!'; $('#hStar').textContent = `⭐ ${ar(stars)}`;
+  $('#hBar').style.width = (stations.filter((s) => s.done).length * 10) + '%';
 }
-
-// ───── the blocky student
-const ME = new THREE.Group(); S.add(ME);
-const part = (w, h, d, col, x, y, z, parent = ME) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), (Array.isArray(col) || col.isMaterial) ? col : new THREE.MeshLambertMaterial({ color: col })); m.position.set(x, y, z); m.castShadow = true; parent.add(m); return m; };
-function faceTex() {
-  const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
-  g.fillStyle = '#f6d0b0'; g.fillRect(0, 0, 128, 128);
-  g.fillStyle = '#2b2340'; [[40, 56], [88, 56]].forEach(([x, y]) => { g.beginPath(); g.ellipse(x, y, 9, 12, 0, 0, 7); g.fill(); });
-  g.fillStyle = '#fff'; [[43, 51], [91, 51]].forEach(([x, y]) => { g.beginPath(); g.arc(x, y, 3.5, 0, 7); g.fill(); });
-  g.fillStyle = '#f48fb1'; [[26, 80], [102, 80]].forEach(([x, y]) => { g.beginPath(); g.ellipse(x, y, 10, 6, 0, 0, 7); g.fill(); });
-  g.strokeStyle = '#c2366f'; g.lineWidth = 5; g.beginPath(); g.arc(64, 82, 16, .2, Math.PI - .2); g.stroke();
-  return new THREE.CanvasTexture(c);
-}
-const skinM = new THREE.MeshLambertMaterial({ color: 0xf6d0b0 }), hijabM = new THREE.MeshLambertMaterial({ color: skin });
-const headMats = [skinM, skinM, skinM, skinM, new THREE.MeshLambertMaterial({ map: faceTex() }), skinM];
-const legL = part(.32, .7, .32, 0x4a3f6b, -.18, .35, 0), legR = part(.32, .7, .32, 0x4a3f6b, .18, .35, 0);
-part(.8, .85, .45, 0xffffff, 0, 1.12, 0);                         // lab coat
-part(.84, .3, .5, hijabM, 0, 1.45, 0);                            // scarf over the shoulders
-const armL = part(.24, .75, .28, 0xffffff, -.53, 1.12, 0), armR = part(.24, .75, .28, 0xffffff, .53, 1.12, 0);
-part(.55, .55, .5, headMats, 0, 1.88, .02);                       // face
-part(.68, .66, .5, hijabM, 0, 1.92, -.08);                        // hijab back/top
-part(.68, .12, .56, hijabM, 0, 2.2, .02);                         // hijab front band
-part(.1, .55, .56, hijabM, -.31, 1.86, .02); part(.1, .55, .56, hijabM, .31, 1.86, .02);
-const book = part(.3, .38, .1, 0x7e57c2, .53, .9, .2);            // science book
-function paintSkin() { hijabM.color.set(skin); }
-
-// ───── state and physics
-const p = new THREE.Vector3(0, 0, 2), v = new THREE.Vector3(); const HX = .35, HH = 2.2;
-let grounded = false, standOn = null, stage = 0, stars = 0, playing = false, paused = true, cp = 0, finished = false, face = Math.PI, walkT = 0;
-const keys = {};
-const KM = { ArrowUp: 'f', KeyW: 'f', ArrowDown: 'b', KeyS: 'b', ArrowLeft: 'l', KeyA: 'l', ArrowRight: 'r', KeyD: 'r', Space: 'j' };
-addEventListener('keydown', (e) => { if (KM[e.code] && playing) { keys[KM[e.code]] = true; e.preventDefault(); } });
-addEventListener('keyup', (e) => { if (KM[e.code]) keys[KM[e.code]] = false; });
-document.querySelectorAll('.pb').forEach((b) => {
-  const k = b.dataset.k, on = (e) => { e.preventDefault(); keys[k] = true; }, off = (e) => { e.preventDefault(); keys[k] = false; };
-  b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointerleave', off); b.addEventListener('pointercancel', off);
-});
 function toast(t, ms = 1800) { const e = $('#toast'); e.textContent = t; e.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => { e.style.display = 'none'; }, ms); }
-function hud() { $('#hStage').textContent = stage < 10 ? `🚪 البوابة ${ar(stage + 1)} / ١٠` : '🏆 خط النهاية'; $('#hStar').textContent = `⭐ ${ar(stars)}`; $('#hBar').style.width = (stage * 10) + '%'; }
-function respawn() { p.set(0, .05, checkpoints[cp] + 1.5); v.set(0, 0, 0); }
-const overlapXZ = (b, x, z, e = 0) => { const a = bmin(b), c = bmax(b); return x + HX > a[0] + e && x - HX < c[0] - e && z + HX > a[2] + e && z - HX < c[2] - e; };
-const overlapY = (b, y) => { const a = bmin(b), c = bmax(b); return y < c[1] - .02 && y + HH > a[1] + .02; };
-
-function step(dt, t) {
-  solids.forEach((b) => { if (!b.move) return; const nx = b.base + Math.sin(t * b.move.sp + b.move.ph) * b.move.amp; b.dx = nx - b.m.position.x; b.m.position.x = nx; });
-  if (grounded && standOn && standOn.move) p.x += standOn.dx;
-  // camera-relative input (camera looks down −z)
-  const ix = (keys.r ? 1 : 0) - (keys.l ? 1 : 0), iz = (keys.b ? 1 : 0) - (keys.f ? 1 : 0), sp = 6.2;
-  const len = Math.hypot(ix, iz) || 1; v.x = ix / len * sp; v.z = iz / len * sp;
-  if (ix || iz) { face = Math.atan2(v.x, v.z); walkT += dt * 10; } else walkT *= .8;
-  if (keys.j && grounded) { v.y = 9.6; grounded = false; SND.jump(); }
-  v.y -= 25 * dt; if (v.y < -30) v.y = -30;
-  const act = solids.filter((b) => b.on);
-  p.x += v.x * dt; act.forEach((b) => { if (overlapY(b, p.y) && overlapXZ(b, p.x, p.z)) { const a = bmin(b), c = bmax(b); p.x = v.x > 0 ? a[0] - HX - .001 : c[0] + HX + .001; } });
-  p.z += v.z * dt; act.forEach((b) => { if (overlapY(b, p.y) && overlapXZ(b, p.x, p.z)) { const a = bmin(b), c = bmax(b); p.z = v.z > 0 ? a[2] - HX - .001 : c[2] + HX + .001; } });
-  const py = p.y; p.y += v.y * dt; grounded = false; standOn = null;
-  act.forEach((b) => { if (!overlapXZ(b, p.x, p.z, .02)) return; const a = bmin(b), c = bmax(b);
-    if (v.y <= 0 && py >= c[1] - .08 && p.y < c[1]) { p.y = c[1]; v.y = 0; grounded = true; standOn = b; }
-    else if (v.y > 0 && py + HH <= a[1] + .08 && p.y + HH > a[1]) { p.y = a[1] - HH; v.y = 0; } });
-  if (p.y < -12) { SND.fall(); toast('أوووه! حاولي مرة أخرى 💪'); respawn(); }
-  // coins
-  coins.forEach((c) => { if (c.got) return; c.m.rotation.y += dt * 3; const w = c.m.getWorldPosition(new THREE.Vector3()); if (w.distanceTo(new THREE.Vector3(p.x, p.y + 1, p.z)) < 1.1) { c.got = true; c.m.visible = false; stars++; SND.coin(); hud(); } });
-  // gates
-  const G = gates[stage];
-  if (G && !G.open) { const c = bmax(G.b); if (p.z < c[2] + 1.6 && p.z > c[2] - .2 && Math.abs(p.x) < 3.6 && p.y < 3) ask(stage); }
-  if (stage >= 10 && !finished && p.z < zF + 3 && p.y >= -.1) finish();
-  // avatar
-  ME.position.copy(p); ME.rotation.y = face;
-  const sw = Math.sin(walkT) * .6 * (grounded ? 1 : .3); legL.rotation.x = sw; legR.rotation.x = -sw; armL.rotation.x = -sw; armR.rotation.x = sw * .5;
+function move(dx, dy) {
+  if (!playing || busy || finished) return;
+  const nx = me.x + dx, ny = me.y + dy; if (dx) me.dir = dx > 0 ? 1 : -1;
+  if (nx < 0 || ny < 0 || nx >= CW || ny >= CH || grid[ny][nx]) { SND.bump(); return; }
+  me.x = nx; me.y = ny; me.step += 1.6; SND.step();
+  const st = stations.find((s) => s.x === nx && s.y === ny && !s.done);
+  if (st) ask(st.k);
+  if (nx === 1 && ny === 1) {
+    if (stations.every((s) => s.done)) finish(); else toast('🔢 أكملي كل المحطات أولًا، ثم ارجعي إلى الكأس!');
+  }
 }
-function cam(dt) {
-  const want = new THREE.Vector3(p.x * .6, p.y + 5.8, p.z + 9.5);
-  CAM.position.lerp(want, 1 - Math.pow(.002, dt)); CAM.lookAt(p.x * .8, p.y + 1.2, p.z - 5);
-  sun.position.set(p.x + 12, 30, p.z + 10); sun.target.position.set(p.x, 0, p.z - 5);
-}
-let last = performance.now(), T = 0;
-function loop(now) {
-  const dt = Math.min(.033, (now - last) / 1000); last = now;
-  if (playing && !paused) { T += dt; step(dt, T); }
-  gates.forEach((G) => { if (G.open && G.b.m.position.y > -6) G.b.m.position.y -= dt * 4; });
-  trophy.rotation.y += dt; cam(dt); R.render(S, CAM); requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
+const KD = { ArrowUp: [0, -1], KeyW: [0, -1], ArrowDown: [0, 1], KeyS: [0, 1], ArrowLeft: [-1, 0], KeyA: [-1, 0], ArrowRight: [1, 0], KeyD: [1, 0] };
+addEventListener('keydown', (e) => { if (KD[e.code] && playing) { e.preventDefault(); move(...KD[e.code]); } });
+const PD = { u: [0, -1], d: [0, 1], l: [-1, 0], r: [1, 0] };
+document.querySelectorAll('.pb').forEach((b) => { let tm; const go = (e) => { e.preventDefault(); move(...PD[b.dataset.d]); tm = setInterval(() => move(...PD[b.dataset.d]), 170); }, stop = () => clearInterval(tm);
+  b.addEventListener('pointerdown', go); ['pointerup', 'pointerleave', 'pointercancel'].forEach((ev) => b.addEventListener(ev, stop)); });
+// swipe on the board
+let sw = null; C.addEventListener('pointerdown', (e) => { sw = [e.clientX, e.clientY]; });
+C.addEventListener('pointerup', (e) => {
+  if (!sw) return; const dx = e.clientX - sw[0], dy = e.clientY - sw[1]; sw = null;
+  if (Math.hypot(dx, dy) < 12) { // a tap: the teacher can open any station's question by tapping its number
+    const x = Math.floor((e.clientX - ox) / tile), y = Math.floor((e.clientY - oy) / tile), st = stations.find((s) => s.x === x && s.y === y);
+    if (st && playing && !busy) ask(st.k, false, true); return; }
+  if (Math.abs(dx) > Math.abs(dy)) move(dx > 0 ? 1 : -1, 0); else move(0, dy > 0 ? 1 : -1);
+});
 
 // ───── questions: hint → second try → remediation (book page) → similar question → praise
-const praise = () => ['أحسنتِ يا عالمتي! 🌟', 'رائع! البوابة تُفتح 🚪✨', 'ممتاز! أنتِ بطلة 💪', 'إجابة ذكية! 👏'][Math.floor(Math.random() * 4)];
-function ask(s, sim) {
-  paused = true; Object.keys(keys).forEach((k) => keys[k] = false);
-  const it = Q[s], t = sim ? it.sim : it; let tries = 0;
-  const tag = $('#qTag'); tag.textContent = `🚪 البوابة ${ar(s + 1)}: ${it.sys}`; tag.style.background = hex(it.col);
+const praise = () => ['أحسنتِ يا عالمتي! 🌟', 'رائع! تابعي المتاهة 🧱✨', 'ممتاز! أنتِ بطلة 💪', 'إجابة ذكية! 👏'][Math.floor(Math.random() * 4)];
+function ask(k, sim, byTap) {
+  busy = true; const it = Q[k], t = sim ? it.sim : it; let tries = 0;
+  $('#qNum').textContent = k + 1; const tag = $('#qTag'); tag.textContent = it.sys; tag.style.background = hex(it.col);
   $('#qText').textContent = sim ? '🔁 سؤال مشابه: ' + t.q : t.q;
-  const idx = t.o.map((_, k) => k).sort(() => Math.random() - .5);
-  $('#qOpts').innerHTML = idx.map((k) => `<button class="btn" data-k="${k}">${t.o[k]}</button>`).join('');
-  $('#qMsg').className = 'msg'; $('#qMsg').textContent = '';
-  $('#ovQ').classList.add('on');
+  const idx = t.o.map((_, i) => i).sort(() => Math.random() - .5);
+  $('#qOpts').innerHTML = idx.map((i) => `<button class="btn" data-k="${i}">${t.o[i]}</button>`).join('');
+  $('#qMsg').className = 'msg'; $('#qMsg').textContent = ''; $('#ovQ').classList.add('on');
   $('#qOpts').querySelectorAll('.btn').forEach((b) => b.onclick = () => {
     const m = $('#qMsg');
     if (+b.dataset.k === t.a) {
       b.classList.add('ok'); $('#qOpts').querySelectorAll('.btn').forEach((x) => x.disabled = true); SND.ok();
-      const got = sim ? 1 : tries === 0 ? 3 : 2; stars += got;
-      m.className = 'msg good'; m.textContent = (sim ? 'أحسنتِ! الآن فهمتِ الفكرة 💚' : praise()) + `  +${ar(got)} ⭐`;
-      setTimeout(() => { $('#ovQ').classList.remove('on'); openGate(s); }, 1500);
+      const st = stations[k], first = !st.done, got = first ? (sim ? 1 : tries === 0 ? 3 : 2) : 0; stars += got;
+      m.className = 'msg good'; m.textContent = (sim ? 'أحسنتِ! الآن فهمتِ الفكرة 💚' : praise()) + (got ? `  +${ar(got)} ⭐` : '');
+      setTimeout(() => { $('#ovQ').classList.remove('on'); busy = false; if (first) { st.done = true; while (next < 10 && stations[next].done) next++; hud();
+        toast(next < 10 ? `✔ المحطة ${ar(k + 1)}! اذهبي إلى المحطة ${ar(next + 1)}` : '🏆 أنهيتِ المحطات! اذهبي إلى الكأس', 2200); } }, 1500);
     } else {
       tries++; b.classList.add('no'); b.disabled = true; SND.bad(); m.className = 'msg bad';
       if (sim || tries === 1) m.textContent = '💡 تلميح: ' + it.hint + ' حاولي مرة أخرى.';
       else { $('#qOpts').querySelectorAll('.btn').forEach((x) => { x.disabled = true; if (+x.dataset.k === t.a) x.classList.add('ok'); });
         m.innerHTML = `📘 لنتعلّم معًا: ${it.fix}<br><button class="btn main" style="margin-top:8px">🔁 جرّبي سؤالًا مشابهًا</button>`;
-        m.querySelector('button').onclick = () => ask(s, true); }
+        m.querySelector('button').onclick = () => ask(k, true); }
     }
   });
 }
-function openGate(s) {
-  const G = gates[s]; G.open = true; G.b.on = false; stage = s + 1; cp = s + 1; hud();
-  toast(stage < 10 ? `🚪 فُتحت البوابة ${ar(s + 1)}! تابعي المغامرة` : '🏆 فُتحت آخر بوابة! اذهبي إلى خط النهاية', 2200);
-  paused = false; last = performance.now();
-}
-
-// ───── certificate
 function finish() {
-  finished = true; paused = true; SND.win(); hud(); $('#hBar').style.width = '100%';
-  try { window.reportGame && window.reportGame(stars, 10 * 3 + coins.length); } catch (e) {}
+  finished = true; SND.win(); $('#hBar').style.width = '100%';
+  try { window.reportGame && window.reportGame(stars, 30); } catch (e) {}
   drawCert().catch(() => {}).then(() => $('#ovEnd').classList.add('on'));
 }
 async function drawCert() {
@@ -351,8 +315,8 @@ async function drawCert() {
   g.fillStyle = '#2b2340'; g.font = F(44); g.fillText('تشهد معلمة العلوم بأنّ الطالبة', W / 2, 340);
   const name = ($('#nm').value || '').trim() || '……………………………';
   g.fillStyle = '#c2366f'; g.font = F(96); g.fillText(name, W / 2, 470);
-  g.fillStyle = '#2b2340'; g.font = F(44); g.fillText('أتمّت «مغامرة المكعّبات» في تعزيز مهارات الفصل الرابع: أجهزة الجسم', W / 2, 570);
-  g.fillText('وفتحت البوابات العشر بنجاح، وجمعت', W / 2, 640);
+  g.fillStyle = '#2b2340'; g.font = F(44); g.fillText('أتمّت «متاهة المكعّبات» في تعزيز مهارات الفصل الرابع: أجهزة الجسم', W / 2, 570);
+  g.fillText('وأنجزت المحطات العشر بنجاح، وجمعت', W / 2, 640);
   g.fillStyle = '#e6892a'; g.font = F(72); g.fillText(`⭐ ${ar(stars)} نجمة ⭐`, W / 2, 740);
   g.fillStyle = '#2b2340'; g.font = F(40); g.fillText('مع تمنياتي لكِ بدوام التفوّق والتميّز 💜', W / 2, 820);
   let d = ''; try { d = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date()); } catch (e) {}
@@ -361,15 +325,17 @@ async function drawCert() {
   await new Promise((res) => { const im = new Image(); im.onload = () => { g.drawImage(im, 110, 640, 220 * im.width / im.height, 220); res(); }; im.onerror = res; im.src = '../assets/lt.png'; });
   try { const url = c.toDataURL('image/png'); $('#bSave').href = url; $('#printImg').src = url; } catch (e) {}
 }
+
 $('#bPrint').onclick = () => window.print();
 $('#bAgain').onclick = () => location.reload();
+$('#bNew').onclick = () => { if (busy) return; goodSeed(seed + 1); Object.assign(me, { x: CW - 2, y: CH - 2, fx: CW - 2, fy: CH - 2 }); stations.forEach((s) => s.done = false); next = 0; stars = 0; finished = false; hud(); toast('🔀 متاهة جديدة!'); };
 $('#go').onclick = () => {
   try { localStorage.setItem('blocks4:name', $('#nm').value.trim()); } catch (e) {}
-  $('#ovStart').classList.remove('on'); playing = true; paused = false; last = performance.now(); respawn(); hud();
-  toast('🚀 انطلقي! اقفزي إلى البوابة الأولى', 2200); try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); AC.resume(); } catch (e) {}
+  $('#ovStart').classList.remove('on'); playing = true; hud(); toast('🚀 ابدئي من «ابدئي» واذهبي إلى المحطة ١', 2400);
+  try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); AC.resume(); } catch (e) {}
 };
-respawn(); hud();
-window.__game = { get p() { return p; }, get stage() { return stage; }, get stars() { return stars; }, gates, ask, openGate, finish, Q, teleport: (z) => { p.set(0, .05, z); v.set(0, 0, 0); } };
+hud();
+window.__maze = { get me() { return me; }, get stations() { return stations; }, get path() { return path; }, get stars() { return stars; }, move, ask, Q };
 })();
 </script>
 <script src="../assets/student.js"></script>
