@@ -84,7 +84,7 @@
   </header>
 
   <div class="panel" id="teacherBar" hidden style="padding:10px 14px;border-color:var(--accent)">
-    <div class="row between small"><span>👩‍🏫 وضع المعلمة: تحت كل صورة يمكنك التعليق 💬 والتثبيت 📌 والحذف.</span><a class="btn sm" href="teacher.html">لوحة المعلمة</a></div>
+    <div class="row between small"><span>👩‍🏫 وضع المعلمة: تحت كل صورة يمكنك التعليق 💬 والتثبيت 📌 والحذف.</span><span class="row" style="gap:6px"><button class="btn sm primary" id="namesBtn">📋 أسماء المشاركات</button><a class="btn sm" href="teacher.html">لوحة المعلمة</a></span></div>
   </div>
 
   <div class="toolbar">
@@ -131,6 +131,18 @@ let POSTS = [], seen = new Set(), firstLoad = true, cat = '', ROSTER = null;
 const liked = new Set(store.get('wallLiked', []));
 
 $('#teacherBar').hidden = !TEACHER;
+// قائمة أسماء الطالبات اللاتي نشرن في هذا الحائط، بلا تكرار، مقسّمة حسب الفصل
+$('#namesBtn').onclick = () => {
+  const by = {};
+  POSTS.forEach(p => { const k = norm(p.name); (by[p.cls] = by[p.cls] || new Map()); if (!by[p.cls].has(k)) by[p.cls].set(k, p.name.trim()); });
+  const groups = WALL.classes.map(c => ({ name: c.name, list: [...(by[c.id] || new Map()).values()].sort((a, b) => a.localeCompare(b, 'ar')) }));
+  const total = groups.reduce((s, g) => s + g.list.length, 0);
+  const text = WALL.title + ' (' + total + ' طالبة)\n\n' + groups.map(g => g.name + ' (' + g.list.length + '):\n' + (g.list.length ? g.list.map((n, i) => (i + 1) + '. ' + n).join('\n') : '—')).join('\n\n');
+  const box = h('textarea', { rows: 14, readonly: true, style: 'font-size:16px' }); box.value = text;
+  modal(h('h2', {}, '📋 أسماء المشاركات (' + ar(total) + ')'),
+    h('p', { class: 'muted', style: 'margin:0' }, 'كل طالبة مرة واحدة حتى لو نشرت أكثر من صورة.'),
+    box, h('button', { class: 'btn teal big', onclick: () => copyText(text) }, '📋 نسخ الأسماء'));
+};
 $('#teacherLogin').hidden = TEACHER;
 $('#teacherLogin').onclick = () => {
   const pin = h('input', { type: 'password', inputmode: 'numeric', placeholder: 'الرمز السري' });
