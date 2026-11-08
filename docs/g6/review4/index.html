@@ -448,6 +448,10 @@
   .envcard .btn { opacity: 0; transition: opacity .4s 1.6s; } .reveal.on .envc.go ~ .btn { opacity: 1; }
   @media (max-height: 700px) { .envc { margin-top: 190px; } .envc.go .letter { transform: translateY(-185px); } }
   .gifts { grid-template-columns: repeat(8, 1fr); }
+  .slide.wtn.on { display: flex; align-items: center; justify-content: center; }
+  .wbox { position: relative; height: 100%; max-width: 100%; aspect-ratio: 1672 / 941; }
+  .wbox > img { width: 100%; height: 100%; display: block; border-radius: 14px; }
+  .wbox video { position: absolute; left: 36.4%; top: 29.4%; width: 36.5%; height: 38.7%; background: #000; object-fit: contain; border-radius: 6px; }
 </style>
 </head>
 <body>
@@ -478,7 +482,7 @@
     <div class="slide"><img src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></div>
     <div class="slide"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
     <div class="slide"><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
-    <div class="slide"><img src="img/watan.jpg" alt="وطني أحبك لا بديل"></div>
+    <div class="slide wtn"><div class="wbox"><img src="img/watan.jpg" alt="وطني أحبك لا بديل"><video id="wvid" src="vid/watan.mp4" controls playsinline preload="metadata"></video></div></div>
     <div class="slide tam"><div class="tamh">🦜 تمهيد: يطير الببغاء ويأكل ويتنفّس ويستجيب لما حوله… فأيّ أجهزة جسمه تعمل معًا؟ هيا نراجع الفصل الرابع!</div><img class="tamimg" src="img/parrot.jpg" alt="ببغاء"></div>
     <div class="slide goals"><div class="box">
       <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
@@ -642,6 +646,7 @@ function slide(d) {
   const all = document.querySelectorAll('#start .slide');
   si = (si + d + all.length) % all.length;
   all.forEach((x, k) => x.classList.toggle('on', k === si));
+  const wv = document.getElementById('wvid'); if (wv && !all[si].contains(wv)) wv.pause();
   const tv = document.getElementById('tvid'); if (tv) { if (all[si].contains(tv)) tv.play().catch(() => {}); else tv.pause(); }
   document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
 }
