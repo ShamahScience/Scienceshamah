@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
 <style>
-  :root { --green: #1b5e20; --leaf: #2f8a3a; --mint: #e3f4d7; --cream: #fffbef; --ink: #23293a; --pink: #c2366f; --red: #d23b3b; --gold: #f5c242; --sky: #dff1fb; --rose: #fde4ec; --yel: #fff3c4; --lav: #eee8fb; }
+  :root { --green: #1b5e20; --leaf: #2f8a3a; --mint: #e3f4d7; --cream: #fffbef; --ink: #23293a; --pink: #c2366f; --red: #d23b3b; --gold: #f5c242; --sky: #dff1fb; --rose: #fde4ec; --yel: #fff3c4; --lav: #FBF6E9; }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #efe7fb; }
+  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #EEF7E8; }
   img { max-width: 100%; display: block; }
   main img { cursor: zoom-in; }
   .flags { width: 100%; height: 70px; object-fit: cover; object-position: center top; }
@@ -17,7 +17,7 @@
   header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 20%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
   header h1 { margin: 0; font-size: 26px; color: var(--green); line-height: 1.4; }
   header p { margin: 0; font-size: 16px; color: #4a5468; }
-  .tabs { max-width: 1100px; margin: 10px auto 0; padding: 0 14px; display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: #efe7fb; padding-bottom: 8px; }
+  .tabs { max-width: 1100px; margin: 10px auto 0; padding: 0 14px; display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: #EEF7E8; padding-bottom: 8px; }
   .tab { flex: 1; min-width: 120px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 16px; padding: 10px 8px; font: inherit; font-size: 19px; cursor: pointer; }
   .tab.on { background: var(--green); color: #fff; box-shadow: 0 4px 0 #0f3a13; }
   main { max-width: 1100px; margin: 0 auto; padding: 6px 14px 30px; }
@@ -35,7 +35,7 @@
   .flip .a { display: none; margin-top: 6px; padding-top: 6px; border-top: 2px dashed #b9a24a; color: var(--leaf); }
   .flip.open { background: #f3fbe9; border-color: var(--leaf); }
   .flip.open .a { display: block; }
-  .flip .k { font-size: 14px; color: #6b4fc0; display: block; }
+  .flip .k { font-size: 14px; color: #2E6B30; display: block; }
   .flip .hint { font-size: 13px; color: #7a869e; }
   /* stations layout like a video chapter list */
   .stations { display: grid; grid-template-columns: 290px 1fr; gap: 14px; align-items: start; }
@@ -89,12 +89,12 @@
   .level { display: inline-block; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-bottom: 4px; }
   .zoom { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 20; padding: 12px; }
   .zoom.on { display: flex; }
-  footer { text-align: center; color: #6b4fc0; font-size: 18px; padding: 10px; }
+  footer { text-align: center; color: #2E6B30; font-size: 18px; padding: 10px; }
   .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
   @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
 
   /* ── Computer screen: everything fits in one landscape screen, no page scrolling ── */
-  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: #6b4fc0; border-radius: 30px; padding: 4px 16px; font-size: 19px; white-space: nowrap; }
+  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: #2E6B30; border-radius: 30px; padding: 4px 16px; font-size: 19px; white-space: nowrap; }
   .fs { border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
   @media (min-width: 900px) and (orientation: landscape) and (max-height: 720px) {
     header p { display: none; } header img.girl { width: 40px; height: 40px; } header h1 { font-size: 21px; }
@@ -186,7 +186,7 @@
   .award { position: fixed; z-index: 40; pointer-events: none; text-align: center; transform: translate(-50%, -50%); animation: rise 1.6s ease-out forwards; }
   .award .s { font-size: 54px; line-height: 1; filter: drop-shadow(0 3px 2px rgba(0,0,0,.25)); }
   .award .t { display: inline-block; margin-top: 4px; background: #fff; border: 3px solid var(--gold); color: var(--pink); border-radius: 20px; padding: 2px 14px; font-size: 20px; white-space: nowrap; }
-  .award.two .t { background: #6b4fc0; color: #fff; border-color: #fff3c4; }
+  .award.two .t { background: #2E6B30; color: #fff; border-color: #fff3c4; }
   @keyframes rise { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.4); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 70% { opacity: 1; transform: translate(-50%, -80%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -140%) scale(.9); } }
   .flip[data-stars="2"] .k::after { content: ' ⭐⭐'; }
   /* الجولة الافتراضية والصمام */
@@ -287,13 +287,13 @@
     #starCard .sc-l { font-size: 15px; color: #555; margin: 4px; }
     #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
   }
-  .txin { position: fixed; z-index: 70; min-width: 160px; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; background: rgba(255,255,255,.92); border: 2px dashed #6b4fc0; border-radius: 8px; padding: 0 6px; direction: rtl; outline: none; }
+  .txin { position: fixed; z-index: 70; min-width: 160px; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; background: rgba(255,255,255,.92); border: 2px dashed #2E6B30; border-radius: 8px; padding: 0 6px; direction: rtl; outline: none; }
   /* القرعة */
   #drawBox { display: flex; flex-direction: column; gap: 8px; }
   @media (min-width: 900px) and (orientation: landscape) { #draw.on, #drawBox { height: 100%; } }
   .dr-top { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; } .dr-top .strat { margin: 0; }
   .dr-nr { font-size: 16px; margin-inline-start: auto; } .dr-top .btn { font-size: 16px; padding: 4px 12px; }
-  .dr-msg { margin: 0; text-align: center; font-size: 17px; color: #6b4fc0; }
+  .dr-msg { margin: 0; text-align: center; font-size: 17px; color: #2E6B30; }
   .dr-cols { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .dr-col { border: 3px solid var(--green); border-radius: 20px; padding: 10px; display: flex; flex-direction: column; gap: 8px; min-height: 0; background: #f7fbf3; }
   .dr-col[data-c="6b"] { border-color: var(--pink); background: #fff6f9; }
@@ -311,28 +311,20 @@
   .dr-edit { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; } .dr-edit[hidden] { display: none; }
   .dr-edit label { font-size: 15px; } .dr-edit textarea { width: 100%; height: 110px; font: inherit; font-size: 16px; border: 2px solid var(--leaf); border-radius: 10px; }
   .dr-edit .note { grid-column: 1 / -1; margin: 0; font-size: 14px; }
-  .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; margin: 6px 0; }
+  .nhead { display: flex; gap: 10px; align-items: center; background: #F3FAEE; border: 2px solid #24402A; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; margin: 6px 0; }
   .nhead img { width: 74px; flex: none; }
-  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
+  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #4E9A3E; } .nlab.sk { background: #f0a23b; }
   #nafs .box { overflow-y: auto; }
   .sbtn { position: absolute; bottom: 10px; left: 10px; z-index: 3; font-size: 16px; padding: 4px 12px; box-shadow: 0 2px 8px #0003; }
-  /* purple theme */
-  :root { --green: #8a6ad4; --leaf: #a58be0; --mint: #f1ecfc; }
-  .list { background: linear-gradient(180deg, #9a7ddc, #bba6ec); }
-  .tab.on { box-shadow: 0 4px 0 #6b4fb0; } .box { box-shadow: 0 5px 0 #e4daf7; }
-  .msg.good { color: #2f8a3a; } .btn.ok { border-color: #2f8a3a; }
-  .gift { background: #fff; border-color: #b79be8; box-shadow: 0 4px 0 #d9ccf2; } .gift .n { color: #7e57c2; }
-  .gift .e { font-size: 40px; } .gift.done .e { font-size: 26px; color: #7e57c2; font-weight: 700; }
-  #rvE { animation: envOpen .7s ease-out; } @keyframes envOpen { from { transform: scale(.4) rotate(-15deg); opacity: 0; } to { transform: none; opacity: 1; } }
   /* the envelope opens and the letter slides out */
   .reveal .card.envcard { background: transparent; border: 0; box-shadow: none; padding: 0; max-width: 520px; animation: pop .45s ease-out; }
   .envc { position: relative; width: min(460px, 86vw); height: 250px; margin: 210px auto 16px; perspective: 900px; }
   .env-back { position: absolute; inset: 0; background: #c3a9f0; border-radius: 14px; }
   .letter { position: absolute; left: 18px; right: 18px; bottom: 12px; height: 226px; background: #fffdf6; border: 2px solid #e8dcc0; border-radius: 12px; padding: 14px 14px 0; text-align: center;
     z-index: 2; transform: translateY(0); transition: transform 1s .75s cubic-bezier(.2, .9, .25, 1); box-shadow: 0 4px 12px #0002; overflow: hidden;
-    background-image: repeating-linear-gradient(#fffdf6 0 34px, #efe6fb 34px 36px); }
+    background-image: repeating-linear-gradient(#fffdf6 0 34px, #EEF7E8 34px 36px); }
   .envc.go .letter { transform: translateY(-200px); }
-  .letter .big { display: none; } .letter .kind { background: #efe6fb; color: #6b4fb0; }
+  .letter .big { display: none; } .letter .kind { background: #EEF7E8; color: #2E6B30; }
   .letter h3 { margin: 6px 0 2px; } .letter p { margin: 4px 0; font-size: 23px; color: #4a2a7a; line-height: 1.6; }
   .env-front { position: absolute; inset: 0; z-index: 3; background: #b293ea; border-radius: 14px; clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%); box-shadow: inset 0 -6px 0 #9d7bdf; }
   .env-flap { position: absolute; left: 0; right: 0; top: 0; height: 58%; z-index: 4; background: #9f7fe0; clip-path: polygon(0 0, 100% 0, 50% 100%);
@@ -375,12 +367,12 @@
   .fold b { display: block; color: #ffe082; font-size: 15px; }
   /* المهمات */
   #missions.on { display: flex; flex-direction: column; gap: 10px; }
-  .alb { flex: none; text-align: center; background: linear-gradient(90deg, #6b4fc0, #c2366f); color: #fff; border-radius: 14px; padding: 4px 10px; font-size: 18px; } .alb b { color: #ffe082; }
+  .alb { flex: none; text-align: center; background: linear-gradient(90deg, #2E6B30, #c2366f); color: #fff; border-radius: 14px; padding: 4px 10px; font-size: 18px; } .alb b { color: #ffe082; }
   .revb { background: #e3f2fd; border: 2px solid #1e88e5; color: #0d47a1; border-radius: 12px; padding: 0 10px; font-size: 14px; } .revb.s0 { background: #fff3e0; border-color: #fb8c00; color: #8a4b00; } .revb.s1 { background: #fce4ec; border-color: #ec407a; color: #880e4f; } .revb.s2 { background: #ffebee; border-color: #e53935; color: #b71c1c; } .revb.s3 { background: #fffde7; border-color: #fbc02d; color: #6d5200; } .revb.s4 { background: #f1f8e9; border-color: #7cb342; color: #33691e; }
-  .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; }
+  .nhead { display: flex; gap: 10px; align-items: center; background: #F3FAEE; border: 2px solid #24402A; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; }
   .nhead img { width: 74px; flex: none; }
   .nlab.pg { background: #1e5fd8; font-size: 14px; } .nlab.pg.mine { background: #8d6e63; }
-  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
+  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #4E9A3E; } .nlab.sk { background: #f0a23b; }
   .nq { display: flex; align-items: center; justify-content: center; gap: 14px; } .nq img { max-height: 80px; } .nq .mq { margin: 4px 0; }
   .mcard .nlogo { height: 34px; display: block; margin: 0 auto; }
   .nout { display: block; text-align: center; background: #eef6ff; border: 2px dashed #1e5fd8; color: #1e3a8a; border-radius: 12px; padding: 2px 10px; font-size: 15px; margin: 4px 0; }
@@ -394,7 +386,7 @@
   #mbody .opts { grid-template-columns: repeat(3, 1fr); } #mbody .opts.o4 { grid-template-columns: repeat(2, 1fr); } #mbody .opts .btn { text-align: center; font-size: 20px; }
   .mend { text-align: center; } .mend .big { font-size: 70px; }
   .cmp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 14px; align-items: start; }
-  .ctab { font-size: 15px; } .ctab td { vertical-align: top; width: 33%; } .ctab th:nth-child(2) { background: #6b4fc0; }
+  .ctab { font-size: 15px; } .ctab td { vertical-align: top; width: 33%; } .ctab th:nth-child(2) { background: #2E6B30; }
   .chip { display: inline-block; margin: 3px; padding: 3px 10px; border-radius: 12px; background: var(--yel); border: 2px solid #b9a24a; font: inherit; font-size: 15px; }
   .chip.fixd { background: #fde2e2; border-color: var(--red); }
   .ctab .chip { display: block; }
@@ -414,16 +406,16 @@
   .rx.wait { background: #ef6c00; } .rx.go { background: #2e7d32; }
 
 
-  .slimg { display: block; width: 100%; max-height: 24vh; object-fit: contain; border-radius: 12px; border: 3px solid #b79be8; margin: 4px 0; cursor: zoom-in; background: #fff; }
-  .srt { background: #f7f3ff; border: 2px dashed #b79be8; border-radius: 14px; padding: 6px; margin: 6px 0; }
+  .slimg { display: block; width: 100%; max-height: 24vh; object-fit: contain; border-radius: 12px; border: 3px solid #8CC46E; margin: 4px 0; cursor: zoom-in; background: #fff; }
+  .srt { background: #f7f3ff; border: 2px dashed #8CC46E; border-radius: 14px; padding: 6px; margin: 6px 0; }
   .spool { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; min-height: 34px; }
   .spool .pick.on { outline: 3px solid var(--gold); transform: scale(1.06); }
   .sbins { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
-  .sbin { background: #fff; border: 3px solid #b79be8; border-radius: 12px; min-height: 70px; cursor: pointer; padding: 3px; }
+  .sbin { background: #fff; border: 3px solid #8CC46E; border-radius: 12px; min-height: 70px; cursor: pointer; padding: 3px; }
   .sbh { text-align: center; font-size: 15px; color: #5b3a9e; } .sbc { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; }
   .sbc .pick { font-size: 13px; padding: 1px 6px; } .sbc .pick.ok { background: #e6f6ea; border-color: #2f8a3a; } .sbc .pick.fx { background: #fff3e0; border-color: #e67e22; }
   .pyr2 { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 6px 0; }
-  .pyl { text-align: center; background: #ede6fb; border: 2px solid #b79be8; border-radius: 8px; padding: 3px; font-size: 15px; transition: .5s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pyl { text-align: center; background: #ede6fb; border: 2px solid #8CC46E; border-radius: 8px; padding: 3px; font-size: 15px; transition: .5s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .pyl.on { background: linear-gradient(90deg, #ffe082, #f5c242); border-color: #e0a800; } .pyl .pe { font-size: 18px; } .pyl .pv { color: #c2366f; }
   .pyn { font-size: 13px; color: #6b5a8e; text-align: center; }
   .cmpimg img { display: block; width: 100%; max-height: 30vh; object-fit: contain; border: 3px solid var(--leaf); border-radius: 12px; cursor: zoom-in; background: #fff; }
@@ -469,8 +461,8 @@
   .slot.ok { border-style: solid; border-color: var(--leaf); color: var(--ink); background: #f3fbe9; font-size: 18px; } .slot.glow { box-shadow: 0 0 12px #f5c242; background: #fff3c4; }
   .lt { position: relative; margin-inline-start: auto; width: min(470px, 46%); height: 46px; cursor: pointer; flex: none; }
   .lt img { position: absolute; left: 0; bottom: -8px; height: 118px; filter: drop-shadow(0 3px 4px #0003); animation: ltbob 3s ease-in-out infinite; transform-origin: bottom center; }
-  .ltb { position: absolute; left: 96px; right: 0; bottom: 2px; background: #fff; border: 2px solid #c58ad8; border-radius: 16px; padding: 4px 10px; font-size: 14px; line-height: 1.45; color: #4a2a5a; box-shadow: 0 2px 8px #0002; animation: ltin .5s ease-out; }
-  .ltb::before { content: ''; position: absolute; left: -10px; bottom: 12px; border: 8px solid transparent; border-right-color: #c58ad8; border-left: 0; }
+  .ltb { position: absolute; left: 96px; right: 0; bottom: 2px; background: #fff; border: 2px solid #E9A5C0; border-radius: 16px; padding: 4px 10px; font-size: 14px; line-height: 1.45; color: #4a2a5a; box-shadow: 0 2px 8px #0002; animation: ltin .5s ease-out; }
+  .ltb::before { content: ''; position: absolute; left: -10px; bottom: 12px; border: 8px solid transparent; border-right-color: #E9A5C0; border-left: 0; }
   .ltb.pop { animation: ltin .4s ease-out; }
   @keyframes ltbob { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-3deg) translateY(-2px); } }
   @keyframes ltin { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
@@ -483,12 +475,29 @@
   .wtnbtn { position: absolute; z-index: 4; top: 8px; left: 50%; transform: translateX(-50%); z-index: 3; font-size: 20px; padding: 6px 22px; box-shadow: 0 3px 10px #0004; }
   .wplay { position: absolute; left: 36.4%; top: 29.4%; width: 36.5%; height: 38.7%; background: transparent; border: 0; cursor: pointer; border-radius: 6px; }
   .wplay:hover { box-shadow: 0 0 0 4px #ffd54f; }
+  /* forest identity */
+  :root { --green: #2E6B30; --leaf: #4E9A3E; --mint: #EEF7E8; --pink: #D9628E; --rose: #FCE4EE; --cream: #FBF6E9; --yel: #FFF7D1; }
+  body { background: #e6f1dd url(img/forest_bg.jpg) center / cover fixed !important; }
+  .flags { display: none !important; }
+  header { background: rgba(255,255,252,.93); border: 3px solid #8CC46E; border-top: 0; border-radius: 0 0 24px 24px; padding-bottom: 6px !important; }
+  header img.girl { object-fit: contain !important; object-position: center top !important; background: #FBF6E9 !important; border-color: #E9A5C0 !important; }
+  header h1 { color: #2E6B30 !important; }
+  .tabs { background: rgba(255,255,252,.75); border-radius: 18px; padding: 6px !important; }
+  .tab { border-color: #8CC46E !important; color: #2E6B30 !important; background: #fff; }
+  .tab.on { background: #4E9A3E !important; color: #fff !important; border-color: #2E6B30 !important; box-shadow: 0 4px 0 #2E6B30 !important; }
+  .box { border-color: #8CC46E !important; box-shadow: 0 5px 0 #cfe6c3 !important; background: #FFFFFC; }
+  .list { background: linear-gradient(180deg, #4E9A3E, #8CC46E) !important; }
+  .box h2 { display: inline-block; background: #FCE4EE; border: 2px solid #E9A5C0; border-radius: 30px; padding: 2px 20px; color: #2E6B30 !important; }
+  .btn.on, .btn.primary { background: #4E9A3E !important; }
+  .msg.good { color: #2f8a3a; } .btn.ok { border-color: #2f8a3a; }
+  .lt img { height: 128px !important; }
+  .slimg { max-height: 31vh !important; border-radius: 16px !important; }
 </style>
 </head>
 <body>
 <img class="flags" src="img/flags.jpg" alt="">
 <header>
-  <img class="girl" src="img/girl.jpg" alt="العالمة الصغيرة">
+  <img class="girl" src="img/guard_face.png" alt="العالمة الصغيرة">
   <div><h1>الفصل الخامس – الدرس الأول (تابع): الشبكات الغذائية وهرم الطاقة</h1><p>العلوم – الصف السادس الابتدائي • ص١٤٠–١٤٢</p></div>
   <button class="startot snd" id="sndBtn" title="صوت التعزيز" onclick="toggleSound()">🔔</button>
   <button class="startot" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ نجوم الفصل: <b id="starN">٠</b></button>
@@ -514,7 +523,7 @@
     <div class="slide"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
     <div class="slide"><button class="btn main wtnbtn" onclick="openVid('vid/flag.mp4')">🎬 شغّلي النشيد الوطني</button><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
     <div class="slide wtn"><button class="btn main wtnbtn" onclick="openVid('vid/watan.mp4')">🎬 شغّلي فيديو «وطني أحبك لا بديل»</button><div class="wbox"><img src="img/watan.jpg" alt="وطني أحبك لا بديل"><button class="wplay" onclick="openVid('vid/watan.mp4')" title="تشغيل الفيديو"></button></div></div>
-    <div class="slide tam"><div class="tamh">🦊 تمهيد: الثعلب يتغذّى على الثدييات الصغيرة والطيور والسحالي… فهل تكفيه سلسلة غذائية واحدة؟</div><img class="tamimg" src="img/s1.jpg" alt="الشبكات الغذائية وهرم الطاقة"></div>
+    <div class="slide tam"><div class="tamh">🦊 تمهيد: الثعلب يتغذّى على الثدييات الصغيرة والطيور والسحالي… فهل تكفيه سلسلة غذائية واحدة؟</div><img class="tamimg" src="img/v_title.jpg" alt="الشبكات الغذائية وهرم الطاقة"></div>
     <div class="slide goals"><div class="box">
       <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
       <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
@@ -752,7 +761,7 @@ const STATIONS = [
   { icon: '🔁', name: 'مراجعة سريعة: صنّفي واكتشفي', page: 139, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> صنّفي واكتشفي – مراجعة الدرس السابق (٣ دقائق) ⏱️</span><h2>🔁 مراجعة سريعة: المنتجات والمستهلكات والمحلّلات</h2>
     <div class="grid2 body"><div class="pagecol">${page(139)}</div><div class="txt">
-      <img class="slimg" src="img/s3.jpg" alt="مراجعة سريعة" onclick="zoom(this.src)">
+      <img class="slimg" src="img/v_rev.jpg" alt="مراجعة سريعة" onclick="zoom(this.src)">
       <p style="margin:2px 0">اضغطي على البطاقة، ثم على خانتها 👇</p>
       <div id="srtQ"></div>
       ${flip('من يأكل من؟ نبات ← جرادة ← طائر. ما هذا النموذج؟', 'سلسلة غذائية: مسار انتقال الطاقة من مخلوق حي إلى آخر.', 'أتذكّر')}
@@ -760,10 +769,10 @@ const STATIONS = [
   { icon: '🕸️', name: 'من السلسلة إلى الشبكة', page: 140, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> التمهيد – من السلسلة إلى الشبكة</span><h2>🕸️ من السلسلة إلى الشبكة</h2>
     <div class="grid2 body"><div class="pagecol">${page(140)}</div><div class="txt">
-      <img class="slimg" src="img/s6.jpg" alt="من السلسلة إلى الشبكة" onclick="zoom(this.src)">
+      <img class="slimg" src="img/v_web.jpg" alt="من السلسلة إلى الشبكة" onclick="zoom(this.src)">
       ${flip('هل تتغذّى معظم الحيوانات على نوع واحد فقط من المخلوقات؟', 'لا؛ معظم الحيوانات جزء في أكثر من سلسلة غذائية.', 'أتساءل')}
       ${flip('ماذا تأخذ مجموعة السلاسل الغذائية المتداخلة؟', 'صورة شبكة غذائية.', 'أستنتج')}
-      <img class="slimg" src="img/s9.jpg" alt="أقارن بين السلسلة والشبكة" onclick="zoom(this.src)">
+      <img class="slimg" src="img/v_cmp.jpg" alt="أقارن بين السلسلة والشبكة" onclick="zoom(this.src)">
     </div></div>` },
   { icon: '📖', name: 'ما الشبكات الغذائية؟', page: 140, html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ وأتتبّع الأسهم</span><h2>📖 ما الشبكات الغذائية؟</h2>
@@ -798,7 +807,7 @@ const STATIONS = [
     <div class="grid2 body"><div class="pagecol">${page(142)}</div><div class="txt">
       ${flip('أتتبّع: ما الذي تبيّنه المستويات في هرم الطاقة؟', 'تبيّن كمية الطاقة المتوافرة في كل مستوى غذائي وأعداد مخلوقاته؛ فالطاقة والأعداد تقلّان كلما ارتفعنا في الهرم.', 'أتتبّع')}
       ${flip('التفكير الناقد: ماذا يمكن أن يحدث للمخلوقات الحية في النظام البيئي إذا قلّت فيه مصادر الغذاء؟', 'يزداد التنافس بينها على الغذاء، فتقلّ أعداد الجماعات الحيوية، ويهاجر بعضها أو يموت، فيختلّ توازن النظام البيئي.', 'التفكير الناقد')}
-      <img class="slimg" src="img/s8.jpg" alt="أفكر وأستنتج" onclick="zoom(this.src)">
+      <img class="slimg" src="img/v_think.jpg" alt="أفكر وأستنتج" onclick="zoom(this.src)">
       ${flip('ماذا يحدث لبقية المخلوقات إذا اختفت النباتات؟ ولماذا؟', 'تقلّ آكلات الأعشاب ثم آكلات اللحوم؛ لأن المنتجات قاعدة الهرم وتدعم المخلوقات الأخرى كافة.', 'أستنتج')}
       ${flip('لماذا يدرس العلماء تدفّق الطاقة في السلاسل الغذائية؟', 'لأن ذلك يساعدهم على توقّع التأثير الذي يحدث في المجتمعات الحيوية.', 'أقرأ')}
     </div></div>` },
@@ -814,7 +823,7 @@ const STATIONS = [
         ${flip('كوّني شبكة صغيرة من صحراء وطني: (نبات – جربوع – جرادة – ثعبان – صقر)', 'نبات ← جربوع، نبات ← جرادة، جربوع ← ثعبان، ثعبان ← صقر، جرادة ← صقر.', 'بيئتي')}
       </div>
       <div class="lk hayah"><h3>🌍 ربط بالحياة</h3>
-        <img class="slimg" src="img/s12.jpg" alt="حارسة التوازن البيئي" onclick="zoom(this.src)">
+        <img class="slimg" src="img/v_guard.jpg" alt="حارسة التوازن البيئي" onclick="zoom(this.src)">
         ${flip('كيف أكون حارسة للتوازن البيئي؟', 'لا أصطاد الحيوانات عبثًا، ولا أقطع النباتات، ولا أُسرف في الطعام.', 'سلوكي')}
       </div>
     </div>` },
@@ -831,8 +840,8 @@ const CIRC_SVG = `<svg id="circ" viewBox="0 0 420 520">
   <path id="cp2" d="M300 140 C 300 200, 270 250, 225 290" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
   <path id="cp3" d="M235 330 C 300 360, 320 390, 300 420" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
   <path id="cp4" d="M120 420 C 100 390, 130 350, 190 330" stroke="#3B6FD8" stroke-width="16" fill="none" stroke-linecap="round"/>
-  <path d="M120 140 C 160 110, 260 110, 300 140" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
-  <path d="M300 420 C 260 450, 160 450, 120 420" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <path d="M120 140 C 160 110, 260 110, 300 140" stroke="#4E9A3E" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <path d="M300 420 C 260 450, 160 450, 120 420" stroke="#4E9A3E" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
   <g id="cheart"><path d="M210 360 C 120 300, 150 240, 210 275 C 270 240, 300 300, 210 360 Z" fill="url(#hg)"/><text x="210" y="312" fill="#fff" font-size="22" text-anchor="middle">القلب</text></g>
   <g id="ccells"></g>
   <text id="co2" x="210" y="160" fill="#FFEB3B" font-size="17" text-anchor="middle" opacity="0">يدخل الأكسجين ويخرج ثاني أكسيد الكربون</text>
@@ -892,7 +901,7 @@ function teach(i) {
   const s = STATIONS[i], tmp = document.createElement('div'); tmp.innerHTML = s.html();
   const st = tmp.querySelector('.strat'), strat = st ? st.textContent.replace('الاستراتيجية:', '').trim() : '';
   const tip = LT_TIPS[i] || `هيا نتعلّم معًا في محطة «${s.name}»! ${strat ? 'استراتيجيتنا: ' + strat + '.' : ''} اقرئي الصفحة وظلّلي، ثم أجيبي 💚`;
-  nav.insertAdjacentHTML('beforeend', `<div class="lt" onclick="ltSay()" title="اضغطي لتسمعي الشرح"><div class="ltb" id="ltb">${tip}</div><img src="../../assets/lt.png" alt="المعلمة الصغيرة"></div>`);
+  nav.insertAdjacentHTML('beforeend', `<div class="lt" onclick="ltSay()" title="اضغطي لتسمعي الشرح"><div class="ltb" id="ltb">${tip}</div><img src="img/guard.png" alt="المعلمة الصغيرة"></div>`);
 }
 function ltSay() {
   const b = document.getElementById('ltb'); if (!b) return;
