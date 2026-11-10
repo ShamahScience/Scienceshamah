@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الشبكات الغذائية وهرم الطاقة – درس تفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --green: #1b5e20; --leaf: #2f8a3a; --mint: #e3f4d7; --cream: #fffbef; --ink: #23293a; --pink: #c2366f; --red: #d23b3b; --gold: #f5c242; --sky: #dff1fb; --rose: #fde4ec; --yel: #fff3c4; --lav: #eee8fb; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: #efe7fb; }
+  img { max-width: 100%; display: block; }
+  main img { cursor: zoom-in; }
+  .flags { width: 100%; height: 70px; object-fit: cover; object-position: center top; }
+  header { max-width: 1100px; margin: 0 auto; padding: 8px 14px 0; display: flex; align-items: center; gap: 12px; }
+  header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 20%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
+  header h1 { margin: 0; font-size: 26px; color: var(--green); line-height: 1.4; }
+  header p { margin: 0; font-size: 16px; color: #4a5468; }
+  .tabs { max-width: 1100px; margin: 10px auto 0; padding: 0 14px; display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: #efe7fb; padding-bottom: 8px; }
+  .tab { flex: 1; min-width: 120px; border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 16px; padding: 10px 8px; font: inherit; font-size: 19px; cursor: pointer; }
+  .tab.on { background: var(--green); color: #fff; box-shadow: 0 4px 0 #0f3a13; }
+  main { max-width: 1100px; margin: 0 auto; padding: 6px 14px 30px; }
+  .panel { display: none; } .panel.on { display: block; }
+  .box { background: #fff; border: 3px solid var(--green); border-radius: 22px; padding: 16px; box-shadow: 0 5px 0 #c8dfc0; margin-bottom: 14px; }
+  .strat { display: inline-block; background: var(--cream); border: 2px dashed var(--gold); border-radius: 30px; padding: 2px 14px; font-size: 16px; margin-bottom: 8px; }
+  .strat b { color: var(--pink); }
+  h2 { margin: 2px 0 8px; color: var(--green); font-size: 24px; }
+  p, li { font-size: 19px; line-height: 1.9; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .page { border: 3px solid var(--leaf); border-radius: 14px; cursor: zoom-in; }
+  .cap { text-align: center; font-size: 14px; color: #5a6785; margin-top: 4px; }
+  .flip { border: 3px solid var(--ink); border-radius: 16px; background: var(--yel); padding: 10px 12px; margin: 10px 0; cursor: pointer; font-size: 19px; line-height: 1.8; }
+  .flip .a { display: none; margin-top: 6px; padding-top: 6px; border-top: 2px dashed #b9a24a; color: var(--leaf); }
+  .flip.open { background: #f3fbe9; border-color: var(--leaf); }
+  .flip.open .a { display: block; }
+  .flip .k { font-size: 14px; color: #6b4fc0; display: block; }
+  .flip .hint { font-size: 13px; color: #7a869e; }
+  /* stations layout like a video chapter list */
+  .stations { display: grid; grid-template-columns: 290px 1fr; gap: 14px; align-items: start; }
+  @media (max-width: 860px) { .stations { grid-template-columns: 1fr; } }
+  .list { background: linear-gradient(180deg, #1b5e20, #2f8a3a); border-radius: 22px; padding: 12px; color: #fff; position: sticky; top: 70px; }
+  @media (max-width: 860px) { .list { position: static; } }
+  .list h3 { margin: 4px 6px 8px; font-size: 20px; }
+  .list small { display: block; margin: -6px 6px 8px; font-size: 13px; opacity: .85; }
+  .st { display: flex; align-items: center; gap: 8px; width: 100%; background: rgba(255,255,255,.12); border: 2px solid transparent; color: #fff; border-radius: 14px; padding: 8px 10px; margin: 6px 0; font: inherit; font-size: 17px; cursor: pointer; text-align: right; }
+  .st .n { background: #fff; color: var(--green); border-radius: 8px; padding: 0 8px; font-size: 14px; }
+  .st.on { background: #fff; color: var(--green); border-color: var(--gold); }
+  .st.done::after { content: '✔'; margin-inline-start: auto; color: #c9f0c0; }
+  .st.on.done::after { color: var(--leaf); }
+  .nav { display: flex; gap: 10px; margin-top: 10px; }
+  .btn { border: 3px solid var(--ink); border-radius: 14px; background: var(--cream); color: var(--ink); font: inherit; font-size: 18px; padding: 9px 14px; cursor: pointer; }
+  .btn.main { background: var(--leaf); border-color: var(--green); color: #fff; }
+  .btn.ok { background: #c9f0c0; border-color: var(--leaf); }
+  .btn.no { background: #fde2e2; border-color: var(--red); animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .ce { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 6px; align-items: center; margin: 6px 0; }
+  .ce .c { background: var(--rose); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e { background: var(--sky); border-radius: 12px; padding: 6px 10px; font-size: 18px; }
+  .ce .e.hide { color: transparent; background: repeating-linear-gradient(45deg, #eef2f7, #eef2f7 8px, #e2e8f0 8px, #e2e8f0 16px); cursor: pointer; }
+  .ce .ar { text-align: center; font-size: 22px; color: #e67e22; }
+  .verse { text-align: center; font-size: 24px; color: var(--green); background: var(--mint); border-radius: 14px; padding: 8px; margin: 8px 0; }
+  .vocab { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media (max-width: 600px) { .vocab { grid-template-columns: repeat(2, 1fr); } }
+  .vocab .flip { text-align: center; margin: 0; }
+  /* virtual experiment */
+  .lab { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; }
+  .pot { background: #fbfdf9; border: 3px dashed var(--leaf); border-radius: 18px; padding: 8px; }
+  .pot svg { width: 100%; max-width: 220px; height: auto; }
+  .day { display: flex; align-items: center; gap: 10px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
+  .day input { width: 220px; accent-color: var(--leaf); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 16px; }
+  th, td { border: 2px solid #9cc79a; padding: 5px; text-align: center; }
+  th { background: var(--green); color: #fff; }
+  /* games */
+  .gamecards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 760px) { .gamecards { grid-template-columns: 1fr; } }
+  .gcard { border: 3px solid var(--green); border-radius: 20px; background: var(--cream); padding: 12px; text-align: center; cursor: pointer; font: inherit; color: var(--ink); }
+  .gcard .ic { font-size: 46px; }
+  .gcard b { display: block; font-size: 20px; color: var(--green); }
+  .play { margin-top: 12px; }
+  .opts { display: grid; gap: 8px; }
+  .opts .btn { text-align: right; }
+  .pic { width: 220px; max-width: 70%; margin: 6px auto; border-radius: 16px; border: 3px solid var(--leaf); }
+  .msg { min-height: 30px; text-align: center; font-size: 19px; margin-top: 6px; }
+  .msg.good { color: var(--leaf); } .msg.bad { color: var(--red); }
+  .score { text-align: center; font-size: 18px; }
+  .level { display: inline-block; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-bottom: 4px; }
+  .zoom { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 20; padding: 12px; }
+  .zoom.on { display: flex; }
+  footer { text-align: center; color: #6b4fc0; font-size: 18px; padding: 10px; }
+  .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.6s linear forwards; pointer-events: none; z-index: 30; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
+
+  /* ── Computer screen: everything fits in one landscape screen, no page scrolling ── */
+  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: #6b4fc0; border-radius: 30px; padding: 4px 16px; font-size: 19px; white-space: nowrap; }
+  .fs { border: 3px solid var(--green); background: #fff; color: var(--green); border-radius: 14px; padding: 6px 14px; font: inherit; font-size: 17px; cursor: pointer; white-space: nowrap; }
+  @media (min-width: 900px) and (orientation: landscape) and (max-height: 720px) {
+    header p { display: none; } header img.girl { width: 40px; height: 40px; } header h1 { font-size: 21px; }
+    .tab { padding: 4px 8px; font-size: 17px; } .box { padding: 10px 14px; }
+  }
+  @media (min-width: 900px) and (orientation: landscape) {
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .flags { height: 6vh; min-height: 34px; }
+    header, .tabs, main { max-width: none; width: 100%; }
+    header { padding: 4px 18px 0; }
+    header img.girl { width: 52px; height: 52px; }
+    header h1 { font-size: 24px; }
+    .tabs { margin-top: 6px; padding: 0 18px 6px; position: static; }
+    .tab { padding: 6px 8px; font-size: 19px; }
+    main { flex: 1; min-height: 0; padding: 4px 18px 4px; }
+    footer { padding: 0 0 4px; font-size: 15px; }
+    .panel.on { height: 100%; }
+    .box { margin-bottom: 0; }
+    .scroll { overflow-y: auto; min-height: 0; }
+    /* start: rules | flag | goals */
+    #start.on { display: flex; flex-direction: column; }
+    #start .show { flex: 1; height: auto; min-height: 0; }
+    /* stations: list | content (book page | explanation) */
+    .stations { height: 100%; grid-template-columns: 260px 1fr; }
+    .list { position: static; height: 100%; overflow-y: auto; }
+    #stBody, #stBody > .box { height: 100%; min-height: 0; }
+    #stBody > .box { display: flex; flex-direction: column; }
+    #stBody .body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 16px; }
+    #stBody .body > .pagecol { min-height: 0; position: relative; }
+    #stBody .body > .pagecol img.page { position: absolute; top: 0; right: 0; left: 0; bottom: 24px; width: 100%; height: calc(100% - 24px); object-fit: contain; border: 0; }
+    #stBody .body > .pagecol .cap { position: absolute; bottom: 0; right: 0; left: 0; }
+    #stBody .body > .txt { overflow-y: auto; min-height: 0; padding-inline-end: 4px; }
+    #stBody .extra { display: none; }
+    #stBody > .box { overflow: hidden; }
+    #stBody .nav { flex: none; }
+    #stBody .txt img { max-height: 15vh; width: auto; margin: 0 auto; }
+    #stBody .txt .flip { margin: 6px 0; padding: 6px 10px; font-size: 17px; line-height: 1.6; }
+    #stBody .txt p { font-size: 17px; line-height: 1.7; margin: 4px 0; }
+    #stBody .txt h2 { font-size: 18px !important; margin: 4px 0; }
+    #stBody .txt .verse { font-size: 18px !important; padding: 4px; margin: 4px 0; }
+    #stBody .txt .ce { margin: 3px 0; } #stBody .txt .ce .c, #stBody .txt .ce .e { font-size: 16px; padding: 3px 8px; }
+    #stBody .txt .grid2 { gap: 8px; }
+    #stBody .txt .cap { font-size: 12px; margin: 0; }
+    #stBody .txt .lab svg { max-height: 16vh; }
+    #stBody .txt .vocab .flip { font-size: 15px; padding: 4px; }
+    #stBody > .box h2 { font-size: 21px; margin: 0 0 4px; }
+    .nav { margin-top: 6px; }
+    /* questions: three columns */
+    #questions.on { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    #questions .box { overflow-y: auto; min-height: 0; }
+    /* games: games | exit ticket */
+    #games.on { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+    #games .box { overflow-y: auto; min-height: 0; }
+    #games .gamecards { grid-template-columns: repeat(3, 1fr); }
+    .gcard .ic { font-size: 36px; }
+    .pic { width: auto; max-height: 22vh; }
+    #play .opts { grid-template-columns: repeat(3, 1fr); }
+    #play .opts .btn { text-align: center; }
+  }
+
+  /* start slideshow: one picture at a time, always shown whole */
+  .show { position: relative; height: 62vh; min-height: 260px; }
+  .slide { display: none; position: absolute; inset: 0; }
+  .slide.on { display: block; }
+  .slide > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 14px; }
+  .slide.goals { overflow-y: auto; }
+  .slide.goals .box { max-width: 760px; margin: 0 auto; }
+  .dots { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 8px; font-size: 18px; }
+
+  .zoom { flex-direction: column; gap: 8px; padding: 8px; background: rgba(24, 36, 26, .92); }
+  .zoom .tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; background: #fff; border-radius: 16px; padding: 6px 10px; border: 3px solid var(--green); }
+  .zoom .tools button { font: inherit; font-size: 16px; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 4px 10px; cursor: pointer; color: var(--ink); }
+  .zoom .tools .tl.on, .zoom .tools .sz.on { background: var(--mint); border-color: var(--leaf); }
+  .zoom .tools .cl { width: 32px; height: 32px; border-radius: 50%; padding: 0; }
+  .zoom .tools .cl.on { outline: 4px solid var(--green); outline-offset: 2px; }
+  .zoom .tools .sz { width: 40px; height: 36px; padding: 0; line-height: 1; color: var(--ink); }
+  .zoom .tools .close { background: var(--red); color: #fff; border-color: var(--red); }
+  .zoom .tools .sep { width: 2px; height: 26px; background: #dde5d7; }
+  .stage { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+  .stage img { max-width: 100%; max-height: 100%; border-radius: 8px; user-select: none; -webkit-user-drag: none; }
+  .stage canvas { position: absolute; touch-action: none; cursor: crosshair; }
+
+  .startot { border: 3px solid var(--gold); background: #fff8dc; color: #8a6400; border-radius: 30px; padding: 4px 14px; font: inherit; font-size: 18px; cursor: pointer; white-space: nowrap; margin-inline-start: auto; }
+  .startot.snd { margin-inline-start: auto; padding: 4px 10px; }
+  .startot.snd + .startot { margin-inline-start: 0; }
+  .startot.bump { animation: bump .5s; } @keyframes bump { 40% { transform: scale(1.25); } }
+  .teacher { margin-inline-start: 0 !important; }
+  .award { position: fixed; z-index: 40; pointer-events: none; text-align: center; transform: translate(-50%, -50%); animation: rise 1.6s ease-out forwards; }
+  .award .s { font-size: 54px; line-height: 1; filter: drop-shadow(0 3px 2px rgba(0,0,0,.25)); }
+  .award .t { display: inline-block; margin-top: 4px; background: #fff; border: 3px solid var(--gold); color: var(--pink); border-radius: 20px; padding: 2px 14px; font-size: 20px; white-space: nowrap; }
+  .award.two .t { background: #6b4fc0; color: #fff; border-color: #fff3c4; }
+  @keyframes rise { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.4); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 70% { opacity: 1; transform: translate(-50%, -80%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -140%) scale(.9); } }
+  .flip[data-stars="2"] .k::after { content: ' ⭐⭐'; }
+  /* الجولة الافتراضية والصمام */
+  .vr { background: #0f1e2e; border-radius: 16px; padding: 6px; }
+  .vr svg { width: 100%; height: auto; max-height: 46vh; display: block; margin: auto; }
+  .steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .steps .btn { font-size: 16px; padding: 4px 10px; }
+  .steps .btn.on { background: var(--green); color: #fff; }
+  .tube { position: relative; width: 80px; height: 230px; margin: 4px auto; background: #f3e6d3; border: 6px solid #c9a27a; border-radius: 10px; }
+  .flapv { position: absolute; height: 8px; width: 32px; background: #5aa9e6; border: 1px solid #2f80c8; transition: transform .4s; }
+  .flapv.l { right: 3px; transform-origin: right center; } .flapv.r { left: 3px; transform-origin: left center; }
+  .seed { position: absolute; width: 13px; height: 15px; border-radius: 50%; background: #8b5a2b; transition: top 1.2s ease-in; }
+  .animals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .animals img { border-radius: 10px; height: 13vh; width: 100%; object-fit: cover; }
+  @media (min-width: 900px) and (orientation: landscape) { #stBody .txt .vr svg { max-height: 44vh; } #stBody .txt .animals img { max-height: 12vh; } }
+  /* صندوق المفاجآت */
+  .gifts { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; margin-top: 10px; }
+  .gift { position: relative; border: 3px solid var(--pink); background: var(--rose); border-radius: 16px; padding: 6px 0 4px; font: inherit; cursor: pointer; box-shadow: 0 4px 0 #e7a9c0; transition: transform .15s; }
+  .gift:hover { transform: translateY(-3px) rotate(-3deg); }
+  .gift .e { font-size: 38px; display: block; line-height: 1.2; }
+  .gift .n { font-size: 18px; color: var(--pink); }
+  .gift.shake { animation: gshake .12s linear infinite; }
+  @keyframes gshake { 0% { transform: rotate(-8deg) scale(1.08); } 50% { transform: rotate(8deg) scale(1.12); } 100% { transform: rotate(-8deg) scale(1.08); } }
+  .gift.done { background: #f1f1f1; border-color: #bbb; box-shadow: none; cursor: default; opacity: .55; }
+  .gift.done:hover { transform: none; }
+  .reveal { position: fixed; inset: 0; background: rgba(20, 40, 25, .55); display: none; align-items: center; justify-content: center; z-index: 40; }
+  .reveal.on { display: flex; }
+  .reveal .card { background: #fff; border: 5px solid var(--gold); border-radius: 30px; padding: 22px 34px; text-align: center; max-width: 620px; width: 90%; box-shadow: 0 10px 0 #d9a520; animation: pop .55s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes pop { from { transform: scale(.2) rotate(-12deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+  .reveal .big { font-size: 96px; line-height: 1.1; }
+  .reveal .kind { display: inline-block; background: var(--yel); border-radius: 30px; padding: 2px 16px; font-size: 18px; color: #8a6400; }
+  .reveal h3 { margin: 8px 0 4px; font-size: 34px; color: var(--pink); }
+  .reveal p { font-size: 24px; margin: 6px 0 14px; color: var(--green); }
+  .sbr { font: inherit; font-size: 15px; border: 2px solid var(--green); background: var(--mint); color: var(--green); border-radius: 12px; padding: 0 10px; cursor: pointer; }
+  #stBody .body > .pagecol .cap { display: flex; gap: 8px; justify-content: center; align-items: center; }
+  /* سبورة الفهم القرائي على صفحة الكتاب نفسها */
+  .rd { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 6px; }
+  .rbar { flex: none; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; justify-content: center; background: #fff; border: 2px solid var(--leaf); border-radius: 14px; padding: 4px 6px; }
+  .rbar button { font: inherit; font-size: 14px; border: 2px solid #c9d3c2; background: #fff; border-radius: 10px; padding: 1px 7px; cursor: pointer; }
+  .rbar .c { width: 28px; height: 28px; border-radius: 50%; padding: 0; }
+  .rbar .hl { width: 34px; height: 24px; border-radius: 6px; padding: 0; }
+  .rbar .sel { outline: 3px solid var(--green); outline-offset: 2px; }
+  .rbox { position: relative; flex: 1; min-height: 0; overflow-y: auto; border: 2px solid var(--leaf); border-radius: 12px; }
+  .rbox .pw { position: relative; }
+  .rbox img.page { position: static !important; display: block; width: 100% !important; height: auto !important; cursor: crosshair; border: none; border-radius: 0; }
+  .rbox canvas { position: absolute; touch-action: none; cursor: crosshair; }
+  .rd .cap { position: static !important; }
+  /* الربط */
+  .links { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 860px) { .links { grid-template-columns: 1fr; } }
+  .lk { border-radius: 18px; padding: 8px 12px; border: 3px solid; }
+  .lk h3 { margin: 0 0 6px; font-size: 21px; }
+  .lk .flip { font-size: 16px !important; line-height: 1.6; margin: 6px 0; padding: 6px 10px; }
+  .lk.din { background: #f3fbe9; border-color: var(--leaf); } .lk.din h3 { color: var(--green); }
+  .lk.watan { background: #eef8f0; border-color: #0d7a3e; } .lk.watan h3 { color: #0d7a3e; }
+  .lk.hayah { background: #fff4f7; border-color: var(--pink); } .lk.hayah h3 { color: var(--pink); }
+  .hadith { font-size: 17px !important; line-height: 1.9; background: #fff !important; border: 2px dashed var(--gold); }
+  .verse span { font-size: 13px; color: #6b7280; }
+  .pulse { display: flex; gap: 8px; align-items: center; justify-content: center; margin: 6px 0; font-size: 16px; flex-wrap: wrap; }
+  .pulse .btn { font-size: 16px; padding: 4px 10px; }
+  .pulse input { width: 70px; font: inherit; font-size: 18px; text-align: center; border: 2px solid var(--pink); border-radius: 10px; }
+  .pt { font-size: 30px; color: var(--pink); min-width: 46px; text-align: center; }
+  .lk .msg { font-size: 16px; min-height: 0; }
+  /* الفيديو */
+  .vbox { position: fixed; inset: 0; background: rgba(10, 20, 14, .9); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 10px; z-index: 25; }
+  .vbox.on { display: flex; }
+  .vbox video { max-width: 94vw; max-height: 82vh; border-radius: 14px; background: #000; }
+  .vidb { display: block; width: 100%; margin: 0 0 6px; background: var(--pink); border-color: #8f1f4f; color: #fff; font-size: 18px; padding: 5px; }
+  .vidb[hidden] { display: none; }
+  @media (min-width: 900px) and (orientation: landscape) { #stBody .txt .vr svg { max-height: 36vh; } }
+  .mbs { margin: 0 0 6px; text-align: center; }
+  .mbs img { width: 100%; max-height: 24vh; object-fit: cover; object-position: center 25%; border-radius: 14px; border: 3px solid #0d7a3e; }
+  .mbs figcaption { font-size: 14px; color: #0d7a3e; line-height: 1.6; margin-top: 3px; }
+  .vbody { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) !important; }
+  .vcol { display: flex; flex-direction: column; min-height: 0; }
+  .vcol video { width: 100%; flex: 1; min-height: 0; max-height: 100%; object-fit: contain; background: #000; border-radius: 14px; border: 3px solid var(--leaf); }
+  .vcol .cap { flex: none; }
+  .slide.tam { display: none; flex-direction: column; align-items: center; gap: 6px; }
+  .slide.tam.on { display: flex; }
+  .tamh { flex: none; background: var(--green); color: #fff; border-radius: 30px; padding: 4px 22px; font-size: 22px; }
+  .slide.tam video { flex: 1; min-height: 0; max-width: 100%; border-radius: 14px; background: #000; border: 3px solid var(--leaf); }
+  .gift .e { font-family: inherit; }
+  .rvx { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .rvx:empty { display: none; }
+  .rvx input { font: inherit; font-size: 20px; border: 3px solid var(--gold); border-radius: 14px; padding: 4px 12px; text-align: center; }
+  #starCard { display: none; }
+  @media print {
+    @page { size: A5 landscape; margin: 8mm; }
+    body.printing > *:not(#starCard) { display: none !important; }
+    body.printing { background: #fff !important; overflow: visible !important; height: auto !important; display: block !important; }
+    body.printing #starCard { display: block; }
+    #starCard .sc-in { border: 6px double #d4a017; border-radius: 22px; padding: 10mm; text-align: center; color: #1b5e20; background: #fffdf3; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    #starCard .sc-st { font-size: 60px; line-height: 1; }
+    #starCard h1 { font-size: 40px; color: #c2366f; margin: 4px 0; }
+    #starCard .sc-to { font-size: 18px; margin: 4px; color: #333; }
+    #starCard .sc-name { font-size: 32px; border-bottom: 3px solid #d4a017; display: inline-block; min-width: 60%; padding: 0 20px 4px; margin: 4px 0 10px; }
+    #starCard .sc-msg { font-size: 22px; margin: 6px; }
+    #starCard .sc-l { font-size: 15px; color: #555; margin: 4px; }
+    #starCard .sc-f { display: flex; justify-content: space-between; font-size: 16px; margin-top: 10px; }
+  }
+  .txin { position: fixed; z-index: 70; min-width: 160px; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; background: rgba(255,255,255,.92); border: 2px dashed #6b4fc0; border-radius: 8px; padding: 0 6px; direction: rtl; outline: none; }
+  /* القرعة */
+  #drawBox { display: flex; flex-direction: column; gap: 8px; }
+  @media (min-width: 900px) and (orientation: landscape) { #draw.on, #drawBox { height: 100%; } }
+  .dr-top { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; } .dr-top .strat { margin: 0; }
+  .dr-nr { font-size: 16px; margin-inline-start: auto; } .dr-top .btn { font-size: 16px; padding: 4px 12px; }
+  .dr-msg { margin: 0; text-align: center; font-size: 17px; color: #6b4fc0; }
+  .dr-cols { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .dr-col { border: 3px solid var(--green); border-radius: 20px; padding: 10px; display: flex; flex-direction: column; gap: 8px; min-height: 0; background: #f7fbf3; }
+  .dr-col[data-c="6b"] { border-color: var(--pink); background: #fff6f9; }
+  .dr-h { text-align: center; font-size: 24px; color: var(--green); } .dr-h span { background: var(--gold); color: #3b2c00; border-radius: 10px; padding: 0 10px; font-size: 20px; }
+  .dr-col[data-c="6b"] .dr-h { color: var(--pink); }
+  .dr-big { text-align: center; font-size: 40px; min-height: 70px; line-height: 70px; background: #fff; border: 3px dashed var(--gold); border-radius: 16px; color: var(--ink); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .dr-big.win { background: var(--gold); color: #3b2c00; border-style: solid; animation: bump .6s; box-shadow: 0 0 24px #f5c242; }
+  .dr-go { font-size: 22px !important; }
+  .dr-chips { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; justify-content: center; }
+  .dr-chip { background: #fff; border: 2px solid #c9d3c2; border-radius: 12px; padding: 2px 10px; font-size: 17px; transition: transform .08s; }
+  .dr-chip.hot { background: #fff3c4; border-color: var(--gold); transform: scale(1.15); }
+  .dr-chip.win { background: var(--gold); transform: scale(1.3); }
+  .dr-chip.out { opacity: .35; text-decoration: line-through; }
+  .dr-reset { font-size: 15px !important; padding: 3px 10px !important; align-self: center; }
+  .dr-edit { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; } .dr-edit[hidden] { display: none; }
+  .dr-edit label { font-size: 15px; } .dr-edit textarea { width: 100%; height: 110px; font: inherit; font-size: 16px; border: 2px solid var(--leaf); border-radius: 10px; }
+  .dr-edit .note { grid-column: 1 / -1; margin: 0; font-size: 14px; }
+  .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; margin: 6px 0; }
+  .nhead img { width: 74px; flex: none; }
+  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
+  #nafs .box { overflow-y: auto; }
+  .sbtn { position: absolute; bottom: 10px; left: 10px; z-index: 3; font-size: 16px; padding: 4px 12px; box-shadow: 0 2px 8px #0003; }
+  /* purple theme */
+  :root { --green: #8a6ad4; --leaf: #a58be0; --mint: #f1ecfc; }
+  .list { background: linear-gradient(180deg, #9a7ddc, #bba6ec); }
+  .tab.on { box-shadow: 0 4px 0 #6b4fb0; } .box { box-shadow: 0 5px 0 #e4daf7; }
+  .msg.good { color: #2f8a3a; } .btn.ok { border-color: #2f8a3a; }
+  .gift { background: #fff; border-color: #b79be8; box-shadow: 0 4px 0 #d9ccf2; } .gift .n { color: #7e57c2; }
+  .gift .e { font-size: 40px; } .gift.done .e { font-size: 26px; color: #7e57c2; font-weight: 700; }
+  #rvE { animation: envOpen .7s ease-out; } @keyframes envOpen { from { transform: scale(.4) rotate(-15deg); opacity: 0; } to { transform: none; opacity: 1; } }
+  /* the envelope opens and the letter slides out */
+  .reveal .card.envcard { background: transparent; border: 0; box-shadow: none; padding: 0; max-width: 520px; animation: pop .45s ease-out; }
+  .envc { position: relative; width: min(460px, 86vw); height: 250px; margin: 210px auto 16px; perspective: 900px; }
+  .env-back { position: absolute; inset: 0; background: #c3a9f0; border-radius: 14px; }
+  .letter { position: absolute; left: 18px; right: 18px; bottom: 12px; height: 226px; background: #fffdf6; border: 2px solid #e8dcc0; border-radius: 12px; padding: 14px 14px 0; text-align: center;
+    z-index: 2; transform: translateY(0); transition: transform 1s .75s cubic-bezier(.2, .9, .25, 1); box-shadow: 0 4px 12px #0002; overflow: hidden;
+    background-image: repeating-linear-gradient(#fffdf6 0 34px, #efe6fb 34px 36px); }
+  .envc.go .letter { transform: translateY(-200px); }
+  .letter .big { display: none; } .letter .kind { background: #efe6fb; color: #6b4fb0; }
+  .letter h3 { margin: 6px 0 2px; } .letter p { margin: 4px 0; font-size: 23px; color: #4a2a7a; line-height: 1.6; }
+  .env-front { position: absolute; inset: 0; z-index: 3; background: #b293ea; border-radius: 14px; clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%); box-shadow: inset 0 -6px 0 #9d7bdf; }
+  .env-flap { position: absolute; left: 0; right: 0; top: 0; height: 58%; z-index: 4; background: #9f7fe0; clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center; transition: transform .7s ease-in-out, z-index 0s .35s; }
+  .env-flap span { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); font-size: 34px; transition: opacity .3s; }
+  .envc.go .env-flap { transform: rotateX(180deg); z-index: 1; } .envc.go .env-flap span { opacity: 0; }
+  .envcard .btn { opacity: 0; transition: opacity .4s 1.6s; } .reveal.on .envc.go ~ .btn { opacity: 1; }
+  @media (max-height: 700px) { .envc { margin-top: 190px; } .envc.go .letter { transform: translateY(-185px); } }
+  .gifts { grid-template-columns: repeat(8, 1fr); }
+
+  .vids2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; } .vids2 .vidb { margin: 0 0 6px; font-size: 15px; }
+  .sbody { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) !important; }
+  .scol { min-height: 0; display: flex; } .scol svg { width: 100%; height: 100%; border-radius: 16px; transition: transform .05s; }
+  .vit { display: flex; gap: 10px; justify-content: center; font-size: 17px; } .vit span { background: #fff3f3; border: 2px solid #ef9a9a; border-radius: 12px; padding: 2px 10px; } .vit b { color: #c62828; font-size: 20px; }
+  .stxt { background: #1a2340; color: #fff; border-radius: 14px; padding: 8px 12px; font-size: 17px !important; line-height: 1.8 !important; min-height: 92px; margin: 6px 0 !important; } .stxt b { color: #ffd54f; } .stxt .sn { background: #ffd54f; color: #1a2340; border-radius: 8px; padding: 0 6px; font-size: 13px; }
+  .sysg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .sysb { font: inherit; font-size: 13px; border: 3px solid var(--c); background: #fff; border-radius: 12px; padding: 3px; cursor: pointer; line-height: 1.3; } .sysb span { display: block; font-size: 22px; } .sysb.on { background: var(--c); box-shadow: 0 0 10px var(--c); transform: scale(1.05); }
+  .slide.tam > img.tamimg { position: static; width: auto; height: auto; flex: 1; min-height: 0; max-width: 100%; object-fit: contain; border-radius: 14px; border: 3px solid var(--leaf); }
+  .model, .armbox { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 8px; align-items: center; background: #f7fbf3; border: 2px dashed var(--leaf); border-radius: 14px; padding: 6px; margin: 6px 0; }
+  .arm { width: 100%; max-height: 24vh; display: block; }
+  .leg { display: flex; gap: 10px; justify-content: center; font-size: 13px; }
+  .m4 .arm { max-height: 20vh; } .m4 .prt { margin: 2px 0; } .m4 .card4 p { font-size: 15px !important; }
+  .mctl { display: flex; flex-direction: column; gap: 6px; } .mctl .btn { font-size: 16px; padding: 5px 8px; } .mctl .msg { font-size: 15px; text-align: right; }
+  .chain { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; justify-content: center; direction: rtl; }
+  .chain .nd { background: #fff; border: 2px solid #c9d3c2; border-radius: 12px; padding: 2px 8px; font-size: 14px; text-align: center; transition: .3s; }
+  .chain .nd span { display: block; font-size: 24px; }
+  .chain .nd.lit { background: #fff3c4; border-color: var(--gold); transform: scale(1.1); box-shadow: 0 0 12px #f5c242; }
+  .chain .ar { color: #e67e22; }
+  .horm { margin: 6px 0; background: #fde4ec; border-radius: 12px; padding: 4px 10px; font-size: 15px; opacity: .45; transition: .4s; text-align: center; }
+  .horm.lit { opacity: 1; box-shadow: 0 0 12px #f48fb1; }
+  .pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 15px; text-align: center; }
+  .pgrid input { display: block; width: 100%; font: inherit; font-size: 18px; text-align: center; border: 2px solid var(--pink); border-radius: 10px; margin-top: 2px; }
+  .bars { display: flex; gap: 14px; align-items: flex-end; justify-content: center; height: 150px; margin: 8px 0; position: relative; padding-bottom: 18px; }
+  .bar { width: 70px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; text-align: center; font-size: 15px; }
+  .bv { background: linear-gradient(#ef5350, #c62828); border-radius: 8px 8px 0 0; transition: height .5s; position: relative; min-height: 2px; }
+  .bv span { position: absolute; top: -22px; left: 0; right: 0; color: #c62828; font-size: 15px; }
+  .bars small { position: absolute; bottom: -4px; font-size: 12px; color: #7a869e; }
+  .fold { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px; }
+  .fold div { background: #2e7d32; color: #fff; border-radius: 10px; padding: 6px; font-size: 14px; text-align: center; line-height: 1.5; }
+  .fold b { display: block; color: #ffe082; font-size: 15px; }
+  /* المهمات */
+  #missions.on { display: flex; flex-direction: column; gap: 10px; }
+  .alb { flex: none; text-align: center; background: linear-gradient(90deg, #6b4fc0, #c2366f); color: #fff; border-radius: 14px; padding: 4px 10px; font-size: 18px; } .alb b { color: #ffe082; }
+  .revb { background: #e3f2fd; border: 2px solid #1e88e5; color: #0d47a1; border-radius: 12px; padding: 0 10px; font-size: 14px; } .revb.s0 { background: #fff3e0; border-color: #fb8c00; color: #8a4b00; } .revb.s1 { background: #fce4ec; border-color: #ec407a; color: #880e4f; } .revb.s2 { background: #ffebee; border-color: #e53935; color: #b71c1c; } .revb.s3 { background: #fffde7; border-color: #fbc02d; color: #6d5200; } .revb.s4 { background: #f1f8e9; border-color: #7cb342; color: #33691e; }
+  .nhead { display: flex; gap: 10px; align-items: center; background: #f4f1ff; border: 2px solid #4b3f9a; border-radius: 14px; padding: 4px 10px; font-size: 15px; line-height: 1.7; color: #2d2670; }
+  .nhead img { width: 74px; flex: none; }
+  .nlab.pg { background: #1e5fd8; font-size: 14px; } .nlab.pg.mine { background: #8d6e63; }
+  .nlab { background: #3fb5a8; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 13px; } .nlab.sub { background: #6c5fc7; } .nlab.sk { background: #f0a23b; }
+  .nq { display: flex; align-items: center; justify-content: center; gap: 14px; } .nq img { max-height: 80px; } .nq .mq { margin: 4px 0; }
+  .mcard .nlogo { height: 34px; display: block; margin: 0 auto; }
+  .nout { display: block; text-align: center; background: #eef6ff; border: 2px dashed #1e5fd8; color: #1e3a8a; border-radius: 12px; padding: 2px 10px; font-size: 15px; margin: 4px 0; }
+  .mcards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; flex: none; }
+  .mcard { position: relative; border: 3px solid var(--green); border-radius: 18px; background: #fff; padding: 6px 8px; font: inherit; cursor: pointer; color: var(--ink); text-align: center; line-height: 1.4; }
+  .mcard .mi { font-size: 22px; } .mcard b { display: block; color: var(--green); font-size: 18px; } .mcard span { display: block; font-size: 17px; color: var(--pink); } .mcard small { font-size: 13px; color: #7a869e; }
+  .mcard.on { background: var(--green); } .mcard.on b, .mcard.on span, .mcard.on small { color: #fff; }
+  .mcard.done::after { content: '✔'; position: absolute; top: 4px; left: 10px; color: var(--leaf); font-size: 20px; } .mcard.on.done::after { color: #c9f0c0; }
+  #mbody { flex: 1; min-height: 0; overflow-y: auto; margin: 0; }
+  .mq { font-size: 24px !important; text-align: center; }
+  #mbody .opts { grid-template-columns: repeat(3, 1fr); } #mbody .opts.o4 { grid-template-columns: repeat(2, 1fr); } #mbody .opts .btn { text-align: center; font-size: 20px; }
+  .mend { text-align: center; } .mend .big { font-size: 70px; }
+  .cmp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 14px; align-items: start; }
+  .ctab { font-size: 15px; } .ctab td { vertical-align: top; width: 33%; } .ctab th:nth-child(2) { background: #6b4fc0; }
+  .chip { display: inline-block; margin: 3px; padding: 3px 10px; border-radius: 12px; background: var(--yel); border: 2px solid #b9a24a; font: inherit; font-size: 15px; }
+  .chip.fixd { background: #fde2e2; border-color: var(--red); }
+  .ctab .chip { display: block; }
+  .pool { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; min-height: 40px; margin: 6px 0; }
+  .pick { cursor: pointer; font-size: 17px; } .pick.sel { background: var(--gold); transform: scale(1.12); box-shadow: 0 0 10px var(--gold); }
+  .binz { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .bin { border: 3px dashed var(--leaf); border-radius: 16px; min-height: 140px; cursor: pointer; background: #f7fbf3; }
+  .bin .bh { background: var(--green); color: #fff; border-radius: 12px 12px 0 0; padding: 4px; text-align: center; font-size: 17px; }
+  .bin.shake { animation: shake .35s; border-color: var(--red); }
+  .m4 { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 14px; }
+  .prt { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0; } .prt span { min-width: 120px; font-size: 17px; color: var(--pink); } .prt .btn { font-size: 15px; padding: 3px 10px; }
+  .m4 .model { opacity: .55; } .m4 .model:has(.built), .m4 .model .arm.built { opacity: 1; }
+  .card4 { background: var(--cream); border: 3px solid var(--gold); border-radius: 18px; padding: 8px 12px; }
+  .card4 h3 { margin: 0 0 4px; color: var(--pink); } .card4 p { font-size: 16px !important; margin: 3px 0; line-height: 1.7; }
+  .rub { font-size: 13px; margin: 6px 0; } .rub td, .rub th { padding: 3px; }
+  .rx { margin: 8px auto; width: min(100%, 520px); height: 170px; border-radius: 20px; background: #c62828; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; user-select: none; }
+  .rx.wait { background: #ef6c00; } .rx.go { background: #2e7d32; }
+
+
+  .slimg { display: block; width: 100%; max-height: 24vh; object-fit: contain; border-radius: 12px; border: 3px solid #b79be8; margin: 4px 0; cursor: zoom-in; background: #fff; }
+  .srt { background: #f7f3ff; border: 2px dashed #b79be8; border-radius: 14px; padding: 6px; margin: 6px 0; }
+  .spool { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; min-height: 34px; }
+  .spool .pick.on { outline: 3px solid var(--gold); transform: scale(1.06); }
+  .sbins { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
+  .sbin { background: #fff; border: 3px solid #b79be8; border-radius: 12px; min-height: 70px; cursor: pointer; padding: 3px; }
+  .sbh { text-align: center; font-size: 15px; color: #5b3a9e; } .sbc { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; }
+  .sbc .pick { font-size: 13px; padding: 1px 6px; } .sbc .pick.ok { background: #e6f6ea; border-color: #2f8a3a; } .sbc .pick.fx { background: #fff3e0; border-color: #e67e22; }
+  .pyr2 { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 6px 0; }
+  .pyl { text-align: center; background: #ede6fb; border: 2px solid #b79be8; border-radius: 8px; padding: 3px; font-size: 15px; transition: .5s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pyl.on { background: linear-gradient(90deg, #ffe082, #f5c242); border-color: #e0a800; } .pyl .pe { font-size: 18px; } .pyl .pv { color: #c2366f; }
+  .pyn { font-size: 13px; color: #6b5a8e; text-align: center; }
+  .cmpimg img { display: block; width: 100%; max-height: 30vh; object-fit: contain; border: 3px solid var(--leaf); border-radius: 12px; cursor: zoom-in; background: #fff; }
+  .cmpimg .cap { margin: 2px 0 4px; }
+  .labw .txt .steps { margin: 3px 0; } .labw .tray { min-height: 30px; padding: 2px; } .ls { font-size: 12px; }
+  .labw { grid-template-columns: minmax(0, .45fr) minmax(0, 1.55fr) !important; }
+  .lsteps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .ls { font: inherit; font-size: 13px; border: 2px solid #c9d3c2; background: #fff; border-radius: 10px; padding: 2px; cursor: pointer; }
+  .ls b { display: block; width: 22px; height: 22px; line-height: 22px; margin: 0 auto; border-radius: 50%; background: #c9d3c2; color: #fff; }
+  .ls.on { border-color: var(--leaf); background: var(--mint); } .ls.on b { background: var(--leaf); } .ls.done b { background: var(--gold); }
+  .lmsg { background: #1a2340; color: #fff; border-radius: 10px; padding: 3px 10px; font-size: 14px; margin: 3px 0; min-height: 40px; line-height: 1.5; } .lmsg b { color: #ffd54f; }
+  .labbox { background: linear-gradient(#fdfbf5, #f3ecdc); border: 2px solid #d7c4a3; border-radius: 12px; }
+  #labsvg { width: 100%; height: 24vh; display: block; } #labsvg .str { stroke: #8d6e63; stroke-width: 1.5; } #labsvg .str.cut { stroke: #ccc; stroke-dasharray: 3 3; }
+  #labsvg .hc { animation: drop .5s ease-out; } #labsvg .hc.fall { opacity: .45; filter: grayscale(1); transform: translateY(6px); transition: .6s; }
+  @keyframes drop { from { transform: translateY(-30px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .tray { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; min-height: 40px; background: #efe6d2; border-radius: 10px; padding: 4px; margin-top: 4px; }
+  .tc { font: inherit; font-size: 15px; border: 2px solid var(--c); background: #fff; border-radius: 7px; padding: 0 4px; cursor: pointer; line-height: 1.1; animation: drop .3s; }
+  .tc small { display: block; font-size: 10px; } .tc.go { box-shadow: 0 0 8px var(--c); transform: scale(1.08); }
+  .tnote { font-size: 14px; color: #8d6e63; }
+  .obs { display: flex; gap: 6px; align-items: center; font-size: 15px; } .obs input { width: 60px; font: inherit; text-align: center; border: 2px solid var(--leaf); border-radius: 8px; }
+  .wr { background: #f3f8ff; border: 2px dashed #1e5fd8; border-radius: 12px; padding: 6px 10px; margin: 6px 0; font-size: 16px; }
+  .wr textarea { width: 100%; height: 60px; font: inherit; font-size: 17px; border: 2px solid #1e5fd8; border-radius: 10px; margin: 4px 0; }
+  .sim { background: #f7fbf3; border: 2px dashed var(--leaf); border-radius: 14px; padding: 6px; margin: 6px 0; }
+  #hang .lvl { display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; align-items: center; cursor: pointer; padding: 2px; border-radius: 10px; transition: .4s; }
+  #hang .lvl:hover { background: #fff3c4; } #hang .lb { font-size: 13px; color: #555; margin-inline-end: 6px; } #hang .org { font-size: 22px; }
+  #hang .lvl.dead { opacity: .45; filter: grayscale(1); } #hang { display: flex; flex-direction: column-reverse; }
+  #hang .ar2 { text-align: center; font-size: 11px; color: #e67e22; }
+  .chain2 { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 2px; }
+  .cn { font: inherit; border: 2px solid #c9d3c2; background: #fff; border-radius: 12px; padding: 2px 6px; cursor: pointer; text-align: center; line-height: 1.3; transition: .3s; }
+  .cn .e { display: block; font-size: 26px; } .cn b { display: block; font-size: 13px; } .cn small { display: none; font-size: 12px; color: var(--pink); }
+  .cn.rv small { display: block; } .cn.lit { border-color: var(--gold); background: #fff3c4; transform: scale(1.08); box-shadow: 0 0 10px #f5c242; }
+  .fa { color: #bbb; font-style: normal; font-size: 18px; } .fa.lit { color: #e67e22; }
+  #web { position: relative; height: 230px; } #web svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #web line { stroke: #e67e22; stroke-width: .5; transition: .4s; } #web line.cut { stroke: #ddd; stroke-dasharray: 1 1; }
+  .wn { position: absolute; transform: translate(-50%, -50%); font: inherit; font-size: 11px; border: 2px solid var(--leaf); background: #fff; border-radius: 10px; padding: 0 4px; cursor: pointer; line-height: 1.2; text-align: center; }
+  .wn span { display: block; font-size: 20px; } .wn.gone { opacity: .25; filter: grayscale(1); text-decoration: line-through; } .wn.warn { border-color: var(--red); background: #fde2e2; }
+  #pyr { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .py { text-align: center; background: #e8efe4; border-radius: 6px; padding: 3px; font-size: 14px; transition: .4s; white-space: nowrap; overflow: hidden; }
+  .py.on { background: linear-gradient(90deg, #ffe082, #f5c242); } .py span { font-size: 18px; }
+  .slots { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; justify-content: center; margin: 8px 0; }
+  .slots i { font-style: normal; color: #e67e22; font-size: 20px; } .sun { font-size: 18px; }
+  .slot { min-width: 120px; min-height: 40px; border: 3px dashed #b9a24a; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #999; padding: 2px 6px; }
+  .slot.ok { border-style: solid; border-color: var(--leaf); color: var(--ink); background: #f3fbe9; font-size: 18px; } .slot.glow { box-shadow: 0 0 12px #f5c242; background: #fff3c4; }
+  .lt { position: relative; margin-inline-start: auto; width: min(470px, 46%); height: 46px; cursor: pointer; flex: none; }
+  .lt img { position: absolute; left: 0; bottom: -8px; height: 118px; filter: drop-shadow(0 3px 4px #0003); animation: ltbob 3s ease-in-out infinite; transform-origin: bottom center; }
+  .ltb { position: absolute; left: 96px; right: 0; bottom: 2px; background: #fff; border: 2px solid #c58ad8; border-radius: 16px; padding: 4px 10px; font-size: 14px; line-height: 1.45; color: #4a2a5a; box-shadow: 0 2px 8px #0002; animation: ltin .5s ease-out; }
+  .ltb::before { content: ''; position: absolute; left: -10px; bottom: 12px; border: 8px solid transparent; border-right-color: #c58ad8; border-left: 0; }
+  .ltb.pop { animation: ltin .4s ease-out; }
+  @keyframes ltbob { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-3deg) translateY(-2px); } }
+  @keyframes ltin { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+  @media (max-width: 860px) { .lt { width: 100%; } }
+  #stBody .txt { padding-bottom: 64px; }
+  .slide.wtn.on { display: flex; align-items: center; justify-content: center; }
+  .wbox { position: relative; height: 100%; max-width: 100%; aspect-ratio: 1672 / 941; }
+  .wbox > img { width: 100%; height: 100%; display: block; border-radius: 14px; }
+  .wbox video { position: absolute; left: 36.4%; top: 29.4%; width: 36.5%; height: 38.7%; background: #000; object-fit: contain; border-radius: 6px; }
+  .wtnbtn { position: absolute; z-index: 4; top: 8px; left: 50%; transform: translateX(-50%); z-index: 3; font-size: 20px; padding: 6px 22px; box-shadow: 0 3px 10px #0004; }
+  .wplay { position: absolute; left: 36.4%; top: 29.4%; width: 36.5%; height: 38.7%; background: transparent; border: 0; cursor: pointer; border-radius: 6px; }
+  .wplay:hover { box-shadow: 0 0 0 4px #ffd54f; }
+</style>
+</head>
+<body>
+<img class="flags" src="img/flags.jpg" alt="">
+<header>
+  <img class="girl" src="img/girl.jpg" alt="العالمة الصغيرة">
+  <div><h1>الفصل الخامس – الدرس الأول (تابع): الشبكات الغذائية وهرم الطاقة</h1><p>العلوم – الصف السادس الابتدائي • ص١٤٠–١٤٢</p></div>
+  <button class="startot snd" id="sndBtn" title="صوت التعزيز" onclick="toggleSound()">🔔</button>
+  <button class="startot" id="starTot" title="نجوم الفصل – اضغطي مرتين للتصفير" ondblclick="resetStars()">⭐ نجوم الفصل: <b id="starN">٠</b></button>
+  <span class="teacher">💚 أ/ شامه البقمي</span>
+  <button class="fs" id="fsBtn" onclick="fullscreen()">⛶ ملء الشاشة</button>
+</header>
+
+<nav class="tabs">
+  <button class="tab on" data-p="start">🏁 البداية</button>
+  <button class="tab" data-p="stations">📍 محطات الدرس</button>
+  <button class="tab" data-p="missions">🎯 المهمات – التعلم النشط</button>
+  <button class="tab" data-p="games">🎮 الألعاب</button>
+  <button class="tab" data-p="surprise">💌 افتحي ظرفك</button>
+  <button class="tab" data-p="draw">🎲 القرعة</button>
+</nav>
+
+<main>
+<!-- ═════ البداية -->
+<section class="panel on" id="start">
+  <div class="show">
+    <div class="slide on"><img src="img/morning.jpg" alt="صباح العلم والعطاء"></div>
+    <div class="slide"><img src="img/greet.jpg" alt="صباح الخير طالباتي الجميلات"></div>
+    <div class="slide"><img src="img/rules.jpg" alt="القوانين الصفية"></div>
+    <div class="slide"><button class="btn main wtnbtn" onclick="openVid('vid/flag.mp4')">🎬 شغّلي النشيد الوطني</button><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
+    <div class="slide wtn"><button class="btn main wtnbtn" onclick="openVid('vid/watan.mp4')">🎬 شغّلي فيديو «وطني أحبك لا بديل»</button><div class="wbox"><img src="img/watan.jpg" alt="وطني أحبك لا بديل"><button class="wplay" onclick="openVid('vid/watan.mp4')" title="تشغيل الفيديو"></button></div></div>
+    <div class="slide tam"><div class="tamh">🦊 تمهيد: الثعلب يتغذّى على الثدييات الصغيرة والطيور والسحالي… فهل تكفيه سلسلة غذائية واحدة؟</div><img class="tamimg" src="img/s1.jpg" alt="الشبكات الغذائية وهرم الطاقة"></div>
+    <div class="slide goals"><div class="box">
+      <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
+      <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
+      <ol>
+        <li>أتعرّف العلاقات الغذائية في النظام البيئي.</li>
+        <li>أميّز بين السلسلة الغذائية والشبكة الغذائية.</li>
+        <li>أصنّف المستهلكات إلى آكلات أعشاب وآكلات لحوم وحيوانات قارتة.</li>
+        <li>أتعرّف هرم الطاقة وكيف تنتقل الطاقة بين مستوياته.</li>
+        <li>أستنتج أهمية توازن العلاقات في النظام البيئي.</li>
+      </ol>
+      <button class="btn main" onclick="go('stations')">ابدئي المحطات 🚀</button>
+    </div></div>
+  </div>
+  <div class="dots">
+    <button class="btn" onclick="slide(-1)">→ السابق</button>
+    <span id="dotT">١ / ٧</span>
+    <button class="btn main" onclick="slide(1)">التالي ←</button>
+  </div>
+</section>
+
+<!-- ═════ محطات الدرس -->
+<section class="panel" id="stations">
+  <div class="stations">
+    <aside class="list">
+      <h3>📍 محطات الدرس</h3>
+      <small>اضغطي على المحطة للانتقال إليها</small>
+      <div id="stList"></div>
+    </aside>
+    <div id="stBody"></div>
+  </div>
+</section>
+
+<!-- ═════ المهمات -->
+<section class="panel" id="missions">
+  <div class="alb">🧠 <b>التعلم النشط:</b> تعلّمي بالمهمات… فكّري، ناقشي زميلتك، طبّقي، ثم أنجزي المهمة!</div>
+  <div class="mcards" id="mcards"></div>
+  <div class="box" id="mbody"></div>
+</section>
+
+<!-- ═════ الألعاب -->
+<section class="panel" id="games">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعلّم باللعب</span>
+    <h2>🎮 اختاري لعبة</h2>
+    <div class="gamecards">
+      <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي المفردة من وصفها</button>
+      <button class="gcard" onclick="game('next')"><div class="ic">🕸️</div><b>أكملي الشبكة</b>من يأكل من؟</button>
+      <button class="gcard" onclick="game('role')"><div class="ic">🦝</div><b>ماذا آكل؟</b>آكل أعشاب أم لحوم أم قارت؟</button>
+    </div>
+    <div class="play" id="play"></div>
+  </div>
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> بطاقة الخروج</span>
+    <h2>🎫 بطاقة الخروج</h2>
+    <p>١) الشبكة الغذائية هي: ……………………………</p>
+    <p>٢) الحيوان الذي يتغذّى على النباتات والحيوانات يُسمّى: ……………</p>
+    <p>٣) لماذا تقلّ الطاقة كلما صعدنا في هرم الطاقة؟ ……………</p>
+    <p style="color:var(--pink)">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p>
+    <p style="text-align:center"><button class="btn" style="border-color:var(--pink);background:var(--rose)" onclick="go('surprise')">💌 افتحي ظرفك</button></p>
+  </div>
+</section>
+<!-- ═════ صندوق المفاجآت -->
+<section class="panel" id="surprise">
+  <div class="box">
+    <span class="strat"><b>الاستراتيجية:</b> التعزيز الإيجابي – رسائل تشجيعية</span>
+    <h2>💌 افتحي ظرفك… هناك رسالة تنتظرك</h2>
+    <p>اختاري ظرفًا وافتحيه… فيه رسالة من معلمتك ونقاط من ١ إلى ١٠ 💜</p>
+    <div class="gifts" id="gifts"></div>
+    <p style="text-align:center;margin-top:12px"><button class="btn" onclick="buildGifts()">🔄 ظروف جديدة</button></p>
+  </div>
+</section>
+<!-- ═════ القرعة -->
+<section class="panel" id="draw"><div class="box" id="drawBox"></div></section>
+</main>
+<div class="reveal" id="reveal" onclick="closeGift(event)"><div class="card envcard"><div class="envc" id="envc"><div class="env-back"></div><div class="letter"><span class="big" id="rvE"></span><span class="kind" id="rvK"></span><h3 id="rvT"></h3><p id="rvM"></p></div><div class="env-front"></div><div class="env-flap"><span>💜</span></div></div><div id="rvX" class="rvx"></div><button class="btn" onclick="closeGift()">💚 شكرًا معلمتي</button></div></div>
+<footer>أ/ شامه البقمي 💚</footer>
+<div class="vbox" id="vbox"><video id="vid" controls loop playsinline preload="none"></video><button class="btn" onclick="closeVid()">✕ إغلاق الفيديو</button></div>
+<div id="starCard"></div>
+<div class="zoom" id="zoom">
+  <div class="tools" id="tools">
+    <button class="tl on" data-tool="pen" title="قلم">✏️ قلم</button>
+    <button class="tl" data-tool="hl" title="تظليل">🖍️ تظليل</button>
+    <button class="tl" data-tool="er" title="ممحاة">🧽 ممحاة</button>
+    <button class="tl" data-tool="tx" title="كتابة نص">🔤 نص</button>
+    <button class="tl" data-tool="dy" title="كتابة اليوم">📅 اليوم</button>
+    <button class="tl" data-tool="dt" title="كتابة التاريخ الهجري">🗓️ التاريخ</button>
+    <span class="sep"></span>
+    <button class="cl on" data-c="#d23b3b" style="background:#d23b3b" title="أحمر"></button>
+    <button class="cl" data-c="#1e5fd8" style="background:#1e5fd8" title="أزرق"></button>
+    <button class="cl" data-c="#1b8a3a" style="background:#1b8a3a" title="أخضر"></button>
+    <button class="cl" data-c="#111111" style="background:#111" title="أسود"></button>
+    <button class="cl" data-c="#ffd400" style="background:#ffd400" title="أصفر"></button>
+    <span class="sep"></span>
+    <button class="sz" data-s="3" title="رفيع">●</button>
+    <button class="sz on" data-s="6" title="متوسط" style="font-size:22px">●</button>
+    <button class="sz" data-s="11" title="عريض" style="font-size:30px">●</button>
+    <span class="sep"></span>
+    <button class="tl" onclick="undo()">↩️ رجوع</button>
+    <button class="tl" onclick="clearInk()">🗑️ مسح الكل</button>
+    <button class="tl close" onclick="closeZoom()">✕ إغلاق</button>
+  </div>
+  <div class="stage" id="stage"><img id="zimg" alt=""><canvas id="ink"></canvas></div>
+</div>
+
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = (s) => document.querySelector(s);
+let HAS_VID = false;
+// Higher-order questions (critical thinking, challenge, inference) earn two stars, the rest one
+const CRIT = /التفكير الناقد|أتحدّى نفسي|أستنتج/;
+const flip = (q, a, k) => `<div class="flip" data-stars="${CRIT.test((k || '') + q) ? 2 : 1}" onclick="openFlip(this)">${k ? `<span class="k">${k}</span>` : ''}${q} <span class="hint">👆</span><div class="a">✔ ${a}</div></div>`;
+const page = (n) => `<img class="page" src="img/p${n}.jpg" alt="صفحة ${ar(n)} من الكتاب" onclick="zoom(this.src)"><div class="cap">📖 صفحة ${ar(n)} من كتابي <button class="sbr" onclick="zoom('img/p${n}.jpg')">✏️ السبورة</button></div>`;
+
+
+// Soft reward chime made in the browser: one star = gentle chime, two stars = brighter double chime
+let soundOn = true, actx = null;
+function toggleSound() { soundOn = !soundOn; document.getElementById('sndBtn').textContent = soundOn ? '🔔' : '🔕'; }
+function chime(n) {
+  if (!soundOn) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+    const notes = n > 1 ? [659.3, 830.6, 987.8, 1318.5] : [784, 1046.5];
+    notes.forEach((f, i) => {
+      const t = actx.currentTime + i * 0.11, o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.5);
+    });
+  } catch (e) { /* no audio available */ }
+}
+let starTotal = 0;
+function award(n, el) {
+  starTotal += n;
+  chime(n);
+  const t = document.getElementById('starN'); t.textContent = ar(starTotal);
+  const b = document.getElementById('starTot'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  const r = el ? el.getBoundingClientRect() : { left: innerWidth / 2, width: 0, top: innerHeight / 2, height: 0 };
+  const a = document.createElement('div');
+  a.className = 'award' + (n > 1 ? ' two' : '');
+  a.innerHTML = `<div class="s">${'⭐'.repeat(n)}</div><div class="t">${n > 1 ? 'تفكير ناقد رائع! نجمتان' : 'أحسنتِ! نجمة'}</div>`;
+  a.style.left = Math.min(innerWidth - 120, Math.max(120, r.left + r.width / 2)) + 'px';
+  a.style.top = Math.max(90, r.top + r.height / 2) + 'px';
+  document.body.appendChild(a); setTimeout(() => a.remove(), 1700);
+  if (n > 1) confetti();
+}
+function resetStars() { starTotal = 0; document.getElementById('starN').textContent = ar(0); }
+function openFlip(el) {
+  el.classList.toggle('open');
+  if (el.classList.contains('open') && !el.dataset.got) { el.dataset.got = 1; award(+el.dataset.stars || 1, el); }
+}
+function fullscreen() {
+  const d = document;
+  if (!d.fullscreenElement && !d.webkitFullscreenElement) (d.documentElement.requestFullscreen || d.documentElement.webkitRequestFullscreen).call(d.documentElement);
+  else (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+}
+document.addEventListener('fullscreenchange', () => { document.getElementById('fsBtn').textContent = document.fullscreenElement ? '✕ خروج من ملء الشاشة' : '⛶ ملء الشاشة'; });
+let si = 0;
+function slide(d) {
+  const all = document.querySelectorAll('#start .slide');
+  si = (si + d + all.length) % all.length;
+  all.forEach((x, k) => x.classList.toggle('on', k === si));
+  const wv = document.getElementById('wvid'); if (wv && !all[si].contains(wv)) wv.pause();
+  const tv = document.getElementById('tvid'); if (tv) { if (all[si].contains(tv)) tv.play().catch(() => {}); else tv.pause(); }
+  document.getElementById('dotT').textContent = ar(si + 1) + ' / ' + ar(all.length);
+}
+// ───── Enlarged page with pen, highlighter and eraser; ink is kept per picture for this visit
+const INK = {};
+let tool = 'pen', color = '#d23b3b', size = 6, drawing = false, last = null, curSrc = '';
+const cv = () => document.getElementById('ink');
+function zoom(src) {
+  curSrc = src;
+  const im = $('#zimg');
+  im.onload = fitInk;
+  im.src = src;
+  $('#zoom').classList.add('on');
+  if (im.complete) fitInk();
+}
+function closeZoom() { saveInk(); $('#zoom').classList.remove('on'); }
+function fitInk() {
+  const im = $('#zimg'), c = cv(), st = $('#stage').getBoundingClientRect(), r = im.getBoundingClientRect();
+  c.style.left = (r.left - st.left) + 'px'; c.style.top = (r.top - st.top) + 'px';
+  c.style.width = r.width + 'px'; c.style.height = r.height + 'px';
+  // drawing buffer in picture pixels, so ink stays put at any window size
+  c.width = im.naturalWidth * 2; c.height = im.naturalHeight * 2;
+  const g = c.getContext('2d'); g.clearRect(0, 0, c.width, c.height);
+  const st0 = INK[curSrc];
+  if (st0 && st0.length) restore(st0[st0.length - 1]);
+}
+function restore(url) { const g = cv().getContext('2d'), i = new Image(); i.onload = () => { g.clearRect(0, 0, cv().width, cv().height); g.drawImage(i, 0, 0); }; i.src = url; }
+function saveInk() { if (!curSrc) return; (INK[curSrc] = INK[curSrc] || []).push(cv().toDataURL()); if (INK[curSrc].length > 30) INK[curSrc].shift(); }
+function undo() {
+  const h = INK[curSrc] || [];
+  h.pop();
+  if (h.length) restore(h[h.length - 1]); else cv().getContext('2d').clearRect(0, 0, cv().width, cv().height);
+}
+function clearInk() { cv().getContext('2d').clearRect(0, 0, cv().width, cv().height); saveInk(); }
+function pos(e) { const c = cv(), r = c.getBoundingClientRect(); return [(e.clientX - r.left) * c.width / r.width, (e.clientY - r.top) * c.height / r.height]; }
+function stroke(a, b) {
+  const c = cv(), g = c.getContext('2d'), k = c.width / c.getBoundingClientRect().width;
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  if (tool === 'er') { g.globalCompositeOperation = 'destination-out'; g.lineWidth = 28 * k; g.globalAlpha = 1; }
+  else if (tool === 'hl') { g.globalCompositeOperation = 'multiply'; g.lineWidth = 22 * k; g.globalAlpha = 0.35; g.strokeStyle = color; }
+  else { g.globalCompositeOperation = 'source-over'; g.lineWidth = size * k; g.globalAlpha = 1; g.strokeStyle = color; }
+  g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke();
+}
+(function initInk() {
+  const c = cv();
+  c.addEventListener('pointerdown', (e) => { if (tool === 'tx' || tool === 'dy' || tool === 'dt') { e.preventDefault(); textAt(c, e, color, 26, saveInk, tool === 'dy' ? arDay() : tool === 'dt' ? arDate() : ''); return; } drawing = true; c.setPointerCapture(e.pointerId); last = pos(e); stroke(last, last); });
+  c.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); stroke(last, p); last = p; });
+  const end = () => { if (drawing) { drawing = false; saveInk(); } };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+  document.querySelectorAll('#tools .tl[data-tool]').forEach((b) => b.onclick = () => { tool = b.dataset.tool; document.querySelectorAll('#tools .tl[data-tool]').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .cl').forEach((b) => b.onclick = () => { color = b.dataset.c; if (tool === 'er' || tool === 'hl') document.querySelector('#tools [data-tool="pen"]').click(); document.querySelectorAll('#tools .cl').forEach((x) => x.classList.toggle('on', x === b)); });
+  document.querySelectorAll('#tools .sz').forEach((b) => b.onclick = () => { size = +b.dataset.s; document.querySelectorAll('#tools .sz').forEach((x) => x.classList.toggle('on', x === b)); });
+  window.addEventListener('resize', () => { if ($('#zoom').classList.contains('on')) { saveInk(); fitInk(); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#zoom').classList.contains('on')) closeZoom(); });
+})();
+function confetti() {
+  for (let k = 0; k < 14; k++) {
+    const s = document.createElement('div'); s.className = 'confetti'; s.textContent = ['⭐', '🌿', '💚', '✨'][k % 4];
+    s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .4 + 's';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 2200);
+  }
+}
+function go(p) {
+  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.dataset.p === p));
+  document.querySelectorAll('.panel').forEach((x) => x.classList.toggle('on', x.id === p));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.tab').forEach((t) => t.onclick = () => go(t.dataset.p));
+
+// ───── Stations
+const STATIONS = [
+  { icon: '🔁', name: 'مراجعة سريعة: صنّفي واكتشفي', page: 139, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> صنّفي واكتشفي – مراجعة الدرس السابق (٣ دقائق) ⏱️</span><h2>🔁 مراجعة سريعة: المنتجات والمستهلكات والمحلّلات</h2>
+    <div class="grid2 body"><div class="pagecol">${page(139)}</div><div class="txt">
+      <img class="slimg" src="img/s3.jpg" alt="مراجعة سريعة" onclick="zoom(this.src)">
+      <p style="margin:2px 0">اضغطي على البطاقة، ثم على خانتها 👇</p>
+      <div id="srtQ"></div>
+      ${flip('من يأكل من؟ نبات ← جرادة ← طائر. ما هذا النموذج؟', 'سلسلة غذائية: مسار انتقال الطاقة من مخلوق حي إلى آخر.', 'أتذكّر')}
+    </div></div>`, after: () => sorter('srtQ', SQ, ['🌿 منتجات', '🐇 مستهلكات', '🍄 محلّلات']) },
+  { icon: '🕸️', name: 'من السلسلة إلى الشبكة', page: 140, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> التمهيد – من السلسلة إلى الشبكة</span><h2>🕸️ من السلسلة إلى الشبكة</h2>
+    <div class="grid2 body"><div class="pagecol">${page(140)}</div><div class="txt">
+      <img class="slimg" src="img/s6.jpg" alt="من السلسلة إلى الشبكة" onclick="zoom(this.src)">
+      ${flip('هل تتغذّى معظم الحيوانات على نوع واحد فقط من المخلوقات؟', 'لا؛ معظم الحيوانات جزء في أكثر من سلسلة غذائية.', 'أتساءل')}
+      ${flip('ماذا تأخذ مجموعة السلاسل الغذائية المتداخلة؟', 'صورة شبكة غذائية.', 'أستنتج')}
+      <img class="slimg" src="img/s9.jpg" alt="أقارن بين السلسلة والشبكة" onclick="zoom(this.src)">
+    </div></div>` },
+  { icon: '📖', name: 'ما الشبكات الغذائية؟', page: 140, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ وأتتبّع الأسهم</span><h2>📖 ما الشبكات الغذائية؟</h2>
+    <div class="grid2 body"><div class="pagecol">${page(140)}</div><div class="txt">
+      ${flip('ما الشبكة الغذائية؟', 'نموذج يبيّن تداخلات السلاسل الغذائية في نظام بيئي.', 'المفردة')}
+      ${flip('ماذا تُظهر الشبكة الغذائية؟', 'تُظهر العلاقات بين كل الأنواع في النظام البيئي، ولكل مخلوق فيها دور محدّد.', 'أقرأ')}
+      ${flip('لماذا تُعدّ الشبكة الغذائية تمثيلًا أدق للعلاقات الغذائية من السلسلة الغذائية؟', 'لأن معظم الحيوانات تتغذّى على أكثر من نوع من المخلوقات.', 'أقرأ الشكل')}
+      <p style="margin:4px 0"><b>🔍 أقرأ الصورة:</b> أيّ هذه الحيوانات من المفترسات، وأيّها من الفرائس؟ <small>(إرشاد: أتتبّع الأسهم)</small></p>
+      <div id="srtW"></div>
+    </div></div>`, after: () => sorter('srtW', WQ, ['🐯 مفترس', '🐭 فريسة', '🔁 مفترس وفريسة معًا']) },
+  { icon: '🦝', name: 'آكلات الأعشاب واللحوم والقارتة', page: 140, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ وأقارن</span><h2>🦝 آكلات الأعشاب وآكلات اللحوم والحيوانات القارتة</h2>
+    <div class="grid2 body"><div class="pagecol">${page(140)}</div><div class="txt">
+      ${flip('ما آكلات الأعشاب؟ وكيف تساعدها أسنانها؟', 'هي المستهلكات الأولى التي تتغذّى على المنتجات فقط، ولكبيرة منها على اليابسة أسنان ذات حواف مستوية حادة في مقدمة فمها لقطع أجزاء النباتات، وأسنان مسطحة في مؤخرته لطحنها ومضغها.', 'أقرأ')}
+      ${flip('ما آكلات اللحوم؟ وكيف تتغذّى؟', 'هي المستهلكات الثانية والثالثة، حيوانات تأكل حيوانات أخرى؛ يمزّق كثير منها الفريسة بأنيابه وقواطعه الحادة أو يستخدم المناقير.', 'أقرأ')}
+      ${flip('هل يتغذّى آكل اللحوم على نوع واحد؟ مثّلي.', 'لا؛ يتغذّى على أكثر من نوع: فالثعلب يتغذّى على الثدييات الصغيرة والطيور والسحالي، والنسر على الكلاب البرية والسحالي والأفاعي والأرانب والسناجب.', 'أمثّل')}
+      ${flip('ما الحيوانات القارتة؟ مثّلي.', 'مستهلكات تتغذّى على النباتات والحيوانات، مثل حيوان الراكون الذي يأكل الفاكهة والبذور وبيض الطيور وصغار الأرانب، وبعض الحيتان في المحيطات.', 'المفردة')}
+      <div id="srtC"></div>
+    </div></div>`, after: () => sorter('srtC', CQ, ['🦌 آكل أعشاب', '🦅 آكل لحوم', '🦝 قارت']) },
+  { icon: '🔺', name: 'ما هرم الطاقة؟', page: 142, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ الشكل</span><h2>🔺 ما هرم الطاقة؟</h2>
+    <div class="grid2 body"><div class="pagecol">${page(142)}</div><div class="txt">
+      ${flip('ما هرم الطاقة؟', 'نموذج يبيّن كيف تنتقل الطاقة خلال سلسلة غذائية معيّنة.', 'المفردة')}
+      ${flip('لماذا تشكّل المنتجات قاعدة الهرم الغذائي؟', 'لأنها تدعم المخلوقات الأخرى كافة.', 'أقرأ')}
+      <div class="pyr2" id="pyr2"></div>
+      <div class="steps"><button class="btn main" onclick="pyrFlow()">⚡ انقلي الطاقة إلى أعلى</button></div>
+      ${flip('ماذا تفعل المستهلكات بالطاقة المختزنة في غذائها؟', 'تستعمل جزءًا منها في نشاطاتها اليومية، وتفقد جزءًا آخر على شكل حرارة، وينتقل ١/١٠ الطاقة فقط إلى المستوى الذي يليه.', 'أقرأ')}
+      ${flip('لماذا توجد المنتجات بأعداد أكبر كثيرًا من المستهلكات؟', 'لأن تناقص الطاقة من مستوى إلى المستوى الذي يليه يحدّ من أعداد المستهلكات في السلسلة الغذائية.', 'أستنتج')}
+    </div></div>`, after: () => pyrDraw() },
+  { icon: '✅', name: 'أختبر نفسي: أفكّر وأستنتج', page: 142, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أختبر نفسي والتفكير الناقد</span><h2>✅ أختبر نفسي: أفكّر وأستنتج</h2>
+    <div class="grid2 body"><div class="pagecol">${page(142)}</div><div class="txt">
+      ${flip('أتتبّع: ما الذي تبيّنه المستويات في هرم الطاقة؟', 'تبيّن كمية الطاقة المتوافرة في كل مستوى غذائي وأعداد مخلوقاته؛ فالطاقة والأعداد تقلّان كلما ارتفعنا في الهرم.', 'أتتبّع')}
+      ${flip('التفكير الناقد: ماذا يمكن أن يحدث للمخلوقات الحية في النظام البيئي إذا قلّت فيه مصادر الغذاء؟', 'يزداد التنافس بينها على الغذاء، فتقلّ أعداد الجماعات الحيوية، ويهاجر بعضها أو يموت، فيختلّ توازن النظام البيئي.', 'التفكير الناقد')}
+      <img class="slimg" src="img/s8.jpg" alt="أفكر وأستنتج" onclick="zoom(this.src)">
+      ${flip('ماذا يحدث لبقية المخلوقات إذا اختفت النباتات؟ ولماذا؟', 'تقلّ آكلات الأعشاب ثم آكلات اللحوم؛ لأن المنتجات قاعدة الهرم وتدعم المخلوقات الأخرى كافة.', 'أستنتج')}
+      ${flip('لماذا يدرس العلماء تدفّق الطاقة في السلاسل الغذائية؟', 'لأن ذلك يساعدهم على توقّع التأثير الذي يحدث في المجتمعات الحيوية.', 'أقرأ')}
+    </div></div>` },
+  { icon: '🔗', name: 'الربط: الدين والوطن والحياة', page: 142, html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> الربط والتكامل – الدين والوطن والحياة</span><h2>🔗 التوازن البيئي في ديني ووطني وحياتي</h2>
+    <div class="links">
+      <div class="lk din"><h3>🕌 ربط بالدين</h3>
+        <div class="verse hadith">﴿إِنَّا كُلَّ شَيْءٍ خَلَقْنَاهُ بِقَدَرٍ﴾ <span>[القمر: ٤٩]</span></div>
+        ${flip('ما علاقة الآية بهرم الطاقة؟', 'خلق الله كل شيء بمقدار؛ فالمنتجات كثيرة، والمستهلكات أقل كلما ارتفعنا في الهرم، فيبقى النظام البيئي متوازنًا.', 'أتدبّر')}
+      </div>
+      <div class="lk watan"><h3>🇸🇦 ربط بالوطن</h3>
+        ${flip('لماذا تحمي المملكة الحياة الفطرية في المحميات؟', 'لأن التغيّرات في جزء من الشبكة الغذائية تؤثر في بقية أجزائها، فالحماية تحفظ التوازن.', 'رؤيتي')}
+        ${flip('كوّني شبكة صغيرة من صحراء وطني: (نبات – جربوع – جرادة – ثعبان – صقر)', 'نبات ← جربوع، نبات ← جرادة، جربوع ← ثعبان، ثعبان ← صقر، جرادة ← صقر.', 'بيئتي')}
+      </div>
+      <div class="lk hayah"><h3>🌍 ربط بالحياة</h3>
+        <img class="slimg" src="img/s12.jpg" alt="حارسة التوازن البيئي" onclick="zoom(this.src)">
+        ${flip('كيف أكون حارسة للتوازن البيئي؟', 'لا أصطاد الحيوانات عبثًا، ولا أقطع النباتات، ولا أُسرف في الطعام.', 'سلوكي')}
+      </div>
+    </div>` },
+];
+
+// ───── الجولة الافتراضية في الدورة الدموية
+const CIRC_SVG = `<svg id="circ" viewBox="0 0 420 520">
+  <defs><radialGradient id="hg" cx=".5" cy=".4"><stop offset="0" stop-color="#FF8A8A"/><stop offset="1" stop-color="#C62828"/></radialGradient></defs>
+  <text x="210" y="28" fill="#cfe" font-size="22" text-anchor="middle">الرئتان</text>
+  <ellipse cx="120" cy="90" rx="70" ry="52" fill="#F8B4C4"/><ellipse cx="300" cy="90" rx="70" ry="52" fill="#F8B4C4"/>
+  <text x="210" y="510" fill="#cfe" font-size="22" text-anchor="middle">خلايا الجسم</text>
+  <rect x="60" y="410" width="300" height="70" rx="30" fill="#FFE0B2"/>
+  <path id="cp1" d="M195 300 C 150 250, 120 200, 120 140" stroke="#3B6FD8" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="cp2" d="M300 140 C 300 200, 270 250, 225 290" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="cp3" d="M235 330 C 300 360, 320 390, 300 420" stroke="#E53935" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path id="cp4" d="M120 420 C 100 390, 130 350, 190 330" stroke="#3B6FD8" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path d="M120 140 C 160 110, 260 110, 300 140" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <path d="M300 420 C 260 450, 160 450, 120 420" stroke="#9575CD" stroke-width="10" fill="none" stroke-dasharray="6 6"/>
+  <g id="cheart"><path d="M210 360 C 120 300, 150 240, 210 275 C 270 240, 300 300, 210 360 Z" fill="url(#hg)"/><text x="210" y="312" fill="#fff" font-size="22" text-anchor="middle">القلب</text></g>
+  <g id="ccells"></g>
+  <text id="co2" x="210" y="160" fill="#FFEB3B" font-size="17" text-anchor="middle" opacity="0">يدخل الأكسجين ويخرج ثاني أكسيد الكربون</text>
+  <text id="cfood" x="210" y="400" fill="#FFE0B2" font-size="16" text-anchor="middle" opacity="0">الأكسجين والغذاء إلى الخلايا</text>
+</svg>`;
+const CSTEPS = [['١', 'يتدفّق الدم غير المؤكسج (غير المحمّل بالأكسجين) إلى القلب.', 'cp4', '#3B6FD8'],
+  ['٢', 'يُضخّ الدم غير المؤكسج إلى الرئتين.', 'cp1', '#3B6FD8'],
+  ['٣', 'يتخلّص الدم في الرئتين من ثاني أكسيد الكربون ويُحمَّل بالأكسجين، ثم يعود إلى القلب.', 'cp2', '#E53935'],
+  ['٤', 'يتدفّق الدم المؤكسج إلى القلب، ثم يُضخّ إلى سائر أجزاء الجسم.', 'cp3', '#E53935']];
+let cRAF = null, cS = 0, cT = 0, cAuto = false;
+function cstep(i, still) {
+  if (!document.getElementById('circ')) return;
+  cS = i; cT = 0; cancelAnimationFrame(cRAF);
+  document.querySelectorAll('.steps .btn').forEach((b, k) => b.classList.toggle('on', k === i));
+  $('#ctxt').innerHTML = `<b style="color:${CSTEPS[i][3]}">${CSTEPS[i][0]})</b> ${CSTEPS[i][1]}`;
+  ['cp1', 'cp2', 'cp3', 'cp4'].forEach((p) => document.getElementById(p).style.opacity = p === CSTEPS[i][2] ? 1 : .25);
+  $('#co2').style.opacity = i === 2 ? 1 : 0; $('#cfood').style.opacity = i === 3 ? 1 : 0;
+  const g = $('#ccells'); g.innerHTML = '';
+  for (let k = 0; k < 6; k++) { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', 9); c.setAttribute('fill', CSTEPS[i][3]); c.setAttribute('stroke', '#fff'); c.setAttribute('stroke-width', 2); g.append(c); }
+  cplace(0); if (!still) ctick();
+}
+function cplace(t) {
+  const path = document.getElementById(CSTEPS[cS][2]); if (!path) return; const L = path.getTotalLength();
+  [...$('#ccells').children].forEach((c, k) => { const p = path.getPointAtLength(((t + k / 6) % 1) * L); c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); });
+  const beat = 1 + .06 * Math.max(0, Math.sin(t * Math.PI * 6));
+  $('#cheart').setAttribute('transform', `translate(210 310) scale(${beat}) translate(-210 -310)`);
+}
+function ctick() {
+  if (!document.getElementById('circ')) return;
+  cT += 0.004; cplace(cT);
+  if (cT >= 1.2 && cAuto) { if (cS < 3) { cstep(cS + 1); return; } cAuto = false; award(1, $('#circ')); }
+  cRAF = requestAnimationFrame(ctick);
+}
+function cplay() { cAuto = true; cstep(0); }
+// ───── تجربة صمام الوريد
+function valve(fromTop) {
+  const tube = $('#tube'); tube.querySelectorAll('.seed').forEach((s) => s.remove());
+  const flaps = tube.querySelectorAll('.flapv'), m = $('#vmsg');
+  const seeds = [0, 1, 2].map((k) => { const s = document.createElement('div'); s.className = 'seed'; s.style.left = (16 + k * 17) + 'px'; s.style.top = fromTop ? '-22px' : '228px'; tube.append(s); return s; });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (fromTop) {
+      flaps.forEach((f) => f.style.transform = f.classList.contains('l') ? 'rotate(-70deg)' : 'rotate(70deg)');
+      seeds.forEach((s, k) => { s.style.transitionDelay = k * .15 + 's'; s.style.top = '205px'; });
+      setTimeout(() => { flaps.forEach((f) => f.style.transform = ''); m.className = 'msg good'; m.textContent = '✔ مرّت البذور؛ انفتح الصمامان مع اتجاه الحركة.'; award(1, m); }, 1700);
+    } else {
+      seeds.forEach((s, k) => { s.style.transitionDelay = k * .15 + 's'; s.style.top = '172px'; });
+      setTimeout(() => { m.className = 'msg bad'; m.textContent = '✖ لم تمرّ! انغلق الصمام فمنع الرجوع.'; }, 1500);
+    }
+  }));
+}
+const done = new Set();
+let cur = 0;
+// ───── The little teacher in the corner of every station: a speech bubble explains the station; tap her to hear it
+const LT_TIPS = ["مراجعة سريعة (٣ دقائق): صنّفي كل مخلوق في خانته 🔁", "تذكّري السلسلة… ثم شاهدي كيف تتداخل السلاسل فتصبح شبكة 🕸️", "اقرئي الفقرة وظلّليها، ثم تتبّعي الأسهم في الشكل لتعرفي المفترس والفريسة 🔍", "آكل أعشاب أم آكل لحوم أم قارت؟ ابحثي في الفقرة عن الأمثلة 🦝", "اضغطي «انقلي الطاقة» وراقبي: ١/١٠ فقط ينتقل إلى المستوى الذي يليه ⚡", "أجيبي عن «أختبر نفسي»، ثم فكّري: ماذا لو اختفت النباتات؟ 🤔", "كوني حارسة للتوازن البيئي في وطنك 🇸🇦"];
+function teach(i) {
+  const nav = document.querySelector('#stBody .nav'); if (!nav) return;
+  const s = STATIONS[i], tmp = document.createElement('div'); tmp.innerHTML = s.html();
+  const st = tmp.querySelector('.strat'), strat = st ? st.textContent.replace('الاستراتيجية:', '').trim() : '';
+  const tip = LT_TIPS[i] || `هيا نتعلّم معًا في محطة «${s.name}»! ${strat ? 'استراتيجيتنا: ' + strat + '.' : ''} اقرئي الصفحة وظلّلي، ثم أجيبي 💚`;
+  nav.insertAdjacentHTML('beforeend', `<div class="lt" onclick="ltSay()" title="اضغطي لتسمعي الشرح"><div class="ltb" id="ltb">${tip}</div><img src="../../assets/lt.png" alt="المعلمة الصغيرة"></div>`);
+}
+function ltSay() {
+  const b = document.getElementById('ltb'); if (!b) return;
+  b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(b.textContent.replace(/[^؀-ۿ\s،.؟!«»:0-9٠-٩]/g, '')); u.lang = 'ar-SA'; u.rate = .9;
+    const v = speechSynthesis.getVoices().find((x) => /^ar/.test(x.lang)); if (v) u.voice = v; speechSynthesis.speak(u); } catch (e) {}
+}
+function station(i) {
+  cur = i; done.add(i);
+  $('#stList').innerHTML = STATIONS.map((s, k) => `<button class="st ${k === i ? 'on' : ''} ${done.has(k) ? 'done' : ''}" onclick="station(${k})"><span class="n">ص${ar(s.page)}</span>${s.icon} ${s.name}</button>`).join('');
+  const s = STATIONS[i];
+  $('#stBody').innerHTML = `<div class="box">${s.html()}<div class="nav">
+    ${i > 0 ? `<button class="btn" onclick="station(${i - 1})">→ المحطة السابقة</button>` : ''}
+    ${i < STATIONS.length - 1 ? `<button class="btn main" onclick="station(${i + 1})">المحطة التالية ←</button>` : `<button class="btn main" onclick="go('missions')">إلى المهمات 🎯</button>`}</div></div>`;
+  if (s.after) s.after();
+  teach(i);
+  if (/القرائي|القراءة/.test(s.html())) readingBoard(i);
+  if (window.innerWidth < 860 && $('#stations').classList.contains('on')) $('#stBody').scrollIntoView({ behavior: 'smooth' });
+}
+function plant(id) {
+  return `<svg viewBox="0 0 200 200" id="pl_${id}"><path d="M60,150 L140,150 L130,195 L70,195 Z" fill="#c8773c" stroke="#5a3a1e" stroke-width="4"/>
+    <rect x="52" y="140" width="96" height="14" rx="5" fill="#a85f2c" stroke="#5a3a1e" stroke-width="4"/>
+    <g class="stem"><path d="M100,142 Q98,100 100,60" fill="none" stroke="#3f8f3a" stroke-width="7" stroke-linecap="round"/>
+    <ellipse class="lf" cx="76" cy="100" rx="24" ry="11" transform="rotate(-25 76 100)" fill="#4caf50" stroke="#2e6b2f" stroke-width="3"/>
+    <ellipse class="lf" cx="124" cy="88" rx="24" ry="11" transform="rotate(25 124 88)" fill="#4caf50" stroke="#2e6b2f" stroke-width="3"/>
+    <circle cx="100" cy="52" r="16" fill="#ff9800" stroke="#c35b00" stroke-width="3"/></g></svg>`;
+}
+function grow(d) {
+  d = +d;
+  const names = ['', 'الأول', 'الثاني', 'الثالث', 'الرابع'];
+  if ($('#dayT')) $('#dayT').textContent = names[d];
+  const b = document.getElementById('pl_b'); if (!b) return;
+  const cols = ['#4caf50', '#8bc34a', '#c0ca33', '#d4a537'];
+  b.querySelectorAll('.lf').forEach((l) => l.setAttribute('fill', cols[d - 1]));
+  b.querySelector('.stem').setAttribute('transform', `rotate(${(d - 1) * 9} 100 142)`);
+}
+
+// ───── المهمات: أتذكّر • أقارن • أصنّف • أركّب (المهمة الأدائية)
+// Teacher's assessment path for every item: hint → second try → remediation → a similar question → praise
+const M1 = [
+  { q: 'الشبكة الغذائية نموذج يبيّن…', o: ['تداخلات السلاسل الغذائية في نظام بيئي', 'مسارًا واحدًا لانتقال الطاقة', 'أعداد المنتجات فقط'], a: 0, hint: 'مجموعة من السلاسل الغذائية.', fix: 'الشبكة الغذائية نموذج يبيّن تداخلات السلاسل الغذائية في نظام بيئي (ص١٤٠).', sim: { q: 'معظم الحيوانات جزء في…', o: ['أكثر من سلسلة غذائية', 'سلسلة واحدة فقط', 'لا سلسلة'], a: 0 } },
+  { q: 'المستهلكات التي تتغذّى على النباتات والحيوانات تُسمّى…', o: ['الحيوانات القارتة', 'آكلات الأعشاب', 'المنتجات'], a: 0, hint: 'مثل الراكون.', fix: 'الحيوانات القارتة تتغذّى على النباتات والحيوانات (ص١٤٠).', sim: { q: 'الراكون يأكل الفاكهة وبيض الطيور، فهو…', o: ['قارت', 'آكل أعشاب', 'منتج'], a: 0 } },
+  { q: 'آكلات الأعشاب هي…', o: ['المستهلكات الأولى', 'المستهلكات الثالثة', 'المحلّلات'], a: 0, hint: 'تتغذّى على المنتجات فقط.', fix: 'آكلات الأعشاب هي المستهلكات الأولى (ص١٤٠).', sim: { q: 'المستهلكات الثانية والثالثة هي…', o: ['آكلات اللحوم', 'آكلات الأعشاب', 'المنتجات'], a: 0 } },
+  { q: 'قاعدة هرم الطاقة هي…', o: ['المنتجات', 'المستهلكات الثالثة', 'المحلّلات'], a: 0, hint: 'تدعم المخلوقات الأخرى كافة.', fix: 'تشكّل المنتجات قاعدة الهرم؛ لأنها تدعم المخلوقات الأخرى كافة (ص١٤٢).', sim: { q: 'المستوى الذي يلي المنتجات في الهرم هو…', o: ['الحيوانات التي تستهلك المنتجات', 'المحلّلات', 'الشمس'], a: 0 } },
+  { q: 'ينتقل من الطاقة الموجودة في مستوى إلى المستوى الذي يليه…', o: ['١/١٠ فقط', 'الطاقة كلها', 'نصفها'], a: 0, hint: 'تفقد المستهلكات جزءًا على شكل حرارة.', fix: 'ينتقل ١/١٠ الطاقة فقط إلى المستوى الذي يليه (ص١٤٢).', sim: { q: 'تفقد المخلوقات جزءًا من الطاقة على شكل…', o: ['حرارة', 'ماء', 'تربة'], a: 0 } },
+];
+const M2 = [
+  { t: 'السلسلة الغذائية', u: 'الشبكة الغذائية', items: [
+    ['مسار واحد لانتقال الطاقة', 0, 'مثل: نبات ← جرادة ← طائر.'], ['مجموعة من السلاسل الغذائية المتداخلة', 1, 'تأخذ صورة شبكة.'],
+    ['تبيّن انتقال الطاقة من المنتجات إلى المستهلكات', 2, 'كلاهما نموذج لانتقال الطاقة.'], ['تمثيل أدق للعلاقات الغذائية في النظام البيئي', 1, 'لأن الحيوانات تأكل أكثر من نوع.'],
+    ['نبات ← جرادة ← طائر', 0, 'مسار واحد.'], ['تبدأ بالمنتجات', 2, 'المنتجات أساس الغذاء.']] },
+  { t: 'آكلات الأعشاب', u: 'آكلات اللحوم', items: [
+    ['تتغذّى على المنتجات فقط', 0, 'مثل الغزال.'], ['تأكل حيوانات أخرى', 1, 'مثل النمر.'],
+    ['أسنان مسطحة لطحن النباتات ومضغها', 0, 'في مؤخرة الفم.'], ['أنياب وقواطع حادة أو مناقير لتمزيق الفريسة', 1, 'مثل النسر.'],
+    ['مستهلكات تحصل على الطاقة من غذائها', 2, 'كلها مستهلكات.'], ['المستهلكات الثانية والثالثة', 1, 'تأتي بعد المستهلك الأول.']] },
+];
+const BINS = [['🌿', 'منتج'], ['🦌', 'آكل أعشاب'], ['🦅', 'آكل لحوم'], ['🦝', 'حيوان قارت']];
+const M3 = [['العشب', 0], ['العوالق النباتية', 0], ['الطحالب', 0], ['الغزال', 1], ['الجرادة', 1], ['المواشي', 1], ['النمر', 2], ['النسر', 2], ['الثعلب', 2], ['الراكون', 3], ['بعض الحيتان', 3], ['الإنسان', 3]];
+const M4 = [
+  { t: 'هرم طاقة على اليابسة (ص١٤٢)', c: ['🌿 نبات', '🦗 حشرات', '🐦 طيور', '🦊 ثعلب'] },
+  { t: 'هرم طاقة في المحيط (ص١٤٢)', c: ['🦠 عوالق نباتية', '🐟 أسماك', '🐧 بطاريق', '🦭 فقمة'] },
+  { t: 'سلسلة من الشبكة على اليابسة (ص١٤٠)', c: ['🌾 بذور', '🐭 فأر', '🐍 أفعى', '🦅 نسر'] },
+];
+const MIS = [
+  { ic: '🟢', n: 'المهمة الأولى', t: 'أتذكّر', d: 'أسئلة بسيطة', run: () => m1(0) },
+  { ic: '🟡', n: 'المهمة الثانية', t: 'أقارن', d: 'السلسلة والشبكة', run: () => m2(0) },
+  { ic: '🟠', n: 'المهمة الثالثة', t: 'أصنّف', d: 'ماذا يأكل كل مخلوق؟', run: () => m3() },
+  { ic: '🔴', n: 'المهمة الرابعة', t: 'أركّب – المهمة الأدائية', d: 'أبني هرم الطاقة', run: () => m4(0) },
+  { ic: '<img class="nlogo" src="img/nafs/logo.png" alt="نافس">', n: 'المهمة الخامسة', t: 'نافس – نواتج التعلم', d: 'الشبكات وهرم الطاقة', run: () => m5(0) },
+];
+const mDone = new Set();
+let mCur = 0;
+function mission(k) {
+  mCur = k;
+  $('#mcards').innerHTML = MIS.map((m, i) => `<button class="mcard ${i === k ? 'on' : ''} ${mDone.has(i) ? 'done' : ''}" onclick="mission(${i})"><span class="mi">${m.ic}</span><b>${m.n}</b><span>${m.t}</span><small>${m.d}</small></button>`).join('');
+  MIS[k].run();
+}
+const mHead = (strat, title) => `<span class="strat"><b>الاستراتيجية:</b> التعلم النشط – ${strat}</span><h2>${title}</h2>`;
+const praise = () => ['أحسنتِ يا عالمتي! 🌟', 'رائع! إجابة صحيحة 👏', 'ممتاز! أنتِ مبدعة ✨', 'بطلة! استمري 💪'][Math.floor(Math.random() * 4)];
+function mFinish(k, html) {
+  mDone.add(k); confetti();
+  $('#mbody').innerHTML = `<div class="mend"><div class="big">🏆</div><h2>أنجزتِ ${MIS[k].n}: ${MIS[k].t}!</h2>${html || ''}
+    ${k < MIS.length - 1 ? `<button class="btn main" onclick="mission(${k + 1})">إلى ${MIS[k + 1].n} ←</button>` : `<button class="btn main" onclick="go('games')">إلى الألعاب 🎮</button>`}</div>`;
+  $('#mcards').querySelectorAll('.mcard')[k].classList.add('done');
+}
+// المهمة الأولى
+let m1s = 0;
+function m1(i, sim) {
+  if (i === 0 && !sim) m1s = 0;
+  if (i >= M1.length) return mFinish(0, `<p class="score">⭐ ${ar(m1s)} / ${ar(M1.length)}</p>`);
+  const it = M1[i], t = sim ? it.sim : it; let tries = 0;
+  $('#mbody').innerHTML = mHead('مستويات التفكير – أتذكّر', '🟢 المهمة الأولى: أتذكّر') + `
+    <p class="score">${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M1.length)}`} • ⭐ ${ar(m1s)}</p>
+    <p class="mq">${t.q}</p><div class="opts">${t.o.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="m1m"></div>`;
+  $('#mbody').querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {
+    const m = $('#m1m');
+    if (+b.dataset.k === t.a) {
+      b.classList.add('ok'); if (!tries && !sim) { m1s++; award(1, b); }
+      m.className = 'msg good'; m.textContent = sim ? 'أحسنتِ! الآن فهمتِ الفكرة 💚' : praise();
+      $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true);
+      setTimeout(() => m1(i + 1), 1200);
+    } else {
+      tries++; b.classList.add('no'); b.disabled = true;
+      if (sim || tries === 1) { m.className = 'msg bad'; m.innerHTML = `💡 تلميح: ${it.hint} حاولي مرة أخرى.`; }
+      else { m.className = 'msg bad'; m.innerHTML = `📘 لنتعلّم معًا: ${it.fix}<br><button class="btn main" style="margin-top:6px" onclick="m1(${i}, true)">🔁 جرّبي سؤالًا مشابهًا</button>`; $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true); }
+    }
+  });
+}
+// المهمة الخامسة: أسئلة على ناتج التعلم (من إعداد المعلمة)
+const O1 = 'تمثيل العلاقات بين المخلوقات الحية والتي تؤدي إلى تدوير المادة في النظام البيئي، وتحديد العلاقة بين النباتات وطاقة الشمس لإنتاج الغذاء';
+const M5 = [
+  { o: O1, k: 'معرفة', q: 'ما النموذج الذي يبيّن تداخلات السلاسل الغذائية في نظام بيئي؟', op: ['السلسلة الغذائية', 'الشبكة الغذائية', 'هرم الطاقة', 'المنطقة الحيوية'], a: 1, hint: 'مجموعة سلاسل متداخلة.', fix: 'الشبكة الغذائية تبيّن تداخلات السلاسل الغذائية.', sim: { q: 'النموذج الذي يبيّن كيف تنتقل الطاقة خلال سلسلة غذائية:', op: ['هرم الطاقة', 'الشبكة الغذائية', 'المناخ'], a: 0 } },
+  { o: O1, k: 'تطبيق', q: 'الراكون يأكل الفاكهة والبذور وصغار الأرانب. فهو حيوان…', op: ['منتج', 'آكل أعشاب', 'قارت', 'محلّل'], a: 2, hint: 'يأكل نباتات وحيوانات.', fix: 'من يتغذّى على النباتات والحيوانات حيوان قارت.', sim: { q: 'الغزال الذي يأكل العشب فقط…', op: ['آكل أعشاب', 'قارت', 'آكل لحوم'], a: 0 } },
+  { o: O1, k: 'تحليل', q: 'لماذا توجد المنتجات بأعداد أكبر كثيرًا من المستهلكات؟', op: ['لأن الطاقة تتناقص من مستوى إلى الذي يليه', 'لأن المنتجات لا تحتاج طاقة', 'لأن المستهلكات لا تتغذّى', 'لأن المحلّلات تأكل المستهلكات'], a: 0, hint: 'ينتقل ١/١٠ الطاقة فقط.', fix: 'تناقص الطاقة يحدّ من أعداد المستهلكات.', sim: { q: 'كلما ارتفعنا في هرم الطاقة فإن الطاقة…', op: ['تقلّ', 'تزيد', 'تبقى ثابتة'], a: 0 } },
+  { o: O1, k: 'استنتاج', q: 'إذا قلّت مصادر الغذاء في النظام البيئي فإنه…', op: ['يقلّ التنافس', 'يزداد التنافس بين المخلوقات على الغذاء', 'تزداد أعداد المستهلكات', 'لا يتأثر شيء'], a: 1, hint: 'الغذاء أقل والمخلوقات كثيرة.', fix: 'نقص الغذاء يزيد التنافس وقد يقلّل أعداد الجماعات الحيوية.', sim: { q: 'اختفاء النباتات من الشبكة يؤدي إلى…', op: ['نقص آكلات الأعشاب ثم آكلات اللحوم', 'زيادة آكلات الأعشاب', 'لا شيء'], a: 0 } },
+  { o: O1, k: 'تركيب', q: 'إذا كانت طاقة مستوى المنتجات ١٠٠٠٠ وحدة، فكم ينتقل منها إلى المستهلكات الأولى؟', op: ['١٠٠٠٠ وحدة', '٥٠٠٠ وحدة', '١٠٠٠ وحدة', '١٠ وحدات'], a: 2, hint: 'ينتقل ١/١٠ الطاقة فقط.', fix: '١٠٠٠٠ ÷ ١٠ = ١٠٠٠ وحدة.', sim: { q: 'إذا وصل إلى المستهلك الأول ١٠٠٠ وحدة، فكم يصل إلى المستهلك الثاني؟', op: ['١٠٠ وحدة', '١٠٠٠ وحدة', '٥٠٠ وحدة'], a: 0 } },
+];
+const SYSR = [['🕸️ الشبكات الغذائية وهرم الطاقة', /./]];
+M5.forEach((q) => { q.sys = 0; });
+const npg = () => '';
+let m5s = 0;
+const shuf0 = (t) => { const idx = t.op.map((_, k) => k).sort(() => Math.random() - .5); return { q: t.q, op: idx.map((k) => t.op[k]), a: idx.indexOf(t.a) }; };
+function m5(i, sim) {
+  if (i === 0 && !sim) m5s = 0;
+  if (i >= M5.length) return mFinish(4, `<p class="score">⭐ ${ar(m5s)} / ${ar(M5.length)}</p><p>أسئلة على ناتج التعلم في الشبكات الغذائية وهرم الطاقة 💚</p>`);
+  const it = M5[i], t = shuf0(sim ? it.sim : { q: it.q, op: it.op, a: it.a }); let tries = 0;
+  $('#mbody').innerHTML = mHead('نواتج التعلم – اختبار نافس', 'المهمة الخامسة: نافس – نواتج التعلم') + `
+    <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${it.o} ${npg(it.q) ? `<span class="nlab pg">📄 المذكرة ص${npg(it.q)}</span>` : '<span class="nlab pg mine">✍️ من إعداد المعلمة</span>'}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة • <span class="nlab sk">${it.k}</span></div></div>
+    <p class="score" style="margin:2px"><span class="revb s${it.sys}">${SYSR[it.sys][0]}</span> ${sim ? '🔁 سؤال مشابه' : `السؤال ${ar(i + 1)} من ${ar(M5.length)}`} • ⭐ ${ar(m5s)}</p>
+    <div class="nq">${it.img && !sim ? `<img src="img/nafs/${it.img}.png" alt="">` : ''}<p class="mq">${t.q}</p></div><div class="opts o4">${t.op.map((o, k) => `<button class="btn" data-k="${k}">${o}</button>`).join('')}</div><div class="msg" id="m5m"></div>`;
+  $('#mbody').querySelectorAll('.opts .btn').forEach((b) => b.onclick = () => {
+    const m = $('#m5m');
+    if (+b.dataset.k === t.a) {
+      b.classList.add('ok'); if (!tries && !sim) { m5s++; award(['تحليل', 'تركيب', 'استنتاج'].includes(it.k) ? 2 : 1, b); }
+      m.className = 'msg good'; m.textContent = sim ? 'أحسنتِ! الآن فهمتِ الفكرة 💚' : praise();
+      $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true);
+      setTimeout(() => m5(i + 1), 1200);
+    } else {
+      tries++; b.classList.add('no'); b.disabled = true;
+      if (sim || tries === 1) { m.className = 'msg bad'; m.innerHTML = `💡 تلميح: ${it.hint} حاولي مرة أخرى.`; }
+      else { m.className = 'msg bad'; m.innerHTML = `📘 لنتعلّم معًا: ${it.fix}<br><button class="btn main" style="margin-top:6px" onclick="m5(${i}, true)">🔁 جرّبي سؤالًا مشابهًا</button>`; $('#mbody').querySelectorAll('.opts .btn').forEach((x) => x.disabled = true); }
+    }
+  });
+}
+// المهمة الثانية
+function m2(c) {
+  if (c >= M2.length) return mFinish(1);
+  const C = M2[c], cols = [C.t, C.u, 'كلاهما'];
+  let idx = 0, tries = 0;
+  $('#mbody').innerHTML = mHead('المقارنة – جدول أوجه الشبه والاختلاف', `🟡 المهمة الثانية: أقارن بين ${C.t} و${C.u}`) + `
+    <div class="cmp"><div class="cq"><p class="score">العبارة <span id="ci"></span></p><p class="mq" id="cs"></p>
+      <div class="opts c3">${cols.map((x, k) => `<button class="btn" data-k="${k}">${x}</button>`).join('')}</div><div class="msg" id="cm"></div></div>
+      <table class="ctab"><tr><th>${C.t}</th><th>كلاهما</th><th>${C.u}</th></tr><tr><td id="col0"></td><td id="col2"></td><td id="col1"></td></tr></table></div>`;
+  const show = () => {
+    if (idx >= C.items.length) { $('#cm').className = 'msg good'; $('#cm').innerHTML = `اكتمل الجدول! 👏 <button class="btn main" onclick="m2(${c + 1})">${c + 1 < M2.length ? 'المقارنة التالية ←' : 'إنهاء المهمة ✔'}</button>`; $('#cs').textContent = '✔'; $('#mbody').querySelectorAll('.cq .opts .btn').forEach((x) => x.disabled = true); return; }
+    tries = 0; $('#ci').textContent = `${ar(idx + 1)} من ${ar(C.items.length)}`; $('#cs').textContent = C.items[idx][0];
+    $('#mbody').querySelectorAll('.cq .opts .btn').forEach((x) => { x.disabled = false; x.className = 'btn'; });
+  };
+  $('#mbody').querySelectorAll('.cq .opts .btn').forEach((b) => b.onclick = () => {
+    const it = C.items[idx], m = $('#cm');
+    if (+b.dataset.k === it[1]) {
+      b.classList.add('ok'); if (!tries) award(1, b);
+      $('#col' + it[1]).insertAdjacentHTML('beforeend', `<div class="chip">${it[0]}</div>`);
+      m.className = 'msg good'; m.textContent = praise(); idx++; setTimeout(show, 800);
+    } else if (!tries) { tries++; b.classList.add('no'); m.className = 'msg bad'; m.textContent = '💡 تلميح: ' + it[2]; }
+    else { $('#col' + it[1]).insertAdjacentHTML('beforeend', `<div class="chip fixd">${it[0]}</div>`); m.className = 'msg bad'; m.textContent = `📘 الصحيح: «${cols[it[1]]}». انظري إلى الجدول.`; idx++; setTimeout(show, 1800); }
+  });
+  show();
+}
+// المهمة الثالثة
+let m3sel = null;
+function m3() {
+  const items = M3.slice().sort(() => Math.random() - .5);
+  $('#mbody').innerHTML = mHead('التصنيف – أنظّم أفكاري', '🟠 المهمة الثالثة: صنّفي كل مخلوق حسب دوره في السلسلة') + `
+    <p style="margin:0">اضغطي على البطاقة، ثم اضغطي على الدور المناسب لها.</p>
+    <div class="pool" id="pool">${items.map((it) => `<button class="chip pick" data-b="${it[1]}" data-t="0">${it[0]}</button>`).join('')}</div>
+    <div class="binz">${BINS.map((b, k) => `<div class="bin" data-k="${k}"><div class="bh">${b[0]} ${b[1]}</div><div class="bc2"></div></div>`).join('')}</div><div class="msg" id="m3m"></div>`;
+  m3sel = null;
+  $('#mbody').querySelectorAll('.pick').forEach((c) => c.onclick = () => { $('#mbody').querySelectorAll('.pick').forEach((x) => x.classList.remove('sel')); c.classList.add('sel'); m3sel = c; });
+  $('#mbody').querySelectorAll('.bin').forEach((bin) => bin.onclick = () => {
+    if (!m3sel) { $('#m3m').className = 'msg bad'; $('#m3m').textContent = 'اختاري بطاقة أولًا 👆'; return; }
+    const c = m3sel, ok = +c.dataset.b === +bin.dataset.k, m = $('#m3m');
+    if (ok || +c.dataset.t >= 1) {
+      const dest = $('#mbody').querySelectorAll('.bin')[+c.dataset.b].querySelector('.bc2');
+      c.classList.remove('sel', 'pick'); c.onclick = null; if (!ok) c.classList.add('fixd'); dest.appendChild(c); m3sel = null;
+      if (ok && +c.dataset.t === 0) award(1, bin);
+      m.className = ok ? 'msg good' : 'msg bad'; m.textContent = ok ? praise() : `📘 «${c.textContent}» من ${BINS[+c.dataset.b][1]}.`;
+      if (!$('#pool').children.length) setTimeout(() => mFinish(2), 900);
+    } else { c.dataset.t = 1; bin.classList.add('shake'); setTimeout(() => bin.classList.remove('shake'), 400); m.className = 'msg bad'; m.textContent = '💡 تلميح: ' + ['يصنع غذاءه بنفسه.', 'يأكل المنتجات مباشرة.', 'يأكل حيوانات أخرى.', 'يأكل النباتات والحيوانات معًا.'][+c.dataset.b] + ' حاولي مرة أخرى.'; }
+  });
+}
+// المهمة الرابعة (الأدائية): أركّب سلسلة غذائية
+let m4got = [];
+function m4(c) {
+  if (c >= M4.length) return mFinish(3, `<div class="card4" style="text-align:right;max-width:760px;margin:auto">${M4CARD}</div>`);
+  const C = M4[c], pool = C.c.map((x, k) => [x, k]).sort(() => Math.random() - .5); m4got = []; let tries = 0;
+  $('#mbody').innerHTML = mHead('المهمة الأدائية – التركيب والتصميم', `🔴 المهمة الرابعة: أركّب ${C.t}`) + `
+    <p style="margin:0">رتّبي الحلقات من <b>المنتج</b> إلى <b>المستهلك الأعلى</b>: اضغطي على البطاقات بالترتيب.</p>
+    <div class="slots" id="slots"><span class="sun">☀️ الشمس</span>${C.c.map((_, k) => `<i>←</i><span class="slot" id="sl${k}">${['منتج', 'مستهلك أول', 'مستهلك ثانٍ', 'مستهلك ثالث'][k]}</span>`).join('')}</div>
+    <div class="pool">${pool.map(([x, k]) => `<button class="chip pick" data-k="${k}">${x}</button>`).join('')}</div><div class="msg" id="m4m"></div>`;
+  $('#mbody').querySelectorAll('.pick').forEach((b) => b.onclick = () => {
+    const n = m4got.length, m = $('#m4m');
+    if (+b.dataset.k === n) {
+      m4got.push(n); const sl = $('#sl' + n); sl.textContent = b.textContent; sl.classList.add('ok'); b.remove();
+      if (!tries) award(1, sl); tries = 0; m.className = 'msg good'; m.textContent = praise();
+      if (m4got.length === C.c.length) { m.innerHTML = `⚡ اكتملت السلسلة! تنتقل الطاقة من الشمس عبر الحلقات. <button class="btn main" onclick="m4(${c + 1})">${c + 1 < M4.length ? 'السلسلة التالية ←' : 'إلى المهمة الأدائية ←'}</button>`;
+        document.querySelectorAll('#slots .slot').forEach((x, k) => setTimeout(() => x.classList.add('glow'), 300 * k)); }
+    } else { tries++; b.classList.add('no'); setTimeout(() => b.classList.remove('no'), 500); m.className = 'msg bad';
+      m.textContent = '💡 تلميح: ' + ['ابدئي بالمخلوق الذي يصنع غذاءه بنفسه.', 'من يأكل المنتج مباشرة؟', 'من يأكل المستهلك الأول؟', 'من يأكل المستهلك الثاني؟'][n]; }
+  });
+}
+const M4CARD = `<h3>🛠️ المهمة الأدائية: أصمّم هرم طاقة لبيئة من وطني</h3>
+  <p><b>المطلوب:</b> اختاري بيئة من المملكة (صحراء أو بحر)، وارسمي هرم طاقة من أربعة مستويات تبدأ بالمنتجات في القاعدة، واكتبي على كل مستوى اسم مخلوق حي.</p>
+  <p><b>الأدوات:</b> ورق مقوّى، أقلام ملوّنة، صور مخلوقات، مقص، لاصق.</p>
+  <p><b>أضيفي إبداعك:</b> اكتبي بجانب الهرم أن ١/١٠ الطاقة فقط ينتقل إلى المستوى الذي يليه، وأضيفي شبكة غذائية صغيرة للبيئة نفسها.</p>
+  <table class="rub"><tr><th>المعيار</th><th>⭐⭐⭐</th><th>⭐⭐</th><th>⭐</th></tr>
+    <tr><td>الدقة العلمية</td><td>المنتجات في القاعدة والمستويات صحيحة</td><td>خطأ بسيط</td><td>ترتيب خاطئ</td></tr>
+    <tr><td>انتقال الطاقة</td><td>يوضّح تناقص الطاقة والأعداد</td><td>يوضّح أحدهما</td><td>لا يوضّح</td></tr>
+    <tr><td>الإبداع</td><td>شبكة غذائية وخامات مبتكرة</td><td>هرم فقط</td><td>ناقص</td></tr>
+    <tr><td>الشرح</td><td>تشرح بالمفردات العلمية</td><td>بمساعدة</td><td>تحتاج دعمًا</td></tr></table>
+  <p style="color:var(--pink)">📸 صوّري هرمك واعرضيه على زميلاتك!</p>`;
+
+
+// ───── Games
+const GAMES = {
+  who: { title: '🕵️ من أنا؟', items: [
+    { q: 'أنا نموذج يبيّن تداخلات السلاسل الغذائية في نظام بيئي.', o: ['الشبكة الغذائية', 'السلسلة الغذائية', 'هرم الطاقة'], a: 0 },
+    { q: 'أنا نموذج يبيّن كيف تنتقل الطاقة خلال سلسلة غذائية معيّنة.', o: ['المنطقة الحيوية', 'هرم الطاقة', 'المناخ'], a: 1 },
+    { q: 'أنا مستهلك أتغذّى على النباتات والحيوانات.', o: ['حيوان قارت', 'آكل أعشاب', 'منتج'], a: 0 },
+    { q: 'أنا أشكّل قاعدة هرم الطاقة.', o: ['المنتجات', 'آكلات اللحوم', 'المحلّلات'], a: 0 },
+    { q: 'أنا آكل لحوم أتغذّى على الثدييات الصغيرة والطيور والسحالي.', o: ['الثعلب', 'الغزال', 'العشب'], a: 0 },
+    { q: 'أنا الجزء من الطاقة الذي ينتقل إلى المستوى التالي في الهرم.', o: ['١/١٠', 'كلها', 'نصفها'], a: 0 },
+  ] },
+  next: { title: '🕸️ أكملي الشبكة: من يأكل من؟', items: [
+    { q: 'في الشبكة الغذائية على اليابسة: الفأر يأكله…', o: ['النسر والأفعى', 'الغزال', 'الجرادة'], a: 0 },
+    { q: 'الغزال يأكله…', o: ['النمر', 'الفأر', 'العشب'], a: 0 },
+    { q: 'الجرادة تتغذّى على…', o: ['النبات', 'الأفعى', 'النسر'], a: 0 },
+    { q: 'الأفعى قد تكون فريسة لـ…', o: ['النسر', 'الجرادة', 'الفأر'], a: 0 },
+    { q: 'النسر يتغذّى على…', o: ['الأرانب والسحالي والأفاعي', 'العشب فقط', 'الفاكهة فقط'], a: 0 },
+  ] },
+  role: { title: '🦝 ماذا آكل؟', items: [
+    { q: 'الغزال', o: ['آكل أعشاب', 'آكل لحوم', 'قارت'], a: 0 },
+    { q: 'النمر', o: ['آكل أعشاب', 'آكل لحوم', 'قارت'], a: 1 },
+    { q: 'الراكون', o: ['آكل أعشاب', 'آكل لحوم', 'قارت'], a: 2 },
+    { q: 'النسر', o: ['آكل أعشاب', 'آكل لحوم', 'قارت'], a: 1 },
+    { q: 'المواشي', o: ['آكل أعشاب', 'آكل لحوم', 'قارت'], a: 0 },
+    { q: 'الإنسان', o: ['آكل أعشاب', 'آكل لحوم', 'قارت'], a: 2 },
+  ] },
+};
+let G, gi, gs, gtry;
+function game(k) { G = GAMES[k]; gi = 0; gs = 0; round(); $('#play').scrollIntoView({ behavior: 'smooth' }); }
+function round() {
+  if (gi >= G.items.length) {
+    $('#play').innerHTML = `<div class="box" style="text-align:center"><h2>🏆 أنهيتِ اللعبة!</h2><div style="font-size:30px">⭐ ${ar(gs)} / ${ar(G.items.length)}</div><p>النجمة للإجابة الصحيحة من أول محاولة.</p></div>`;
+    confetti(); return;
+  }
+  const t = G.items[gi]; gtry = 0;
+  const opts = G.two ? ['🟡 مفتوح', '🔴 مغلق'] : t.o;
+  $('#play').innerHTML = `<div class="box"><h2>${G.title}</h2><p class="score">${ar(gi + 1)} / ${ar(G.items.length)} • ⭐ ${ar(gs)}</p>
+    ${t.img ? `<img class="pic" src="img/${t.img}.jpg" alt="">` : ''}<p style="text-align:center;font-size:22px">${t.q}</p>
+    <div class="opts" ${G.two ? 'style="grid-template-columns:1fr 1fr"' : ''}>${opts.map((o, k) => `<button class="btn" data-k="${k}" ${G.two ? 'style="text-align:center;font-size:22px"' : ''}>${o}</button>`).join('')}</div><div class="msg" id="gmsg"></div></div>`;
+  document.querySelectorAll('#play .opts .btn').forEach((b) => b.onclick = () => {
+    if (+b.dataset.k === t.a) { b.classList.add('ok'); if (!gtry) { gs++; award(1, b); } $('#gmsg').className = 'msg good'; $('#gmsg').textContent = 'أحسنتِ! 🌟'; setTimeout(() => { gi++; round(); }, 900); }
+    else { gtry++; b.classList.add('no'); b.disabled = true; $('#gmsg').className = 'msg bad'; $('#gmsg').textContent = 'حاولي مرة أخرى 💡'; }
+  });
+}
+station(0);
+// direct link to the video station: …/circulation/#video
+if (location.hash === "#video") { go("stations"); station(1); }
+// every content picture opens full size when tapped
+document.addEventListener('click', (e) => {
+  const im = e.target.closest('main img');
+  if (im && !im.classList.contains('page')) zoom(im.src);
+});
+// ───── Praise sounds: a bright "ta-da" for every correct answer, applause for two stars, a soft tone to try again
+function tone(f, t, d, v, type) {
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = type || 'sine'; o.frequency.value = f;
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.connect(g).connect(actx.destination); o.start(t); o.stop(t + d + 0.05);
+}
+function claps(t0, dur) {
+  const n = Math.floor(dur * 22);
+  for (let i = 0; i < n; i++) {
+    const t = t0 + Math.random() * dur, len = 0.05, b = actx.createBuffer(1, actx.sampleRate * len, actx.sampleRate), d = b.getChannelData(0);
+    for (let k = 0; k < d.length; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / d.length, 4);
+    const src = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
+    src.buffer = b; f.type = 'bandpass'; f.frequency.value = 1200 + Math.random() * 1400; g.gain.value = 0.35 * (1 - (t - t0) / dur * 0.6);
+    src.connect(f).connect(g).connect(actx.destination); src.start(t);
+  }
+}
+function ctx() { if (!soundOn) return null; try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); return actx; } catch (e) { return null; } }
+chime = function (n) {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, t + i * 0.09, 0.35, 0.1, 'triangle'));
+  tone(1568, t + 0.4, 0.6, 0.05);
+  if (n > 1) claps(t + 0.35, 1.6);
+};
+function tryAgain() {
+  if (!ctx()) return;
+  const t = actx.currentTime; tone(440, t, 0.25, 0.07, 'triangle'); tone(392, t + 0.18, 0.35, 0.07, 'triangle');
+}
+function fanfare() {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  [392, 523.3, 659.3, 784, 659.3, 784, 1046.5].forEach((f, i) => tone(f, t + i * 0.12 + (i > 3 ? 0.1 : 0), i === 6 ? 0.9 : 0.25, 0.1, 'triangle'));
+  claps(t + 0.6, 2.4);
+}
+function drumroll(sec) {
+  if (!ctx()) return;
+  const t = actx.currentTime;
+  for (let i = 0; i < sec * 18; i++) tone(110 + (i % 2) * 8, t + i / 18, 0.06, 0.08, 'square');
+}
+// a soft tone whenever a wrong answer is marked
+new MutationObserver((ms) => ms.forEach((m) => { if (m.target.classList && m.target.classList.contains('bad') && m.attributeName === 'class') tryAgain(); }))
+  .observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+// a correct answer on the second try still gets the praise sound (the star stays for the first try)
+document.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.classList.contains('ok') && !b.dataset.snd) { b.dataset.snd = 1; setTimeout(() => { if (!document.querySelector('.award')) chime(1); }, 60); } });
+
+// ───── Surprise box: each girl picks a box; no prize repeats until all are used
+const MSGS = ['💗 أنتِ نجمة تضيء سماء الإبداع!', '🦋 وجودكِ يجعل حصتنا أجمل!', '👑 يا ملكة العلوم، فخورة بكِ!', '🌷 ابتسمي، فأنتِ رائعة كما أنتِ!', '💎 أنتِ جوهرة ثمينة لا تشبه أحدًا!', '🎀 هناك نجمة مميزة اليوم… إنها أنتِ!', '🌈 أحلامكِ جميلة، وقدراتكِ أكبر!', '🧸 يا حلوة الروح، أنتِ مصدر بهجة!', '✨ اجتهادكِ اليوم يصنع نجاحكِ غدًا!', '💕 هل تعلمين؟ أنتِ سبب ابتسامتي اليوم!', '🌸 لكِ في قلبي وردة وفي السماء نجمة!', '🪄 لديكِ قوة سحرية اسمها الإصرار!', '🏆 تستحقين التصفيق يا بطلة!', '🦄 أنتِ حكاية جميلة من حكايات النجاح!', '💌 رسالة سرية: معلمتكِ تؤمن بقدراتكِ!', '🍓 يا قطعة سكر، مشاركتكِ تسعدني!', '🌟 أنتِ قادرة على صنع أشياء مذهلة!', '🎁 أجمل هدية لحصتنا هي حضوركِ!', '🩷 كل محاولة منكِ تستحق نجمة!', '👑 ارتدي تاج الثقة، فأنتِ مبدعة!'];
+const SURP = [['مفاجأة! حصلتِ على نجمتين إضافيتين! ⭐⭐', 2], ['مبروك! أنتِ أميرة الحصة اليوم! 👑', 10], ['هدية لكِ: اختاري اللعبة القادمة! 🎮', 7], ['يا محظوظة! حصلتِ على ٥ نقاط إضافية! 🎁', 5]];
+const PRIZES = MSGS.map((m, k) => ({ n: (k % 10) + 1, m })).concat(SURP.map(([m, n]) => ({ n, m, sp: 1 })));
+const arP = (n) => n === 1 ? 'نقطة واحدة' : n === 2 ? 'نقطتان' : n <= 10 ? `${ar(n)} ${n <= 10 && n >= 3 ? 'نقاط' : 'نقطة'}` : `${ar(n)} نقطة`;
+let pool = [];
+function nextPrize() { if (!pool.length) pool = PRIZES.slice().sort(() => Math.random() - 0.5); return pool.pop(); }
+function buildGifts() {
+  pool = [];
+  const em = ['✉️', '💌', '✉️', '💌'];
+  $('#gifts').innerHTML = Array.from({ length: PRIZES.length }, (_, i) => `<button class="gift" onclick="openGift(this)"><span class="e">${em[i % 4]}</span><span class="n">${ar(i + 1)}</span></button>`).join('');
+}
+function openGift(b) {
+  if (b.classList.contains('done') || b.classList.contains('shake')) return;
+  b.classList.add('shake'); drumroll(1.1);
+  setTimeout(() => {
+    b.classList.remove('shake'); b.classList.add('done');
+    const P = nextPrize();
+    b.querySelector('.e').textContent = '+' + ar(P.n);
+    $('#rvE').textContent = '';
+    $('#rvK').textContent = P.sp ? '🎉 ظرف المفاجأة!' : 'رسالة من معلمتك';
+    $('#rvT').textContent = `+${ar(P.n)} ${P.n === 1 ? 'نقطة' : P.n === 2 ? 'نقطتان' : P.n <= 10 ? 'نقاط' : 'نقطة'}`;
+    $('#rvM').textContent = P.m;
+    $('#rvX').innerHTML = '';
+    const ev = $('#envc'); ev.classList.remove('go'); $('#reveal').classList.add('on'); void ev.offsetWidth; setTimeout(() => ev.classList.add('go'), 350);
+    setTimeout(() => { fanfare(); confetti(); }, 1300); setTimeout(confetti, 1800); if (P.n >= 8) setTimeout(confetti, 2300);
+  }, 1150);
+}
+function printStar(msg) {
+  const name = ($('#stName') && $('#stName').value.trim()) || '……………………';
+  const lesson = (document.querySelector('header h1') || {}).textContent || '';
+  const d = new Date().toLocaleDateString('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' });
+  $('#starCard').innerHTML = `<div class="sc-in"><div class="sc-st">⭐</div><h1>أنتِ نجمة!</h1><p class="sc-to">تُهدى هذه البطاقة إلى الطالبة</p><div class="sc-name">${name}</div>
+    <p class="sc-msg">${msg} 🌟</p><p class="sc-l">${lesson} • العلوم – الصف السادس</p><div class="sc-f"><span>معلمتك: أ/ شامه البقمي 💚</span><span>${d}</span></div></div>`;
+  document.body.classList.add('printing'); setTimeout(() => { window.print(); document.body.classList.remove('printing'); }, 150);
+}
+function closeGift(e) { if (e && e.target.closest('.card') && (!e.target.closest('button') || e.target.closest('.rvx'))) return; $('#reveal').classList.remove('on'); }
+buildGifts();
+
+// ───── Reading stations: pen and highlighter colours right on the book page
+const RINK = {};
+let rTool = { c: '#ffd400', hl: true, er: false }, rDown = false, rLast = null;
+function readingBoard(i) {
+  const col = document.querySelector('#stBody .pagecol'); if (!col) return;
+  const img = col.querySelector('img.page'); const src = img.getAttribute('src');
+  col.innerHTML = `<div class="rd">
+    <div class="rbar">
+      <button class="hl ${rTool.hl && rTool.c === '#ffd400' ? 'sel' : ''}" data-c="#ffd400" data-h="1" style="background:#ffe766" title="تظليل أصفر"></button>
+      <button class="hl" data-c="#7ee07e" data-h="1" style="background:#a6ec9f" title="تظليل أخضر"></button>
+      <button class="hl" data-c="#ff8fc0" data-h="1" style="background:#ffb3d4" title="تظليل وردي"></button>
+      <button class="hl" data-c="#7cc8ff" data-h="1" style="background:#a9dcff" title="تظليل أزرق"></button>
+      <button class="c" data-c="#d23b3b" style="background:#d23b3b" title="قلم أحمر"></button>
+      <button class="c" data-c="#1e5fd8" style="background:#1e5fd8" title="قلم أزرق"></button>
+      <button class="c" data-c="#111111" style="background:#111" title="قلم أسود"></button>
+      <button data-e="1" title="ممحاة">🧽</button>
+      <button data-t="1" title="كتابة نص">🔤 نص</button>
+      <button onclick="rClear()" title="مسح الصفحة">🗑️</button>
+      <button onclick="zoom('${src}')" title="تكبير الصفحة">🔍 تكبير</button>
+    </div>
+    <div class="rbox"><div class="pw"><img class="page" src="${src}" alt=""><canvas id="rink"></canvas></div></div>
+    <div class="cap">✏️ السبورة: ظلّلي الإجابة في الكتاب – مرّري لأسفل لبقية الصفحة</div></div>`;
+  const im = col.querySelector('img.page'), cv = col.querySelector('#rink'), g = cv.getContext('2d');
+  cv.dataset.key = i;
+  const place = () => {
+    if (!im.naturalWidth) return;
+    Object.assign(cv.style, { width: im.clientWidth + 'px', height: im.clientHeight + 'px', left: '0px', top: '0px' });
+    if (cv.width !== im.naturalWidth) {
+      cv.width = im.naturalWidth; cv.height = im.naturalHeight;
+      if (RINK[i]) { const o = new Image(); o.onload = () => g.drawImage(o, 0, 0); o.src = RINK[i]; }
+    }
+  };
+  im.complete ? place() : (im.onload = place);
+  new ResizeObserver(place).observe(im);
+  const pos = (e) => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]; };
+  cv.onpointerdown = (e) => { if (rTool.tx) { e.preventDefault(); textAt(cv, e, rTool.c, 20, () => { RINK[i] = cv.toDataURL(); }); return; } rDown = true; rLast = pos(e); cv.setPointerCapture(e.pointerId); };
+  cv.onpointermove = (e) => {
+    if (!rDown) return; const p = pos(e);
+    g.globalCompositeOperation = rTool.er ? 'destination-out' : rTool.hl ? 'multiply' : 'source-over';
+    g.globalAlpha = rTool.hl && !rTool.er ? 0.35 : 1;
+    g.strokeStyle = rTool.c; g.lineCap = rTool.hl ? 'butt' : 'round'; g.lineJoin = 'round';
+    g.lineWidth = rTool.er ? 60 : rTool.hl ? 34 : 6;
+    g.beginPath(); g.moveTo(...rLast); g.lineTo(...p); g.stroke(); rLast = p;
+  };
+  cv.onpointerup = cv.onpointercancel = () => { if (rDown) { rDown = false; RINK[i] = cv.toDataURL(); } };
+  col.querySelectorAll('.rbar button[data-c], .rbar button[data-e], .rbar button[data-t]').forEach((b) => {
+    if (!rTool.er && b.dataset.c === rTool.c) b.classList.add('sel'); else if (!b.dataset.c && rTool.er) b.classList.add('sel'); else b.classList.remove('sel');
+    b.onclick = () => {
+      rTool = b.dataset.e ? { ...rTool, er: true, tx: false } : b.dataset.t ? { c: rTool.hl ? '#d23b3b' : rTool.c, hl: false, er: false, tx: true } : { c: b.dataset.c, hl: !!b.dataset.h, er: false, tx: false };
+      col.querySelectorAll('.rbar button').forEach((x) => x.classList.toggle('sel', x === b));
+    };
+  });
+}
+function rClear() { const cv = $('#rink'); if (!cv) return; cv.getContext('2d').clearRect(0, 0, cv.width, cv.height); RINK[cv.dataset.key] = null; }
+
+// ───── Lesson video (the teacher's own clip at img/circ.mp4); its button shows only when the file is there
+(function () { const v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = () => { HAS_VID = true; document.querySelectorAll('.vidb').forEach((b) => b.hidden = false); }; v.src = '../systems/systems.mp4'; })();
+function openVid(src) { const v = $('#vid'); v.src = src || '../systems/systems.mp4'; $('#vbox').classList.add('on'); v.play().catch(() => {}); }
+function closeVid() { const v = $('#vid'); v.pause(); $('#vbox').classList.remove('on'); }
+// ───── Pulse activity: count for 15 seconds, then ×4
+let pTimer = null;
+function pulseGo(sec) {
+  clearInterval(pTimer); let t = sec || 15; $('#pT').textContent = ar(t); $('#pBtn').disabled = true;
+  pTimer = setInterval(() => { t--; $('#pT').textContent = ar(t); if (t <= 0) { clearInterval(pTimer); $('#pBtn').disabled = false; $('#pT').textContent = '⏰'; chime(1); if ($('#pMsg')) { $('#pMsg').className = 'msg good'; $('#pMsg').textContent = 'توقّفي! اكتبي عدد النبضات.'; } } }, 1000);
+}
+function pulseCalc() {
+  const n = +$('#pN').value; const m = $('#pMsg');
+  if (!n) { m.className = 'msg bad'; m.textContent = 'اكتبي عدد النبضات أولًا 💡'; return; }
+  m.className = 'msg good'; m.innerHTML = `نبضك = ${ar(n)} × ٤ = <b>${ar(n * 4)}</b> نبضة في الدقيقة 💓<br>قفزي ١٠ مرات… ثم قيسي مرة أخرى!`;
+  award(1, m);
+}
+
+// ───── Text on the whiteboards: tap where to write, type, then Enter (or tap elsewhere)
+// ───── Today's day and Hijri date in Arabic, for the date tools on the whiteboard
+function arDay() { try { return new Intl.DateTimeFormat('ar-SA', { weekday: 'long' }).format(new Date()); } catch (e) { return ''; } }
+function arDate() {
+  try { return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date()).replace(/\s*هـ$/, '') + ' هـ'; }
+  catch (e) { return ''; }
+}
+// ───── A whiteboard button on every opening picture (write the day and date, draw, highlight)
+document.querySelectorAll('#start .slide > img').forEach((im) => {
+  const b = document.createElement('button'); b.className = 'btn sbtn'; b.innerHTML = '✏️ السبورة واكتبي التاريخ';
+  b.onclick = () => zoom(im.getAttribute('src')); im.parentNode.appendChild(b);
+});
+function textAt(canvas, e, col, px, done, init) {
+  document.querySelectorAll('.txin').forEach((x) => x.blur());
+  const r = canvas.getBoundingClientRect(), k = canvas.width / r.width;
+  const x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
+  const inp = document.createElement('input');
+  inp.className = 'txin'; inp.placeholder = 'اكتبي هنا… ثم Enter'; if (init) { inp.value = init; inp.size = init.length + 2; }
+  Object.assign(inp.style, { right: (innerWidth - e.clientX) + 'px', top: (e.clientY - px * 0.9) + 'px', color: col, fontSize: px + 'px' });
+  document.body.appendChild(inp); inp.focus(); setTimeout(() => inp.focus(), 0);
+  let fin = false;
+  const commit = () => {
+    if (fin) return; fin = true;
+    const t = inp.value.trim(); inp.remove(); if (!t) return;
+    const g = canvas.getContext('2d');
+    g.save(); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.fillStyle = col; g.direction = 'rtl'; g.textAlign = 'right'; g.textBaseline = 'middle';
+    g.font = `bold ${Math.round(px * k)}px 'Noto Naskh Arabic', Tahoma, serif`;
+    g.lineWidth = Math.max(2, px * k / 6); g.strokeStyle = 'rgba(255,255,255,.85)'; g.strokeText(t, x, y); g.fillText(t, x, y); g.restore();
+    done && done();
+  };
+  inp.addEventListener('keydown', (ev) => { ev.stopPropagation(); if (ev.key === 'Enter') commit(); if (ev.key === 'Escape') { fin = true; inp.remove(); } });
+  inp.addEventListener('blur', commit);
+}
+
+
+function vbtn(src, label) { return `<button class="btn vidb" data-src="${src}" hidden onclick="openVid('${src}')">${label}</button>`; }
+// ───── Sorting cards into boxes (quick review, predators and prey, what each animal eats)
+var SQ = [['🌿 العشب', 0], ['🐇 الأرنب', 1], ['🦊 الثعلب', 1], ['🍄 الفطر', 2], ['🦠 البكتيريا', 2], ['🌊 الطحالب', 0]];
+var WQ = [['🐯 النمر', 0], ['🦅 النسر', 2], ['🐍 الأفعى', 2], ['🦌 الغزال', 1], ['🐭 الفأر', 1], ['🦗 الجرادة', 1], ['🪲 الخنفساء', 1]];
+var CQ = [['🦌 الغزال', 0], ['🐄 المواشي', 0], ['🦊 الثعلب', 1], ['🦅 النسر', 1], ['🦝 الراكون', 2], ['🐋 بعض الحيتان', 2]];
+var SHINT = { srtQ: ['يصنع غذاءه بنفسه.', 'يتغذّى على مخلوقات أخرى.', 'يحلّل بقايا المخلوقات الميتة.'],
+  srtW: ['يأكل غيره ولا يأكله أحد في الشبكة.', 'تتّجه منه الأسهم إلى من يأكله.', 'يأكل غيره ويأكله غيره.'],
+  srtC: ['يتغذّى على المنتجات فقط.', 'يأكل حيوانات أخرى.', 'يأكل النباتات والحيوانات.'] };
+function sorter(id, items, bins) {
+  if (!items) { setTimeout(() => station(cur), 0); return; }
+  const el = document.getElementById(id); if (!el) return; let sel = null; const tries = {};
+  const order = items.map((_, k) => k).sort(() => Math.random() - .5);
+  el.innerHTML = `<div class="srt"><div class="spool">${order.map((k) => `<button class="chip pick" data-k="${k}">${items[k][0]}</button>`).join('')}</div>
+    <div class="sbins" style="--n:${bins.length}">${bins.map((b, i) => `<div class="sbin" data-b="${i}"><div class="sbh">${b}</div><div class="sbc"></div></div>`).join('')}</div><div class="msg"></div></div>`;
+  const m = el.querySelector('.msg');
+  el.querySelectorAll('.pick').forEach((c) => c.onclick = () => { el.querySelectorAll('.pick').forEach((x) => x.classList.toggle('on', x === c)); sel = c; });
+  el.querySelectorAll('.sbin').forEach((bx) => bx.onclick = () => {
+    if (!sel) { m.className = 'msg bad'; m.textContent = 'اختاري بطاقة أولًا 👆'; return; }
+    const k = +sel.dataset.k, ok = items[k][1] === +bx.dataset.b;
+    if (ok || tries[k]) {
+      el.querySelector(`.sbin[data-b="${items[k][1]}"] .sbc`).appendChild(sel); sel.classList.remove('on'); sel.classList.add(ok ? 'ok' : 'fx'); sel.disabled = true;
+      if (ok && !tries[k]) award(1, sel);
+      m.className = ok ? 'msg good' : 'msg bad'; m.textContent = ok ? praise() : `📘 مكانها «${bins[items[k][1]]}»: ${SHINT[id][items[k][1]]}`; sel = null;
+      if (!el.querySelector('.spool .pick')) { m.className = 'msg good'; m.textContent = '🏆 أحسنتِ! اكتمل التصنيف'; confetti(); }
+    } else { tries[k] = 1; m.className = 'msg bad'; m.textContent = '💡 تلميح: ' + SHINT[id][items[k][1]] + ' حاولي مرة أخرى.'; }
+  });
+}
+// ───── Energy pyramid (p142): energy passes up the levels, one tenth each time (example numbers)
+var PY = [['🌿', 'المنتجات (القاعدة)', '١٠٠٠٠'], ['🦗', 'المستهلكات الأولى', '١٠٠٠'], ['🐦', 'المستهلكات الثانية', '١٠٠'], ['🦊', 'المستهلكات الثالثة', '١٠']];
+var pyT = [];
+function pyrDraw() {
+  if (!PY) { setTimeout(pyrDraw, 0); return; }
+  const el = document.getElementById('pyr2'); if (!el) return; pyT.forEach(clearTimeout); pyT = [];
+  el.innerHTML = PY.map((p, k) => `<div class="pyl" data-k="${k}" style="width:${100 - k * 22}%"><span class="pe">${p[0]}</span> ${p[1]} <b class="pv">؟</b></div>`).reverse().join('')
+    + '<div class="pyn">⚡ مثال: كل مستوى يحصل على ١/١٠ طاقة المستوى الذي تحته، ويُفقد الباقي حرارةً وفي النشاط اليومي 🔥</div>';
+}
+function pyrFlow() {
+  pyrDraw(); const el = document.getElementById('pyr2');
+  PY.forEach((p, k) => pyT.push(setTimeout(() => { const l = el.querySelector(`.pyl[data-k="${k}"]`); l.classList.add('on'); l.querySelector('.pv').textContent = p[2] + ' وحدة طاقة'; if (k === 3) award(1, l); }, 700 * k + 200)));
+}
+mission(0);
+</script>
+<script src="../../assets/draw.js"></script>
+</body>
+</html>
