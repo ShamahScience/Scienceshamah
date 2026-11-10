@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ورقة عمل تفاعلية: الأمراض</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --plum: #8e2a6b; --pink: #c2366f; --rose: #fde4ef; --bg: #fdf0f6; --ink: #3a1f44; --ok: #2f8a3a; --okbg: #e9f7e4; --bad: #d23b3b; --badbg: #fde2e2; --sky: #e3f2fd; --yel: #fff3c4; --mint: #e8f5e9; --lav: #eee8fb; --gold: #f5c242; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: 'Noto Naskh Arabic', Tahoma, serif; font-weight: 700; color: var(--ink); background: var(--bg); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 12px 14px 40px; }
+  header { display: flex; align-items: center; gap: 12px; background: #fff; border: 3px solid var(--plum); border-radius: 22px; padding: 10px 14px; box-shadow: 0 5px 0 #f1c9dc; }
+  header img { width: 86px; height: 86px; object-fit: cover; object-position: center 15%; border-radius: 50%; border: 3px solid var(--pink); }
+  header h1 { margin: 0; font-size: 26px; color: var(--plum); line-height: 1.4; }
+  header p { margin: 0; font-size: 15px; color: #6b5a70; }
+  .teacher { margin-inline-start: auto; background: var(--rose); border: 2px solid #e7a9c1; color: var(--plum); border-radius: 30px; padding: 4px 14px; white-space: nowrap; font-size: 16px; }
+  .info { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; margin: 12px 0; }
+  .info label { min-width: 0; background: #fff; border: 2px dashed var(--pink); border-radius: 14px; padding: 6px 10px; font-size: 16px; display: flex; align-items: center; gap: 6px; }
+  .info input { flex: 1; min-width: 0; width: 100%; border: 0; border-bottom: 2px dotted #999; font: inherit; font-size: 17px; background: transparent; color: var(--plum); }
+  @media (max-width: 640px) { .info { grid-template-columns: 1fr 1fr; } .info label:first-child { grid-column: 1 / -1; } header { flex-wrap: wrap; } .teacher { margin: 0; } }
+  .q { background: #fff; border: 3px solid var(--plum); border-radius: 20px; padding: 12px 14px; margin-bottom: 14px; position: relative; }
+  .q h2 { margin: 0 0 8px; font-size: 20px; color: var(--plum); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .q h2 .n { background: var(--plum); color: #fff; border-radius: 50%; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; font-size: 17px; }
+  .q h2 .lv { font-size: 13px; border-radius: 20px; padding: 1px 10px; color: #fff; }
+  .lv1 { background: #43a047; } .lv2 { background: #1e88e5; } .lv3 { background: #fb8c00; } .lv4 { background: #8e24aa; }
+  .q h2 .pts { margin-inline-start: auto; font-size: 14px; color: #8a6400; background: #fff8dc; border: 2px solid var(--gold); border-radius: 20px; padding: 0 10px; }
+  .row { display: flex; align-items: center; gap: 8px; margin: 6px 0; flex-wrap: wrap; font-size: 18px; line-height: 1.8; }
+  select { max-width: 100%; font: inherit; font-size: 17px; border: 2px solid var(--pink); border-radius: 12px; padding: 3px 8px; background: #fff; color: var(--plum); }
+  .item.ok select, .item.ok .chip.on { border-color: var(--ok); background: var(--okbg); }
+  .item.bad select, .item.bad .chip.on { border-color: var(--bad); background: var(--badbg); }
+  .mark { font-size: 15px; display: none; } .item.ok .mark, .item.bad .mark { display: inline; } .item.ok .mark { color: var(--ok); } .item.bad .mark { color: var(--bad); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+  .card { border: 2px solid #e7a9c1; border-radius: 14px; padding: 6px 8px; background: #fffafc; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { font: inherit; font-size: 16px; border: 2px solid #c9a9c4; background: #fff; border-radius: 20px; padding: 2px 12px; cursor: pointer; color: var(--ink); }
+  .chip.on { background: var(--rose); border-color: var(--pink); color: var(--plum); }
+  .dis { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+  .dis .item { border: 2px solid #e7a9c1; border-radius: 14px; padding: 6px; text-align: center; background: #fff; }
+  .dis .item b { display: block; font-size: 18px; margin-bottom: 4px; }
+  .dis img { width: 100%; height: 70px; object-fit: cover; border-radius: 8px; margin-bottom: 4px; }
+  .pics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 640px) { .pics { grid-template-columns: 1fr 1fr; } }
+  .pics .item select { width: 100%; }
+  .pics .item { border: 2px solid #e7a9c1; border-radius: 14px; padding: 6px; text-align: center; background: #fff; }
+  .pics img { width: 100%; height: 110px; object-fit: cover; border-radius: 10px; }
+  textarea { width: 100%; min-height: 70px; font: inherit; font-size: 17px; border: 2px dashed var(--pink); border-radius: 12px; padding: 6px; background: #fffdf7; color: var(--ink); }
+  .model { display: none; margin-top: 6px; background: var(--okbg); border: 2px solid var(--ok); border-radius: 12px; padding: 4px 10px; font-size: 16px; color: var(--ok); }
+  .shown .model { display: block; }
+  .bank { background: var(--yel); border: 2px dashed var(--gold); border-radius: 14px; padding: 6px 10px; margin-bottom: 6px; font-size: 16px; text-align: center; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 16px 0; }
+  .btn { font: inherit; font-size: 19px; border-radius: 16px; padding: 8px 20px; cursor: pointer; border: 3px solid var(--plum); background: #fff; color: var(--plum); }
+  .btn.main { background: var(--pink); border-color: var(--pink); color: #fff; box-shadow: 0 4px 0 #8e2a6b; }
+  .result { display: none; text-align: center; background: #fff; border: 4px solid var(--gold); border-radius: 22px; padding: 12px; margin-top: 10px; }
+  .result.on { display: block; }
+  .result .big { font-size: 40px; color: var(--plum); }
+  .self { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+  footer { text-align: center; color: var(--plum); font-size: 15px; margin-top: 10px; }
+  .confetti { position: fixed; top: -20px; font-size: 26px; animation: fall 1.8s linear forwards; pointer-events: none; z-index: 30; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .2; } }
+  @media print {
+    body { background: #fff; } .actions, .no-print { display: none !important; } .q { break-inside: avoid; box-shadow: none; } header { box-shadow: none; }
+    select { -webkit-appearance: none; appearance: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <img src="img/girl.jpg" alt="الطبيبة الصغيرة">
+  <div><h1>🩺 ورقة عمل تفاعلية: الأمراض</h1><p>العلوم – الصف الرابع الابتدائي • الوحدة الثالثة: صحة الإنسان • ص١٣٨–١٤٥</p></div>
+  <span class="teacher">💚 أ/ شامه البقمي</span>
+</header>
+
+<div class="info">
+  <label>👩‍🎓 اسمي: <input id="nm" autocomplete="off"></label>
+  <label>🏫 الفصل: <input autocomplete="off"></label>
+  <label>📅 التاريخ: <input autocomplete="off"></label>
+</div>
+
+<!-- ١ المفردات -->
+<section class="q" data-k="vocab">
+  <h2><span class="n">١</span> صِلي المفردة بتعريفها <span class="lv lv1">أتذكّر</span><span class="pts">٦ درجات</span></h2>
+  <div id="vocab"></div>
+</section>
+
+<!-- ٢ التصنيف -->
+<section class="q">
+  <h2><span class="n">٢</span> صنّفي المرض: معدٍ أم غير معدٍ؟ <span class="lv lv2">أفهم</span><span class="pts">٨ درجات</span></h2>
+  <div class="dis" id="classify"></div>
+</section>
+
+<!-- ٣ أكملي الفراغ -->
+<section class="q">
+  <h2><span class="n">٣</span> أكملي الفراغ بالكلمة المناسبة <span class="lv lv1">أتذكّر</span><span class="pts">٥ درجات</span></h2>
+  <div class="bank">بنك الكلمات: الأنسولين • نقص الحديد • الماء الملوّث • الرئة • خلايا الدم البيضاء</div>
+  <div id="blanks"></div>
+</section>
+
+<!-- ٤ المسبّب -->
+<section class="q">
+  <h2><span class="n">٤</span> أقرأ الصورة: من المسبّب؟ <span class="lv lv2">أفهم</span><span class="pts">٦ درجات</span></h2>
+  <div class="pics" id="cause"></div>
+</section>
+
+<!-- ٥ صواب أم خطأ -->
+<section class="q">
+  <h2><span class="n">٥</span> صواب أم خطأ؟ <span class="lv lv3">أحلّل</span><span class="pts">٥ درجات</span></h2>
+  <div id="tf"></div>
+</section>
+
+<!-- ٦ مواقف -->
+<section class="q">
+  <h2><span class="n">٦</span> الطبيبة الصغيرة تنصح: كيف أقي نفسي؟ <span class="lv lv3">أطبّق</span><span class="pts">٤ درجات</span></h2>
+  <div id="life"></div>
+</section>
+
+<!-- ٧ تفكير ناقد -->
+<section class="q" id="crit">
+  <h2><span class="n">٧</span> التفكير الناقد (من الكتاب) <span class="lv lv4">أفكّر تفكيرًا ناقدًا</span><span class="pts">تصحّحها المعلمة</span></h2>
+  <p class="row">أ) لماذا يُصنَّف السكري من الأمراض غير المعدية؟</p>
+  <textarea placeholder="أكتب إجابتي…"></textarea>
+  <div class="model">✔ إجابة نموذجية: لأنه لا تسبّبه مخلوقات دقيقة، ولا ينتقل من الشخص المصاب إلى الشخص السليم.</div>
+  <p class="row">ب) لماذا ينصح الأطباء بعدم مخالطة الأشخاص المصابين بالأمراض المعدية؟</p>
+  <textarea placeholder="أكتب إجابتي…"></textarea>
+  <div class="model">✔ إجابة نموذجية: لأن الأمراض المعدية تنتقل من المصاب إلى السليم بالاتصال المباشر أو الهواء أو الأدوات الملوّثة.</div>
+</section>
+
+<div class="actions">
+  <button class="btn main" onclick="check()">✔ تحقّقي من إجاباتي</button>
+  <button class="btn" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
+  <button class="btn" onclick="resetAll()">🔄 ابدئي من جديد</button>
+</div>
+
+<div class="result" id="result"></div>
+<footer>أ/ شامه البقمي 💗 • لا تُحفظ أي بيانات؛ الورقة تعمل على جهازك فقط</footer>
+</div>
+
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = (s) => document.querySelector(s);
+const shuffle = (a) => a.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map((x) => x[1]);
+const sel = (opts) => `<select><option value="">اختاري…</option>${opts.map((o) => `<option>${o}</option>`).join('')}</select>`;
+
+// ١ المفردات (ص١٣٩)
+const VOC = [['المرض', 'حالة غير طبيعية تؤثّر على جسم المخلوق الحي.'], ['الأمراض المعدية', 'الأمراض التي تنقلها المخلوقات الحيّة إلى الإنسان.'], ['الأمراض غير المعدية', 'الأمراض التي لا تنتقل من مخلوق حي إلى الإنسان.'],
+  ['العدوى', 'انتقال المرض من المخلوق الحي المصاب إلى المخلوق الحي السليم.'], ['خلايا الدم البيضاء', 'الخلايا المسؤولة عن حماية الجسم ومحاربة الأمراض والجراثيم.'], ['التطعيم', 'طريقة لتكوين المناعة ضد الأمراض.']];
+const vWords = shuffle(VOC.map((v) => v[0]));
+$('#vocab').innerHTML = shuffle(VOC).map(([w, d]) => `<div class="row item" data-a="${w}">${sel(vWords)} <span>← ${d}</span> <span class="mark"></span></div>`).join('');
+
+// ٢ التصنيف
+const CL = [['السكري', 0, 'diabetes'], ['الأنفلونزا', 1], ['السمنة', 0, 'obesity'], ['الكوليرا', 1], ['فقر الدم', 0, 'anemia'], ['السل', 1, 'tb'], ['الحساسية', 0, 'allergy'], ['القدم الرياضي', 1, 'foot']];
+$('#classify').innerHTML = shuffle(CL).map(([n, v, im]) => `<div class="item" data-a="${v}">${im ? `<img src="img/${im}.jpg" alt="${n}">` : ''}<b>${n}</b>
+  <div class="chips" style="justify-content:center"><button class="chip" data-v="1">🦠 معدٍ</button><button class="chip" data-v="0">🧍‍♀️ غير معدٍ</button></div><span class="mark"></span></div>`).join('');
+
+// ٣ أكملي الفراغ
+const BL = [['ينتج السكري عن خلل في مستويات', 'الأنسولين', 'التي يفرزها البنكرياس.'], ['من أسباب فقر الدم', 'نقص الحديد', 'أو العوامل الوراثية.'], ['تنتشر الكوليرا عادة عن طريق شرب', 'الماء الملوّث', '.'],
+  ['تستقر البكتيريا المسبّبة للسل عادة في', 'الرئة', '.'], ['الخلايا المسؤولة عن محاربة الأمراض والجراثيم داخل أجسامنا هي', 'خلايا الدم البيضاء', '.']];
+const bWords = BL.map((b) => b[1]);
+$('#blanks').innerHTML = BL.map(([a, w, c]) => `<div class="row item" data-a="${w}">${a} ${sel(bWords)} ${c} <span class="mark"></span></div>`).join('');
+
+// ٤ المسبّب
+const CA = [['virus', 'فيروس يلتصق بخلية', 'فيروسات'], ['corona', 'فيروس كورونا-سارس-٢', 'فيروسات'], ['bacteria', 'كائنات في الجهاز الهضمي', 'بكتيريا'], ['tb', 'مسبّب مرض السل', 'بكتيريا'], ['fungi', 'تسبّب بعض الأمراض الجلدية', 'فطريات'], ['foot', 'مسبّب القدم الرياضي', 'فطريات']];
+$('#cause').innerHTML = shuffle(CA).map(([im, cap, a]) => `<div class="item" data-a="${a}"><img src="img/${im}.jpg" alt="${cap}"><div style="font-size:14px">${cap}</div>${sel(['فيروسات', 'بكتيريا', 'فطريات'])} <span class="mark"></span></div>`).join('');
+
+// ٥ صواب أم خطأ
+const TF = [['كل الأمراض معدية.', 0], ['البكتيريا مخلوقات حيّة وحيدة الخلية مجهرية.', 1], ['الكمأة من الفطريات الضارة.', 0], ['الحساسية تفاعل جهاز المناعة بشدّة ضد المواد الغريبة.', 1], ['السمنة تنتقل من الشخص المصاب إلى الشخص السليم.', 0]];
+$('#tf').innerHTML = TF.map(([t, v]) => `<div class="row item" data-a="${v}"><div class="chips"><button class="chip" data-v="1">✔ صواب</button><button class="chip" data-v="0">✘ خطأ</button></div> <span>${t}</span> <span class="mark"></span></div>`).join('');
+
+// ٦ مواقف
+const LF = [['أخي مصاب بالزكام ويجلس قريبًا جدًا مني:', ['أقترب منه أكثر', 'أبتعد عنه مسافة مترين تقريبًا', 'أشاركه كوبه'], 1], ['قبل الأكل في المقصف:', ['آكل مباشرة', 'أغسل يديّ بالماء والصابون', 'أمسح يديّ بملابسي'], 1],
+  ['وجدنا ماءً غير نظيف في الرحلة:', ['أشرب ماءً نظيفًا فقط', 'أشربه', 'أغسل به الفاكهة وآكلها'], 0], ['تراكمت النفايات في ساحة المدرسة:', ['نتركها', 'نرميها تحت المقاعد', 'نضعها في سلة النفايات'], 2]];
+$('#life').innerHTML = LF.map(([q, o, a]) => `<div class="card item" data-a="${a}" style="margin:6px 0"><div class="row">${q} <span class="mark"></span></div><div class="chips">${o.map((x, i) => `<button class="chip" data-v="${i}">${x}</button>`).join('')}</div></div>`).join('');
+
+// chips behave like radio buttons inside each item
+document.addEventListener('click', (e) => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  c.closest('.chips, .self').querySelectorAll('.chip').forEach((x) => x.classList.toggle('on', x === c));
+  const it = c.closest('.item'); if (it) it.classList.remove('ok', 'bad');
+});
+document.addEventListener('change', (e) => { const it = e.target.closest('.item'); if (it) it.classList.remove('ok', 'bad'); });
+
+function valueOf(it) { const s = it.querySelector('select'); if (s) return s.value; const c = it.querySelector('.chip.on'); return c ? c.dataset.v : ''; }
+function check() {
+  let got = 0, total = 0, empty = 0;
+  document.querySelectorAll('.item').forEach((it) => {
+    total++; const v = valueOf(it); if (v === '') empty++;
+    const ok = v !== '' && v === it.dataset.a;
+    it.classList.toggle('ok', ok); it.classList.toggle('bad', !ok);
+    it.querySelector('.mark').textContent = ok ? '✔ أحسنتِ' : (v === '' ? '✘ لم تُجيبي' : '✘ راجعي إجابتك');
+    if (ok) got++;
+  });
+  $('#crit').classList.add('shown');
+  const pct = got / total, stars = pct >= .9 ? 3 : pct >= .7 ? 2 : 1, name = $('#nm').value.trim();
+  $('#result').innerHTML = `<div class="big">${'⭐'.repeat(stars)}</div><h2 style="margin:4px 0;color:var(--plum)">${name ? 'أحسنتِ يا ' + name + '!' : 'أحسنتِ يا طبيبتي!'}</h2>
+    <div style="font-size:30px">درجتك: ${ar(got)} / ${ar(total)}</div>
+    <p>${pct >= .9 ? 'ممتاز! أنتِ طبيبة صغيرة ماهرة 🩺' : pct >= .7 ? 'جيد جدًا! راجعي الإجابات الحمراء وصحّحيها 💪' : 'راجعي الدرس، ثم صحّحي الإجابات الحمراء واضغطي «تحقّقي» مرة أخرى 💡'}${empty ? `<br>بقي ${ar(empty)} سؤالًا بلا إجابة.` : ''}</p>
+    <p style="font-size:15px;color:#6b5a70">السؤال ٧ تقارنينه بالإجابة النموذجية، وتصحّحه المعلمة.</p>
+    <div class="self">قيّمي نفسك: <button class="chip">⭐⭐⭐ فهمت تمامًا</button><button class="chip">⭐⭐ فهمت</button><button class="chip">⭐ أحتاج مساعدة</button></div>`;
+  $('#result').classList.add('on'); $('#result').scrollIntoView({ behavior: 'smooth' });
+  if (pct >= .9) for (let k = 0; k < 16; k++) { const s = document.createElement('div'); s.className = 'confetti'; s.textContent = ['⭐', '💗', '🩺', '✨'][k % 4]; s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .4 + 's'; document.body.appendChild(s); setTimeout(() => s.remove(), 2400); }
+}
+function resetAll() { if (confirm('مسح جميع الإجابات والبدء من جديد؟')) location.reload(); }
+</script>
+</body>
+</html>
