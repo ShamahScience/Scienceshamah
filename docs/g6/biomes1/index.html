@@ -599,6 +599,7 @@
   .wall .wtip { font: inherit; font-size: 13px; border: 1.5px solid #e0a800; background: #fff7d1; border-radius: 99px; padding: 0 8px; cursor: pointer; float: left; }
   .wall textarea.tipd { background: #fffbe6; } .wall textarea { height: 64px; }
   .wsnap { margin: 6px 0 0; font-size: 15px; background: #fff5f9; border: 2px dashed #d9628e; border-radius: 12px; padding: 4px 8px; } .wsnap small { color: #8a6ad4; }
+  video.slvid { display: block; width: 100%; max-height: 260px; border-radius: 14px; border: 3px solid #8CC46E; background: #000; margin: 4px 0; }
 </style>
 </head>
 <body data-env="sky">
@@ -1058,7 +1059,7 @@ const STATIONS = [
   { icon: '✈️', name: 'أنظر وأتساءل: رحلة نحو القطب', page: 146, env: 'sky', html: () => `
     <span class="strat"><b>الاستراتيجية:</b> أنظر وأتساءل – التهيئة بالرحلة والفهم القرائي</span><h2>✈️ أنظر وأتساءل: من خط الاستواء إلى القطب</h2>
     <div class="grid2 body"><div class="pagecol">${page(146)}</div><div class="txt">
-      <p style="margin:2px 0">اضغطي «ابدئي الرحلة» وراقبي ميزان الحرارة 🌡️ <a class="btn ytb" href="https://www.youtube.com/watch?v=ABqLEInXpKA" target="_blank" rel="noopener">🎬 فيديو الدرس</a></p>
+      <p style="margin:2px 0">اضغطي «ابدئي الرحلة» وراقبي ميزان الحرارة 🌡️</p>
       <div id="tripBox"></div>
       ${flipH('إذا تحرّكنا من خط الاستواء في اتجاه الأقطاب فكيف تتغيّر الظروف؟', 'تنخفض درجة الحرارة تدريجيًّا، ويقلّ ضوء الشمس وكمية الأمطار، فتصير المناطق أبرد وأقسى كلما اقتربنا من القطبين.', 'أتساءل', '0.3019,0.7951,0.5818,0.0400')}
       ${flipH('وكيف يؤثّر هذا التغيّر في المخلوقات الحية التي تعيش في المناطق المختلفة؟', 'يتكيّف كل مخلوق مع ظروف منطقته؛ فتكثر الأنواع قرب خط الاستواء الدافئ، وتقلّ قرب القطبين حيث تحتاج إلى فراء ودهن.', 'أستنتج', '0.3019,0.8333,0.5818,0.0510')}
@@ -1075,7 +1076,7 @@ const STATIONS = [
   { icon: '🪵', name: 'ما النظام البيئي؟', page: 148, env: 'forest', html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ وأصنّف</span><h2>🪵 ما النظام البيئي؟</h2>
     <div class="grid2 body"><div class="pagecol">${page(148)}</div><div class="txt">
-      <a class="btn ytb" href="https://www.youtube.com/watch?v=NbLJkzDrcSo" target="_blank" rel="noopener">🎬 شاهدي: مفهوم النظام البيئي</a>
+      <video class="slvid" src="vid/eco.mp4" poster="vid/eco_poster.jpg" controls playsinline preload="none"></video>
       ${flipH('ما النظام البيئي؟', 'مجموع المخلوقات الحية والأشياء غير الحية في مكانٍ ما، والتي يتفاعل بعضها مع بعض. وقد يكون صغيرًا كجذع شجرة، أو كبيرًا جدًّا كالصحراء.', 'المفردة', '0.1427,0.1915,0.4501,0.0553')}
       <p style="margin:2px 0">🌳 في الحديقة العامة: صنّفي 👇</p>
       <div id="srtQ"></div>
@@ -1084,12 +1085,13 @@ const STATIONS = [
   { icon: '🌍', name: 'ما الأنظمة البيئية على اليابسة؟', page: 149, env: 'sky', html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – المفردات</span><h2>🌍 ما الأنظمة البيئية على اليابسة؟</h2>
     <div class="grid2 body"><div class="pagecol">${page(149)}</div><div class="txt">
+      <video class="slvid" src="vid/biome.mp4" poster="vid/biome_poster.jpg" controls playsinline preload="none"></video>
       ${flipH('ما المقصود بالمناخ؟ وعلامَ يعتمد تحديده؟', 'متوسط حالة الطقس في منطقة جغرافية معيّنة خلال فترة زمنية طويلة، ويعتمد تحديده بشكل رئيس على درجة الحرارة والهطل.', 'المفردة', '0.4920,0.7514,0.3800,0.0865')}
       ${flipH('ما المنطقة الحيوية؟ ومثّلي لها.', 'نظام بيئي يشغل منطقة جغرافية واسعة على اليابسة يسود فيها مناخ معيّن، مثل التايجا والتندرا والصحراء والأراضي العشبية والغابات.', 'المفردة', '0.0800,0.6108,0.3760,0.1297')}
     </div></div>` },
   { icon: '🗺️', name: 'خريطة المناطق الحيوية', page: 149, env: 'sky', html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الخرائط التفاعلية – أين تقع المناطق الحيوية؟</span><h2>🗺️ خريطة رحلة المستكشفة</h2>
-    <p style="margin:2px 0">اضغطي على الدبابيس 📍 لتتعرّفي أين تقع كل منطقة حيوية… والخط الأحمر المتقطع هو خط الاستواء. <a class="btn ytb" href="https://www.youtube.com/watch?v=kyO9E9zQqks" target="_blank" rel="noopener">🎬 فيديو: المناطق الحيوية</a></p>
+    <p style="margin:2px 0">اضغطي على الدبابيس 📍 لتتعرّفي أين تقع كل منطقة حيوية… والخط الأحمر المتقطع هو خط الاستواء.</p>
     <div class="mtabs"><button class="btn main" data-t="art" onclick="mapTab('art')">🗺️ خريطة المستكشفة المصوّرة</button><button class="btn" data-t="acc" onclick="mapTab('acc')">📍 الخريطة الدقيقة</button></div>
     <div id="artBox"></div>
     <div id="wmapBox"></div>`, after: () => { artMap('artBox'); mapDraw(); mapTab('art'); } },
