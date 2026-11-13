@@ -81,20 +81,20 @@ def option(s, x, y, w, h, text, ok, size=18, line='#C0392B', fill='#FFFFFF'):
     return b
 
 
-# =========================================================== 1. cover
-s = D.slide(ART('bg.jpg'))
-title = tbox(s, 1.6, .3, 10.1, 1.05, 'مراجعة الفصل الخامس: اليابسة والماء 🏔️💧', 26, '#FFFFFF', '#C0392B', '#FFFFFF', align='c', lw=4, radius=.4)
-info = card(s, 7.4, 1.65, 5.6, 2.15, [[('المادة: ', RED), ('العلوم', INK)], [('الصف: ', RED), ('الثاني الابتدائي', INK)],
-                                    [('المراجعة: ', RED), ('صفحات ١٣٢–١٣٥', INK)], [('اليوم: ', RED), ('........   ', INK), ('التاريخ: ', RED), ('..../..../١٤٤٨هـ', INK)]], 20, line=GOLD, lw=3)
-girl = pic(s, ART('girl.png'), .4, 1.6, h=5.2)
-mods = [pic(s, ART(f'm_{m}.png'), 3.4 + i * 1.95, 4.35, w=1.85) for i, m in enumerate(['mountain', 'hill', 'plain', 'valley'])]
-dr = pic(s, ART('drop.png'), 11.3, 4.4, h=1.6)
-bub = tbox(s, 3.3, 1.65, 3.9, 1.9, [[('قطرة الماء: ', WATER), ('مرحبًا يا بطلات! نراجع اليوم أشكال اليابسة والماء… كل إجابة صحيحة نجمة ⭐', INK)]], 16,
+# =========================================================== 1. cover — the teacher's own picture
+s = D.slide(f'{ROOT}/img/cover.png')
+KP = 13.333 / 1672
+cx = lambda x, y, w, h, txt, sz: tbox(s, x * KP, y * KP, w * KP, h * KP, txt, sz, INK, align='c', shape='rect', margin=.02)
+cx(1100, 112, 200, 60, '……', 18)
+cx(662, 112, 200, 60, '…/…/١٤٤٨هـ', 12)
+sts = [star(s, (x - 30) * KP, 640 * KP, .5) for x in (560, 1300)]
+dr = pic(s, ART('drop.png'), 1290 * KP, 450 * KP, h=1.3)
+bub = tbox(s, 9.3, 1.75, 3.3, 1.3, [[('قطرة الماء: ', WATER), ('هيا نُتقن مهاراتنا… كل إجابة صحيحة نجمة ⭐', INK)]], 15,
            fill='#FFFFFF', line=WATER, shape='bubble', lw=2.5, margin=.06)
-bub.adjustments[0], bub.adjustments[1] = -.62, .5
-tbox(s, 9.6, 7.0, 3.5, .38, 'إعداد وتنفيذ: ' + TEACHER, 13, '#6B4FC0', '#FFFFFF', alpha=88, align='c', radius=.5, margin=.04)
-auto(s, [title, 'zoom', S(s, 'sparkle')], [girl, 'rise'], bub, info, tuple([m, 'zoom'] for m in mods), [dr, 'zoom', S(s, 'pop')])
-notes(s, 'غلاف المراجعة (دقيقة). اكتبي اليوم والتاريخ. قسّمي الطالبات مجموعات، وكل إجابة صحيحة نجمة للمجموعة.')
+bub.adjustments[0], bub.adjustments[1] = .1, .95
+auto(s, [dr, 'zoom', S(s, 'sparkle')], [bub, 'fade'])
+notes(s, 'الشريحة الافتتاحية: مراجعة الفصل الخامس – إتقان مهاراتي. اكتبي اليوم والتاريخ في المربعين. '
+         'قسّمي الطالبات مجموعات، وكل إجابة صحيحة نجمة للمجموعة.')
 
 # =========================================================== 2. vocabulary — answers written on the book page (p132)
 s = slide('المفردات: الحل على كتابي', 'السؤال ١–٣', 'الحل على صفحة الكتاب – صندوق الكلمات', 'صفحة ١٣٢')
