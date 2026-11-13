@@ -554,6 +554,7 @@
   .wall .wf { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
   .wall .wc { background: #fffdf2; border: 2px solid #e8dcb0; border-radius: 10px; padding: 4px; } .wall .wc b { font-size: 15px; color: var(--c); }
   .wall textarea { width: 100%; height: 48px; font: inherit; font-size: 15px; border: 0; background: transparent; resize: vertical; }
+  a.btn.ytb { display: inline-block; text-decoration: none; background: #e5484d; color: #fff; border-color: #c62828; font-size: 16px; padding: 3px 12px; margin: 2px 4px; }
 </style>
 </head>
 <body data-env="sky">
@@ -933,7 +934,7 @@ const STATIONS = [
   { icon: '✈️', name: 'أنظر وأتساءل: رحلة نحو القطب', page: 146, env: 'sky', html: () => `
     <span class="strat"><b>الاستراتيجية:</b> أنظر وأتساءل – التهيئة بالرحلة</span><h2>✈️ أنظر وأتساءل: من خط الاستواء إلى القطب</h2>
     <div class="grid2 body"><div class="pagecol">${page(146)}</div><div class="txt">
-      <p style="margin:2px 0">اضغطي «ابدئي الرحلة» وراقبي ميزان الحرارة 🌡️</p>
+      <p style="margin:2px 0">اضغطي «ابدئي الرحلة» وراقبي ميزان الحرارة 🌡️ <a class="btn ytb" href="https://www.youtube.com/watch?v=ABqLEInXpKA" target="_blank" rel="noopener">🎬 فيديو الدرس: مقارنة الأنظمة البيئية</a></p>
       <div id="tripBox"></div>
       ${flip('إذا تحرّكنا من خط الاستواء في اتجاه الأقطاب فكيف تتغيّر الظروف؟', 'تنخفض درجة الحرارة تدريجيًّا، ويقلّ ضوء الشمس وكمية الأمطار، فتصير المناطق أبرد وأقسى كلما اقتربنا من القطبين.', 'أتساءل')}
       ${flip('وكيف يؤثّر هذا التغيّر في المخلوقات الحية التي تعيش في المناطق المختلفة؟', 'يتكيّف كل مخلوق مع ظروف منطقته؛ فتكثر الأنواع قرب خط الاستواء الدافئ، وتقلّ قرب القطبين حيث تحتاج إلى فراء ودهن.', 'أستنتج')}
@@ -952,6 +953,7 @@ const STATIONS = [
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – أقرأ وأصنّف</span><h2>🪵 ما النظام البيئي؟</h2>
     <div class="grid2 body"><div class="pagecol">${page(148)}</div><div class="txt">
       ${flip('السؤال الأساسي: ما خصائص الأنظمة البيئية المختلفة على اليابسة وفي الماء؟', 'سنجيب عنه في نهاية الدرس… تابعي معي الرحلة! 🧭', 'أقرأ وأتعلّم')}
+      <a class="btn ytb" href="https://www.youtube.com/watch?v=NbLJkzDrcSo" target="_blank" rel="noopener">🎬 شاهدي: مفهوم النظام البيئي</a>
       ${flip('ما النظام البيئي؟', 'مجموع المخلوقات الحية والأشياء غير الحية في مكانٍ ما، والتي يتفاعل بعضها مع بعض.', 'المفردة')}
       <p style="margin:2px 0">🌳 في الحديقة العامة: صنّفي ما نشاهده 👇</p>
       <div id="srtQ"></div>
@@ -977,7 +979,7 @@ const STATIONS = [
     </div></div>` },
   { icon: '🗺️', name: 'خريطة المناطق الحيوية', page: 149, env: 'sky', html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الخرائط التفاعلية – أين تقع المناطق الحيوية؟</span><h2>🗺️ خريطة رحلة المستكشفة</h2>
-    <p style="margin:2px 0">اضغطي على الدبابيس 📍 لتتعرّفي أين تقع كل منطقة حيوية… والخط الأحمر المتقطع هو خط الاستواء.</p>
+    <p style="margin:2px 0">اضغطي على الدبابيس 📍 لتتعرّفي أين تقع كل منطقة حيوية… والخط الأحمر المتقطع هو خط الاستواء. <a class="btn ytb" href="https://www.youtube.com/watch?v=kyO9E9zQqks" target="_blank" rel="noopener">🎬 فيديو: المناطق الحيوية على الأرض</a></p>
     <div id="wmapBox"></div>`, after: () => mapDraw() },
   { icon: '🌡️', name: 'الظروف المناخية', page: 150, env: 'desert', html: () => `
     <span class="strat"><b>الاستراتيجية:</b> الفهم القرائي – السبب والنتيجة</span><h2>🌡️ الظروف المناخية</h2>
