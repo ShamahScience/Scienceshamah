@@ -34,6 +34,21 @@ h1,h2,h3{margin:0;line-height:1.3;text-wrap:balance}
 p{margin:0}
 .app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr)}
 
+
+.rulesboard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:18px;align-items:center;border-radius:22px;padding:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.2)),radial-gradient(circle at 20% 20%,#cfe8c0,#9cc985 60%,#6fa65a);border:6px solid #8a5a2b;box-shadow:inset 0 0 0 3px #c99b63,0 6px 18px rgba(60,40,10,.25)}
+@media (max-width:760px){.rulesboard{grid-template-columns:minmax(0,1fr)}.rb-side{display:none}}
+.rb-side{position:relative;display:flex;justify-content:center}
+.rb-side img{width:min(100%,300px);height:auto;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
+.rb-compass{position:absolute;bottom:-6px;inset-inline-start:0;width:30%;filter:drop-shadow(0 0 12px #ffd24a)}
+.rb-list{display:flex;flex-direction:column;gap:12px}
+.rule-plank{position:relative;display:flex;align-items:center;gap:14px;min-height:68px;padding:8px 18px;border-radius:14px;background:linear-gradient(180deg,#f7e3bd,#e9cd98);border:3px solid #8a5a2b;box-shadow:0 4px 0 #5e3b19;font-weight:800;font-size:1.25em;color:var(--wood-dk);overflow:hidden}
+.rule-plank:nth-child(odd){transform:rotate(-.6deg)}.rule-plank:nth-child(even){transform:rotate(.6deg)}
+.rp-n{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--leaf);color:#fff;flex:none}
+.rp-ic{font-size:1.4em}
+.rp-cover{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,#a9763d,#8a5a2b);color:#fff8ea;transition:opacity .5s,transform .5s}
+.rule-plank.shown .rp-cover{opacity:0;transform:translateX(30%);pointer-events:none}
+
 /* top bar */
 .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));padding-block:6px;
   background:linear-gradient(180deg,#9b6a37,#7a4e24);color:#fff8ea;box-shadow:0 3px 0 #5e3b19}
@@ -409,12 +424,14 @@ V.opening = () => `
     <span class="muted">المعلمة: أ/ شامه البقمي</span>
     <button class="btn" data-go="rules">ابدئي الرحلة</button>
   </div>`;
-const RULES = [[400, 'أستمع بانتباه'], [470, 'أشارك بفاعلية'], [543, 'أحترم رأي زميلاتي'], [616, 'ألتزم بالوقت'], [690, 'أحافظ على النظام']];
+const RULES = [['🎧', 'أستمع بانتباه'], ['✋', 'أشارك بفاعلية'], ['💚', 'أحترم رأي زميلاتي'], ['⏰', 'ألتزم بالوقت'], ['🌿', 'أحافظ على النظام']];
 V.rules = () => `
   ${head('قبل الانطلاق', 'قوانين الرحلة', '', 'الاتفاق الصفي')}
-  <div class="hot"><img src="${A}rules.jpg" alt="قوانين الرحلة">
-    ${RULES.map(([y, t], i) => `<div class="cover-rule" data-rule="${i}" style="${PX(1300, y, 322, 66)}">القانون ${AR(i + 1)}</div>`).join('')}</div>
-  <div class="row"><button class="btn wood" id="nextRule">القانون التالي</button><button class="btn gold" data-go="board">أنا مستعدة للاكتشاف ✨</button></div>`;
+  <div class="rulesboard">
+    <div class="rb-side"><img src="${A}guide.png" alt="الرحّالة"><svg class="rb-compass" viewBox="0 0 200 200" aria-hidden="true"><use href="#compass"/></svg></div>
+    <div class="rb-list">${RULES.map(([ic, t], i) => `<div class="rule-plank" data-rule="${i}"><span class="rp-n">${AR(i + 1)}</span><span class="rp-ic">${ic}</span><span class="rp-t">${t}</span><span class="rp-cover">القانون ${AR(i + 1)}</span></div>`).join('')}</div>
+  </div>
+  <div class="row" style="justify-content:center"><button class="btn wood" id="nextRule">القانون التالي</button><button class="btn gold" data-go="board">أنا مستعدة للاكتشاف ✨</button></div>`;
 const BOARD = [['look', 1165, 312, 285, 102], ['explore', 508, 340, 242, 110], ['read', 812, 186, 242, 162], ['regions', 1178, 516, 276, 112], ['compare', 818, 612, 266, 162], ['challenge', 488, 522, 232, 196]];
 const FIRST = { look: 'review', explore: 'explore', read: 'ecosystem', regions: 'regions', compare: 'compare', challenge: 'challenge' };
 V.board = () => `
@@ -732,7 +749,7 @@ document.addEventListener('click', e => {
     $$('[data-where]').forEach(c => c.classList.toggle('on', c === wh)); $('#bands').classList.add('focus');
     $$('#bands rect.b').forEach(r => r.classList.toggle('on', r.dataset.b === band));
     const o = $('#whereOut'); o.hidden = false; o.innerHTML = `<b>${REG[k].n}:</b> ${txt}`; return; }
-  if (t.closest('#nextRule')) { const c = $$('.cover-rule:not(.gone)')[0]; if (c) c.classList.add('gone'); else toast('ظهرت القوانين كلها؛ أنتِ مستعدة!'); return; }
+  if (t.closest('#nextRule')) { const c = $$('.rule-plank:not(.shown)')[0]; if (c) c.classList.add('shown'); else toast('ظهرت القوانين كلها؛ أنتِ مستعدة!'); return; }
   if (t.closest('#mkCert')) { const c = $('#cert'); c.hidden = false; $('#certStars').innerHTML = STARS.map(([k, l]) => `<span class="star ${S.stars[k] ? 'on' : ''}" style="color:var(--wood-dk)"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><span style="color:var(--wood-dk)">${l}</span></span>`).join(''); c.scrollIntoView({ behavior: 'smooth' }); return; }
   const tm = t.closest('.timer button'); if (tm) { timer(tm.parentElement); return; }
 });
