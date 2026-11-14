@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head><body>
+<title>رحلة الاستكشاف</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: classroom stage — a slim wooden bar (stars + navigation), one scene at a time, a footer with the signature.
+   Palette taken from the lesson artwork: leaf green, sand beige, wood brown, sky blue, soft gold. Single bright look for smart boards. */
+@font-face{font-family:"Tajawal L";src:url("fonts/tajawal-500.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Tajawal L";src:url("fonts/tajawal-700.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Tajawal L";src:url("fonts/tajawal-800.woff2") format("woff2");font-weight:800;font-display:swap}
+@font-face{font-family:"Naskh L";src:url("fonts/naskh.woff2") format("woff2");font-weight:400 700;font-display:swap}
+:root{
+  color-scheme:light;
+  --leaf:#3f7d3a; --leaf-dk:#24561f; --leaf-soft:#e3f0d8;
+  --sand:#f6ecd8; --sand-dk:#e8d6b2; --paper:#fffaf0;
+  --wood:#8a5a2b; --wood-dk:#5e3b19; --wood-soft:#f0dfc4;
+  --sky:#3d8fc6; --sky-soft:#ddeef9;
+  --gold:#d9a521; --gold-soft:#fbefc8; --gold-dk:#8a6510;
+  --ink:#2e2418; --muted:#6d5c47;
+  --ok:#2f8a4a; --ok-soft:#e1f3e4; --bad:#b9472c; --bad-soft:#fae3dc;
+  --f-ui:"Tajawal L","Tajawal","Segoe UI",Tahoma,Arial,sans-serif;
+  --f-book:"Naskh L","Noto Naskh Arabic","Traditional Arabic","Times New Roman",serif;
+  --r:16px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--sand);color:var(--ink);font-family:var(--f-ui);font-size:clamp(15px,.55vw + 10px,21px);line-height:1.65;direction:rtl}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px;border-radius:8px}
+h1,h2,h3{margin:0;line-height:1.3;text-wrap:balance}
+p{margin:0}
+.app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr)}
+
+/* top bar */
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));padding-block:6px;
+  background:linear-gradient(180deg,#9b6a37,#7a4e24);color:#fff8ea;box-shadow:0 3px 0 #5e3b19}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand svg{width:40px;height:40px;flex:none}
+.brand b{font-size:1.15em;font-weight:800;white-space:nowrap}
+.brand small{display:block;font-size:.72em;opacity:.9;white-space:nowrap}
+.stars{display:flex;gap:6px;margin-inline:auto;flex-wrap:wrap;justify-content:center}
+.star{display:flex;flex-direction:column;align-items:center;gap:0;min-width:58px}
+.star svg{width:30px;height:30px;filter:drop-shadow(0 1px 0 rgba(0,0,0,.3))}
+.star svg{fill:#c7ad8a;stroke:#5e3b19;stroke-width:1.2}
+.star.on svg{fill:#ffd24a;stroke:#8a6510}
+.star.on svg{animation:pop .6s ease}
+.star span{font-size:.62em;font-weight:700;opacity:.85;white-space:nowrap}
+.star.on span{opacity:1;color:#ffe9a3}
+@keyframes pop{0%{transform:scale(.4) rotate(-40deg)}60%{transform:scale(1.35)}100%{transform:none}}
+.tools{display:flex;gap:6px}
+.tbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid #c99b63;background:#fff4df;color:var(--wood-dk);border-radius:12px;padding:4px 10px;min-height:42px;font-weight:700;font-size:.85em}
+.tbtn:hover{background:#fff}
+.tbtn[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold)}
+.tbtn svg{width:20px;height:20px}
+
+/* stage */
+#stage{overflow-y:auto;overflow-x:hidden;background:radial-gradient(1200px 500px at 80% -10%,#e9f5e0,transparent),var(--sand)}
+.view{max-width:1380px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 26px;display:flex;flex-direction:column;gap:16px;animation:enter .45s ease both}
+@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.vhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.plank{display:inline-block;background:linear-gradient(180deg,#b88449,#93622f);color:#fff8ea;font-weight:800;padding:4px 18px 6px;border-radius:12px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18),0 2px 0 #5e3b19;font-size:.95em}
+.vhead h2{font-size:clamp(24px,2.4vw,40px);font-weight:800;color:var(--leaf-dk)}
+.page{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);color:var(--gold-dk);border:1.5px solid var(--gold);border-radius:999px;padding:0 12px;font-size:.78em;font-weight:800;white-space:nowrap}
+.strategy{display:inline-flex;gap:6px;align-items:center;background:var(--leaf-soft);color:var(--leaf-dk);border-radius:999px;padding:0 12px;font-size:.78em;font-weight:700}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.grid2.wide{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+@media (max-width:900px){.grid2,.grid2.wide{grid-template-columns:minmax(0,1fr)}}
+.grid2>*{min-width:0}
+.card{background:var(--paper);border:2px solid var(--sand-dk);border-radius:var(--r);padding:16px;box-shadow:0 3px 0 var(--sand-dk);display:flex;flex-direction:column;gap:12px;min-width:0}
+.card.wood{background:linear-gradient(180deg,#fbf1dc,#f3e2c0);border-color:#c99b63;box-shadow:0 3px 0 #b88449}
+.card h3{font-size:1.15em;font-weight:800;color:var(--wood-dk)}
+.muted{color:var(--muted)}
+.book{font-family:var(--f-book);font-size:1.08em;line-height:2}
+.clip{position:relative;border-radius:14px;overflow:hidden;border:3px solid var(--gold);background:#fff;cursor:zoom-in;padding:0;display:block;width:100%}
+.clip img{display:block;width:100%;height:auto;max-height:64vh;object-fit:contain}
+.clip .tag{position:absolute;top:8px;inset-inline-start:8px;background:var(--gold);color:#3a2a00;font-weight:800;font-size:.72em;border-radius:8px;padding:1px 10px}
+.clip .zoomi{position:absolute;bottom:8px;inset-inline-end:8px;background:rgba(255,255,255,.9);border-radius:50%;width:34px;height:34px;display:grid;place-items:center}
+.photo{border-color:var(--leaf)}
+.clip.narrow{max-width:560px;margin-inline:auto}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:8px 18px;min-height:48px;font-weight:800;background:var(--leaf);color:#fff;box-shadow:0 3px 0 var(--leaf-dk)}
+.btn:hover{filter:brightness(1.07)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--leaf-dk)}
+.btn.gold{background:var(--gold);color:#3a2a00;box-shadow:0 3px 0 var(--gold-dk)}
+.btn.wood{background:var(--wood);box-shadow:0 3px 0 var(--wood-dk)}
+.btn.sky{background:var(--sky);box-shadow:0 3px 0 #23628f}
+.btn.ghost{background:var(--paper);color:var(--wood-dk);border:2px solid #c99b63;box-shadow:0 3px 0 #c99b63}
+.btn svg{width:20px;height:20px}
+.answer{background:var(--ok-soft);border:2px solid var(--ok);border-radius:14px;padding:10px 14px}
+.answer b{color:var(--ok)}
+.hint{background:var(--gold-soft);border:2px dashed var(--gold);border-radius:14px;padding:8px 14px;color:var(--gold-dk)}
+.src{font-size:.72em;font-weight:800;border-radius:6px;padding:0 6px;margin-inline-start:4px;vertical-align:middle}
+.src.b{background:var(--gold-soft);color:var(--gold-dk)}
+.src.x{background:var(--sky-soft);color:#23628f}
+
+/* image with hotspots */
+.hot{position:relative;width:100%;max-width:100%;border-radius:18px;overflow:hidden;box-shadow:0 6px 18px rgba(60,40,10,.25);background:#000;aspect-ratio:1672/941}
+.hot img{display:block;width:100%;height:100%;object-fit:cover}
+.hs{position:absolute;border:0;background:transparent;border-radius:14px;padding:0;transition:box-shadow .2s,background .2s}
+.hs:hover,.hs:focus-visible{background:rgba(255,230,140,.18);box-shadow:0 0 0 4px #ffd24a,0 0 22px 6px rgba(255,210,74,.75)}
+.hs.pulse{animation:glow 1.8s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 3px rgba(255,210,74,.55)}50%{box-shadow:0 0 0 6px rgba(255,210,74,.95),0 0 26px 8px rgba(255,210,74,.6)}}
+.cover-rule{position:absolute;border-radius:12px;background:linear-gradient(180deg,#c9965b,#a9763d);color:#fff8ea;display:grid;place-items:center;font-weight:800;font-size:clamp(14px,1.6vw,26px);box-shadow:inset 0 -3px 0 rgba(0,0,0,.2);transition:opacity .5s,transform .5s}
+.cover-rule.gone{opacity:0;transform:scale(.9);pointer-events:none}
+.compass-ring{position:absolute;border-radius:50%;pointer-events:none;border:4px dashed rgba(255,215,90,.9);animation:spin 9s linear infinite}
+.strip{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;background:var(--paper);border:2px solid #c99b63;border-radius:16px;padding:10px 16px}
+.strip label{display:inline-flex;gap:6px;align-items:center;font-weight:700}
+.strip input{border:0;border-bottom:2px dashed #c99b63;background:transparent;width:9em;padding:2px 4px}
+
+/* steps / tabs */
+.steps{display:flex;flex-wrap:wrap;gap:6px}
+.steps button{border:2px solid var(--sand-dk);background:var(--paper);border-radius:999px;padding:4px 14px;font-weight:800;color:var(--muted);min-height:40px}
+.steps button.on{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.steps button.done{border-color:var(--leaf);color:var(--leaf-dk)}
+.stepbody{display:flex;flex-direction:column;gap:12px}
+
+/* questions */
+.mcq{display:flex;flex-direction:column;gap:10px}
+.mcq .q{font-weight:800;font-size:1.08em}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts.inline{flex-direction:row;flex-wrap:wrap}
+.opt{text-align:right;border:2.5px solid var(--sand-dk);background:#fff;border-radius:14px;padding:8px 14px;min-height:48px;font-weight:700;transition:transform .15s}
+.opt:hover:not(:disabled){border-color:var(--gold);transform:translateY(-2px)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft);color:#1d5a30}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);color:#7a2a17;animation:shake .35s}
+.opt:disabled{cursor:default}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{border-radius:12px;padding:8px 12px;font-weight:700}
+.fb.ok{background:var(--ok-soft);color:#1d5a30}
+.fb.no{background:var(--bad-soft);color:#7a2a17}
+.lvl{display:inline-block;font-size:.7em;font-weight:800;border-radius:6px;padding:0 8px;background:var(--sky-soft);color:#23628f;vertical-align:middle;margin-inline-start:6px}
+.bookq{border-inline-start:6px solid var(--gold);background:#fffdf6;border-radius:10px;padding:8px 12px}
+.bookq .lab{color:var(--sky);font-weight:800}
+.kw{background:none;border:0;padding:0 2px;border-radius:4px;border-bottom:2px dotted var(--wood);cursor:pointer;font:inherit;color:inherit}
+.kw.on{background:#ffe680;border-bottom-color:transparent}
+
+/* guide bubble */
+.guide{display:flex;align-items:flex-end;gap:10px}
+.guide img{width:88px;height:auto;flex:none}
+.bubble{position:relative;background:#fff;border:2.5px solid #c99b63;border-radius:18px 18px 18px 4px;padding:10px 14px;font-weight:700;flex:1;min-width:0}
+
+/* region scene */
+.scene{position:relative;border-radius:18px;overflow:hidden;border:4px solid #c99b63;box-shadow:0 6px 18px rgba(60,40,10,.25);background:#000}
+.scene img{display:block;width:100%;height:auto}
+.scene .mask{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#fff;padding:22px 16px 10px;font-weight:800;font-size:1.3em}
+.clues{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:700px){.clues{grid-template-columns:minmax(0,1fr)}}
+.clue{border:2.5px dashed #c99b63;background:var(--paper);border-radius:14px;padding:10px;min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;font-weight:700}
+.clue .ic{font-size:1.7em;line-height:1}
+.clue.shut{background:linear-gradient(180deg,#c9965b,#a9763d);color:#fff8ea;border-style:solid;border-color:#8a5a2b}
+.factcard{border-radius:16px;border:3px solid var(--c,var(--leaf));background:#fff;overflow:hidden}
+.factcard header{background:var(--c,var(--leaf));color:#fff;font-weight:800;font-size:1.3em;padding:6px 14px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.factcard dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr)}
+.factcard dt,.factcard dd{margin:0;padding:7px 12px;border-top:1.5px solid #efe3cc}
+.factcard dt{font-weight:800;color:var(--wood-dk);background:#fbf3e3;white-space:nowrap}
+.hub{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:800px){.hub{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.rcard{position:relative;border:0;padding:0;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 4px 0 #b88449;text-align:right}
+.rcard img{display:block;width:100%;aspect-ratio:16/7;object-fit:cover;filter:saturate(1.05)}
+.rcard .lab{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(30,20,5,.8));color:#fff;padding:18px 12px 8px;font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rcard .done{background:var(--gold);color:#3a2a00;border-radius:999px;padding:0 10px;font-size:.8em}
+.rcard:hover img{transform:scale(1.04);transition:transform .4s}
+
+/* table */
+.tablewrap{overflow-x:auto}
+table.cmp{width:100%;border-collapse:separate;border-spacing:6px}
+.cmp th{background:var(--wood);color:#fff;border-radius:10px;padding:6px 10px}
+.cmp td{background:#fff;border:2px solid var(--sand-dk);border-radius:10px;padding:6px 10px;vertical-align:middle}
+.cmp td.h{background:var(--wood-soft);font-weight:800;white-space:nowrap}
+.cell{border:0;background:var(--gold-soft);border-radius:8px;width:100%;min-height:40px;font-weight:800;color:var(--gold-dk)}
+.org td[contenteditable]{min-width:7em;height:42px;background:#fff}
+select{border:2px solid #c99b63;border-radius:10px;padding:4px 10px;background:#fff;font-weight:700}
+
+/* bands */
+.bands rect.b{cursor:pointer;transition:opacity .3s}
+.bands.focus rect.b:not(.on){opacity:.25}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:2px solid var(--c);background:#fff;color:var(--ink);border-radius:999px;padding:3px 12px;font-weight:800;min-height:40px}
+.chip.on{background:var(--c);color:#fff}
+
+/* timer */
+.timer{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #c99b63;border-radius:999px;padding:2px 4px 2px 12px;font-weight:800}
+.timer b{font-variant-numeric:tabular-nums;min-width:3.4ch;text-align:center}
+.timer button{border:0;background:var(--leaf);color:#fff;border-radius:999px;padding:2px 12px;min-height:36px;font-weight:800}
+
+/* challenge */
+.chal{display:flex;flex-direction:column;gap:12px}
+.chal .card.locked{opacity:.45;pointer-events:none}
+.badge{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--wood);color:#fff;font-weight:800;flex:none}
+.bigcompass{width:min(240px,50vw);height:auto;margin:0 auto;display:block}
+.bigcompass.lit{filter:drop-shadow(0 0 18px #ffd24a) drop-shadow(0 0 40px #ffd24a)}
+.cert{border:6px double var(--gold);background:radial-gradient(circle at top,#fffdf3,#fbefd2);border-radius:22px;padding:22px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center}
+.cert h2{font-size:clamp(28px,3vw,46px);color:var(--leaf-dk)}
+.cert input{text-align:center;border:0;border-bottom:2px dashed var(--gold);background:transparent;font-size:1.4em;font-weight:800;width:min(420px,80%)}
+.exitgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:860px){.exitgrid{grid-template-columns:minmax(0,1fr)}}
+textarea{width:100%;min-height:110px;border:2px solid var(--sand-dk);border-radius:12px;padding:8px;background:#fff;resize:vertical}
+
+/* notes */
+.notes{background:#fff;border:2px dashed var(--sky);border-radius:14px;padding:10px 14px;font-size:.88em}
+.notes h3{color:#23628f;font-size:1em}
+.notes ul{margin:4px 0 0;padding-inline-start:20px}
+
+/* footer */
+.foot{display:flex;align-items:center;gap:10px;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));padding-block:6px;background:#f0dfc4;border-top:3px solid #c99b63}
+.foot .sig{margin-inline:auto;font-weight:800;color:var(--wood-dk);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.foot .sig svg{width:22px;height:22px}
+.nav{min-height:44px}
+
+/* warp overlay */
+#warp{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:radial-gradient(circle,rgba(40,28,10,.55),rgba(20,14,5,.85));padding:16px}
+#warp .box{display:flex;flex-direction:column;align-items:center;gap:14px;color:#fff8ea;text-align:center}
+#warp svg{width:min(260px,55vw);height:auto;filter:drop-shadow(0 0 22px rgba(255,210,74,.85))}
+#warp .needle{transform-origin:100px 100px;animation:spinneedle 1.8s cubic-bezier(.4,1.6,.5,1) both}
+#warp .dial{transform-origin:100px 100px;animation:spin 3s linear infinite}
+#warp .lbl{font-weight:800;font-size:clamp(22px,2.6vw,38px)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinneedle{0%{transform:rotate(0)}100%{transform:rotate(720deg)}}
+#zoom{position:fixed;inset:0;z-index:70;background:rgba(20,14,5,.9);display:grid;place-items:center;padding:16px;cursor:zoom-out}
+#zoom img{max-width:100%;max-height:100%;border-radius:12px;background:#fff}
+#toast{position:fixed;z-index:80;top:70px;inset-inline:0;margin:auto;width:max-content;max-width:90vw;background:var(--gold);color:#3a2a00;font-weight:800;border-radius:999px;padding:8px 22px;box-shadow:0 6px 18px rgba(0,0,0,.25);animation:enter .3s ease both}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:760px){.star span,.brand small,.tbtn .t{display:none}.star{min-width:30px}.foot .sig{font-size:.85em}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.2 6.8.7-5.1 4.6 1.5 6.7L12 17.3l-6.1 3.4 1.5-6.7L2.3 9.4l6.8-.7z"/></symbol>
+    <radialGradient id="cg" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#fff4c2"/><stop offset="1" stop-color="#e9c46a"/></radialGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset=".5" stop-color="#c8901c"/><stop offset="1" stop-color="#ffe7a0"/></linearGradient>
+    <symbol id="compass" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="96" fill="url(#rim)"/>
+      <circle cx="100" cy="100" r="82" fill="url(#cg)" stroke="#8a6510" stroke-width="2"/>
+      <g class="dial" fill="#8a6510">
+        <g font-family="Tajawal L,Tajawal,Arial" font-weight="800" font-size="20" text-anchor="middle"><text x="100" y="36">N</text><text x="100" y="178">S</text><text x="170" y="107">E</text><text x="30" y="107">W</text></g>
+        <path d="M100 26v8M100 166v8M26 100h8M166 100h8" stroke="#8a6510" stroke-width="3"/>
+      </g>
+      <g class="needle"><path d="M100 30 L112 100 L100 108 L88 100Z" fill="#c0392b"/><path d="M100 170 L112 100 L100 92 L88 100Z" fill="#f4f1ea" stroke="#8a6510" stroke-width="1.5"/></g>
+      <circle cx="100" cy="100" r="9" fill="#8a6510"/><circle cx="100" cy="100" r="4" fill="#ffe08a"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <header class="bar">
+    <div class="brand">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><use href="#compass"/></svg>
+      <div><b>رحلة الاستكشاف</b><small>الدرس الثاني: مقارنة الأنظمة البيئية</small></div>
+    </div>
+    <div class="stars" id="stars" aria-label="نجوم الاكتشاف"></div>
+    <div class="tools">
+      <button class="tbtn" id="bBoard" title="لوحة الانطلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg><span class="t">لوحة الانطلاق</span></button>
+      <button class="tbtn" id="bNotes" aria-pressed="false" title="ملاحظات المعلمة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7"/></svg><span class="t">دليل المعلمة</span></button>
+      <button class="tbtn" id="bMotion" aria-pressed="true" title="الحركة الانتقالية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg><span class="t">الحركة: تعمل</span></button>
+      <button class="tbtn" id="bFull" title="ملء الشاشة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    </div>
+  </header>
+  <main id="stage"></main>
+  <footer class="foot">
+    <button class="btn ghost nav" id="bPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><span>السابق</span></button>
+    <div class="sig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 4C11 5 6 11 4 20M9 15l-3-1M12 12l-3-1M15 9l-3-1"/></svg>أ/ شامه البقمي</div>
+    <button class="btn nav" id="bNext"><span>التالي</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  </footer>
+</div>
+
+<div id="warp" hidden>
+  <div class="box">
+    <svg viewBox="0 0 200 200" aria-hidden="true"><use href="#compass"/></svg>
+    <div class="lbl" id="warpLbl"></div>
+    <button class="btn ghost" id="warpSkip">تخطّي الحركة</button>
+  </div>
+</div>
+<div id="zoom" hidden><img alt="" id="zoomImg"></div>
+<div id="toast" hidden></div>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const A = 'assets/';
+const stage = $('#stage');
+
+/* ------------------------------------------------ state */
+const STARS = [['observe', 'الملاحظة'], ['inquiry', 'الاستقصاء'], ['understand', 'الفهم'], ['discover', 'الاكتشاف'], ['compare', 'المقارنة'], ['conclude', 'الاستنتاج']];
+const S = { stars: {}, region: {}, done: {}, chal: {}, motion: !matchMedia('(prefers-reduced-motion: reduce)').matches, notes: false, cur: 'opening' };
+const PRAISE = ['اكتشاف رائع!', 'ملاحظة دقيقة!', 'تفسير علمي مميز!', 'أحسنتِ يا عالمة!', 'استنتاج موفق!'];
+let pi = 0; const praise = () => PRAISE[pi++ % PRAISE.length];
+$('#stars').innerHTML = STARS.map(([k, l]) => `<div class="star" data-star="${k}" title="نجمة ${l}"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><span>${l}</span></div>`).join('');
+function award(k) {
+  if (!k || S.stars[k]) return;
+  S.stars[k] = true;
+  const el = $(`[data-star="${k}"]`); el.classList.add('on');
+  toast('⭐ أضاءت نجمة ' + STARS.find(s => s[0] === k)[1] + '!');
+}
+let tt; function toast(t) { const el = $('#toast'); el.textContent = t; el.hidden = false; el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; clearTimeout(tt); tt = setTimeout(() => el.hidden = true, 2200); }
+
+/* ------------------------------------------------ helpers (markup) */
+const clip = (name, page, alt = '', cls = '') => `<button class="clip ${cls}" data-zoom="${A}${name}.jpg" aria-label="تكبير: ${alt || 'من الكتاب المدرسي'}"><img src="${A}${name}.jpg" alt="${alt}" loading="lazy">${page ? `<span class="tag">الكتاب المدرسي · ${page}</span>` : ''}<span class="zoomi" aria-hidden="true">🔍</span></button>`;
+const head = (plank, title, page, strat) => `<div class="vhead"><span class="plank">${plank}</span><h2>${title}</h2>${page ? `<span class="page">📖 ${page}</span>` : ''}${strat ? `<span class="strategy">🎯 ${strat}</span>` : ''}</div>`;
+const reveal = (label, html, cls = 'answer', btn = 'gold') => `<div class="rv"><button class="btn ${btn}" data-reveal>${label}</button><div class="${cls}" hidden>${html}</div></div>`;
+const guide = t => `<div class="guide"><img src="${A}guide.png" alt="الرحّالة"><div class="bubble">${t}</div></div>`;
+let qid = 0;
+function mcq(q, opts, ok, why, o = {}) {
+  const id = o.id || 'q' + (++qid);
+  return `<div class="mcq" data-mcq="${id}" data-ok="${ok}" data-star="${o.star || ''}" data-why="${encodeURIComponent(why)}" data-then="${o.then || ''}">
+    <p class="q">${q}${o.lvl ? `<span class="lvl">${o.lvl}</span>` : ''}</p>
+    <div class="opts${o.inline ? ' inline' : ''}">${opts.map((t, i) => `<button class="opt" data-i="${i}">${t}</button>`).join('')}</div>
+    <div class="fb" hidden></div></div>`;
+}
+const bookq = (lab, q) => `<p class="bookq book"><span class="lab">${lab}</span> ${q}</p>`;
+
+/* ------------------------------------------------ regions data */
+const REG = {
+  tundra: { n: 'التندرا', c: '#6a5aa8', ic: '❄️', page: 'ص ١٥١', img: 'scene-tundra',
+    clues: [['🌡️', 'شتاء بارد جدًا وصيف قصير'], ['🌿', 'أعشاب وشجيرات قصيرة'], ['🧊', 'تربة دائمة التجمّد']], useClueImage: true,
+    climate: ['باردة جدًا وجافة؛ شتاء بارد جدًا وصيف قصير، والأمطار نحو ٢٥ سم في العام.', 'b'],
+    plants: ['أعشاب وشجيرات ذات جذور سطحية قصيرة؛ لأن الطبقات دائمة التجمّد تمنع نمو الجذور العميقة.', 'b'],
+    animals: ['الثعلب القطبي وحيوان الرنّة (من الصورة).', 'x'],
+    where: ['أقصى النصف الشمالي من الكرة الأرضية، جنوبيّ القطب الشمالي: شمال كندا وألاسكا وشمال روسيا.', 'b'],
+    note: 'الدب القطبي في الصورة يعيش غالبًا على الجليد البحري وسواحل المناطق القطبية.',
+    cmp: ['بماذا تختلف التندرا عن التايجا؟', ['التندرا أعشاب وشجيرات بلا أشجار كبيرة، والتايجا غابات أشجار مخروطية', 'التندرا أكثر أمطارًا ودفئًا من التايجا', 'لا فرق بينهما'], 0, 'تمنع الطبقات دائمة التجمّد في التندرا نمو الجذور العميقة، أما التايجا فغابات أشجار مخروطية دائمة الخضرة (ص ١٥١).'] },
+  taiga: { n: 'التايجا', c: '#2f6b3a', ic: '🌲', page: 'ص ١٥١', img: 'scene-taiga',
+    clues: [['🌡️', 'شتاء بارد جدًا وصيف قصير دافئ'], ['🌲', 'أشجار مخروطية دائمة الخضرة'], ['🐺', 'ذئاب وثعالب وقوارض']],
+    climate: ['شتاء بارد جدًا، وصيف قصير دافئ أكثر رطوبة.', 'b'],
+    plants: ['أشجار مخروطية دائمة الخضرة، منها الصنوبر والتنوب والشوكران، والأشنات والحزازيات.', 'b'],
+    animals: ['القوارض والثعالب والذئاب والغربان، وتجذب حشرات الصيف الطيور المهاجرة.', 'b'],
+    where: ['جنوبيّ التندرا الشمالية، عبر أجزاء من أوروبا وآسيا وأمريكا الشمالية.', 'b'],
+    note: 'كلمة «تايجا» روسية تعني الغابة. وفي الصورة أيضًا الموظ والوشق.',
+    cmp: ['ما الذي تشترك فيه التايجا مع التندرا؟', ['أمطار غزيرة طوال العام', 'شتاء بارد جدًا وصيف قصير', 'تربة خصبة تستعمل في الزراعة'], 1, 'كلتاهما في النصف الشمالي، شتاؤهما بارد جدًا وصيفهما قصير (ص ١٥١).'] },
+  desert: { n: 'الصحراء', c: '#c47a1c', ic: '🏜️', page: 'ص ١٥٢', img: 'scene-desert',
+    clues: [['🌧️', 'أمطار أقل من ٢٥ سم في العام'], ['🌵', 'نباتات تحتفظ بالماء'], ['🐪', 'الجمل والجربوع']],
+    climate: ['تُعرَّف بمقدار كميات الهطل لا بالموقع أو الحرارة؛ أمطارها أقل من ٢٥ سم في العام، والصحارى الحارة حارة وجافة.', 'b'],
+    plants: ['نباتات تحتفظ بالماء، ومنها الصبّار.', 'b'],
+    animals: ['الحشرات والعناكب والزواحف والطيور وحيوانات الجحور كالجربوع، والجمل.', 'b'],
+    where: ['في كافة القارات، ومنها الدهناء والربع الخالي في المملكة العربية السعودية، والصحراء الشرقية في مصر.', 'b'],
+    note: 'ليست جميع الصحارى حارة؛ فهناك صحارى باردة قرب القطب الجنوبي (ص ١٥٢).',
+    cmp: ['بماذا تختلف الصحراء عن الأراضي العشبية؟', ['الصحراء أقل أمطارًا، ونباتاتها تحتفظ بالماء', 'الصحراء تربتها أخصب', 'الأراضي العشبية أقل أمطارًا'], 0, 'معدل الأمطار في الصحراء أقل من ٢٥ سم في العام، أما الأراضي العشبية فأمطارها غير غزيرة وتنمو فيها الأعشاب (ص ١٥٢، ١٥٣).'] },
+  grass: { n: 'الأراضي العشبية', c: '#9a8a1a', ic: '🌾', page: 'ص ١٥٣', img: 'scene-grass',
+    clues: [['🌧️', 'أمطار غير غزيرة وغير منتظمة'], ['🌾', 'الأعشاب هي النبات الرئيس'], ['🦓', 'الحمر الوحشية والظباء']],
+    climate: ['أمطار غير غزيرة تتساقط بشكل غير منتظم، ودرجات الحرارة منخفضة شتاءً ومرتفعة صيفًا.', 'b'],
+    plants: ['الأعشاب على اختلاف أنواعها هي المكوّن الرئيس، وتربتها من أخصب أنواع التربة.', 'b'],
+    animals: ['الثور البري وذئب البراري (أمريكا الشمالية)، والأسود والظباء والحمر الوحشية (أفريقيا).', 'b'],
+    where: ['في معظم القارات: أمريكا الشمالية، ووسط روسيا، وأمريكا الجنوبية، وأفريقيا.', 'b'],
+    note: 'جذور الأعشاب تثبّت التربة؛ فإذا أُزيلت انجرفت التربة بفعل الرياح (ص ١٥٣).',
+    cmp: ['ما النبات الرئيس في الأراضي العشبية مقارنة بالتايجا؟', ['الأعشاب في الأراضي العشبية، والأشجار المخروطية في التايجا', 'الصبّار في الاثنتين', 'الأشجار المخروطية في الأراضي العشبية'], 0, 'الأعشاب المكوّن الرئيس في الأراضي العشبية، والتايجا غابات أشجار مخروطية دائمة الخضرة.'] },
+  forest: { n: 'الغابات المتساقطة الأوراق', c: '#b4471f', ic: '🍂', page: 'ص ١٥٣', img: 'scene-forest',
+    clues: [['🍁', 'أوراق تتلون في الخريف ثم تتساقط'], ['❄️', 'شتاء يندر فيه المطر وتتجمد الأرض'], ['🌳', 'أشجار البلوط والزان']],
+    climate: ['تفقد الأشجار أوراقها عند اقتراب الشتاء، حين يندر تساقط الأمطار وتتجمد الأرض.', 'b'],
+    plants: ['أشجار البلوط والزان، وعلى أرضيتها الأشنات والحزازيات والفطر.', 'b'],
+    animals: ['الأيل والسنجاب والثعلب (من الصورة).', 'x'],
+    where: ['شرق أمريكا الشمالية، وشمال شرق آسيا، وغرب ووسط أوروبا.', 'b'],
+    note: 'عندما تقل الأوراق يقل النتح، مما يحافظ على الماء (ص ١٥٣).',
+    cmp: ['بماذا تختلف أشجار الغابات المتساقطة الأوراق عن أشجار التايجا؟', ['تفقد أوراقها قبل الشتاء، وأشجار التايجا دائمة الخضرة', 'كلتاهما تفقد أوراقها صيفًا', 'أشجار التايجا تفقد أوراقها في الخريف'], 0, 'أشجار الغابات المتساقطة الأوراق تفقد أوراقها قبل الشتاء، أما التايجا فأشجارها مخروطية دائمة الخضرة.'] },
+  rain: { n: 'الغابات الاستوائية المطيرة', c: '#1e7a5a', ic: '🌧️', page: '', img: 'scene-rain',
+    clues: [['☔', 'حرارة ورطوبة وأمطار غزيرة طوال العام'], ['🌿', 'أشجار كثيفة عالية ونباتات متسلقة'], ['🦜', 'القرود والببغاوات']],
+    climate: ['حار ورطب، وأمطار غزيرة طوال العام.', 'x'],
+    plants: ['أشجار عالية كثيفة، ونباتات متسلقة.', 'x'],
+    animals: ['القرود والببغاوات والنمر الأمريكي (الجاكوار).', 'x'],
+    where: ['قرب خط الاستواء، مثل غابات الأمازون في أمريكا الجنوبية، وحوض الكونغو في أفريقيا.', 'x'],
+    note: 'ذكر الكتاب الغابات الاستوائية المطيرة ضمن المناطق الحيوية (ص ١٤٩)، وتفاصيلها في صفحة غير مرفقة؛ لذلك معلوماتها هنا إثرائية.',
+    cmp: ['أيهما أكثر أمطارًا: الغابات الاستوائية المطيرة أم الصحراء؟', ['الصحراء', 'الغابات الاستوائية المطيرة', 'متساويتان'], 1, 'الغابات الاستوائية المطيرة أمطارها غزيرة طوال العام، أما الصحراء فأمطارها أقل من ٢٥ سم في العام.'] }
+};
+const RK = Object.keys(REG);
+const STEPN = ['ألاحظ', 'أتوقع', 'أكتشف', 'أقارن', 'أتقن'];
+
+/* ------------------------------------------------ views */
+const SEC = { look: 'أنظر وأتساءل', explore: 'أستكشف', read: 'أقرأ وأتعلم', regions: 'أكتشف المناطق الحيوية', compare: 'أقارن وأستنتج', challenge: 'تحدي الإتقان' };
+const LIN = ['opening', 'rules', 'board', 'review', 'look', 'explore', 'goals', 'ecosystem', 'biome', 'climate', 'homeland', 'regions', 'where', 'compare', 'critical', 'challenge', 'essential', 'exit'];
+const SECOF = { review: 'look', look: 'look', explore: 'explore', goals: 'explore', ecosystem: 'read', biome: 'read', climate: 'read', homeland: 'read', regions: 'regions', where: 'regions', compare: 'compare', critical: 'compare', challenge: 'challenge', essential: 'challenge', exit: 'challenge' };
+RK.forEach(k => SECOF['r-' + k] = 'regions');
+const PX = (x, y, w, h) => `left:${(x / 1672 * 100).toFixed(2)}%;top:${(y / 941 * 100).toFixed(2)}%;width:${(w / 1672 * 100).toFixed(2)}%;height:${(h / 941 * 100).toFixed(2)}%`;
+
+const NOTES = {
+  opening: ['دقيقة', 'الترحيب', ['رحّبي بالطالبات واكتبي اليوم والتاريخ.', 'اضغطي «ابدئي رحلة الاكتشاف» على الصورة.']],
+  rules: ['دقيقة', 'الاتفاق الصفي', ['اضغطي «القانون التالي» لإظهار القوانين بالتتابع، وتقرأ طالبة كل قانون.', 'المجموعة الملتزمة تساعد في إضاءة نجوم الاكتشاف.']],
+  board: ['—', 'لوحة الانطلاق', ['اضغطي على أي لوحة للانتقال إلى المهمة. الترتيب المقترح يسير مع الكتاب: أنظر وأتساءل ← أستكشف ← أقرأ وأتعلم ← المناطق الحيوية ← أقارن ← التحدي.', 'زر «لوحة الانطلاق» أعلى الشاشة يعيدك إلى هنا من أي مكان.']],
+  review: ['دقيقتان', 'استدعاء المعرفة السابقة', ['تجيب الطالبات شفهيًا أولًا، ثم اكشفي الإجابة.', 'الهدف: ربط مفهومَي المنتج والمستهلك بالنظام البيئي.']],
+  look: ['٤ دقائق', 'ألاحظ – أتوقع – أتساءل', ['كبّري الصورة واطلبي تحديد تفاصيلها (القمة البيضاء، الأرض الخضراء).', 'اقرئي سؤال الكتاب واستقبلي التوقعات شفهيًا، ثم اكشفي التفسير.', 'نجمة الملاحظة تُضاء بعد الإجابة الصحيحة عن سؤال التحقق.']],
+  explore: ['٦ دقائق (والمشروع منزلي)', 'التعلم التعاوني والاستقصاء', ['وزّعي المجموعات على المناطق الحيوية، ويكون الكتاب (ص ١٥١–١٥٣) مصدر المعلومات داخل الحصة.', 'املئي المنظّم مع الطالبات بالكتابة داخل الجدول مباشرة.', 'لوحة الحائط الكاملة (الخطوة ٤) تُنفذ في المنزل أو حصة النشاط.']],
+  goals: ['دقيقة', 'وضوح الهدف', ['اقرئي النواتج الأربعة، وبيّني أين تقيس كل ناتج.']],
+  ecosystem: ['٤ دقائق', 'الفهم القرائي', ['تقرأ الطالبات الفقرة، ثم اتبعي الخطوات الخمس: أقرأ، أحدد المفردة، الفكرة الرئيسة، أستدل، أفسر.', 'الكلمات المنقّطة قابلة للتظليل بالضغط عليها.']],
+  biome: ['٣ دقائق', 'استنتاج المفهوم', ['اعرضي الصور أولًا واطلبي أوجه التشابه والاختلاف، ثم اكشفي التعريف من الكتاب.']],
+  climate: ['٤ دقائق', 'السبب والنتيجة', ['تتوقع الطالبة النتيجة أولًا، ثم اكشفي التفسير.', 'اختمي بأسئلة «أختبر نفسي» ص ١٥٠.']],
+  homeland: ['دقيقتان', 'الربط بالوطن', ['اربطي التكيف بالبيئة الصحراوية في المملكة.']],
+  regions: ['١٠–١٢ دقيقة', 'الاكتشاف الموجّه بالأدلة', ['لكل منطقة خمس خطوات قصيرة: ألاحظ، أتوقع، أكتشف، أقارن، أتقن (دقيقتان تقريبًا).', 'نجمة الاكتشاف تضيء بعد إتقان المناطق الست.', 'رمز 📖 يعني معلومة من الكتاب، و✦ معلومة إثرائية.']],
+  where: ['اختياري', 'قراءة المخطط', ['نشاط إثرائي قصير؛ يمكن تخطيه.', 'الرسم مبسّط بحسب خطوط العرض، والحدود الحقيقية بين المناطق متداخلة.']],
+  compare: ['٣ دقائق', 'المقارنة بالجدول', ['اختاري منطقتين، وناقشي كل خانة قبل كشفها.', 'سؤال الكتاب ص ١٥٢ يضيء نجمة المقارنة.']],
+  critical: ['دقيقتان', 'التفكير الناقد بالدليل', ['ألاحظ الدليل ← أفسر ← أستنتج.']],
+  challenge: ['٤ دقائق', 'التقويم الختامي', ['خمسة تحديات متدرجة، وكل تحدٍّ يفتح التالي.']],
+  essential: ['دقيقتان', 'السؤال الأساسي', ['تشارك الطالبات بالإجابة، ثم اكشفي الخلاصة.']],
+  exit: ['٣ دقائق', 'بطاقة الخروج', ['تكتب الطالبات إجاباتهن (على السبورة أو في الدفتر)، ثم أصدري بطاقة الإنجاز.']]
+};
+RK.forEach(k => NOTES['r-' + k] = NOTES.regions);
+
+const V = {};
+V.opening = () => `
+  <div class="hot"><img src="${A}opening.jpg" alt="رحّالة الطبيعة: اكتشاف المناطق الحيوية على الأرض">
+    <button class="hs pulse" style="${PX(612, 702, 452, 96)}" data-go="rules" aria-label="ابدئي رحلة الاكتشاف"></button></div>
+  <div class="strip">
+    <b style="color:var(--leaf-dk);font-size:1.15em">الدرس الثاني: مقارنة الأنظمة البيئية</b>
+    <span>مرحبًا بكنّ يا مستكشفات 🌍</span>
+    <label>اليوم: <input id="inDay" placeholder="........"></label>
+    <label>التاريخ: <input id="inDate" placeholder="..../..../١٤٤٨هـ"></label>
+    <span class="muted">المعلمة: أ/ شامه البقمي</span>
+    <button class="btn" data-go="rules">ابدئي الرحلة</button>
+  </div>`;
+const RULES = [[400, 'أستمع بانتباه'], [470, 'أشارك بفاعلية'], [543, 'أحترم رأي زميلاتي'], [616, 'ألتزم بالوقت'], [690, 'أحافظ على النظام']];
+V.rules = () => `
+  ${head('قبل الانطلاق', 'قوانين الرحلة', '', 'الاتفاق الصفي')}
+  <div class="hot"><img src="${A}rules.jpg" alt="قوانين الرحلة">
+    ${RULES.map(([y, t], i) => `<div class="cover-rule" data-rule="${i}" style="${PX(1300, y, 322, 66)}">القانون ${AR(i + 1)}</div>`).join('')}</div>
+  <div class="row"><button class="btn wood" id="nextRule">القانون التالي</button><button class="btn gold" data-go="board">أنا مستعدة للاكتشاف ✨</button></div>`;
+const BOARD = [['look', 1165, 312, 285, 102], ['explore', 508, 340, 242, 110], ['read', 812, 186, 242, 162], ['regions', 1178, 516, 276, 112], ['compare', 818, 612, 266, 162], ['challenge', 488, 522, 232, 196]];
+const FIRST = { look: 'review', explore: 'explore', read: 'ecosystem', regions: 'regions', compare: 'compare', challenge: 'challenge' };
+V.board = () => `
+  <div class="hot"><img src="${A}board.jpg" alt="خطة رحلة الاستكشاف">
+    <div class="compass-ring" style="${PX(828, 375, 230, 230)}"></div>
+    ${BOARD.map(([k, x, y, w, h]) => `<button class="hs" style="${PX(x, y, w, h)}" data-warp="${FIRST[k]}" data-label="${SEC[k]}" aria-label="${SEC[k]}"></button>`).join('')}
+  </div>
+  <p class="muted" style="text-align:center">اضغطي على أي لوحة؛ فتدور البوصلة وتنقلك إلى المهمة.</p>`;
+
+V.review = () => `
+  ${head('أنظر وأتساءل', 'مراجعة: ماذا نعرف عن الأنظمة البيئية؟', '', 'استدعاء المعرفة السابقة')}
+  ${guide('قبل أن نبدأ الرحلة، لنتذكّر ما تعلّمناه سابقًا. شاركي بإجابتك أولًا!')}
+  <div class="grid2">
+    <div class="card"><h3>١. ماذا نسمّي المخلوقات الحية التي تصنع غذاءها بنفسها؟ أعطي مثالًا.</h3>${reveal('أظهري الإجابة', '<b>المنتجات</b>، مثل النباتات الخضراء.')}</div>
+    <div class="card"><h3>٢. اذكري شيئين غير حيين يحتاج إليهما النبات ليعيش.</h3>${reveal('أظهري الإجابة', 'مثل: <b>الماء</b>، و<b>ضوء الشمس</b>، و<b>التربة</b>، و<b>الهواء</b>.')}</div>
+  </div>`;
+
+V.look = () => `
+  ${head('أنظر وأتساءل', 'لماذا تختلف الأرض بين قمة الجبل وأسفله؟', 'ص ١٤٦', 'ألاحظ – أتوقع – أتساءل')}
+  <div class="grid2 wide">
+    <div>${clip('p146_photo', 'ص ١٤٦', 'جبل تغطي الثلوج قمته وأسفله أرض خضراء', 'photo')}</div>
+    <div class="card">
+      <div class="steps" data-tabs><button class="on">١ ألاحظ</button><button>٢ أتوقع</button><button>٣ أتساءل</button></div>
+      <div class="stepbody" data-tab="0">${guide('كبّري الصورة: ماذا ترين أعلى الجبل؟ وماذا ترين في أسفله؟')}${reveal('ما نلاحظه', 'قمة الجبل <b>مغطاة بالثلوج</b>، وأسفله <b>أرض خضراء</b> فيها أشجار ونباتات.', 'answer', 'ghost')}</div>
+      <div class="stepbody" data-tab="1" hidden>${clip('p146_q', 'ص ١٤٦', 'سؤال أنظر وأتساءل')}<p class="muted">استمعي إلى توقعات الطالبات شفهيًا قبل كشف التفسير.</p>
+        ${reveal('أظهري التفسير', 'كلما ابتعدنا عن خط الاستواء نحو القطبين قلّت أشعة الشمس المباشرة <b>فانخفضت درجة الحرارة</b>، وكلما صعدنا إلى ارتفاعات أعلى قلّت درجة الحرارة أيضًا؛ ولذلك تختلف النباتات والحيوانات التي تعيش في كل منطقة بحسب ظروفها (ص ١٥٠).')}</div>
+      <div class="stepbody" data-tab="2" hidden>${guide('ما الأسئلة التي تخطر لكِ؟ مثلًا: أيّ الحيوانات تعيش في المناطق الباردة؟')}
+        ${mcq('تحقّقي: كلما اتجهنا من خط الاستواء نحو القطبين تصبح المناطق غالبًا:', ['أدفأ', 'أبرد', 'لا تتغير'], 1, 'كلما ابتعدنا عن خط الاستواء قلّت أشعة الشمس المباشرة، فتصبح المناطق أبرد.', { star: 'observe', lvl: 'فهم', inline: true })}</div>
+    </div>
+  </div>`;
+
+V.explore = () => `
+  ${head('أستكشف', 'كيف يمكن مقارنة المناطق الحيوية؟', 'ص ١٤٧', 'التعلم التعاوني والاستقصاء')}
+  <div class="grid2">
+    <div class="card">
+      <div class="steps" data-tabs><button class="on">الهدف</button><button>أحتاج إلى</button><button>الخطوات</button><button>أجمع المعلومات</button><button>أقارن وأستنتج</button></div>
+      <div class="stepbody" data-tab="0"><p class="book">يؤثر المُناخ في الأنظمة البيئية في اليابسة. ونتيجة لذلك تقسّم اليابسة إلى مناطق حيوية، ولكل منطقة حيوية مُناخها. هل يوجد في كلٍّ من هذه المناطق الأنواع نفسها من النباتات والحيوانات؟</p><p class="hint">أتوقع: هل تتشابه النباتات والحيوانات في المناطق الحيوية المختلفة؟</p></div>
+      <div class="stepbody" data-tab="1" hidden><ul class="book" style="margin:0">
+        <li>شريط لاصق</li><li>ورق رسم كبير</li><li>مصادر معلومات (كتب ومراجع، وإنترنت)</li><li>أقلام تلوين</li><li>بطاقات من الورق المقوّى</li><li>خريطة العالم</li></ul>
+        <p class="hint">داخل الحصة يكفي: الكتاب المدرسي (ص ١٥١–١٥٣) وورقة لكل مجموعة.</p></div>
+      <div class="stepbody" data-tab="2" hidden><ol class="book" style="margin:0;padding-inline-start:1.2em">
+        <li>أعمل مع زملائي في مجموعات من خمسة طلاب أو ستة. تختار كل مجموعة منطقة حيوية لدراستها.</li>
+        <li>ألصق الورق على حائط غرفة الصف.</li>
+        <li>أبحث في المنطقة الحيوية التي اختارتها مجموعتي، من حيث الموقع والمناخ والتربة والنباتات والحيوانات.</li>
+        <li><b>أعمل نموذجًا.</b> أرسم لوحة حائط تمثل المنطقة الحيوية، وأبيّن عليها نوعين من النباتات ونوعين من الحيوانات، وأضيف خريطة للعالم تبيّن مواقع هذه المنطقة.</li>
+        <li><b>أتواصل.</b> أعمل قائمة بالمعلومات التي حصلت عليها مكتوبة على بطاقات، وأعلّقها على لوحة الحائط، وأشير إلى مصادر المعلومات.</li></ol></div>
+      <div class="stepbody" data-tab="3" hidden><p>منظّم المجموعات (اكتبي داخل الخانات):</p><div class="tablewrap"><table class="cmp org"><tr><th>المنطقة</th><th>الموقع</th><th>المناخ</th><th>النباتات</th><th>الحيوانات</th></tr>
+        ${['التندرا', 'التايجا', 'الصحراء', 'الأراضي العشبية', 'الغابات المتساقطة الأوراق'].map(n => `<tr><td class="h">${n}</td>${'<td contenteditable="true"></td>'.repeat(4)}</tr>`).join('')}</table></div>
+        <div class="row"><span class="muted">وقت البحث:</span><span class="timer" data-sec="300"><b>٥:٠٠</b><button type="button">ابدئي</button></span></div></div>
+      <div class="stepbody" data-tab="4" hidden>${bookq('٦ أقارن', 'لوحة الحائط الخاصة بمجموعتي بلوحات المجموعات الأخرى، وأحدّد أوجه التشابه وأوجه الاختلاف بين النباتات والحيوانات التي تعيش في المناطق الحيوية المختلفة.')}
+        ${reveal('استنتاج نموذجي', 'تتشابه المناطق في وجود نباتات وحيوانات في كل منها، وتختلف <b>أنواع</b> هذه النباتات والحيوانات بحسب مناخ كل منطقة.')}
+        ${mcq('تحقّقي: لماذا نقارن لوحة مجموعتنا بلوحات المجموعات الأخرى؟', ['لنحدد أوجه التشابه والاختلاف بين المخلوقات في المناطق المختلفة', 'لنختار أجمل لوحة', 'لنعرف عدد الطالبات في كل مجموعة'], 0, 'المقارنة تكشف أن أنواع النباتات والحيوانات تختلف من منطقة حيوية إلى أخرى.', { star: 'inquiry', lvl: 'فهم' })}
+        ${bookq('أستكشف أكثر', 'أقارن بين السلاسل الغذائية في المناطق الحيوية المختلفة. ما المنتجات الرئيسة في كل منطقة؟ وما المستهلكات الرئيسة في كل منها؟')}
+        ${reveal('أمثلة للاستئناس', 'كل سلسلة تبدأ بمنتج: الأعشاب في الأراضي العشبية، والأشجار المخروطية في التايجا. ومن المستهلكات: الظباء والأسود في الأراضي العشبية، والذئاب في التايجا.', 'hint', 'ghost')}</div>
+    </div>
+    <div>${clip('p147_explore', 'ص ١٤٧', 'نشاط أستكشف')}</div>
+  </div>`;
+
+V.goals = () => `
+  ${head('أستكشف', 'نواتج رحلتنا', '', 'وضوح الهدف')}
+  <div class="grid2">
+    ${[['أعرّف النظام البيئي والمنطقة الحيوية والمناخ.', 'ecosystem', 'أقرأ وأتعلم'], ['أفسّر أثر الظروف المناخية في المخلوقات الحية وتكيّفها.', 'climate', 'السبب والنتيجة'], ['أتعرّف المناطق الحيوية من خصائص مناخها ونباتاتها وحيواناتها.', 'regions', 'أكتشف المناطق الحيوية'], ['أقارن بين منطقتين حيويتين في المناخ والنباتات والحيوانات.', 'compare', 'أقارن وأستنتج + التحدي']].map(([t, go, m], i) => `
+      <div class="card wood"><div class="row"><span class="badge">${AR(i + 1)}</span><h3 style="flex:1">${t}</h3></div><div class="row"><span class="muted">يُقاس في:</span><button class="btn ghost" data-go="${go}">${m}</button></div></div>`).join('')}
+  </div>`;
+
+V.ecosystem = () => `
+  ${head('أقرأ وأتعلم', 'ما النظام البيئي؟', 'ص ١٤٨', 'الفهم القرائي')}
+  <div class="grid2 wide">
+    <div class="card">
+      <div class="steps" data-tabs><button class="on">١ أقرأ</button><button>٢ أحدد المفردة</button><button>٣ الفكرة الرئيسة</button><button>٤ أستدل</button><button>٥ أفسر</button></div>
+      <p class="book" id="ecoText">إذا ذهبتُ إلى إحدى الحدائقِ العامةِ فماذا أشاهدُ؟ ربّما أشاهدُ <button class="kw">مخلوقاتٍ حيةً</button>، منها الأطفالُ والأشجارُ والطيورُ. فضلًا عن <button class="kw">أشياءَ غيرِ حيةٍ</button>، منها التربةُ والماءُ والحجارةُ. ومجموعُ المخلوقاتِ الحيةِ والأشياءِ غيرِ الحيةِ في مكانٍ مَا، والتي <button class="kw">يتفاعلُ</button> بعضُها معَ بعضٍ يسمّى <button class="kw" data-key>النظامَ البيئيَّ</button>. فالحديقةُ نظامٌ بيئيٌّ، والغابةُ نظامٌ بيئيٌّ أيضًا. وقدْ يكونُ النظامُ البيئيُّ صغيرًا كجذعِ شجرةٍ يعيشُ فيهِ مجموعةٌ منَ الديدانِ، أوْ كبيرًا جدًّا كالصحراءِ. ولا ينحصرُ وجودُ الأنظمةِ البيئيةِ في اليابسةِ؛ فهناكَ أيضًا <button class="kw">أنظمةٌ بيئيةٌ مائيةٌ</button>، منها البِرَكُ والبحارُ والمحيطاتُ.</p>
+      <div class="stepbody" data-tab="0"><p class="hint">اقرئي الفقرة بصوت هادئ. الكلمات المنقّطة يمكن تظليلها بالضغط عليها.</p></div>
+      <div class="stepbody" data-tab="1" hidden><p>اضغطي على المفردة العلمية الرئيسة في الفقرة.</p>${reveal('أظهري المفردة', '<b>النظام البيئي:</b> مجموع المخلوقات الحية والأشياء غير الحية في مكان ما، والتي يتفاعل بعضها مع بعض.')}</div>
+      <div class="stepbody" data-tab="2" hidden><p>ما الفكرة الرئيسة للفقرة؟</p>${reveal('أظهري الفكرة الرئيسة', 'النظام البيئي يتكوّن من مخلوقات حية وأشياء غير حية تتفاعل معًا، وقد يكون صغيرًا أو كبيرًا، على اليابسة أو في الماء.')}</div>
+      <div class="stepbody" data-tab="3" hidden><p>أيّ جملة تدل على أن النظام البيئي قد يكون صغيرًا؟</p>${reveal('أظهري الدليل', '«وقد يكون النظام البيئي صغيرًا كجذع شجرة يعيش فيه مجموعة من الديدان».')}</div>
+      <div class="stepbody" data-tab="4" hidden><p>لماذا تُعدّ الحديقة نظامًا بيئيًّا؟</p>${reveal('أظهري التفسير', 'لأن فيها مخلوقات حية (أطفال وأشجار وطيور) وأشياء غير حية (تربة وماء وحجارة) يتفاعل بعضها مع بعض.')}
+        ${mcq('تحقّقي: يتكوّن النظام البيئي من:', ['مخلوقات حية فقط', 'أشياء غير حية فقط', 'مخلوقات حية وأشياء غير حية يتفاعل بعضها مع بعض'], 2, 'هذا هو تعريف النظام البيئي في الكتاب (ص ١٤٨).', { star: 'understand', lvl: 'تذكّر' })}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      ${clip('p148_photo', 'ص ١٤٨', 'جذع شجرة ميتة يعيش فيه قنفذ', 'photo')}
+      <div class="card"><h3>✔ أختبر نفسي <span class="page">📖 ص ١٤٨</span></h3>
+        ${bookq('أقارن.', 'فيمَ يتشابه جذع شجرة تعيش فيه مجموعة ديدان، مع الغابة؟')}${reveal('الإجابة', 'كلاهما نظام بيئي؛ ففي كلٍّ منهما مخلوقات حية وأشياء غير حية يتفاعل بعضها مع بعض، لكنهما يختلفان في الحجم.')}
+        ${bookq('التفكير الناقد.', 'هل يتغيّر النظام البيئي إذا تغيّرت المخلوقات الحية التي تعيش فيه؟')}${reveal('الإجابة', 'نعم؛ لأن المخلوقات الحية جزء من النظام البيئي وتتفاعل مع بقية مكوّناته، فتغيّرها يغيّر النظام.')}</div>
+    </div>
+  </div>`;
+
+V.biome = () => `
+  ${head('أقرأ وأتعلم', 'المناطق الحيوية على الأرض', 'ص ١٤٩', 'استنتاج المفهوم')}
+  <div class="grid2 wide">
+    <div>${clip('p149_photos', 'ص ١٤٩', 'أربع صور لمناطق حيوية', 'photo')}</div>
+    <div class="card">
+      <div class="steps" data-tabs><button class="on">١ ألاحظ</button><button>٢ أستنتج المفهوم</button><button>٣ أقرأ الصور</button></div>
+      <div class="stepbody" data-tab="0">${guide('انظري إلى الصور الأربع: فيمَ تتشابه؟ وفيمَ تختلف؟')}
+        ${reveal('ما نلاحظه', 'كلها أنظمة بيئية على اليابسة، لكنها تختلف في <b>الحرارة والأمطار</b>، فتختلف فيها <b>النباتات والحيوانات</b>: غابة أشجار مخروطية، وأرض باردة بنباتات قصيرة، وصحراء رملية، وغابة أشجار متساقطة الأوراق.', 'answer', 'ghost')}</div>
+      <div class="stepbody" data-tab="1" hidden><p>من ملاحظاتك: ماذا نسمّي النظام البيئي الذي يشغل منطقة واسعة يسودها مناخ معيّن؟</p>
+        ${reveal('أظهري التعريف من الكتاب', '<p class="book"><b>المنطقة الحيوية:</b> نظامٌ بيئيٌّ يشغلُ منطقةً جغرافيةً واسعةً على اليابسةِ يسودُ فيها مناخٌ معيّنٌ، وتعيشُ فيها أنواعٌ معيّنةٌ منَ الحيواناتِ والنباتاتِ.</p><p class="book"><b>المُناخ:</b> متوسطُ حالةِ الطقسِ في منطقةٍ جغرافيةٍ معيّنةٍ خلالَ فترةٍ زمنيةٍ طويلةٍ، ويعتمدُ بشكلٍ رئيسٍ على درجةِ الحرارةِ والهطلِ.</p>')}
+        <p class="muted">المناطق الحيوية: التايجا، والتندرا، والصحراء، والأراضي العشبية، والغابات الاستوائية المطيرة، والغابات المتساقطة الأوراق.</p></div>
+      <div class="stepbody" data-tab="2" hidden>${clip('p149_read', 'ص ١٤٩', 'أقرأ الصور')}${reveal('الإجابة', 'تُنسب أرض وطني إلى <b>الصحراء</b>؛ فمناخها حارّ جافّ قليل المطر، ونباتاتها وحيواناتها متكيّفة مع قلة الماء.')}</div>
+    </div>
+  </div>`;
+
+const CE = [['☀️', 'نقترب من خط الاستواء.', 'تزداد كمية أشعة الشمس المباشرة، فيصبح المناخ أدفأ.'], ['🏔️', 'نصعد إلى ارتفاعات أعلى عن سطح البحر.', 'تقلّ درجة الحرارة.'], ['🌵', 'تقلّ الأمطار في الصحراء الحارة الجافة.', 'تنمو فيها نباتات تحتفظ بالماء، مثل معظم نباتات الصبّار.'], ['🐧', 'البطريق متكيّف مع البرد الشديد.', 'لا نجده إلا في المناطق الباردة القطبية.']];
+V.climate = () => `
+  ${head('أقرأ وأتعلم', 'الظروف المناخية', 'ص ١٥٠', 'السبب والنتيجة')}
+  <div class="grid2 wide">
+    <div class="card">
+      <p><b>تؤثر في المناخ مجموعة من العوامل:</b></p>
+      <div class="chips">${['كمية أشعة الشمس', 'أنماط الرياح', 'التيارات البحرية', 'السلاسل الجبلية'].map(t => `<span class="chip" style="--c:var(--sky)">${t}</span>`).join('')}</div>
+      <p class="muted">وتشمل الظروف المناخية: كمية الأشعة الشمسية وشدّتها، ومجموع كميات الهطل، وكمية الرطوبة، ومتوسط درجة الحرارة.</p>
+      <h3>السبب ← النتيجة: توقّعي أولًا</h3>
+      <div class="grid2">${CE.map(([ic, c, e]) => `<div class="card wood" style="padding:12px"><p><b>${ic} السبب:</b> ${c}</p>${reveal('ما النتيجة؟', e, 'answer', 'ghost')}</div>`).join('')}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      ${clip('p150_cond', 'ص ١٥٠', 'فقرة الظروف المناخية')}
+      <div class="card"><h3>✔ أختبر نفسي <span class="page">📖 ص ١٥٠</span></h3>
+        ${bookq('أقارن.', 'كيف تتغيّر المناخات عندما أسافر شمالًا أو جنوبًا بعيدًا عن خط الاستواء؟')}${reveal('الإجابة', 'كلما ابتعدتُ عن خط الاستواء قلّت أشعة الشمس المباشرة، فينخفض متوسط درجة الحرارة ويصبح المناخ أبرد.')}
+        ${bookq('التفكير الناقد.', 'ما المنطقة الحيوية التي أعيش فيها؟ أفسّر إجابتي.')}${reveal('الإجابة', 'الصحراء؛ لأن مناخ معظم مناطق وطني حارّ جافّ قليل الأمطار، والمخلوقات الحية فيها متكيّفة مع الجفاف.')}</div>
+    </div>
+  </div>`;
+
+V.homeland = () => `
+  ${head('أقرأ وأتعلم', 'أربط بوطني: الحياة في الصحراء', 'ص ١٥٠، ١٥٢', 'الربط بالوطن والحياة')}
+  <div class="grid2">
+    <div style="display:flex;flex-direction:column;gap:12px">${clip('p150_photo', 'ص ١٥٠', 'منطقة صحراوية من محمية الملك خالد الملكية', 'photo')}${clip('p150_fact', 'ص ١٥٠', 'حقيقة: محمية وادي نخلة')}</div>
+    <div class="card">
+      <h3>🇸🇦 كيف تساعد خصائص المخلوقات الحية على بقائها في البيئة الصحراوية؟</h3>
+      ${guide('فكّري في نبات الصبّار، والجربوع، والجمل.')}
+      ${reveal('أظهري الإجابة', '<ul style="margin:0;padding-inline-start:1.2em"><li>نباتات تحتفظ بالماء، مثل الصبّار. <span class="src b">📖 ص ١٥٢</span></li><li>حيوانات الجحور كالجربوع تستريح نهارًا في جحرها البارد، وتخرج ليلًا عند هبوط الحرارة. <span class="src b">📖 ص ١٥٢</span></li><li>الجمل يتحمّل العطش مدة طويلة، ويخزّن الدهون في سنامه. <span class="src x">✦ إثراء</span></li></ul>')}
+      ${clip('p152_fact', 'ص ١٥٢', 'حقيقة: ليست جميع الصحارى حارة')}
+    </div>
+  </div>`;
+
+V.regions = () => {
+  const n = RK.filter(k => S.done[k]).length;
+  return `${head('أكتشف المناطق الحيوية', 'قلب الرحلة: ست مناطق حيوية', 'ص ١٥١–١٥٣', 'الاكتشاف الموجّه بالأدلة')}
+  ${guide(`اختاري منطقة؛ فتدور البوصلة وتنقلنا إليها. في كل منطقة: ألاحظ ← أتوقع ← أكتشف ← أقارن ← أتقن. <b>اكتشفتِ ${AR(n)} من ٦</b>`)}
+  <div class="hub">${RK.map((k, i) => `<button class="rcard" data-warp="r-${k}" data-label="المنطقة ${AR(i + 1)}: ما سرّها؟"><img src="${A}${REG[k].img}.jpg" alt=""><span class="lab"><span>المنطقة ${AR(i + 1)} ${S.done[k] ? '· ' + REG[k].n : '· ؟'}</span>${S.done[k] ? '<span class="done">✓ أتقنت</span>' : ''}</span></button>`).join('')}</div>
+  <div class="row"><button class="btn sky" data-go="where">🗺️ نشاط اختياري: أين توجد المناطق الحيوية؟</button><button class="btn ghost" data-go="compare">انتقلي إلى «أقارن وأستنتج»</button></div>`;
+};
+
+function regionView(k) {
+  const R = REG[k], st = S.region[k] || 0, i = RK.indexOf(k);
+  const steps = `<div class="steps">${STEPN.map((t, j) => `<button class="${j === st ? 'on' : j < st ? 'done' : ''}" ${j <= st ? `data-rstep="${j}"` : 'disabled'}>${AR(j + 1)} ${t}</button>`).join('')}</div>`;
+  const imgName = (st <= 1 && R.useClueImage) ? 'tundra-clues' : R.img;
+  const media = `<div class="scene"><img src="${A}${imgName}.jpg" alt="${st >= 2 ? R.n : 'منطقة حيوية مجهولة'}">${st >= 2 ? `<div class="mask">${R.ic} ${R.n}</div>` : ''}</div>`;
+  let body = '';
+  if (st === 0) body = `${guide('ماذا تلاحظين في هذه البيئة؟ صِفي الطقس، والنباتات، والحيوانات.')}
+    <p class="muted">تشارك الطالبات بملاحظاتهن شفهيًا.</p><button class="btn" data-rnext>سجّلنا ملاحظاتنا: لننتقل إلى التوقع</button>`;
+  if (st === 1) {
+    const others = RK.filter(x => x !== k), a = others[(i + 1) % others.length], b = others[(i + 3) % others.length];
+    const opts = [[R.n, 1], [REG[a].n, 0], [REG[b].n, 0]].sort((x, y) => (x[0].length * 7 + i) % 3 - (y[0].length * 7 + i) % 3);
+    body = `${R.useClueImage ? guide('اقرئي الأدلة الثلاثة في الصورة.') : `${guide('اضغطي على كل لوح لكشف دليل.')}<div class="clues">${R.clues.map(([ic, t]) => `<button class="clue shut" data-clue><span class="ic">${ic}</span><span class="t" hidden>${t}</span><span class="q">دليل ؟</span></button>`).join('')}</div>`}
+      ${mcq('أتوقع: إلى أي منطقة حيوية تقودنا هذه الأدلة؟', opts.map(o => o[0]), opts.findIndex(o => o[1]), `إنها ${R.n}!`, { then: 'rnext', lvl: 'استنتاج' })}`;
+  }
+  if (st === 2) body = `<div class="factcard" style="--c:${R.c}"><header><span>${R.ic} ${R.n}</span>${R.page ? `<span class="page" style="background:#fff">📖 ${R.page}</span>` : '<span class="page" style="background:#fff">✦ إثراء</span>'}</header>
+      <dl>${[['المناخ', R.climate], ['النباتات', R.plants], ['الحيوانات', R.animals], ['الموقع', R.where]].map(([h, [t, s]]) => `<dt>${h}</dt><dd>${t} <span class="src ${s}">${s === 'b' ? '📖' : '✦'}</span></dd>`).join('')}</dl></div>
+      <p class="hint">${R.note}</p>
+      ${['tundra', 'taiga'].includes(k) ? clip(k === 'tundra' ? 'p151_tundra' : 'p151_taiga', 'ص ١٥١', 'نص الكتاب') : k === 'desert' ? clip('p152_desert', 'ص ١٥٢', 'نص الكتاب') : k === 'grass' ? clip('p153_grass', 'ص ١٥٣', 'نص الكتاب') : k === 'forest' ? clip('p153_forest', 'ص ١٥٣', 'نص الكتاب') : ''}
+      <button class="btn" data-rnext>لننتقل إلى المقارنة</button>`;
+  if (st === 3) body = `${guide('قارني هذه المنطقة بمنطقة أخرى.')}${mcq('أقارن: ' + R.cmp[0], R.cmp[1], R.cmp[2], R.cmp[3], { then: 'rnext', lvl: 'مقارنة' })}`;
+  if (st === 4) {
+    const nk = RK.find((x, j) => j > i && !S.done[x]) || RK.find(x => !S.done[x] && x !== k);
+    body = `<div class="answer" style="font-size:1.15em"><b>🧭 ${praise()}</b> أتقنتِ أسرار ${R.n}.</div>
+      ${guide('البوصلة جاهزة للانطلاق إلى المنطقة التالية!')}
+      <div class="row">${nk ? `<button class="btn gold" data-warp="r-${nk}" data-label="البوصلة تنطلق إلى منطقة جديدة">🧭 المنطقة التالية</button>` : `<button class="btn gold" data-go="compare">أكملتِ المناطق الست! إلى «أقارن وأستنتج»</button>`}<button class="btn ghost" data-go="regions">كل المناطق</button></div>`;
+  }
+  return `${head('أكتشف المناطق الحيوية', `المنطقة ${AR(i + 1)}${st >= 2 ? ': ' + R.n : ': ما سرّها؟'}`, st >= 2 ? R.page : '', 'ألاحظ – أتوقع – أكتشف')}
+    ${steps}<div class="grid2 wide"><div>${media}</div><div class="card">${body}</div></div>`;
+}
+RK.forEach(k => V['r-' + k] = () => regionView(k));
+
+const BANDS = [['ice', 'الجليد القطبي', '#eef3f8', 0, 60], ['tundra', 'التندرا', '#b8a6e6', 60, 50], ['taiga', 'التايجا', '#2f6b3a', 110, 60], ['mid', 'الغابات المتساقطة الأوراق والأراضي العشبية', '#8fc25a', 170, 70], ['desert', 'الصحارى الحارة', '#e9b24a', 240, 60], ['rain', 'الغابات الاستوائية المطيرة', '#1e7a5a', 300, 60]];
+const WHERE = { tundra: ['tundra', 'أقصى الشمال: شمال كندا وألاسكا وشمال روسيا.'], taiga: ['taiga', 'جنوبيّ التندرا: أجزاء من أوروبا وآسيا وأمريكا الشمالية.'], forest: ['mid', 'شرق أمريكا الشمالية، وشمال شرق آسيا، وغرب ووسط أوروبا.'], grass: ['mid', 'معظم القارات: براري أمريكا الشمالية، ووسط روسيا، وأمريكا الجنوبية، وأفريقيا (وتمتد في أفريقيا قرب المناطق المدارية).'], desert: ['desert', 'الربع الخالي والدهناء في المملكة، والصحراء الكبرى في أفريقيا. (وتوجد صحارى باردة قرب القطب الجنوبي).'], rain: ['rain', 'قرب خط الاستواء: الأمازون في أمريكا الجنوبية، وحوض الكونغو في أفريقيا.'] };
+V.where = () => `
+  ${head('أكتشف المناطق الحيوية', 'أين توجد هذه المنطقة الحيوية؟', 'نشاط اختياري', 'قراءة المخطط')}
+  <div class="grid2 wide">
+    <div class="card"><svg class="bands" id="bands" viewBox="0 0 700 400" role="img" aria-label="مخطط مبسّط للمناطق الحيوية من القطب الشمالي إلى خط الاستواء">
+      ${BANDS.map(([id, n, c, y, h]) => `<rect class="b" data-b="${id}" x="90" y="${y + 20}" width="600" height="${h}" fill="${c}" stroke="#fff" stroke-width="2"/><text x="390" y="${y + 20 + h / 2 + 7}" text-anchor="middle" font-family="Tajawal L,Tajawal,Arial" font-weight="800" font-size="20" fill="${['ice', 'tundra', 'mid', 'desert'].includes(id) ? '#2e2418' : '#fff'}">${n}</text>`).join('')}
+      <g font-family="Tajawal L,Tajawal,Arial" font-weight="700" font-size="15" fill="#5e3b19" text-anchor="end"><text x="80" y="30">القطب الشمالي</text><text x="80" y="385">خط الاستواء</text></g>
+      <path d="M50 40 V360" stroke="#5e3b19" stroke-width="3" marker-end="url(#ar)"/><defs><marker id="ar" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#5e3b19"/></marker></defs>
+      <text x="30" y="210" font-family="Tajawal L,Tajawal,Arial" font-size="14" font-weight="700" fill="#5e3b19" transform="rotate(-90 30 210)" text-anchor="middle">تزداد الحرارة ↓</text>
+    </svg><p class="muted">رسم تخطيطي مبسّط للنصف الشمالي من الأرض بحسب خطوط العرض؛ الحدود الحقيقية بين المناطق متداخلة، وقد توجد المنطقة الواحدة في أكثر من قارة.</p></div>
+    <div class="card"><h3>اختاري منطقة:</h3>
+      <div class="chips">${RK.map(k => `<button class="chip" data-where="${k}" style="--c:${REG[k].c}">${REG[k].n}</button>`).join('')}</div>
+      <div class="answer" id="whereOut" hidden></div></div>
+  </div>`;
+
+const ROWS = [['المناخ', 'climate'], ['النباتات', 'plants'], ['الحيوانات', 'animals'], ['الموقع', 'where']];
+V.compare = () => `
+  ${head('أقارن وأستنتج', 'أقارن بين منطقتين حيويتين', 'ص ١٥٢', 'المقارنة بالجدول')}
+  <div class="row"><label>المنطقة الأولى: <select id="selA">${RK.map(k => `<option value="${k}" ${k === 'tundra' ? 'selected' : ''}>${REG[k].n}</option>`).join('')}</select></label>
+    <label>المنطقة الثانية: <select id="selB">${RK.map(k => `<option value="${k}" ${k === 'taiga' ? 'selected' : ''}>${REG[k].n}</option>`).join('')}</select></label>
+    <span class="muted">ناقشي كل خانة، ثم اضغطي عليها لكشفها.</span></div>
+  <div class="grid2"><div class="scene"><img id="imgA" src="${A}scene-tundra.jpg" alt=""></div><div class="scene"><img id="imgB" src="${A}scene-taiga.jpg" alt=""></div></div>
+  <div class="tablewrap"><table class="cmp" id="cmpT"></table></div>
+  <div class="card">${clip('p152_self', 'ص ١٥٢', 'أختبر نفسي ص ١٥٢', 'narrow')}
+    ${mcq('أقارن (سؤال الكتاب): فيمَ تتشابه التندرا والتايجا، وفيمَ تختلفان؟', ['تتشابهان في برودة الشتاء وقصر الصيف ووقوعهما شمالًا، وتختلفان في أن التندرا أعشاب وشجيرات بلا أشجار كبيرة والتايجا غابات مخروطية', 'تتشابهان في كثرة الأمطار، وتختلفان في درجة الحرارة', 'تتشابهان في نوع الأشجار، وتختلفان في الموقع فقط'], 0, 'هذه أوجه التشابه والاختلاف كما في ص ١٥١.', { star: 'compare', lvl: 'مقارنة' })}</div>`;
+function fillCompare() {
+  const a = $('#selA').value, b = $('#selB').value;
+  $('#imgA').src = A + REG[a].img + '.jpg'; $('#imgB').src = A + REG[b].img + '.jpg';
+  $('#cmpT').innerHTML = `<tr><th>وجه المقارنة</th><th>${REG[a].n}</th><th>${REG[b].n}</th></tr>` + ROWS.map(([h, f]) => `<tr><td class="h">${h}</td><td><button class="cell" data-cell="${REG[a][f][0]}">؟</button></td><td><button class="cell" data-cell="${REG[b][f][0]}">؟</button></td></tr>`).join('');
+}
+
+V.critical = () => `
+  ${head('أقارن وأستنتج', 'التفكير الناقد: لماذا تبدو الصحراء الحارة خالية نهارًا؟', 'ص ١٥٢', 'ألاحظ الدليل ← أفسر ← أستنتج')}
+  <div class="grid2">
+    <div class="card">${bookq('التفكير الناقد.', 'أفسّر لماذا تبدو الصحراء الحارّة وكأنّها تحوي عددًا أقلّ من المخلوقات الحية في النهار عمّا في الليل؟')}
+      <div class="steps" data-tabs><button class="on">١ ألاحظ الدليل</button><button>٢ أفسر</button><button>٣ أستنتج</button></div>
+      <div class="stepbody" data-tab="0"><p>ابحثي في نص الكتاب ص ١٥٢ عن جملة تساعدك.</p>${reveal('أظهري الدليل', '<p class="book">«...وحيوانات الجحور؛ فهي عادة تستريح خلال النهار الحار، ثم تعود إلى نشاطها عند هبوط درجات الحرارة ليلًا. والجربوع أحد الأمثلة... إذ يستريح نهارًا في جحره البارد، ثم يخرج في الليل للبحث عن طعامه.»</p>')}</div>
+      <div class="stepbody" data-tab="1" hidden><p>ماذا يعني هذا الدليل؟ شاركي بتفسيرك.</p>${reveal('أظهري التفسير', 'حرارة النهار الشديدة تدفع كثيرًا من الحيوانات إلى الاختباء في جحورها الباردة؛ فهذا السلوك يحميها من الحر.')}</div>
+      <div class="stepbody" data-tab="2" hidden>${mcq('أستنتج: لماذا تبدو الصحراء الحارة خالية نهارًا؟', ['لأن حيوانات الصحراء تهاجر كلها نهارًا', 'لأن كثيرًا من حيواناتها تستريح في جحورها نهارًا وتنشط ليلًا عند هبوط الحرارة', 'لأن الصحراء لا تعيش فيها حيوانات'], 1, 'هذا السلوك تكيّف يحمي حيوانات الصحراء من حر النهار الشديد.', { star: 'conclude', lvl: 'تفكير ناقد' })}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">${clip('p152_desert', 'ص ١٥٢', 'نص الصحارى')}</div>
+  </div>`;
+
+const CH = [
+  { t: 'أتعرّف المنطقة من صورتها', img: 'scene-forest', q: 'إلى أي منطقة حيوية تنتمي هذه الصورة؟', o: ['التايجا', 'الغابات المتساقطة الأوراق', 'الأراضي العشبية'], k: 1, w: 'الأوراق الخريفية الملوّنة المتساقطة دليل على الغابات المتساقطة الأوراق.' },
+  { t: 'أختار المناخ المناسب', q: 'منطقة يقل معدل أمطارها عن ٢٥ سم في العام، ويتبخر ماء المطر فيها قبل وصوله إلى الأرض. ما هي؟', o: ['الصحراء', 'الغابات الاستوائية المطيرة', 'الأراضي العشبية'], k: 0, w: 'الصحراء تُعرّف بقلة الهطل (ص ١٥٢).' },
+  { t: 'أصنّف', sort: [['الصبّار', 'الصحراء'], ['الصنوبر والتنوب', 'التايجا'], ['الحمار الوحشي', 'الأراضي العشبية'], ['البلوط والزان', 'الغابات المتساقطة الأوراق']] },
+  { t: 'أقارن بين منطقتين', q: 'ما الفرق بين الأراضي العشبية والغابات المتساقطة الأوراق؟', o: ['الأعشاب المكوّن الرئيس في الأراضي العشبية، والأشجار التي تفقد أوراقها قبل الشتاء في الغابات', 'كلتاهما بلا نباتات', 'الأراضي العشبية أشجار مخروطية دائمة الخضرة'], k: 0, w: 'لكل منطقة نباتها الرئيس بحسب مناخها (ص ١٥٣).' },
+  { t: 'أفسّر', q: 'لماذا لا نجد البطريق إلا في المناطق الباردة القطبية؟', o: ['لأن المخلوقات الحية تتكيّف للعيش في ظروف مناخية محددة ومناسبة لها', 'لأن البطريق لا يحب السفر', 'لأن المناطق الحارة لا توجد فيها مياه'], k: 0, w: 'يؤثر المناخ في أنواع المخلوقات الحية، وتتكيّف المخلوقات للعيش في ظروف مناخية محددة (ص ١٥٠).' }
+];
+const SORT_BINS = ['الصحراء', 'التايجا', 'الأراضي العشبية', 'الغابات المتساقطة الأوراق'];
+V.challenge = () => {
+  const n = Object.keys(S.chal).length;
+  return `${head('تحدي الإتقان', 'خمسة تحديات لعالمة المناطق الحيوية', '', 'التقويم الختامي')}
+  <p class="muted">أكملتِ ${AR(n)} من ٥ — كل تحدٍّ يفتح التالي.</p>
+  <div class="chal">${CH.map((c, i) => {
+    const locked = i > 0 && !S.chal[i - 1] && !S.chal[i];
+    let inner;
+    if (c.sort) inner = `<p class="q" style="font-weight:800">اختاري المنطقة الحيوية المناسبة لكل مخلوق:</p>${c.sort.map(([it, ans], j) => `<div class="mcq" data-sortitem="${i}-${j}" data-ok="${SORT_BINS.indexOf(ans)}" data-why="${encodeURIComponent('صحيح: ' + it + ' ← ' + ans)}"><div class="row"><b style="min-width:9em">${it}</b><div class="opts inline">${SORT_BINS.map((b, bi) => `<button class="opt" data-i="${bi}">${b}</button>`).join('')}</div></div><div class="fb" hidden></div></div>`).join('')}`;
+    else inner = `${c.img ? `<div class="scene" style="max-width:560px"><img src="${A}${c.img}.jpg" alt="منطقة حيوية"></div>` : ''}${mcq(c.q, c.o, c.k, c.w, { id: 'ch' + i })}`;
+    return `<div class="card${locked ? ' locked' : ''}" data-ch="${i}"><div class="row"><span class="badge">${AR(i + 1)}</span><h3>${c.t}</h3>${S.chal[i] ? '<span class="page">✓ أتقنت</span>' : ''}</div>${inner}</div>`;
+  }).join('')}</div>
+  <div class="card" style="align-items:center;text-align:center" ${n < 5 ? 'hidden' : ''} id="chalDone">
+    <svg class="bigcompass lit" viewBox="0 0 200 200"><use href="#compass"/></svg><h3>أضاءت البوصلة! أتقنتِ التحديات الخمسة.</h3><button class="btn gold" data-go="essential">إلى السؤال الأساسي</button></div>`;
+};
+
+V.essential = () => `
+  ${head('تحدي الإتقان', 'السؤال الأساسي', '', 'التأمل والاستنتاج')}
+  <div class="card" style="align-items:center;text-align:center">
+    <svg class="bigcompass lit" viewBox="0 0 200 200"><use href="#compass"/></svg>
+    <h2 style="color:var(--leaf-dk);font-size:clamp(24px,2.6vw,40px)">لماذا تختلف المخلوقات الحية من منطقة إلى أخرى على سطح الأرض؟</h2>
+    <p class="muted">تشارك الطالبات بالإجابة أولًا…</p>
+    ${reveal('أظهري الخلاصة العلمية', 'لأن <b>المناخ</b> يختلف من منطقة إلى أخرى في درجة الحرارة وكمية الهطل؛ فكلما ابتعدنا عن خط الاستواء أو ارتفعنا قلّت الحرارة. وتتكيّف المخلوقات الحية للعيش في ظروف مناخية محددة ومناسبة لها؛ <b>فتتميّز كل منطقة حيوية بأنواع معيّنة من النباتات والحيوانات</b>.')}
+    <button class="btn" data-go="exit">إلى بطاقة الخروج</button></div>`;
+
+V.exit = () => `
+  ${head('تحدي الإتقان', 'بطاقة الخروج', '', 'التقويم السريع')}
+  <div class="exitgrid">
+    ${[['🔍 اكتشفت', 'معلومة جديدة تعلّمتها اليوم:', 'ex1'], ['⚖️ قارنت', 'بين منطقتين حيويتين في المناخ أو النباتات أو الحيوانات:', 'ex2'], ['💡 فسّرت', 'أثر المناخ في المخلوقات الحية:', 'ex3']].map(([h, p, id]) => `<div class="card wood"><h3>${h}</h3><p>${p}</p><textarea id="${id}" aria-label="${h}"></textarea></div>`).join('')}
+  </div>
+  <div class="row" style="justify-content:center"><button class="btn gold" id="mkCert">أصدري بطاقة الإنجاز 🏅</button></div>
+  <div class="cert" id="cert" hidden>
+    <svg class="bigcompass lit" viewBox="0 0 200 200" style="width:120px"><use href="#compass"/></svg>
+    <h2>عالمة المناطق الحيوية</h2>
+    <input id="certName" placeholder="اكتبي اسم الطالبة أو المجموعة" aria-label="اسم الطالبة أو المجموعة">
+    <p style="font-size:1.15em">أنهت رحلة الاستكشاف بنجاح، ولاحظت وقارنت واستنتجت كعالمة حقيقية. 🌍</p>
+    <div class="row" id="certStars" style="justify-content:center"></div>
+    <b style="color:var(--wood-dk)">أ/ شامه البقمي</b>
+  </div>`;
+
+/* ------------------------------------------------ render & navigation */
+function notesHTML(id) {
+  const n = NOTES[id]; if (!n || !S.notes) return '';
+  return `<aside class="notes"><h3>دليل المعلمة · الزمن: ${n[0]} · الاستراتيجية: ${n[1]}</h3><ul>${n[2].map(x => `<li>${x}</li>`).join('')}</ul></aside>`;
+}
+function render(id) {
+  if (!V[id]) id = 'opening';
+  S.cur = id;
+  stage.innerHTML = `<section class="view" data-view="${id}">${V[id]()}${notesHTML(id)}</section>`;
+  stage.scrollTop = 0;
+  if (id === 'compare') fillCompare();
+  if (id === 'opening') { $('#inDay').value = S.day || ''; $('#inDate').value = S.date || ''; }
+  const li = LIN.indexOf(id);
+  const isR = id.startsWith('r-');
+  $('#bPrev').disabled = id === 'opening';
+  $('#bNext').disabled = id === 'exit';
+  $('#bPrev').dataset.to = isR ? 'regions' : LIN[li - 1] || '';
+  $('#bNext').dataset.to = isR ? (RK[RK.indexOf(id.slice(2)) + 1] ? 'r-' + RK[RK.indexOf(id.slice(2)) + 1] : 'where') : LIN[li + 1] || '';
+  if (location.hash.slice(1) !== id) { try { history.replaceState(null, '', '#' + id); } catch (e) { } }
+}
+let warpT = null, warpTo = null;
+function go(id) { render(id); }
+function warp(id, label) {
+  if (!S.motion) { render(id); return; }
+  warpTo = id; $('#warpLbl').textContent = label || 'البوصلة تحدد الاتجاه…';
+  const w = $('#warp'); w.hidden = false;
+  const svg = $('svg', w); svg.replaceWith(svg.cloneNode(true));
+  clearTimeout(warpT); warpT = setTimeout(endWarp, 2200);
+}
+function endWarp() { clearTimeout(warpT); if (warpTo) { const t = warpTo; warpTo = null; $('#warp').hidden = true; render(t); } }
+$('#warpSkip').addEventListener('click', endWarp);
+$('#warp').addEventListener('click', e => { if (e.target.id === 'warp') endWarp(); });
+
+/* ------------------------------------------------ delegated interactions */
+document.addEventListener('click', e => {
+  const t = e.target;
+  const g = t.closest('[data-go]'); if (g) { go(g.dataset.go); return; }
+  const w = t.closest('[data-warp]'); if (w) { warp(w.dataset.warp, w.dataset.label); return; }
+  const z = t.closest('[data-zoom]'); if (z) { $('#zoomImg').src = z.dataset.zoom; $('#zoom').hidden = false; return; }
+  if (t.closest('#zoom')) { $('#zoom').hidden = true; return; }
+  const rv = t.closest('[data-reveal]'); if (rv) { const box = rv.nextElementSibling; if (!rv.dataset.lab) rv.dataset.lab = rv.textContent; box.hidden = !box.hidden; rv.textContent = box.hidden ? rv.dataset.lab : 'إخفاء'; return; }
+  const tab = t.closest('[data-tabs] button');
+  if (tab) { const bar = tab.parentElement, i = [...bar.children].indexOf(tab), card = bar.parentElement;
+    [...bar.children].forEach((b, j) => { b.classList.toggle('on', j === i); if (j < i) b.classList.add('done'); });
+    $$(':scope > [data-tab]', card).forEach(p => p.hidden = +p.dataset.tab !== i); return; }
+  const kw = t.closest('.kw'); if (kw) { kw.classList.toggle('on'); if (kw.hasAttribute('data-key') && kw.classList.contains('on')) toast('هذه هي المفردة العلمية الرئيسة!'); return; }
+  const opt = t.closest('.opt'); if (opt && !opt.disabled) { answer(opt); return; }
+  const cl = t.closest('[data-clue]'); if (cl && cl.classList.contains('shut')) { cl.classList.remove('shut'); $('.t', cl).hidden = false; $('.q', cl).hidden = true; return; }
+  const rs = t.closest('[data-rstep]'); if (rs) { S.region[S.cur.slice(2)] = +rs.dataset.rstep; render(S.cur); return; }
+  if (t.closest('[data-rnext]')) { regionNext(); return; }
+  const cell = t.closest('[data-cell]'); if (cell) { cell.outerHTML = `<span>${cell.dataset.cell}</span>`; return; }
+  const wh = t.closest('[data-where]'); if (wh) { const k = wh.dataset.where, [band, txt] = WHERE[k];
+    $$('[data-where]').forEach(c => c.classList.toggle('on', c === wh)); $('#bands').classList.add('focus');
+    $$('#bands rect.b').forEach(r => r.classList.toggle('on', r.dataset.b === band));
+    const o = $('#whereOut'); o.hidden = false; o.innerHTML = `<b>${REG[k].n}:</b> ${txt}`; return; }
+  if (t.closest('#nextRule')) { const c = $$('.cover-rule:not(.gone)')[0]; if (c) c.classList.add('gone'); else toast('ظهرت القوانين كلها؛ أنتِ مستعدة!'); return; }
+  if (t.closest('#mkCert')) { const c = $('#cert'); c.hidden = false; $('#certStars').innerHTML = STARS.map(([k, l]) => `<span class="star ${S.stars[k] ? 'on' : ''}" style="color:var(--wood-dk)"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><span style="color:var(--wood-dk)">${l}</span></span>`).join(''); c.scrollIntoView({ behavior: 'smooth' }); return; }
+  const tm = t.closest('.timer button'); if (tm) { timer(tm.parentElement); return; }
+});
+document.addEventListener('change', e => { if (e.target.id === 'selA' || e.target.id === 'selB') fillCompare(); });
+document.addEventListener('input', e => { if (e.target.id === 'inDay') S.day = e.target.value; if (e.target.id === 'inDate') S.date = e.target.value; });
+
+function answer(opt) {
+  const box = opt.closest('.mcq'), fb = $('.fb', box), ok = +box.dataset.ok === +opt.dataset.i;
+  if (ok) {
+    opt.classList.add('right'); $$('.opt', box).forEach(b => b.disabled = true);
+    fb.className = 'fb ok'; fb.innerHTML = `${praise()} ${decodeURIComponent(box.dataset.why || '')}`;
+    award(box.dataset.star);
+    if (box.dataset.then === 'rnext') { const b = document.createElement('button'); b.className = 'btn'; b.textContent = 'التالي ←'; b.dataset.rnext = ''; fb.after(b); }
+    const ch = box.closest('[data-ch]');
+    if (ch) { const i = +ch.dataset.ch, need = $$('.mcq', ch).length, done = $$('.opt.right', ch).length;
+      if (done === need) { S.chal[i] = true; setTimeout(() => render('challenge'), 1100); } }
+  } else {
+    opt.classList.add('wrong'); opt.disabled = true;
+    fb.className = 'fb no'; fb.textContent = 'راجعي الأدلة، ثم حاولي مرة أخرى.';
+  }
+  fb.hidden = false;
+}
+function regionNext() {
+  const k = S.cur.slice(2), st = (S.region[k] || 0) + 1;
+  S.region[k] = Math.min(st, 4);
+  if (st >= 4) { S.done[k] = true; if (RK.every(x => S.done[x])) award('discover'); }
+  render(S.cur);
+}
+function timer(el) {
+  if (el._h) { clearInterval(el._h); el._h = null; $('button', el).textContent = 'تابعي'; return; }
+  let left = el._left ?? +el.dataset.sec; const b = $('b', el);
+  $('button', el).textContent = 'إيقاف';
+  el._h = setInterval(() => { left--; el._left = left; b.textContent = AR(Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0'));
+    if (left <= 0) { clearInterval(el._h); el._h = null; el._left = +el.dataset.sec; $('button', el).textContent = 'أعيدي'; toast('⏰ انتهى الوقت!'); } }, 1000);
+}
+
+/* ------------------------------------------------ toolbar */
+$('#bBoard').addEventListener('click', () => warp('board', 'العودة إلى لوحة الانطلاق'));
+$('#bPrev').addEventListener('click', e => { const to = e.currentTarget.dataset.to; if (to) go(to); });
+$('#bNext').addEventListener('click', e => { const to = e.currentTarget.dataset.to; if (to) go(to); });
+$('#bNotes').addEventListener('click', e => { S.notes = !S.notes; e.currentTarget.setAttribute('aria-pressed', S.notes); render(S.cur); });
+$('#bMotion').addEventListener('click', e => { S.motion = !S.motion; e.currentTarget.setAttribute('aria-pressed', S.motion); $('.t', e.currentTarget).textContent = S.motion ? 'الحركة: تعمل' : 'الحركة: متوقفة'; });
+$('#bFull').addEventListener('click', () => { try { if (document.fullscreenElement) document.exitFullscreen(); else { const p = document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(() => { }); } } catch (e) { } });
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input,textarea,select,[contenteditable="true"]')) return;
+  if (e.key === 'Escape') { $('#zoom').hidden = true; if (!$('#warp').hidden) endWarp(); }
+  if (e.key === 'ArrowLeft') $('#bNext').click();
+  if (e.key === 'ArrowRight') $('#bPrev').click();
+});
+window.addEventListener('hashchange', () => { const id = location.hash.slice(1); if (id && id !== S.cur && V[id]) render(id); });
+if (!S.motion) { $('#bMotion').setAttribute('aria-pressed', 'false'); $('#bMotion .t').textContent = 'الحركة: متوقفة'; }
+render(V[location.hash.slice(1)] ? location.hash.slice(1) : 'opening');
+})();
+</script>
+
+</body></html>
