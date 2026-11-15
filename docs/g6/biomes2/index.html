@@ -631,7 +631,7 @@
     <div class="slide"><img src="img/board.jpg" alt="المناطق الحيوية – قوانين الرحلة"></div>
     <div class="slide"><button class="btn main wtnbtn" onclick="openVid('vid/flag.mp4')">🎬 شغّلي النشيد الوطني</button><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
     <div class="slide wtn"><button class="btn main wtnbtn" onclick="openVid('vid/watan.mp4')">🎬 شغّلي فيديو «وطني أحبك لا بديل»</button><div class="wbox"><img src="img/watan.jpg" alt="وطني أحبك لا بديل"><button class="wplay" onclick="openVid('vid/watan.mp4')" title="تشغيل الفيديو"></button></div></div>
-    <div class="slide tam"><div class="tamh">🧳 رحلتنا اليوم إلى أبرد مكان وأحرّ مكان… ماذا ستحملين في حقيبتك؟ وكيف تعيش المخلوقات هناك؟</div><img class="tamimg" src="img/b_tundra.jpg" alt="التندرا ص١٥١"></div>
+    <div class="slide tam"><div class="tamh">🧳 رحلتنا اليوم إلى أبرد مكان وأحرّ مكان… ماذا ستحملين في حقيبتك؟ وكيف تعيش المخلوقات هناك؟</div><video class="tamimg" src="vid/book.mp4" poster="vid/book_poster.jpg" controls playsinline preload="none"></video></div>
     <div class="slide goals"><div class="box">
       <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
       <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
@@ -1060,7 +1060,6 @@ const STATIONS = [
     <span class="strat"><b>الاستراتيجية:</b> الخرائط التفاعلية – أين سنسافر اليوم؟</span><h2>🗺️ إلى أين نسافر اليوم؟</h2>
     <p style="margin:2px 0">اضغطي على الدبابيس 📍 لتعرفي أين تقع مناطق رحلة اليوم… والخط الأحمر المتقطع هو خط الاستواء. </p>
     <p class="tlab" style="margin:4px 0">🛂 في جوازك ختما «مستكشفة جديدة» و«وطني» من الرحلة الأولى… واليوم ثلاثة أختام جديدة! <button class="btn" onclick="passOpen()">🛂 افتحي جوازك</button></p>
-    <video class="slvid" src="vid/book.mp4" poster="vid/book_poster.jpg" controls playsinline preload="none"></video>
     <div class="mtabs"><button class="btn main" data-t="art" onclick="mapTab('art')">🗺️ خريطة المستكشفة المصوّرة</button><button class="btn" data-t="acc" onclick="mapTab('acc')">📍 الخريطة الدقيقة (دبابيس رحلة اليوم)</button></div>
     <div id="artBox"></div>
     <div id="wmapBox"></div>`, after: () => { artMap('artBox'); mapDraw(); mapTab('art'); } },
