@@ -673,6 +673,21 @@
   .cup { display: block; margin: 6px auto 0; width: 70px; height: 0; border-radius: 0 0 14px 14px; transition: height 2.4s ease; }
   .cup.a { background: #bfe6ff; } .cup.b { background: #f3c1df; }
   .pots.go .cup { height: 44px; }
+  .dive { --dark: 0; position: relative; height: 380px; border-radius: 18px; overflow: hidden; border: 4px solid #0d4f86;
+    background: linear-gradient(#bfe8ff 0%, #2f9bd8 18%, #1466a8 40%, #0b3a6b 60%, #04172e 80%, #01060f 100%); background-size: 100% 260%; background-position: 0 calc(var(--dark) * 100%); transition: background-position 1.8s ease;
+    box-shadow: inset 0 0 60px rgba(0,0,0,calc(var(--dark) * .9)), 0 14px 30px rgba(10,40,80,.35); }
+  .dive::before { content: ''; position: absolute; inset: 0; background: #000; opacity: calc(var(--dark) * var(--dark) * .85); transition: opacity 1.8s; pointer-events: none; }
+  .dsub::after { content: ''; position: absolute; right: 100%; top: 30%; width: 160px; height: 60px; background: radial-gradient(ellipse at right, #fff7b0cc, transparent 70%); opacity: calc((var(--dark) - .4) * 2); }
+  .dsub, .dlife, .dcard, .dmeter, .dsun { z-index: 1; }
+  .dsun { position: absolute; top: 6px; left: 12px; font-size: 34px; opacity: calc(1 - var(--dark) * 2); transition: opacity 1.5s; }
+  .dmeter { position: absolute; right: 10px; top: 10px; bottom: 10px; width: 12px; border-radius: 8px; background: #fff3; }
+  .dmeter i { position: absolute; top: 0; left: 0; right: 0; height: 0; border-radius: 8px; background: #ffd23f; transition: height 1.8s; }
+  .dsub { position: absolute; left: 50%; top: 8%; width: 130px; transform: translateX(-50%); transition: top 1.8s cubic-bezier(.4,0,.2,1); filter: drop-shadow(0 6px 8px #0007); animation: bob 2.4s ease-in-out infinite; }
+  @keyframes bob { 50% { translate: 0 6px; } }
+  .dlife { position: absolute; left: 14px; bottom: 12px; font-size: 34px; letter-spacing: 8px; }
+  .dcard { position: absolute; right: 32px; left: 32%; bottom: 12px; background: #000a; color: #fff; border-radius: 14px; padding: 8px 12px; font-family: 'Zain', 'Noto Color Emoji', sans-serif; }
+  .dcard b { display: block; font-size: 20px; color: #ffd23f; } .dcard span { font-size: 16px; line-height: 1.6; } .dcard small { display: block; color: #cfe8ff; }
+  .dv { line-height: 1.9; }
 </style>
 </head>
 <body data-env="sky">
@@ -1185,6 +1200,11 @@ const STATIONS = [
       ${flipH('ماذا يحدث كلما زاد العمق في المحيط؟', 'تقلّ أشعة الشمس تدريجيًّا حتى تختفي عند عمق ٢٠٠ متر تقريبًا، فتزداد ظلمة الماء وبرودته، وتتوقّف عمليات التمثيل الضوئي.', 'السبب والنتيجة', '0.1033,0.0915,0.3880,0.2576')}
       <div id="gate4"></div>
     </div></div>`, after: () => { zonesDraw("zonesBox"); gate('gate4', 'بوابة الجوازات 🛂: تختفي أشعة الشمس في المحيط عند عمق…', ['١٠ أمتار', '٢٠٠ متر تقريبًا', '٢٠ كيلومترًا'], 1, 'ocean'); } },
+  { icon: '🚢', name: 'رحلة الغواصة إلى الأعماق', page: 156, env: 'sky', html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> المحاكاة – أغوص وأستنتج</span><h2>🚢 رحلة الغواصة إلى الأعماق</h2>
+    <p style="margin:2px 0">اركبي الغواصة الصفراء 🟡 واضغطي «غوصي أعمق»… ماذا يحدث للضوء والحرارة والمخلوقات؟ <a class="btn ytb" href="https://www.youtube.com/watch?v=8bXfLPiBdP4" target="_blank" rel="noopener">🎬 فيديو: رحلة إلى أعماق البحار</a> <a class="btn ytb" href="https://www.youtube.com/watch?v=WR3fzphWFuE" target="_blank" rel="noopener">🎬 فيديو: ماذا نجد في قاع البحر؟</a></p>
+    <div id="diveBox"></div>
+    ${flip('لماذا يصبح الماء مظلمًا كلما غصنا أعمق؟', 'لأن أشعة الشمس تقلّ تدريجيًّا حتى تختفي عند عمق ٢٠٠ متر تقريبًا، فتزداد ظلمة الماء وبرودته، وتتوقّف عمليات التمثيل الضوئي (ص١٥٦).', 'أستنتج')}`, after: () => { diveK = 0; diveDraw('diveBox'); } },
   { icon: '✅', name: 'أقرأ الشكل وأختبر نفسي', page: 156, env: 'sky', html: () => `
     <span class="strat"><b>الاستراتيجية:</b> أقرأ الشكل – التفكير الناقد</span><h2>✅ أقرأ الشكل وأختبر نفسي</h2>
     <div class="grid2 body"><div class="pagecol">${page(156)}</div><div class="txt">
@@ -1290,7 +1310,7 @@ function valve(fromTop) {
 const done = new Set();
 let cur = 0;
 // ───── The little teacher in the corner of every station: a speech bubble explains the station; tap her to hear it
-const LT_TIPS = ["نبدأ الدرس من ص١٥٤: ما الأنظمة البيئية ذات المياه العذبة؟ صنّفي، ثم ختم المياه العذبة 💧", "اقلبي بطاقات المفردات قبل الغوص… وافتحي جوازك 🛂", "كيف لا يجرف النهرُ المخلوقات؟ جرّبي نموذج الأصيصين، ثم ختم الأراضي الرطبة 🦆", "أين يلتقي النهر بالبحر؟ صنّفي حسب الملوحة، ثم ختم المصبّات 🐟", "اضغطي مناطق المحيط في الشكل، ثم ختم المحيط 🐋", "أقرأ الشكل وأفكّر: أين لا تنمو الطحالب؟ ✅", "مراجعة الدرس: أفكّر وأتحدّث وأكتب… ثم المطوية والدليل السياحي 📝", "نربط ما تعلّمناه بديننا ووطننا وحياتنا 🔗"];
+const LT_TIPS = ["نبدأ الدرس من ص١٥٤: ما الأنظمة البيئية ذات المياه العذبة؟ صنّفي، ثم ختم المياه العذبة 💧", "اقلبي بطاقات المفردات قبل الغوص… وافتحي جوازك 🛂", "كيف لا يجرف النهرُ المخلوقات؟ جرّبي نموذج الأصيصين، ثم ختم الأراضي الرطبة 🦆", "أين يلتقي النهر بالبحر؟ صنّفي حسب الملوحة، ثم ختم المصبّات 🐟", "اضغطي مناطق المحيط في الشكل، ثم ختم المحيط 🐋", "اركبي الغواصة وغوصي إلى الأعماق… وتأمّلي آية الظلمات 🚢", "أقرأ الشكل وأفكّر: أين لا تنمو الطحالب؟ ✅", "مراجعة الدرس: أفكّر وأتحدّث وأكتب… ثم المطوية والدليل السياحي 📝", "نربط ما تعلّمناه بديننا ووطننا وحياتنا 🔗"];
 function teach(i) {
   const nav = document.querySelector('#stBody .nav'); if (!nav) return;
   const s = STATIONS[i], tmp = document.createElement('div'); tmp.innerHTML = s.html();
@@ -1822,6 +1842,39 @@ function potsGo() {
   document.querySelectorAll('.pots').forEach((p) => p.classList.add('go'));
   setTimeout(() => { const m = document.getElementById('potm'); m.className = 'msg good'; m.innerHTML = '🔎 خرج الماء من الأصيص الثاني أفتح لونًا… فالتربة وجذور النباتات حجزت جزءًا من الملوّن.<br>📘 وهذا ما تفعله <b>الأراضي الرطبة</b>: تعمل مصفاة للمياه، فتساعد على إزالة الملوّثات (ص١٥٥).'; award(1, m); }, 2600);
 }
+// ===== 🚢 محاكاة رحلة الغواصة إلى الأعماق (ص١٥٦) + عبرة دينية
+var DIVE = [
+  [0, '🌊 سطح المحيط', 'أشعة الشمس تدفّئ الماء، وتمدّ المخلوقات التي تقوم بالتمثيل الضوئي بالطاقة. هنا تعيش العوالق – ومنها الدياتومات – وهي مصدر رئيس لغذاء المخلوقات البحرية.', '🦠 🐬 🐟'],
+  [0.25, '🐟 نغوص قليلًا', 'تسبح السوابح – ومنها الجراد والأسماك والدلافين – وهي مستهلكات تسبح في الماء. وأشعة الشمس تقلّ تدريجيًّا…', '🐟 🐠 🦈'],
+  [0.5, '🌑 عمق ٢٠٠ متر تقريبًا', 'تختفي أشعة الشمس! فتتوقّف عمليات التمثيل الضوئي، ويزداد الماء ظلمة وبرودة.', '🦑 🪼'],
+  [0.75, '🥶 أعمق… أظلم… أبرد', 'معظم المخلوقات هنا يتغذّى بعضها على بعض، وعلى مواد تصل إليها من سطح المحيط.', '🐙 🎣'],
+  [1, '🌋 قاع المحيط', 'القاعيات – ومنها سرطان البحر والإسفنج والمرجان – تعيش في القاع، وبعض البدائيات تتغذّى على مواد كيميائية حارّة تتدفّق من الفوهات الحرمائية والشقوق العميقة.', '🦀 🧽 🪸'],
+];
+var diveK = 0, diveT = null;
+function diveDraw(id) {
+  const el = document.getElementById(id); if (!el) return;
+  el.innerHTML = `<div class="dive" id="diveSea"><div class="dsun">☀️</div><div class="dmeter"><i id="dbar"></i></div>
+    <div class="dsub" id="dsub"><svg viewBox="0 0 120 60" aria-hidden="true"><ellipse cx="58" cy="36" rx="46" ry="18" fill="#FFD23F" stroke="#b98f00" stroke-width="3"/><rect x="44" y="8" width="22" height="16" rx="5" fill="#FFD23F" stroke="#b98f00" stroke-width="3"/><circle cx="40" cy="36" r="7" fill="#7fd3ff" stroke="#355" stroke-width="2"/><circle cx="62" cy="36" r="7" fill="#7fd3ff" stroke="#355" stroke-width="2"/><circle cx="84" cy="36" r="7" fill="#7fd3ff" stroke="#355" stroke-width="2"/><path d="M104 36 l12 -9 v18 z" fill="#f5a300"/><circle id="dlamp" cx="10" cy="36" r="5" fill="#fff8"/></svg></div>
+    <div class="dlife" id="dlife"></div><div class="dcard" id="dcard"></div></div>
+    <div class="steps"><button class="btn main" onclick="diveGo(1)">⬇️ غوصي أعمق</button><button class="btn" onclick="diveGo(-1)">⬆️ اصعدي</button><button class="btn" onclick="diveAuto()">🎬 رحلة كاملة</button></div>
+    <div class="msg" id="dverse" style="display:none"></div>`;
+  diveShow();
+}
+function diveShow() {
+  const d = DIVE[diveK], sea = document.getElementById('diveSea'); if (!sea) return;
+  const t = d[0]; sea.style.setProperty('--dark', t);
+  document.getElementById('dsub').style.top = (6 + t * 40) + '%'; document.getElementById('dsub').style.setProperty('--dark', t); document.getElementById('dbar').style.height = (t * 100) + '%';
+  document.getElementById('dlamp').setAttribute('fill', t >= .5 ? '#fff6a0' : '#fff8');
+  document.getElementById('dlife').textContent = d[3];
+  document.getElementById('dcard').innerHTML = `<b>${d[1]}</b><span>${d[2]}</span><small>📖 ص١٥٦</small>`;
+  const v = document.getElementById('dverse');
+  if (t >= .5) { v.style.display = ''; v.className = 'msg good dv'; v.innerHTML = `🕌 <b>﴿أَوْ كَظُلُمَاتٍ فِي بَحْرٍ لُّجِّيٍّ يَغْشَاهُ مَوْجٌ مِّن فَوْقِهِ مَوْجٌ مِّن فَوْقِهِ سَحَابٌ ظُلُمَاتٌ بَعْضُهَا فَوْقَ بَعْضٍ إِذَا أَخْرَجَ يَدَهُ لَمْ يَكَدْ يَرَاهَا﴾</b> [النور: ٤٠]<br>💭 <b>العبرة:</b> كلما غصنا أعمق اختفى ضوء الشمس وصار الماء مظلمًا طبقات فوق طبقات… وهذا ما ذكره القرآن الكريم قبل أن يصل الإنسان إلى الأعماق بالغواصات؛ فسبحان الخالق العليم!`; }
+  else v.style.display = 'none';
+  if (diveK === DIVE.length - 1) { try { award(1, document.getElementById('dcard')); } catch (e) {} }
+  try { chime(1); } catch (e) {}
+}
+function diveGo(s) { clearInterval(diveT); diveK = Math.max(0, Math.min(DIVE.length - 1, diveK + s)); diveShow(); }
+function diveAuto() { clearInterval(diveT); diveK = 0; diveShow(); diveT = setInterval(() => { if (diveK >= DIVE.length - 1) { clearInterval(diveT); return; } diveK++; diveShow(); }, 3500); }
 </script>
 </body>
 </html>
