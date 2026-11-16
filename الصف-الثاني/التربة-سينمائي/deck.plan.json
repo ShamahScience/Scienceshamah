@@ -1,0 +1,227 @@
+{
+  "title": "التربة: رحلة إلى العالم المخفي تحت أقدامنا",
+  "lang": "ar",
+  "theme": {
+    "paper": "#F7EFE2",
+    "ink": "#3B2A1E",
+    "muted": "#6B5644",
+    "line": "#E2D3BC",
+    "accent": "#356B2A",
+    "accent2": "#2F7FB0",
+    "surface": "#FFFBF3",
+    "radius": "28px"
+  },
+  "fonts": {
+    "pairing": "open"
+  },
+  "mode": "morph-and-zoom",
+  "image_source": "web",
+  "slides": [
+    {
+      "id": "s1",
+      "title": "الافتتاح",
+      "role": "cover",
+      "layout": "cover",
+      "visual": {
+        "type": "motion",
+        "ref": "garden"
+      },
+      "rel": "next",
+      "transition": "auto",
+      "morph": [
+        "visual"
+      ],
+      "steps": [
+        {
+          "act": "reveal",
+          "target": "body1"
+        }
+      ],
+      "text": {
+        "kicker": "العلوم · الصف الثاني",
+        "headline": "التربة",
+        "body": [
+          "رحلة إلى العالم المخفي تحت أقدامنا"
+        ]
+      },
+      "speaker_note": "ترحيب: مرحبًا بكن عالماتي الصغيرات. اكتبي اليوم والتاريخ."
+    },
+    {
+      "id": "s2",
+      "title": "أنظر وأتساءل",
+      "role": "concept",
+      "layout": "split",
+      "visual": {
+        "type": "motion",
+        "ref": "garden"
+      },
+      "rel": "deeper",
+      "transition": "auto",
+      "morph": [
+        "visual"
+      ],
+      "steps": [
+        {
+          "act": "reveal",
+          "target": "body1"
+        },
+        {
+          "act": "pins",
+          "target": "visual"
+        }
+      ],
+      "text": {
+        "kicker": "أنظر وأتساءل",
+        "headline": "ماذا نجد أيضًا في التربة؟",
+        "body": [
+          "تتكون التربة من فتات الصخور."
+        ]
+      },
+      "speaker_note": "سؤال الكتاب ص١٤٦. انتظري إجابات الطالبات قبل إظهار الدبابيس."
+    },
+    {
+      "id": "s3",
+      "title": "أستكشف",
+      "role": "section",
+      "layout": "section",
+      "visual": {
+        "type": "none"
+      },
+      "rel": "chapter",
+      "transition": "auto",
+      "morph": [
+        "title"
+      ],
+      "steps": [],
+      "text": {
+        "kicker": "أستكشف · نشاط استقصائي",
+        "headline": "ماذا يوجد في التربة؟",
+        "body": [
+          "صفحة ١٤٧"
+        ]
+      },
+      "speaker_note": "عنوان النشاط من الكتاب."
+    },
+    {
+      "id": "s4",
+      "title": "أحتاج إلى",
+      "role": "process",
+      "layout": "cards",
+      "visual": {
+        "type": "diagram",
+        "ref": "tools",
+        "diagram_type": "flow"
+      },
+      "rel": "next",
+      "transition": "auto",
+      "morph": [
+        "title"
+      ],
+      "steps": [
+        {
+          "act": "focus",
+          "target": "body"
+        }
+      ],
+      "text": {
+        "headline": "ماذا يوجد في التربة؟",
+        "body": [
+          "تربة",
+          "طبقان",
+          "مصفاة",
+          "عدسة مكبرة"
+        ]
+      },
+      "speaker_note": "الأدوات من الكتاب ص١٤٧."
+    },
+    {
+      "id": "s5",
+      "title": "الخطوة ١",
+      "role": "process",
+      "layout": "split",
+      "visual": {
+        "type": "motion",
+        "ref": "sieve"
+      },
+      "rel": "time",
+      "transition": "auto",
+      "morph": [
+        "visual"
+      ],
+      "steps": [
+        {
+          "act": "reveal",
+          "target": "body1"
+        }
+      ],
+      "text": {
+        "kicker": "الخطوة ١",
+        "headline": "أضع التربة في المصفاة",
+        "body": [
+          "ثم أهزها برفق فوق طبق."
+        ]
+      },
+      "speaker_note": "نص الخطوة ١ من الكتاب."
+    },
+    {
+      "id": "s6",
+      "title": "الخطوة ٢",
+      "role": "mechanism",
+      "layout": "split-rev",
+      "visual": {
+        "type": "motion",
+        "ref": "sieve"
+      },
+      "rel": "deeper",
+      "transition": "auto",
+      "morph": [
+        "visual"
+      ],
+      "steps": [
+        {
+          "act": "lens",
+          "target": "visual"
+        }
+      ],
+      "text": {
+        "kicker": "الخطوة ٢ · ألاحظ",
+        "headline": "أنظر بالعدسة المكبرة",
+        "body": [
+          "وأرسم ما أراه."
+        ]
+      },
+      "speaker_note": "نص الخطوة ٢ من الكتاب."
+    },
+    {
+      "id": "s7",
+      "title": "الخطوة ٣ و٤",
+      "role": "summary",
+      "layout": "compare",
+      "visual": {
+        "type": "none"
+      },
+      "rel": "contrast",
+      "transition": "auto",
+      "morph": [],
+      "steps": [
+        {
+          "act": "reveal",
+          "target": "body1"
+        },
+        {
+          "act": "reveal",
+          "target": "body2"
+        }
+      ],
+      "text": {
+        "kicker": "الخطوة ٣ · أستكشف أكثر",
+        "headline": "ما بقي في المصفاة وما نزل",
+        "body": [
+          "في المصفاة: قطع كبيرة",
+          "في الطبق: حبيبات ناعمة"
+        ]
+      },
+      "speaker_note": "نص الخطوة ٣ و٤ من الكتاب."
+    }
+  ]
+}

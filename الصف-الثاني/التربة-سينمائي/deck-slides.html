@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="nm-runtime" content="2">
+<meta name="nm-stage" content="1920x1080">
+<meta name="generator" content="nevermind-slides scaffold">
+<title>التربة: رحلة إلى العالم المخفي تحت أقدامنا</title>
+
+<link rel="stylesheet" href="assets/nm/nm-deck.css">
+<link rel="stylesheet" href="assets/nm/nm-layout.css">
+<link rel="stylesheet" href="assets/nm/nm-focus.css">
+<link rel="stylesheet" href="assets/nm/nm-diagram.css">
+<link rel="stylesheet" href="assets/nm/nm-media.css">
+
+<style>
+    /* ==== 1. LOCAL FONTS (assets/fonts/; only the files stage-fonts found) ==== */
+    @font-face { font-family: 'KOMission'; src: url('assets/fonts/KOMission-Black.otf') format('opentype'); font-weight: 100 900; font-display: swap; }
+    @font-face { font-family: 'Qahwa Arabic'; src: url('assets/fonts/Qahwa-Arabic-Black.otf') format('opentype'); font-weight: 900; font-display: swap; }
+    @font-face { font-family: 'Setabr Display'; src: url('assets/fonts/SetabrDisplay-Regular.otf') format('opentype'); font-weight: 400 800; font-display: swap; }
+    @font-face { font-family: 'Alkhalil Kufi'; src: url('assets/fonts/Alkhalil-Kufi.otf') format('opentype'); font-weight: 400 800; font-display: swap; }
+    @font-face { font-family: 'IBM Plex Sans Arabic'; src: url('assets/fonts/IBMPlexSansArabic-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'IBM Plex Sans Arabic'; src: url('assets/fonts/IBMPlexSansArabic-Medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'IBM Plex Sans Arabic'; src: url('assets/fonts/IBMPlexSansArabic-SemiBold.ttf') format('truetype'); font-weight: 600 700; font-display: swap; }
+    @font-face { font-family: 'Zain Rounded'; src: url('assets/fonts/ZainRounded-VF.ttf') format('truetype'); font-weight: 100 900; font-display: swap; }
+    @font-face { font-family: 'Readex Pro'; src: url('assets/fonts/ReadexPro-VF.ttf') format('truetype'); font-weight: 100 900; font-display: swap; }
+
+    /* ==== 2. THEME TOKENS (generated from deck.plan.json; edit the plan, not this block) ==== */
+    :root {
+      --nm-paper: #F7EFE2;
+      --nm-ink: #3B2A1E;
+      --nm-muted: #6B5644;
+      --nm-line: #E2D3BC;
+      --nm-accent: #356B2A;
+      --nm-accent-2: #2F7FB0;
+      --nm-surface: #FFFBF3;
+      --nm-on-accent: #FFFFFF;
+      --nm-radius: 28px;
+      --nm-font-display: 'Readex Pro', 'IBM Plex Sans Arabic', sans-serif;
+      --nm-font-body: 'IBM Plex Sans Arabic', 'Readex Pro', sans-serif;
+      --nm-font-mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+      /* legacy aliases */
+      --lp-accent: var(--nm-accent);
+      --slide-bg: var(--nm-paper);
+      --stage-bg: var(--nm-paper);
+      --lp-font-display: var(--nm-font-display);
+      --lp-font-body: var(--nm-font-body);
+      --lp-font-mono: var(--nm-font-mono);
+    }
+
+    /* Live font pairing classes on <body> */
+    body.font-mode-qahwa { --nm-font-display: 'Qahwa Arabic', 'Readex Pro', sans-serif; --nm-font-body: 'IBM Plex Sans Arabic', 'Zain Rounded', sans-serif; }
+    body.font-mode-setabr { --nm-font-display: 'Setabr Display', 'ZIAN', 'Readex Pro', sans-serif; --nm-font-body: 'Readex Pro', 'IBM Plex Sans Arabic', sans-serif; }
+    body.font-mode-kufi { --nm-font-display: 'Alkhalil Kufi', 'Readex Pro', sans-serif; --nm-font-body: 'IBM Plex Sans Arabic', sans-serif; }
+    body.font-mode-open { --nm-font-display: 'Readex Pro', 'IBM Plex Sans Arabic', sans-serif; --nm-font-body: 'IBM Plex Sans Arabic', 'Readex Pro', sans-serif; }
+    body[class*="font-mode-"] { --lp-font-display: var(--nm-font-display); --lp-font-body: var(--nm-font-body); }
+
+    html, body { margin: 0; height: 100%; background: var(--nm-paper); color: var(--nm-ink); font-family: var(--nm-font-body); }
+
+    /* ==== 3. SCAFFOLD PLACEHOLDERS (remove with the last data-nm-todo) ==== */
+    .nm-ph { box-sizing: border-box; inline-size: 100%; block-size: 100%; min-block-size: 240px; display: grid; place-items: center; align-content: center; gap: 16px; margin: 0; border: 3px dashed var(--nm-line); border-radius: var(--nm-radius); background: var(--nm-surface); color: var(--nm-muted); font-size: 28px; text-align: center; }
+    .nm-ph svg { inline-size: 96px; block-size: 96px; stroke: var(--nm-accent); fill: none; stroke-width: 3; }
+    .nm-ph-label { font-size: 28px; color: var(--nm-muted); }
+    .nm-ph-frame { block-size: 100%; }
+
+    /* ==== 4. DECK CSS (this lesson) ==== */
+    .scene { position: relative; inline-size: 100%; block-size: 100%; border-radius: var(--nm-radius); overflow: hidden; background: var(--nm-surface); box-shadow: 0 30px 60px rgba(59,42,30,.18); }
+    .soil-svg { display: block; inline-size: 100%; block-size: 100%; }
+    .sig { position: absolute; inset-block-end: 26px; inset-inline-end: 60px; margin: 0; font-family: var(--nm-font-display); font-size: 26px; color: var(--nm-muted); background: var(--nm-surface); border: 2px solid var(--nm-line); border-radius: 999px; padding: 4px 24px; }
+    .explorer { position: absolute; inset-block-end: 0; inset-inline-start: 610px; block-size: 470px; filter: drop-shadow(0 18px 24px rgba(59,42,30,.25)); }
+    #s1 .nm-t-display { font-size: 220px; line-height: 1.05; color: var(--nm-accent); }
+    .welcome { color: var(--nm-accent-2); font-family: var(--nm-font-display); font-size: 40px; }
+    .dates { font-size: 30px; color: var(--nm-muted); }
+    .q { font-size: 52px; color: var(--nm-accent); font-family: var(--nm-font-display); }
+    .wait { font-size: 32px; color: var(--nm-accent-2); }
+    .tool .nm-img { aspect-ratio: 4 / 3; background: #fff; border-radius: 22px; }
+    .tool img { object-fit: contain; }
+    .tool .nm-t-h3 { text-align: center; font-size: 44px; }
+    .bookthumb .nm-img { inline-size: 340px; aspect-ratio: 1; border-radius: 22px; }
+    .more { grid-column: 1 / -1; font-size: 34px; color: var(--nm-accent); text-align: center; }
+    .cmp { text-align: center; }
+    .cmp .mini { inline-size: 100%; block-size: 260px; }
+    .cmp .nm-t-body { font-size: 36px; color: var(--nm-accent-2); }
+</style>
+</head>
+<body dir="rtl" class="font-mode-open" data-nm-mode="morph-and-zoom" data-nm-choreo="2">
+<script>
+  window.NM_CONFIG = {
+    fontModes: [{"className": "font-mode-qahwa", "label": "قهوة"}, {"className": "font-mode-setabr", "label": "ستابر"}, {"className": "font-mode-kufi", "label": "كوفي"}, {"className": "font-mode-open", "label": "ريدكس + بلكس"}]
+  };
+</script>
+<div class="deck-viewport">
+  <main class="deck-stage" id="deckStage">
+  <!-- 1. s1 / cover -->
+  <section class="slide" id="s1" data-title="الافتتاح" data-rel="next" data-transition="auto" data-role="cover">
+  <div class="camera-rig">
+    <div class="nm-slide-pad nm-l-split" data-ratio="5:7">
+    <header class="nm-head">
+      <p class="nm-kicker">العلوم · الصف الثاني</p>
+      <h1 class="nm-t-display">التربة</h1>
+      <p class="nm-t-lead" data-step="1" data-act="reveal">رحلة إلى العالم المخفي تحت أقدامنا</p>
+      <p class="nm-t-body welcome" data-step="1" data-act="reveal" data-at="<+=300">مرحبًا بكن عالماتي الصغيرات</p>
+      <p class="nm-t-body dates">اليوم: ............&nbsp;&nbsp;&nbsp; التاريخ: ..../..../١٤٤٨هـ</p>
+    </header>
+    <div class="scene" data-morph="visual"><svg class="soil-svg" viewBox="0 0 1000 760" preserveAspectRatio="xMidYMid slice" role="img" aria-label="حديقة وتحت سطحها طبقات التربة وجذور النباتات ودودة الأرض">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE3F5"/><stop offset="1" stop-color="#EAF6EC"/></linearGradient>
+        <linearGradient id="top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A3B26"/><stop offset="1" stop-color="#6E4A30"/></linearGradient>
+        <linearGradient id="sub" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9C6B43"/><stop offset="1" stop-color="#B9875A"/></linearGradient>
+      </defs>
+      <rect x="0" y="0" width="1000" height="250" fill="url(#sky)"/>
+      <circle class="mg-pulse" cx="840" cy="80" r="46" fill="#FFD66B"/>
+      <g class="mg-drift" fill="#FFFFFF" opacity=".9"><ellipse cx="200" cy="80" rx="70" ry="22"/><ellipse cx="250" cy="66" rx="46" ry="22"/><ellipse cx="560" cy="110" rx="60" ry="18"/></g>
+      <rect x="0" y="230" width="1000" height="30" fill="#7DBE5A"/>
+      <path d="M0 236 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 V260 H0Z" fill="#5FA84A"/>
+      <g id="plant" fill="#4E9A3A"><path d="M300 236 C300 180 300 150 300 120" stroke="#356B2A" stroke-width="8" fill="none"/>
+        <path d="M300 170 C250 150 230 120 240 100 C275 110 300 140 300 170Z"/><path d="M300 150 C350 128 370 100 362 80 C328 92 302 120 300 150Z"/><path d="M300 125 C285 95 290 70 305 55 C318 80 314 105 300 125Z"/></g>
+      <g fill="#4E9A3A"><path d="M700 236 C700 200 700 185 700 165" stroke="#356B2A" stroke-width="6" fill="none"/><path d="M700 200 C665 188 652 168 660 152 C686 160 700 180 700 200Z"/><path d="M700 185 C735 170 748 150 742 134 C716 144 702 165 700 185Z"/></g>
+      <g id="leaves"><path d="M470 238 q20 -18 44 -6 q-16 18 -44 6Z" fill="#C8792E"/><path d="M560 240 q16 -14 36 -4 q-14 14 -36 4Z" fill="#A5502A"/></g>
+      <rect x="0" y="260" width="1000" height="200" fill="url(#top)"/>
+      <rect x="0" y="460" width="1000" height="170" fill="url(#sub)"/>
+      <path d="M0 630 H1000 V760 H0Z" fill="#B7A99A"/>
+      <g fill="#D8CEC2" stroke="#8F8274" stroke-width="3"><path d="M30 690 l60 -40 l80 10 l20 50 l-70 30 l-80 -10Z"/><path d="M260 700 l70 -50 l90 20 l10 50 l-90 30Z"/><path d="M520 680 l80 -30 l70 30 l-10 50 l-90 10Z"/><path d="M760 700 l60 -46 l100 16 l10 46 l-110 30Z"/></g>
+      <g id="pebbles" fill="#E4DACB" stroke="#9A8C7B" stroke-width="2"><ellipse cx="120" cy="520" rx="22" ry="14"/><ellipse cx="380" cy="560" rx="18" ry="11"/><ellipse cx="640" cy="510" rx="26" ry="15"/><ellipse cx="860" cy="560" rx="20" ry="12"/><ellipse cx="520" cy="590" rx="14" ry="9"/><ellipse cx="240" cy="600" rx="16" ry="10"/></g>
+      <g id="humus" fill="#3A2416"><circle cx="90" cy="300" r="6"/><circle cx="190" cy="350" r="5"/><circle cx="420" cy="320" r="7"/><circle cx="610" cy="380" r="5"/><circle cx="780" cy="300" r="6"/><circle cx="900" cy="410" r="5"/><path d="M520 300 q18 -10 30 4 q-16 10 -30 -4Z" fill="#8A4B22"/><path d="M150 420 q18 -10 30 4 q-16 10 -30 -4Z" fill="#8A4B22"/></g>
+      <g id="roots" stroke="#E9D3B0" stroke-width="5" fill="none" stroke-linecap="round" data-entrance="draw">
+        <path d="M300 260 C300 320 290 380 270 440"/><path d="M300 300 C330 340 360 360 390 420"/><path d="M290 340 C250 370 220 380 200 430"/><path d="M700 260 C700 300 710 340 690 390"/><path d="M700 290 C730 320 750 330 770 370"/></g>
+      <g id="worm" class="mg-drift"><path d="M520 400 C560 370 600 430 640 400 C680 370 720 420 750 400" stroke="#E58D8F" stroke-width="22" fill="none" stroke-linecap="round"/>
+        <path d="M600 410 l0 -10 M630 402 l0 -12" stroke="#C96B6E" stroke-width="4"/><circle cx="752" cy="398" r="4" fill="#3B2A1E"/></g>
+    </svg></div>
+    </div>
+    <img class="explorer" src="assets/img/src/explorer.png" alt="مستكشفة صغيرة تحمل عدسة مكبرة" data-entrance="rise">
+    <p class="sig" data-entrance="fade">أ/ شامه البقمي</p>
+    <aside class="nm-speaker-note" hidden>الافتتاح: الكاميرا في الحديقة، والطالبة المستكشفة. اضغطي السهم ليظهر العنوان الفرعي والترحيب. اكتبي اليوم والتاريخ بزر E قبل الحصة.</aside>
+  </div>
+  </section>
+
+  <!-- 2. s2 / look and wonder (p146) -->
+  <section class="slide" id="s2" data-title="أنظر وأتساءل" data-rel="deeper" data-transition="auto" data-role="concept">
+  <div class="camera-rig">
+    <div class="nm-slide-pad nm-l-split" data-ratio="5:7">
+    <header class="nm-head">
+      <p class="nm-kicker">أنظر وأتساءل · صفحة ١٤٦</p>
+      <h2 class="nm-t-h1">تَتَكَوَّنُ التُّرْبَةُ مِنْ فُتَاتِ الصُّخُورِ.</h2>
+      <p class="nm-t-lead q">مَاذَا نَجِدُ أَيْضًا فِي التُّرْبَةِ؟</p>
+      <p class="nm-t-body wait" data-step="1" data-act="reveal">فكّري… ثم شاركي زميلاتك</p>
+    </header>
+    <div class="scene" data-morph="visual" data-step="2" data-act="pins"><svg class="soil-svg" viewBox="0 0 1000 760" preserveAspectRatio="xMidYMid slice" role="img" aria-label="حديقة وتحت سطحها طبقات التربة وجذور النباتات ودودة الأرض">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE3F5"/><stop offset="1" stop-color="#EAF6EC"/></linearGradient>
+        <linearGradient id="top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A3B26"/><stop offset="1" stop-color="#6E4A30"/></linearGradient>
+        <linearGradient id="sub" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9C6B43"/><stop offset="1" stop-color="#B9875A"/></linearGradient>
+      </defs>
+      <rect x="0" y="0" width="1000" height="250" fill="url(#sky)"/>
+      <circle class="mg-pulse" cx="840" cy="80" r="46" fill="#FFD66B"/>
+      <g class="mg-drift" fill="#FFFFFF" opacity=".9"><ellipse cx="200" cy="80" rx="70" ry="22"/><ellipse cx="250" cy="66" rx="46" ry="22"/><ellipse cx="560" cy="110" rx="60" ry="18"/></g>
+      <rect x="0" y="230" width="1000" height="30" fill="#7DBE5A"/>
+      <path d="M0 236 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 q25 -22 50 0 V260 H0Z" fill="#5FA84A"/>
+      <g id="plant" fill="#4E9A3A"><path d="M300 236 C300 180 300 150 300 120" stroke="#356B2A" stroke-width="8" fill="none"/>
+        <path d="M300 170 C250 150 230 120 240 100 C275 110 300 140 300 170Z"/><path d="M300 150 C350 128 370 100 362 80 C328 92 302 120 300 150Z"/><path d="M300 125 C285 95 290 70 305 55 C318 80 314 105 300 125Z"/></g>
+      <g fill="#4E9A3A"><path d="M700 236 C700 200 700 185 700 165" stroke="#356B2A" stroke-width="6" fill="none"/><path d="M700 200 C665 188 652 168 660 152 C686 160 700 180 700 200Z"/><path d="M700 185 C735 170 748 150 742 134 C716 144 702 165 700 185Z"/></g>
+      <g id="leaves"><path d="M470 238 q20 -18 44 -6 q-16 18 -44 6Z" fill="#C8792E"/><path d="M560 240 q16 -14 36 -4 q-14 14 -36 4Z" fill="#A5502A"/></g>
+      <rect x="0" y="260" width="1000" height="200" fill="url(#top)"/>
+      <rect x="0" y="460" width="1000" height="170" fill="url(#sub)"/>
+      <path d="M0 630 H1000 V760 H0Z" fill="#B7A99A"/>
+      <g fill="#D8CEC2" stroke="#8F8274" stroke-width="3"><path d="M30 690 l60 -40 l80 10 l20 50 l-70 30 l-80 -10Z"/><path d="M260 700 l70 -50 l90 20 l10 50 l-90 30Z"/><path d="M520 680 l80 -30 l70 30 l-10 50 l-90 10Z"/><path d="M760 700 l60 -46 l100 16 l10 46 l-110 30Z"/></g>
+      <g id="pebbles" fill="#E4DACB" stroke="#9A8C7B" stroke-width="2"><ellipse cx="120" cy="520" rx="22" ry="14"/><ellipse cx="380" cy="560" rx="18" ry="11"/><ellipse cx="640" cy="510" rx="26" ry="15"/><ellipse cx="860" cy="560" rx="20" ry="12"/><ellipse cx="520" cy="590" rx="14" ry="9"/><ellipse cx="240" cy="600" rx="16" ry="10"/></g>
+      <g id="humus" fill="#3A2416"><circle cx="90" cy="300" r="6"/><circle cx="190" cy="350" r="5"/><circle cx="420" cy="320" r="7"/><circle cx="610" cy="380" r="5"/><circle cx="780" cy="300" r="6"/><circle cx="900" cy="410" r="5"/><path d="M520 300 q18 -10 30 4 q-16 10 -30 -4Z" fill="#8A4B22"/><path d="M150 420 q18 -10 30 4 q-16 10 -30 -4Z" fill="#8A4B22"/></g>
+      <g id="roots" stroke="#E9D3B0" stroke-width="5" fill="none" stroke-linecap="round" data-entrance="draw">
+        <path d="M300 260 C300 320 290 380 270 440"/><path d="M300 300 C330 340 360 360 390 420"/><path d="M290 340 C250 370 220 380 200 430"/><path d="M700 260 C700 300 710 340 690 390"/><path d="M700 290 C730 320 750 330 770 370"/></g>
+      <g id="worm" class="mg-drift"><path d="M520 400 C560 370 600 430 640 400 C680 370 720 420 750 400" stroke="#E58D8F" stroke-width="22" fill="none" stroke-linecap="round"/>
+        <path d="M600 410 l0 -10 M630 402 l0 -12" stroke="#C96B6E" stroke-width="4"/><circle cx="752" cy="398" r="4" fill="#3B2A1E"/></g>
+    </svg>
+      <span class="nm-pin" data-x="62" data-y="53" data-label="دودة الأرض">حيوان يعيش في التربة</span>
+      <span class="nm-pin" data-x="30" data-y="52" data-label="جذور النباتات">تمتد داخل التربة</span>
+      <span class="nm-pin" data-x="52" data-y="33" data-label="أوراق متساقطة">بقايا نباتات</span>
+      <span class="nm-pin" data-x="64" data-y="68" data-label="فتات الصخور">قطع صغيرة من الصخور</span>
+    </div>
+    </div>
+    <p class="sig" data-entrance="fade">أ/ شامه البقمي</p>
+    <aside class="nm-speaker-note" hidden>سؤال الكتاب (ص١٤٦). انتظري إجابات الطالبات. السهم الأول: «فكّري ثم شاركي». السهم الثاني: تسقط الدبابيس واحدًا واحدًا على الصورة.</aside>
+  </div>
+  </section>
+
+  <!-- 3. s3 / explore title (p147) -->
+  <section class="slide" id="s3" data-title="أستكشف" data-rel="chapter" data-transition="auto" data-role="section">
+  <div class="camera-rig">
+    <div class="nm-slide-pad nm-l-section">
+    <p class="nm-section-num" aria-hidden="true">١</p>
+    <hr class="nm-rule is-accent">
+    <p class="nm-kicker">أستكشف · نشاط استقصائي · صفحة ١٤٧</p>
+    <h2 class="nm-t-h1" data-morph="title">مَاذَا يُوجَدُ فِي التُّرْبَةِ؟</h2>
+    </div>
+    <p class="sig" data-entrance="fade">أ/ شامه البقمي</p>
+    <aside class="nm-speaker-note" hidden>عنوان النشاط من الكتاب ص١٤٧.</aside>
+  </div>
+  </section>
+
+  <!-- 4. s4 / I need (p147) -->
+  <section class="slide" id="s4" data-title="أحتاج إلى" data-rel="next" data-transition="auto" data-role="process">
+  <div class="camera-rig">
+    <div class="nm-slide-pad nm-l-cards-4">
+    <header class="nm-head">
+      <h2 class="nm-t-h2" data-morph="title">مَاذَا يُوجَدُ فِي التُّرْبَةِ؟</h2>
+      <p class="nm-t-lead">أَحْتَاجُ إِلَى:</p>
+    </header>
+    <article class="nm-card tool" data-step="1" data-act="focus"><figure class="nm-img "><img src="assets/img/src/t_soil.png" alt="تربة"></figure><p class="nm-t-h3">تُرْبَة</p></article>
+    <article class="nm-card tool" data-step="2" data-act="focus"><figure class="nm-img "><img src="assets/img/src/t_plates.png" alt="طبقان"></figure><p class="nm-t-h3">طَبَقَيْنِ</p></article>
+    <article class="nm-card tool" data-step="3" data-act="focus"><figure class="nm-img "><img src="assets/img/src/t_sieve.png" alt="مصفاة"></figure><p class="nm-t-h3">مِصْفَاة</p></article>
+    <article class="nm-card tool" data-step="4" data-act="focus"><figure class="nm-img "><img src="assets/img/src/t_lens.png" alt="عدسة مكبرة"></figure><p class="nm-t-h3">عَدَسَة مُكَبِّرَة</p></article>
+    </div>
+    <p class="sig" data-entrance="fade">أ/ شامه البقمي</p>
+    <aside class="nm-speaker-note" hidden>الأدوات من الكتاب (أحتاج إلى). كل سهم يسلّط الضوء على أداة: اسألي الطالبات عن اسمها قبل قراءتها.</aside>
+  </div>
+  </section>
+
+  <!-- 5. s5 / step 1 -->
+  <section class="slide" id="s5" data-title="الخطوة ١" data-rel="time" data-transition="auto" data-role="process">
+  <div class="camera-rig">
+    <div class="nm-slide-pad nm-l-split" data-ratio="5:7">
+    <header class="nm-head">
+      <p class="nm-kicker">الخطوة ١</p>
+      <h2 class="nm-t-h2">أَضَعُ قَلِيلًا مِنَ التُّرْبَةِ فِي مِصْفَاةٍ</h2>
+      <p class="nm-t-lead" data-step="1" data-act="reveal">ثُمَّ أَهُزُّهَا بِرِفْقٍ فَوْقَ طَبَقٍ.</p>
+      <div class="bookthumb" data-step="2" data-act="reveal"><figure class="nm-img "><img src="assets/img/src/book_step1.png" alt="الخطوة الأولى من الكتاب"></figure><p class="nm-t-caption">من كتابي – صفحة ١٤٧</p></div>
+    </header>
+    <div class="scene" data-morph="visual"><svg class="soil-svg" viewBox="0 0 1000 760" preserveAspectRatio="xMidYMid slice" role="img" aria-label="مصفاة فيها تربة فوق طبق تنزل منها حبيبات ناعمة">
+      <ellipse cx="500" cy="690" rx="330" ry="46" fill="#000" opacity=".08"/>
+      <ellipse cx="500" cy="640" rx="300" ry="70" fill="#B6D96A" stroke="#8DB33E" stroke-width="6"/>
+      <ellipse cx="500" cy="628" rx="220" ry="44" fill="#CFE88E"/>
+      <ellipse id="fine" cx="500" cy="626" rx="150" ry="26" fill="#6A4A33"/>
+      <g class="mg-drift" fill="#6A4A33"><circle cx="440" cy="470" r="5"/><circle cx="480" cy="510" r="4"/><circle cx="520" cy="480" r="5"/><circle cx="560" cy="530" r="4"/><circle cx="500" cy="560" r="5"/><circle cx="460" cy="575" r="4"/><circle cx="540" cy="590" r="4"/></g>
+      <path d="M240 300 Q500 520 760 300Z" fill="#C9CDD1" stroke="#8C9297" stroke-width="6"/>
+      <g stroke="#9DA3A8" stroke-width="2" opacity=".9"><path d="M290 320 L710 320 M310 350 L690 350 M340 380 L660 380 M380 410 L620 410 M430 440 L570 440"/><path d="M340 305 L370 420 M410 305 L430 450 M500 305 L500 460 M590 305 L570 450 M660 305 L630 420"/></g>
+      <rect x="760" y="286" width="210" height="22" rx="11" fill="#D23B3B"/>
+      <ellipse cx="500" cy="300" rx="262" ry="26" fill="#A9AFB4" stroke="#7C8287" stroke-width="5"/>
+      <g id="kept">
+        <ellipse cx="500" cy="300" rx="200" ry="20" fill="#5A3B26"/>
+        <g id="peb1"><ellipse cx="420" cy="290" rx="26" ry="15" fill="#E4DACB" stroke="#9A8C7B" stroke-width="3"/></g>
+        <g id="peb2"><ellipse cx="575" cy="296" rx="20" ry="12" fill="#D8CEC2" stroke="#9A8C7B" stroke-width="3"/></g>
+        <g id="leafbit"><path d="M480 286 q22 -18 48 -6 q-18 18 -48 6Z" fill="#C8792E"/></g>
+        <g id="rootbit"><path d="M610 280 q30 6 50 22" stroke="#E9D3B0" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+      </g>
+    </svg></div>
+    </div>
+    <p class="sig" data-entrance="fade">أ/ شامه البقمي</p>
+    <aside class="nm-speaker-note" hidden>الخطوة ١ بنص الكتاب. نفّذيها أمام الطالبات أو في المجموعات، وتوقفي حتى يلاحظن الحبيبات التي تنزل إلى الطبق.</aside>
+  </div>
+  </section>
+
+  <!-- 6. s6 / step 2 -->
+  <section class="slide" id="s6" data-title="الخطوة ٢" data-rel="deeper" data-transition="auto" data-role="mechanism">
+  <div class="camera-rig">
+    <div class="nm-slide-pad nm-l-split" data-ratio="7:5">
+    <div class="scene" data-morph="visual"><svg class="soil-svg" viewBox="0 0 1000 760" preserveAspectRatio="xMidYMid slice" role="img" aria-label="مصفاة فيها تربة فوق طبق تنزل منها حبيبات ناعمة">
+      <ellipse cx="500" cy="690" rx="330" ry="46" fill="#000" opacity=".08"/>
+      <ellipse cx="500" cy="640" rx="300" ry="70" fill="#B6D96A" stroke="#8DB33E" stroke-width="6"/>
+      <ellipse cx="500" cy="628" rx="220" ry="44" fill="#CFE88E"/>
+      <ellipse id="fine" cx="500" cy="626" rx="150" ry="26" fill="#6A4A33"/>
+      <g class="mg-drift" fill="#6A4A33"><circle cx="440" cy="470" r="5"/><circle cx="480" cy="510" r="4"/><circle cx="520" cy="480" r="5"/><circle cx="560" cy="530" r="4"/><circle cx="500" cy="560" r="5"/><circle cx="460" cy="575" r="4"/><circle cx="540" cy="590" r="4"/></g>
+      <path d="M240 300 Q500 520 760 300Z" fill="#C9CDD1" stroke="#8C9297" stroke-width="6"/>
+      <g stroke="#9DA3A8" stroke-width="2" opacity=".9"><path d="M290 320 L710 320 M310 350 L690 350 M340 380 L660 380 M380 410 L620 410 M430 440 L570 440"/><path d="M340 305 L370 420 M410 305 L430 450 M500 305 L500 460 M590 305 L570 450 M660 305 L630 420"/></g>
+      <rect x="760" y="286" width="210" height="22" rx="11" fill="#D23B3B"/>
+      <ellipse cx="500" cy="300" rx="262" ry="26" fill="#A9AFB4" stroke="#7C8287" stroke-width="5"/>
+      <g id="kept" data-step="1" data-act="lens" data-lens="2.4">
+        <ellipse cx="500" cy="300" rx="200" ry="20" fill="#5A3B26"/>
+        <g id="peb1"><ellipse cx="420" cy="290" rx="26" ry="15" fill="#E4DACB" stroke="#9A8C7B" stroke-width="3"/></g>
+        <g id="peb2"><ellipse cx="575" cy="296" rx="20" ry="12" fill="#D8CEC2" stroke="#9A8C7B" stroke-width="3"/></g>
+        <g id="leafbit"><path d="M480 286 q22 -18 48 -6 q-18 18 -48 6Z" fill="#C8792E"/></g>
+        <g id="rootbit"><path d="M610 280 q30 6 50 22" stroke="#E9D3B0" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+      </g>
+    </svg></div>
+    <header class="nm-head">
+      <p class="nm-kicker">الخطوة ٢ · أُلَاحِظُ</p>
+      <h2 class="nm-t-h2">أَنْظُرُ إِلَى التُّرْبَةِ بِالْعَدَسَةِ الْمُكَبِّرَةِ</h2>
+      <p class="nm-t-lead">وَأَرْسُمُ مَا أَرَاهُ.</p>
+      <p class="nm-t-body wait" data-step="2" data-act="reveal">ماذا رأيتِ؟ حصى صغيرة، وبقايا أوراق، وجذور دقيقة</p>
+    </div>
+    <p class="sig" data-entrance="fade">أ/ شامه البقمي</p>
+    <aside class="nm-speaker-note" hidden>الخطوة ٢ بنص الكتاب. السهم الأول: عدسة مكبرة على ما في المصفاة. اسألي «ماذا ترين؟» ثم السهم الثاني يُظهر أمثلة (من إعداد العرض).</aside>
+  </div>
+  </section>
+
+  <!-- 7. s7 / step 3 and explore more -->
+  <section class="slide" id="s7" data-title="الخطوة ٣" data-rel="contrast" data-transition="auto" data-role="summary">
+  <div class="camera-rig">
+    <div class="nm-slide-pad nm-l-cards-2">
+    <header class="nm-head">
+      <h2 class="nm-t-h2">أُقَارِنُ مَا بَقِيَ فِي الْمِصْفَاةِ بِمَا نَزَلَ</h2>
+      <p class="nm-t-lead">الخطوة ٣: أَضَعُ مَا تَبَقَّى فِي الْمِصْفَاةِ عَلَى طَبَقٍ آخَرَ، ثُمَّ أُلَاحِظُ.</p>
+    </header>
+    <article class="nm-card cmp"><svg viewBox="0 0 400 220" class="mini" aria-hidden="true"><ellipse cx="200" cy="150" rx="170" ry="40" fill="#B6D96A" stroke="#8DB33E" stroke-width="5"/><ellipse cx="200" cy="140" rx="110" ry="20" fill="#5A3B26"/><ellipse cx="150" cy="128" rx="24" ry="14" fill="#E4DACB" stroke="#9A8C7B" stroke-width="3"/><ellipse cx="250" cy="134" rx="18" ry="11" fill="#D8CEC2" stroke="#9A8C7B" stroke-width="3"/><path d="M190 124 q22 -18 48 -6 q-18 18 -48 6Z" fill="#C8792E"/></svg><h3 class="nm-t-h3">بَقِيَ فِي الْمِصْفَاةِ</h3><p class="nm-t-body" data-step="1" data-act="reveal">قطع أكبر: حصى وبقايا أوراق</p></article>
+    <article class="nm-card cmp"><svg viewBox="0 0 400 220" class="mini" aria-hidden="true"><ellipse cx="200" cy="150" rx="170" ry="40" fill="#B6D96A" stroke="#8DB33E" stroke-width="5"/><ellipse cx="200" cy="142" rx="120" ry="20" fill="#6A4A33"/><g fill="#7A5A40"><circle cx="150" cy="134" r="3"/><circle cx="180" cy="140" r="3"/><circle cx="215" cy="132" r="3"/><circle cx="250" cy="142" r="3"/></g></svg><h3 class="nm-t-h3">نَزَلَ فِي الطَّبَقِ</h3><p class="nm-t-body" data-step="2" data-act="reveal">حبيبات تربة ناعمة</p></article>
+    <p class="nm-t-body more" data-step="3" data-act="reveal">أَسْتَكْشِفُ أَكْثَرَ: أُكَرِّرُ النَّشَاطَ مُسْتَخْدِمًا تُرْبَةً مُخْتَلِفَةً.</p>
+    </div>
+    <p class="sig" data-entrance="fade">أ/ شامه البقمي</p>
+    <aside class="nm-speaker-note" hidden>الخطوة ٣: أضع ما تبقى في المصفاة على طبق آخر، ثم ألاحظ التربة وأرسم ما أراه (الكتاب). الأمثلة في العمودين من إعداد العرض، أظهريها بعد مشاركة الطالبات. ثم أستكشف أكثر (الخطوة ٤ من الكتاب).</aside>
+  </div>
+  </section>
+  </main>
+</div>
+
+<script src="assets/nm/nm-deck.js"></script>
+<script src="assets/nm/nm-focus.js"></script>
+<script src="assets/nm/nm-diagram.js"></script>
+</body>
+</html>
