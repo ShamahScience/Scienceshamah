@@ -688,7 +688,7 @@
     <div class="slide"><img src="img/board.jpg" alt="المناطق الحيوية – قوانين الرحلة"></div>
     <div class="slide"><button class="btn main wtnbtn" onclick="openVid('vid/flag.mp4')">🎬 شغّلي النشيد الوطني</button><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
     <div class="slide wtn"><button class="btn main wtnbtn" onclick="openVid('vid/watan.mp4')">🎬 شغّلي فيديو «وطني أحبك لا بديل»</button><div class="wbox"><img src="img/watan.jpg" alt="وطني أحبك لا بديل"><button class="wplay" onclick="openVid('vid/watan.mp4')" title="تشغيل الفيديو"></button></div></div>
-    <div class="slide cine"><div class="cstage"><h2 class="ctitle">إلى أين تأخذنا رحلة اليوم؟ 🧭</h2><div class="car"><figure class="cp r" data-k="grass" style="--c:#9a8a12"><img src="img/c_grass.jpg" alt="الأراضي العشبية"><figcaption>🌾 الأراضي العشبية</figcaption></figure><svg class="carr a1" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp m" data-k="decid" style="--c:#d8662a"><img src="img/c_decid.jpg" alt="الغابات المتساقطة الأوراق"><figcaption>🍂 الغابات المتساقطة الأوراق</figcaption></figure><svg class="carr a2" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp l" data-k="rain" style="--c:#139a55"><img src="img/c_rain.jpg" alt="الغابات الاستوائية المطيرة"><figcaption>🦜 الغابات الاستوائية المطيرة</figcaption></figure></div><p class="chint">اضغطي على الصورة لتدخلي المنطقة 🎬 … ثم اضغطي مرة أخرى للرجوع</p></div><div class="cfull"></div></div>
+    <div class="slide cine"><div class="cstage"><h2 class="ctitle">إلى أين تأخذنا رحلة اليوم؟ 🧭</h2><div class="car"><figure class="cp r" data-k="grass" data-n="🌾 الأراضي العشبية" data-t="الأعشاب هي المكوّن الرئيس… وتربتها من أخصب أنواع التربة" style="--c:#9a8a12"><img src="img/c_grass.jpg" alt="🌾 الأراضي العشبية"><figcaption>🌾 الأراضي العشبية</figcaption></figure><svg class="carr a1" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp m" data-k="decid" data-n="🍂 الغابات المتساقطة الأوراق" data-t="تتلوّن أوراقها في الخريف… ثم تتساقط عندما يقترب الشتاء" style="--c:#d8662a"><img src="img/c_decid.jpg" alt="🍂 الغابات المتساقطة الأوراق"><figcaption>🍂 الغابات المتساقطة الأوراق</figcaption></figure><svg class="carr a2" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp l" data-k="rain" data-n="🦜 الغابات الاستوائية المطيرة" data-t="حارّة رطبة قرب خط الاستواء… وأمطارها تزيد على مترين في السنة" style="--c:#139a55"><img src="img/c_rain.jpg" alt="🦜 الغابات الاستوائية المطيرة"><figcaption>🦜 الغابات الاستوائية المطيرة</figcaption></figure></div><p class="chint">اضغطي على الصورة لتدخلي المنطقة 🎬 … ثم اضغطي مرة أخرى للرجوع</p></div><div class="cfull"></div></div>
     <div class="slide tam"><div class="tamh">🍂 لماذا تتلوّن أوراق بعض الأشجار بالأحمر والأصفر ثم تتساقط؟ ولماذا تبقى غابات أخرى خضراء طوال العام؟</div><img class="tamimg" src="img/b_decid.jpg" alt="الغابات المتساقطة الأوراق ص١٥٣"></div>
     <div class="slide goals"><div class="box">
       <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
@@ -705,7 +705,7 @@
   </div>
   <div class="dots">
     <button class="btn" onclick="slide(-1)">→ السابق</button>
-    <span id="dotT">١ / ٧</span>
+    <span id="dotT">١ / ٨</span>
     <button class="btn main" onclick="slide(1)">التالي ←</button>
   </div>
 </section>
@@ -999,7 +999,8 @@ function mapProg() {
 }
 // ── جواز سفر المستكشفة
 var STAMPS = [['new', 'مستكشفة جديدة', '🧭', '#2e6b30'], ['ksa', 'وطني', '🇸🇦', '#d9286b'], ['tundra', 'التندرا', '❄️', '#8f74d8'], ['taiga', 'التايجا', '🌲', '#1f6b3a'],
-  ['desert', 'الصحراء', '🐪', '#e0962a'], ['grass', 'الأراضي العشبية', '🌾', '#b39e1e'], ['decid', 'المتساقطة الأوراق', '🍂', '#d8662a'], ['rain', 'الاستوائية المطيرة', '🦜', '#139a55']];
+  ['desert', 'الصحراء', '🐪', '#e0962a'], ['grass', 'الأراضي العشبية', '🌾', '#b39e1e'], ['decid', 'المتساقطة الأوراق', '🍂', '#d8662a'], ['rain', 'الاستوائية المطيرة', '🦜', '#139a55'],
+  ['fresh', 'المياه العذبة', '💧', '#2f8fd0'], ['wet', 'الأراضي الرطبة', '🦆', '#4f9a6a'], ['estuary', 'مصبّات الأنهار', '🐟', '#2aa39a'], ['ocean', 'المحيط', '🐋', '#1b4f9c']];
 var PASS = new Set(LESSON.pre); try { JSON.parse(localStorage.getItem('biome-pass') || '[]').forEach((k) => PASS.add(k)); } catch (e) {}
 function passOpen(fresh) {
   let o = document.getElementById('passbox');
@@ -1732,7 +1733,7 @@ mission(0);
     decid: ['🍂 الغابات المتساقطة الأوراق', 'تتلوّن أوراقها في الخريف… ثم تتساقط عندما يقترب الشتاء', '#d8662a'],
     rain: ['🦜 الغابات الاستوائية المطيرة', 'حارّة رطبة قرب خط الاستواء… وأمطارها تزيد على مترين في السنة', '#139a55'] };
   document.querySelectorAll('.slide.cine .cp').forEach((f) => f.addEventListener('click', (e) => {
-    e.stopPropagation(); const k = f.dataset.k, c = CINE[k], full = f.closest('.slide').querySelector('.cfull');
+    e.stopPropagation(); const k = f.dataset.k, c = f.dataset.n ? [f.dataset.n, f.dataset.t, getComputedStyle(f).getPropertyValue('--c').trim()] : CINE[k], full = f.closest('.slide').querySelector('.cfull');
     full.style.setProperty('--c', c[2]);
     full.innerHTML = `<img src="${f.querySelector('img').src}" alt=""><div class="ccap" style="--c:${c[2]}"><b>${c[0]}</b><span>${c[1]}</span></div>`;
     full.classList.add('on'); try { chime(1); } catch (er) {}
