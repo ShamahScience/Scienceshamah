@@ -73,9 +73,33 @@ def guided(title, page_name, label, before, sents, after_q, after_a, note, name=
     for txt, words, h in sents:
         boxes.append(tbox(s, .4, y, 7.5, h, hl(txt, words), 17, INK, '#FFFFFF', BROWN, lw=2.5, radius=.2)); y += h + .1
     click(s, *[[b, 'rise', S(s, 'pop')] for b in boxes])
-    qa(s, .4, y + .05, 7.5, '✔ بَعْدَ الْقِرَاءَةِ: ' + after_q, after_a, qh=.62, ah=.72, qsize=18, asize=16)
+    qa(s, .4, y + .05, 7.5, '✔ بَعْدَ الْقِرَاءَةِ: ' + after_q, after_a, qh=.6, ah=1.0, qsize=17, asize=14)
     return s
 
+
+
+def video_slide(name, path, poster, secs, note):
+    s = D.slide(None, 'fade'); s._name = name
+    mv = s.shapes.add_movie(path, 0, 0, D.prs.slide_width, D.prs.slide_height, poster_frame_image=poster, mime_type='video/mp4')
+    old = s._element.find(qn('p:timing'))
+    if old is not None:
+        s._element.remove(old)
+    vid = mv.shape_id
+    s._extra_timing = etree.fromstring(
+        f'<p:timing xmlns:p="{NS_P}"><p:tnLst><p:par><p:cTn id="1" dur="indefinite" restart="never" nodeType="tmRoot"><p:childTnLst>'
+        '<p:seq concurrent="1" nextAc="seek"><p:cTn id="2" dur="indefinite" nodeType="mainSeq"><p:childTnLst>'
+        '<p:par><p:cTn id="3" fill="hold"><p:stCondLst><p:cond delay="indefinite"/><p:cond evt="onBegin" delay="0"><p:tn val="2"/></p:cond></p:stCondLst><p:childTnLst>'
+        '<p:par><p:cTn id="4" fill="hold"><p:stCondLst><p:cond delay="0"/></p:stCondLst><p:childTnLst>'
+        '<p:par><p:cTn id="5" presetID="1" presetClass="mediacall" presetSubtype="0" fill="hold" nodeType="afterEffect"><p:stCondLst><p:cond delay="0"/></p:stCondLst><p:childTnLst>'
+        f'<p:cmd type="call" cmd="playFrom(0.0)"><p:cBhvr><p:cTn id="6" dur="{int(secs * 1000)}" fill="hold"/><p:tgtEl><p:spTgt spid="{vid}"/></p:tgtEl></p:cBhvr></p:cmd>'
+        '</p:childTnLst></p:cTn></p:par></p:childTnLst></p:cTn></p:par></p:childTnLst></p:cTn></p:par>'
+        '</p:childTnLst></p:cTn><p:prevCondLst><p:cond evt="onPrev" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:prevCondLst>'
+        '<p:nextCondLst><p:cond evt="onNext" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:nextCondLst></p:seq>'
+        f'<p:video><p:cMediaNode vol="80000"><p:cTn id="7" fill="hold" display="0"><p:stCondLst><p:cond delay="indefinite"/></p:stCondLst></p:cTn>'
+        f'<p:tgtEl><p:spTgt spid="{vid}"/></p:tgtEl></p:cMediaNode></p:video>'
+        '</p:childTnLst></p:cTn></p:par></p:tnLst></p:timing>')
+    notes(s, note)
+    return s
 
 def bookslide(title, page_name, page_label, note):
     s = D.slide(f'{ROOT}/art/bg.jpg', 'push'); s._name = page_name
@@ -161,6 +185,45 @@ for i, t in enumerate(ST):
     c = tbox(s, .4, 1.3 + i * 1.32, 7.5, 1.18, t, 18, INK, '#FFFFFF', [SKY, GREEN, BROWN, RED][i], lw=3, radius=.2)
     click(s, [c, 'rise', S(s, 'pop')])
 
+# ================================================================ 10-b. simulated investigation (after the book steps)
+s = D.slide(f'{ROOT}/art/bg.jpg', 'zoom'); s._name = 'sim'
+tbox(s, 3.2, .2, 6.9, .85, 'تَجْرِبَةٌ مُحَاكِيَةٌ: أَسْتَكْشِفُ', 30, '#FFFFFF', BROWN, '#FFFFFF', align='c', lw=3, radius=.4)
+SIMG = lambda n: f'{ROOT}/sim/{n}.png'
+pile = pic(s, SIMG('pile'), 4.6, 4.6, w=2.2)
+sieve = pic(s, SIMG('sieve'), 7.3, 1.5, w=3.4)
+plate1 = pic(s, SIMG('plate'), 7.1, 4.1, w=2.9)
+plate2 = pic(s, SIMG('plate'), 10.4, 5.6, w=2.7)
+fine = pic(s, SIMG('fine'), 7.75, 4.15, w=1.6)
+fall = pic(s, SIMG('fall'), 8.06, 3.0, w=1.0)
+scoop = pic(s, SIMG('scoop'), 4.83, 4.75, w=1.75)
+coarse = pic(s, SIMG('coarse'), 7.8, 1.55, w=1.5)
+lens = pic(s, SIMG('lens'), 4.7, 2.0, w=1.3)
+lens2 = pic(s, SIMG('lens'), 11.7, 4.75, w=1.3)
+magf = pic(s, SIMG('mag_fine'), 11.05, 1.2, w=2.0)
+capf = tbox(s, 10.85, 3.25, 2.4, .5, 'حُبَيْبَاتٌ صَغِيرَةٌ', 17, '#FFFFFF', DBROWN, align='c', radius=.5, margin=.02)
+magc = pic(s, SIMG('mag_coarse'), 11.05, 1.2, w=2.0)
+capc = tbox(s, 10.7, 3.25, 2.6, .75, 'قِطَعُ صُخُورٍ صَغِيرَةٍ وَبَقَايَا نَبَاتَاتٍ', 15, '#FFFFFF', DGREEN, align='c', radius=.3, margin=.02)
+tbox(s, 4.6, 6.1, 2.2, .4, 'تُرْبَةٌ', 15, DBROWN, CREAM, '#D9C3A0', align='c', radius=.5, margin=.02)
+tbox(s, 7.6, 5.12, 1.9, .4, 'الطَّبَقُ الْأَوَّلُ', 14, DBROWN, CREAM, '#D9C3A0', align='c', radius=.5, margin=.02)
+tbox(s, 10.75, 6.5, 2.0, .4, 'طَبَقٌ آخَرُ', 14, DBROWN, CREAM, '#D9C3A0', align='c', radius=.5, margin=.02)
+BTN = ['١ أَضَعُ التُّرْبَةَ فِي الْمِصْفَاةِ', '٢ أَهُزُّهَا بِرِفْقٍ فَوْقَ طَبَقٍ', '٣ أُلَاحِظُ بِالْعَدَسَةِ الْمُكَبِّرَةِ، وَأَرْسُمُ مَا أَرَاهُ', '٤ أَضَعُ مَا تَبَقَّى عَلَى طَبَقٍ آخَرَ، ثُمَّ أُلَاحِظُ']
+bs = [tbox(s, .35, 1.3 + i * .9, 3.95, .78, b, 16, '#FFFFFF', [SKY, GREEN, '#8E44AD', BROWN][i], '#FFFFFF', align='c', lw=2.5, radius=.4, margin=.03) for i, b in enumerate(BTN)]
+trigger_steps(s, bs[0], [scoop, ('move', .2141, -.4333), S(s, 'whoosh')])
+trigger_steps(s, bs[1], [sieve, ('spin', 7), S(s, 'pop')], [sieve, ('spin', -14)], [sieve, ('spin', 7)],
+              ([fall, 'fade'], [fine, 'rise', S(s, 'chime')]), [fall, 'out'])
+trigger_steps(s, bs[2], [lens, ('move', .24, .2), S(s, 'whoosh')], ([magf, 'zoom', S(s, 'sparkle')], [capf, 'zoom']))
+trigger_steps(s, bs[3], ([scoop, 'out'], [coarse, 'fade']), [coarse, ('move', .2438, .54), S(s, 'whoosh')],
+              ([magf, 'out'], [capf, 'out'], [lens, 'out']), [lens2, 'zoom'], ([magc, 'zoom', S(s, 'sparkle')], [capc, 'zoom']))
+q = tbox(s, .35, 4.95, 3.95, .7, 'مَاذَا وَجَدْنَا فِي التُّرْبَةِ؟', 17, INK, '#FFF6D6', GOLD, align='c', lw=2.5, radius=.4)
+ans = tbox(s, .35, 5.72, 4.1, 1.22, [[('من كتابي: ', '#FFF59D'), ('التُّرْبَةُ خَلِيطٌ مِنْ فُتَاتِ الصُّخُورِ، وَقِطَعٍ صَغِيرَةٍ مِنْ بَقَايَا النَّبَاتَاتِ وَالْحَيَوَانَاتِ الْمَيِّتَةِ.', '#FFFFFF')]], 14,
+           fill=DGREEN, line='#FFFFFF', lw=2, radius=.25, margin=.04)
+trigger_steps(s, q, ([ans, 'zoom', S(s, 'fanfare')], [star(s, 4.0, 4.8, .5), 'zoom']))
+sig(s)
+notes(s, 'تجربة محاكية لنشاط أستكشف (ص١٤٧) بعد عرض الخطوات. اضغطي الأزرار بالترتيب: '
+         '١ تنتقل التربة إلى المصفاة، ٢ تهتز المصفاة وتنزل حبيبات صغيرة إلى الطبق الأول، ٣ تتحرك العدسة ويظهر المنظر المكبّر، '
+         '٤ ينتقل ما تبقى إلى طبق آخر وتظهر قطع الصخور وبقايا النباتات مكبّرة. ثم «ماذا وجدنا؟» تُظهر جملة الكتاب (ص١٤٨). '
+         'اطلبي من الطالبات الرسم بعد الخطوتين ٣ و٤ كما في الكتاب. الأفضل تنفيذ التجربة الحقيقية أيضًا.')
+
 # ================================================================ 11. components (visual 9)
 s = vis('components', 'مكونات التربة بالصورة: حبيبات صغيرة، وقطع صخور صغيرة، وبقايا نباتات وحيوانات (الدبال).', 'صفحة ١٤٨')
 
@@ -176,6 +239,10 @@ s = guided('أَقْرَأُ وَأَتَعَلَّمُ: مَا التُّرْب
 s = vis('types', 'أنواع التربة: تربة رملية، تربة طينية، تربة زراعية (سطحية). النقرة تُظهر جملة الكتاب (ص١٤٩).', 'صفحتا ١٤٨–١٤٩')
 tb = px(s, 160, 905, 1600, 90, 'تَخْتَلِفُ التُّرَبُ فِي لَوْنِهَا وَمَلْمَسِهَا. التُّرْبَةُ الدَّاكِنَةُ تَحْتَفِظُ بِمَاءٍ أَكْثَرَ.', 17, '#FFFFFF', BROWN, '#FFFFFF', align='c', radius=.4, lw=2)
 click(s, [tb, 'zoom', S(s, 'pop')])
+
+# ================================================================ 13-b. video: soil types
+video_slide('v_types', f'{ROOT}/vid/types.mp4', f'{ROOT}/vid/types.jpg', 10,
+            'فيديو أنواع التربة (١٠ ثوانٍ): يعمل تلقائيًا عند عرض الشريحة، واضغطي السهم للانتقال بعد انتهائه. اسألي بعده: ماذا لاحظتِ على كل نوع؟')
 
 # ================================================================ 14. book p149: guided reading
 s = guided('أَقْرَأُ وَأَتَعَلَّمُ: أَنْوَاعُ التُّرْبَةِ', 'p149', 'صفحة ١٤٩', 'ابحثي في النص: فيمَ تختلف أنواع التربة؟',
@@ -208,6 +275,10 @@ q = px(s, 40, 790, 1000, 85, '✔ أَيُّ طَبَقَاتِ التُّرْب
 a = px(s, 40, 885, 1000, 95, [[('الإجابة: ', '#FFF59D'), ('التربة السطحية؛ لأنها تحتوي على بقايا نباتات وحيوانات متحللة.', '#FFFFFF')]], 14, '#FFFFFF', DGREEN, '#FFFFFF', align='c', radius=.3, lw=2)
 reveal(s, q, a, star(s, 7.0, 5.3, .55))
 
+# ================================================================ 18-a. video: soil layers
+video_slide('v_layers', f'{ROOT}/vid/layers.mp4', f'{ROOT}/vid/layers.jpg', 10,
+            'فيديو طبقات التربة (١٠ ثوانٍ): التربة السطحية والتربة تحت السطحية كما في الكتاب (ص١٥٠). يعمل تلقائيًا.')
+
 # ================================================================ 18-b. book p151: humus guided reading
 s = guided('أَقْرَأُ وَأَتَعَلَّمُ: الدُّبَالُ', 'p151', 'صفحة ١٥١', 'ابحثي في النص: ما الدبال؟',
            [('يُمْكِنُ أَنْ أُلَاحِظَ تَحَلُّلَ الْأَشْيَاءِ فِي التُّرْبَةِ مِنْ خِلَالِ التَّغَيُّرَاتِ الَّتِي تَحْدُثُ فِيهَا، وَذَلِكَ بِعَمَلِ كَوْمَةِ دُبَالٍ.', ['تَحَلُّلَ الْأَشْيَاءِ', 'كَوْمَةِ دُبَالٍ'], 1.05),
@@ -222,7 +293,7 @@ QS = [('١- التَّتَابُعُ. مَا مَرَاحِلُ تَكَوُّن
       ('٢- أَتَحَدَّثُ. مَا الْأَنْوَاعُ الْمُخْتَلِفَةُ لِلتُّرْبَةِ؟', 'تربة رملية، وتربة طينية، وتربة زراعية (سطحية).'),
       ('٣- السُّؤَالُ الْأَسَاسِيُّ. كَيْفَ تَتَكَوَّنُ التُّرْبَةُ؟', 'تحتاج التربة إلى وقت طويل لتتكوّن؛ تتفتت الصخور والمعادن إلى قطع أصغر، وتتحلل بقايا النباتات والحيوانات الميتة، لتصبح جزءًا مغذيًا في التربة.')]
 for i, (q_, a_) in enumerate(QS):
-    qa(s, .4, 1.3 + i * 1.85, 7.5, q_, a_, qh=.65, ah=.95, qsize=19, asize=16)
+    qa(s, .4, 1.3 + i * 1.85, 7.5, q_, a_, qh=.62, ah=1.0, qsize=18, asize=14)
 
 # ================================================================ 20. life and homeland (visual 14)
 s = vis('link', 'ربط بالحياة والوطن: التربة الجيدة تساعد في زراعة النباتات وتدعم الأمن الغذائي في المملكة العربية السعودية.')
@@ -259,7 +330,7 @@ META = {'welcome': ('التهيئة – الترحيب', 0), 'title': ('الته
         'components': ('التعلم البصري', 1), 'p148': ('القراءة الموجهة', 1), 'types': ('الملاحظة والمقارنة', 2),
         'p149': ('القراءة الموجهة – أقرأ الصورة', 2), 'compare': ('المقارنة بالجداول', 2), 'formation': ('التتابع', 3),
         'p150': ('القراءة الموجهة', 3), 'layers': ('أقرأ الشكل', 3), 'p151h': ('القراءة الموجهة', 1), 'p151': ('فكّر – زاوج – شارك', 3),
-        'link': ('الربط بالحياة والوطن', 0), 'formative': ('تقويم تكويني', 2), 'exit': ('تذكرة الخروج', 0)}
+        'link': ('الربط بالحياة والوطن', 0), 'formative': ('تقويم تكويني', 2), 'exit': ('تذكرة الخروج', 0), 'sim': ('تجربة محاكية', 1), 'v_types': ('التعلم بالفيديو – ألاحظ', 2), 'v_layers': ('التعلم بالفيديو – أقرأ الشكل', 3)}
 for s in D.slides:
     st, k = META[s._name]
     tbox(s, 2.35, 7.02, 3.9, .38, [[('الاستراتيجية: ', '#FFF59D', 12), (st, '#FFFFFF', 12)]], 12, fill=DBROWN, line='#FFFFFF', align='c', radius=.5, lw=1.5, margin=.02)
