@@ -599,6 +599,64 @@
   .wall .wtip { font: inherit; font-size: 13px; border: 1.5px solid #e0a800; background: #fff7d1; border-radius: 99px; padding: 0 8px; cursor: pointer; float: left; }
   .wall textarea.tipd { background: #fffbe6; } .wall textarea { height: 64px; }
   .wsnap { margin: 6px 0 0; font-size: 15px; background: #fff5f9; border: 2px dashed #d9628e; border-radius: 12px; padding: 4px 8px; } .wsnap small { color: #8a6ad4; }
+  video.slvid { display: block; width: 100%; max-height: 260px; border-radius: 14px; border: 3px solid #8CC46E; background: #000; margin: 4px 0; }
+  /* ===== لمسة سينمائية ثلاثية الأبعاد ===== */
+  @font-face { font-family: 'Qahwa'; src: url(img/fonts/Qahwa-Arabic-Black.otf) format('opentype'); font-display: swap; }
+  @font-face { font-family: 'Zain'; src: url(img/fonts/ZainRounded-VF.ttf) format('truetype'); font-weight: 100 900; font-display: swap; }
+  header h1, #stBody h2, .box > h2, .gcard b, .ctitle, .slide.tam .tamh, .mhead h2, .wts h2 {
+    font-family: 'Qahwa', 'Noto Color Emoji', sans-serif !important; font-weight: 400 !important; letter-spacing: 0;
+    text-shadow: 0 1px 0 #2b7a3c, 0 2px 0 #246a33, 0 3px 0 #1e5a2b, 0 4px 0 #184c24, 0 8px 14px rgba(0,0,0,.28); }
+  header h1, #stBody h2, .box > h2 { text-shadow: 0 1px 0 #a9d8b4, 0 2px 0 #8cc69a, 0 3px 0 #6fae7f, 0 6px 10px rgba(0,0,0,.18) !important; }
+  header h1 { color: #2E8B45 !important; }
+  #stBody h2, .box > h2 { color: #2E8B45 !important; font-size: 1.55em; }
+  .slide.tam .tamh { color: #fff !important; text-shadow: 0 2px 0 #0003, 0 4px 10px #0005; }
+  .tab, .btn, .strat, .tlab, .chip { font-family: 'Zain', 'Noto Naskh Arabic', 'Noto Color Emoji', sans-serif; font-weight: 800; }
+  /* بطاقات بارزة */
+  .box, .flip, .gate, .gcard, .card4, .wtc, .mcard .mc, .bcard, .srt .sbin, .bin, .lk, .wall {
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.7), inset 0 -4px 0 rgba(0,0,0,.08), 0 10px 22px rgba(30,60,30,.16), 0 2px 4px rgba(0,0,0,.08) !important;
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+  .flip:hover, .gcard:hover, .wtc:hover, .gate:hover { transform: perspective(900px) rotateX(5deg) translateY(-4px); }
+  .btn { box-shadow: inset 0 2px 0 rgba(255,255,255,.55), inset 0 -3px 0 rgba(0,0,0,.14), 0 4px 0 rgba(0,0,0,.12), 0 6px 12px rgba(0,0,0,.12) !important; transition: transform .15s; }
+  .btn:active { transform: translateY(3px); box-shadow: inset 0 2px 0 rgba(255,255,255,.4), 0 1px 0 rgba(0,0,0,.12) !important; }
+  .tab.on, .tab[aria-selected="true"] { transform: translateY(-2px); }
+  /* دخول المحطات كأنه مشهد */
+  #stBody.cin { animation: cinIn .7s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes cinIn { from { opacity: 0; transform: perspective(1400px) rotateY(-9deg) translateZ(-60px) scale(.97); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+  /* أسهم ذهبية في الترتيب */
+  #slots i { font-style: normal; font-size: 34px; color: #f5b700; text-shadow: 0 2px 0 #c98f00, 0 4px 0 #a87700, 0 6px 10px #0004; display: inline-block; animation: arrIn .6s both; }
+  @keyframes arrIn { from { opacity: 0; transform: translateX(14px) scaleX(.4); } to { opacity: 1; transform: none; } }
+  /* شريحة المقدمة السينمائية */
+  .slide.cine { background: radial-gradient(ellipse at 50% 35%, #23402a 0%, #0e1a12 70%); border-radius: 14px; overflow: hidden; }
+  .slide.cine::before, .slide.cine::after { content: ""; position: absolute; left: 0; right: 0; height: 6%; background: #000; z-index: 5; }
+  .slide.cine::before { top: 0; } .slide.cine::after { bottom: 0; }
+  .cstage { position: absolute; inset: 6% 3%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2vh; }
+  .ctitle { margin: 0; font-size: clamp(26px, 3.4vw, 54px); color: #FFD23F !important;
+    text-shadow: 0 1px 0 #d9a400, 0 2px 0 #c49300, 0 3px 0 #a87d00, 0 4px 0 #8c6800, 0 10px 18px rgba(0,0,0,.6) !important; }
+  .car { display: flex; align-items: center; justify-content: center; gap: 1.2vw; perspective: 1400px; width: 100%; }
+  .cp { margin: 0; width: min(24vw, 30vh); max-width: 340px; cursor: pointer; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+  .cp img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 16px; border: 4px solid #fff3; display: block;
+    -webkit-box-reflect: below 8px linear-gradient(transparent 62%, rgba(255,255,255,.28)); box-shadow: 0 20px 40px #000a; }
+  .cp figcaption { margin-top: 1.4vh; text-align: center; color: #fff; font-family: 'Zain', 'Noto Color Emoji', sans-serif; font-weight: 800; font-size: clamp(15px, 1.4vw, 22px);
+    background: var(--c); border-radius: 30px; padding: 4px 12px; box-shadow: inset 0 2px 0 #fff5, 0 6px 12px #0006; position: relative; top: 6vh; }
+  .cp.r { transform: rotateY(-24deg) translateZ(-30px); } .cp.l { transform: rotateY(24deg) translateZ(-30px); } .cp.m { transform: translateZ(40px); }
+  .cp:hover { transform: rotateY(0) translateZ(90px) scale(1.04); }
+  .slide.cine.on .cp { animation: flyIn 1s cubic-bezier(.2,.8,.2,1) both; } .slide.cine.on .cp.m { animation-delay: .5s; } .slide.cine.on .cp.l { animation-delay: 1s; }
+  @keyframes flyIn { from { opacity: 0; translate: 0 60px; filter: blur(6px); } to { opacity: 1; translate: 0 0; filter: none; } }
+  .carr { width: 5vw; max-width: 80px; flex: 0 0 auto; overflow: visible; filter: drop-shadow(0 4px 4px #0008); }
+  .carr path { fill: none; stroke: #FFD23F; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 160; stroke-dashoffset: 160; }
+  .slide.cine.on .carr path { animation: draw .9s ease forwards; } .slide.cine.on .carr.a1 path { animation-delay: .9s; } .slide.cine.on .carr.a2 path { animation-delay: 1.4s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .chint { margin: 0; margin-top: 5vh; color: #cfe8d5; font-family: 'Zain', 'Noto Color Emoji', sans-serif; font-weight: 700; font-size: clamp(14px, 1.3vw, 20px); }
+  .cfull { position: absolute; inset: 0; z-index: 6; background: #000; display: none; cursor: zoom-out; overflow: hidden; }
+  .cfull.on { display: block; animation: fadeIn .5s both; }
+  .cfull img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: kb 9s ease-out both; }
+  @keyframes kb { from { transform: scale(1.18) translate(2%, 2%); } to { transform: scale(1); } }
+  @keyframes fadeIn { from { opacity: 0; } }
+  .ccap { position: absolute; left: 6%; right: 6%; bottom: 10%; text-align: center; animation: capUp .8s .3s both; }
+  .ccap b { display: inline-block; font-family: 'Qahwa', 'Noto Color Emoji', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 64px); color: #fff; background: var(--c); border-radius: 24px; padding: 4px 26px;
+    text-shadow: 0 2px 0 #0004, 0 4px 0 #0003, 0 8px 16px #0006; box-shadow: inset 0 3px 0 #fff4, 0 12px 26px #000a; }
+  .ccap span { display: block; margin: 1.4vh auto 0; width: fit-content; max-width: 100%; font-family: 'Zain', sans-serif; font-weight: 700; font-size: clamp(16px, 1.8vw, 28px); color: #fff; background: #000c; border-radius: 16px; padding: 6px 18px; }
+  @keyframes capUp { from { opacity: 0; transform: translateY(30px); } }
 </style>
 </head>
 <body data-env="sky">
@@ -630,6 +688,7 @@
     <div class="slide"><img src="img/board.jpg" alt="المناطق الحيوية – قوانين الرحلة"></div>
     <div class="slide"><button class="btn main wtnbtn" onclick="openVid('vid/flag.mp4')">🎬 شغّلي النشيد الوطني</button><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
     <div class="slide wtn"><button class="btn main wtnbtn" onclick="openVid('vid/watan.mp4')">🎬 شغّلي فيديو «وطني أحبك لا بديل»</button><div class="wbox"><img src="img/watan.jpg" alt="وطني أحبك لا بديل"><button class="wplay" onclick="openVid('vid/watan.mp4')" title="تشغيل الفيديو"></button></div></div>
+    <div class="slide cine"><div class="cstage"><h2 class="ctitle">إلى أين تأخذنا رحلة اليوم؟ 🧭</h2><div class="car"><figure class="cp r" data-k="grass" style="--c:#9a8a12"><img src="img/c_grass.jpg" alt="الأراضي العشبية"><figcaption>🌾 الأراضي العشبية</figcaption></figure><svg class="carr a1" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp m" data-k="decid" style="--c:#d8662a"><img src="img/c_decid.jpg" alt="الغابات المتساقطة الأوراق"><figcaption>🍂 الغابات المتساقطة الأوراق</figcaption></figure><svg class="carr a2" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp l" data-k="rain" style="--c:#139a55"><img src="img/c_rain.jpg" alt="الغابات الاستوائية المطيرة"><figcaption>🦜 الغابات الاستوائية المطيرة</figcaption></figure></div><p class="chint">اضغطي على الصورة لتدخلي المنطقة 🎬 … ثم اضغطي مرة أخرى للرجوع</p></div><div class="cfull"></div></div>
     <div class="slide tam"><div class="tamh">🍂 لماذا تتلوّن أوراق بعض الأشجار بالأحمر والأصفر ثم تتساقط؟ ولماذا تبقى غابات أخرى خضراء طوال العام؟</div><img class="tamimg" src="img/b_decid.jpg" alt="الغابات المتساقطة الأوراق ص١٥٣"></div>
     <div class="slide goals"><div class="box">
       <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
@@ -980,7 +1039,9 @@ function wallDraw() {
     ${b ? '<p class="wsnap">📸 بعد امتلاء اللوحة: صوّري الشاشة، واصنعي منها بطاقة المنطقة، وأرسليها لمعلمتك 💌 <small>(🔎 = معلومة من مصادر إضافية غير الكتاب)</small></p>' : ''}</div>`;
 }
 var WINFO = {"tundra": ["أقصى النصف الشمالي من الكرة الأرضية، وتحيط بالمناطق الواقعة جنوبيّ القطب الشمالي.", "شتاء بارد جدًّا وصيف قصير، باردة جدًّا وجافّة، ومعدّل الأمطار نحو ٢٥ سنتمترًا في العام.", "فيها طبقات ترابية دائمة التجمّد تمنع نمو الجذور العميقة، وينصهر الجليد في أجزائها العلوية صيفًا.", "أعشاب وشجيرات ذات جذور سطحية قصيرة، ولا تنمو فيها الأشجار الكبيرة.", "🔎 حيوانات لها فراء كثيف، مثل الثعلب القطبي وحيوان الرنّة والبومة الثلجية.", "كتاب العلوم ص١٥١ + 🔎 مصدر إضافي للحيوانات."], "taiga": ["جنوبيّ التندرا الشمالية، عبر أجزاء من أوروبا وآسيا وأمريكا الشمالية.", "شتاء طويل بارد جدًّا، وصيف قصير دافئ أكثر رطوبة.", "🔎 تربة باردة رطبة، تغطّيها الأوراق الإبرية المتساقطة من الأشجار.", "أشجار مخروطية دائمة الخضرة: الصنوبر والتنوب والشوكران، والأشنات والحزازيات.", "القوارض والثعالب والذئاب والغربان، وتأتيها الطيور المهاجرة صيفًا لتتغذّى على الحشرات.", "كتاب العلوم ص١٥١ + 🔎 مصدر إضافي للتربة."], "desert": ["في كافة قارّات الأرض، ومنها الدهناء والربع الخالي في المملكة العربية السعودية، والصحراء الشرقية في مصر.", "قليلة الهطل: أقل من ٢٥ سنتمترًا في العام؛ الصحارى الحارّة حارّة وجافّة، وبعض الصحارى باردة قرب القطبين.", "🔎 تربة رملية أو صخرية، قليلة الماء والمواد الغذائية.", "نباتات تحتفظ بالماء، مثل الصبّار.", "الجربوع والإبل والحشرات والعناكب والزواحف والطيور، وكثير منها يستريح نهارًا في جحره.", "كتاب العلوم ص١٥٢ + 🔎 مصدر إضافي للتربة."], "grass": ["أمريكا الشمالية، ووسط روسيا، وأمريكا الجنوبية، وأفريقيا.", "أمطار غير غزيرة تتساقط بشكل غير منتظم، والحرارة منخفضة شتاءً ومرتفعة صيفًا.", "من أخصب أنواع التربة؛ لذلك تُستعمل في الزراعة، وجذور الأعشاب تثبّتها في مكانها.", "الأعشاب على اختلاف أنواعها هي المكوّن الرئيس من النباتات.", "الثور البري وذئب البراري والغرير والنمس، والسناجب والخنازير البرية، والأيائل، والأسود والظباء والحمر الوحشية.", "كتاب العلوم ص١٥٣."], "decid": ["شرق أمريكا الشمالية، وشمال شرق آسيا، وغرب ووسط أوروبا.", "فصول متغيّرة: تتلوّن الأوراق في الخريف، وتتجمّد الأرض في الشتاء ويندر تساقط الأمطار.", "تنمو على أرضيتها الأشنات والحزازيات والفطر، 🔎 وهي خصبة غنية بالأوراق المتحلّلة.", "أشجار البلوط والزان، تفقد أوراقها قرب الشتاء فيقلّ النتح وتحافظ على الماء.", "🔎 الغزلان والسناجب والثعالب والطيور.", "كتاب العلوم ص١٥٣ + 🔎 مصدر إضافي للحيوانات."], "rain": ["قرب خط الاستواء.", "حارّ ورطب، وأمطار غزيرة يزيد معدّلها السنوي على مترين.", "🔎 تربة رقيقة، لأن الأمطار الغزيرة تغسل موادها الغذائية.", "🔎 أشجار طويلة كثيفة دائمة الخضرة، ونباتات متسلّقة.", "القردة والثعابين والببغاوات والطوقان، وهي موطن لأنواع أكثر من كل المناطق الحيوية مجتمعة.", "كتاب العلوم ص١٥٤ + 🔎 مصدر إضافي للتربة والنباتات."]};
-function wallTip(i) { const w = WALL[wallG] || {}; const t = (WINFO[w.b] || [])[i]; if (!t) return; wallSet(i, t); const ta = document.getElementById('wf' + i); if (ta) { ta.value = t; ta.classList.add('tipd'); } chime(1); }
+function wallTip(i) { const w = WALL[wallG] || {}; const t = (WINFO[w.b] || [])[i]; if (!t) return; wallSet(i, t); const ta = document.getElementById('wf' + i); if (ta) { ta.value = t; ta.classList.add('tipd'); } wallFit(); chime(1); }
+function wallFit() { document.querySelectorAll('#wallBox textarea').forEach((t) => { t.style.height = 'auto'; t.style.height = (t.scrollHeight + 4) + 'px'; }); }
+var _wallDraw0 = wallDraw; wallDraw = function () { _wallDraw0(); wallFit(); };
 function wallFill() { WALLF.forEach((_, i) => wallTip(i)); }
 function wallClear() { const b = (WALL[wallG] || {}).b; WALL[wallG] = { b }; try { localStorage.setItem('biome-wall', JSON.stringify(WALL)); } catch (e) {} wallDraw(); }
 function wallSet(k, v) { (WALL[wallG] = WALL[wallG] || {})[k] = v; try { localStorage.setItem('biome-wall', JSON.stringify(WALL)); } catch (e) {} if (k === 'b') wallDraw(); }
@@ -1663,5 +1724,21 @@ function pyrFlow() {
 mission(0);
 </script>
 <script src="../../assets/draw.js"></script>
+<script>// ===== لمسة سينمائية: دخول المحطات كأنه مشهد + المقدمة السينمائية
+(function () {
+  const sb = document.getElementById('stBody');
+  if (sb) new MutationObserver(() => { sb.classList.remove('cin'); void sb.offsetWidth; sb.classList.add('cin'); }).observe(sb, { childList: true });
+  const CINE = { grass: ['🌾 الأراضي العشبية', 'الأعشاب هي المكوّن الرئيس… وتربتها من أخصب أنواع التربة', '#9a8a12'],
+    decid: ['🍂 الغابات المتساقطة الأوراق', 'تتلوّن أوراقها في الخريف… ثم تتساقط عندما يقترب الشتاء', '#d8662a'],
+    rain: ['🦜 الغابات الاستوائية المطيرة', 'حارّة رطبة قرب خط الاستواء… وأمطارها تزيد على مترين في السنة', '#139a55'] };
+  document.querySelectorAll('.slide.cine .cp').forEach((f) => f.addEventListener('click', (e) => {
+    e.stopPropagation(); const k = f.dataset.k, c = CINE[k], full = f.closest('.slide').querySelector('.cfull');
+    full.style.setProperty('--c', c[2]);
+    full.innerHTML = `<img src="${f.querySelector('img').src}" alt=""><div class="ccap" style="--c:${c[2]}"><b>${c[0]}</b><span>${c[1]}</span></div>`;
+    full.classList.add('on'); try { chime(1); } catch (er) {}
+  }));
+  document.querySelectorAll('.slide.cine .cfull').forEach((x) => x.addEventListener('click', (e) => { e.stopPropagation(); x.classList.remove('on'); }));
+})();
+</script>
 </body>
 </html>
