@@ -657,6 +657,25 @@
     text-shadow: 0 2px 0 #0004, 0 4px 0 #0003, 0 8px 16px #0006; box-shadow: inset 0 3px 0 #fff4, 0 12px 26px #000a; }
   .ccap span { display: block; margin: 1.4vh auto 0; width: fit-content; max-width: 100%; font-family: 'Zain', sans-serif; font-weight: 700; font-size: clamp(16px, 1.8vw, 28px); color: #fff; background: #000c; border-radius: 16px; padding: 6px 18px; }
   @keyframes capUp { from { opacity: 0; transform: translateY(30px); } }
+  .rw { display: flex; flex-direction: column; gap: 8px; }
+  .rwh { font-weight: 800; color: var(--green); }
+  .rwbank { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; border: 3px dashed #c9a36a; border-radius: 14px; background: #fffaf0; justify-content: center; }
+  .rwc { font: inherit; font-weight: 800; border: 2px solid #c9a36a; background: #fff; border-radius: 20px; padding: 3px 12px; cursor: pointer; }
+  .rwc.on { background: #ffd23f; border-color: #b98f00; transform: translateY(-2px); }
+  .rwt p.rwl { margin: 6px 0; line-height: 2.2; }
+  .rwt.rwlist p.rwl { border-bottom: 1px dashed #ddd; padding-bottom: 4px; }
+  .rwb { font: inherit; font-weight: 800; min-width: 110px; border: none; border-bottom: 3px dotted #2e86c1; background: #eef6ff; border-radius: 8px; padding: 0 8px; cursor: pointer; color: #1b4f9c; }
+  .rwb.ok { background: #e6f6e1; border-bottom-color: #3fa34d; color: #1e6b2e; }
+  .rwb.no { background: #fde2e2; animation: shk .3s 2; }
+  @keyframes shk { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  .rwbox { background: #fff; border: 2px solid var(--leaf); border-radius: 14px; padding: 8px 12px; }
+  .rwbox p { margin: 4px 0; }
+  .rwflow { display: flex; flex-direction: column; align-items: stretch; gap: 2px; }
+  .rws { position: relative; border: 2px solid #8cc46e; border-radius: 12px; padding: 6px 10px; background: #f7fcf3; }
+  .rws b { display: block; text-align: center; color: var(--green); }
+  .rw textarea { width: 100%; box-sizing: border-box; font: inherit; border: 1px dashed #b9c9b0; border-radius: 10px; padding: 6px; min-height: 52px; background: #fff; }
+  .rw textarea.tipd { background: #fffbe6; }
+  .rwa { text-align: center; font-style: normal; color: #f5a300; font-size: 20px; }
 </style>
 </head>
 <body data-env="sky">
@@ -688,9 +707,9 @@
     <div class="slide"><img src="img/board.jpg" alt="المناطق الحيوية – قوانين الرحلة"></div>
     <div class="slide"><button class="btn main wtnbtn" onclick="openVid('vid/flag.mp4')">🎬 شغّلي النشيد الوطني</button><img src="img/flag.jpg" alt="رب اجعل هذا البلد آمنا"></div>
     <div class="slide wtn"><button class="btn main wtnbtn" onclick="openVid('vid/watan.mp4')">🎬 شغّلي فيديو «وطني أحبك لا بديل»</button><div class="wbox"><img src="img/watan.jpg" alt="وطني أحبك لا بديل"><button class="wplay" onclick="openVid('vid/watan.mp4')" title="تشغيل الفيديو"></button></div></div>
-    <div class="slide cine"><div class="cstage"><h2 class="ctitle">إلى أين تأخذنا رحلة اليوم؟ 🧭</h2><div class="car"><figure class="cp r" data-k="grass" data-n="🌾 الأراضي العشبية" data-t="الأعشاب هي المكوّن الرئيس… وتربتها من أخصب أنواع التربة" style="--c:#9a8a12"><img src="img/c_grass.jpg" alt="🌾 الأراضي العشبية"><figcaption>🌾 الأراضي العشبية</figcaption></figure><svg class="carr a1" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp m" data-k="decid" data-n="🍂 الغابات المتساقطة الأوراق" data-t="تتلوّن أوراقها في الخريف… ثم تتساقط عندما يقترب الشتاء" style="--c:#d8662a"><img src="img/c_decid.jpg" alt="🍂 الغابات المتساقطة الأوراق"><figcaption>🍂 الغابات المتساقطة الأوراق</figcaption></figure><svg class="carr a2" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp l" data-k="rain" data-n="🦜 الغابات الاستوائية المطيرة" data-t="حارّة رطبة قرب خط الاستواء… وأمطارها تزيد على مترين في السنة" style="--c:#139a55"><img src="img/c_rain.jpg" alt="🦜 الغابات الاستوائية المطيرة"><figcaption>🦜 الغابات الاستوائية المطيرة</figcaption></figure></div><p class="chint">اضغطي على الصورة لتدخلي المنطقة 🎬 … ثم اضغطي مرة أخرى للرجوع</p></div><div class="cfull"></div></div>
     <div class="slide tam"><div class="tamh">🍂 لماذا تتلوّن أوراق بعض الأشجار بالأحمر والأصفر ثم تتساقط؟ ولماذا تبقى غابات أخرى خضراء طوال العام؟</div><img class="tamimg" src="img/b_decid.jpg" alt="الغابات المتساقطة الأوراق ص١٥٣"></div>
-    <div class="slide goals"><div class="box">
+    <div class="slide cine"><div class="cstage"><h2 class="ctitle">إلى أين تأخذنا رحلة اليوم؟ 🧭</h2><div class="car"><figure class="cp r" data-k="grass" data-n="🌾 الأراضي العشبية" data-t="الأعشاب هي المكوّن الرئيس… وتربتها من أخصب أنواع التربة" style="--c:#9a8a12"><img src="img/c_grass.jpg" alt="🌾 الأراضي العشبية"><figcaption>🌾 الأراضي العشبية</figcaption></figure><svg class="carr a1" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp m" data-k="decid" data-n="🍂 الغابات المتساقطة الأوراق" data-t="تتلوّن أوراقها في الخريف… ثم تتساقط عندما يقترب الشتاء" style="--c:#d8662a"><img src="img/c_decid.jpg" alt="🍂 الغابات المتساقطة الأوراق"><figcaption>🍂 الغابات المتساقطة الأوراق</figcaption></figure><svg class="carr a2" viewBox="0 0 80 40" aria-hidden="true"><path d="M74 26 Q40 2 8 22 M8 22 L22 12 M8 22 L22 31"/></svg><figure class="cp l" data-k="rain" data-n="🦜 الغابات الاستوائية المطيرة" data-t="حارّة رطبة قرب خط الاستواء… وأمطارها تزيد على مترين في السنة" style="--c:#139a55"><img src="img/c_rain.jpg" alt="🦜 الغابات الاستوائية المطيرة"><figcaption>🦜 الغابات الاستوائية المطيرة</figcaption></figure></div><p class="chint">اضغطي على الصورة لتدخلي المنطقة 🎬 … ثم اضغطي مرة أخرى للرجوع</p></div><div class="cfull"></div></div>
+        <div class="slide goals"><div class="box">
       <span class="strat"><b>الاستراتيجية:</b> أهدافي اليوم</span>
       <h2>🎯 في نهاية الدرس أستطيع أن:</h2>
       <ol>
@@ -737,6 +756,9 @@
     <div class="gamecards">
       <button class="gcard" onclick="game('who')"><div class="ic">🕵️</div><b>من أنا؟</b>اعرفي المنطقة من وصفها</button>
       <button class="gcard" onclick="worldTrip()"><div class="ic">✈️</div><b>رحلة حول العالم</b>مسابقة المحطات بين المجموعات</button>
+      <button class="gcard" onclick="rwGame('vocab')"><div class="ic">🔤</div><b>مفردات الدرس</b>أطابق الرمز مع الوصف</button>
+      <button class="gcard" onclick="rwGame('close')"><div class="ic">🧩</div><b>نشاط ختامي</b>أملأ الفراغات</button>
+      <button class="gcard" onclick="rwGame('write')"><div class="ic">✍️</div><b>الكتابة العلمية</b>رحلة إلى محمية ريدة</button>
     </div>
     <div class="play" id="play"></div>
   </div>
@@ -1149,6 +1171,9 @@ const STATIONS = [
       ${flipH('لماذا تُعدّ الغابات الاستوائية المطيرة موطنًا لأنواع كثيرة جدًّا؟', 'لأن مناخها مناسب لعيش أنواع كثيرة، كالقردة والثعابين والببغاوات والطوقان؛ فهي موطن لأنواع تزيد على ما هو موجود في كافة المناطق الحيوية مجتمعة.', 'أستنتج', '0.5386,0.4677,0.3797,0.1434')}
       <div id="gate3"></div>
     </div></div>`, after: () => { gate('gate3', 'بوابة الجوازات 🛂: يزيد معدّل الأمطار السنوي في الغابات الاستوائية المطيرة على…', ['٢٥ سنتمترًا', 'سنتمتر واحد', 'مترين'], 2, 'rain'); } },
+  { icon: '📝', name: 'المخطّط التمهيدي', page: 154, env: 'sky', html: () => `
+    <span class="strat"><b>الاستراتيجية:</b> تنمية مهارات القراءة – أملأ الفراغ</span><h2>📝 المخطّط التمهيدي: ما الأراضي العشبية؟ وما الغابات؟</h2>
+    <div id="rwPre"></div>`, after: () => { rwCloze('rwPre', RW.pre); } },
   { icon: '✅', name: 'أختبر نفسي', page: 154, env: 'sky', html: () => `
     <span class="strat"><b>الاستراتيجية:</b> أختبر نفسي – المقارنة والتفكير الناقد</span><h2>✅ أختبر نفسي</h2>
     <div class="grid2 body"><div class="pagecol">${page(154)}</div><div class="txt">
@@ -1240,7 +1265,7 @@ function valve(fromTop) {
 const done = new Set();
 let cur = 0;
 // ───── The little teacher in the corner of every station: a speech bubble explains the station; tap her to hear it
-const LT_TIPS = ["اضغطي الدبابيس لتعرفي أين تقع الأراضي العشبية والغابات… وافتحي جوازك 🛂", "ما أهمية جذور الأعشاب؟ صنّفي الحيوانات حسب قارّتها، ثم ختم الأراضي العشبية 🌾", "لماذا تتساقط الأوراق قرب الشتاء؟ اقرئي الدليل المظلَّل، ثم ختم الغابات المتساقطة 🍂", "حارّة رطبة كثيرة الأمطار… ثم ختم الغابات الاستوائية المطيرة 🦜", "أقارن وأفكّر… ثم صنّفي: الاستوائية أم المعتدلة أم كلتاهما؟ ✅", "نربط ما تعلّمناه بديننا ووطننا وحياتنا 🔗"];
+const LT_TIPS = ["اضغطي الدبابيس لتعرفي أين تقع الأراضي العشبية والغابات… وافتحي جوازك 🛂", "ما أهمية جذور الأعشاب؟ صنّفي الحيوانات حسب قارّتها، ثم ختم الأراضي العشبية 🌾", "لماذا تتساقط الأوراق قرب الشتاء؟ اقرئي الدليل المظلَّل، ثم ختم الغابات المتساقطة 🍂", "حارّة رطبة كثيرة الأمطار… ثم ختم الغابات الاستوائية المطيرة 🦜", "أملأ الفراغات من كتابي: الأراضي العشبية والغابات 📝", "أقارن وأفكّر… ثم صنّفي: الاستوائية أم المعتدلة أم كلتاهما؟ ✅", "نربط ما تعلّمناه بديننا ووطننا وحياتنا 🔗"];
 function teach(i) {
   const nav = document.querySelector('#stBody .nav'); if (!nav) return;
   const s = STATIONS[i], tmp = document.createElement('div'); tmp.innerHTML = s.html();
@@ -1740,6 +1765,45 @@ mission(0);
   }));
   document.querySelectorAll('.slide.cine .cfull').forEach((x) => x.addEventListener('click', (e) => { e.stopPropagation(); x.classList.remove('on'); }));
 })();
+</script>
+<script>var RW = {"pre": {"title": "📝 مخطّط تمهيدي للدرس", "src": "مهارات القراءة والكتابة ص٦٢", "ins": "أستعينُ بكتابي المدرسيِّ ليساعدَني على ملءِ الفراغاتِ: ما الأراضي العشبيةُ؟ وما الغاباتُ؟", "bank": ["الأراضي العشبية", "المتساقطة الأوراق", "الغابات الاستوائية المطيرة", "التايجا", "التندرا"], "lines": [["١١. تُشكِّلُ الأعشابُ المكونَ الرئيسَ مِنَ النباتاتِ في ", {"a": "الأراضي العشبية"}, "."], ["١٢. تحتوي الغاباتُ ", {"a": "المتساقطة الأوراق"}, " على أشجارٍ تفقدُ أوراقَها في فصلَي الخريفِ والشتاءِ."], ["١٣. تُسمَّى الغاباتُ القريبةُ مِنْ خطِّ الاستواءِ وتُعدُّ موطنًا لتنوعٍ كبيرٍ من أنواعٍ مختلفةٍ مِنَ النباتاتِ والحيواناتِ ", {"a": "الغابات الاستوائية المطيرة"}, "."]]}, "vocab": {"title": "🔤 مفردات الدرس", "src": "مهارات القراءة والكتابة ص٦٣", "ins": "أضعُ رمزَ الكلمةِ أمامَ الوصفِ الذي يناسبُها.", "list": true, "bank": ["أ. المنطقة الحيوية", "ب. المناخ", "ج. الغابة المتساقطة الأوراق", "د. الصحراء", "و. الأراضي العشبية", "ز. التايجا", "ح. الغابات الاستوائية المطيرة", "ط. التندرا"], "lines": [[{"a": "ط. التندرا"}, " منطقةٌ حيويةٌ تقعُ في المنطقةِ الشماليةِ للكرةِ الأرضيةِ وتُشكِّلُ دائرةً حولَ القطبِ الشماليِّ، وهي ذاتُ فصولِ شتاءٍ باردةٍ جدًّا، وفصولِ صيفٍ قصيرةٍ."], [{"a": "د. الصحراء"}, " منطقةٌ حيويةٌ معدلُ تساقطِ الأمطارِ فيها أقلُّ من ٢٥ سنتمترًا في العامِ."], [{"a": "و. الأراضي العشبية"}, " منطقةٌ حيويةٌ تُشكِّلُ الأعشابُ – على اختلافِ أنواعِها – المكوِّنَ الرئيسَ مِنَ النباتاتِ."], [{"a": "ز. التايجا"}, " غابةٌ باردةٌ ذاتُ أشجارٍ مخروطيةٍ دائمةِ الخضرةِ."], [{"a": "ج. الغابة المتساقطة الأوراق"}, " منطقةٌ حيويةٌ تفقدُ الأشجارُ فيها أوراقَها عندَما يقتربُ الشتاءُ."], [{"a": "ب. المناخ"}, " متوسطُ الحالةِ الجويةِ في منطقةٍ جغرافيةٍ معينةٍ خلالَ فترةٍ زمنيةٍ طويلةٍ."], [{"a": "أ. المنطقة الحيوية"}, " منطقةٌ جغرافيةٌ يسودُ فيها مناخٌ معينٌ، ويعيشُ فيها أنواعٌ معينةٌ مِنَ الحيواناتِ والنباتاتِ."], [{"a": "ح. الغابات الاستوائية المطيرة"}, " منطقةٌ حيويةٌ تقعُ قربَ دائرةِ الاستواءِ، ومناخُها حارٌّ ورطبٌ، وتساقطُ الأمطارِ فيها غزيرٌ."]]}, "close": {"title": "🧩 نشاط ختامي للدرس", "src": "مهارات القراءة والكتابة ص٦٤", "ins": "أختارُ الكلمةَ المناسبةَ ممّا يأتي لأملأَ الفراغاتِ.", "bank": ["المناطق الحيوية", "المتساقطة الأوراق", "التايجا", "الصحاري", "التندرا", "دائرة الاستواء"], "lines": [["تُصنَّفُ اليابسةُ على سطحِ الأرضِ إلى مناطقَ مُناخيةٍ رئيسةٍ، وتُسمَّى هذه المناطقُ التي تحتوي على مخلوقاتٍ حيةٍ مختلفةٍ ", {"a": "المناطق الحيوية"}, "، وتشملُ الغاباتِ ", {"a": "المتساقطة الأوراق"}, "، وهي مناطقُ حيويةٌ ذاتُ أشجارٍ تفقدُ أوراقَها في فصلَي الخريفِ والشتاءِ. وهناكَ مناطقُ حيويةٌ أخرى تحتوي على غاباتٍ ذاتِ أشجارٍ دائمةِ الخضرةِ تُسمَّى ", {"a": "التايجا"}, ". وتُعدُّ ", {"a": "الصحاري"}, " مِنَ المناطقِ الحيويةِ القليلةِ المياهِ، وقد تكونُ حارَّةً أو باردةً. أما ", {"a": "التندرا"}, " فهي المنطقةُ الحيويةُ الواقعةُ أقصى الشمالِ، وتحيطُ بالمناطقِ الواقعةِ جنوبيَّ القطبِ الشماليِّ. والمناطقُ الحيويةُ التي تقعُ بالقربِ من ", {"a": "دائرة الاستواء"}, " هي الغاباتُ الاستوائيةُ المطيرةُ."]]}, "write": {"kind": "write", "title": "✍️ الكتابة العلمية: رحلة إلى محمية ريدة", "src": "مهارات القراءة والكتابة ص٦٥", "ins": "أقرأُ فقرةَ الكتابةِ العلميةِ في كتابي.", "about": "أكتبُ تجربةً شخصيةً حولَ رحلةٍ بيئيةٍ مميّزةٍ، أو نظامٍ بيئيٍّ، قد يكونُ صحراءَ أو غابةً مطيرةً، أو أيَّ منطقةٍ مغطّاةٍ بالثلوجِ، أو حتى شاطئًا. أستخدمُ وجهةَ نظري الشخصيةَ لأرويَ ما لاحظتُ وما عملتُ.", "ideas": "أفكّرُ في عملِ قائمةٍ بالأماكنِ التي قد أكتبُ عنها، ثم أختارُ مكانًا واحدًا. أملأُ المخططَ التالي وأكتبُ الأشياءَ التي عملتُها أو لاحظتُها وفقًا لتسلسلِ حدوثِها الزمنيِّ.", "steps": [["أولًا", "رافقتُ والدي وأخذتُ آلة تصوير إلى محمية ريدة."], ["ثانيًا", "شاهدتُ طائر الحجل العربي الأحمر يمشي بين الأعشاب، وطائر نقار الخشب يقف على فرعٍ عالٍ من الشجرة."], ["ثالثًا", "شاهدتُ الكثير من أنواع النباتات منها شجر العثم والعرعر."], ["أخيرًا", "التقطتُ صورًا للطائرين ولحيوانات أخرى شاهدتُها مثل الذئب والبابون، وكذلك لنباتات مثل العثم."]], "draft": "أبدأُ القصةَ بجملةٍ تبيّنُ لماذا كانَ المكانُ مميزًا، وأستعملُ الضميرَ «أنا».", "draftEx": "كانت رحلتي إلى محمية ريدة نقطة مضيئة في حياتي، وخبرة لا تُنسى…"}};</script>
+<script>// ===== مهارات القراءة والكتابة: أملأ الفراغ • أطابق المفردات • الكتابة العلمية
+function rwCloze(id, D) {
+  const el = document.getElementById(id); if (!el) return; let pick = null, done = 0, tot = 0;
+  const bank = [...D.bank].sort(() => Math.random() - .5);
+  const lines = D.lines.map((ln) => `<p class="rwl">${ln.map((p) => typeof p === 'string' ? p : (tot++, `<button class="rwb" data-a="${p.a}">……………</button>`)).join('')}</p>`).join('');
+  el.innerHTML = `<div class="rw"><div class="rwh">${D.ins} <span class="pgb">📘 ${D.src}</span></div>
+    <div class="rwbank">${bank.map((w) => `<button class="rwc">${w}</button>`).join('')}</div>
+    <div class="rwt ${D.list ? 'rwlist' : ''}">${lines}</div><div class="msg rwm">👆 اختاري كلمة من الصندوق، ثم اضغطي على الفراغ المناسب.</div>
+    <div class="steps"><button class="btn rwall">💡 أظهري الإجابات (للتعلّم عن بُعد)</button><button class="btn rwre">↺ من جديد</button></div></div>`;
+  const m = el.querySelector('.rwm');
+  el.querySelectorAll('.rwc').forEach((c) => c.onclick = () => { el.querySelectorAll('.rwc').forEach((x) => x.classList.remove('on')); c.classList.add('on'); pick = c.textContent; });
+  el.querySelectorAll('.rwb').forEach((b) => b.onclick = () => {
+    if (b.classList.contains('ok')) return;
+    if (!pick) { m.className = 'msg rwm'; m.textContent = '👆 اختاري كلمة من الصندوق أولًا.'; return; }
+    if (pick === b.dataset.a) { b.textContent = pick; b.classList.add('ok'); done++; m.className = 'msg good rwm'; m.textContent = `✔ أحسنتِ! (${ar(done)} من ${ar(tot)})`; try { chime(1); } catch (e) {}
+      if (done === tot) { m.textContent = '🌟 ممتاز! أكملتِ كل الفراغات.'; try { award(2, m); confetti(); } catch (e) {} } }
+    else { b.classList.add('no'); setTimeout(() => b.classList.remove('no'), 600); m.className = 'msg bad rwm'; m.textContent = '💡 فكّري مرة أخرى… ارجعي إلى كتابك.'; }
+  });
+  el.querySelector('.rwall').onclick = () => { el.querySelectorAll('.rwb').forEach((b) => { b.textContent = b.dataset.a; b.classList.add('ok', 'shown'); }); m.className = 'msg good rwm'; m.textContent = '📘 هذه الإجابات من دليل تنمية مهارات القراءة والكتابة.'; };
+  el.querySelector('.rwre').onclick = () => rwCloze(id, D);
+}
+var RWW = {}; try { RWW = JSON.parse(localStorage.getItem('rw-write') || '{}'); } catch (e) {}
+function rwWrite(id, D) {
+  const el = document.getElementById(id); if (!el) return;
+  el.innerHTML = `<div class="rw"><div class="rwh">${D.ins} <span class="pgb">📘 ${D.src}</span></div>
+    <div class="rwbox"><b>✍️ أكتب عن: التجربة الذاتية</b><p>${D.about}</p></div>
+    <p class="tlab">💭 أقدّم أفكارًا: ${D.ideas}</p>
+    <div class="rwflow">${D.steps.map(([h, ex], i) => `<div class="rws"><b>${h}</b><textarea data-k="${i}" placeholder="اكتبي ما عملتِه أو لاحظتِه…">${(RWW[i] || '').replace(/</g, '&lt;')}</textarea><button class="wtip" data-k="${i}">💡 مثال</button></div>`).join('<i class="rwa">⬇</i>')}</div>
+    <div class="rwbox"><b>📝 إعداد المسوّدة</b><p>${D.draft}</p><textarea class="rwd" data-k="d" placeholder="أبدأ قصتي بجملة جذّابة…">${(RWW.d || '').replace(/</g, '&lt;')}</textarea><button class="wtip" data-k="d">💡 مثال</button></div>
+    <p class="wsnap">📸 بعد الكتابة: صوّري الشاشة وأرسليها لمعلمتك 💌</p></div>`;
+  el.querySelectorAll('textarea').forEach((t) => t.oninput = () => { RWW[t.dataset.k] = t.value; try { localStorage.setItem('rw-write', JSON.stringify(RWW)); } catch (e) {} });
+  el.querySelectorAll('.wtip').forEach((b) => b.onclick = () => { const k = b.dataset.k, t = el.querySelector(`textarea[data-k="${k}"]`); t.value = k === 'd' ? D.draftEx : D.steps[+k][1]; t.classList.add('tipd'); t.oninput(); try { chime(1); } catch (e) {} });
+}
+function rwGame(k) {
+  const D = RW[k]; $('#play').innerHTML = `<div class="box"><h2>${D.title}</h2><div id="rwX"></div></div>`;
+  (D.kind === 'write' ? rwWrite : rwCloze)('rwX', D); $('#play').scrollIntoView({ behavior: 'smooth' });
+}
 </script>
 </body>
 </html>
