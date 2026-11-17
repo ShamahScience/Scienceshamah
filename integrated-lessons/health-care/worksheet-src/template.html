@@ -14,6 +14,11 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
+a.btn{display:inline-block;text-decoration:none;color:inherit}
+.gcard a.btn,a.btn.main{color:#fff}
+section:target{display:flex!important}
+.wrap:has(section:target) > #home{display:none!important}
+#nojs{background:#fff3cd;border:3px solid #e0a800;border-radius:18px;padding:12px 16px;font-weight:700;color:#5c4400;line-height:1.8;max-width:1100px;margin:0 auto 14px}
 html{-webkit-text-size-adjust:100%;min-height:100%;background:var(--bg)}
 body{min-height:100vh}
 body{margin:0;background:radial-gradient(circle at 90% 0,#e6f3da 0,transparent 40%),radial-gradient(circle at 0 100%,#efe7fb 0,transparent 45%),var(--bg);
@@ -141,6 +146,7 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
 </style>
 </head>
 <body>
+<div id="nojs">تنبيه: يبدو أن الملف مفتوح في «المعاينة» داخل التطبيق، وهي لا تشغّل الأنشطة التفاعلية.<br>اضغطي زر المشاركة أو النقاط الثلاث، ثم اختاري «فتح في Safari» أو «فتح في Chrome» أو «فتح باستخدام المتصفح».</div>
 <div class="wrap">
 
 <!-- ================= HOME ================= -->
@@ -164,25 +170,25 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
       <div class="top"><span class="badge">{{svg:heart}}</span><div><h2>سفيرات الصحة</h2><div class="lvl">التذكر والفهم</div></div></div>
       <img src="{{g1.jpg}}" alt="طالبات مجموعة سفيرات الصحة">
       <p>نسترجع العادات الصحية، ونحدد أهميتها، ونصنّف الصور.</p>
-      <button class="btn" data-open="t1">افتحي المهمة</button>
+      <a class="btn" href="#t1" data-open="t1">افتحي المهمة</a>
     </article>
     <article class="gcard g2">
       <div class="top"><span class="badge">{{svg:star}}</span><div><h2>نجمات النشاط</h2><div class="lvl">الفهم والتحليل</div></div></div>
       <img src="{{g2.jpg}}" alt="طالبات مجموعة نجمات النشاط">
       <p>نقارن بين سلوكيات مختلفة، ونفسّر أثرها على الصحة.</p>
-      <button class="btn" data-open="t2">افتحي المهمة</button>
+      <a class="btn" href="#t2" data-open="t2">افتحي المهمة</a>
     </article>
     <article class="gcard g3">
       <div class="top"><span class="badge">{{svg:gear}}</span><div><h2>خبيرات العادات</h2><div class="lvl">التطبيق</div></div></div>
       <img src="{{g3.jpg}}" alt="طالبات مجموعة خبيرات العادات">
       <p>نركّب نموذجًا ليوم صحي باختيار العادات المناسبة وترتيبها.</p>
-      <button class="btn" data-open="t3">افتحي المهمة</button>
+      <a class="btn" href="#t3" data-open="t3">افتحي المهمة</a>
     </article>
     <article class="gcard g4">
       <div class="top"><span class="badge">{{svg:bulb}}</span><div><h2>مبدعات الصحة</h2><div class="lvl">الإبداع والتقويم</div></div></div>
       <img src="{{g4.jpg}}" alt="طالبات مجموعة مبدعات الصحة">
       <p>نؤلف قصة قصيرة توضح تغيّر عادة غير صحية إلى صحية، ونصف نتيجتها.</p>
-      <button class="btn" data-open="t4">افتحي المهمة</button>
+      <a class="btn" href="#t4" data-open="t4">افتحي المهمة</a>
     </article>
   </div>
 </section>
@@ -208,7 +214,7 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
     </div>
     <label class="q" for="t1why">أذكر السبب: لماذا صنّفتُ بطاقتين على الأقل في مكانهما؟</label>
     <textarea id="t1why" placeholder="مثال: غسل اليدين عادة صحية لأن…"></textarea>
-    <div class="row"><button class="btn go" data-check="t1">تحقّقي</button><button class="btn" data-retry="t1">إعادة المحاولة</button><button class="btn" data-print="t1">طباعة / حفظ PDF</button><button class="btn main" data-home>العودة إلى المجموعات</button></div>
+    <div class="row"><button class="btn go" data-check="t1">تحقّقي</button><button class="btn" data-retry="t1">إعادة المحاولة</button><button class="btn" data-print="t1">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
     <div class="fb" id="fb-t1"></div>
   </div>
 </section>
@@ -233,7 +239,7 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
     <label class="q" for="t2q3">ماذا تلاحظين؟ وبماذا تفسّرين ذلك؟</label>
     <textarea id="t2q3" placeholder="اكتبي ملاحظتك وتفسيرك…"></textarea>
     <p class="model" id="t2m3" hidden>إجابة نموذجية: يزداد عدد نبضات القلب كلما زاد مجهود الجسم: أقلها دون حركة، وأكثرها عند الركض؛ لأن الجسم يحتاج إلى نشاط أكبر عند ممارسة الرياضة.</p>
-    <div class="row"><button class="btn go" data-check="t2">تحقّقي</button><button class="btn" data-retry="t2">إعادة المحاولة</button><button class="btn" data-print="t2">طباعة / حفظ PDF</button><button class="btn main" data-home>العودة إلى المجموعات</button></div>
+    <div class="row"><button class="btn go" data-check="t2">تحقّقي</button><button class="btn" data-retry="t2">إعادة المحاولة</button><button class="btn" data-print="t2">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
     <div class="fb" id="fb-t2"></div>
   </div>
 </section>
@@ -258,7 +264,7 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
       <div class="item" data-k="s4" tabindex="0"><img src="{{v-sport.jpg}}" alt="">أمارس الرياضة</div>
       <div class="item" data-k="s2" tabindex="0"><img src="{{i-hands.jpg}}" alt="">أغسل يديّ قبل تناول الطعام</div>
     </div>
-    <div class="row"><button class="btn go" data-check="t3">تحقّقي</button><button class="btn" data-retry="t3">إعادة المحاولة</button><button class="btn" data-print="t3">طباعة / حفظ PDF</button><button class="btn main" data-home>العودة إلى المجموعات</button></div>
+    <div class="row"><button class="btn go" data-check="t3">تحقّقي</button><button class="btn" data-retry="t3">إعادة المحاولة</button><button class="btn" data-print="t3">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
     <div class="fb" id="fb-t3"></div>
   </div>
 </section>
@@ -290,7 +296,7 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
       <label><input type="checkbox" data-c>رسم أو صورة لكل مشهد</label>
       <label><input type="checkbox" data-c>عنوان جذاب</label>
     </div>
-    <div class="row"><button class="btn go" data-check="t4">تحقّقي من قصتي</button><button class="btn" data-retry="t4">إعادة المحاولة</button><button class="btn" data-print="t4">طباعة / حفظ PDF</button><button class="btn main" data-home>العودة إلى المجموعات</button></div>
+    <div class="row"><button class="btn go" data-check="t4">تحقّقي من قصتي</button><button class="btn" data-retry="t4">إعادة المحاولة</button><button class="btn" data-print="t4">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
     <div class="fb" id="fb-t4"></div>
   </div>
 </section>
@@ -312,11 +318,13 @@ $('#sname').addEventListener('input',function(){student=this.value.trim();$('#wa
 
 function show(id){$$('section').forEach(function(s){s.hidden=s.id!==id});window.scrollTo(0,0);
   $$('[data-name]').forEach(function(e){e.textContent='الطالبة: '+(student||'—')});}
-$$('[data-open]').forEach(function(b){b.addEventListener('click',function(){
+var nj=document.getElementById('nojs');if(nj)nj.style.display='none';
+$$('[data-open]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();
   student=$('#sname').value.trim();
   if(!student){$('#warn').textContent='اكتبي اسمك أولًا، ثم افتحي مهمة مجموعتك.';$('#sname').focus();return}
   show(b.getAttribute('data-open'))})});
-$$('[data-home]').forEach(function(b){b.addEventListener('click',function(){show('home')})});
+$$('[data-home]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();show('home');try{history.replaceState(null,'',location.pathname)}catch(x){}})});
+if(/^#t[1-4]$/.test(location.hash)){student=$('#sname').value.trim();show(location.hash.slice(1))}
 
 function fb(id,ok,msg,n){var f=$('#fb-'+id);f.className='fb '+(ok?'ok':'no');f.innerHTML=msg+(n?' <span class="stars">'+new Array(n+1).join(STAR)+'</span>':'')}
 
