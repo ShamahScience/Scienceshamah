@@ -1,0 +1,115 @@
+<!-- ================= TASK 1 ================= -->
+<section id="t1" class="wrap g1" style="max-width:none" hidden>
+  <div class="thead"><span class="badge">{{svg:heart}}</span><div><h2>مهمة سفيرات الصحة</h2><div class="who"><span class="js-only" data-name></span><span>مجموعة سفيرات الصحة</span><span>التذكر والفهم</span></div></div><img src="{{girl.png}}" alt=""></div>
+  <form class="panel" id="f1" onsubmit="return false">
+    <input type="radio" class="chk" name="c1" id="c1" aria-label="تحقّقي">
+    <p class="mission">المهمة: نحدد العادات الصحية، ونصنّف الصور إلى «عادة صحية» و«عادة غير صحية». تختار الطالبة تصنيف كل بطاقة وتذكر السبب.</p>
+    <p class="hint">المسي «صحية» أو «غير صحية» تحت كل بطاقة.</p>
+    <div class="items cards">
+      <div class="item"><img src="{{i-hands.jpg}}" alt=""><b>غسل اليدين</b><div class="pick"><label><input type="radio" name="a1" value="صحية" data-ok><span>صحية</span></label><label><input type="radio" name="a1" value="غير صحية"><span>غير صحية</span></label></div></div>
+      <div class="item txt"><b>استخدام أدوات الآخرين الشخصية</b><div class="pick"><label><input type="radio" name="a2" value="صحية"><span>صحية</span></label><label><input type="radio" name="a2" value="غير صحية" data-ok><span>غير صحية</span></label></div></div>
+      <div class="item"><img src="{{i-teeth.jpg}}" alt=""><b>تنظيف الأسنان</b><div class="pick"><label><input type="radio" name="a3" value="صحية" data-ok><span>صحية</span></label><label><input type="radio" name="a3" value="غير صحية"><span>غير صحية</span></label></div></div>
+      <div class="item txt"><b>الإكثار من المشروبات الغازية</b><div class="pick"><label><input type="radio" name="a4" value="صحية"><span>صحية</span></label><label><input type="radio" name="a4" value="غير صحية" data-ok><span>غير صحية</span></label></div></div>
+      <div class="item"><img src="{{i-nails.jpg}}" alt=""><b>تقليم الأظافر</b><div class="pick"><label><input type="radio" name="a5" value="صحية" data-ok><span>صحية</span></label><label><input type="radio" name="a5" value="غير صحية"><span>غير صحية</span></label></div></div>
+      <div class="item txt"><b>السهر ليلًا</b><div class="pick"><label><input type="radio" name="a6" value="صحية"><span>صحية</span></label><label><input type="radio" name="a6" value="غير صحية" data-ok><span>غير صحية</span></label></div></div>
+      <div class="item"><img src="{{i-hat.jpg}}" alt=""><b>حماية الجلد والعينين من الشمس</b><div class="pick"><label><input type="radio" name="a7" value="صحية" data-ok><span>صحية</span></label><label><input type="radio" name="a7" value="غير صحية"><span>غير صحية</span></label></div></div>
+    </div>
+    <label class="q" for="t1why">أذكر السبب: لماذا صنّفتُ بطاقتين على الأقل هذا التصنيف؟</label>
+    <textarea id="t1why" name="why" placeholder="مثال: غسل اليدين عادة صحية لأن…"></textarea>
+    <div class="row"><label class="btn go" for="c1">تحقّقي</label><button class="btn" type="reset">إعادة المحاولة</button><button class="btn js-only" type="button" data-print="t1">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
+    <div class="fb">
+      <p class="m-ok">أحسنتِ يا سفيرة الصحة! صنّفتِ جميع العادات تصنيفًا صحيحًا. <span class="stars">{{stars}}</span></p>
+      <p class="m-try">التصنيف الأخضر صحيح، والأحمر يحتاج إلى مراجعة. غيّري اختيارك ثم تحقّقي مرة أخرى.</p>
+    </div>
+  </form>
+</section>
+
+<!-- ================= TASK 2 ================= -->
+<section id="t2" class="wrap g2" style="max-width:none" hidden>
+  <div class="thead"><span class="badge">{{svg:star}}</span><div><h2>مهمة نجمات النشاط</h2><div class="who"><span class="js-only" data-name></span><span>مجموعة نجمات النشاط</span><span>الفهم والتحليل</span></div></div><img src="{{run.png}}" alt=""></div>
+  <form class="panel" id="f2" onsubmit="return false">
+    <input type="radio" class="chk" name="c2" id="c2" aria-label="تحقّقي">
+    <p class="mission">المهمة: نقارن بين سلوكين مختلفين، ونفسّر أثر كل منهما على الصحة، ونحلل نتائج قياس نبضات القلب.</p>
+    <div class="two">
+      <div class="person" style="--pc:var(--green);--pd:var(--green-d)"><b>ريم</b>تمشي ٣٠ دقيقة يوميًا، وتلعب مع أخواتها في الهواء الطلق، وتنام مبكرًا.</div>
+      <div class="person" style="--pc:var(--pink);--pd:var(--pink-d)"><b>هند</b>تجلس أمام الشاشة ساعات طويلة، ولا تمارس الرياضة، وتسهر ليلًا.</div>
+    </div>
+    <p class="q">١ أيهما تحافظ على صحتها أكثر؟</p>
+    <div class="items"><div class="item wide"><div class="pick big"><label><input type="radio" name="q1" value="ريم" data-ok><span>ريم</span></label><label><input type="radio" name="q1" value="هند"><span>هند</span></label></div></div></div>
+    <label class="q" for="t2q2">٢ فسّري: لماذا تشعر ريم بالنشاط أكثر من هند؟</label>
+    <textarea id="t2q2" name="q2" placeholder="اكتبي تفسيرك…"></textarea>
+    <p class="model">إجابة نموذجية: الرياضة تقوي العضلات وتزيد كفاءة الجهاز التنفسي فيزداد نشاط الجسم، والنوم المبكر يريح الجسم ويحافظ على حيويته.</p>
+    <p class="q">٣ أحلّل: نتائج قياس نبض طالبة (مثال)</p>
+    <div class="tbl"><table><thead><tr><th>بدون حركة</th><th>عند المشي</th><th>عند الركض</th></tr></thead><tbody><tr><td>٨٥</td><td>١٠٥</td><td>١٣٠</td></tr></tbody></table></div>
+    <p class="tag">نبضة في الدقيقة · قيم للتوضيح</p>
+    <label class="q" for="t2q3">ماذا تلاحظين؟ وبماذا تفسّرين ذلك؟</label>
+    <textarea id="t2q3" name="q3" placeholder="اكتبي ملاحظتك وتفسيرك…"></textarea>
+    <p class="model">إجابة نموذجية: يزداد عدد نبضات القلب كلما زاد مجهود الجسم: أقلها دون حركة، وأكثرها عند الركض؛ لأن الجسم يحتاج إلى نشاط أكبر عند ممارسة الرياضة.</p>
+    <div class="row"><label class="btn go" for="c2">تحقّقي</label><button class="btn" type="reset">إعادة المحاولة</button><button class="btn js-only" type="button" data-print="t2">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
+    <div class="fb">
+      <p class="m-ok">أحسنتِ يا نجمة النشاط! ريم تحافظ على صحتها لأنها تمارس الرياضة وتنام مبكرًا. قارني إجابتيك المكتوبتين بالإجابات النموذجية. <span class="stars">{{stars}}</span></p>
+      <p class="m-try">فكّري مرة أخرى في السؤال الأول: من التي تمارس الرياضة وتنام مبكرًا؟ واقرئي الإجابات النموذجية.</p>
+    </div>
+  </form>
+</section>
+
+<!-- ================= TASK 3 ================= -->
+<section id="t3" class="wrap g3" style="max-width:none" hidden>
+  <div class="thead"><span class="badge">{{svg:gear}}</span><div><h2>مهمة خبيرات العادات: يومي الصحي</h2><div class="who"><span class="js-only" data-name></span><span>مجموعة خبيرات العادات</span><span>التطبيق</span></div></div><img src="{{girl.png}}" alt=""></div>
+  <form class="panel" id="f3" onsubmit="return false">
+    <input type="radio" class="chk" name="c3" id="c3" aria-label="تحقّقي">
+    <p class="mission">المهمة: نركّب نموذجًا مصورًا بعنوان «يومي الصحي»: نختار العادة المناسبة لكل وقت من اليوم ونرتّبها.</p>
+    <p class="hint">المسي الوقت المناسب من اليوم تحت كل بطاقة؛ فيظهر نموذج يومك مرتّبًا في الأسفل.</p>
+    <div class="items cards">
+      <div class="item"><img src="{{i-juice.jpg}}" alt=""><b>أتناول غذاءً صحيًا متوازنًا وأشرب الماء</b><div class="pick times">{{times:d1:3}}</div></div>
+      <div class="item"><img src="{{i-sleep.jpg}}" alt=""><b>أنام مبكرًا نحو ٨ ساعات</b><div class="pick times">{{times:d2:5}}</div></div>
+      <div class="item"><img src="{{i-teeth.jpg}}" alt=""><b>أنظّف أسناني بالفرشاة والمعجون</b><div class="pick times">{{times:d3:1}}</div></div>
+      <div class="item"><img src="{{v-sport.jpg}}" alt=""><b>أمارس الرياضة</b><div class="pick times">{{times:d4:4}}</div></div>
+      <div class="item"><img src="{{i-hands.jpg}}" alt=""><b>أغسل يديّ قبل تناول الطعام</b><div class="pick times">{{times:d5:2}}</div></div>
+    </div>
+    <p class="q">نموذج «يومي الصحي»</p>
+    <div class="day">{{daymodel}}</div>
+    <div class="row"><label class="btn go" for="c3">تحقّقي</label><button class="btn" type="reset">إعادة المحاولة</button><button class="btn js-only" type="button" data-print="t3">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
+    <div class="fb">
+      <p class="m-ok">ممتاز يا خبيرة العادات! نموذج يومك الصحي مرتّب ترتيبًا صحيحًا. <span class="stars">{{stars}}</span></p>
+      <p class="m-try">الاختيار الأخضر صحيح، والأحمر يحتاج إلى مراجعة، وتأكدي أن لكل بطاقة وقتًا. ثم تحقّقي مرة أخرى.</p>
+    </div>
+  </form>
+</section>
+
+<!-- ================= TASK 4 ================= -->
+<section id="t4" class="wrap g4" style="max-width:none" hidden>
+  <div class="thead"><span class="badge">{{svg:bulb}}</span><div><h2>مهمة مبدعات الصحة: القصة المصوّرة</h2><div class="who"><span class="js-only" data-name></span><span>مجموعة مبدعات الصحة</span><span>الإبداع والتقويم</span></div></div><img src="{{girl.png}}" alt=""></div>
+  <form class="panel" id="f4" onsubmit="return false">
+    <input type="radio" class="chk" name="c4" id="c4" aria-label="تحقّقي">
+    <p class="mission">المهمة: نؤلف قصة مصورة قصيرة من ثلاثة مشاهد عن تغيير عادة غير صحية إلى عادة صحية، ونصف نتيجتها. نبدأ بقصة مثال، ثم تؤلف المجموعة قصتها.</p>
+    <p class="q">قصة مثال</p>
+    <div class="story">
+      <div class="scene"><h3>١ العادة غير الصحية</h3><div class="pic">{{svg:moon}}</div><p>كانت لمى تسهر أمام الشاشة حتى وقت متأخر، فتستيقظ متعبة وتتأخر عن المدرسة.</p></div>
+      <div class="scene"><h3>٢ التغيير</h3><div class="pic"><img src="{{i-sleep.jpg}}" alt=""></div><p>قررت لمى أن تطفئ الشاشة مبكرًا، وتنام نحو ٨ ساعات كل ليلة.</p></div>
+      <div class="scene"><h3>٣ النتيجة</h3><div class="pic" style="background:#fff"><img src="{{run.png}}" alt=""></div><p>أصبحت لمى تصحو مبكرًا بنشاط، وتشارك زميلاتها في الرياضة الصباحية.</p></div>
+    </div>
+    <p class="q">قصتنا</p>
+    <label class="tag" for="t4title">عنوان القصة</label><input class="t need" id="t4title" name="title" type="text" placeholder="عنوان جذاب لقصتكن">
+    <div class="story">
+      <div class="scene"><h3>١ العادة غير الصحية</h3><textarea class="need" id="t4a" name="s1" placeholder="ما العادة غير الصحية؟ ومن صاحبتها؟"></textarea></div>
+      <div class="scene"><h3>٢ التغيير</h3><textarea class="need" id="t4b" name="s2" placeholder="كيف تغيّرت العادة؟"></textarea></div>
+      <div class="scene"><h3>٣ النتيجة</h3><textarea class="need" id="t4c" name="s3" placeholder="ما النتيجة الصحية؟"></textarea></div>
+    </div>
+    <p class="tag">ارسمي مشهدًا لكل جزء على الورقة، أو أضيفي صورة في الحصة.</p>
+    <div class="crit">
+      <p class="q">معايير القصة (أقيّم قصتي)</p>
+      <label><input type="checkbox" name="k" value="عادة واضحة">عادة واضحة</label>
+      <label><input type="checkbox" name="k" value="تغيير مقنع">تغيير مقنع</label>
+      <label><input type="checkbox" name="k" value="نتيجة صحية">نتيجة صحية</label>
+      <label><input type="checkbox" name="k" value="رسم أو صورة لكل مشهد">رسم أو صورة لكل مشهد</label>
+      <label><input type="checkbox" name="k" value="عنوان جذاب">عنوان جذاب</label>
+    </div>
+    <div class="row"><label class="btn go" for="c4">تحقّقي من قصتي</label><button class="btn" type="reset">إعادة المحاولة</button><button class="btn js-only" type="button" data-print="t4">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
+    <div class="fb">
+      <p class="m-ok">مبدعة! اكتملت قصتك بعنوانها ومشاهدها الثلاثة. راجعي المعايير الخمسة قبل العرض على زميلاتك. <span class="stars">{{stars}}</span></p>
+      <p class="m-try">أكملي عنوان القصة ومشاهدها الثلاثة، ثم تحقّقي مرة أخرى.</p>
+    </div>
+  </form>
+</section>
+

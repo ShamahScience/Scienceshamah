@@ -126,6 +126,66 @@ td{border:2px solid #cfe6f5;padding:6px;font-weight:700;font-size:20px}
 .crit input{width:20px;height:20px;accent-color:var(--lav-d)}
 input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:100%;background:#fffdfb}
 
+
+/* script-free interactivity: choices, checking and feedback work even where scripts are blocked */
+.chk{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.items.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.items .item{width:auto;user-select:auto;-webkit-user-select:auto}
+.items .item b{font-size:14px;line-height:1.4}
+.items .item.wide{border:0;background:none;align-items:flex-start}
+.pick{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.pick label{cursor:pointer}
+.pick input{position:absolute;opacity:0;width:1px;height:1px}
+.pick span{display:inline-block;border:2px solid #e7cfa8;border-radius:999px;padding:3px 12px;font-weight:700;font-size:14px;background:#fff;line-height:1.6}
+.pick.big span{font-size:20px;padding:6px 26px}
+.pick.times span{font-size:12px;padding:2px 9px}
+.pick input:checked + span{border-color:var(--blue);background:#e8f4fb;color:#155a85}
+.pick input:focus-visible + span{outline:3px solid var(--blue);outline-offset:2px}
+.chk:checked ~ .items input[data-ok]:checked + span{border-color:var(--ok);background:var(--ok-l);color:var(--ok)}
+.chk:checked ~ .items input[data-ok]:checked + span::after{content:" ✓"}
+.chk:checked ~ .items input:not([data-ok]):checked + span{border-color:var(--bad);background:var(--bad-l);color:var(--bad);animation:shake .35s}
+.chk:checked ~ .items input:not([data-ok]):checked + span::after{content:" ✗"}
+.model{display:none}
+.chk:checked ~ .model{display:block}
+.fb p{display:none;margin:0}
+.panel:has(.chk:checked) .m-try{display:block;color:var(--bad)}
+.panel:not(#f4):has(.chk:checked):not(:has(.items input[data-ok]:not(:checked))) .m-ok{display:block;color:var(--ok)}
+.panel:not(#f4):has(.chk:checked):not(:has(.items input[data-ok]:not(:checked))) .m-try{display:none}
+#f4:has(.chk:checked):not(:has(.need:placeholder-shown)) .m-ok{display:block;color:var(--ok)}
+#f4:has(.chk:checked):not(:has(.need:placeholder-shown)) .m-try{display:none}
+.slot{min-height:110px}
+.slot .in{flex-direction:column;gap:6px}
+.dm{display:none;flex-direction:column;align-items:center;gap:4px;font-weight:700;font-size:13px;text-align:center;line-height:1.4;border:2px solid var(--yellow);border-radius:12px;padding:4px;background:#fffaeb;width:100%}
+.dm img{width:100%;height:64px;object-fit:cover;border-radius:8px}
+.panel:has(input[name="d1"][value="1"]:checked) .dm[data-c="d1"][data-t="1"]{display:flex}
+.panel:has(input[name="d1"][value="2"]:checked) .dm[data-c="d1"][data-t="2"]{display:flex}
+.panel:has(input[name="d1"][value="3"]:checked) .dm[data-c="d1"][data-t="3"]{display:flex}
+.panel:has(input[name="d1"][value="4"]:checked) .dm[data-c="d1"][data-t="4"]{display:flex}
+.panel:has(input[name="d1"][value="5"]:checked) .dm[data-c="d1"][data-t="5"]{display:flex}
+.panel:has(input[name="d2"][value="1"]:checked) .dm[data-c="d2"][data-t="1"]{display:flex}
+.panel:has(input[name="d2"][value="2"]:checked) .dm[data-c="d2"][data-t="2"]{display:flex}
+.panel:has(input[name="d2"][value="3"]:checked) .dm[data-c="d2"][data-t="3"]{display:flex}
+.panel:has(input[name="d2"][value="4"]:checked) .dm[data-c="d2"][data-t="4"]{display:flex}
+.panel:has(input[name="d2"][value="5"]:checked) .dm[data-c="d2"][data-t="5"]{display:flex}
+.panel:has(input[name="d3"][value="1"]:checked) .dm[data-c="d3"][data-t="1"]{display:flex}
+.panel:has(input[name="d3"][value="2"]:checked) .dm[data-c="d3"][data-t="2"]{display:flex}
+.panel:has(input[name="d3"][value="3"]:checked) .dm[data-c="d3"][data-t="3"]{display:flex}
+.panel:has(input[name="d3"][value="4"]:checked) .dm[data-c="d3"][data-t="4"]{display:flex}
+.panel:has(input[name="d3"][value="5"]:checked) .dm[data-c="d3"][data-t="5"]{display:flex}
+.panel:has(input[name="d4"][value="1"]:checked) .dm[data-c="d4"][data-t="1"]{display:flex}
+.panel:has(input[name="d4"][value="2"]:checked) .dm[data-c="d4"][data-t="2"]{display:flex}
+.panel:has(input[name="d4"][value="3"]:checked) .dm[data-c="d4"][data-t="3"]{display:flex}
+.panel:has(input[name="d4"][value="4"]:checked) .dm[data-c="d4"][data-t="4"]{display:flex}
+.panel:has(input[name="d4"][value="5"]:checked) .dm[data-c="d4"][data-t="5"]{display:flex}
+.panel:has(input[name="d5"][value="1"]:checked) .dm[data-c="d5"][data-t="1"]{display:flex}
+.panel:has(input[name="d5"][value="2"]:checked) .dm[data-c="d5"][data-t="2"]{display:flex}
+.panel:has(input[name="d5"][value="3"]:checked) .dm[data-c="d5"][data-t="3"]{display:flex}
+.panel:has(input[name="d5"][value="4"]:checked) .dm[data-c="d5"][data-t="4"]{display:flex}
+.panel:has(input[name="d5"][value="5"]:checked) .dm[data-c="d5"][data-t="5"]{display:flex}
+.js-only{display:none!important}
+html.js .js-only{display:inline-block!important}
+html.js span.js-only{display:inline!important}
+
 #print{display:none}
 @media print{
   body{background:#fff;padding:0}
@@ -146,7 +206,7 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
 </style>
 </head>
 <body>
-<div id="nojs">تنبيه: يبدو أن الملف مفتوح في «المعاينة» داخل التطبيق، وهي لا تشغّل الأنشطة التفاعلية.<br>اضغطي زر المشاركة أو النقاط الثلاث، ثم اختاري «فتح في Safari» أو «فتح في Chrome» أو «فتح باستخدام المتصفح».</div>
+<div id="nojs">الأنشطة تعمل هنا مباشرة. ولطباعة الإجابات أو حفظها PDF افتحي الملف في Safari أو Chrome.</div>
 <div class="wrap">
 
 <!-- ================= HOME ================= -->
@@ -195,84 +255,88 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
 
 <!-- ================= TASK 1 ================= -->
 <section id="t1" class="wrap g1" style="max-width:none" hidden>
-  <div class="thead"><span class="badge">{{svg:heart}}</span><div><h2>مهمة سفيرات الصحة</h2><div class="who"><span data-name></span><span>مجموعة سفيرات الصحة</span><span>التذكر والفهم</span></div></div><img src="{{girl.png}}" alt=""></div>
-  <div class="panel">
-    <p class="mission">المهمة: نحدد العادات الصحية، ونصنّف الصور إلى «عادة صحية» و«عادة غير صحية». تختار الطالبة البطاقة وتذكر السبب، ثم تضعها في مكانها.</p>
-    <p class="hint">المسي البطاقة، ثم المسي المجموعة المناسبة لها. للتراجع المسي البطاقة مرة أخرى ثم المسي صندوق البطاقات.</p>
-    <div class="bins" data-sorter="t1">
-      <div class="bin" data-bin="good" style="--bc:var(--green)"><h3>عادة صحية</h3><div class="in"></div></div>
-      <div class="bin" data-bin="bad" style="--bc:var(--pink)"><h3>عادة غير صحية</h3><div class="in"></div></div>
+  <div class="thead"><span class="badge">{{svg:heart}}</span><div><h2>مهمة سفيرات الصحة</h2><div class="who"><span class="js-only" data-name></span><span>مجموعة سفيرات الصحة</span><span>التذكر والفهم</span></div></div><img src="{{girl.png}}" alt=""></div>
+  <form class="panel" id="f1" onsubmit="return false">
+    <input type="radio" class="chk" name="c1" id="c1" aria-label="تحقّقي">
+    <p class="mission">المهمة: نحدد العادات الصحية، ونصنّف الصور إلى «عادة صحية» و«عادة غير صحية». تختار الطالبة تصنيف كل بطاقة وتذكر السبب.</p>
+    <p class="hint">المسي «صحية» أو «غير صحية» تحت كل بطاقة.</p>
+    <div class="items cards">
+      <div class="item"><img src="{{i-hands.jpg}}" alt=""><b>غسل اليدين</b><div class="pick"><label><input type="radio" name="a1" value="صحية" data-ok><span>صحية</span></label><label><input type="radio" name="a1" value="غير صحية"><span>غير صحية</span></label></div></div>
+      <div class="item txt"><b>استخدام أدوات الآخرين الشخصية</b><div class="pick"><label><input type="radio" name="a2" value="صحية"><span>صحية</span></label><label><input type="radio" name="a2" value="غير صحية" data-ok><span>غير صحية</span></label></div></div>
+      <div class="item"><img src="{{i-teeth.jpg}}" alt=""><b>تنظيف الأسنان</b><div class="pick"><label><input type="radio" name="a3" value="صحية" data-ok><span>صحية</span></label><label><input type="radio" name="a3" value="غير صحية"><span>غير صحية</span></label></div></div>
+      <div class="item txt"><b>الإكثار من المشروبات الغازية</b><div class="pick"><label><input type="radio" name="a4" value="صحية"><span>صحية</span></label><label><input type="radio" name="a4" value="غير صحية" data-ok><span>غير صحية</span></label></div></div>
+      <div class="item"><img src="{{i-nails.jpg}}" alt=""><b>تقليم الأظافر</b><div class="pick"><label><input type="radio" name="a5" value="صحية" data-ok><span>صحية</span></label><label><input type="radio" name="a5" value="غير صحية"><span>غير صحية</span></label></div></div>
+      <div class="item txt"><b>السهر ليلًا</b><div class="pick"><label><input type="radio" name="a6" value="صحية"><span>صحية</span></label><label><input type="radio" name="a6" value="غير صحية" data-ok><span>غير صحية</span></label></div></div>
+      <div class="item"><img src="{{i-hat.jpg}}" alt=""><b>حماية الجلد والعينين من الشمس</b><div class="pick"><label><input type="radio" name="a7" value="صحية" data-ok><span>صحية</span></label><label><input type="radio" name="a7" value="غير صحية"><span>غير صحية</span></label></div></div>
     </div>
-    <div class="tray" data-tray="t1">
-      <div class="item" data-k="good" tabindex="0"><img src="{{i-hands.jpg}}" alt="">غسل اليدين</div>
-      <div class="item txt" data-k="bad" tabindex="0">استخدام أدوات الآخرين الشخصية</div>
-      <div class="item" data-k="good" tabindex="0"><img src="{{i-teeth.jpg}}" alt="">تنظيف الأسنان</div>
-      <div class="item txt" data-k="bad" tabindex="0">الإكثار من المشروبات الغازية</div>
-      <div class="item" data-k="good" tabindex="0"><img src="{{i-nails.jpg}}" alt="">تقليم الأظافر</div>
-      <div class="item txt" data-k="bad" tabindex="0">السهر ليلًا</div>
-      <div class="item" data-k="good" tabindex="0"><img src="{{i-hat.jpg}}" alt="">حماية الجلد والعينين من الشمس</div>
+    <label class="q" for="t1why">أذكر السبب: لماذا صنّفتُ بطاقتين على الأقل هذا التصنيف؟</label>
+    <textarea id="t1why" name="why" placeholder="مثال: غسل اليدين عادة صحية لأن…"></textarea>
+    <div class="row"><label class="btn go" for="c1">تحقّقي</label><button class="btn" type="reset">إعادة المحاولة</button><button class="btn js-only" type="button" data-print="t1">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
+    <div class="fb">
+      <p class="m-ok">أحسنتِ يا سفيرة الصحة! صنّفتِ جميع العادات تصنيفًا صحيحًا. <span class="stars"><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg></span></p>
+      <p class="m-try">التصنيف الأخضر صحيح، والأحمر يحتاج إلى مراجعة. غيّري اختيارك ثم تحقّقي مرة أخرى.</p>
     </div>
-    <label class="q" for="t1why">أذكر السبب: لماذا صنّفتُ بطاقتين على الأقل في مكانهما؟</label>
-    <textarea id="t1why" placeholder="مثال: غسل اليدين عادة صحية لأن…"></textarea>
-    <div class="row"><button class="btn go" data-check="t1">تحقّقي</button><button class="btn" data-retry="t1">إعادة المحاولة</button><button class="btn" data-print="t1">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
-    <div class="fb" id="fb-t1"></div>
-  </div>
+  </form>
 </section>
 
 <!-- ================= TASK 2 ================= -->
 <section id="t2" class="wrap g2" style="max-width:none" hidden>
-  <div class="thead"><span class="badge">{{svg:star}}</span><div><h2>مهمة نجمات النشاط</h2><div class="who"><span data-name></span><span>مجموعة نجمات النشاط</span><span>الفهم والتحليل</span></div></div><img src="{{run.png}}" alt=""></div>
-  <div class="panel">
+  <div class="thead"><span class="badge">{{svg:star}}</span><div><h2>مهمة نجمات النشاط</h2><div class="who"><span class="js-only" data-name></span><span>مجموعة نجمات النشاط</span><span>الفهم والتحليل</span></div></div><img src="{{run.png}}" alt=""></div>
+  <form class="panel" id="f2" onsubmit="return false">
+    <input type="radio" class="chk" name="c2" id="c2" aria-label="تحقّقي">
     <p class="mission">المهمة: نقارن بين سلوكين مختلفين، ونفسّر أثر كل منهما على الصحة، ونحلل نتائج قياس نبضات القلب.</p>
     <div class="two">
       <div class="person" style="--pc:var(--green);--pd:var(--green-d)"><b>ريم</b>تمشي ٣٠ دقيقة يوميًا، وتلعب مع أخواتها في الهواء الطلق، وتنام مبكرًا.</div>
       <div class="person" style="--pc:var(--pink);--pd:var(--pink-d)"><b>هند</b>تجلس أمام الشاشة ساعات طويلة، ولا تمارس الرياضة، وتسهر ليلًا.</div>
     </div>
     <p class="q">١ أيهما تحافظ على صحتها أكثر؟</p>
-    <div class="opts" id="t2q1"><button class="opt" data-v="ريم">ريم</button><button class="opt" data-v="هند">هند</button></div>
-    <p class="q">٢ فسّري: لماذا تشعر ريم بالنشاط أكثر من هند؟</p>
-    <textarea id="t2q2" placeholder="اكتبي تفسيرك…"></textarea>
-    <p class="model" id="t2m2" hidden>إجابة نموذجية: الرياضة تقوي العضلات وتزيد كفاءة الجهاز التنفسي فيزداد نشاط الجسم، والنوم المبكر يريح الجسم ويحافظ على حيويته.</p>
+    <div class="items"><div class="item wide"><div class="pick big"><label><input type="radio" name="q1" value="ريم" data-ok><span>ريم</span></label><label><input type="radio" name="q1" value="هند"><span>هند</span></label></div></div></div>
+    <label class="q" for="t2q2">٢ فسّري: لماذا تشعر ريم بالنشاط أكثر من هند؟</label>
+    <textarea id="t2q2" name="q2" placeholder="اكتبي تفسيرك…"></textarea>
+    <p class="model">إجابة نموذجية: الرياضة تقوي العضلات وتزيد كفاءة الجهاز التنفسي فيزداد نشاط الجسم، والنوم المبكر يريح الجسم ويحافظ على حيويته.</p>
     <p class="q">٣ أحلّل: نتائج قياس نبض طالبة (مثال)</p>
     <div class="tbl"><table><thead><tr><th>بدون حركة</th><th>عند المشي</th><th>عند الركض</th></tr></thead><tbody><tr><td>٨٥</td><td>١٠٥</td><td>١٣٠</td></tr></tbody></table></div>
     <p class="tag">نبضة في الدقيقة · قيم للتوضيح</p>
     <label class="q" for="t2q3">ماذا تلاحظين؟ وبماذا تفسّرين ذلك؟</label>
-    <textarea id="t2q3" placeholder="اكتبي ملاحظتك وتفسيرك…"></textarea>
-    <p class="model" id="t2m3" hidden>إجابة نموذجية: يزداد عدد نبضات القلب كلما زاد مجهود الجسم: أقلها دون حركة، وأكثرها عند الركض؛ لأن الجسم يحتاج إلى نشاط أكبر عند ممارسة الرياضة.</p>
-    <div class="row"><button class="btn go" data-check="t2">تحقّقي</button><button class="btn" data-retry="t2">إعادة المحاولة</button><button class="btn" data-print="t2">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
-    <div class="fb" id="fb-t2"></div>
-  </div>
+    <textarea id="t2q3" name="q3" placeholder="اكتبي ملاحظتك وتفسيرك…"></textarea>
+    <p class="model">إجابة نموذجية: يزداد عدد نبضات القلب كلما زاد مجهود الجسم: أقلها دون حركة، وأكثرها عند الركض؛ لأن الجسم يحتاج إلى نشاط أكبر عند ممارسة الرياضة.</p>
+    <div class="row"><label class="btn go" for="c2">تحقّقي</label><button class="btn" type="reset">إعادة المحاولة</button><button class="btn js-only" type="button" data-print="t2">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
+    <div class="fb">
+      <p class="m-ok">أحسنتِ يا نجمة النشاط! ريم تحافظ على صحتها لأنها تمارس الرياضة وتنام مبكرًا. قارني إجابتيك المكتوبتين بالإجابات النموذجية. <span class="stars"><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg></span></p>
+      <p class="m-try">فكّري مرة أخرى في السؤال الأول: من التي تمارس الرياضة وتنام مبكرًا؟ واقرئي الإجابات النموذجية.</p>
+    </div>
+  </form>
 </section>
 
 <!-- ================= TASK 3 ================= -->
 <section id="t3" class="wrap g3" style="max-width:none" hidden>
-  <div class="thead"><span class="badge">{{svg:gear}}</span><div><h2>مهمة خبيرات العادات: يومي الصحي</h2><div class="who"><span data-name></span><span>مجموعة خبيرات العادات</span><span>التطبيق</span></div></div><img src="{{girl.png}}" alt=""></div>
-  <div class="panel">
+  <div class="thead"><span class="badge">{{svg:gear}}</span><div><h2>مهمة خبيرات العادات: يومي الصحي</h2><div class="who"><span class="js-only" data-name></span><span>مجموعة خبيرات العادات</span><span>التطبيق</span></div></div><img src="{{girl.png}}" alt=""></div>
+  <form class="panel" id="f3" onsubmit="return false">
+    <input type="radio" class="chk" name="c3" id="c3" aria-label="تحقّقي">
     <p class="mission">المهمة: نركّب نموذجًا مصورًا بعنوان «يومي الصحي»: نختار العادة المناسبة لكل وقت من اليوم ونرتّبها.</p>
-    <p class="hint">المسي البطاقة، ثم المسي الوقت المناسب لها من اليوم.</p>
-    <div class="day" data-sorter="t3">
-      <div class="slot" data-bin="s1"><h3>الصباح الباكر</h3><div class="in"></div></div>
-      <div class="slot" data-bin="s2"><h3>في المدرسة</h3><div class="in"></div></div>
-      <div class="slot" data-bin="s3"><h3>وقت الغداء</h3><div class="in"></div></div>
-      <div class="slot" data-bin="s4"><h3>العصر</h3><div class="in"></div></div>
-      <div class="slot" data-bin="s5"><h3>الليل</h3><div class="in"></div></div>
+    <p class="hint">المسي الوقت المناسب من اليوم تحت كل بطاقة؛ فيظهر نموذج يومك مرتّبًا في الأسفل.</p>
+    <div class="items cards">
+      <div class="item"><img src="{{i-juice.jpg}}" alt=""><b>أتناول غذاءً صحيًا متوازنًا وأشرب الماء</b><div class="pick times"><label><input type="radio" name="d1" value="1"><span>الصباح الباكر</span></label><label><input type="radio" name="d1" value="2"><span>في المدرسة</span></label><label><input type="radio" name="d1" value="3" data-ok><span>وقت الغداء</span></label><label><input type="radio" name="d1" value="4"><span>العصر</span></label><label><input type="radio" name="d1" value="5"><span>الليل</span></label></div></div>
+      <div class="item"><img src="{{i-sleep.jpg}}" alt=""><b>أنام مبكرًا نحو ٨ ساعات</b><div class="pick times"><label><input type="radio" name="d2" value="1"><span>الصباح الباكر</span></label><label><input type="radio" name="d2" value="2"><span>في المدرسة</span></label><label><input type="radio" name="d2" value="3"><span>وقت الغداء</span></label><label><input type="radio" name="d2" value="4"><span>العصر</span></label><label><input type="radio" name="d2" value="5" data-ok><span>الليل</span></label></div></div>
+      <div class="item"><img src="{{i-teeth.jpg}}" alt=""><b>أنظّف أسناني بالفرشاة والمعجون</b><div class="pick times"><label><input type="radio" name="d3" value="1" data-ok><span>الصباح الباكر</span></label><label><input type="radio" name="d3" value="2"><span>في المدرسة</span></label><label><input type="radio" name="d3" value="3"><span>وقت الغداء</span></label><label><input type="radio" name="d3" value="4"><span>العصر</span></label><label><input type="radio" name="d3" value="5"><span>الليل</span></label></div></div>
+      <div class="item"><img src="{{v-sport.jpg}}" alt=""><b>أمارس الرياضة</b><div class="pick times"><label><input type="radio" name="d4" value="1"><span>الصباح الباكر</span></label><label><input type="radio" name="d4" value="2"><span>في المدرسة</span></label><label><input type="radio" name="d4" value="3"><span>وقت الغداء</span></label><label><input type="radio" name="d4" value="4" data-ok><span>العصر</span></label><label><input type="radio" name="d4" value="5"><span>الليل</span></label></div></div>
+      <div class="item"><img src="{{i-hands.jpg}}" alt=""><b>أغسل يديّ قبل تناول الطعام</b><div class="pick times"><label><input type="radio" name="d5" value="1"><span>الصباح الباكر</span></label><label><input type="radio" name="d5" value="2" data-ok><span>في المدرسة</span></label><label><input type="radio" name="d5" value="3"><span>وقت الغداء</span></label><label><input type="radio" name="d5" value="4"><span>العصر</span></label><label><input type="radio" name="d5" value="5"><span>الليل</span></label></div></div>
     </div>
-    <div class="tray" data-tray="t3">
-      <div class="item" data-k="s3" tabindex="0"><img src="{{i-juice.jpg}}" alt="">أتناول غذاءً صحيًا متوازنًا وأشرب الماء</div>
-      <div class="item" data-k="s5" tabindex="0"><img src="{{i-sleep.jpg}}" alt="">أنام مبكرًا نحو ٨ ساعات</div>
-      <div class="item" data-k="s1" tabindex="0"><img src="{{i-teeth.jpg}}" alt="">أنظّف أسناني بالفرشاة والمعجون</div>
-      <div class="item" data-k="s4" tabindex="0"><img src="{{v-sport.jpg}}" alt="">أمارس الرياضة</div>
-      <div class="item" data-k="s2" tabindex="0"><img src="{{i-hands.jpg}}" alt="">أغسل يديّ قبل تناول الطعام</div>
+    <p class="q">نموذج «يومي الصحي»</p>
+    <div class="day"><div class="slot"><h3>الصباح الباكر</h3><div class="in"><div class="dm" data-c="d1" data-t="1">أتناول غذاءً صحيًا متوازنًا وأشرب الماء</div><div class="dm" data-c="d2" data-t="1">أنام مبكرًا نحو ٨ ساعات</div><div class="dm" data-c="d3" data-t="1">أنظّف أسناني بالفرشاة والمعجون</div><div class="dm" data-c="d4" data-t="1">أمارس الرياضة</div><div class="dm" data-c="d5" data-t="1">أغسل يديّ قبل تناول الطعام</div></div></div><div class="slot"><h3>في المدرسة</h3><div class="in"><div class="dm" data-c="d1" data-t="2">أتناول غذاءً صحيًا متوازنًا وأشرب الماء</div><div class="dm" data-c="d2" data-t="2">أنام مبكرًا نحو ٨ ساعات</div><div class="dm" data-c="d3" data-t="2">أنظّف أسناني بالفرشاة والمعجون</div><div class="dm" data-c="d4" data-t="2">أمارس الرياضة</div><div class="dm" data-c="d5" data-t="2">أغسل يديّ قبل تناول الطعام</div></div></div><div class="slot"><h3>وقت الغداء</h3><div class="in"><div class="dm" data-c="d1" data-t="3">أتناول غذاءً صحيًا متوازنًا وأشرب الماء</div><div class="dm" data-c="d2" data-t="3">أنام مبكرًا نحو ٨ ساعات</div><div class="dm" data-c="d3" data-t="3">أنظّف أسناني بالفرشاة والمعجون</div><div class="dm" data-c="d4" data-t="3">أمارس الرياضة</div><div class="dm" data-c="d5" data-t="3">أغسل يديّ قبل تناول الطعام</div></div></div><div class="slot"><h3>العصر</h3><div class="in"><div class="dm" data-c="d1" data-t="4">أتناول غذاءً صحيًا متوازنًا وأشرب الماء</div><div class="dm" data-c="d2" data-t="4">أنام مبكرًا نحو ٨ ساعات</div><div class="dm" data-c="d3" data-t="4">أنظّف أسناني بالفرشاة والمعجون</div><div class="dm" data-c="d4" data-t="4">أمارس الرياضة</div><div class="dm" data-c="d5" data-t="4">أغسل يديّ قبل تناول الطعام</div></div></div><div class="slot"><h3>الليل</h3><div class="in"><div class="dm" data-c="d1" data-t="5">أتناول غذاءً صحيًا متوازنًا وأشرب الماء</div><div class="dm" data-c="d2" data-t="5">أنام مبكرًا نحو ٨ ساعات</div><div class="dm" data-c="d3" data-t="5">أنظّف أسناني بالفرشاة والمعجون</div><div class="dm" data-c="d4" data-t="5">أمارس الرياضة</div><div class="dm" data-c="d5" data-t="5">أغسل يديّ قبل تناول الطعام</div></div></div></div>
+    <div class="row"><label class="btn go" for="c3">تحقّقي</label><button class="btn" type="reset">إعادة المحاولة</button><button class="btn js-only" type="button" data-print="t3">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
+    <div class="fb">
+      <p class="m-ok">ممتاز يا خبيرة العادات! نموذج يومك الصحي مرتّب ترتيبًا صحيحًا. <span class="stars"><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg></span></p>
+      <p class="m-try">الاختيار الأخضر صحيح، والأحمر يحتاج إلى مراجعة، وتأكدي أن لكل بطاقة وقتًا. ثم تحقّقي مرة أخرى.</p>
     </div>
-    <div class="row"><button class="btn go" data-check="t3">تحقّقي</button><button class="btn" data-retry="t3">إعادة المحاولة</button><button class="btn" data-print="t3">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
-    <div class="fb" id="fb-t3"></div>
-  </div>
+  </form>
 </section>
 
 <!-- ================= TASK 4 ================= -->
 <section id="t4" class="wrap g4" style="max-width:none" hidden>
-  <div class="thead"><span class="badge">{{svg:bulb}}</span><div><h2>مهمة مبدعات الصحة: القصة المصوّرة</h2><div class="who"><span data-name></span><span>مجموعة مبدعات الصحة</span><span>الإبداع والتقويم</span></div></div><img src="{{girl.png}}" alt=""></div>
-  <div class="panel">
+  <div class="thead"><span class="badge">{{svg:bulb}}</span><div><h2>مهمة مبدعات الصحة: القصة المصوّرة</h2><div class="who"><span class="js-only" data-name></span><span>مجموعة مبدعات الصحة</span><span>الإبداع والتقويم</span></div></div><img src="{{girl.png}}" alt=""></div>
+  <form class="panel" id="f4" onsubmit="return false">
+    <input type="radio" class="chk" name="c4" id="c4" aria-label="تحقّقي">
     <p class="mission">المهمة: نؤلف قصة مصورة قصيرة من ثلاثة مشاهد عن تغيير عادة غير صحية إلى عادة صحية، ونصف نتيجتها. نبدأ بقصة مثال، ثم تؤلف المجموعة قصتها.</p>
     <p class="q">قصة مثال</p>
     <div class="story">
@@ -281,24 +345,27 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
       <div class="scene"><h3>٣ النتيجة</h3><div class="pic" style="background:#fff"><img src="{{run.png}}" alt=""></div><p>أصبحت لمى تصحو مبكرًا بنشاط، وتشارك زميلاتها في الرياضة الصباحية.</p></div>
     </div>
     <p class="q">قصتنا</p>
-    <label class="tag" for="t4title">عنوان القصة</label><input class="t" id="t4title" type="text" placeholder="عنوان جذاب لقصتكن">
+    <label class="tag" for="t4title">عنوان القصة</label><input class="t need" id="t4title" name="title" type="text" placeholder="عنوان جذاب لقصتكن">
     <div class="story">
-      <div class="scene"><h3>١ العادة غير الصحية</h3><textarea id="t4a" placeholder="ما العادة غير الصحية؟ ومن صاحبتها؟"></textarea></div>
-      <div class="scene"><h3>٢ التغيير</h3><textarea id="t4b" placeholder="كيف تغيّرت العادة؟"></textarea></div>
-      <div class="scene"><h3>٣ النتيجة</h3><textarea id="t4c" placeholder="ما النتيجة الصحية؟"></textarea></div>
+      <div class="scene"><h3>١ العادة غير الصحية</h3><textarea class="need" id="t4a" name="s1" placeholder="ما العادة غير الصحية؟ ومن صاحبتها؟"></textarea></div>
+      <div class="scene"><h3>٢ التغيير</h3><textarea class="need" id="t4b" name="s2" placeholder="كيف تغيّرت العادة؟"></textarea></div>
+      <div class="scene"><h3>٣ النتيجة</h3><textarea class="need" id="t4c" name="s3" placeholder="ما النتيجة الصحية؟"></textarea></div>
     </div>
-    <p class="tag">ارسمي مشهدًا لكل جزء على الورقة بعد الطباعة، أو أضيفي صورة في الحصة.</p>
+    <p class="tag">ارسمي مشهدًا لكل جزء على الورقة، أو أضيفي صورة في الحصة.</p>
     <div class="crit">
       <p class="q">معايير القصة (أقيّم قصتي)</p>
-      <label><input type="checkbox" data-c>عادة واضحة</label>
-      <label><input type="checkbox" data-c>تغيير مقنع</label>
-      <label><input type="checkbox" data-c>نتيجة صحية</label>
-      <label><input type="checkbox" data-c>رسم أو صورة لكل مشهد</label>
-      <label><input type="checkbox" data-c>عنوان جذاب</label>
+      <label><input type="checkbox" name="k" value="عادة واضحة">عادة واضحة</label>
+      <label><input type="checkbox" name="k" value="تغيير مقنع">تغيير مقنع</label>
+      <label><input type="checkbox" name="k" value="نتيجة صحية">نتيجة صحية</label>
+      <label><input type="checkbox" name="k" value="رسم أو صورة لكل مشهد">رسم أو صورة لكل مشهد</label>
+      <label><input type="checkbox" name="k" value="عنوان جذاب">عنوان جذاب</label>
     </div>
-    <div class="row"><button class="btn go" data-check="t4">تحقّقي من قصتي</button><button class="btn" data-retry="t4">إعادة المحاولة</button><button class="btn" data-print="t4">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
-    <div class="fb" id="fb-t4"></div>
-  </div>
+    <div class="row"><label class="btn go" for="c4">تحقّقي من قصتي</label><button class="btn" type="reset">إعادة المحاولة</button><button class="btn js-only" type="button" data-print="t4">طباعة / حفظ PDF</button><a class="btn main" href="#" data-home>العودة إلى المجموعات</a></div>
+    <div class="fb">
+      <p class="m-ok">مبدعة! اكتملت قصتك بعنوانها ومشاهدها الثلاثة. راجعي المعايير الخمسة قبل العرض على زميلاتك. <span class="stars"><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg></span></p>
+      <p class="m-try">أكملي عنوان القصة ومشاهدها الثلاثة، ثم تحقّقي مرة أخرى.</p>
+    </div>
+  </form>
 </section>
 
 <footer class="sig"><span>أ/ شامه البقمي</span></footer>
@@ -308,9 +375,12 @@ input.t{border:2px solid var(--line);border-radius:12px;padding:8px 12px;width:1
 
 <script>
 (function(){
+/* Everything a student needs works without this script; it only adds the name, navigation polish and printing. */
+document.documentElement.className += ' js';
 var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
-var STAR='<svg viewBox="0 0 24 24"><path fill="#ffc83d" stroke="#d99a00" stroke-width="1.2" d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></svg>';
+var nj=$('#nojs'); if(nj) nj.style.display='none';
 var GROUP={t1:'سفيرات الصحة',t2:'نجمات النشاط',t3:'خبيرات العادات',t4:'مبدعات الصحة'};
+var TIMES=['الصباح الباكر','في المدرسة','وقت الغداء','العصر','الليل'];
 var student='';
 try{student=localStorage.getItem('hg-name')||''}catch(e){}
 $('#sname').value=student;
@@ -318,7 +388,6 @@ $('#sname').addEventListener('input',function(){student=this.value.trim();$('#wa
 
 function show(id){$$('section').forEach(function(s){s.hidden=s.id!==id});window.scrollTo(0,0);
   $$('[data-name]').forEach(function(e){e.textContent='الطالبة: '+(student||'—')});}
-var nj=document.getElementById('nojs');if(nj)nj.style.display='none';
 $$('[data-open]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();
   student=$('#sname').value.trim();
   if(!student){$('#warn').textContent='اكتبي اسمك أولًا، ثم افتحي مهمة مجموعتك.';$('#sname').focus();return}
@@ -326,74 +395,16 @@ $$('[data-open]').forEach(function(b){b.addEventListener('click',function(e){e.p
 $$('[data-home]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();show('home');try{history.replaceState(null,'',location.pathname)}catch(x){}})});
 if(/^#t[1-4]$/.test(location.hash)){student=$('#sname').value.trim();show(location.hash.slice(1))}
 
-function fb(id,ok,msg,n){var f=$('#fb-'+id);f.className='fb '+(ok?'ok':'no');f.innerHTML=msg+(n?' <span class="stars">'+new Array(n+1).join(STAR)+'</span>':'')}
-
-/* tap-to-place sorting (tasks 1 and 3) */
-function sorter(id,one){
-  var tray=$('[data-tray="'+id+'"]'),box=$('[data-sorter="'+id+'"]'),items=$$('.item',tray),sel=null;
-  items.forEach(function(it,i){it.dataset.o=i});
-  function pick(it){if(sel===it){it.classList.remove('sel');sel=null;return}
-    if(sel)sel.classList.remove('sel');sel=it;it.classList.add('sel')}
-  function toTray(it){var after=$$('.item',tray).filter(function(x){return +x.dataset.o>+it.dataset.o})[0];tray.insertBefore(it,after||null)}
-  function place(bin){if(!sel)return;var inn=$('.in',bin);
-    if(one){var old=$('.item',inn);if(old&&old!==sel){old.classList.remove('ok','no');toTray(old)}}
-    sel.classList.remove('sel','ok','no');inn.appendChild(sel);sel=null;$('#fb-'+id).textContent=''}
-  items.forEach(function(it){it.addEventListener('click',function(e){e.stopPropagation();pick(it)});
-    it.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(it)}})});
-  $$('[data-bin]',box).forEach(function(b){b.addEventListener('click',function(){place(b)})});
-  tray.addEventListener('click',function(){if(sel){sel.classList.remove('sel','ok','no');toTray(sel);sel=null}});
-  return {
-    check:function(){var placed=0,right=0;items.forEach(function(it){var b=it.closest('[data-bin]');it.classList.remove('ok','no');
-        if(b){placed++;var good=b.getAttribute('data-bin')===it.dataset.k;it.classList.add(good?'ok':'no');if(good)right++}});
-      return {placed:placed,right:right,total:items.length}},
-    reset:function(){if(sel)sel.classList.remove('sel');sel=null;items.forEach(function(it){it.classList.remove('ok','no','sel');toTray(it)})},
-    state:function(){return items.map(function(it){var b=it.closest('[data-bin]');return [it.textContent.trim(),b?$('h3',b).textContent:'لم تُصنَّف',b?b.getAttribute('data-bin')===it.dataset.k:null]})}
-  };
-}
-var S1=sorter('t1',false),S3=sorter('t3',true);
-
-/* task 2 choice */
-var t2choice=null;
-$$('#t2q1 .opt').forEach(function(o){o.addEventListener('click',function(){$$('#t2q1 .opt').forEach(function(x){x.classList.remove('on','ok','no')});o.classList.add('on');t2choice=o.dataset.v})});
-
-var CHECK={
-  t1:function(){var r=S1.check();
-    if(!r.placed)return fb('t1',false,'صنّفي البطاقات أولًا، ثم تحقّقي.');
-    if(r.right===r.total)fb('t1',true,'أحسنتِ يا سفيرة الصحة! صنّفتِ جميع العادات تصنيفًا صحيحًا.',3);
-    else fb('t1',false,'رائع! '+ar(r.right)+' صحيحة من '+ar(r.total)+'. البطاقات الحمراء تحتاج إلى نقل، حاولي مرة أخرى.')},
-  t2:function(){var b=$('#t2q1 .on');
-    if(!b){$('#t2q1').classList.add('shake');setTimeout(function(){$('#t2q1').classList.remove('shake')},400);return fb('t2',false,'اختاري إجابة السؤال الأول أولًا.')}
-    var ok=t2choice==='ريم';b.classList.remove('on');b.classList.add(ok?'ok':'no');if(!ok){b.classList.add('shake')}
-    $('#t2m2').hidden=false;$('#t2m3').hidden=false;
-    fb('t2',ok,ok?'أحسنتِ يا نجمة النشاط! ريم تحافظ على صحتها لأنها تمارس الرياضة وتنام مبكرًا. قارني إجابتيك المكتوبتين بالإجابات النموذجية.':'فكّري مرة أخرى: من التي تمارس الرياضة وتنام مبكرًا؟ اقرئي الإجابات النموذجية، ثم أعيدي المحاولة.',ok?3:0)},
-  t3:function(){var r=S3.check();
-    if(r.placed<r.total)return fb('t3',false,'ضعي جميع البطاقات الخمس في أوقاتها أولًا، ثم تحقّقي.');
-    if(r.right===r.total)fb('t3',true,'ممتاز يا خبيرة العادات! نموذج يومك الصحي مرتّب ترتيبًا صحيحًا.',3);
-    else fb('t3',false,'جميل! '+ar(r.right)+' في مكانها الصحيح من '+ar(r.total)+'. انقلي البطاقات الحمراء وحاولي مرة أخرى.')},
-  t4:function(){var parts=['t4a','t4b','t4c'].filter(function(i){return $('#'+i).value.trim().length>=10}).length,
-      c=$$('[data-c]').filter(function(x){return x.checked}).length,t=$('#t4title').value.trim();
-    if(parts<3||!t)return fb('t4',false,'أكملي عنوان القصة ومشاهدها الثلاثة (جملة على الأقل لكل مشهد)، ثم تحقّقي.');
-    fb('t4',true,'مبدعة! اكتملت قصتك بمشاهدها الثلاثة. حققتِ '+ar(c)+' من ٥ معايير'+(c<5?'؛ راجعي ما لم تحققيه قبل العرض على زميلاتك.':'. قصتك جاهزة للعرض على زميلاتك!'),c>=5?3:c>=3?2:1)}
-};
-var RETRY={
-  t1:function(){S1.reset();$('#t1why').value=''},
-  t2:function(){t2choice=null;$$('#t2q1 .opt').forEach(function(x){x.classList.remove('on','ok','no','shake')});$('#t2q2').value='';$('#t2q3').value='';$('#t2m2').hidden=true;$('#t2m3').hidden=true},
-  t3:function(){S3.reset()},
-  t4:function(){['t4a','t4b','t4c','t4title'].forEach(function(i){$('#'+i).value=''});$$('[data-c]').forEach(function(x){x.checked=false})}
-};
-function ar(n){return String(n).replace(/\d/g,function(d){return '٠١٢٣٤٥٦٧٨٩'[d]})}
-$$('[data-check]').forEach(function(b){b.addEventListener('click',function(){CHECK[b.dataset.check]()})});
-$$('[data-retry]').forEach(function(b){b.addEventListener('click',function(){var id=b.dataset.retry;RETRY[id]();$('#fb-'+id).textContent=''})});
-
-/* print / save as PDF */
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function mark(ok){return ok===null?'':ok?' ✔':' ✘'}
+function picked(f,name){var i=$('input[name="'+name+'"]:checked',f);return i?{v:i.value,ok:i.hasAttribute('data-ok')}:null}
+function mark(p){return !p?'لم تُجب':esc(p.v)+(p.ok?' ✔':' ✘')}
+function box(t){return '<div class="pr">'+esc(t||'—')+'</div>'}
 $$('[data-print]').forEach(function(b){b.addEventListener('click',function(){
-  var id=b.dataset.print,h='<h1>فرق الصحة الأربع | مهام التعلم التعاوني</h1><p><b>اسم الطالبة:</b> '+esc(student||'—')+' &nbsp; <b>المجموعة:</b> '+GROUP[id]+'</p>';
-  if(id==='t1'){h+='<h2>تصنيف العادات</h2>'+S1.state().map(function(s){return '<div class="pr">'+esc(s[0])+' ← '+esc(s[1])+mark(s[2])+'</div>'}).join('')+'<h2>السبب</h2><div class="pr">'+esc($('#t1why').value||'—')+'</div>'}
-  if(id==='t2'){h+='<h2>١ أيهما تحافظ على صحتها أكثر؟</h2><div class="pr">'+esc(t2choice||'—')+'</div><h2>٢ لماذا تشعر ريم بالنشاط أكثر من هند؟</h2><div class="pr">'+esc($('#t2q2').value||'—')+'</div><h2>٣ ماذا تلاحظين في نتائج قياس النبض؟ وبماذا تفسّرين ذلك؟</h2><div class="pr">'+esc($('#t2q3').value||'—')+'</div>'}
-  if(id==='t3'){h+='<h2>نموذج «يومي الصحي»</h2>'+S3.state().map(function(s){return '<div class="pr">'+esc(s[1])+': '+esc(s[0])+mark(s[2])+'</div>'}).join('')}
-  if(id==='t4'){h+='<h2>عنوان القصة</h2><div class="pr">'+esc($('#t4title').value||'—')+'</div>'+[['١ العادة غير الصحية','t4a'],['٢ التغيير','t4b'],['٣ النتيجة','t4c']].map(function(p){return '<h2>'+p[0]+'</h2><div class="pr" style="min-height:90px">'+esc($('#'+p[1]).value||'—')+'</div>'}).join('')+'<h2>المعايير المحققة</h2><div class="pr">'+($$('[data-c]').filter(function(x){return x.checked}).map(function(x){return x.parentNode.textContent.trim()}).join('، ')||'—')+'</div>'}
+  var id=b.getAttribute('data-print'),f=b.closest('form'),h='<h1>فرق الصحة الأربع | مهام التعلم التعاوني</h1><p><b>اسم الطالبة:</b> '+esc(student||'—')+' &nbsp; <b>المجموعة:</b> '+GROUP[id]+'</p>';
+  if(id==='t1'){h+='<h2>تصنيف العادات</h2>'+$$('.item',f).map(function(it,i){return '<div class="pr">'+esc($('b',it).textContent)+' ← '+mark(picked(f,'a'+(i+1)))+'</div>'}).join('')+'<h2>السبب</h2>'+box(f.why.value)}
+  if(id==='t2'){h+='<h2>١ أيهما تحافظ على صحتها أكثر؟</h2><div class="pr">'+mark(picked(f,'q1'))+'</div><h2>٢ لماذا تشعر ريم بالنشاط أكثر من هند؟</h2>'+box(f.q2.value)+'<h2>٣ ماذا تلاحظين في نتائج قياس النبض؟ وبماذا تفسّرين ذلك؟</h2>'+box(f.q3.value)}
+  if(id==='t3'){h+='<h2>نموذج «يومي الصحي»</h2>'+$$('.items .item',f).map(function(it,i){var p=picked(f,'d'+(i+1));return '<div class="pr">'+esc($('b',it).textContent)+' ← '+(p?esc(TIMES[p.v-1])+(p.ok?' ✔':' ✘'):'لم تُحدَّد')+'</div>'}).join('')}
+  if(id==='t4'){h+='<h2>عنوان القصة</h2>'+box(f.title.value)+'<h2>١ العادة غير الصحية</h2>'+box(f.s1.value)+'<h2>٢ التغيير</h2>'+box(f.s2.value)+'<h2>٣ النتيجة</h2>'+box(f.s3.value)+'<h2>المعايير المحققة</h2>'+box($$('input[name="k"]:checked',f).map(function(x){return x.value}).join('، '))}
   h+='<p style="text-align:center;margin-top:16px"><b>أ/ شامه البقمي</b></p>';
   $('#print').innerHTML=h;window.print()})});
 })();
