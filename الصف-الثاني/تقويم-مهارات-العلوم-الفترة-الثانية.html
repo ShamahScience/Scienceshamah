@@ -122,7 +122,7 @@ const G=[
  {n:1,t:'اختر الإجابة الصحيحة:',img:'lake_tree',items:[
    {id:'1a',type:'mc',q:'أ– المكان الذي يعيش فيه المخلوق الحي ويحصل منه على حاجاته يسمى:',o:['الغذاء','الموطن','الهواء'],a:1},
    {id:'1b',type:'mc',q:'ب– أي الأماكن الآتية يُعد موطنًا مائيًا ؟',o:['الصحراء','الغابة','البحيرة'],a:2}]},
- {n:2,t:'صل كل مخلوق حي بموطنه المناسب:',items:[{id:'2',type:'match',L:[['غزال','gazelle'],['دب','bear'],['بطة','duck']],R:[['البحيرة','lake'],['الصحراء','desert'],['الغابة','forest']],a:[1,2,0],pts:3}]},
+ {n:2,t:'صل كل مخلوق حي بموطنه المناسب:',items:[{id:'2',type:'match',L:[['غزال','gazelle'],['دب','bear'],['بطة','duck']],R:[['البحيرة','lake'],['الصحراء','desert'],['الغابة','forest']],a:[[1,2],[2],[0]],pts:3}]},
  {n:3,t:'ضع علامة (✓) أو (✗) أمام كل عبارة:',img:'nest',items:[
    {id:'3a',type:'tf',q:'أ– تستخدم بعض الحيوانات الأشجار من أجل الاختباء والحماية.',a:true},
    {id:'3b',type:'tf',q:'ب– لا تحتاج المخلوقات الحية إلى الماء لتعيش.',a:false}]},
@@ -153,7 +153,7 @@ function itemScore(it){const v=A[it.id];
   if(it.type==='tf')return v===it.a?1:0;
   if(it.type==='fill')return v===it.a?1:0;
   if(it.type==='order')return v&&v.length===4&&v.every((x,k)=>x===it.a[k])?1:0;
-  if(it.type==='match')return v?it.a.reduce((s,r,k)=>s+(v[k]===r?1:0),0):0;
+  if(it.type==='match')return v?it.a.reduce((s,r,k)=>s+(r.includes(v[k])?1:0),0):0;
   if(it.type==='num')return v?it.D.reduce((s,d,k)=>s+(v[k]===d[1]?1:0),0):0;return 0}
 const itemMax=it=>it.pts||1;
 const answered=it=>{const v=A[it.id];if(v===undefined)return false;if(it.type==='order')return v.length===4;if(it.type==='match')return v.filter(x=>x!==undefined&&x!==null).length===3;if(it.type==='num')return v.filter(Boolean).length===3;return true};
@@ -199,12 +199,12 @@ function build(it){const d=document.createElement('div');d.className='item';cons
   if(it.type==='match'){const s=v||[null,null,null];d.innerHTML=`<p class="hint" style="margin-top:0">اضغطي على المخلوق الحي، ثم على موطنه.</p><div class="match"><div class="mcol" id="ml"></div><div class="mcol" id="mr"></div></div>`;
     const ml=d.querySelector('#ml'),mr=d.querySelector('#mr');
     it.L.forEach(([n,img],k)=>{const b=document.createElement('button');b.type='button';b.className='mb'+(window._pick===k&&!R?' pick':'');const r=s[k];
-      const ok=R&&r===it.a[k];b.innerHTML=`<span>${n}</span><img src="${I[img]}" alt="">${r!=null?`<span class="tag" style="background:${R?(ok?'var(--ok)':'var(--no)'):COLS[k]}">${R?(ok?'✓':'✗'):'●'}</span>`:''}`;
+      const ok=R&&it.a[k].includes(r);b.innerHTML=`<span>${n}</span><img src="${I[img]}" alt="">${r!=null?`<span class="tag" style="background:${R?(ok?'var(--ok)':'var(--no)'):COLS[k]}">${R?(ok?'✓':'✗'):'●'}</span>`:''}`;
       b.disabled=R;b.onclick=()=>{window._pick=k;tap();show()};ml.appendChild(b);
-      if(R&&!ok){const f=document.createElement('span');f.className='fix';f.textContent=`${n} ← ${it.R[it.a[k]][0]}`;ml.appendChild(f)}});
-    it.R.forEach(([n,img],j)=>{const b=document.createElement('button');b.type='button';b.className='mb';const who=s.indexOf(j);
-      b.innerHTML=`${who>=0&&!R?`<span class="tag" style="background:${COLS[who]}">●</span>`:''}<span>${n}</span><img src="${I[img]}" alt="">`;b.disabled=R;
-      b.onclick=()=>{if(window._pick==null)return;const a=(A[it.id]||[null,null,null]).slice();a.forEach((x,k)=>{if(x===j)a[k]=null});a[window._pick]=j;A[it.id]=a;window._pick=null;tap();show()};mr.appendChild(b)})}
+      if(R&&!ok){const f=document.createElement('span');f.className='fix';f.textContent=`${n} ← ${it.a[k].map(x=>it.R[x][0]).join(' أو ')}`;ml.appendChild(f)}});
+    it.R.forEach(([n,img],j)=>{const b=document.createElement('button');b.type='button';b.className='mb';const who=s.map((x,k)=>x===j?k:-1).filter(k=>k>=0);
+      b.innerHTML=`${!R?who.map(w=>`<span class="tag" style="background:${COLS[w]}">●</span>`).join(''):''}<span>${n}</span><img src="${I[img]}" alt="">`;b.disabled=R;
+      b.onclick=()=>{if(window._pick==null)return;const a=(A[it.id]||[null,null,null]).slice();a[window._pick]=j;A[it.id]=a;window._pick=null;tap();show()};mr.appendChild(b)})}
   if(it.type==='num'){const s=v||[0,0,0];d.innerHTML=`<div class="nm"><div class="mcol" id="hb"></div><div class="mcol" id="ds"></div></div>`;
     it.H.forEach(([k,n,img])=>{d.querySelector('#hb').insertAdjacentHTML('beforeend',`<div class="hab"><span class="k">${k}</span><span style="flex:1">${n}</span><img src="${I[img]}" alt=""></div>`)});
     it.D.forEach(([t,a],k)=>{const r=document.createElement('div');r.className='desc';r.innerHTML=`<span class="circ"></span><span style="flex:1">${t}</span>`;const c=r.querySelector('.circ');
