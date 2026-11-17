@@ -6,7 +6,7 @@ const SKILL = '/root/.claude/skills/synced/eee5607a-cee3-4438-a82f-eabe29e012fc_
 const { applyTheme } = require(SKILL + '/scripts/apply_theme.js');
 
 const IMG = '/home/user/Scienceshamah/integrated-lessons/nutrition-health/img/';
-const OUT = '/home/user/Scienceshamah/integrated-lessons/nutrition-health/درس-التغذية-والصحة.pptx';
+const OUT = '/home/user/Scienceshamah/integrated-lessons/nutrition-health/درس-الغذاء-والتغذية.pptx';
 const im = n => IMG + n + '.jpg';
 const SIG = 'أ/ شامه البقمي';
 
@@ -19,7 +19,7 @@ const THEME = {
 const pres = new pptxgen();
 pres.layout = 'LAYOUT_WIDE'; // 13.333 x 7.5
 pres.rtlMode = true;
-pres.title = 'درس التغذية والصحة'; pres.author = SIG; pres.subject = 'العلوم - الصف الرابع الابتدائي';
+pres.title = 'درس الغذاء والتغذية'; pres.author = SIG; pres.subject = 'العلوم - الصف الرابع الابتدائي';
 pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
 const C = pres.SchemeColor;
 const INK = C.text1, MAROON = C.text2, LEAF = C.accent1, ROSE = C.accent2, LEAFL = C.accent3, ROSEL = C.accent4, WOOD = C.accent5, WOODD = C.accent6, WHITE = C.background1, CREAM = C.background2;
@@ -96,6 +96,9 @@ function numDot(s, n, x, y, fill) {
 }
 
 /* ================= SLIDES ================= */
+const LESSON = 'الغذاء والتغذية';
+const lessonTitle = (s, x, y, w, h, fsz) => s.addText(LESSON, { isTextBox: true, x, y, w, h, align: 'center', valign: 'middle', fontSize: fsz, bold: true, color: '7D1423', fontFace: 'Arial', rtlMode: true, margin: 0, objectName: 'lessonTitle' });
+
 const R = (t, o) => ({ text: t, options: o || {} });
 const M = t => ({ text: t, options: { highlight: 'FFF176' } });
 const ST = (strategy, stage) => strategy ? [R('الاستراتيجية: ' + strategy, { breakLine: true }), R(stage, { fontSize: 12, color: '7A6660' })] : [R(stage, { fontSize: 14 })];
@@ -118,6 +121,7 @@ function binBox(s, key, title, x, y, w, h) {
 pres.addSection({ title: 'البداية' });
 let s = slideOf('FULL', '', '', 'البداية');
 s.background = { path: im('slide-opening') };
+lessonTitle(s, 4.77, 1.69, 4.42, 0.89, 46);
 T(s, '', { x: 2.29, y: 0.74, w: 1.36, h: 0.32, align: 'center', fontSize: 16, bold: true, color: MAROON, objectName: 'day' });
 T(s, '', { x: 8.96, y: 0.74, w: 1.36, h: 0.32, align: 'center', fontSize: 16, bold: true, color: MAROON, objectName: 'date' });
 s.addNotes('الافتتاحية (دقيقتان): اكتبي اليوم والتاريخ في الخانتين أعلى الشريحة (في وضع التحرير). اقرئي القوانين الصفية مع الطالبات، وأشيري إلى مخطط الدرس واستراتيجيات التعلم.');
@@ -421,6 +425,7 @@ s.addNotes('فهم قرائي: أقرأ – أفهم – أجيب (٥ دقائق
 // plate
 s = slideOf('FULL', '', '', 'الأنشطة');
 s.background = { path: im('slide-plate') };
+lessonTitle(s, 5.10, 0.38, 2.67, 0.55, 27);
 T(s, '', { x: 9.57, y: 0.49, w: 1.52, h: 0.29, align: 'center', fontSize: 14, bold: true, color: MAROON, objectName: 'day' });
 T(s, '', { x: 9.57, y: 0.94, w: 1.52, h: 0.29, align: 'center', fontSize: 14, bold: true, color: MAROON, objectName: 'date' });
 [[3.2, 3.77, 1.87, 1.35], [3.15, 5.31, 1.87, 1.4], [8.13, 3.77, 1.8, 1.35], [8.25, 5.31, 1.72, 1.4]].forEach((r, i) => {
@@ -502,6 +507,7 @@ s.addNotes('تذكرة الخروج (٣ دقائق). تجيب كل طالبة ع
 // printable exit ticket
 s = slideOf('FULL', '', '', 'التقويم');
 s.background = { path: im('slide-exit') };
+lessonTitle(s, 5.53, 0.43, 2.81, 0.49, 25);
 s.addNotes('تذكرة الخروج المصوّرة: نسخة جاهزة للطباعة أو العرض.');
 
 pres.addSection({ title: 'المراجعة' });

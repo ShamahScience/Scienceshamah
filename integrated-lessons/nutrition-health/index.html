@@ -1,4 +1,4 @@
-<title>درس التغذية والصحة</title>
+<title>درس الغذاء والتغذية</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -337,6 +337,7 @@ table.grid input{width:100%;height:46px;border:0;text-align:center;background:tr
 #timer .row{gap:6px;justify-content:center}
 #timer button{border:2px solid var(--wood);background:#fff;border-radius:10px;padding:2px 10px;font-weight:800}
 .small-note{font-size:14px;color:var(--muted)}
+.ltitle{position:absolute;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;color:#7d1423;line-height:1;pointer-events:none;white-space:nowrap}
 #rotate{display:none}
 @media (max-width:560px) and (orientation:portrait){#rotate{display:block;position:fixed;top:max(10px,env(safe-area-inset-top,0px));left:16px;right:16px;text-align:center;background:var(--rose-l);color:var(--rose-d);font-weight:800;border-radius:12px;padding:6px;z-index:5;font-size:14px}
   #stitle{display:none}}
@@ -347,7 +348,8 @@ table.grid input{width:100%;height:46px;border:0;text-align:center;background:tr
 
 <!-- ١ الافتتاحية -->
 <section class="slide full" data-title="الافتتاحية" data-full>
-  <img class="bg" src="img/slide-opening.jpg" alt="الشريحة الافتتاحية لدرس التغذية والصحة: القوانين الصفية، نواتج التعلم، مخطط الدرس واستراتيجيات التعلم">
+  <img class="bg" src="img/slide-opening.jpg" alt="الشريحة الافتتاحية لدرس الغذاء والتغذية: القوانين الصفية، نواتج التعلم، مخطط الدرس واستراتيجيات التعلم">
+  <div class="ltitle" style="left:35.77%;top:22.53%;width:33.13%;height:11.90%;font-size:64px">الغذاء والتغذية</div>
   <input class="dd" data-k="day" aria-label="اليوم" style="left:17.2%;top:9.9%;width:10.2%;height:4.3%">
   <input class="dd" data-k="date" aria-label="التاريخ" style="left:67.2%;top:9.9%;width:10.2%;height:4.3%">
   <aside class="tnotes"><h3>الافتتاحية (دقيقتان)</h3><ul><li>اكتبي اليوم والتاريخ في الخانتين أعلى الشريحة، وتُنسخان تلقائيًا إلى شريحة «الطبق الناقص».</li><li>اقرئي القوانين الصفية مع الطالبات بصوت واحد، واتفقي على إشارة الهدوء.</li><li>أشيري إلى مخطط الدرس ليعرفن مراحل الحصة.</li></ul></aside>
@@ -737,6 +739,7 @@ table.grid input{width:100%;height:46px;border:0;text-align:center;background:tr
 <!-- ١٩ الطبق الناقص -->
 <section class="slide full" data-title="الطبق الناقص" data-full>
   <img class="bg" src="img/slide-plate.jpg" alt="نشاط الطبق الناقص: طبق أرز ودجاج، وحوله خضراوات وفواكه ومنتجات ألبان وماء">
+  <div class="ltitle" style="left:38.28%;top:5.10%;width:20.04%;height:7.33%;font-size:38px">الغذاء والتغذية</div>
   <input class="dd" data-k="day" aria-label="اليوم" style="left:71.8%;top:6.5%;width:11.4%;height:3.9%;font-size:22px">
   <input class="dd" data-k="date" aria-label="التاريخ" style="left:71.8%;top:12.5%;width:11.4%;height:3.9%;font-size:22px">
   <button class="hot" data-food="الخضراوات" aria-label="الخضراوات" style="left:24%;top:50.2%;width:14%;height:18%"></button>
@@ -838,7 +841,7 @@ table.grid input{width:100%;height:46px;border:0;text-align:center;background:tr
       <img src="img/healthy-plate.jpg" alt="" style="width:100%;flex:1;min-height:0;object-fit:contain">
     </div>
   </div></div>
-  <div class="img-pop" hidden><img src="img/slide-exit.jpg" alt="تذكرة الخروج المصورة"><button class="btn r" data-act="hide-ticket">إغلاق</button></div>
+  <div class="img-pop" hidden><img src="img/slide-exit.jpg" alt="تذكرة الخروج المصورة"><div class="ltitle" style="left:41.51%;top:5.74%;width:21.05%;height:6.59%;font-size:36px">الغذاء والتغذية</div><button class="btn r" data-act="hide-ticket">إغلاق</button></div>
   <aside class="tnotes"><h3>تذكرة الخروج (٣ دقائق)</h3><ul><li>تجيب كل طالبة عن الأسئلة الثلاثة في بطاقة ورقية أو شفهيًا قبل الخروج.</li><li>«أقيّم فهمي»: توجّهي في الحصة القادمة لمن اخترن «أحتاج إلى مساعدة».</li><li>«عرض البطاقة المصوّرة» يعرض نسخة التصميم الكاملة لتذكرة الخروج.</li><li>عودي إلى شريحة «نواتج التعلم» وضعي علامة على ما تحقق.</li></ul></aside>
 </section>
 
@@ -884,7 +887,7 @@ slides.forEach((s,i)=>{
   const [st,sub]=(s.dataset.strat||'').split('|');
   const g=s.dataset.guide;
   board.innerHTML=`<div class="hdr"><div class="guide">${g?`<img src="img/girl-head.jpg" alt=""><div class="bubble">${g}</div>`:''}</div>
-    <div class="mid"><span class="kicker">العلوم · الصف الرابع · التغذية والصحة</span><div class="plaque">${s.dataset.plaque||s.dataset.title.replace(/^.*?: /,'')}</div></div>
+    <div class="mid"><span class="kicker">العلوم · الصف الرابع · الغذاء والتغذية</span><div class="plaque">${s.dataset.plaque||s.dataset.title.replace(/^.*?: /,'')}</div></div>
     <div class="strat">${st?`<span>${st}<small>${sub||''}</small></span>`:''}</div></div><div class="sig">أ/ شامه البقمي</div>`;
   s.prepend(board);
 });
