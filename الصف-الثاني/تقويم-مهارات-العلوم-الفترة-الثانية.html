@@ -88,6 +88,18 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-o
 .rbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .rbtns button{border:0;border-radius:16px;padding:10px 20px;font-weight:800;font-size:19px;background:var(--sky);color:#1F5E92}
 .foot{text-align:center;color:var(--soft);font-size:13px;font-weight:700}
+.cert{margin-top:16px;background:#fff;border:4px solid var(--gold);border-radius:26px;padding:8px;box-shadow:0 10px 26px rgba(244,180,0,.22)}
+.cert-in{border:3px dashed #9BD3A8;border-radius:20px;padding:16px 14px;text-align:center;background:radial-gradient(circle at 50% 0,#FFF8DD,#fff 65%);display:flex;flex-direction:column;gap:6px;align-items:center}
+.cert-top{display:flex;justify-content:space-between;width:100%;font-size:14px;font-weight:800;color:var(--soft);flex-wrap:wrap;gap:4px}
+.cert h3{font-family:var(--display);font-size:clamp(28px,6vw,42px);margin:4px 0 0;color:var(--dgreen);line-height:1.15}
+.seal{width:84px;height:84px;border-radius:50%;background:var(--gold);border:5px double #fff;box-shadow:0 0 0 4px var(--gold);display:grid;place-content:center;color:#fff;font-weight:800;line-height:1.1}
+.seal b{font-size:30px}
+.cert .line{margin:0;font-weight:700;font-size:18px}
+.cert .who{font-family:var(--display);font-size:clamp(28px,6vw,40px);font-weight:800;color:#C2185B;border-bottom:3px solid var(--gold);padding:0 22px;max-width:100%;overflow-wrap:anywhere}
+.cert .stars{font-size:30px;letter-spacing:3px}
+.cert-foot{display:flex;justify-content:space-between;width:100%;gap:10px;flex-wrap:wrap;margin-top:6px}
+.cert-foot div{display:flex;flex-direction:column;border-top:2px solid #E9C46A;padding-top:4px;min-width:130px;font-weight:800}
+.cert-foot small{color:var(--soft);font-weight:700}
 .conf{position:fixed;pointer-events:none;z-index:9;font-size:26px;animation:fly 1.3s forwards}
 @keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(200deg);opacity:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -202,12 +214,23 @@ function build(it){const d=document.createElement('div');d.className='item';cons
 function finish(){const miss=G.filter(g=>g.items.some(it=>!answered(it))).map(g=>AR(g.n));
   if(miss.length&&!window._sure){$('#w').textContent=`لم تكملي الأسئلة: ${miss.join('، ')}. اضغطي «إنهاء التقويم» مرة أخرى للإنهاء.`;window._sure=true;return}
   window._sure=false;review=true;result()}
+function hdate(){try{return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch(e){return new Date().toLocaleDateString('ar')}}
 function result(){let sc=0,mx=0;const per=G.map(g=>{let s=0,m=0;g.items.forEach(it=>{s+=itemScore(it);m+=itemMax(it)});sc+=s;mx+=m;return [g.n,s,m]});
   const r=sc/mx;const msg=r===1?'ممتازة! أنتِ عالمة صغيرة متميّزة 🏆':r>=.8?'أحسنتِ يا بطلة! 🌟':r>=.6?'جيد جدًّا، واصلي التقدّم 🌱':'لا بأس، راجعي إجاباتك وحاولي مرة أخرى 💪';
   $('#app').innerHTML=`<section class="card res"><p class="q">🌿 ${student.name}${student.cls?` · ${student.cls}`:''}</p><div class="score">${AR(sc)} / ${AR(mx)}</div><p class="msg">${msg}</p>
    <div class="sumrow">${per.map(([n,s,m])=>`<span>س${AR(n)}: ${AR(s)}/${AR(m)}</span>`).join('')}</div>
    <div class="rbtns"><button type="button" id="rv">👀 مراجعة الإجابات</button><button type="button" id="ag">↺ إعادة المحاولة</button></div>
-   <p class="hint">صوّري هذه الشاشة وأرسليها لمعلمتك 📸</p></section>`;
+   <div class="cert" aria-label="شهادة"><div class="cert-in">
+     <div class="cert-top"><span>العلوم · الصف الثاني الابتدائي</span><span>الفترة الدراسية الثانية ١٤٤٨هـ</span></div>
+     <div class="seal"><b>🏅</b>أنجزتُ</div>
+     <h3>شهادة «أنجزتُ مهاراتي»</h3>
+     <p class="line">تُمنح هذه الشهادة للطالبة المتميزة</p>
+     <div class="who">${student.name}</div>
+     <p class="line">${student.cls?`فصل ${student.cls} · `:''}لإنجازها تقويم مهارات مادة العلوم، وحصولها على <b>${AR(sc)} من ${AR(mx)}</b></p>
+     <div class="stars">${'⭐'.repeat(Math.max(1,Math.round(r*5)))}</div>
+     <div class="cert-foot"><div><small>التاريخ</small><span>${hdate()}</span></div><div><small>معلمة العلوم</small><span>أ/ شامه البقمي</span></div></div>
+   </div></div>
+   <p class="hint">صوّري الشهادة وأرسليها لمعلمتك 📸</p></section>`;
   $('#rv').onclick=()=>{cur=0;show();scrollTo(0,0)};$('#ag').onclick=()=>{A={};review=false;window._pick=null;cur=0;show();scrollTo(0,0)};
   [523,659,784,1047].forEach((f,i)=>tone(f,i*.12,.3,'triangle'));
   if(r>=.8)for(let i=0;i<24;i++){const s=document.createElement('span');s.className='conf';s.textContent=['⭐','🌿','💚','🌸'][i%4];s.style.left=innerWidth/2+'px';s.style.top='200px';
