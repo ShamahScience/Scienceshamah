@@ -1,0 +1,1034 @@
+<title>درس التغذية والصحة</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: a 1600×900 classroom board scaled to fit the screen; one slide at a time, controls in a bar below */
+:root{
+  color-scheme:light;
+  --leaf:#86ad5e; --leaf-d:#4e7a34; --leaf-l:#eef5e4;
+  --rose:#d98fa0; --rose-d:#b14f68; --rose-l:#fbecef;
+  --cream:#fbf7ef; --paper:#fffdf8; --wood:#e7cfa8; --wood-d:#b98e5b;
+  --ink:#43302c; --muted:#7a6660; --maroon:#7b1d2c;
+  --ok:#3d8b4c; --ok-l:#e3f3e2; --bad:#c2445b; --bad-l:#fbe3e7; --butter:#fbefc8;
+  --carb:#a9c8ef; --carb-d:#3f72b5; --prot:#f4b4c4; --prot-d:#b9466a;
+  --fat:#f4d77f; --fat-d:#a87b0f; --vit:#b6dc96; --vit-d:#4c8a2b;
+  --min:#b3dcec; --min-d:#2f7d9c; --wat:#cdbdf0; --wat-d:#6b4fb3;
+  --page:#e6eedb;
+  --display:"Baloo Bhaijaan 2","Tajawal",Tahoma,sans-serif;
+  --body:"Tajawal","Segoe UI",Tahoma,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden],.tnotes{display:none!important}
+html,body{height:100%}
+body{margin:0;background:radial-gradient(circle at 80% 0%,#f6efe0 0,transparent 45%),var(--page);color:var(--ink);font-family:var(--body);direction:rtl;overflow:hidden;
+  padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:4px solid var(--rose-d);outline-offset:3px}
+#app{height:100%;display:grid;grid-template-rows:1fr auto}
+#viewport{position:relative;overflow:hidden;min-height:0}
+#stage{position:absolute;top:0;left:0;width:1600px;height:900px;transform-origin:0 0}
+
+/* ===== slide frame ===== */
+.slide{position:absolute;inset:0;display:none}
+.slide.active{display:block;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.slide.active{animation:none}*{transition:none!important}}
+.board{position:absolute;inset:14px;background:linear-gradient(var(--paper),var(--cream));border:12px solid var(--wood);border-radius:30px;
+  box-shadow:0 0 0 3px var(--wood-d) inset,0 14px 30px rgba(80,50,20,.18);overflow:hidden}
+.board::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle at 0 0,rgba(134,173,94,.16) 0,transparent 160px),
+  radial-gradient(circle at 100% 100%,rgba(217,143,160,.14) 0,transparent 200px);pointer-events:none}
+.full img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+.hdr{position:absolute;top:14px;left:24px;right:24px;height:112px;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:2}
+.hdr .guide{display:flex;align-items:center;gap:12px;width:360px}
+.hdr .guide img{width:92px;height:92px;border-radius:50%;object-fit:cover;object-position:50% 30%;border:4px solid #fff;box-shadow:0 0 0 3px var(--rose)}
+.bubble{background:#fff;border:3px solid var(--rose-l);border-radius:22px;padding:8px 14px;font-weight:700;font-size:21px;line-height:1.35;color:var(--maroon);position:relative;box-shadow:0 4px 10px rgba(180,80,100,.12)}
+.bubble::before{content:"";position:absolute;right:-12px;top:50%;margin-top:-9px;border:9px solid transparent;border-left-color:#fff}
+.hdr .mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.kicker{font-size:18px;font-weight:700;color:var(--leaf-d);background:var(--leaf-l);border-radius:999px;padding:2px 16px}
+.plaque{font-family:var(--display);font-weight:800;font-size:50px;line-height:1.15;color:var(--maroon);background:linear-gradient(#fbecd2,#f1dbb5);
+  border:3px dashed var(--wood-d);outline:5px solid #f1dbb5;border-radius:18px;padding:2px 34px 6px;text-align:center;white-space:nowrap}
+.strat{width:360px;display:flex;justify-content:flex-end}
+.strat span{display:inline-flex;flex-direction:column;align-items:center;background:var(--rose-l);border:2px solid var(--rose);border-radius:18px;padding:4px 18px;font-weight:800;font-size:22px;color:var(--rose-d);text-align:center;line-height:1.3}
+.strat span small{font-size:15px;color:var(--muted);font-weight:700}
+.sig{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:linear-gradient(#fbecd2,#f1dbb5);border:2px solid var(--wood-d);border-radius:999px;padding:2px 30px 4px;
+  font-family:var(--display);font-weight:800;font-size:24px;color:var(--maroon);white-space:nowrap;z-index:2}
+.sig::before,.sig::after{content:"";display:inline-block;width:18px;height:10px;background:var(--leaf);border-radius:0 100% 0 100%;margin-inline:10px;vertical-align:middle}
+.body{position:absolute;top:150px;bottom:84px;left:46px;right:46px}
+
+/* ===== shared pieces ===== */
+.btn{border:0;border-radius:16px;padding:10px 22px;font-weight:800;font-size:22px;background:#fff;color:var(--ink);box-shadow:0 0 0 2px var(--wood) inset,0 3px 0 var(--wood-d);transition:transform .1s}
+.btn:active{transform:translateY(2px)}
+.btn.g{background:var(--leaf-d);color:#fff;box-shadow:0 3px 0 #355a21}
+.btn.r{background:var(--rose-d);color:#fff;box-shadow:0 3px 0 #87344b}
+.btn.sm{font-size:18px;padding:6px 14px;border-radius:12px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.card{background:#fff;border-radius:24px;border:3px solid var(--leaf-l);box-shadow:0 6px 16px rgba(90,70,40,.08)}
+.ttl{font-family:var(--display);font-weight:800;color:var(--maroon)}
+.answer{transition:opacity .3s,filter .3s;opacity:0;filter:blur(6px);pointer-events:none}
+.answer.on{opacity:1;filter:none;pointer-events:auto}
+.fb{min-height:34px;font-weight:800;font-size:22px}
+.fb.ok{color:var(--ok)} .fb.no{color:var(--bad)}
+.opt{border:3px solid var(--wood);background:#fff;border-radius:16px;padding:8px 18px;font-size:24px;font-weight:700;color:var(--ink)}
+.opt.right{background:var(--ok-l);border-color:var(--ok);color:var(--ok)}
+.opt.wrong{background:var(--bad-l);border-color:var(--bad);color:var(--bad);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.mark{background:linear-gradient(transparent 55%,var(--butter) 0)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 14px;background:var(--leaf-l);color:var(--leaf-d);font-weight:800;font-size:20px}
+[data-edit]{outline:none}
+body.editing [data-edit]{outline:2px dashed var(--rose-d);outline-offset:3px;cursor:text;background:rgba(255,255,255,.6)}
+
+/* day / date fields */
+.dd{position:absolute;border:0;background:transparent;text-align:center;font-family:var(--display);font-weight:700;color:var(--maroon);font-size:26px;border-radius:999px}
+.dd:focus{background:rgba(255,255,255,.7)}
+
+/* ===== warm-up ===== */
+.warm{display:grid;grid-template-columns:1fr 360px;gap:30px;height:100%}
+.warm .figure{position:relative}
+.warm .figure img{position:absolute;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:top;-webkit-mask-image:radial-gradient(ellipse 70% 75% at 50% 45%,#000 60%,transparent 80%);mask-image:radial-gradient(ellipse 70% 75% at 50% 45%,#000 60%,transparent 80%)}
+.warm .q{display:flex;flex-direction:column;gap:18px;justify-content:center}
+.bigq{font-family:var(--display);font-weight:800;font-size:46px;line-height:1.35;color:var(--maroon);background:#fff;border:4px solid var(--rose-l);border-radius:40px;padding:22px 36px}
+.steps3{display:flex;gap:14px}
+.steps3 div{flex:1;background:var(--leaf-l);border-radius:20px;padding:12px 16px;font-size:24px;font-weight:700;display:flex;gap:10px;align-items:center}
+.steps3 b{width:40px;height:40px;flex:none;border-radius:50%;background:var(--leaf-d);color:#fff;display:grid;place-items:center;font-size:22px}
+.why3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.why3 .answer{background:#fff;border:3px solid var(--leaf);border-radius:22px;padding:14px;text-align:center;font-size:26px;font-weight:800;color:var(--leaf-d)}
+.why3 .answer small{display:block;font-size:19px;color:var(--muted);font-weight:500}
+
+/* ===== outcomes ===== */
+.outc{display:grid;grid-template-columns:1fr 1fr;gap:18px 26px;padding:10px 40px}
+.outc button{display:flex;align-items:center;gap:18px;text-align:right;background:#fff;border:3px solid var(--leaf-l);border-radius:24px;padding:18px 22px;font-size:28px;font-weight:700;line-height:1.4}
+.outc button i{flex:none;width:52px;height:52px;border-radius:50%;border:4px solid var(--rose);display:grid;place-items:center;font-style:normal;font-size:30px;color:transparent;background:#fff}
+.outc button.done{border-color:var(--ok);background:var(--ok-l)}
+.outc button.done i{background:var(--ok);border-color:var(--ok);color:#fff}
+.outc button:last-child{grid-column:1/-1;justify-self:center;width:60%}
+.outc .v{color:var(--rose-d);font-weight:800}
+
+/* ===== vocabulary ===== */
+.vocab{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;padding-top:4px}
+.flip{width:330px;height:300px;perspective:1000px;background:none;border:0;padding:0}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .fr,.flip .bk{position:absolute;inset:0;backface-visibility:hidden;border-radius:26px;overflow:hidden;display:flex;flex-direction:column}
+.flip .fr{background:#fff;border:4px solid var(--c,var(--leaf))}
+.flip .fr img{height:205px;width:100%;object-fit:cover}
+.flip .fr b{flex:1;display:grid;place-items:center;font-family:var(--display);font-size:34px;color:var(--maroon)}
+.flip .bk{transform:rotateY(180deg);background:var(--c,var(--leaf));padding:20px;justify-content:center;gap:10px;text-align:center}
+.flip .bk b{font-family:var(--display);font-size:30px;color:var(--maroon)}
+.flip .bk p{margin:0;font-size:23px;line-height:1.5;font-weight:700;color:var(--ink)}
+
+/* ===== look & wonder ===== */
+.look{display:grid;grid-template-columns:520px 1fr;gap:34px;height:100%}
+.look .photo{border-radius:28px;overflow:hidden;border:6px solid #fff;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.look .photo img{width:100%;height:100%;object-fit:cover}
+.look .side{display:flex;flex-direction:column;gap:18px;min-width:0}
+.bookbox{background:#fff;border:4px solid #3a9bd5;border-radius:20px;padding:16px 22px;font-size:25px;line-height:1.6;position:relative}
+.bookbox h4{margin:0 0 4px;font-family:var(--display);font-size:28px;color:#1f6fa5}
+.eq{background:var(--rose-l);border:4px dashed var(--rose);border-radius:26px;padding:16px 24px;text-align:center}
+.eq small{font-size:20px;font-weight:800;color:var(--rose-d)}
+.eq div{font-family:var(--display);font-weight:800;font-size:46px;color:var(--maroon)}
+.see{display:flex;gap:12px;flex-wrap:wrap}
+.see .answer{background:var(--leaf-l);border-radius:999px;padding:6px 18px;font-size:23px;font-weight:800;color:var(--leaf-d)}
+.notes-pad{flex:1;background:repeating-linear-gradient(#fff 0 44px,#f0e6d6 44px 46px);border-radius:18px;border:3px solid var(--wood);padding:6px 18px;font-size:25px;line-height:46px;min-height:120px}
+
+/* ===== explore ===== */
+.explore{display:grid;grid-template-columns:470px 1fr;gap:26px;height:100%}
+.labels{display:flex;flex-direction:column;gap:12px}
+.nlab{background:#fff;border:3px solid #222;border-radius:12px;padding:8px 14px;font-size:18px;display:grid;grid-template-columns:110px 1fr;gap:4px 12px;align-items:center}
+.nlab img{grid-row:span 6;width:110px;height:100px;object-fit:contain}
+.nlab h5{margin:0;font-size:21px;border-bottom:4px solid #222;font-weight:800}
+.nlab div{display:flex;justify-content:space-between;border-bottom:1px solid #bbb;font-weight:700}
+.nlab div:last-child{border:0}
+.ex-main{display:flex;flex-direction:column;gap:12px;min-width:0}
+.tabs{display:flex;gap:10px}
+.tabs button{flex:1;border:3px solid var(--wood);background:#fff;border-radius:16px;padding:6px;font-size:24px;font-weight:800;color:var(--muted)}
+.tabs button.on{background:#3a9bd5;border-color:#3a9bd5;color:#fff}
+.tabs button b{color:var(--bad)}
+.pane{display:none;flex-direction:column;gap:10px}
+.pane.on{display:flex}
+.pane p{margin:0;font-size:25px;line-height:1.55}
+table.grid{width:100%;border-collapse:collapse;background:#fff;font-size:21px;text-align:center;font-variant-numeric:tabular-nums}
+table.grid th{background:#3a9bd5;color:#fff;padding:6px;font-weight:800}
+table.grid td{border:2px solid #9fcbe8;padding:0;height:48px}
+table.grid td:first-child{font-weight:800;background:#eef7fd;width:120px}
+table.grid input{width:100%;height:46px;border:0;text-align:center;background:transparent;font-size:21px;font-weight:700;color:var(--carb-d)}
+.concl{background:var(--leaf-l);border-radius:18px;padding:12px 18px;font-size:24px;line-height:1.55;font-weight:700}
+
+/* ===== concept slides ===== */
+.cx{display:grid;grid-template-columns:1fr 500px;gap:30px;height:calc(100% - 214px)}
+.cx-text{display:flex;flex-direction:column;gap:14px;min-width:0}
+.gname{display:flex;align-items:center;gap:14px;font-family:var(--display);font-weight:800;font-size:46px;color:var(--gd);margin:0}
+.gname em{font-style:normal;font-size:18px;font-family:var(--body);background:var(--g);color:var(--ink);border-radius:999px;padding:2px 14px}
+.fn{background:#fff;border-right:10px solid var(--g);border-radius:18px;padding:10px 20px;font-size:26px;line-height:1.55;font-weight:700}
+.fn b,.src>b{display:block;font-size:20px;color:var(--gd);font-weight:800}
+.src{background:#fff;border-radius:18px;padding:10px 18px}
+.srcs{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:4px}
+.srcs figure{margin:0;display:flex;flex-direction:column;align-items:center;font-size:19px;font-weight:800}
+.srcs figure img{width:96px;height:72px;object-fit:cover;border-radius:14px;border:3px solid var(--g)}
+.srcs span{background:var(--g);border-radius:999px;padding:4px 14px;font-size:21px;font-weight:700}
+.cx-img{margin:0;display:flex;flex-direction:column;gap:8px}
+.cx-img img{width:100%;flex:1;min-height:0;object-fit:cover;border-radius:24px;border:5px solid var(--g)}
+.cx-img figcaption{text-align:center;font-weight:800;font-size:20px;color:var(--muted)}
+.check{position:absolute;left:0;right:0;bottom:0;height:200px;background:#fff;border:4px dashed var(--g);border-radius:26px;padding:12px 22px;display:flex;flex-direction:column;gap:8px}
+.check .lab{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;color:var(--gd)}
+.check .lab i{font-style:normal;background:var(--g);color:var(--ink);border-radius:999px;padding:0 14px}
+.check .qq{font-size:27px;font-weight:800;line-height:1.4}
+.check .answer{font-size:24px;font-weight:800;color:var(--ok)}
+.check .item.txt{padding:4px 14px;font-size:22px;white-space:nowrap;min-width:0}
+.check .bin{min-height:50px!important}
+.check .tray{min-height:0}
+.check .qq{font-size:25px}
+.warn{background:var(--bad-l);border-radius:16px;padding:8px 16px;font-size:23px;font-weight:700;color:#8d2b3e}
+.water-bar{display:flex;gap:6px;height:48px;width:420px}
+.water-bar span{flex:1;border-radius:12px;background:#eee;display:grid;place-items:center;font-weight:800;font-size:20px}
+.water-bar span.w{background:linear-gradient(#7fc4ef,#3a8fd0);color:#fff}
+
+/* ===== sorter (drag or tap) ===== */
+.item{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;background:#fff;border:3px solid var(--wood);border-radius:18px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:800;font-size:21px;width:128px;transition:transform .12s}
+.item img{width:110px;height:78px;object-fit:cover;border-radius:12px;pointer-events:none}
+.item.txt{width:auto;min-width:110px;padding:10px 18px;font-size:24px}
+.item.picked{border-color:var(--rose-d);box-shadow:0 0 0 4px var(--rose-l);transform:translateY(-4px)}
+.item.ok{border-color:var(--ok);background:var(--ok-l)}
+.item.no{border-color:var(--bad);background:var(--bad-l);animation:shake .35s}
+.item.dragging{opacity:.3}
+.ghost{position:fixed;pointer-events:none;z-index:999;opacity:.92;transform-origin:0 0}
+.tray{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;min-height:60px;background:rgba(255,255,255,.6);border:3px dashed var(--wood);border-radius:22px;padding:10px}
+.bin{border-radius:24px;border:4px solid var(--bc,var(--wood));background:var(--bl,#fff);display:flex;flex-direction:column;min-height:120px;transition:box-shadow .15s}
+.bin.hover,.sorter.has-pick .bin:hover{box-shadow:0 0 0 6px rgba(177,79,104,.25)}
+.bin-h{background:var(--bc,var(--wood));border-radius:18px 18px 0 0;padding:4px 12px;font-weight:800;font-size:24px;text-align:center;color:var(--ink)}
+.bin-b{flex:1;display:flex;flex-wrap:wrap;gap:8px;padding:8px;justify-content:center;align-content:flex-start}
+.bin-b .item{width:112px}
+.bin-b .item img{width:96px;height:62px}
+.bin[data-g=carb]{--bc:var(--carb);--bl:#eef4fc}.bin[data-g=prot]{--bc:var(--prot);--bl:#fdf0f3}.bin[data-g=fat]{--bc:var(--fat);--bl:#fdf8e6}
+.bin[data-g=vit]{--bc:var(--vit);--bl:#f1f8ea}.bin[data-g=min]{--bc:var(--min);--bl:#eef8fb}.bin[data-g=wat]{--bc:var(--wat);--bl:#f5f1fc}
+.ctrl{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* six boxes */
+.six{display:grid;grid-template-columns:1fr 300px;gap:20px;height:100%}
+.six .bins{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:14px;flex:1;min-height:0}
+.six .bin{min-height:0}
+.six .main{display:flex;flex-direction:column;gap:12px;min-width:0}
+.six .tray .item{width:118px}
+.six .bin-b .item{width:96px;font-size:18px;padding:4px}
+.six .bin-b .item img{width:82px;height:50px}
+.six .tray .item img{width:100px;height:66px}
+.side-card{background:#fff;border:3px solid var(--rose-l);border-radius:22px;padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+.side-card h4{margin:0;background:var(--rose-d);color:#fff;border-radius:999px;padding:2px 14px;font-size:21px;align-self:flex-start}
+.side-card p,.side-card li{margin:0;font-size:20px;line-height:1.5;font-weight:700}
+.side-card ol{margin:0;padding-inline-start:24px}
+.lvl-btns{display:flex;gap:6px}
+.lvl-btns button{flex:1;border:3px solid var(--wood);background:#fff;border-radius:12px;font-weight:800;font-size:18px;padding:4px}
+.lvl-btns button.on{background:var(--leaf-d);border-color:var(--leaf-d);color:#fff}
+
+/* ===== tree ===== */
+.tree{position:relative;height:100%}
+.tree svg{position:absolute;inset:0;width:100%;height:100%}
+.leaf{position:absolute;width:250px;height:132px;margin:-66px 0 0 -125px;border-radius:66px 66px 66px 12px;border:5px solid var(--bc);background:#fff;display:flex;align-items:center;gap:10px;padding:8px 14px;
+  font-family:var(--display);font-weight:800;color:var(--ink);transition:background .3s}
+.leaf .qm{position:absolute;inset:0;display:grid;place-items:center;font-size:64px;color:var(--bc)}
+.leaf .lc{display:flex;align-items:center;gap:10px;opacity:0;transition:opacity .3s;width:100%}
+.leaf img{width:84px;height:84px;border-radius:50%;object-fit:cover;flex:none}
+.leaf .lt{font-size:26px;line-height:1.15;text-align:right}
+.leaf .lt small{display:block;font-family:var(--body);font-size:18px;color:var(--muted)}
+.leaf.on{background:var(--bl)}
+.leaf.on .qm{display:none}
+.leaf.on .lc{opacity:1}
+.trunk-lab{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);background:var(--maroon);color:#fff;font-family:var(--display);font-weight:800;font-size:34px;padding:6px 34px;border-radius:999px}
+.tree .ctrl{position:absolute;top:0;right:0}
+
+/* ===== reading ===== */
+.read{display:grid;grid-template-columns:1fr 1fr;gap:28px;height:100%}
+.passage{background:#fff;border:4px solid var(--leaf);border-radius:28px;padding:22px 28px;font-size:31px;line-height:1.95;font-weight:500}
+.passage h4{margin:0 0 6px;font-family:var(--display);font-size:30px;color:var(--leaf-d)}
+.passage span{transition:background .4s;border-radius:8px;padding:0 2px}
+.passage span.hl{background:var(--butter);box-shadow:0 0 0 3px #f1d67c}
+.rq{display:flex;flex-direction:column;gap:14px;min-width:0}
+.rq .q{background:#fff;border:3px solid var(--rose-l);border-radius:22px;padding:12px 18px;display:flex;flex-direction:column;gap:6px}
+.rq .q .qq{font-size:26px;font-weight:800;display:flex;gap:10px;align-items:flex-start}
+.rq .q .qq b{flex:none;width:40px;height:40px;border-radius:50%;background:var(--rose-d);color:#fff;display:grid;place-items:center;font-size:21px}
+.rq .q .answer{font-size:23px;font-weight:700;color:var(--ok);padding-inline-start:50px}
+.rsteps{display:flex;gap:10px}
+.rsteps span{flex:1;text-align:center;font-weight:800;font-size:22px;border-radius:14px;padding:6px;background:var(--leaf-l);color:var(--leaf-d)}
+
+/* ===== plate (image slide) ===== */
+.hot{position:absolute;border:0;background:transparent;border-radius:26px;transition:box-shadow .2s,background .2s}
+.hot.sel{box-shadow:0 0 0 7px var(--ok),0 0 26px rgba(61,139,76,.6);background:rgba(61,139,76,.1)}
+.hot.sel::after{content:"✓";position:absolute;top:-16px;left:-16px;width:46px;height:46px;border-radius:50%;background:var(--ok);color:#fff;font-size:28px;font-weight:800;display:grid;place-items:center}
+.plate-ctrl{position:absolute;left:30px;bottom:96px;display:flex;flex-direction:column;gap:8px;width:250px}
+.plate-fb{position:absolute;left:50%;bottom:110px;transform:translateX(-50%);width:600px;background:#fff;border:4px solid var(--ok);border-radius:22px;padding:10px 18px;font-size:23px;font-weight:800;color:var(--ok);text-align:center}
+
+/* ===== pyramid ===== */
+.pyr{display:grid;grid-template-columns:1fr 560px 1fr;gap:20px;height:100%;align-items:stretch}
+.pyr .img{position:relative;display:flex;align-items:center}
+.pyr .img img{width:100%;border-radius:20px}
+.lvls{display:flex;flex-direction:column;justify-content:space-around;gap:8px}
+.lvl{display:flex;align-items:center;gap:10px;background:#fff;border:3px solid var(--bc);border-radius:18px;padding:8px 14px;font-size:24px;font-weight:800;text-align:right;cursor:pointer}
+.lvl .t{transition:opacity .3s,filter .3s;opacity:0;filter:blur(6px)}
+.lvl.on .t{opacity:1;filter:none}
+.lvl i{flex:none;width:38px;height:38px;border-radius:50%;background:var(--bc);display:grid;place-items:center;font-style:normal;color:var(--ink)}
+.pyr .info{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.arrow-v{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:22px;font-weight:800}
+.arrow-v .bar{width:28px;flex:1;min-height:200px;border-radius:14px;background:linear-gradient(var(--rose-l),var(--leaf))}
+
+/* ===== quiz / test ===== */
+.qgrid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px;height:100%}
+.qcard{background:#fff;border:3px solid var(--leaf-l);border-radius:24px;padding:14px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.qcard .lab{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--rose-d)}
+.qcard .lab b{width:36px;height:36px;border-radius:50%;background:var(--rose-d);color:#fff;display:grid;place-items:center}
+.qcard .qq{font-size:25px;font-weight:800;line-height:1.45}
+.qcard .answer{font-size:22px;font-weight:700;color:var(--ok);line-height:1.5}
+.mini{display:flex;gap:14px;justify-content:space-around}
+.mini>div{display:flex;flex-direction:column;align-items:center;gap:6px}
+.mini img{width:120px;height:84px;object-fit:cover;border-radius:14px;border:3px solid var(--wood)}
+.mini .opts{display:flex;flex-direction:column;gap:4px}
+.mini .opt{font-size:18px;padding:3px 12px;border-radius:12px}
+.score{font-family:var(--display);font-size:28px;font-weight:800;color:var(--maroon)}
+.two-sort{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.two-sort .bin{min-height:170px}
+
+/* exit ticket */
+.exit{display:grid;grid-template-columns:1fr 330px;gap:22px;height:100%}
+.exit .list{display:flex;flex-direction:column;gap:14px;min-width:0}
+.eq-row{display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:center;background:#fff;border:3px solid var(--rose-l);border-radius:24px;padding:12px 20px}
+.eq-row .qq{font-size:27px;font-weight:800;line-height:1.45}
+.eq-row .qq em{font-style:normal;color:var(--rose-d)}
+.eq-row .answer{font-size:22px;color:var(--ok);font-weight:700}
+.pick2{display:flex;gap:12px;justify-content:center}
+.pick2 .opt{display:flex;flex-direction:column;align-items:center;padding:6px;font-size:21px}
+.pick2 .opt img{width:130px;height:86px;object-fit:cover;border-radius:12px}
+.self{display:flex;flex-direction:column;gap:10px}
+.self button{display:flex;align-items:center;gap:12px;background:#fff;border:3px solid var(--wood);border-radius:18px;padding:10px 14px;font-size:22px;font-weight:800;text-align:right}
+.self button .face{width:46px;height:46px;border-radius:50%;flex:none;position:relative;background:var(--c)}
+.self button .face::before,.self button .face::after{content:"";position:absolute;top:14px;width:7px;height:9px;border-radius:50%;background:var(--ink)}
+.self button .face::before{right:12px}.self button .face::after{left:12px}
+.self button .face i{position:absolute;left:12px;right:12px;bottom:10px;height:10px;border:3px solid var(--ink);border-top:0;border-radius:0 0 20px 20px}
+.self button .face.mid i{height:0;border-radius:0;border-width:3px 0 0;bottom:14px}
+.self button .face.low i{border-top:3px solid var(--ink);border-bottom:0;border-radius:20px 20px 0 0;bottom:9px}
+.self button.on{border-color:var(--rose-d);background:var(--rose-l)}
+.img-pop{position:absolute;inset:0;z-index:20;background:#fff}
+.img-pop img{width:100%;height:100%;object-fit:cover}
+.img-pop .btn{position:absolute;top:20px;left:20px}
+
+/* ===== bottom bar & overlays ===== */
+#bar{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;background:#fffdf8;border-top:3px solid var(--wood);
+  padding-block:8px calc(8px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#bar button{border:2px solid var(--wood);background:#fff;border-radius:12px;padding:6px 14px;font-weight:800;font-size:16px;color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+#bar button.nav{background:var(--leaf-d);color:#fff;border-color:var(--leaf-d);font-size:18px;padding:6px 20px}
+#bar button.on{background:var(--rose-l);border-color:var(--rose-d);color:var(--rose-d)}
+#count{font-family:var(--display);font-weight:800;font-size:20px;min-width:110px;text-align:center;color:var(--maroon)}
+#stitle{font-weight:800;color:var(--muted);min-width:0;max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.panel{position:fixed;z-index:60;background:#fffdf8;border:3px solid var(--wood);border-radius:22px;box-shadow:0 14px 40px rgba(60,40,20,.3);color:var(--ink)}
+#notes{left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:80px;margin:auto;max-width:900px;max-height:55vh;overflow:auto;padding:16px 22px;font-size:17px;line-height:1.75}
+#notes h3{margin:0 0 6px;font-family:var(--display);color:var(--maroon);font-size:22px}
+#notes ul{margin:4px 0;padding-inline-start:22px}
+#notes .x{float:left}
+#menu{inset:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 90px max(16px,env(safe-area-inset-left,0px));margin:auto;max-width:980px;overflow:auto;padding:18px}
+#menu h3{margin:0 0 10px;font-family:var(--display);color:var(--maroon)}
+#menu ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+#menu li button{width:100%;text-align:right;border:2px solid var(--wood);background:#fff;border-radius:12px;padding:8px 12px;font-weight:700;font-size:16px;display:flex;gap:8px}
+#menu li button b{color:var(--rose-d)}
+#menu li button.cur{background:var(--leaf-l);border-color:var(--leaf-d)}
+#timer{top:max(12px,env(safe-area-inset-top,0px));left:max(16px,env(safe-area-inset-left,0px));padding:10px 14px;display:flex;flex-direction:column;gap:8px;align-items:center}
+#tval{font-family:var(--display);font-size:46px;font-weight:800;color:var(--maroon);font-variant-numeric:tabular-nums;line-height:1}
+#timer.end #tval{color:var(--bad);animation:shake .4s 3}
+#timer .row{gap:6px;justify-content:center}
+#timer button{border:2px solid var(--wood);background:#fff;border-radius:10px;padding:2px 10px;font-weight:800}
+.small-note{font-size:14px;color:var(--muted)}
+#rotate{display:none}
+@media (max-width:560px) and (orientation:portrait){#rotate{display:block;position:fixed;top:max(10px,env(safe-area-inset-top,0px));left:16px;right:16px;text-align:center;background:var(--rose-l);color:var(--rose-d);font-weight:800;border-radius:12px;padding:6px;z-index:5;font-size:14px}
+  #stitle{display:none}}
+</style>
+
+<div id="app">
+<div id="viewport"><div id="stage">
+
+<!-- ١ الافتتاحية -->
+<section class="slide full" data-title="الافتتاحية" data-full>
+  <img class="bg" src="img/slide-opening.jpg" alt="الشريحة الافتتاحية لدرس التغذية والصحة: القوانين الصفية، نواتج التعلم، مخطط الدرس واستراتيجيات التعلم">
+  <input class="dd" data-k="day" aria-label="اليوم" style="left:17.2%;top:9.9%;width:10.2%;height:4.3%">
+  <input class="dd" data-k="date" aria-label="التاريخ" style="left:67.2%;top:9.9%;width:10.2%;height:4.3%">
+  <aside class="tnotes"><h3>الافتتاحية (دقيقتان)</h3><ul><li>اكتبي اليوم والتاريخ في الخانتين أعلى الشريحة، وتُنسخان تلقائيًا إلى شريحة «الطبق الناقص».</li><li>اقرئي القوانين الصفية مع الطالبات بصوت واحد، واتفقي على إشارة الهدوء.</li><li>أشيري إلى مخطط الدرس ليعرفن مراحل الحصة.</li></ul></aside>
+</section>
+
+<!-- ٢ التهيئة -->
+<section class="slide" data-title="التهيئة: فكّر وأجب" data-plaque="التهيئة" data-strat="فكّر وأجب|التهيئة ومراجعة التعلم السابق">
+  <div class="body"><div class="warm">
+    <div class="q">
+      <div class="bigq" data-edit>لماذا نحتاج إلى تناول الطعام وشرب الماء كل يوم؟</div>
+      <div class="steps3"><div><b>١</b>أفكّر بصمت</div><div><b>٢</b>أرفع يدي</div><div><b>٣</b>أجيب</div></div>
+      <div class="row"><button class="btn" data-timer="30">مؤقت التفكير ٣٠ ثانية</button><button class="btn g" data-act="show-all">إظهار الإجابات المتوقعة</button><button class="btn sm" data-act="hide-all">إخفاء</button></div>
+      <div class="why3">
+        <div class="answer">الطاقة<small>لنتحرك ونلعب ونتعلم</small></div>
+        <div class="answer">النمو<small>لتكبر أجسامنا بشكل سليم</small></div>
+        <div class="answer">الصحة<small>لنحافظ على أجسامنا سليمة</small></div>
+      </div>
+      <div class="pill" style="align-self:flex-start;font-size:22px" data-edit>سؤال إضافي: ماذا تناولتِ على الإفطار اليوم؟ هل كان مفيدًا لجسمك؟</div>
+    </div>
+    <div class="figure"><img src="img/girl-present.jpg" alt="الشخصية الرئيسية تشير إلى السؤال"></div>
+  </div></div>
+  <aside class="tnotes"><h3>التهيئة: فكّر وأجب (٤ دقائق)</h3><ul><li>اعرضي السؤال، وشغّلي مؤقت التفكير ٣٠ ثانية دون رفع الأيدي.</li><li>استقبلي ٣–٤ إجابات، ثم أظهري الإجابات المتوقعة (الطاقة، النمو، الصحة).</li><li>اربطي: «سنتعرّف اليوم كيف نختار غذاءً يمنحنا هذه الثلاثة».</li><li><b>فروق فردية:</b> للطالبة المتعثرة اطرحي السؤال الإضافي عن الإفطار، فهو مرتبط بخبرتها المباشرة.</li></ul></aside>
+</section>
+
+<!-- ٣ نواتج التعلم -->
+<section class="slide" data-title="نواتج التعلم" data-strat="نواتج التعلم|نعود إليها في نهاية الدرس" data-guide="في نهاية الدرس سنضع علامة على ما حققناه!">
+  <div class="body"><div class="outc">
+    <button type="button"><i>✓</i><span data-edit><span class="v">أوضّح</span> أهمية الغذاء المتوازن لصحة الجسم.</span></button>
+    <button type="button"><i>✓</i><span data-edit><span class="v">أتعرّف</span> مجموعات المواد الغذائية الست وفوائدها ومصادرها.</span></button>
+    <button type="button"><i>✓</i><span data-edit><span class="v">أصنّف</span> الأطعمة حسب مجموعات المواد الغذائية.</span></button>
+    <button type="button"><i>✓</i><span data-edit><span class="v">أقرأ</span> الملصقات الغذائية وأستفيد منها في اختيار غذائي.</span></button>
+    <button type="button"><i>✓</i><span data-edit><span class="v">أكوّن</span> وجبة متوازنة، وأستخدم الهرم الغذائي في اختيار الطعام الصحي.</span></button>
+  </div></div>
+  <aside class="tnotes"><h3>نواتج التعلم (دقيقة)</h3><ul><li>اقرئي النواتج، وركّزي على الأفعال الملوّنة لأنها ما ستقيسه التقويمات.</li><li>في نهاية الحصة عودي لهذه الشريحة (من قائمة الشرائح) واضغطي على كل ناتج تحقق لتظهر علامة الصح.</li></ul></aside>
+</section>
+
+<!-- ٤ المفردات -->
+<section class="slide" data-title="مفردات الدرس" data-strat="البطاقات المصوّرة|اضغطي البطاقة لتنقلب" data-guide="أخمّن المعنى أولًا، ثم أقلب البطاقة.">
+  <div class="body"><div class="vocab">
+    <button class="flip" style="--c:#f6c9a4"><div class="in"><div class="fr"><img src="img/healthy-plate.jpg" alt=""><b>الغذاء المتوازن</b></div><div class="bk"><b>الغذاء المتوازن</b><p data-edit>غذاء يحتوي على جميع أنواع المواد الغذائية التي يحتاج إليها الجسم، وبكميات مناسبة.</p></div></div></button>
+    <button class="flip" style="--c:var(--carb)"><div class="in"><div class="fr"><img src="img/book-carbs.jpg" alt=""><b>الكربوهيدرات</b></div><div class="bk"><b>الكربوهيدرات</b><p data-edit>المصدر الرئيس للطاقة في الجسم غالبًا.</p></div></div></button>
+    <button class="flip" style="--c:var(--prot)"><div class="in"><div class="fr"><img src="img/book-protein.jpg" alt=""><b>البروتينات</b></div><div class="bk"><b>البروتينات</b><p data-edit>تساعد الجسم على النمو وتعويض الخلايا التالفة.</p></div></div></button>
+    <button class="flip" style="--c:var(--fat)"><div class="in"><div class="fr"><img src="img/book-fats.jpg" alt=""><b>الدهون</b></div><div class="bk"><b>الدهون</b><p data-edit>تزوّد الجسم بالطاقة والدفء، وتساعد الخلايا على العمل بشكل سليم.</p></div></div></button>
+    <button class="flip" style="--c:var(--vit)"><div class="in"><div class="fr"><img src="img/book-vitamins.jpg" alt=""><b>الفيتامينات</b></div><div class="bk"><b>الفيتامينات</b><p data-edit>تحافظ على صحة الجسم، وتبني خلايا جديدة، وتقي من الأمراض.</p></div></div></button>
+    <button class="flip" style="--c:var(--min)"><div class="in"><div class="fr"><img src="img/book-minerals.jpg" alt=""><b>الأملاح المعدنية</b></div><div class="bk"><b>الأملاح المعدنية</b><p data-edit>تساعد على تكوين العظام وخلايا الدم الجديدة، مثل الكالسيوم والحديد.</p></div></div></button>
+    <button class="flip" style="--c:#e7cfa8"><div class="in"><div class="fr"><img src="img/book-pyramid.jpg" alt="" style="object-fit:contain;background:#fff"><b>الهرم الغذائي</b></div><div class="bk"><b>الهرم الغذائي</b><p data-edit>دليل غذائي على شكل مثلث، يحدد حاجات الأفراد الغذائية التي يجب تناولها.</p></div></div></button>
+  </div></div>
+  <aside class="tnotes"><h3>المفردات (٣ دقائق)</h3><ul><li>اطلبي من طالبة أن تخمّن معنى المفردة من الصورة، ثم اقلبي البطاقة للتأكد.</li><li>زر «إظهار الكل» في الشريط السفلي يقلب جميع البطاقات للمراجعة السريعة.</li><li><b>فروق فردية:</b> اطلبي من المتميزات ذكر مثال لكل مفردة من وجبات البيت.</li></ul></aside>
+</section>
+
+<!-- ٥ أنظر وأتساءل -->
+<section class="slide" data-title="أنظر وأتساءل" data-strat="أنظر وأتساءل|الكتاب ص ١٧٢">
+  <div class="body"><div class="look">
+    <div class="photo"><img src="img/book-plate.jpg" alt="صورة الكتاب: طبق فيه خضراوات ودجاج وبقوليات"></div>
+    <div class="side">
+      <div class="bookbox"><h4>أنظرُ وأتساءلُ</h4><span data-edit>يحتاج الإنسان إلى تناول مجموعة من الأطعمة التي تشكّل الغذاء الصحي الأكثر توازنًا. هل يمكن أن تُعدّد الأطعمة التي تشكّل غذاءً متوازنًا لصحة الجسم؟</span></div>
+      <div class="row" style="gap:10px"><b style="font-size:24px">ماذا أرى في الطبق؟</b><button class="btn sm" data-act="show-all">إظهار</button></div>
+      <div class="see"><span class="answer">خضراوات: خيار وطماطم وجزر</span><span class="answer">ملفوف وخس</span><span class="answer">دجاج</span><span class="answer">بقوليات</span></div>
+      <div class="eq"><small>السؤال الأساسي</small><div>كيف يكون غذائي صحيًا؟</div></div>
+      <div class="notes-pad" data-edit aria-label="تساؤلات الطالبات">اكتبي هنا تساؤلات الطالبات…</div>
+    </div>
+  </div></div>
+  <aside class="tnotes"><h3>أنظر وأتساءل (٣ دقائق)</h3><ul><li>اطلبي من الطالبات تأمل الطبق دقيقة، ثم تسمية ما فيه، واضغطي «إظهار» للتحقق.</li><li>اطرحي السؤال الأساسي، واكتبي تساؤلات الطالبات في المساحة المسطّرة (اضغطي «تحرير النصوص» أولًا).</li><li>لا تجيبي عن السؤال الأساسي الآن؛ ستجيب عنه الطالبات في نهاية الدرس.</li></ul></aside>
+</section>
+
+<!-- ٦ أستكشف -->
+<section class="slide" data-title="أستكشف: الملصقات الغذائية" data-plaque="أستكشف" data-strat="الاستقصاء|نشاط استقصائي ص ١٧٣">
+  <div class="body"><div class="explore">
+    <div class="labels">
+      <div class="nlab"><img src="img/f-milk.jpg" alt=""><h5>حليب كامل الدسم · ١٠٠ مل</h5><div><span>كربوهيدرات</span><span>٤٫٨ جم</span></div><div><span>دهون</span><span>٣٫٣ جم</span></div><div><span>بروتين</span><span>٣٫٣ جم</span></div><div><span>أملاح (كالسيوم وغيره)</span><span>٠٫٧ جم</span></div><div><span>فيتامينات</span><span>أ، د</span></div></div>
+      <div class="nlab"><img src="img/f-bread.jpg" alt=""><h5>خبز البُر · ١٠٠ جم</h5><div><span>كربوهيدرات</span><span>٤١ جم</span></div><div><span>دهون</span><span>٣٫٤ جم</span></div><div><span>بروتين</span><span>١٣ جم</span></div><div><span>أملاح (حديد وغيره)</span><span>٢ جم</span></div><div><span>فيتامينات</span><span>مجموعة ب</span></div></div>
+      <div class="nlab"><img src="img/f-oil.jpg" alt=""><h5>زيت الزيتون · ١٠٠ مل</h5><div><span>كربوهيدرات</span><span>٠ جم</span></div><div><span>دهون</span><span>١٠٠ جم</span></div><div><span>بروتين</span><span>٠ جم</span></div><div><span>أملاح</span><span>٠ جم</span></div><div><span>فيتامينات</span><span>هـ</span></div></div>
+    </div>
+    <div class="ex-main">
+      <div style="font-family:var(--display);font-size:32px;font-weight:800;color:#1f6fa5;line-height:1.3">كيف تساعدنا ملصقات المنتجات الغذائية على اختيار الغذاء المتوازن؟</div>
+      <div class="tabs" role="tablist"><button class="on" data-tab="0"><b>١</b> ألاحظ</button><button data-tab="1"><b>٢</b> أتواصل</button><button data-tab="2"><b>٣</b> أستنتج</button></div>
+      <div class="pane on">
+        <p>أفحص الملصقات الثلاثة، وأسجّل كمية المواد الغذائية بالجرام:</p>
+        <table class="grid"><thead><tr><th>المنتج</th><th>الكربوهيدرات</th><th>الدهون</th><th>البروتين</th><th>الأملاح</th><th>الفيتامينات</th></tr></thead>
+        <tbody>
+          <tr><td>الحليب</td><td><input aria-label="كربوهيدرات الحليب" data-v="٤٫٨"></td><td><input aria-label="دهون الحليب" data-v="٣٫٣"></td><td><input aria-label="بروتين الحليب" data-v="٣٫٣"></td><td><input aria-label="أملاح الحليب" data-v="٠٫٧"></td><td><input aria-label="فيتامينات الحليب" data-v="أ، د"></td></tr>
+          <tr><td>الخبز</td><td><input aria-label="كربوهيدرات الخبز" data-v="٤١"></td><td><input aria-label="دهون الخبز" data-v="٣٫٤"></td><td><input aria-label="بروتين الخبز" data-v="١٣"></td><td><input aria-label="أملاح الخبز" data-v="٢"></td><td><input aria-label="فيتامينات الخبز" data-v="ب"></td></tr>
+          <tr><td>الزيت</td><td><input aria-label="كربوهيدرات الزيت" data-v="٠"></td><td><input aria-label="دهون الزيت" data-v="١٠٠"></td><td><input aria-label="بروتين الزيت" data-v="٠"></td><td><input aria-label="أملاح الزيت" data-v="٠"></td><td><input aria-label="فيتامينات الزيت" data-v="هـ"></td></tr>
+        </tbody></table>
+        <div class="row"><button class="btn sm g" data-act="fill-table">إظهار القيم</button><button class="btn sm" data-act="clear-table">مسح الجدول</button></div>
+      </div>
+      <div class="pane">
+        <p>أناقش زميلاتي فيما قرأته في الملصقات:</p>
+        <div class="concl" data-edit>• أي المنتجات فيه أكبر كمية من الكربوهيدرات؟<br>• أي المنتجات كله تقريبًا دهون؟<br>• هل يوجد منتج يحتوي على جميع المواد الغذائية بكميات مناسبة؟</div>
+        <div class="q"><button class="btn sm" data-reveal>إظهار الإجابات</button><div class="answer concl" style="background:var(--ok-l);color:var(--ok)">الخبز أكثرها كربوهيدرات، والزيت كله تقريبًا دهون، ولا يوجد منتج واحد يحتوي على جميع المواد الغذائية بكميات مناسبة.</div></div>
+      </div>
+      <div class="pane">
+        <p><b style="color:var(--bad)">أستنتج:</b> أي الأطعمة تشكّل غذاءً متوازنًا لصحتي؟ ولماذا؟</p>
+        <div class="q"><button class="btn sm g" data-reveal>إظهار الاستنتاج</button>
+        <div class="answer concl" style="background:var(--ok-l)">لا يكفي طعام واحد. الغذاء المتوازن يجمع أطعمة متنوعة، مثل الخبز (طاقة) مع الحليب (بروتين وأملاح) وقليل من الزيت، مع الخضراوات والفواكه والماء. والملصق يساعدني على معرفة ما في الطعام قبل اختياره.</div></div>
+        <div class="pill" style="align-self:flex-start;background:#e5f1fb;color:#1f6fa5">أستكشف أكثر: أختار ثلاث مواد غذائية في منزلي، وأتفحّص ملصقاتها.</div>
+      </div>
+    </div>
+  </div></div>
+  <aside class="tnotes"><h3>أستكشف (٧ دقائق)</h3><ul><li>وزّعي الطالبات في مجموعات صغيرة؛ كل مجموعة تقرأ ملصقًا واحدًا وتملأ صفّه في الجدول (يمكن الكتابة في الجدول مباشرة على السبورة).</li><li>انتقلي بين خطوات الاستقصاء: ألاحظ ← أتواصل ← أستنتج.</li><li>القيم تقريبية لمنتجات شائعة، ويمكنك استبدالها بملصقات حقيقية من البيئة.</li><li><b>فروق فردية:</b> المتعثرة تقرأ رقمًا واحدًا (الكربوهيدرات)، والمتميزة تقارن بين المنتجات الثلاثة.</li></ul></aside>
+</section>
+
+<!-- ٧ الغذاء المتوازن -->
+<section class="slide concept" data-title="الغذاء وصحة الجسم" data-strat="الشرح والأنشطة|أقرأ وأتعلم ص ١٧٤" style="--g:#f6c9a4;--gd:#a2552a">
+  <div class="body">
+    <div class="cx">
+      <div class="cx-text">
+        <h3 class="gname">الغذاء المتوازن</h3>
+        <div class="fn"><b>لماذا نأكل؟</b><span data-edit>توجد <span class="mark">المواد الغذائية</span> في الطعام الذي نتناوله، وهي ضرورية لنمو الجسم، وإمداده بالطاقة، والمحافظة عليه سليمًا.</span></div>
+        <div class="fn"><b>متى يكون غذائي متوازنًا؟</b><span data-edit>عندما يحتوي على جميع أنواع الغذاء الذي يحتاج إليه الجسم، <span class="mark">وبكميات مناسبة</span>.</span></div>
+        <div class="src"><b>مجموعات المواد الغذائية الست</b><div class="srcs"><span style="background:var(--carb)">الكربوهيدرات</span><span style="background:var(--prot)">البروتينات</span><span style="background:var(--fat)">الدهون</span><span style="background:var(--vit)">الفيتامينات</span><span style="background:var(--min)">الأملاح المعدنية</span><span style="background:var(--wat)">الماء</span></div></div>
+      </div>
+      <figure class="cx-img"><img src="img/book-groups.jpg" alt="صورة الكتاب لمجموعات الأطعمة" style="object-fit:contain;background:#fff"><figcaption>يزوّد الغذاء الجسم بالطاقة اللازمة للعمليات والأنشطة المختلفة.</figcaption></figure>
+    </div>
+    <div class="check sorter" data-max1>
+      <div class="lab"><i>تحقق سريع</i>أكمل العبارة: اسحبي الكلمة المناسبة إلى الفراغ</div>
+      <div class="qq" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">يُسمّى الغذاء الذي يحتوي على جميع أنواع المواد الغذائية بكميات مناسبة:
+        <div class="bin" data-g="ans" style="min-height:58px;min-width:230px;flex-direction:row;border-style:dashed"><div class="bin-b" style="padding:2px"></div></div></div>
+      <div class="row"><div class="tray" style="flex:1;padding:4px;min-height:0"><div class="item txt" data-g="no">الغذاء السريع</div><div class="item txt" data-g="ans">الغذاء المتوازن</div><div class="item txt" data-g="no">الهرم الغذائي</div></div>
+        <button class="btn sm g" data-act="check">تحقّقي</button><button class="btn sm" data-act="reset">إعادة</button><div class="fb"></div></div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>الغذاء وصحة الجسم (٣ دقائق)</h3><ul><li>اقرئي النص مع الطالبات، وأشيري إلى الكلمات المظللة.</li><li>عدّي المجموعات الست بالأصابع مع الطالبات.</li><li>تحقق سريع: تسحب طالبة الكلمة إلى الفراغ (أو تلمسها ثم تلمس الفراغ).</li></ul></aside>
+</section>
+
+<!-- ٨ الكربوهيدرات -->
+<section class="slide concept" data-title="الكربوهيدرات" data-plaque="مجموعات المواد الغذائية" data-strat="الشرح والأنشطة|الكتاب ص ١٧٥" style="--g:var(--carb);--gd:var(--carb-d)">
+  <div class="body">
+    <div class="cx">
+      <div class="cx-text">
+        <h3 class="gname">الكربوهيدرات <em>المجموعة ١ من ٦</em></h3>
+        <div class="fn"><b>فائدتها</b><span data-edit>هي <span class="mark">المصدر الرئيس للطاقة</span> في الجسم غالبًا.</span></div>
+        <div class="src"><b>مصادرها</b><div class="srcs"><figure><img src="img/f-rice.jpg" alt="">الأرز</figure><figure><img src="img/f-bread.jpg" alt="">الخبز</figure><span>رقائق الذرة</span><span>الحبوب</span><span>التمر</span><span>البطاطس</span></div></div>
+        <div class="pill" data-edit>من حياتي: الطالبة التي تتناول إفطارها تجد طاقة للتركيز واللعب في المدرسة.</div>
+      </div>
+      <figure class="cx-img"><img src="img/book-carbs.jpg" alt="أطعمة غنية بالكربوهيدرات"><figcaption>أطعمة غنية بالكربوهيدرات</figcaption></figure>
+    </div>
+    <div class="check q mcq" data-ans="1">
+      <div class="lab"><i>تحقق سريع</i>أختار الإجابة الصحيحة</div>
+      <div class="qq">المصدر الرئيس للطاقة في الجسم غالبًا هو:</div>
+      <div class="row"><button class="opt">البروتينات</button><button class="opt">الكربوهيدرات</button><button class="opt">الماء</button><div class="fb" data-ok="أحسنتِ! الكربوهيدرات تمدّ الجسم بالطاقة." data-no="حاولي مرة أخرى، فكّري في الأرز والخبز."></div></div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>الكربوهيدرات (دقيقتان)</h3><ul><li>اسألي: ما الطعام الذي يمنحك طاقة قبل حصة التربية البدنية؟</li><li>بعد الشرح تختار طالبة الإجابة؛ الخطأ يهتز باللون الأحمر ويمكن إعادة المحاولة.</li></ul></aside>
+</section>
+
+<!-- ٩ البروتينات -->
+<section class="slide concept" data-title="البروتينات" data-plaque="مجموعات المواد الغذائية" data-strat="الشرح والأنشطة|الكتاب ص ١٧٥" style="--g:var(--prot);--gd:var(--prot-d)">
+  <div class="body">
+    <div class="cx">
+      <div class="cx-text">
+        <h3 class="gname">البروتينات <em>المجموعة ٢ من ٦</em></h3>
+        <div class="fn"><b>فائدتها</b><span data-edit>تساعد الجسم على <span class="mark">النمو</span> و<span class="mark">تعويض الخلايا التالفة</span> في الجسم.</span></div>
+        <div class="src"><b>مصادرها</b><div class="srcs"><figure><img src="img/f-eggs.jpg" alt="">البيض</figure><figure><img src="img/f-salmon.jpg" alt="">الأسماك</figure><figure><img src="img/f-cheese.jpg" alt="">الجبن</figure><figure><img src="img/f-milk.jpg" alt="">الحليب</figure><span>البقوليات</span><span>اللحوم</span><span>الدواجن</span></div></div>
+        <div class="pill" data-edit>من حياتي: عندما يُجرح إصبعي، تساعد البروتينات على بناء خلايا جديدة مكان التالفة.</div>
+      </div>
+      <figure class="cx-img"><img src="img/book-protein.jpg" alt="أطعمة غنية بالبروتين"><figcaption>أطعمة غنية بالبروتين</figcaption></figure>
+    </div>
+    <div class="check q mcq" data-ans="1">
+      <div class="lab"><i>تحقق سريع</i>أصحّح المفهوم</div>
+      <div class="qq">«تساعد الكربوهيدرات الجسم على النمو وتعويض الخلايا التالفة.» العبارة:</div>
+      <div class="row"><button class="opt">صحيحة</button><button class="opt">خاطئة</button><div class="fb" data-ok="أحسنتِ!" data-no="اقرئي فائدة البروتينات مرة أخرى."></div><div class="answer" style="flex-basis:100%">التصحيح: تساعد <u>البروتينات</u> الجسم على النمو وتعويض الخلايا التالفة.</div></div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>البروتينات (دقيقتان)</h3><ul><li>اربطي بالنمو: «لماذا يحتاج الأطفال إلى البروتين أكثر؟ لأنهم في مرحلة نمو».</li><li>عند اختيار «خاطئة» يظهر التصحيح، اطلبي من طالبة قراءته.</li></ul></aside>
+</section>
+
+<!-- ١٠ الدهون -->
+<section class="slide concept" data-title="الدهون" data-plaque="مجموعات المواد الغذائية" data-strat="الشرح والأنشطة|الكتاب ص ١٧٥" style="--g:var(--fat);--gd:var(--fat-d)">
+  <div class="body">
+    <div class="cx">
+      <div class="cx-text">
+        <h3 class="gname">الدهون <em>المجموعة ٣ من ٦</em></h3>
+        <div class="fn"><b>فائدتها</b><span data-edit>تساعد الخلايا على العمل بشكل سليم، وتزوّد الجسم <span class="mark">بالطاقة</span>، وتمنحه <span class="mark">الدفء</span>، وتساعد على الاستفادة من الغذاء وتخزين الفيتامينات.</span></div>
+        <div class="warn" data-edit>انتبهي: الإكثار من الوجبات الغنية بالدهون يسبب الإصابة بالسمنة وبأمراض القلب.</div>
+        <div class="src"><b>مصادرها</b><div class="srcs"><figure><img src="img/f-oil.jpg" alt="">الزيوت النباتية</figure><figure><img src="img/f-butter.jpg" alt="">الزبدة</figure><span>اللحوم</span><span>زيوت الأسماك</span></div></div>
+      </div>
+      <figure class="cx-img"><img src="img/book-fats.jpg" alt="أطعمة غنية بالدهون"><figcaption>أطعمة غنية بالدهون</figcaption></figure>
+    </div>
+    <div class="check q mcq" data-ans="1">
+      <div class="lab"><i>تحقق سريع</i>أصحّح المفهوم</div>
+      <div class="qq">«كلما أكثرنا من تناول الدهون كانت أجسامنا أكثر صحة.» العبارة:</div>
+      <div class="row"><button class="opt">صحيحة</button><button class="opt">خاطئة</button><div class="fb" data-ok="أحسنتِ!" data-no="انظري إلى عبارة «انتبهي»."></div><div class="answer" style="flex-basis:100%">التصحيح: يحتاج الجسم إلى كمية <u>مناسبة</u> من الدهون، والإكثار منها يسبب السمنة وأمراض القلب.</div></div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>الدهون (دقيقتان)</h3><ul><li>وضّحي أن الدهون مفيدة بكمية مناسبة، والمشكلة في الإكثار منها.</li><li>اسألي: ما الوجبات التي نأكلها وفيها دهون كثيرة؟ (المقليات، الوجبات السريعة).</li></ul></aside>
+</section>
+
+<!-- ١١ أختبر نفسي ١ -->
+<section class="slide" data-title="أختبر نفسي (١)" data-strat="التصنيف|الكتاب ص ١٧٥" data-guide="ألمس البطاقة، ثم ألمس المجموعة المناسبة.">
+  <div class="body" style="display:grid;grid-template-columns:1fr 1fr;gap:26px">
+    <div class="sorter" style="display:flex;flex-direction:column;gap:14px">
+      <div class="ttl" style="font-size:30px">أصنّف: المواد الغذائية التالية إلى مجموعتين</div>
+      <div class="tray"><div class="item" data-g="prot"><img src="img/f-eggs.jpg" alt="">بيض</div><div class="item" data-g="prot"><img src="img/f-salmon.jpg" alt="">سمك</div><div class="item" data-g="carb"><img src="img/f-rice.jpg" alt="">أرز</div><div class="item" data-g="carb"><img src="img/f-bread.jpg" alt="">خبز</div></div>
+      <div class="two-sort"><div class="bin" data-g="carb"><div class="bin-h">مجموعة الكربوهيدرات</div><div class="bin-b"></div></div><div class="bin" data-g="prot"><div class="bin-h">مجموعة البروتينات</div><div class="bin-b"></div></div></div>
+      <div class="ctrl"><button class="btn g" data-act="check">تحقّقي</button><button class="btn" data-act="reset">إعادة</button><button class="btn" data-act="solve">الحل</button><div class="fb"></div></div>
+    </div>
+    <div class="card q" style="padding:22px;display:flex;flex-direction:column;gap:14px;border-color:var(--rose-l)">
+      <div class="pill" style="align-self:flex-start;background:var(--rose-l);color:var(--rose-d)">التفكير الناقد</div>
+      <div class="ttl" style="font-size:34px;line-height:1.45" data-edit>ماذا يحدث للجسم إذا اعتمد الإنسان في غذائه على صنف واحد فقط من المواد الغذائية؟</div>
+      <div class="steps3"><div><b>١</b>أفكّر</div><div><b>٢</b>أناقش زميلتي</div><div><b>٣</b>أشارك</div></div>
+      <button class="btn r" data-reveal style="align-self:flex-start">إظهار إجابة نموذجية</button>
+      <div class="answer concl" style="background:var(--ok-l)">لن يحصل الجسم على جميع المواد الغذائية التي يحتاج إليها؛ فقد يشعر بالتعب، ولا ينمو بشكل سليم، ويصبح أكثر عرضة للأمراض.</div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>أختبر نفسي ١ (٣ دقائق)</h3><ul><li>تصنّف طالبتان البطاقات على السبورة بالسحب أو اللمس، ثم «تحقّقي».</li><li>سؤال التفكير الناقد: دقيقة تفكير فردي ثم مناقشة مع الزميلة.</li></ul></aside>
+</section>
+
+<!-- ١٢ الفيتامينات -->
+<section class="slide concept" data-title="الفيتامينات" data-plaque="مجموعات المواد الغذائية" data-strat="الشرح والأنشطة|الكتاب ص ١٧٦" style="--g:var(--vit);--gd:var(--vit-d)">
+  <div class="body">
+    <div class="cx">
+      <div class="cx-text">
+        <h3 class="gname">الفيتامينات <em>المجموعة ٤ من ٦</em></h3>
+        <div class="fn"><b>فائدتها</b><span data-edit>تساعد على <span class="mark">المحافظة على صحة الجسم</span>، وبناء خلايا جديدة، و<span class="mark">الوقاية من الأمراض</span>، مثل: فيتامين ج وفيتامين د.</span></div>
+        <div class="src"><b>مصادرها</b><div class="srcs"><figure><img src="img/f-fruits.jpg" alt="">الفواكه</figure><figure><img src="img/f-veg.jpg" alt="">الخضراوات</figure><figure><img src="img/f-milk.jpg" alt="">الحليب</figure><span>الحبوب</span></div></div>
+        <div class="pill" data-edit>من حياتي: البرتقال غني بفيتامين ج، وأشعة الشمس الصباحية تساعد الجسم على تكوين فيتامين د.</div>
+      </div>
+      <figure class="cx-img"><img src="img/book-vitamins.jpg" alt="الفواكه والخضراوات غنية بالفيتامينات"><figcaption>الفواكه والخضراوات غنية بالفيتامينات</figcaption></figure>
+    </div>
+    <div class="check sorter" data-max1>
+      <div class="lab"><i>تحقق سريع</i>أكمل العبارة</div>
+      <div class="qq" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">من أمثلة الفيتامينات: فيتامين
+        <div class="bin" data-g="c" style="min-height:58px;min-width:110px;flex-direction:row;border-style:dashed"><div class="bin-b" style="padding:2px"></div></div> وفيتامين
+        <div class="bin" data-g="d" style="min-height:58px;min-width:110px;flex-direction:row;border-style:dashed"><div class="bin-b" style="padding:2px"></div></div></div>
+      <div class="row"><div class="tray" style="flex:1;padding:4px;min-height:0"><div class="item txt" data-g="c d">ج</div><div class="item txt" data-g="none">الكالسيوم</div><div class="item txt" data-g="c d">د</div></div>
+        <button class="btn sm g" data-act="check">تحقّقي</button><button class="btn sm" data-act="reset">إعادة</button><div class="fb"></div></div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>الفيتامينات (دقيقتان)</h3><ul><li>اسألي: لماذا ينصحنا الأطباء بالفواكه والخضراوات عند المرض؟</li><li>في التحقق السريع: الكالسيوم ليس فيتامينًا (بل من الأملاح المعدنية)، وهذا يمهد للمفهوم التالي.</li></ul></aside>
+</section>
+
+<!-- ١٣ الأملاح المعدنية -->
+<section class="slide concept" data-title="الأملاح المعدنية" data-plaque="مجموعات المواد الغذائية" data-strat="الشرح والأنشطة|الكتاب ص ١٧٦" style="--g:var(--min);--gd:var(--min-d)">
+  <div class="body">
+    <div class="cx">
+      <div class="cx-text">
+        <h3 class="gname">الأملاح المعدنية <em>المجموعة ٥ من ٦</em></h3>
+        <div class="fn"><b>فائدتها</b><span data-edit>تساعد على تكوين <span class="mark">العظام</span> و<span class="mark">خلايا الدم الجديدة</span>، ومنها: الكالسيوم والحديد.</span></div>
+        <div class="src"><b>مصادرها</b><div class="srcs"><figure><img src="img/f-dairy.jpg" alt="">منتجات الألبان</figure><figure><img src="img/f-greens.jpg" alt="">الخضراوات</figure><span>اللحوم</span><span>الحبوب</span></div></div>
+        <div class="pill" data-edit>من حياتي: كوب الحليب يوميًا يقوّي عظامي وأسناني لأنه غني بالكالسيوم.</div>
+      </div>
+      <figure class="cx-img"><img src="img/book-minerals.jpg" alt="أطعمة غنية بالأملاح المعدنية"><figcaption>أطعمة غنية بالأملاح المعدنية</figcaption></figure>
+    </div>
+    <div class="check q mcq" data-ans="0">
+      <div class="lab"><i>تحقق سريع</i>أختار الإجابة الصحيحة</div>
+      <div class="qq">من الأملاح المعدنية التي تساعد على تكوين العظام:</div>
+      <div class="row"><button class="opt">الكالسيوم</button><button class="opt">الزيت</button><button class="opt">فيتامين ج</button><div class="fb" data-ok="أحسنتِ! الكالسيوم يبني العظام والأسنان." data-no="فكّري في الحليب ومنتجات الألبان."></div></div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>الأملاح المعدنية (دقيقتان)</h3><ul><li>اربطي الحديد بالدم والكالسيوم بالعظام والأسنان.</li></ul></aside>
+</section>
+
+<!-- ١٤ أختبر نفسي ٢ + اقرأ الصورة -->
+<section class="slide" data-title="أختبر نفسي (٢) واقرأ الصورة" data-strat="التصنيف|الكتاب ص ١٧٦">
+  <div class="body" style="display:grid;grid-template-columns:1fr 1fr;gap:26px">
+    <div class="sorter" style="display:flex;flex-direction:column;gap:12px">
+      <div class="ttl" style="font-size:28px">أصنّف: الأرز، الزبدة، الزيت، البطاطس</div>
+      <div class="tray"><div class="item" data-g="carb"><img src="img/f-rice.jpg" alt="">الأرز</div><div class="item" data-g="fat"><img src="img/f-butter.jpg" alt="">الزبدة</div><div class="item" data-g="fat"><img src="img/f-oil.jpg" alt="">الزيت</div><div class="item txt" data-g="carb">البطاطس</div></div>
+      <div class="two-sort"><div class="bin" data-g="carb"><div class="bin-h">الكربوهيدرات</div><div class="bin-b"></div></div><div class="bin" data-g="fat"><div class="bin-h">الدهون</div><div class="bin-b"></div></div></div>
+      <div class="ctrl"><button class="btn g" data-act="check">تحقّقي</button><button class="btn" data-act="reset">إعادة</button><div class="fb"></div></div>
+      <div class="q card" style="padding:12px 16px;border-color:var(--rose-l)"><b style="font-size:23px;color:var(--rose-d)">التفكير الناقد:</b> <span style="font-size:23px;font-weight:700">لماذا يُعد تناول الفيتامينات مهمًا لصحة الإنسان؟</span> <button class="btn sm" data-reveal>الإجابة</button>
+        <div class="answer" style="font-size:21px;font-weight:700;color:var(--ok)">لأنها تحافظ على صحة الجسم، وتبني خلايا جديدة، وتقيه من الأمراض.</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="ttl" style="font-size:28px">اقرأ الصورة: صنّفي مكونات الوجبة</div>
+      <img src="img/book-lunch.jpg" alt="صورة الكتاب: صندوق غداء فيه شطيرة وطماطم ومكسرات وماء" style="height:250px;width:100%;object-fit:cover;border-radius:20px;border:4px solid #3a9bd5">
+      <div class="q" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:21px;font-weight:700">
+        <div class="lvl" style="--bc:var(--carb)"><span>الخبز ←</span><span class="t">كربوهيدرات</span></div>
+        <div class="lvl" style="--bc:var(--vit)"><span>الطماطم والخس ←</span><span class="t">فيتامينات وأملاح</span></div>
+        <div class="lvl" style="--bc:var(--fat)"><span>المكسرات ←</span><span class="t">دهون وبروتينات</span></div>
+        <div class="lvl" style="--bc:var(--wat)"><span>كأس الماء ←</span><span class="t">الماء</span></div>
+      </div>
+      <div class="small-note" style="font-size:18px">إرشاد: توجد المواد الغذائية في الطعام الذي نتناوله. اضغطي كل بطاقة لإظهار المجموعة.</div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>أختبر نفسي ٢ واقرأ الصورة (٤ دقائق)</h3><ul><li>نشاط التصنيف من الكتاب ص ١٧٦.</li><li>«اقرأ الصورة»: تسمّي الطالبة المكوّن وتتوقع مجموعته، ثم تضغط البطاقة للتحقق.</li><li><b>فروق فردية:</b> المتميزة تقترح ما ينقص الوجبة.</li></ul></aside>
+</section>
+
+<!-- ١٥ الماء -->
+<section class="slide concept" data-title="الماء" data-plaque="مجموعات المواد الغذائية" data-strat="الشرح والأنشطة|الكتاب ص ١٧٧" style="--g:var(--wat);--gd:var(--wat-d)">
+  <div class="body">
+    <div class="cx">
+      <div class="cx-text">
+        <h3 class="gname">الماء <em>المجموعة ٦ من ٦</em></h3>
+        <div class="fn"><b>أهميته</b><span data-edit>يشكّل الماء <span class="mark">ثلثي جسم الإنسان</span> تقريبًا، فهو يساعد الجسم على الهضم، والتخلص من الفضلات، والمحافظة على درجة حرارة الجسم ثابتة.</span></div>
+        <div class="row"><div class="water-bar" aria-label="ثلثا الجسم ماء"><span class="w">ماء</span><span class="w">ماء</span><span>مواد أخرى</span></div><b style="font-size:22px">ثلثا الجسم ماء تقريبًا</b></div>
+        <div class="src"><b>مصادره</b><div class="srcs"><figure><img src="img/f-water.jpg" alt="">الماء النقي</figure><figure><img src="img/f-milk.jpg" alt="">الحليب</figure><figure><img src="img/f-orange.jpg" alt="">العصيرات</figure><span>الخضراوات والفواكه</span></div></div>
+      </div>
+      <figure class="cx-img"><img src="img/book-water.jpg" alt="كأس ماء" style="object-fit:contain;background:#fff"><figcaption>الكتاب ص ١٧٧</figcaption></figure>
+    </div>
+    <div class="check q mcq" data-ans="1">
+      <div class="lab"><i>تحقق سريع</i>أصحّح المفهوم</div>
+      <div class="qq">«يشكّل الماء نصف جسم الإنسان تقريبًا، ولا يحتاج إليه الجسم إلا عند العطش الشديد.» العبارة:</div>
+      <div class="row"><button class="opt">صحيحة</button><button class="opt">خاطئة</button><div class="fb" data-ok="أحسنتِ!" data-no="انظري إلى شريط الماء."></div><div class="answer" style="flex-basis:100%">التصحيح: يشكّل الماء <u>ثلثي</u> جسم الإنسان تقريبًا، ونحتاج إليه <u>يوميًا</u> للهضم والتخلص من الفضلات وتنظيم الحرارة.</div></div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>الماء (دقيقتان)</h3><ul><li>اسألي: كم كوب ماء شربتِ اليوم؟</li><li>نشاط «تحليل غذائي اليومي» ص ١٧٧ مناسب واجبًا منزليًا: تكتب الطالبة ما تناولته خلال ٢٤ ساعة ومكوناته وفائدته.</li></ul></aside>
+</section>
+
+<!-- ١٦ صناديق الغذاء الستة -->
+<section class="slide" data-title="صناديق الغذاء الستة" data-strat="التصنيف|نشاط تعلم نشط">
+  <div class="body"><div class="six sorter">
+    <div class="main">
+      <div class="bins">
+        <div class="bin" data-g="carb"><div class="bin-h">الكربوهيدرات</div><div class="bin-b"></div></div>
+        <div class="bin" data-g="prot"><div class="bin-h">البروتينات</div><div class="bin-b"></div></div>
+        <div class="bin" data-g="fat"><div class="bin-h">الدهون</div><div class="bin-b"></div></div>
+        <div class="bin" data-g="vit"><div class="bin-h">الفيتامينات</div><div class="bin-b"></div></div>
+        <div class="bin" data-g="min"><div class="bin-h">الأملاح المعدنية</div><div class="bin-b"></div></div>
+        <div class="bin" data-g="wat"><div class="bin-h">الماء</div><div class="bin-b"></div></div>
+      </div>
+      <div class="tray">
+        <div class="item" data-g="carb"><img src="img/f-rice.jpg" alt="">الأرز</div>
+        <div class="item" data-g="prot"><img src="img/f-eggs.jpg" alt="">البيض</div>
+        <div class="item" data-g="fat"><img src="img/f-oil.jpg" alt="">الزيت</div>
+        <div class="item" data-g="vit"><img src="img/f-orange.jpg" alt="">البرتقال</div>
+        <div class="item" data-g="min prot vit"><img src="img/f-milk.jpg" alt="">الحليب</div>
+        <div class="item" data-g="wat"><img src="img/f-water.jpg" alt="">الماء</div>
+        <div class="item adv" data-g="carb"><img src="img/f-bread.jpg" alt="">الخبز</div>
+        <div class="item adv" data-g="prot fat"><img src="img/f-salmon.jpg" alt="">السمك</div>
+        <div class="item adv" data-g="fat"><img src="img/f-butter.jpg" alt="">الزبدة</div>
+        <div class="item adv" data-g="prot min"><img src="img/f-cheese.jpg" alt="">الجبن</div>
+        <div class="item adv" data-g="vit min"><img src="img/f-greens.jpg" alt="">الخضراوات</div>
+        <div class="item adv" data-g="vit"><img src="img/f-fruits.jpg" alt="">الفواكه</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="side-card"><h4>الهدف</h4><p data-edit>أصنّف الأطعمة إلى مجموعات المواد الغذائية الست.</p></div>
+      <div class="side-card"><h4>الخطوات</h4><ol><li>أتأمل صور الأطعمة.</li><li>أحدد المجموعة الغنية بها.</li><li>أسحب الصورة إلى الصندوق المناسب.</li></ol></div>
+      <div class="side-card"><h4>المستوى</h4><div class="lvl-btns"><button class="on" data-level="basic">أساسي (٦)</button><button data-level="adv">متقدم (١٢)</button></div></div>
+      <div class="ctrl"><button class="btn g" data-act="check">تحقّقي</button><button class="btn" data-act="reset">إعادة</button><button class="btn sm" data-act="solve">الحل</button></div>
+      <div class="fb"></div>
+    </div>
+  </div></div>
+  <aside class="tnotes"><h3>صناديق الغذاء الستة (٦ دقائق)</h3><ul><li>تتقدم الطالبات بالتناوب، كل طالبة تسحب بطاقة إلى صندوقها (أو تلمس البطاقة ثم الصندوق).</li><li>«تحقّقي» يلوّن الصحيح بالأخضر والخطأ بالأحمر، ويمكن نقل الخطأ.</li><li>بعض الأطعمة تنتمي لأكثر من مجموعة (الحليب: بروتينات وأملاح وفيتامينات؛ السمك: بروتينات ودهون)، وكل اختيار صحيح منها مقبول. ناقشي ذلك مع الطالبات.</li><li><b>فروق فردية:</b> ابدئي بالمستوى الأساسي (بطاقة لكل صندوق)، ثم انتقلي للمتقدم مع المتميزات.</li></ul></aside>
+</section>
+
+<!-- ١٧ شجرة الغذاء المتوازن -->
+<section class="slide" data-title="شجرة الغذاء المتوازن" data-strat="خريطة مفاهيمية|أكمل الشجرة">
+  <div class="body"><div class="tree">
+    <svg viewBox="0 0 1520 702" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M720 702 C730 600 735 540 760 480 C785 540 790 600 800 702 Z" fill="#a57447"/>
+      <g fill="none" stroke="#a57447" stroke-linecap="round">
+        <path d="M760 500 C700 420 520 400 330 380" stroke-width="22"/>
+        <path d="M760 500 C820 420 1000 400 1190 380" stroke-width="22"/>
+        <path d="M760 490 C700 330 560 230 420 150" stroke-width="18"/>
+        <path d="M760 490 C820 330 960 230 1100 150" stroke-width="18"/>
+        <path d="M760 490 C740 330 720 200 600 90" stroke-width="14"/>
+        <path d="M760 490 C780 330 800 200 920 90" stroke-width="14"/>
+      </g>
+      <g fill="#86ad5e" opacity=".45"><ellipse cx="760" cy="300" rx="330" ry="200"/></g>
+    </svg>
+    <button class="leaf" style="left:79%;top:53%;--bc:var(--carb-d);--bl:#eef4fc"><span class="qm">؟</span><span class="lc"><img src="img/f-bread.jpg" alt=""><span class="lt">الكربوهيدرات<small>طاقة</small></span></span></button>
+    <button class="leaf" style="left:72.5%;top:22%;--bc:var(--prot-d);--bl:#fdf0f3"><span class="qm">؟</span><span class="lc"><img src="img/f-eggs.jpg" alt=""><span class="lt">البروتينات<small>نمو وتعويض الخلايا</small></span></span></button>
+    <button class="leaf" style="left:60.5%;top:11%;--bc:var(--fat-d);--bl:#fdf8e6"><span class="qm">؟</span><span class="lc"><img src="img/f-oil.jpg" alt=""><span class="lt">الدهون<small>طاقة ودفء</small></span></span></button>
+    <button class="leaf" style="left:39.5%;top:11%;--bc:var(--vit-d);--bl:#f1f8ea"><span class="qm">؟</span><span class="lc"><img src="img/f-orange.jpg" alt=""><span class="lt">الفيتامينات<small>وقاية من الأمراض</small></span></span></button>
+    <button class="leaf" style="left:27.5%;top:22%;--bc:var(--min-d);--bl:#eef8fb"><span class="qm">؟</span><span class="lc"><img src="img/f-dairy.jpg" alt=""><span class="lt">الأملاح المعدنية<small>عظام ودم</small></span></span></button>
+    <button class="leaf" style="left:21%;top:53%;--bc:var(--wat-d);--bl:#f5f1fc"><span class="qm">؟</span><span class="lc"><img src="img/f-water.jpg" alt=""><span class="lt">الماء<small>هضم وتنظيم الحرارة</small></span></span></button>
+    <div class="trunk-lab">الغذاء المتوازن</div>
+    <div class="ctrl"><button class="btn sm g" data-act="show-all">إظهار الكل</button><button class="btn sm" data-act="hide-all">إخفاء الكل</button></div>
+  </div></div>
+  <aside class="tnotes"><h3>شجرة الغذاء المتوازن (٣ دقائق)</h3><ul><li>تبدأ الشجرة بفراغات (؟). اسألي: ما المجموعة التي تمنحنا الطاقة؟ ثم اضغطي الورقة لتظهر الإجابة مع صورتها ووظيفتها.</li><li>يمكن أن تكون الشجرة مراجعة ختامية: تذكر الطالبة المجموعة ووظيفتها قبل كشف الورقة.</li></ul></aside>
+</section>
+
+<!-- ١٨ فهم قرائي -->
+<section class="slide" data-title="فهم قرائي" data-strat="اقرأ – أفهم – أجيب|فهم قرائي">
+  <div class="body"><div class="read">
+    <div class="passage">
+      <h4>غذائي وصحتي</h4>
+      <span data-s="1">يحتاج جسم الإنسان إلى غذاء متوازن ليحصل على الطاقة وينمو ويحافظ على صحته.</span>
+      <span data-s="2">وتساعد البروتينات على النمو وتعويض الخلايا التالفة،</span>
+      <span data-s="3">بينما تمد الكربوهيدرات الجسم بالطاقة.</span>
+      <span data-s="4">وتساعد الفيتامينات والأملاح المعدنية على المحافظة على صحة الجسم،</span>
+      <span data-s="5">ويحتاج الإنسان أيضًا إلى الماء للقيام بوظائفه الحيوية.</span>
+    </div>
+    <div class="rq">
+      <div class="rsteps"><span>١ أقرأ</span><span>٢ أفهم</span><span>٣ أجيب</span></div>
+      <div class="q"><div class="qq"><b>١</b><span>لماذا يحتاج الإنسان إلى الغذاء المتوازن؟</span></div><div class="row"><button class="btn sm" data-reveal data-hl="1">إظهار الإجابة وموضعها</button></div><div class="answer">ليحصل على الطاقة، وينمو، ويحافظ على صحته.</div></div>
+      <div class="q"><div class="qq"><b>٢</b><span>ما المادة الغذائية التي تساعد على النمو وتعويض الخلايا التالفة؟</span></div><div class="row"><button class="btn sm" data-reveal data-hl="2">إظهار الإجابة وموضعها</button></div><div class="answer">البروتينات.</div></div>
+      <div class="q"><div class="qq"><b>٣</b><span>استنتجي: ماذا يحدث إذا لم يحصل الجسم على غذاء متنوع؟</span></div><div class="row"><button class="btn sm" data-reveal data-hl="1 4">إظهار إجابة نموذجية</button><button class="btn sm" data-hint>تلميح</button></div><div class="answer">لن يحصل على جميع المواد الغذائية؛ فيقلّ نشاطه، ولا ينمو بشكل سليم، ويصبح أكثر عرضة للأمراض.</div></div>
+    </div>
+  </div></div>
+  <aside class="tnotes"><h3>فهم قرائي (٥ دقائق)</h3><ul><li><b>أقرأ:</b> قراءة صامتة دقيقة، ثم قراءة جهرية من طالبة.</li><li><b>أفهم:</b> اسألي عن معنى «الخلايا التالفة» و«الوظائف الحيوية».</li><li><b>أجيب:</b> بعد المناقشة اضغطي «إظهار الإجابة» فتُظلَّل الجملة التي تتضمن الإجابة في النص.</li><li><b>فروق فردية:</b> زر «تلميح» في السؤال الثالث يظلل الجمل المساعدة دون إظهار الإجابة.</li></ul></aside>
+</section>
+
+<!-- ١٩ الطبق الناقص -->
+<section class="slide full" data-title="الطبق الناقص" data-full>
+  <img class="bg" src="img/slide-plate.jpg" alt="نشاط الطبق الناقص: طبق أرز ودجاج، وحوله خضراوات وفواكه ومنتجات ألبان وماء">
+  <input class="dd" data-k="day" aria-label="اليوم" style="left:71.8%;top:6.5%;width:11.4%;height:3.9%;font-size:22px">
+  <input class="dd" data-k="date" aria-label="التاريخ" style="left:71.8%;top:12.5%;width:11.4%;height:3.9%;font-size:22px">
+  <button class="hot" data-food="الخضراوات" aria-label="الخضراوات" style="left:24%;top:50.2%;width:14%;height:18%"></button>
+  <button class="hot" data-food="الفواكه" aria-label="الفواكه" style="left:23.6%;top:70.8%;width:14%;height:18.6%"></button>
+  <button class="hot" data-food="منتجات الألبان" aria-label="منتجات الألبان" style="left:61%;top:50.2%;width:13.5%;height:18%"></button>
+  <button class="hot" data-food="الماء" aria-label="الماء" style="left:61.9%;top:70.8%;width:12.9%;height:18.6%"></button>
+  <div class="plate-ctrl"><button class="btn g" data-act="plate-check">أبرز اختياري</button><button class="btn" data-timer="60">فكّري: دقيقة</button><button class="btn sm" data-act="plate-reset">إعادة</button></div>
+  <div class="plate-fb" hidden></div>
+  <aside class="tnotes"><h3>الطبق الناقص: فكّر – زاوج – شارك (٦ دقائق)</h3><ul><li><b>فكّر:</b> دقيقة تفكير فردي (زر المؤقت): ماذا ينقص طبق الأرز والدجاج؟</li><li><b>زاوج:</b> تناقش كل طالبة زميلتها وتتفقان على اختيارين مع التفسير.</li><li><b>شارك:</b> تخرج ثنائية إلى السبورة وتضغط على اختياراتها، ثم «أبرز اختياري» لتظهر التغذية الراجعة.</li><li>المتوقع: الأرز كربوهيدرات، والدجاج بروتين؛ تُكمل الوجبة بالخضراوات والفواكه (فيتامينات وأملاح) ومنتجات الألبان (كالسيوم) والماء.</li></ul></aside>
+</section>
+
+<!-- ٢٠ الهرم الغذائي -->
+<section class="slide" data-title="الهرم الغذائي" data-strat="الشرح والأنشطة|الكتاب ص ١٧٨" data-guide="أضغط كل مستوى لأعرف مجموعته.">
+  <div class="body"><div class="pyr">
+    <div class="info">
+      <div class="card" style="padding:16px 20px;font-size:24px;line-height:1.6;font-weight:700" data-edit>لا توجد جميع المواد الغذائية في نوع واحد من الأطعمة؛ لذا يجب أن يشتمل طعامنا على جميع المواد الغذائية بكميات محددة. والهرم الغذائي نموذج يوضّح أنواع الأطعمة التي يحتاجها الإنسان يوميًا.</div>
+      <div class="concl" style="background:var(--rose-l);color:var(--maroon)" data-edit>الهرم الغذائي: دليل غذائي على شكل مثلث يحدد حاجات الأفراد الغذائية التي يجب تناولها.</div>
+    </div>
+    <div class="img"><img src="img/book-pyramid.jpg" alt="الهرم الغذائي من الكتاب"></div>
+    <div class="lvls">
+      <button class="lvl" style="--bc:var(--fat)"><i>٤</i><span class="t">القمة: الدهون <small style="color:var(--muted)">(نقلل منها)</small></span></button>
+      <button class="lvl" style="--bc:var(--prot)"><i>٣</i><span class="t">اللحوم والأسماك، والحليب ومشتقاته</span></button>
+      <button class="lvl" style="--bc:var(--vit)"><i>٢</i><span class="t">الخضراوات والفواكه</span></button>
+      <button class="lvl" style="--bc:var(--carb)"><i>١</i><span class="t">القاعدة: الحبوب <small style="color:var(--muted)">(نُكثر منها)</small></span></button>
+      <div class="row" style="justify-content:center"><button class="btn sm g" data-act="show-all">إظهار الكل</button><button class="btn sm" data-act="hide-all">إخفاء</button></div>
+    </div>
+  </div></div>
+  <aside class="tnotes"><h3>الهرم الغذائي (٤ دقائق)</h3><ul><li>يقسّم الكتاب الأطعمة إلى خمس مجموعات: الحبوب، الخضراوات والفواكه، اللحوم والأسماك، الحليب ومشتقاته، الدهون.</li><li>اكشفي المستويات من القاعدة إلى القمة، ووضّحي: كلما اتسع المستوى احتجنا إلى كمية أكبر منه، والقمة نتناول منها القليل.</li></ul></aside>
+</section>
+
+<!-- ٢١ أختبر نفسي ٣ -->
+<section class="slide" data-title="أختبر نفسي (٣)" data-strat="التصنيف والتفكير الناقد|الكتاب ص ١٧٨">
+  <div class="body" style="display:grid;grid-template-columns:1.15fr 1fr;gap:26px">
+    <div class="sorter" style="display:flex;flex-direction:column;gap:14px">
+      <div class="ttl" style="font-size:28px;line-height:1.4">أصنّف: المواد الغذائية إلى مجموعتين حسب فوائدها</div>
+      <div class="tray"><div class="item txt" data-g="b">البروتينات</div><div class="item txt" data-g="e">الدهون</div><div class="item txt" data-g="e">الكربوهيدرات</div><div class="item txt" data-g="b">الأملاح المعدنية</div></div>
+      <div class="two-sort" style="flex:1"><div class="bin" data-g="e" style="--bc:var(--fat);--bl:#fdf8e6"><div class="bin-h">إمداد الجسم بالطاقة</div><div class="bin-b"></div></div><div class="bin" data-g="b" style="--bc:var(--min);--bl:#eef8fb"><div class="bin-h">النمو وبناء العظام</div><div class="bin-b"></div></div></div>
+      <div class="ctrl"><button class="btn g" data-act="check">تحقّقي</button><button class="btn" data-act="reset">إعادة</button><button class="btn sm" data-act="solve">الحل</button><div class="fb"></div></div>
+    </div>
+    <div class="card q" style="padding:22px;display:flex;flex-direction:column;gap:14px;border-color:var(--rose-l)">
+      <div class="pill" style="align-self:flex-start;background:var(--rose-l);color:var(--rose-d)">التفكير الناقد</div>
+      <div class="ttl" style="font-size:34px;line-height:1.45">لماذا يُعد الهرم الغذائي مهمًا في تناول الغذاء المتوازن؟</div>
+      <button class="btn r" data-reveal style="align-self:flex-start">إظهار إجابة نموذجية</button>
+      <div class="answer concl" style="background:var(--ok-l)">لأنه يوضح أنواع الأطعمة التي نحتاجها يوميًا والكمية المناسبة من كل مجموعة؛ فنُكثر من القاعدة ونقلل من القمة.</div>
+    </div>
+  </div>
+  <aside class="tnotes"><h3>أختبر نفسي ٣ (٣ دقائق)</h3><ul><li>الطاقة: الكربوهيدرات والدهون. النمو وبناء العظام: البروتينات والأملاح المعدنية.</li></ul></aside>
+</section>
+
+<!-- ٢٢ مراجعة الدرس -->
+<section class="slide" data-title="مراجعة الدرس" data-strat="أفكّر وأتحدّث وأكتب|مراجعة الدرس ص ١٧٩">
+  <div class="body"><div class="qgrid">
+    <div class="qcard q"><div class="lab"><b>١</b>المفردات</div><div class="qq">............ يشكّل ثلثي جسم الإنسان تقريبًا، ويساعد على التخلص من الفضلات، ويحافظ على درجة حرارة الجسم.</div><button class="btn sm" data-reveal style="align-self:flex-start">الإجابة</button><div class="answer">الماء</div></div>
+    <div class="qcard q"><div class="lab"><b>٢</b>أصنّف مكونات فطيرة التفاح</div><div class="qq" style="font-size:22px">الدقيق – الزبدة – البيض – التفاح – السكر – الماء</div><button class="btn sm" data-reveal style="align-self:flex-start">الإجابة</button><div class="answer">كربوهيدرات: الدقيق، السكر · دهون: الزبدة · بروتينات: البيض · فيتامينات: التفاح · ماء: الماء</div></div>
+    <div class="qcard q"><div class="lab"><b>٣</b>التفكير الناقد</div><div class="qq">لماذا يجب شرب الحليب بشكل عام، وفي السنوات الأولى من عمر الطفل بشكل خاص؟</div><button class="btn sm" data-reveal style="align-self:flex-start">إجابة نموذجية</button><div class="answer">لأنه غني بالبروتينات للنمو، وبالكالسيوم لبناء العظام والأسنان، والطفل في مرحلة نمو سريع.</div></div>
+    <div class="qcard q mcq" data-ans="2"><div class="lab"><b>٤</b>أختار الإجابة الصحيحة</div><div class="qq">تساعد الجسم على النمو وتعويض الخلايا التالفة فيه:</div><div class="row" style="gap:8px"><button class="opt">الدهون</button><button class="opt">الأملاح المعدنية</button><button class="opt">البروتينات</button><button class="opt">الألياف</button></div><div class="fb" data-ok="أحسنتِ!" data-no="حاولي مرة أخرى."></div></div>
+  </div></div>
+  <aside class="tnotes"><h3>مراجعة الدرس (٤ دقائق)</h3><ul><li>أسئلة الكتاب ص ١٧٩. يمكن توزيعها على أربع مجموعات، كل مجموعة تجيب عن سؤال.</li><li>السؤال الأساسي «كيف يكون غذاؤنا صحيًا؟» يُجاب عنه في تذكرة الخروج.</li><li>إثراء: «العلوم والكتابة» مقال قصير عن أهمية الغذاء المتوازن، و«العلوم والفن» لوحة صور أطعمة مصنفة.</li></ul></aside>
+</section>
+
+<!-- ٢٣ التقويم الختامي -->
+<section class="slide" data-title="التقويم الختامي المصوّر" data-strat="التقويم الختامي|تقويم مصوّر">
+  <div class="body"><div class="qgrid quiz">
+    <div class="qcard q mcq" data-ans="0" style="flex-direction:row;gap:16px;align-items:center">
+      <img src="img/f-bread.jpg" alt="خبز" style="width:170px;height:150px;object-fit:cover;border-radius:18px;border:3px solid var(--wood)">
+      <div style="display:flex;flex-direction:column;gap:8px;min-width:0"><div class="lab"><b>١</b>اختيار من متعدد</div><div class="qq">الخبز مصدر غني بـ:</div><div class="row" style="gap:8px"><button class="opt">الكربوهيدرات</button><button class="opt">الدهون</button><button class="opt">الماء</button></div><div class="fb" data-ok="صحيح!" data-no="ليست هذه، حاولي مجددًا."></div></div>
+    </div>
+    <div class="qcard"><div class="lab"><b>٢</b>تصنيف مصوّر: أختار مجموعة كل طعام</div>
+      <div class="mini">
+        <div class="mcq" data-ans="1"><img src="img/f-oil.jpg" alt="زيت"><div class="opts"><button class="opt">بروتينات</button><button class="opt">دهون</button><button class="opt">فيتامينات</button></div></div>
+        <div class="mcq" data-ans="0"><img src="img/f-eggs.jpg" alt="بيض"><div class="opts"><button class="opt">بروتينات</button><button class="opt">ماء</button><button class="opt">كربوهيدرات</button></div></div>
+        <div class="mcq" data-ans="2"><img src="img/f-orange.jpg" alt="برتقال"><div class="opts"><button class="opt">دهون</button><button class="opt">بروتينات</button><button class="opt">فيتامينات</button></div></div>
+      </div></div>
+    <div class="qcard q mcq" data-ans="1"><div class="lab"><b>٣</b>أصحّح المفهوم</div><div class="qq">«الفيتامينات هي المصدر الرئيس للطاقة في الجسم.»</div><div class="row" style="gap:8px"><button class="opt">صحيحة</button><button class="opt">خاطئة</button><div class="fb" data-ok="أحسنتِ!" data-no="راجعي فائدة الفيتامينات."></div></div><div class="answer">التصحيح: <u>الكربوهيدرات</u> هي المصدر الرئيس للطاقة، أما الفيتامينات فتحافظ على صحة الجسم وتقيه من الأمراض.</div></div>
+    <div class="qcard q"><div class="lab"><b>٤</b>تفكير ناقد</div><div class="qq" data-edit>تتناول ريم البطاطس المقلية والحلوى كل يوم، ولا تأكل الخضراوات. بماذا تنصحينها؟ ولماذا؟</div><button class="btn sm r" data-reveal style="align-self:flex-start">إجابة نموذجية</button><div class="answer">أنصحها بالتقليل من المقليات والحلوى لأن الإكثار من الدهون يسبب السمنة وأمراض القلب، وأن تضيف الخضراوات والفواكه لتحصل على الفيتامينات والأملاح، وتكوّن وجبة متوازنة.</div></div>
+  </div>
+  <div class="score" style="position:absolute;left:0;top:-54px">الدرجة: <span class="sc">٠</span> / ٥</div>
+  </div>
+  <aside class="tnotes"><h3>التقويم الختامي (٥ دقائق)</h3><ul><li>تُحسب الدرجة من المحاولة الأولى للأسئلة الآلية (١، ٢، ٣) من ٥.</li><li>سؤال التفكير الناقد شفهي: استمعي لأكثر من نصيحة قبل إظهار الإجابة النموذجية.</li><li>زر «إعادة الشريحة» في الشريط السفلي يمسح الإجابات لمجموعة جديدة.</li></ul></aside>
+</section>
+
+<!-- ٢٤ تذكرة الخروج -->
+<section class="slide" data-title="تذكرة الخروج: ماذا تعلمت اليوم؟" data-strat="تذكرة الخروج|ماذا تعلمت اليوم؟">
+  <div class="body"><div class="exit">
+    <div class="list">
+      <div class="eq-row q mcq" data-ans="1"><div class="qq"><em>أصنّف:</em> البيض من مصادر أي مادة غذائية؟<div class="fb" data-ok="صحيح، البيض غني بالبروتينات." data-no="حاولي مرة أخرى."></div></div><div class="pick2"><button class="opt">الدهون</button><button class="opt"><img src="img/f-eggs.jpg" alt="">البروتينات</button><button class="opt">الماء</button></div></div>
+      <div class="eq-row q mcq" data-ans="0"><div class="qq"><em>أختار:</em> أيهما مصدر للكربوهيدرات: الأرز أم الزيت؟<div class="fb" data-ok="صحيح، الأرز مصدر للكربوهيدرات." data-no="الزيت من الدهون، حاولي مجددًا."></div></div><div class="pick2"><button class="opt"><img src="img/f-rice.jpg" alt="">الأرز</button><button class="opt"><img src="img/f-oil.jpg" alt="">الزيت</button></div></div>
+      <div class="eq-row q"><div class="qq"><em>أفسّر:</em> لماذا يحتاج جسمي إلى الماء؟<div class="answer">لأنه يشكّل ثلثي الجسم، ويساعد على الهضم والتخلص من الفضلات والمحافظة على درجة الحرارة.</div></div><div class="pick2"><img src="img/f-water.jpg" alt="كأس ماء" style="width:120px;height:90px;object-fit:cover;border-radius:12px"><button class="btn sm" data-reveal>الإجابة</button></div></div>
+      <div class="eq-row" style="grid-template-columns:1fr"><div class="qq" style="font-size:24px"><em>السؤال الأساسي:</em> كيف يكون غذائي صحيًا؟ <span style="color:var(--muted);font-weight:700">عندما يكون متوازنًا ومتنوعًا ويحتوي على المجموعات الست بكميات مناسبة.</span></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="side-card"><h4>أقيّم فهمي</h4>
+        <div class="self">
+          <button style="--c:#bfe3a9"><span class="face"><i></i></span>فهمت جيدًا</button>
+          <button style="--c:#f8e3a1"><span class="face mid"><i></i></span>فهمت بعض الأجزاء</button>
+          <button style="--c:#f6c2cc"><span class="face low"><i></i></span>أحتاج إلى مساعدة</button>
+        </div></div>
+      <button class="btn" data-act="show-ticket">عرض البطاقة المصوّرة</button>
+      <img src="img/healthy-plate.jpg" alt="" style="width:100%;flex:1;min-height:0;object-fit:contain">
+    </div>
+  </div></div>
+  <div class="img-pop" hidden><img src="img/slide-exit.jpg" alt="تذكرة الخروج المصورة"><button class="btn r" data-act="hide-ticket">إغلاق</button></div>
+  <aside class="tnotes"><h3>تذكرة الخروج (٣ دقائق)</h3><ul><li>تجيب كل طالبة عن الأسئلة الثلاثة في بطاقة ورقية أو شفهيًا قبل الخروج.</li><li>«أقيّم فهمي»: توجّهي في الحصة القادمة لمن اخترن «أحتاج إلى مساعدة».</li><li>«عرض البطاقة المصوّرة» يعرض نسخة التصميم الكاملة لتذكرة الخروج.</li><li>عودي إلى شريحة «نواتج التعلم» وضعي علامة على ما تحقق.</li></ul></aside>
+</section>
+
+</div></div>
+
+<div id="bar">
+  <span id="rotate">لعرض أفضل على الجوال، أديري الجهاز أفقيًا</span>
+  <button class="nav" id="prev" aria-label="الشريحة السابقة">السابق</button>
+  <span id="count"></span>
+  <button class="nav" id="next" aria-label="الشريحة التالية">التالي</button>
+  <span id="stitle"></span>
+  <button id="bMenu">الشرائح</button>
+  <button id="bNotes">دليل المعلمة</button>
+  <button id="bTimer">المؤقت</button>
+  <button id="bShow">إظهار الكل</button>
+  <button id="bReset">إعادة الشريحة</button>
+  <button id="bEdit">تحرير النصوص</button>
+  <button id="bFull">ملء الشاشة</button>
+</div>
+</div>
+
+<div id="notes" class="panel" hidden></div>
+<div id="menu" class="panel" hidden></div>
+<div id="timer" class="panel" hidden>
+  <div id="tval">٠٠:٣٠</div>
+  <div class="row"><button data-t="30">٣٠ث</button><button data-t="60">١د</button><button data-t="120">٢د</button><button data-t="180">٣د</button></div>
+  <div class="row"><button id="tGo">ابدئي</button><button id="tClose">إغلاق</button></div>
+</div>
+
+<script>
+(()=>{
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const AR='٠١٢٣٤٥٦٧٨٩', ar=n=>String(n).replace(/\d/g,d=>AR[d]);
+const store={get(k){try{return localStorage.getItem('nh:'+k)}catch(e){return null}},set(k,v){try{localStorage.setItem('nh:'+k,v)}catch(e){}},del(k){try{localStorage.removeItem('nh:'+k)}catch(e){}}};
+const stage=$('#stage'), vp=$('#viewport'), slides=$$('.slide');
+let cur=0;
+
+/* ---- build header, signature for designed slides ---- */
+slides.forEach((s,i)=>{
+  s.dataset.i=i;
+  if(s.hasAttribute('data-full')) return;
+  const board=document.createElement('div'); board.className='board';
+  const [st,sub]=(s.dataset.strat||'').split('|');
+  const g=s.dataset.guide;
+  board.innerHTML=`<div class="hdr"><div class="guide">${g?`<img src="img/girl-head.jpg" alt=""><div class="bubble">${g}</div>`:''}</div>
+    <div class="mid"><span class="kicker">العلوم · الصف الرابع · التغذية والصحة</span><div class="plaque">${s.dataset.plaque||s.dataset.title.replace(/^.*?: /,'')}</div></div>
+    <div class="strat">${st?`<span>${st}<small>${sub||''}</small></span>`:''}</div></div><div class="sig">أ/ شامه البقمي</div>`;
+  s.prepend(board);
+});
+
+/* ---- scale ---- */
+function fit(){const w=vp.clientWidth,h=vp.clientHeight,s=Math.min(w/1600,h/900);
+  stage.style.transform=`translate(${(w-1600*s)/2}px,${(h-900*s)/2}px) scale(${s})`;stage.dataset.s=s}
+new ResizeObserver(fit).observe(vp);
+
+/* ---- navigation ---- */
+function go(n){n=Math.max(0,Math.min(slides.length-1,n));slides[cur].classList.remove('active');cur=n;slides[cur].classList.add('active');
+  $('#count').textContent=`${ar(cur+1)} / ${ar(slides.length)}`;$('#stitle').textContent=slides[cur].dataset.title;
+  $('#prev').disabled=cur===0;$('#next').disabled=cur===slides.length-1;
+  if(location.hash!=='#s'+(cur+1)) history.replaceState(null,'','#s'+(cur+1));
+  if(!$('#notes').hidden) showNotes(); if(!$('#menu').hidden) buildMenu();}
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+addEventListener('keydown',e=>{const t=e.target;if(t.isContentEditable||/INPUT|TEXTAREA/.test(t.tagName))return;
+  if(['ArrowLeft','PageDown'].includes(e.key)||(e.key===' '&&t===document.body)){e.preventDefault();go(cur+1)}
+  else if(['ArrowRight','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}
+  else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+  else if(e.key==='Escape'){$('#menu').hidden=true;$('#notes').hidden=true;$('#bNotes').classList.remove('on')}});
+const fromHash=()=>{const m=location.hash.match(/^#s(\d+)$/);return m?+m[1]-1:0};
+addEventListener('hashchange',()=>{const n=fromHash();if(n!==cur)go(n)});
+
+/* ---- notes & menu ---- */
+function showNotes(){const a=$('.tnotes',slides[cur]);$('#notes').innerHTML=`<button class="btn sm x" id="nClose">إغلاق</button>`+(a?a.innerHTML:'<p>لا توجد ملاحظات لهذه الشريحة.</p>');$('#nClose').onclick=()=>{$('#notes').hidden=true;$('#bNotes').classList.remove('on')}}
+$('#bNotes').onclick=()=>{const n=$('#notes');n.hidden=!n.hidden;$('#bNotes').classList.toggle('on',!n.hidden);if(!n.hidden)showNotes()};
+function buildMenu(){$('#menu').innerHTML='<h3>شرائح الدرس</h3><ol>'+slides.map((s,i)=>`<li><button data-go="${i}" class="${i===cur?'cur':''}"><b>${ar(i+1)}</b>${s.dataset.title}</button></li>`).join('')+'</ol>'}
+$('#bMenu').onclick=()=>{const m=$('#menu');m.hidden=!m.hidden;if(!m.hidden)buildMenu()};
+$('#menu').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b){$('#menu').hidden=true;go(+b.dataset.go)}});
+$('#bFull').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}};
+
+/* ---- timer ---- */
+let tLeft=30,tSet=30,tInt=null,actx=null;
+const tShow=()=>{$('#tval').textContent=ar(String(Math.floor(tLeft/60)).padStart(2,'0'))+':'+ar(String(tLeft%60).padStart(2,'0'))};
+function beep(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.6)}catch(e){}}
+function tStart(sec){clearInterval(tInt);if(sec){tSet=sec;}tLeft=tSet;$('#timer').hidden=false;$('#timer').classList.remove('end');tShow();$('#tGo').textContent='إيقاف';
+  tInt=setInterval(()=>{tLeft--;tShow();if(tLeft<=0){clearInterval(tInt);tInt=null;$('#timer').classList.add('end');$('#tGo').textContent='ابدئي';beep()}},1000)}
+$('#bTimer').onclick=()=>{const t=$('#timer');t.hidden=!t.hidden;tShow()};
+$('#timer').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b){tSet=+b.dataset.t;tLeft=tSet;tShow();clearInterval(tInt);tInt=null;$('#tGo').textContent='ابدئي'}});
+$('#tGo').onclick=()=>{if(tInt){clearInterval(tInt);tInt=null;$('#tGo').textContent='ابدئي'}else tStart()};
+$('#tClose').onclick=()=>{clearInterval(tInt);tInt=null;$('#timer').hidden=true};
+
+/* ---- day/date ---- */
+$$('.dd').forEach(inp=>{inp.value=store.get(inp.dataset.k)||'';inp.addEventListener('input',()=>{store.set(inp.dataset.k,inp.value);$$(`.dd[data-k="${inp.dataset.k}"]`).forEach(o=>{if(o!==inp)o.value=inp.value})})});
+
+/* ---- edit mode ---- */
+const edits=$$('[data-edit]');
+edits.forEach((el,i)=>{el.dataset.key='e'+i;el.dataset.orig=el.innerHTML;const v=store.get('e'+i);if(v!=null)el.innerHTML=v;
+  el.addEventListener('input',()=>store.set(el.dataset.key,el.innerHTML))});
+$('#bEdit').onclick=()=>{const on=!document.body.classList.contains('editing');document.body.classList.toggle('editing',on);$('#bEdit').classList.toggle('on',on);
+  $('#bEdit').textContent=on?'إنهاء التحرير':'تحرير النصوص';edits.forEach(el=>el.contentEditable=on?'true':'false')};
+
+/* ---- generic clicks inside the stage ---- */
+function feedback(fb,ok){if(!fb)return;fb.className='fb '+(ok?'ok':'no');fb.textContent=ok?(fb.dataset.ok||'أحسنتِ!'):(fb.dataset.no||'حاولي مرة أخرى.')}
+stage.addEventListener('click',e=>{
+  if(document.body.classList.contains('editing')&&e.target.closest('[data-edit]'))return;
+  const t=e.target, slide=t.closest('.slide');
+  let b;
+  if(b=t.closest('.opt')){const m=b.closest('.mcq');if(!m||m.classList.contains('solved'))return;const opts=$$('.opt',m),i=opts.indexOf(b),ok=i===+m.dataset.ans;
+    if(!m.dataset.tried){m.dataset.tried=1;m.dataset.first=ok?1:0}
+    opts.forEach(o=>o.classList.remove('wrong'));b.classList.add(ok?'right':'wrong');
+    feedback($('.fb',m)||$('.fb',m.closest('.q')||m),ok);
+    if(ok){m.classList.add('solved');const a=$('.answer',m.closest('.q')||m);if(a)a.classList.add('on');if(e.isTrusted)celebrate(b)}
+    updScore(slide);return}
+  if(b=t.closest('[data-reveal]')){const q=b.closest('.q');const a=q&&$('.answer',q);if(a)a.classList.toggle('on');
+    const hl=b.dataset.hl;if(hl){$$('.passage span',slide).forEach(s=>s.classList.remove('hl'));if(a&&a.classList.contains('on'))hl.split(' ').forEach(n=>$(`.passage [data-s="${n}"]`,slide).classList.add('hl'))}return}
+  if(b=t.closest('[data-hint]')){$$('.passage span',slide).forEach(s=>s.classList.toggle('hl',['1','4'].includes(s.dataset.s)));return}
+  if(b=t.closest('.flip')){b.classList.toggle('on');return}
+  if(b=t.closest('.leaf')){b.classList.toggle('on');return}
+  if(b=t.closest('.lvl')){b.classList.toggle('on');return}
+  if(b=t.closest('.outc button')){b.classList.toggle('done');store.set('out'+$$('.outc button').indexOf(b),b.classList.contains('done')?1:'');return}
+  if(b=t.closest('.self button')){$$('.self button',slide).forEach(x=>x.classList.toggle('on',x===b));return}
+  if(b=t.closest('.hot')){b.classList.toggle('sel');$('.plate-fb',slide).hidden=true;return}
+  if(b=t.closest('[data-tab]')){const tabs=$$('[data-tab]',slide),panes=$$('.pane',slide);tabs.forEach((x,i)=>{x.classList.toggle('on',x===b);panes[i].classList.toggle('on',x===b)});return}
+  if(b=t.closest('[data-timer]')){tStart(+b.dataset.timer);return}
+  if(b=t.closest('[data-level]')){const sorter=b.closest('.sorter');$$('[data-level]',sorter).forEach(x=>x.classList.toggle('on',x===b));resetSorter(sorter);
+    $$('.item.adv',sorter).forEach(x=>x.hidden=b.dataset.level!=='adv');return}
+  if(b=t.closest('[data-act]')){const a=b.dataset.act, sorter=b.closest('.sorter');
+    if(a==='check')checkSorter(sorter);else if(a==='reset')resetSorter(sorter);else if(a==='solve')solveSorter(sorter);
+    else if(a==='show-all')showAll(slide,true);else if(a==='hide-all')showAll(slide,false);
+    else if(a==='fill-table')$$('table.grid input',slide).forEach(i=>i.value=i.dataset.v);
+    else if(a==='clear-table')$$('table.grid input',slide).forEach(i=>i.value='');
+    else if(a==='plate-check')plateCheck(slide);else if(a==='plate-reset'){$$('.hot',slide).forEach(h=>h.classList.remove('sel'));$('.plate-fb',slide).hidden=true}
+    else if(a==='show-ticket')$('.img-pop',slide).hidden=false;else if(a==='hide-ticket')$('.img-pop',slide).hidden=true;
+    return}
+});
+function showAll(slide,on){$$('.answer,.leaf,.lvl,.flip',slide).forEach(x=>{if(!x.closest('.mcq'))x.classList.toggle('on',on)})}
+$('#bShow').onclick=()=>{const s=slides[cur];showAll(s,true);$$('.sorter',s).forEach(solveSorter);$$('.mcq:not(.solved)',s).forEach(m=>{const o=$$('.opt',m)[+m.dataset.ans];if(o)o.click()});
+  if($('table.grid',s))$$('table.grid input',s).forEach(i=>i.value=i.dataset.v)};
+$('#bReset').onclick=()=>{const s=slides[cur];showAll(s,false);$$('.sorter',s).forEach(resetSorter);
+  $$('.mcq',s).forEach(m=>{m.classList.remove('solved');delete m.dataset.tried;delete m.dataset.first;$$('.opt',m).forEach(o=>o.classList.remove('right','wrong'));const f=$('.fb',m)||$('.fb',m.closest('.q')||m);if(f){f.textContent='';f.className='fb'}});
+  $$('.fb',s).forEach(f=>{f.textContent='';f.className='fb'});$$('.passage span',s).forEach(x=>x.classList.remove('hl'));
+  $$('.hot',s).forEach(h=>h.classList.remove('sel'));const pf=$('.plate-fb',s);if(pf)pf.hidden=true;$$('.self button',s).forEach(x=>x.classList.remove('on'));updScore(s)};
+
+function updScore(slide){const q=slide&&$('.quiz',slide);if(!q)return;const n=$$('.mcq',q).filter(m=>m.dataset.first==='1').length;$('.sc',slide).textContent=ar(n)}
+function celebrate(el){const r=el.getBoundingClientRect();for(let i=0;i<10;i++){const d=document.createElement('div');d.style.cssText=`position:fixed;z-index:999;left:${r.left+r.width/2}px;top:${r.top}px;width:10px;height:10px;border-radius:50%;background:${['#86ad5e','#d98fa0','#f4d77f','#a9c8ef'][i%4]};pointer-events:none;transition:transform .8s ease-out,opacity .8s`;
+  document.body.appendChild(d);requestAnimationFrame(()=>{d.style.transform=`translate(${(Math.random()-.5)*160}px,${-40-Math.random()*90}px)`;d.style.opacity=0});setTimeout(()=>d.remove(),850)}}
+
+/* outcomes restore */
+$$('.outc button').forEach((b,i)=>{if(store.get('out'+i))b.classList.add('done')});
+
+/* ---- plate ---- */
+function plateCheck(slide){const sel=$$('.hot.sel',slide).map(h=>h.dataset.food),fb=$('.plate-fb',slide);fb.hidden=false;
+  const why={'الخضراوات':'فيتامينات وأملاح','الفواكه':'فيتامينات','منتجات الألبان':'كالسيوم وبروتين','الماء':'ماء للهضم'};
+  if(!sel.length){fb.style.borderColor='var(--rose-d)';fb.style.color='var(--rose-d)';fb.textContent='اختاري طعامًا واحدًا على الأقل لإكمال الوجبة.';return}
+  fb.style.borderColor='var(--ok)';fb.style.color='var(--ok)';
+  fb.textContent=(sel.length===4?'ممتاز! أصبحت الوجبة متوازنة: ':'اختيار جيد: ')+sel.map(s=>`${s} (${why[s]})`).join('، ')+(sel.length<4?'. هل ينقصها شيء آخر؟':'.')}
+
+/* ---- sorter: drag or tap ---- */
+$$('.sorter').forEach(s=>$$('.item',s).forEach((it,i)=>{it.dataset.o=i;if(it.classList.contains('adv'))it.hidden=true}));
+let drag=null;
+stage.addEventListener('pointerdown',e=>{const it=e.target.closest('.item');if(!it||document.body.classList.contains('editing'))return;
+  drag={it,x:e.clientX,y:e.clientY,moved:false,ghost:null,id:e.pointerId};});
+addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;
+  if(!drag.moved&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>8){drag.moved=true;const r=drag.it.getBoundingClientRect(),g=drag.it.cloneNode(true),s=+stage.dataset.s||1;
+    g.classList.add('ghost');g.classList.remove('picked','ok','no');g.style.width=drag.it.offsetWidth+'px';g.style.transform=`scale(${s})`;document.body.appendChild(g);drag.ghost=g;drag.dx=e.clientX-r.left;drag.dy=e.clientY-r.top;drag.it.classList.add('dragging')}
+  if(drag.moved){drag.ghost.style.left=(e.clientX-drag.dx)+'px';drag.ghost.style.top=(e.clientY-drag.dy)+'px';
+    const bin=document.elementFromPoint(e.clientX,e.clientY)?.closest('.bin');$$('.bin.hover').forEach(b=>b!==bin&&b.classList.remove('hover'));if(bin)bin.classList.add('hover')}});
+addEventListener('pointerup',e=>{if(!drag||e.pointerId!==drag.id)return;const {it,moved,ghost}=drag;drag=null;const sorter=it.closest('.sorter');
+  $$('.bin.hover').forEach(b=>b.classList.remove('hover'));
+  if(moved){ghost.remove();it.classList.remove('dragging');const el=document.elementFromPoint(e.clientX,e.clientY);const bin=el?.closest('.bin'),tray=el?.closest('.tray');
+    if(bin&&sorter.contains(bin))place(it,bin);else if(tray&&sorter.contains(tray))toTray(it);return}
+  const was=it.classList.contains('picked');$$('.item.picked',sorter).forEach(x=>x.classList.remove('picked'));if(!was)it.classList.add('picked');sorter.classList.toggle('has-pick',!was)});
+addEventListener('pointercancel',()=>{if(drag){drag.ghost?.remove();drag.it.classList.remove('dragging');drag=null}});
+stage.addEventListener('click',e=>{if(e.target.closest('.item'))return;const bin=e.target.closest('.bin'),tray=e.target.closest('.tray');const sorter=(bin||tray)?.closest('.sorter');if(!sorter)return;
+  const p=$('.item.picked',sorter);if(!p)return;if(bin)place(p,bin);else toTray(p);p.classList.remove('picked');sorter.classList.remove('has-pick')});
+function place(it,bin){const sorter=bin.closest('.sorter');if(sorter.hasAttribute('data-max1')){const old=$('.item',bin);if(old&&old!==it)toTray(old)}
+  it.classList.remove('ok','no','picked');$('.bin-b',bin).appendChild(it);const f=$('.fb',sorter);if(f){f.textContent='';f.className='fb'}}
+function toTray(it){const tray=$('.tray',it.closest('.sorter'));it.classList.remove('ok','no','picked');const o=+it.dataset.o;
+  const after=$$('.item',tray).find(x=>+x.dataset.o>o);tray.insertBefore(it,after||null)}
+function checkSorter(s){const placed=$$('.bin .item',s),vis=$$('.item',s).filter(x=>!x.hidden);let ok=0;
+  placed.forEach(it=>{const good=it.dataset.g.split(' ').includes(it.closest('.bin').dataset.g);it.classList.toggle('ok',good);it.classList.toggle('no',!good);if(good)ok++});
+  const f=$('.fb',s);if(!f)return;const need=s.hasAttribute('data-max1')?$$('.bin',s).length:vis.length;
+  if(!placed.length){f.className='fb no';f.textContent='ضعي البطاقات في المكان المناسب أولًا.';return}
+  const all=ok===need&&ok===placed.length;f.className='fb '+(all?'ok':'no');
+  f.textContent=all?'أحسنتِ! جميع الإجابات صحيحة.':`${ar(ok)} صحيحة من ${ar(need)}. انقلي البطاقات الحمراء.`;if(all)celebrate(f)}
+function resetSorter(s){$$('.bin .item',s).forEach(toTray);$$('.item',s).forEach(x=>x.classList.remove('ok','no','picked'));const f=$('.fb',s);if(f){f.textContent='';f.className='fb'}}
+function solveSorter(s){resetSorter(s);const bins=$$('.bin',s);const used=new Set();
+  $$('.tray .item',s).filter(x=>!x.hidden).forEach(it=>{const gs=it.dataset.g.split(' ');let bin=null;
+    if(s.hasAttribute('data-max1'))bin=bins.find(b=>gs.includes(b.dataset.g)&&!used.has(b));else bin=bins.find(b=>b.dataset.g===gs[0]);
+    if(bin){used.add(bin);place(it,bin)}});checkSorter(s)}
+
+/* ---- start ---- */
+fit();go(fromHash());
+})();
+</script>
