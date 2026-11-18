@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ساحة مراجعة المناطق الحيوية</title>
+<style>
+@font-face { font-family: Q; src: url(img/Qahwa-Arabic-Black.otf); }
+@font-face { font-family: Z; src: url(img/ZainRounded-VF.ttf); font-weight: 100 900; }
+:root { --g: #2E8B45; --g2: #e9f7ea; --ink: #1d2b22; --pink: #c2366f; --gold: #ffd23f; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font-family: Z, 'Noto Naskh Arabic', 'Noto Color Emoji', sans-serif; color: var(--ink); background: #f6f1e3;
+  display: flex; flex-direction: column; overflow: hidden; }
+header { flex: 0 0 auto; display: flex; align-items: center; gap: 12px; padding: 8px 16px; background: #fff; border-bottom: 4px solid var(--g); }
+header h1 { margin: 0; font-family: Q; font-weight: 400; color: var(--g); font-size: clamp(20px, 2.4vw, 34px);
+  text-shadow: 0 1px 0 #a9d8b4, 0 2px 0 #8cc69a, 0 3px 0 #6fae7f; }
+header small { color: #666; font-weight: 700; }
+header .sp { flex: 1; }
+.score { display: flex; gap: 6px; }
+.score b { background: var(--g2); border: 2px solid var(--g); border-radius: 20px; padding: 2px 10px; font-size: 15px; white-space: nowrap; }
+nav { flex: 0 0 auto; display: flex; gap: 6px; padding: 8px 12px; overflow-x: auto; background: #fbf8ef; }
+nav button { flex: 0 0 auto; font: inherit; font-weight: 800; font-size: clamp(13px, 1.25vw, 17px); border: 3px solid #cfe3c7; background: #fff; border-radius: 16px; padding: 6px 12px; cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0,0,0,.1); }
+nav button.on { background: var(--g); color: #fff; border-color: var(--g); transform: translateY(-2px); }
+main { flex: 1 1 auto; overflow: auto; padding: 12px 16px 18px; }
+section { display: none; animation: cin .5s both; } section.on { display: block; }
+@keyframes cin { from { opacity: 0; transform: perspective(1200px) rotateY(-6deg) scale(.98); } }
+h2 { font-family: Q; font-weight: 400; color: var(--g); margin: 0 0 4px; font-size: clamp(22px, 2.3vw, 32px); }
+.ins { margin: 0 0 10px; font-weight: 700; color: #555; }
+.btn { font: inherit; font-weight: 800; border: 3px solid var(--g); background: #fff; color: var(--g); border-radius: 14px; padding: 6px 14px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.12); }
+.btn.main { background: var(--g); color: #fff; } .btn:active { transform: translateY(2px); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+.msg { min-height: 28px; font-weight: 800; text-align: center; margin: 6px 0; }
+.msg.good { color: #1e7b34; } .msg.bad { color: #c0392b; }
+/* 1. جدول */
+table.cmpt { width: 100%; border-collapse: separate; border-spacing: 5px; table-layout: fixed; }
+.cmpt th { background: var(--g); color: #fff; border-radius: 12px; padding: 6px; font-size: clamp(13px, 1.25vw, 17px); }
+.cmpt tbody th { background: var(--c); }
+.cc { width: 100%; min-height: 48px; font: inherit; font-weight: 700; font-size: clamp(12px, 1.15vw, 16px); border: 2px dashed #c9d3c2; border-radius: 12px; background: #fff; cursor: pointer; }
+.cc .a { display: none; } .cc.on { border: 2px solid var(--c); background: #f4fbf1; } .cc.on .a { display: block; } .cc.on .q { display: none; } .cc .q { color: var(--pink); font-size: 20px; }
+/* 2. ترتيب */
+.lane { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 8px 0; }
+.slot { min-height: 120px; border: 3px dashed #9cc2e6; border-radius: 16px; background: #eef6ff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; color: #2e86c1; text-align: center; padding: 4px; }
+.slot.f { border-style: solid; background: #fff; }
+.slot img { width: 100%; height: 70px; object-fit: cover; border-radius: 10px; }
+.axis { display: flex; justify-content: space-between; font-weight: 800; padding: 0 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.chip { font: inherit; font-weight: 800; border: 3px solid var(--c, #c9a36a); background: #fff; border-radius: 20px; padding: 5px 14px; cursor: pointer; }
+.chip.sel { background: var(--gold); transform: translateY(-3px); } .chip.used { opacity: .3; pointer-events: none; }
+/* 3. تصنيف */
+.bins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.bin { min-height: 110px; border: 3px solid var(--c); border-radius: 16px; background: #fff; padding: 6px; cursor: pointer; }
+.bin h3 { margin: 0 0 4px; font-size: 17px; color: var(--c); text-align: center; }
+.bin .in { display: flex; flex-wrap: wrap; gap: 4px; } .bin .in span { background: var(--g2); border-radius: 10px; padding: 2px 8px; font-size: 13px; font-weight: 700; }
+.timer { font-family: Q; font-size: 28px; color: var(--pink); }
+/* 4. ذاكرة */
+.mem { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; perspective: 900px; }
+.mc { position: relative; height: 110px; cursor: pointer; transform-style: preserve-3d; transition: transform .5s; }
+.mc.open, .mc.done { transform: rotateY(180deg); }
+.mc > div { position: absolute; inset: 0; border-radius: 14px; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 800; padding: 4px; }
+.mc .fr { background: linear-gradient(135deg, #2E8B45, #5db85c); color: #fff; font-size: 34px; box-shadow: 0 4px 0 #1e5a2b; }
+.mc .bk { background: #fff; border: 3px solid var(--c); transform: rotateY(180deg); font-size: clamp(12px, 1.2vw, 16px); overflow: hidden; }
+.mc .bk img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mc.done .bk { box-shadow: 0 0 0 4px var(--gold); }
+/* 5. ثنائي */
+.pick { display: flex; flex-wrap: wrap; gap: 6px; }
+.pick button { font: inherit; font-weight: 800; border: 3px solid var(--c); color: var(--c); background: #fff; border-radius: 14px; padding: 4px 12px; cursor: pointer; }
+.pick button.on { background: var(--c); color: #fff; }
+.duo { display: grid; grid-template-columns: 1fr 150px 1fr; gap: 10px; align-items: stretch; margin-top: 10px; }
+.dc { border: 4px solid var(--c); border-radius: 18px; background: #fff; overflow: hidden; }
+.dc img { width: 100%; height: 120px; object-fit: cover; display: block; } .dc h3 { margin: 6px; color: var(--c); font-family: Q; font-weight: 400; text-align: center; }
+.dc p { margin: 0; padding: 6px 10px; border-top: 1px dashed #ddd; font-weight: 700; min-height: 44px; }
+.vs { display: flex; flex-direction: column; gap: 0; justify-content: flex-start; padding-top: 168px; }
+.vs div { min-height: 44px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #555; border-top: 1px dashed #ddd; text-align: center; font-size: 14px; }
+.dc p.hide { color: transparent; background: repeating-linear-gradient(45deg, #f2f2f2 0 8px, #fafafa 8px 16px); cursor: pointer; }
+/* 6. مسابقة */
+.teams { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+.team { border: 3px solid var(--c); border-radius: 16px; padding: 4px 14px; font-weight: 800; background: #fff; cursor: pointer; }
+.team.on { background: var(--c); color: #fff; } .team b { font-family: Q; font-weight: 400; font-size: 22px; margin-inline-start: 6px; }
+.board { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.board .h { background: var(--c); color: #fff; border-radius: 12px; text-align: center; font-weight: 800; padding: 6px 2px; font-size: clamp(12px, 1.15vw, 16px); }
+.board .v { font: inherit; font-family: Q; font-size: 26px; color: #6b4e00; background: var(--gold); border: none; border-radius: 12px; padding: 8px 0; cursor: pointer; box-shadow: 0 4px 0 #c99a00; }
+.board .v.used { background: #e6e6e6; color: #aaa; box-shadow: none; pointer-events: none; }
+.modal { position: fixed; inset: 0; background: rgba(10,30,15,.7); display: none; align-items: center; justify-content: center; z-index: 10; padding: 16px; }
+.modal.on { display: flex; }
+.mbox { background: #fff; border-radius: 24px; border: 6px solid var(--c, var(--g)); max-width: 820px; width: 100%; padding: 18px 22px; text-align: center; animation: pop .35s both; }
+@keyframes pop { from { transform: scale(.85); opacity: 0; } }
+.mbox h3 { font-family: Q; font-weight: 400; color: var(--c, var(--g)); font-size: 30px; margin: 0 0 8px; }
+.mbox .q { font-size: clamp(20px, 2.3vw, 30px); font-weight: 800; margin: 8px 0 14px; }
+.mbox .ans { display: none; background: #e6f6e1; border: 2px solid #3fa34d; border-radius: 14px; padding: 8px; font-size: 22px; font-weight: 800; color: #1e6b2e; margin: 10px 0; }
+.mbox .ans.on { display: block; }
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.opts button { font: inherit; font-weight: 800; font-size: 18px; border: 3px solid #c9d3c2; background: #fff; border-radius: 14px; padding: 8px; cursor: pointer; }
+.opts button.ok { background: #e6f6e1; border-color: #3fa34d; } .opts button.no { background: #fde2e2; border-color: #e5484d; }
+/* 7. صح وخطأ */
+.tf { max-width: 860px; margin: 10px auto; text-align: center; }
+.tf .st { font-size: clamp(20px, 2.4vw, 30px); font-weight: 800; background: #fff; border: 4px solid var(--g); border-radius: 20px; padding: 18px; min-height: 110px; display: flex; align-items: center; justify-content: center; }
+.tf .row { justify-content: center; } .tf .row .btn { font-size: 26px; padding: 8px 40px; }
+.prog { height: 12px; background: #e3eadf; border-radius: 8px; overflow: hidden; margin: 8px 0; } .prog i { display: block; height: 100%; background: var(--g); transition: width .4s; }
+/* 8. من أنا */
+.who { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.wc { position: relative; min-height: 150px; border-radius: 18px; cursor: pointer; perspective: 900px; }
+.wc > div { position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden; transition: transform .6s; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; text-align: center; font-weight: 800; }
+.wc .fr { background: #fff; border: 3px solid #b38bd8; color: #4b2f75; font-size: clamp(14px, 1.35vw, 18px); }
+.wc .fr i { font-style: normal; font-size: 26px; } .wc .bk { transform: rotateY(180deg); border: 4px solid var(--c); overflow: hidden; color: #fff; font-family: Q; font-weight: 400; font-size: 26px; justify-content: flex-end; text-shadow: 0 2px 6px #000; }
+.wc .bk img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.wc.on .fr { transform: rotateY(180deg); } .wc.on .bk { transform: rotateY(360deg); }
+footer { flex: 0 0 auto; text-align: center; font-weight: 700; color: var(--g); padding: 4px; background: #fff; border-top: 2px solid #e2ecd9; font-size: 14px; }
+.conf { position: fixed; top: -20px; font-size: 24px; pointer-events: none; animation: fall 2.2s linear forwards; z-index: 20; }
+@keyframes fall { to { transform: translateY(110vh) rotate(540deg); } }
+@media (max-width: 760px) { .lane, .mem, .board { grid-template-columns: repeat(3, 1fr); } .bins, .who { grid-template-columns: 1fr 1fr; } .duo { grid-template-columns: 1fr; } .vs { display: none; } }
+</style>
+</head>
+<body>
+<header>
+  <div><h1>🏆 ساحة مراجعة المناطق الحيوية الست</h1><small>مقارنات ومسابقات • العلوم – الصف السادس • ص١٥٠–١٥٤</small></div>
+  <span class="sp"></span>
+  <div class="score" id="hscore"></div>
+</header>
+<nav id="nav"></nav>
+<main id="main">
+  <section id="s1"><h2>🗂️ جدول المقارنة الكبير</h2><p class="ins">فكّري أولًا… ثم اضغطي على ❓ لتظهر الإجابة. يمكنكِ توزيع الصفوف على المجموعات!</p>
+    <div id="tbl"></div><div class="row"><button class="btn main" onclick="tblAll()">💡 أظهري الجدول كاملًا</button><button class="btn" onclick="tblDraw()">↺ من جديد</button></div><div class="msg" id="tblm"></div></section>
+  <section id="s2"><h2>🧭 من القطب إلى خط الاستواء</h2><p class="ins">اختاري المنطقة، ثم اضغطي على الخانة: رتّبي من الأقرب إلى القطب الشمالي إلى الأقرب إلى خط الاستواء.</p>
+    <div class="axis"><span>❄️ القطب الشمالي</span><span>☀️ خط الاستواء</span></div><div class="lane" id="lane"></div>
+    <div class="chips" id="lchips"></div><div class="msg" id="lanem"></div><div class="row" style="justify-content:center"><button class="btn" onclick="laneDraw()">↺ من جديد</button><button class="btn" onclick="laneShow()">💡 الحل</button></div></section>
+  <section id="s3"><h2>⚡ تحدّي التصنيف السريع</h2><p class="ins">اختاري البطاقة، ثم اضغطي على المنطقة المناسبة… قبل أن ينتهي الوقت! <span class="timer" id="tmr">٩٠</span></p>
+    <div class="chips" id="cchips"></div><div class="msg" id="cm"></div><div class="bins" id="bins"></div>
+    <div class="row" style="justify-content:center"><button class="btn main" onclick="clsStart()">▶ ابدئي التحدي</button></div></section>
+  <section id="s4"><h2>🃏 لعبة الذاكرة: الصورة والاسم</h2><p class="ins">اقلبي بطاقتين: إذا تطابقت صورة المنطقة مع اسمها تبقى مفتوحة!</p>
+    <div class="mem" id="mem"></div><div class="msg" id="memm"></div><div class="row" style="justify-content:center"><button class="btn" onclick="memDraw()">↺ لعبة جديدة</button></div></section>
+  <section id="s5"><h2>⚖️ قارني بين منطقتين</h2><p class="ins">اختاري منطقتين، ثم اضغطي على الخانات المخفية لتكشفي أوجه الاختلاف.</p>
+    <div class="row"><b>الأولى:</b><div class="pick" id="pa"></div></div><div class="row"><b>الثانية:</b><div class="pick" id="pb"></div></div><div id="duo"></div></section>
+  <section id="s6"><h2>🏆 مسابقة المجموعات</h2><p class="ins">اختاري المجموعة، ثم اختاري منطقة ونقاطًا… الإجابة الصحيحة تضيف النقاط لمجموعتك!</p>
+    <div class="teams" id="teams"></div><div class="board" id="board"></div></section>
+  <section id="s7"><h2>✔️ صح أم خطأ؟</h2><p class="ins">عبارات سريعة عن المناطق الست والمناخ… ارفعي البطاقة ثم اضغطي!</p>
+    <div class="tf"><div class="prog"><i id="tfp"></i></div><div class="st" id="tfs"></div><div class="row"><button class="btn" style="border-color:#3fa34d;color:#1e7b34" onclick="tfAns(true)">✔ صح</button><button class="btn" style="border-color:#e5484d;color:#c0392b" onclick="tfAns(false)">✘ خطأ</button></div><div class="msg" id="tfm"></div></div></section>
+  <section id="s8"><h2>🕵️ من أنا؟</h2><p class="ins">اقرئي اللغز… خمّني المنطقة… ثم اقلبي البطاقة!</p><div class="who" id="who"></div></section>
+</main>
+<footer>أ/ شامه البقمي 💚 • «مستكشفة اليوم… عالمة الغد» 🌍</footer>
+<div class="modal" id="modal" onclick="if(event.target===this)this.classList.remove('on')"><div class="mbox" id="mbox"></div></div>
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const shuf = (a) => a.map((x) => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map((x) => x[1]);
+let AC; const ctx = () => { try { return AC || (AC = new (window.AudioContext || window.webkitAudioContext)()); } catch (e) { return null; } };
+function tone(f, d = .15, t = 'sine', v = .2) { const c = ctx(); if (!c) return; const o = c.createOscillator(), g = c.createGain(); o.type = t; o.frequency.value = f; g.gain.setValueAtTime(v, c.currentTime); g.gain.exponentialRampToValueAtTime(.001, c.currentTime + d); o.connect(g).connect(c.destination); o.start(); o.stop(c.currentTime + d); }
+const good = () => { tone(660); setTimeout(() => tone(880), 110); }, bad = () => tone(200, .25, 'square', .12);
+function confetti() { for (let i = 0; i < 40; i++) { const s = document.createElement('span'); s.className = 'conf'; s.textContent = ['🎉', '⭐', '🌿', '✨', '🏆'][i % 5]; s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .8 + 's'; document.body.appendChild(s); setTimeout(() => s.remove(), 3200); } }
+
+// ===== البيانات (من الكتاب ص١٥٠–١٥٤)
+const B = [
+  { k: 'tundra', n: '❄️ التندرا', s: 'التندرا', c: '#8f74d8', img: 'b_tundra.jpg', pg: 151, cells: ['أقصى الشمال، جنوبيّ القطب الشمالي', 'باردة جدًّا وجافّة، صيف قصير', 'أعشاب وشجيرات قصيرة', 'تربة دائمة التجمّد'] },
+  { k: 'taiga', n: '🌲 التايجا', s: 'التايجا', c: '#1f6b3a', img: 'b_taiga.jpg', pg: 151, cells: ['جنوبيّ التندرا', 'شتاء بارد جدًّا، صيف قصير دافئ', 'أشجار مخروطية: الصنوبر والتنوب', '«تايجا» كلمة روسية تعني الغابة'] },
+  { k: 'desert', n: '🐪 الصحراء', s: 'الصحراء', c: '#e0962a', img: 'b_camel.jpg', pg: 152, cells: ['كل القارّات، ومنها الدهناء والربع الخالي', 'أمطار أقل من ٢٥ سم في العام', 'الصبّار يحتفظ بالماء', 'تُعرَّف بقلّة الهطل لا بالحرارة'] },
+  { k: 'grass', n: '🌾 الأراضي العشبية', s: 'الأراضي العشبية', c: '#a8941a', img: 'b_grass.jpg', pg: 153, cells: ['معظم القارّات', 'أمطار غير غزيرة وغير منتظمة', 'الأعشاب المكوّن الرئيس', 'تربة من أخصب أنواع التربة'] },
+  { k: 'decid', n: '🍂 المتساقطة الأوراق', s: 'المتساقطة الأوراق', c: '#d8662a', img: 'b_decid.jpg', pg: 153, cells: ['شرق أمريكا الشمالية، أوروبا، شمال شرق آسيا', 'تفقد أوراقها قرب الشتاء ليقلّ النتح', 'البلوط والزان', 'ألوان الخريف الزاهية'] },
+  { k: 'rain', n: '🦜 الاستوائية المطيرة', s: 'الاستوائية المطيرة', c: '#139a55', img: 'b_rain.jpg', pg: 154, cells: ['قرب خط الاستواء', 'حارّ رطب، أمطار أكثر من مترين في السنة', 'أشجار كثيفة', 'أكثر أنواع المخلوقات الحية'] },
+];
+const COLS = ['📍 الموقع', '🌡️ المناخ والأمطار', '🌿 النباتات', '⭐ أميّزها بـ'];
+const byK = (k) => B.find((b) => b.k === k);
+
+// ===== التنقّل
+const TABS = [['s1', '🗂️ جدول المقارنة'], ['s2', '🧭 من القطب إلى الاستواء'], ['s3', '⚡ التصنيف السريع'], ['s4', '🃏 لعبة الذاكرة'], ['s5', '⚖️ قارني بين منطقتين'], ['s6', '🏆 مسابقة المجموعات'], ['s7', '✔️ صح أم خطأ'], ['s8', '🕵️ من أنا؟']];
+document.getElementById('nav').innerHTML = TABS.map(([id, t]) => `<button data-s="${id}">${t}</button>`).join('');
+function go(id) { document.querySelectorAll('section').forEach((s) => s.classList.toggle('on', s.id === id)); document.querySelectorAll('nav button').forEach((b) => b.classList.toggle('on', b.dataset.s === id)); document.getElementById('main').scrollTop = 0; }
+document.querySelectorAll('nav button').forEach((b) => b.onclick = () => go(b.dataset.s));
+
+// ===== 1. الجدول
+let tblN = 0;
+function tblDraw() { tblN = 0;
+  document.getElementById('tbl').innerHTML = `<table class="cmpt"><thead><tr><th>المنطقة</th>${COLS.map((c) => `<th>${c}</th>`).join('')}</tr></thead><tbody>${B.map((b) => `<tr style="--c:${b.c}"><th>${b.n}<br><small>📖 ص${ar(b.pg)}</small></th>${b.cells.map((c) => `<td><button class="cc" onclick="tblOpen(this)"><span class="q">❓</span><span class="a">${c}</span></button></td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  document.getElementById('tblm').textContent = ''; }
+function tblOpen(el) { if (el.classList.contains('on')) return; el.classList.add('on'); tblN++; good(); const m = document.getElementById('tblm'); m.className = 'msg good'; m.textContent = `✔ ${ar(tblN)} من ${ar(24)} خانة`; if (tblN === 24) { m.textContent = '🌍 رائع! اكتمل جدول المقارنة الكبير'; confetti(); } }
+function tblAll() { document.querySelectorAll('.cc').forEach(tblOpen); }
+
+// ===== 2. الترتيب من القطب إلى خط الاستواء (ص١٤٦–١٥٤)
+const LANE = ['tundra', 'taiga', 'decid', 'rain'];
+let laneSel = null, laneF = [];
+function laneDraw() { laneSel = null; laneF = [];
+  document.getElementById('lane').style.gridTemplateColumns = `repeat(${LANE.length}, 1fr)`;
+  document.getElementById('lane').innerHTML = LANE.map((_, i) => `<div class="slot" data-i="${i}" onclick="laneDrop(${i})">${ar(i + 1)}</div>`).join('');
+  document.getElementById('lchips').innerHTML = shuf(LANE).map((k) => `<button class="chip" style="--c:${byK(k).c}" data-k="${k}" onclick="laneSelect(this)">${byK(k).n}</button>`).join('');
+  document.getElementById('lanem').textContent = ''; }
+function laneSelect(b) { document.querySelectorAll('#lchips .chip').forEach((x) => x.classList.remove('sel')); b.classList.add('sel'); laneSel = b; }
+function laneDrop(i) { const m = document.getElementById('lanem'), sl = document.querySelector(`.slot[data-i="${i}"]`);
+  if (!laneSel || sl.classList.contains('f')) return;
+  if (LANE[i] === laneSel.dataset.k) { const b = byK(laneSel.dataset.k); sl.classList.add('f'); sl.style.borderColor = b.c; sl.innerHTML = `<img src="img/${b.img}" alt="">${b.n}`; laneSel.classList.add('used'); laneSel = null; laneF.push(i); good(); m.className = 'msg good'; m.textContent = '✔ أحسنتِ!';
+    if (laneF.length === LANE.length) { m.textContent = '🧭 كلما ابتعدنا عن خط الاستواء قلّت أشعة الشمس المباشرة فصارت المناطق أبرد (ص١٥٠)'; confetti(); } }
+  else { bad(); m.className = 'msg bad'; m.textContent = '💡 فكّري: أيّها أبرد؟ وأيّها أقرب إلى الشمال؟'; } }
+function laneShow() { LANE.forEach((k, i) => { const b = byK(k), sl = document.querySelector(`.slot[data-i="${i}"]`); sl.classList.add('f'); sl.style.borderColor = b.c; sl.innerHTML = `<img src="img/${b.img}" alt="">${b.n}`; }); document.querySelectorAll('#lchips .chip').forEach((c) => c.classList.add('used')); }
+
+// ===== 3. التصنيف السريع
+const CL = [['تربة دائمة التجمّد', 'tundra'], ['أعشاب وشجيرات قصيرة', 'tundra'], ['الصنوبر والتنوب', 'taiga'], ['تأتيها الطيور المهاجرة صيفًا', 'taiga'], ['أقل من ٢٥ سم مطر', 'desert'], ['الصبّار والجربوع', 'desert'],
+  ['الدهناء والربع الخالي', 'desert'], ['الأعشاب المكوّن الرئيس', 'grass'], ['تربة خصبة للزراعة', 'grass'], ['الثور البري والأسود', 'grass'], ['البلوط والزان', 'decid'], ['أوراق تتساقط قرب الشتاء', 'decid'],
+  ['قرب خط الاستواء', 'rain'], ['أمطار أكثر من مترين', 'rain'], ['القردة والطوقان', 'rain']];
+let clsSel = null, clsT = null, clsLeft = 90, clsOk = 0;
+function clsDraw() { clsSel = null; clsOk = 0;
+  document.getElementById('cchips').innerHTML = shuf(CL).map(([t, k]) => `<button class="chip" data-k="${k}" onclick="clsSelect(this)">${t}</button>`).join('');
+  document.getElementById('bins').innerHTML = B.map((b) => `<div class="bin" style="--c:${b.c}" data-k="${b.k}" onclick="clsDrop('${b.k}')"><h3>${b.n}</h3><div class="in"></div></div>`).join(''); }
+function clsSelect(b) { document.querySelectorAll('#cchips .chip').forEach((x) => x.classList.remove('sel')); b.classList.add('sel'); clsSel = b; }
+function clsDrop(k) { const m = document.getElementById('cm'); if (!clsSel) { m.className = 'msg'; m.textContent = '👆 اختاري بطاقة أولًا'; return; }
+  if (clsSel.dataset.k === k) { document.querySelector(`.bin[data-k="${k}"] .in`).insertAdjacentHTML('beforeend', `<span>${clsSel.textContent}</span>`); clsSel.classList.add('used'); clsSel = null; clsOk++; good(); m.className = 'msg good'; m.textContent = `✔ ${ar(clsOk)} من ${ar(CL.length)}`;
+    if (clsOk === CL.length) { clearInterval(clsT); m.textContent = `🏆 أكملتِ التصنيف وبقي ${ar(clsLeft)} ثانية!`; confetti(); } }
+  else { bad(); m.className = 'msg bad'; m.textContent = '✘ ليست هنا… حاولي مرة أخرى'; } }
+function clsStart() { clsDraw(); clearInterval(clsT); clsLeft = 90; const t = document.getElementById('tmr'); t.textContent = ar(clsLeft);
+  clsT = setInterval(() => { clsLeft--; t.textContent = ar(clsLeft); if (clsLeft <= 0) { clearInterval(clsT); const m = document.getElementById('cm'); m.className = 'msg bad'; m.textContent = `⏰ انتهى الوقت! صنّفتِ ${ar(clsOk)} من ${ar(CL.length)}`; } }, 1000); }
+
+// ===== 4. الذاكرة
+let memO = [], memLock = false, memDone = 0;
+function memDraw() { memO = []; memDone = 0; memLock = false; document.getElementById('memm').textContent = '';
+  const cards = shuf(B.flatMap((b) => [{ k: b.k, t: 'img' }, { k: b.k, t: 'name' }]));
+  document.getElementById('mem').innerHTML = cards.map((c, i) => { const b = byK(c.k); return `<div class="mc" style="--c:${b.c}" data-k="${c.k}" onclick="memFlip(this)"><div class="fr">${ar(i + 1)}</div><div class="bk">${c.t === 'img' ? `<img src="img/${b.img}" alt="">` : `<span style="color:${b.c}">${b.n}</span>`}</div></div>`; }).join(''); }
+function memFlip(el) { if (memLock || el.classList.contains('open') || el.classList.contains('done')) return; el.classList.add('open'); tone(520, .08); memO.push(el);
+  if (memO.length === 2) { memLock = true; const [a, b] = memO;
+    setTimeout(() => { if (a.dataset.k === b.dataset.k) { a.classList.add('done'); b.classList.add('done'); memDone++; good(); const m = document.getElementById('memm'); m.className = 'msg good'; m.textContent = `✔ ${byK(a.dataset.k).n}! (${ar(memDone)} من ${ar(6)})`; if (memDone === 6) { m.textContent = '🌟 ممتاز! طابقتِ كل المناطق'; confetti(); } }
+      else { a.classList.remove('open'); b.classList.remove('open'); } memO = []; memLock = false; }, 900); } }
+
+// ===== 5. مقارنة ثنائية
+let pA = 'tundra', pB = 'taiga';
+function pickDraw() { ['pa', 'pb'].forEach((id) => { const cur = id === 'pa' ? pA : pB; document.getElementById(id).innerHTML = B.map((b) => `<button style="--c:${b.c}" class="${b.k === cur ? 'on' : ''}" onclick="pickSet('${id}','${b.k}')">${b.n}</button>`).join(''); }); duoDraw(); }
+function pickSet(id, k) { if (id === 'pa') pA = k; else pB = k; pickDraw(); }
+function duoDraw() { const a = byK(pA), b = byK(pB);
+  const col = (x) => `<div class="dc" style="--c:${x.c}"><img src="img/${x.img}" alt=""><h3>${x.n}</h3>${x.cells.map((c) => `<p class="hide" onclick="this.classList.remove('hide');tone(600,.08)">${c}</p>`).join('')}</div>`;
+  document.getElementById('duo').innerHTML = pA === pB ? '<p class="msg bad">اختاري منطقتين مختلفتين 🙂</p>' : `<div class="duo">${col(a)}<div class="vs">${COLS.map((c) => `<div>${c}</div>`).join('')}</div>${col(b)}</div><div class="row" style="justify-content:center"><button class="btn main" onclick="document.querySelectorAll('.dc p').forEach(p=>p.classList.remove('hide'))">💡 اكشفي الكل</button></div>`; }
+
+// ===== 6. مسابقة المجموعات
+const TEAMS = [['المجموعة ١', '#2e86c1'], ['المجموعة ٢', '#c2366f'], ['المجموعة ٣', '#e0962a'], ['المجموعة ٤', '#7e57c2']];
+let tScore = [0, 0, 0, 0], tCur = 0;
+const QZ = {
+  tundra: [['أين تقع التندرا؟', ['أقصى الشمال، جنوبيّ القطب الشمالي', 'قرب خط الاستواء', 'وسط أفريقيا'], 0], ['لماذا لا تنمو الأشجار الكبيرة في التندرا؟', ['لأن التربة دائمة التجمّد تمنع الجذور العميقة', 'لكثرة الأمطار', 'لشدّة الحرارة'], 0], ['فيمَ تتشابه التندرا والتايجا؟', ['برودة الشتاء والوقوع شمالًا', 'كثرة الأشجار', 'غزارة الأمطار'], 0]],
+  taiga: [['ما معنى كلمة «تايجا»؟', ['الغابة', 'الصحراء', 'الثلج'], 0], ['ما نوع أشجار التايجا؟', ['مخروطية دائمة الخضرة', 'متساقطة الأوراق', 'لا توجد أشجار'], 0], ['لماذا تأتي الطيور المهاجرة إلى التايجا صيفًا؟', ['لكثرة الحشرات في صيفها الدافئ الرطب', 'لأنها حارّة جدًّا', 'لقلّة المخلوقات'], 0]],
+  desert: [['بِمَ تُعرَّف الصحراء؟', ['بقلّة الهطل', 'بارتفاع الحرارة فقط', 'بلون الرمل'], 0], ['كم يقلّ معدّل الأمطار في الصحراء؟', ['عن ٢٥ سم في العام', 'عن مترين', 'عن ١٠٠ سم'], 0], ['لماذا تبدو الصحراء الحارّة خالية نهارًا؟', ['لأن الحيوانات تستريح في جحورها هربًا من الحرّ', 'لأنها بلا حيوانات', 'لكثرة المطر نهارًا'], 0]],
+  grass: [['ما المكوّن الرئيس من النباتات في الأراضي العشبية؟', ['الأعشاب', 'الأشجار المخروطية', 'الصبّار'], 0], ['لماذا تُستعمل الأراضي العشبية في الزراعة؟', ['لأن تربتها من أخصب أنواع التربة', 'لأنها متجمّدة', 'لأن أمطارها أكثر من مترين'], 0], ['ماذا يحدث للتربة إذا أُزيلت الأعشاب؟', ['تنجرف بفعل الرياح', 'تصبح أخصب', 'تتجمّد'], 0]],
+  decid: [['ماذا يحدث لأوراق أشجار الغابات المتساقطة قرب الشتاء؟', ['تتساقط', 'تزداد خضرة', 'تتحوّل إلى أشواك'], 0], ['لماذا تفقد هذه الأشجار أوراقها؟', ['ليقلّ النتح فتحافظ على الماء', 'لتجذب الطيور', 'لتنمو أسرع'], 0], ['من أشجار الغابات المتساقطة الأوراق…', ['البلوط والزان', 'الصنوبر والتنوب', 'الصبّار'], 0]],
+  rain: [['أين تقع الغابات الاستوائية المطيرة؟', ['قرب خط الاستواء', 'قرب القطب الشمالي', 'في الربع الخالي'], 0], ['كم يزيد معدّل أمطارها السنوي؟', ['على مترين', 'على ٢٥ سم فقط', 'لا تمطر'], 0], ['ما الذي يميّز الغابات الاستوائية المطيرة؟', ['أنواع مخلوقات أكثر من كل المناطق مجتمعة', 'تربة دائمة التجمّد', 'أشجار مخروطية'], 0]],
+};
+const PTS = [100, 200, 300];
+function teamsDraw() { document.getElementById('teams').innerHTML = TEAMS.map(([n, c], i) => `<div class="team ${i === tCur ? 'on' : ''}" style="--c:${c}" onclick="tCur=${i};teamsDraw()">${n}<b>${ar(tScore[i])}</b></div>`).join('');
+  document.getElementById('hscore').innerHTML = TEAMS.map(([n, c], i) => `<b style="border-color:${c}">${ar(i + 1)}: ${ar(tScore[i])}</b>`).join(''); }
+function boardDraw() { document.getElementById('board').innerHTML = B.map((b) => `<div class="h" style="--c:${b.c}">${b.n}</div>`).join('') +
+  [0, 1, 2].map((r) => B.map((b) => `<button class="v" data-k="${b.k}" data-r="${r}" onclick="ask('${b.k}',${r},this)">${ar(PTS[r])}</button>`).join('')).join(''); }
+function ask(k, r, el) { const b = byK(k), [q, ops, a] = QZ[k][r], order = shuf(ops.map((o, i) => [o, i])); let done = false;
+  const mb = document.getElementById('mbox'); mb.style.setProperty('--c', b.c);
+  mb.innerHTML = `<h3>${b.n} • ${ar(PTS[r])} نقطة</h3><p style="margin:0;font-weight:800;color:${TEAMS[tCur][1]}">🎯 دور ${TEAMS[tCur][0]}</p><div class="q">${q}</div><div class="opts">${order.map(([o, i]) => `<button data-i="${i}">${o}</button>`).join('')}</div><div class="ans">✔ ${ops[a]} (ص${ar(b.pg)})</div><div class="row" style="justify-content:center"><button class="btn" onclick="document.getElementById('modal').classList.remove('on')">↩ إلى اللوحة</button></div>`;
+  mb.querySelectorAll('.opts button').forEach((btn) => btn.onclick = () => { if (done) return; done = true; const ok = +btn.dataset.i === a;
+    btn.classList.add(ok ? 'ok' : 'no'); mb.querySelector('.ans').classList.add('on'); el.classList.add('used');
+    if (ok) { tScore[tCur] += PTS[r]; good(); confetti(); } else { bad(); mb.querySelector(`.opts button[data-i="${a}"]`).classList.add('ok'); }
+    tCur = (tCur + 1) % TEAMS.length; teamsDraw(); });
+  document.getElementById('modal').classList.add('on'); }
+
+// ===== 7. صح أم خطأ
+const TF = [['من العوامل التي تؤثّر في المناخ: أشعة الشمس والرياح والتيارات البحرية والسلاسل الجبلية.', true, 'ص١٥٠'],
+  ['كلما ابتعدنا عن خط الاستواء زادت أشعة الشمس المباشرة.', false, 'تقلّ أشعة الشمس فيصبح المناخ أبرد (ص١٥٠).'],
+  ['كل الصحارى حارّة.', false, 'الصحراء تُعرَّف بقلّة الهطل، وبعضها بارد (ص١٥٢).'],
+  ['تقع التايجا جنوبيّ التندرا.', true, 'ص١٥١'],
+  ['أشجار التايجا تفقد أوراقها في الخريف.', false, 'أشجار التايجا مخروطية دائمة الخضرة؛ والتي تفقد أوراقها هي المتساقطة الأوراق (ص١٥١، ١٥٣).'],
+  ['تربة الأراضي العشبية من أخصب أنواع التربة.', true, 'ص١٥٣'],
+  ['جذور الأعشاب تثبّت التربة في مكانها.', true, 'ص١٥٣'],
+  ['الغابات الاستوائية المطيرة باردة وجافّة.', false, 'هي حارّة رطبة، وأمطارها أكثر من مترين (ص١٥٤).'],
+  ['التندرا تربتها دائمة التجمّد فلا تنمو فيها الأشجار الكبيرة.', true, 'ص١٥١'],
+  ['يعتمد تحديد المناخ على درجة الحرارة والهطل.', true, 'ص١٤٩'],
+  ['الغابات المطيرة المعتدلة أحرّ من الاستوائية.', false, 'المعتدلة أقلّ حرارة، وتقع شمال غرب المحيط الهادي (ص١٥٤).'],
+  ['الدهناء والربع الخالي من صحارى المملكة العربية السعودية.', true, 'ص١٥٢']];
+let tfI = 0, tfOk = 0, tfOrder = [];
+function tfStart() { tfOrder = shuf(TF); tfI = 0; tfOk = 0; tfShow(); }
+function tfShow() { const m = document.getElementById('tfm'); m.textContent = '';
+  if (tfI >= tfOrder.length) { document.getElementById('tfs').innerHTML = `🏆 أنهيتِ التحدي! ${ar(tfOk)} من ${ar(tfOrder.length)} <button class="btn main" style="margin-inline-start:10px" onclick="tfStart()">↺ مرة أخرى</button>`; if (tfOk >= tfOrder.length - 2) confetti(); return; }
+  document.getElementById('tfs').textContent = tfOrder[tfI][0]; document.getElementById('tfp').style.width = (tfI / tfOrder.length * 100) + '%'; }
+function tfAns(v) { if (tfI >= tfOrder.length) return; const [s, t, why] = tfOrder[tfI], m = document.getElementById('tfm');
+  if (v === t) { tfOk++; good(); m.className = 'msg good'; m.textContent = '✔ أحسنتِ! ' + (t ? '(' + why + ')' : why); } else { bad(); m.className = 'msg bad'; m.textContent = (t ? '✘ العبارة صحيحة ' + '(' + why + ')' : '✘ العبارة خاطئة: ' + why); }
+  tfI++; setTimeout(tfShow, 2600); }
+
+// ===== 8. من أنا؟
+const WHO = [['tundra', 'أنا أبرد منطقة حيوية، أحيط بالمناطق جنوبيّ القطب الشمالي، وتربتي دائمة التجمّد.'], ['taiga', 'اسمي كلمة روسية تعني «الغابة»، وأشجاري مخروطية دائمة الخضرة.'],
+  ['desert', 'أُعرَّف بقلّة المطر: أقل من ٢٥ سم في العام، ومنّي الدهناء والربع الخالي.'], ['grass', 'الأعشاب مكوّني الرئيس، وتربتي من أخصب أنواع التربة.'],
+  ['decid', 'تتلوّن أوراق أشجاري في الخريف، ثم تتساقط قرب الشتاء.'], ['rain', 'أقع قرب خط الاستواء، حارّة رطبة، وأمطاري أكثر من مترين.']];
+function whoDraw() { document.getElementById('who').innerHTML = shuf(WHO).map(([k, q], i) => { const b = byK(k); return `<div class="wc" style="--c:${b.c}" onclick="if(!this.classList.contains('on')){this.classList.add('on');good()}"><div class="fr"><i>🕵️ ${ar(i + 1)}</i>${q}<small style="color:#888">من أنا؟</small></div><div class="bk"><img src="img/${b.img}" alt="">${b.n}</div></div>`; }).join(''); }
+
+tblDraw(); laneDraw(); clsDraw(); memDraw(); pickDraw(); teamsDraw(); boardDraw(); tfStart(); whoDraw(); go('s1');
+</script>
+</body>
+</html>
