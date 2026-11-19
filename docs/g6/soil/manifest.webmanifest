@@ -1,0 +1,1 @@
+{"name": "مختبر التربة الرقمي", "short_name": "مختبر التربة", "start_url": "./", "scope": "./", "display": "standalone", "background_color": "#f6efe3", "theme_color": "#6b4f2a", "lang": "ar", "dir": "rtl", "icons": [{"src": "img/guard_face.png", "sizes": "512x512", "type": "image/png"}]}
