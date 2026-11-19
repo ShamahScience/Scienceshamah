@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مختبر التربة الرقمي</title>
+<style>
+@font-face { font-family: Q; src: url(img/Qahwa-Arabic-Black.otf); }
+@font-face { font-family: Z; src: url(img/ZainRounded-VF.ttf); font-weight: 100 900; }
+:root { --soil: #6b4226; --dark: #3b2414; --clay: #b5652b; --sand: #e8c99b; --cream: #fbf3e4; --olive: #6b7a2a; --leaf: #7f9a3a; --gold: #f2b632; --red: #b8402d; --ok: #3f7d2c; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #2a190d; overflow: hidden; font-family: Z, 'Noto Naskh Arabic', 'Geeza Pro', 'Noto Color Emoji', sans-serif; color: var(--dark); }
+#stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform: translate(-50%, -50%) scale(var(--s, 1)); overflow: hidden; border-radius: 18px; background: #4a2e18; perspective: 1400px; }
+/* خلفية المختبر */
+#lab { position: absolute; inset: -20px -400px; transition: transform 1.4s cubic-bezier(.3,.7,.2,1);
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(255,220,160,.35), transparent 55%),
+    repeating-linear-gradient(90deg, transparent 0 230px, rgba(59,36,20,.35) 230px 238px),
+    linear-gradient(transparent 0 30%, rgba(59,36,20,.55) 30% 31.2%, transparent 31.2% 58%, rgba(59,36,20,.55) 58% 59.2%, transparent 59.2%),
+    linear-gradient(#e9d3b0 0%, #d8b98c 70%, #8a5a34 70%, #6b4226 100%); }
+#lab::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(107,66,38,.25) 1.5px, transparent 1.6px); background-size: 26px 26px; }
+.jars { position: absolute; top: 22%; left: 0; right: 0; height: 9%; background: repeating-linear-gradient(90deg, transparent 0 40px, rgba(181,101,43,.55) 40px 70px, transparent 70px 95px, rgba(232,201,155,.9) 95px 120px, transparent 120px 150px, rgba(107,122,42,.5) 150px 175px, transparent 175px 230px); border-radius: 8px; opacity: .6; }
+.jars.j2 { top: 50%; }
+/* الإطار */
+.top { position: absolute; top: 0; left: 0; right: 0; height: 64px; display: flex; align-items: center; gap: 14px; padding: 0 22px; background: linear-gradient(#5a3820, #3b2414); color: var(--cream); z-index: 20; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.top h1 { margin: 0; font-family: Q; font-weight: 400; font-size: 30px; color: var(--gold); text-shadow: 0 2px 0 #7a4a12, 0 4px 6px #000; }
+.top .t { font-weight: 700; color: #f1dcb8; font-size: 18px; }
+.top .sp { flex: 1; }
+.pill { background: rgba(255,255,255,.12); border: 2px solid rgba(242,182,50,.6); border-radius: 22px; padding: 3px 14px; font-weight: 800; font-size: 17px; cursor: pointer; color: var(--cream); font-family: inherit; }
+.bot { position: absolute; bottom: 0; left: 0; right: 0; height: 72px; display: flex; align-items: center; gap: 10px; padding: 0 18px; background: linear-gradient(#3b2414, #2a190d); z-index: 20; }
+.nb { font-family: inherit; font-weight: 800; font-size: 20px; border: none; border-radius: 16px; padding: 8px 18px; cursor: pointer; background: var(--gold); color: var(--dark); box-shadow: 0 4px 0 #9a6a10; }
+.nb.ghost { background: #6b4226; color: var(--cream); box-shadow: 0 4px 0 #2a190d; }
+.path { flex: 1; display: flex; align-items: center; justify-content: space-between; position: relative; padding: 0 10px; }
+.path::before { content: ''; position: absolute; left: 24px; right: 24px; top: 50%; height: 6px; margin-top: -3px; border-radius: 4px; background: repeating-linear-gradient(90deg, #8a5a34 0 14px, transparent 14px 22px); }
+.stop { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; cursor: pointer; background: none; border: none; font-family: inherit; color: #cdb08a; font-size: 13px; font-weight: 800; }
+.stop i { font-style: normal; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; background: #4a2e18; border: 3px solid #8a5a34; }
+.stop.done i { border-color: var(--leaf); } .stop.on i { background: var(--gold); border-color: #fff3d0; transform: scale(1.15); box-shadow: 0 0 18px var(--gold); } .stop.on { color: var(--gold); }
+/* الطالبة */
+#girl { position: absolute; left: 6px; bottom: 74px; width: 200px; z-index: 15; pointer-events: none; transition: transform .5s; filter: drop-shadow(0 8px 10px rgba(0,0,0,.4)); }
+#girl.hop { animation: hop .6s; } @keyframes hop { 40% { transform: translateY(-14px); } }
+#bubble { position: absolute; left: 10px; bottom: 300px; width: 210px; background: #fffaf0; border: 3px solid var(--clay); border-radius: 22px 22px 22px 4px; padding: 8px 12px; font-size: 17px; font-weight: 800; z-index: 16; box-shadow: 0 6px 16px rgba(0,0,0,.25); transition: opacity .4s; }
+/* المشاهد */
+.scene { position: absolute; top: 64px; bottom: 72px; left: 0; right: 0; padding: 18px 26px 18px 230px; opacity: 0; pointer-events: none; transform: translateZ(-300px) scale(.9); filter: blur(6px); transition: opacity .9s, transform 1.1s cubic-bezier(.3,.7,.2,1), filter .9s; }
+.scene.on { opacity: 1; pointer-events: auto; transform: none; filter: none; }
+.scene.gone { transform: translateZ(380px) scale(1.25); }
+.scene.back { transform: translateZ(-500px) scale(.75); }
+.scene.full { padding: 0; overflow: hidden; }
+.scene { overflow-y: auto; scrollbar-width: thin; }
+.sh { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.sh .badge { background: var(--clay); color: #fff; border-radius: 16px; padding: 3px 12px; font-weight: 800; font-size: 16px; }
+.sh h2 { margin: 0; font-family: Q; font-weight: 400; font-size: 38px; color: var(--soil); text-shadow: 0 1px 0 #f3dfbd, 0 2px 0 #d7b88a, 0 3px 0 #b9935f, 0 6px 10px rgba(0,0,0,.2); }
+.sh .pg { margin-inline-start: auto; background: #fffaf0; border: 2px solid var(--clay); border-radius: 14px; padding: 2px 12px; font-weight: 800; color: var(--clay); }
+.strat { display: inline-block; font-size: 15px; font-weight: 800; color: var(--olive); background: #f3f0d8; border: 2px dashed var(--olive); border-radius: 12px; padding: 1px 10px; }
+.card { background: rgba(255,250,240,.96); border: 3px solid #c9a06a; border-radius: 22px; padding: 12px 16px; box-shadow: inset 0 2px 0 #fff, 0 10px 24px rgba(59,36,20,.25); }
+.row { display: flex; gap: 16px; } .col { display: flex; flex-direction: column; gap: 12px; }
+.f1 { flex: 1; min-width: 0; }
+.btn { font-family: inherit; font-weight: 800; font-size: 19px; border: 3px solid var(--soil); background: #fffaf0; color: var(--soil); border-radius: 16px; padding: 6px 16px; cursor: pointer; box-shadow: 0 4px 0 rgba(59,36,20,.25); }
+.btn.main { background: var(--soil); color: #fff; } .btn:active { transform: translateY(3px); box-shadow: none; } .btn:disabled { opacity: .45; }
+.book { font-size: 21px; line-height: 1.95; } .book p { margin: 0 0 6px; }
+mark { background: transparent; transition: background .8s; padding: 0 2px; border-radius: 4px; } mark.on { background: #ffe066; box-shadow: 0 0 0 2px #ffe066; }
+.fb { min-height: 30px; font-weight: 800; font-size: 19px; margin-top: 6px; }
+.fb.ok { color: var(--ok); } .fb.no { color: var(--red); }
+/* سؤال */
+.q { border: 3px solid #d9b98a; border-radius: 18px; background: #fffaf0; padding: 10px 14px; }
+.q .qt { font-weight: 800; font-size: 20px; margin-bottom: 6px; } .q .qt b { color: var(--clay); }
+.q .tag { display: inline-block; font-size: 14px; background: #5a3820; color: #ffe2a8; border-radius: 10px; padding: 0 8px; margin-inline-end: 6px; }
+.opts { display: flex; flex-direction: column; gap: 6px; }
+.opts button { text-align: right; font-family: inherit; font-size: 18px; font-weight: 700; border: 2px solid #d9c3a0; background: #fff; border-radius: 12px; padding: 6px 12px; cursor: pointer; }
+.opts button.ok { background: #e7f3dc; border-color: var(--ok); } .opts button.no { background: #fbe1da; border-color: var(--red); animation: shk .35s; }
+@keyframes shk { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.reveal { display: none; background: #eef6e2; border-radius: 12px; padding: 6px 10px; margin-top: 6px; font-weight: 700; color: #2f5a1e; font-size: 18px; }
+.reveal.on { display: block; animation: fin .5s; } @keyframes fin { from { opacity: 0; transform: translateY(6px); } }
+/* البوابة */
+#gate { background: radial-gradient(ellipse at 50% 40%, #6b4226, #2a190d 75%); display: grid; place-items: center; }
+.arch { position: relative; width: 640px; height: 640px; perspective: 1200px; transition: transform 2.2s cubic-bezier(.6,0,.2,1); }
+.arch .frame { position: absolute; inset: 0; border-radius: 320px 320px 20px 20px; border: 26px solid #8a5a34; box-shadow: inset 0 0 0 6px #c79b5c, 0 0 0 6px #3b2414, 0 30px 60px #000; background: radial-gradient(circle at 50% 60%, #ffe8b0, #f2b632 30%, #b5652b 70%); overflow: hidden; }
+.arch .glow { position: absolute; inset: 0; background: radial-gradient(circle at 50% 70%, rgba(255,255,255,.9), transparent 45%); }
+.door { position: absolute; top: 26px; bottom: 26px; width: calc(50% - 26px); background: repeating-linear-gradient(90deg, #5a3820 0 34px, #4a2e18 34px 38px), #5a3820; transition: transform 1.8s cubic-bezier(.6,0,.2,1); box-shadow: inset 0 0 30px #000; }
+.door.l { left: 26px; border-radius: 300px 0 0 0; transform-origin: left center; } .door.r { right: 26px; border-radius: 0 300px 0 0; transform-origin: right center; }
+.door::after { content: ''; position: absolute; top: 52%; width: 18px; height: 18px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+.door.l::after { right: 18px; } .door.r::after { left: 18px; }
+.open .door.l { transform: rotateY(-108deg); } .open .door.r { transform: rotateY(108deg); }
+.arch.zoom { transform: scale(3.4); }
+.gt { position: absolute; top: 40px; left: 0; right: 0; text-align: center; z-index: 2; }
+.gt h1 { margin: 0; font-family: Q; font-weight: 400; font-size: 84px; color: var(--gold); text-shadow: 0 3px 0 #9a6a10, 0 6px 0 #6b4226, 0 9px 0 #3b2414, 0 16px 24px #000; }
+.gt p { margin: 4px 0 0; color: #f1dcb8; font-size: 26px; font-weight: 800; }
+.gsign { position: absolute; top: -70px; left: 50%; transform: translateX(-50%); background: #3b2414; color: var(--gold); border: 4px solid var(--gold); border-radius: 14px; padding: 4px 22px; font-family: Q; font-size: 30px; white-space: nowrap; z-index: 3; }
+.gbtn { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 4; font-size: 30px; padding: 12px 40px; }
+.dust { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: rgba(242,182,50,.7); animation: dust 7s linear infinite; }
+@keyframes dust { from { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } to { transform: translateY(-500px); opacity: 0; } }
+/* صور كاملة */
+.full img.fit { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #2a190d; }
+.full video { position: absolute; inset: 0; width: 100%; height: 100%; background: #000; }
+.vplay { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 3; }
+/* مفردات */
+.vocab { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.fl { height: 140px; perspective: 900px; cursor: pointer; }
+.fl > div { position: relative; width: 100%; height: 100%; transition: transform .7s; transform-style: preserve-3d; }
+.fl.on > div { transform: rotateY(180deg); }
+.fl .a, .fl .b { position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; }
+.fl .a { background: linear-gradient(135deg, #8a5a34, #5a3820); color: #ffe2a8; font-family: Q; font-size: 32px; box-shadow: 0 6px 0 #3b2414; flex-direction: column; gap: 4px; }
+.fl .a small { font-family: Z; font-size: 15px; color: #f1dcb8; }
+.fl .b { background: #fffaf0; border: 3px solid var(--clay); transform: rotateY(180deg); font-size: 18px; font-weight: 800; }
+/* المجهر */
+.scope { position: relative; width: 620px; height: 430px; border-radius: 20px; overflow: hidden; border: 6px solid #3b2414; cursor: none; touch-action: none; }
+.scope canvas { width: 100%; height: 100%; display: block; }
+.lens { position: absolute; width: 230px; height: 230px; border-radius: 50%; border: 10px solid #222; box-shadow: 0 0 0 4px #888, 0 14px 30px rgba(0,0,0,.6), inset 0 0 30px rgba(0,0,0,.5); pointer-events: none; background-repeat: no-repeat; left: 190px; top: 100px; }
+.lens::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.35), transparent 40%); }
+.samples { display: flex; gap: 8px; } .samples button { flex: 1; }
+.samples button.on { background: var(--clay); color: #fff; border-color: var(--clay); }
+table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-size: 17px; }
+.obs th { background: var(--soil); color: #fff; border-radius: 10px; padding: 4px; }
+.obs td { background: #fff; border: 2px dashed #d9c3a0; border-radius: 10px; padding: 4px 6px; text-align: center; font-weight: 700; cursor: pointer; }
+.obs td.sh0 { color: transparent; text-shadow: none; } .obs td.sh0::after { content: '🔍'; color: var(--clay); }
+/* التسرب */
+.rig { display: flex; gap: 22px; justify-content: center; align-items: flex-end; height: 330px; }
+.cup { width: 150px; display: flex; flex-direction: column; align-items: center; gap: 4px; font-weight: 800; }
+.cup .c1 { width: 120px; height: 110px; clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%); position: relative; background: #ddd; }
+.cup .c1 .s { position: absolute; left: 0; right: 0; bottom: 0; height: 60%; }
+.cup .c1 .w { position: absolute; left: 0; right: 0; top: 0; height: 0; background: rgba(80,160,230,.6); transition: height .6s; }
+.drip { width: 8px; height: 60px; position: relative; }
+.drip i { position: absolute; left: 0; width: 8px; height: 12px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: #4ea3e6; opacity: 0; }
+.run .drip i { animation: dr var(--sp, 1s) linear infinite; }
+@keyframes dr { 0% { top: 0; opacity: 1; } 100% { top: 50px; opacity: 0; } }
+.cyl { width: 70px; height: 120px; border: 3px solid #8aa; border-top: none; border-radius: 0 0 12px 12px; position: relative; background: rgba(255,255,255,.6); }
+.cyl .lv { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: #4ea3e6; transition: height 1s; border-radius: 0 0 9px 9px; }
+.cyl b { position: absolute; top: -26px; left: 0; right: 0; text-align: center; font-size: 17px; }
+.mini td { cursor: default; }
+/* تكون التربة */
+.form svg { width: 100%; height: 100%; }
+.st { opacity: 0; transition: opacity 1s; } .st.on { opacity: 1; }
+.steps { display: flex; gap: 6px; flex-wrap: wrap; }
+.steps span { background: #fff; border: 2px solid #d9c3a0; border-radius: 12px; padding: 3px 10px; font-weight: 800; font-size: 16px; }
+.steps span.on { background: var(--leaf); color: #fff; border-color: var(--leaf); }
+.order { display: flex; gap: 8px; flex-wrap: wrap; } .order button { flex: 1 1 30%; }
+.order button.done { background: #e7f3dc; border-color: var(--ok); color: var(--ok); }
+.org { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-items: center; }
+/* النطاقات */
+.shaft { position: relative; width: 520px; height: 600px; overflow: hidden; border-radius: 20px; border: 6px solid #3b2414; }
+.col2 { position: absolute; left: 0; right: 0; top: 0; transition: transform 1.6s cubic-bezier(.4,0,.2,1); }
+.lay { position: relative; display: flex; align-items: center; justify-content: flex-start; padding: 0 24px; font-family: Q; font-size: 40px; color: rgba(255,255,255,.92); text-shadow: 0 3px 6px #000; }
+.lay.sky { height: 170px; background: linear-gradient(#bfe0f2, #e9f3d6); font-size: 60px; align-items: flex-end; justify-content: center; }
+.lay.A { height: 230px; background: radial-gradient(#2a190d 1.5px, transparent 2px) 0 0/14px 14px, linear-gradient(#4a2e18, #3b2414); }
+.lay.B { height: 250px; background: radial-gradient(#d8b98c 3px, transparent 4px) 0 0/30px 26px, linear-gradient(#a0703f, #8a5a34); }
+.lay.C { height: 280px; background: radial-gradient(circle at 30% 30%, #b8b0a4 0 26px, transparent 27px) 0 0/110px 90px, radial-gradient(circle at 70% 60%, #9a9186 0 34px, transparent 35px) 0 0/140px 120px, linear-gradient(#7a6a58, #5e5246); }
+.lay.R { height: 230px; background: repeating-linear-gradient(160deg, #4a4540 0 30px, #3d3934 30px 34px); }
+.roots { position: absolute; top: 120px; left: 0; right: 0; height: 330px; pointer-events: none; }
+.pod { position: absolute; left: 50%; width: 120px; margin-left: -60px; top: 120px; font-size: 54px; text-align: center; transition: top 1.6s cubic-bezier(.4,0,.2,1); z-index: 2; filter: drop-shadow(0 0 12px #ffe066); }
+.lnav { display: flex; gap: 8px; flex-wrap: wrap; }
+.lnav button.on { background: var(--soil); color: #fff; }
+/* التعرية */
+.ero { display: flex; gap: 14px; }
+.ero > div { flex: 1; position: relative; }
+.ero svg { width: 100%; height: 260px; background: linear-gradient(#cfe3ea, #eef3e0); border-radius: 16px; border: 3px solid #c9a06a; }
+.rain line { stroke: #4ea3e6; stroke-width: 2; opacity: 0; }
+.raining .rain line { animation: rn .7s linear infinite; }
+@keyframes rn { from { transform: translate(0, -40px); opacity: .9; } to { transform: translate(-10px, 60px); opacity: 0; } }
+.meter { height: 16px; background: #eadbc2; border-radius: 10px; overflow: hidden; margin-top: 4px; } .meter i { display: block; height: 100%; width: 0; background: var(--red); transition: width 4s; }
+.sort { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.bin { border: 3px solid var(--c); border-radius: 18px; background: #fffaf0; min-height: 150px; padding: 6px; cursor: pointer; }
+.bin h4 { margin: 0 0 4px; text-align: center; color: var(--c); font-size: 20px; }
+.bin img { width: 100%; height: 80px; object-fit: cover; border-radius: 12px; }
+.bin .in span { display: inline-block; background: #f1e3c8; border-radius: 10px; padding: 1px 8px; margin: 2px; font-size: 15px; font-weight: 700; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; } .chip { font-family: inherit; font-weight: 800; font-size: 16px; border: 2px solid var(--clay); background: #fff; border-radius: 16px; padding: 3px 12px; cursor: pointer; }
+.chip.sel { background: var(--gold); } .chip.used { visibility: hidden; }
+/* الوعاء */
+.jarw { position: relative; width: 300px; height: 440px; margin: 0 auto; transition: transform .2s; }
+.jarw canvas { width: 100%; height: 100%; }
+.jarw.shake { animation: jsh .18s 9; } @keyframes jsh { 25% { transform: rotate(-9deg); } 75% { transform: rotate(9deg); } }
+.poll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.poll .pc { background: #fff; border: 2px solid var(--red); border-radius: 14px; padding: 6px; text-align: center; font-weight: 800; cursor: pointer; font-size: 16px; }
+.poll .pc div { display: none; font-weight: 700; color: #6a2a1a; font-size: 15px; } .poll .pc.on div { display: block; }
+.green { background: linear-gradient(135deg, #eaf3d6, #fffaf0); border: 3px solid var(--leaf); border-radius: 18px; padding: 8px 12px; font-weight: 700; font-size: 17px; }
+/* المحافظة */
+.methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.mth { background: #fff; border: 2px solid #c9a06a; border-radius: 14px; padding: 6px 10px; cursor: pointer; font-weight: 800; font-size: 17px; }
+.mth div { display: none; font-weight: 700; font-size: 15px; color: #4a2e18; margin-top: 3px; } .mth.on { background: #fbf0dc; } .mth.on div { display: block; }
+.hill svg { width: 100%; height: 250px; border-radius: 16px; border: 3px solid #c9a06a; background: linear-gradient(#cfe3ea, #eef3e0); }
+.flow { stroke-dasharray: 10 14; animation: fl var(--fs, 1s) linear infinite; } @keyframes fl { to { stroke-dashoffset: -48; } }
+/* التقويم */
+.revg { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; } .revg .q .qt { font-size: 19px; } .revg .opts button { font-size: 16px; padding: 4px 10px; }
+.pass { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.stamp { width: 150px; height: 150px; border-radius: 50%; border: 6px dashed #c9a06a; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-weight: 800; color: #b9a07a; background: #fffaf0; font-size: 16px; }
+.stamp i { font-style: normal; font-size: 42px; filter: grayscale(1); opacity: .5; }
+.stamp.got { border-style: solid; border-color: var(--c); color: var(--c); transform: rotate(-10deg); animation: stp .6s; } .stamp.got i { filter: none; opacity: 1; }
+@keyframes stp { from { transform: scale(2) rotate(-10deg); opacity: 0; } }
+.env { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.env button { font-size: 46px; background: #fffaf0; border: 3px solid #e3a9a0; border-radius: 16px; cursor: pointer; padding: 10px 0; font-family: inherit; }
+.env button.used { opacity: .35; }
+.msgbox { display: none; position: absolute; inset: 0; background: rgba(42,25,13,.75); z-index: 30; align-items: center; justify-content: center; }
+.msgbox.on { display: flex; }
+.msgbox div { background: #fffaf0; border: 6px solid var(--gold); border-radius: 30px; padding: 30px 50px; text-align: center; font-size: 34px; font-weight: 800; max-width: 900px; animation: fin .5s; }
+.msgbox b { display: block; font-family: Q; font-weight: 400; color: var(--clay); font-size: 70px; }
+.drawn { font-family: Q; font-size: 130px; color: var(--clay); text-align: center; }
+.conf { position: absolute; top: -30px; font-size: 26px; z-index: 40; pointer-events: none; animation: cf 2.4s linear forwards; }
+@keyframes cf { to { transform: translateY(980px) rotate(600deg); } }
+.score { position: absolute; top: 12px; left: 22px; z-index: 21; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="lab"><div class="jars"></div><div class="jars j2"></div></div>
+  <div class="top"><h1>🔬 مختبر التربة الرقمي</h1><span class="t">العلوم • الصف السادس • الفصل السادس – الدرس الأول: التربة • ص١٦٥–١٧٣</span><span class="sp"></span>
+    <button class="pill" id="stars">⭐ نجوم المستكشفة: ٠</button><button class="pill" onclick="goId('pass')">🛂 جوازي</button><span class="pill">💚 أ/ شامه البقمي</span><button class="pill" onclick="fs()">⛶</button></div>
+  <img id="girl" src="img/g5.png" alt="">
+  <div id="bubble"></div>
+  <div class="bot"><button class="nb ghost" onclick="go(cur-1)">→ السابق</button><div class="path" id="path"></div><button class="nb" onclick="go(cur+1)">التالي ←</button></div>
+
+  <!-- ١ البوابة -->
+  <section class="scene full" id="gate" data-g="gate" data-girl="g5" data-say="مرحبًا يا مستكشفتي! أنا رفيقتكِ في مختبر التربة… جاهزة للدخول؟ 🔑">
+    <div class="gt"><h1>مختبر التربة الرقمي</h1><p>الدرس الأول: التربة • رحلة من حبّة الرمل إلى أعماق الأرض</p></div>
+    <div class="arch" id="arch" style="margin-top:110px"><div class="frame"><div class="glow"></div></div><div class="door l"></div><div class="door r"></div></div>
+    <button class="nb gbtn" onclick="openGate()">🔑 ادخلي المختبر</button>
+  </section>
+  <!-- ٢ الافتتاحيات -->
+  <section class="scene full" data-g="hall" data-girl="g4" data-say="صباح العلم والعطاء 🌞 اكتبي اليوم والتاريخ في دفترك."><img class="fit" src="img/morning.jpg" alt="صباح العلم والعطاء"></section>
+  <section class="scene full" data-g="hall" data-girl="g4" data-say="صباح الخير يا جميلات… يوم علمي جديد ينتظرنا!"><img class="fit" src="img/greet.jpg" alt="صباح الخير"></section>
+  <section class="scene full" data-g="hall" data-girl="g5" data-say="قوانين المختبر قبل أن نلمس أي عينة 👆"><img class="fit" src="img/rules.jpg" alt="القوانين الصفية"></section>
+  <section class="scene full" data-g="hall" data-girl="g4" data-say="نقف احترامًا للسلام الوطني 🇸🇦"><video id="v1" src="vid/flag.mp4" poster="img/flag.jpg" controls playsinline preload="none"></video></section>
+  <section class="scene full" data-g="hall" data-girl="g4" data-say="وطني أحبك… لا بديل 💚"><video id="v2" src="vid/watan.mp4" poster="img/watan.jpg" controls playsinline preload="none"></video></section>
+
+  <!-- ٣ أنظر وأتساءل -->
+  <section class="scene" data-g="hook" data-girl="g8" data-say="انظري إلى الصورة… لماذا تنمو النباتات هنا جيدًا؟ فكّري أولًا 🤔">
+    <div class="sh"><span class="badge">التهيئة</span><h2>أنظرُ وأتساءلُ</h2><span class="pg">📖 ص١٦٦</span></div>
+    <div class="row">
+      <div class="f1 col"><img src="img/field.jpg" alt="حقل نباتات حديثة النمو" style="width:100%;height:380px;object-fit:cover;border-radius:22px;border:5px solid #fffaf0;box-shadow:0 12px 26px rgba(0,0,0,.3)">
+        <div class="card book"><p>هذهِ النباتاتُ حديثةُ النموِّ. تنمو النباتاتُ بشكلٍ جيدٍ في بعضِ أنواعِ التربةِ، لكنَّها لا تنمو في أنواعٍ أخرى منَ التربةِ. <b>ما الموادُّ الموجودةُ في التربةِ التي تساعدُ النباتَ على النموِّ؟</b></p></div></div>
+      <div class="col" style="width:520px">
+        <div class="card"><span class="strat">العصف الذهني – تقويم المعرفة السابقة</span>
+          <p style="font-weight:800;font-size:20px;margin:8px 0 4px">💭 ماذا تعرفين عن التربة؟ اكتبي أفكار زميلاتك:</p>
+          <div class="chips" id="ideas"></div>
+          <div class="row" style="gap:6px;margin-top:6px"><input id="idea" placeholder="فكرة جديدة…" style="flex:1;font:inherit;font-size:18px;border:2px solid #d9c3a0;border-radius:12px;padding:4px 10px"><button class="btn" onclick="addIdea()">➕</button></div>
+          <p style="font-size:16px;color:#7a5a3a;margin:6px 0 0">أسئلة مساعدة: ممَّ تتكوّن التربة؟ لماذا هي مهمة؟ ما الذي يضرّها؟</p></div>
+        <div class="card"><button class="btn main" onclick="rv(this)">💡 أظهري الإجابة</button>
+          <div class="reveal">الدُّبالُ (الموادُّ العضويةُ من بقايا المخلوقاتِ المتحلّلةِ)، والموادُّ الكيميائيةُ المغذيةُ الناتجةُ من تفكيكِ الصخورِ، والماءُ والهواءُ.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ٤ الأهداف والمفردات -->
+  <section class="scene" data-g="hook" data-girl="g5" data-say="هذه أهدافنا اليوم… واقلبي البطاقات لتتعرّفي مفردات الدرس 🃏">
+    <div class="sh"><span class="badge">التهيئة</span><h2>أهدافي ومفرداتي</h2><span class="pg">📖 ص١٦٥، ١٦٨</span></div>
+    <div class="row">
+      <div class="card" style="width:470px"><span class="strat">في نهاية الدرس أستطيع أن:</span>
+        <ol style="font-size:21px;font-weight:800;line-height:2;margin:6px 0;padding-inline-start:26px">
+          <li>أصفَ كيفَ تكوّنتِ التربةُ، وأقارنَ بينَ أنواعِها.</li><li>أسمّيَ نطاقاتِ التربةِ وأصفَها.</li><li>أتعرّفَ كيفَ تُستعمَلُ التربةُ، وكيفَ تتلوّثُ.</li><li>أقترحَ طرقًا لحفظِ التربةِ.</li></ol>
+        <div class="green">❓ <b>السؤال الأساسي:</b> ممَّ تتكوّنُ التربةُ؟ وكيفَ نحافظُ عليها؟</div></div>
+      <div class="f1 vocab" id="vocab"></div>
+    </div>
+  </section>
+
+  <!-- ٥ أستكشف: المجهر -->
+  <section class="scene" data-g="exp" data-girl="g9" data-say="حرّكي العدسة فوق العينة، وغيّري قوة التكبير… ماذا تلاحظين؟ 🔍">
+    <div class="sh"><span class="badge">أستكشف ١</span><h2>المجهر الرقمي: فيمَ تختلفُ أنواعُ التربةِ؟</h2><span class="pg">📖 ص١٦٧</span></div>
+    <div class="row">
+      <div class="col"><div class="samples" id="samples"></div><div class="scope" id="scope"><canvas id="sc" width="620" height="430"></canvas><div class="lens" id="lens"></div></div>
+        <div class="row" style="align-items:center;gap:8px;font-weight:800">🔎 التكبير <input type="range" id="zoom" min="2" max="8" value="4" style="flex:1"><span id="zv">×٤</span></div></div>
+      <div class="f1 col">
+        <div class="card"><span class="strat">نشاط استقصائي – ١ ألاحظ</span><p style="font-size:19px;font-weight:700;margin:6px 0">أتفحّصُ كمّيّةً صغيرةً منْ كلِّ نوعٍ منَ التربةِ بعدسةٍ مكبّرةٍ، وألاحظُ <mark class="on">حجمَ الحبيباتِ، واللونَ، وأيَّ موادَّ يمكنُني تعرُّفُها</mark>، وأنظّمُ جدولًا أسجّلُ فيهِ ملاحظاتي.</p></div>
+        <div class="card"><b style="font-size:19px">📋 جدول ملاحظاتي: لاحظي أولًا… ثم اضغطي الخانة للتحقق</b>
+          <table class="obs" id="obs"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ٦ أستكشف: التسرب -->
+  <section class="scene" data-g="exp" data-girl="g8" data-say="توقّعي أولًا: أيّ تربة سيمرّ الماء خلالها أسرع؟ ثم صبّي الماء 💧">
+    <div class="sh"><span class="badge">أستكشف ٢</span><h2>تجربة التسرّب: أقيسُ وأقارنُ</h2><span class="pg">📖 ص١٦٧</span></div>
+    <div class="row">
+      <div class="f1 col">
+        <div class="card" style="padding:8px 14px"><span class="strat">٤ أقيس</span> <span style="font-size:18px;font-weight:700">أضيفُ ٥٠ مل منَ الماءِ إلى كلِّ كأسٍ، وأقيسُ كمّيّةَ الماءِ المتسرّبةِ كلَّ دقيقةٍ مدّةَ ٥ دقائقَ، وأسجّلُ نتائجي.</span></div>
+        <div class="card" id="rigc"><div class="rig" id="rig"></div>
+          <div class="row" style="justify-content:center;gap:10px;margin-top:6px;align-items:center"><span style="font-weight:800" id="pred">🤔 توقّعي: أيّها يتسرّب منه ماء أكثر؟</span><button class="btn main" id="pour" onclick="pour()" disabled>💧 صبّي ٥٠ مل</button><b id="clock" style="font-family:Q;font-size:28px;color:var(--clay)">⏱ ٠ دقيقة</b></div></div>
+      </div>
+      <div class="col" style="width:520px">
+        <div class="card"><b>📊 الماء المتسرّب (مل) – قيم توضيحية للمحاكاة</b><svg id="chart" viewBox="0 0 480 210" style="width:100%;height:165px"></svg></div>
+        <div class="q" id="q_cmp"></div>
+        <div class="q" id="q_inf"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ٧ ما التربة؟ -->
+  <section class="scene" data-g="what" data-girl="g4" data-say="شاهدي كيف تتكوّن التربة خطوة بخطوة… ثم رتّبي المراحل بنفسك! ⏳">
+    <div class="sh"><span class="badge">المحطة ١</span><h2>ما التربةُ؟ وكيف تتكوّن؟</h2><span class="pg">📖 ص١٦٨</span></div>
+    <div class="row">
+      <div class="col" style="width:640px">
+        <div class="card form" style="height:330px;padding:0;overflow:hidden"><svg id="fsvg" viewBox="0 0 640 330"></svg></div>
+        <div class="row" style="align-items:center;gap:8px"><button class="btn main" onclick="fStep(1)">▶ المرحلة التالية</button><button class="btn" onclick="fStep(-99)">↺</button><div class="steps f1" id="fsteps"></div></div>
+        <div class="q" id="q_ord"></div>
+      </div>
+      <div class="f1 col">
+        <div class="card book" id="fbook" style="font-size:19px;line-height:1.85"></div>
+        <div class="q" id="q_ren"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ٨ النطاقات -->
+  <section class="scene" data-g="hor" data-girl="g9" data-say="اركبي مركبة الحفر 🔦 وانزلي من السطح إلى الصخر… كيف تتغيّر التربة كلما نزلنا؟">
+    <div class="sh"><span class="badge">المحطة ٢</span><h2>رحلةٌ إلى أعماق التربة: نطاقاتُ التربة</h2><span class="pg">📖 ص١٦٩</span></div>
+    <div class="row">
+      <div class="shaft" id="shaft"><div class="col2" id="col2">
+        <div class="lay sky">🌳🌿🌼</div><div class="lay A">النطاق أ</div><div class="lay B">النطاق ب</div><div class="lay C">النطاق ج</div><div class="lay R">صخور غير مجوّاة</div>
+        <svg class="roots" viewBox="0 0 520 330"><g stroke="#e9d3b0" stroke-width="4" fill="none" opacity=".75"><path d="M260 0 C250 80 220 120 200 200 M260 0 C280 90 330 140 340 230 M230 40 C200 70 160 90 130 150 M290 50 C330 80 380 90 410 140 M250 90 C240 160 250 230 240 320"/></g></svg>
+      </div><div class="pod" id="pod">🔦</div></div>
+      <div class="f1 col">
+        <div class="lnav" id="lnav"></div>
+        <div class="card book" id="hcard" style="font-size:20px;min-height:230px"></div>
+        <div class="q" id="q_hor"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ٩ استعمالات التربة والتعرية -->
+  <section class="scene" data-g="use" data-girl="g5" data-say="لكل تربة صفاتها… صنّفي البطاقات، ثم أمطري على التلّين وقارني! 🌧️">
+    <div class="sh"><span class="badge">المحطة ٣</span><h2>كيف تُستعمَلُ التربةُ؟ ولماذا تنجرف؟</h2><span class="pg">📖 ص١٧٠</span></div>
+    <div class="row">
+      <div class="f1 col">
+        <div class="card" style="padding:8px 12px"><span class="strat">أصنّف</span> <b style="font-size:18px">اختاري البطاقة ثم اضغطي على التربة المناسبة لها:</b><div class="chips" id="uchips" style="margin:6px 0"></div><div class="sort" id="usort"></div><div class="fb" id="ufb"></div></div>
+      </div>
+      <div class="col" style="width:640px">
+        <div class="card" style="padding:8px 12px"><span class="strat">محاكاة التعرية</span> <span style="font-weight:700;font-size:17px">«جذورُ النباتاتِ تثبّتُ التربةَ في مكانِها. وإذا زالتِ النباتاتُ فإنَّ تعريةَ التربةِ تزدادُ.»</span>
+          <div class="ero" id="ero"></div><div class="row" style="justify-content:center;margin-top:6px"><button class="btn main" onclick="rain()">🌧️ أمطري بغزارة</button></div></div>
+        <div class="q" id="q_ero"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ١٠ مكونات التربة والتلوث -->
+  <section class="scene" data-g="pol" data-girl="g8" data-say="رجّي الوعاء وراقبي: أيّ الحبيبات تستقرّ أولًا؟ ثم اكتشفي مصادر التلوث ⚠️">
+    <div class="sh"><span class="badge">المحطة ٤</span><h2>نشاط مكوّنات التربة • تلوّث التربة</h2><span class="pg">📖 ص١٧١</span></div>
+    <div class="row">
+      <div class="col" style="width:380px"><div class="card" style="padding:6px"><div class="jarw" id="jarw"><canvas id="jc" width="300" height="440"></canvas></div></div>
+        <div class="row" style="gap:8px;justify-content:center"><button class="btn main" onclick="shake()">🫙 رجّي الوعاء</button><button class="btn" id="lbl" onclick="labels()">🏷️ أسماء الطبقات</button></div></div>
+      <div class="f1 col">
+        <div class="q" id="q_jar"></div>
+        <div class="card" style="padding:8px 12px"><b style="font-size:19px">⚠️ التلوّثُ: إضافةُ موادَّ ضارّةٍ إلى التربةِ أوِ الماءِ أوِ الهواءِ. اضغطي كل مصدر:</b>
+          <div class="poll" id="poll" style="margin-top:6px"></div></div>
+        <div class="q" id="q_pol"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ١١ المحافظة -->
+  <section class="scene" data-g="save" data-girl="g12" data-say="أنتِ الآن «مستشارة التربة» 🛡️ اختاري الحل المناسب لكل مشكلة!">
+    <div class="sh"><span class="badge">المحطة ٥</span><h2>كيف تتمُّ المحافظةُ على التربة؟</h2><span class="pg">📖 ص١٧٢</span></div>
+    <div class="row">
+      <div class="f1 col">
+        <div class="card" style="padding:8px 12px"><b style="font-size:19px">حمايةُ الموارد الطبيعية – ومنها التربةُ – والمحافظةُ عليها يسمّى <mark class="on">حفظَ التربة</mark>. اضغطي الطريقة لتقرئي عنها:</b><div class="methods" id="methods" style="margin-top:6px"></div></div>
+        <div class="q" id="q_adv"></div>
+      </div>
+      <div class="col" style="width:560px">
+        <div class="card hill" style="padding:8px"><div class="row" style="gap:6px;margin-bottom:6px"><button class="btn" id="hs" onclick="hill(0)">⬇️ حراثة مع الميل</button><button class="btn" id="hc" onclick="hill(1)">〰️ حراثة كنتورية</button></div><svg id="hsvg" viewBox="0 0 540 250"></svg><div class="fb" id="hfb"></div></div>
+        <div class="q" id="q_mt"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ١٢ مراجعة الدرس -->
+  <section class="scene" data-g="rev" data-girl="g8" data-say="مراجعة الدرس من كتابي ص١٧٣… أجيبي ثم تحققي ✍️">
+    <div class="sh"><span class="badge">التقويم</span><h2>مراجعةُ الدرسِ: أفكّرُ وأتحدّثُ وأكتبُ</h2><span class="pg">📖 ص١٧٣</span></div>
+    <div class="revg" id="revg"></div>
+  </section>
+
+  <!-- ١٣ بطاقة الخروج والجواز -->
+  <section class="scene" id="pass" data-g="end" data-girl="g12" data-say="رائع! انظري إلى أختام جوازك… وأجيبي بطاقة الخروج 🎫">
+    <div class="sh"><span class="badge">التقويم الختامي</span><h2>بطاقةُ الخروج وجوازُ المستكشفة</h2></div>
+    <div class="row">
+      <div class="f1 col"><div class="card"><b style="font-size:22px">🎫 بطاقة الخروج</b>
+        <div class="q" style="margin-top:8px"><div class="qt">١) لماذا تحتفظُ التربةُ الطينيةُ بالماءِ مدّةً أطولَ منَ التربةِ الرمليةِ؟</div><button class="btn" onclick="rv(this)">💡 الإجابة</button><div class="reveal">لأنَّ حبيباتِها دقيقةٌ جدًّا، فتكونُ المسافاتُ (المسامات) بينها صغيرةً، فيتسرّبُ الماءُ خلالها ببطءٍ.</div></div>
+        <div class="q" style="margin-top:8px"><div class="qt">٢) اقترحي طريقةً لحفظِ تربةِ مزرعةٍ على منحدرٍ، وفسّري اختيارك.</div><button class="btn" onclick="rv(this)">💡 الإجابة</button><div class="reveal">الحراثةُ الكنتوريةُ أوِ المصاطبُ (المدرجات)؛ لأنّها تقلّلُ منْ سرعةِ المياهِ المتدفّقةِ إلى أسفلِ المنحدرِ فلا تجرفُ التربةَ السطحيةَ.</div></div>
+        <p style="font-weight:800;color:#a0452e;font-size:19px">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p></div></div>
+      <div class="col" style="width:640px"><div class="card"><b style="font-size:22px">🛂 جواز المستكشفة – أختام مختبر التربة</b><div class="pass" id="stamps" style="margin-top:10px"></div></div>
+        <div class="green">🇸🇦 <b>ربط بالوطن:</b> أطلقَتِ المملكةُ العربيةُ السعوديةُ مبادرةَ الشرقِ الأوسطِ الأخضرِ… لتنفيذِ أكبرِ برنامجِ إعادةِ تشجيرٍ في العالمِ <small>(ص١٧١)</small>. والأشجارُ تثبّتُ التربةَ بجذورِها! 🌳</div></div>
+    </div>
+  </section>
+
+  <!-- ١٤ الظرف والقرعة والختام -->
+  <section class="scene" data-g="end" data-girl="g12" data-say="أحسنتنّ يا مستكشفات! افتحي ظرفك… 💌">
+    <div class="sh"><span class="badge">التعزيز</span><h2>افتحي ظرفك • القرعة • الختام</h2></div>
+    <div class="row">
+      <div class="f1 card"><b style="font-size:22px">💌 افتحي ظرفك… رسالة تنتظرك</b><div class="env" id="env" style="margin-top:10px"></div></div>
+      <div class="card" style="width:420px;text-align:center"><b style="font-size:22px">🎲 القرعة</b><p style="font-weight:700">عدد الطالبات: <input id="nst" type="number" value="30" min="2" max="60" style="width:80px;font:inherit;font-size:20px;text-align:center"></p>
+        <div class="drawn" id="drawn">؟</div><button class="btn main" onclick="drawN()">🎲 اسحبي رقمًا</button></div>
+    </div>
+    <div class="green" style="margin-top:14px;font-size:21px;text-align:center">🌱 تعلّمتُ اليوم: التربةُ خليطٌ منْ فتاتِ الصخورِ وبقايا أوْ أجزاءِ نباتاتٍ ومخلوقاتٍ ميتةٍ • لها ثلاثةُ نطاقات • نحافظُ عليها منَ التعريةِ والتلوّث 💚</div>
+  </section>
+  <div class="msgbox" id="msgbox" onclick="this.classList.remove('on')"><div id="msgin"></div></div>
+</div>
+<script>
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+let AC; function tone(f, d = .14, t = 'sine', v = .18) { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(); o.type = t; o.frequency.value = f; g.gain.setValueAtTime(v, AC.currentTime); g.gain.exponentialRampToValueAtTime(.001, AC.currentTime + d); o.connect(g).connect(AC.destination); o.start(); o.stop(AC.currentTime + d); } catch (e) {} }
+const good = () => { tone(660); setTimeout(() => tone(880), 110); }, bad = () => tone(190, .25, 'square', .1);
+function confetti() { for (let i = 0; i < 36; i++) { const s = document.createElement('span'); s.className = 'conf'; s.textContent = ['⭐', '🌱', '✨', '🏅', '🍂'][i % 5]; s.style.left = Math.random() * 1600 + 'px'; s.style.animationDelay = Math.random() * .7 + 's'; $('#stage').appendChild(s); setTimeout(() => s.remove(), 3300); } }
+let stars = 0; function star(n = 1) { stars += n; $('#stars').textContent = '⭐ نجوم المستكشفة: ' + ar(stars); }
+function fit() { const s = Math.min(innerWidth / 1600, innerHeight / 900); $('#stage').style.setProperty('--s', s); } addEventListener('resize', fit); fit();
+function fs() { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : (d.requestFullscreen || d.webkitRequestFullscreen || (() => {})).call(d)); }
+function rv(b) { const r = b.parentElement.querySelector('.reveal'); r.classList.toggle('on'); if (r.classList.contains('on')) tone(720, .1); }
+
+// ===== الجواز
+const STAMPS = [['exp', '🔬', 'المستكشفة', '#b5652b'], ['what', '🪨', 'مكوّنة التربة', '#8a5a34'], ['hor', '🪜', 'نطاقات التربة', '#6b4226'], ['pol', '🫙', 'محلّلة التربة', '#7f9a3a'], ['save', '🛡️', 'حارسة التربة', '#3f7d2c']];
+let PASS = new Set(); try { JSON.parse(localStorage.getItem('soil1-pass') || '[]').forEach((k) => PASS.add(k)); } catch (e) {}
+function stamp(k) { if (PASS.has(k)) return; PASS.add(k); try { localStorage.setItem('soil1-pass', JSON.stringify([...PASS])); } catch (e) {} drawStamps(); const s = STAMPS.find((x) => x[0] === k);
+  $('#msgin').innerHTML = `<b>${s[1]} ختم جديد!</b>«${s[2]}» في جواز المستكشفة 🛂`; $('#msgbox').classList.add('on'); confetti(); tone(140, .2, 'square', .3); }
+function drawStamps() { $('#stamps').innerHTML = STAMPS.map(([k, e, n, c]) => `<div class="stamp ${PASS.has(k) ? 'got' : ''}" style="--c:${c}"><i>${e}</i>${n}<small>${PASS.has(k) ? '✔ ١٤٤٨هـ' : '🔒'}</small></div>`).join(''); }
+
+// ===== سؤال اختيار من متعدد بتغذية راجعة
+function mcq(id, tag, q, ops, a, why, hint, onok) {
+  const el = $('#' + id); let tries = 0;
+  el.innerHTML = `<div class="qt"><span class="tag">${tag}</span>${q}</div><div class="opts">${ops.map((o, i) => `<button data-i="${i}">${'أبجد'[i]}) ${o}</button>`).join('')}</div><div class="fb"></div>`;
+  const fb = $('.fb', el);
+  $$('.opts button', el).forEach((b) => b.onclick = () => { if (el.dataset.done) return;
+    if (+b.dataset.i === a) { b.classList.add('ok'); el.dataset.done = 1; fb.className = 'fb ok'; fb.innerHTML = '✔ أحسنتِ! ' + why; good(); star(tries ? 1 : 2); if (onok) setTimeout(onok, 900); }
+    else { tries++; b.classList.add('no'); b.disabled = true; bad(); fb.className = 'fb no'; fb.innerHTML = '💡 فكّري مرة أخرى: ' + hint; } });
+}
+
+// ===== المشاهد والتنقّل
+const SC = $$('.scene'); let cur = 0;
+const GROUPS = [['gate', '🚪', 'البوابة'], ['hall', '🌞', 'الاستقبال'], ['hook', '💭', 'التهيئة'], ['exp', '🔬', 'أستكشف'], ['what', '🪨', 'ما التربة؟'], ['hor', '🪜', 'النطاقات'], ['use', '🌧️', 'الاستعمال'], ['pol', '🫙', 'التلوث'], ['save', '🛡️', 'المحافظة'], ['rev', '📝', 'المراجعة'], ['end', '🏅', 'الختام']];
+$('#path').innerHTML = GROUPS.map(([g, e, n]) => `<button class="stop" data-g="${g}" onclick="goG('${g}')"><i>${e}</i>${n}</button>`).join('');
+function goG(g) { go(SC.findIndex((s) => s.dataset.g === g)); }
+function goId(id) { go(SC.findIndex((s) => s.id === id)); }
+function go(i) { if (i < 0 || i >= SC.length || i === cur && SC[i].classList.contains('on')) return; const fw = i > cur;
+  $$('video').forEach((v) => { try { v.pause(); } catch (e) {} });
+  SC.forEach((s, k) => { s.classList.remove('gone', 'back'); if (k === cur && k !== i) { s.classList.remove('on'); s.classList.add(fw ? 'gone' : 'back'); } });
+  SC[i].classList.remove('gone', 'back'); SC[i].classList.add('on'); cur = i;
+  $('#lab').style.transform = `translateX(${(i * 46) % 380}px) scale(${1 + (i % 3) * .03})`;
+  const g = SC[i].dataset.g, gi = GROUPS.findIndex((x) => x[0] === g);
+  $$('.stop').forEach((s, k) => { s.classList.toggle('on', k === gi); s.classList.toggle('done', k < gi); });
+  const girl = $('#girl'); girl.src = 'img/' + (SC[i].dataset.girl || 'g5') + '.png'; girl.classList.remove('hop'); void girl.offsetWidth; girl.classList.add('hop');
+  const bb = $('#bubble'); bb.style.opacity = 0; setTimeout(() => { bb.textContent = SC[i].dataset.say || ''; bb.style.opacity = SC[i].dataset.say ? 1 : 0; }, 300);
+  const full = SC[i].classList.contains('full') && SC[i].id !== 'gate'; girl.style.display = bb.style.display = full ? 'none' : '';
+  if (SC[i].id === 'gate') { $('#arch').classList.remove('open', 'zoom'); }
+  tone(fw ? 520 : 420, .09);
+}
+addEventListener('keydown', (e) => { if (e.target.tagName === 'INPUT') return; if (e.key === 'ArrowLeft' || e.key === ' ') go(cur + 1); if (e.key === 'ArrowRight') go(cur - 1); });
+function openGate() { const a = $('#arch'); a.classList.add('open'); tone(300, .6, 'triangle', .15); setTimeout(() => a.classList.add('zoom'), 1300); setTimeout(() => go(1), 2900); }
+for (let i = 0; i < 22; i++) { const d = document.createElement('span'); d.className = 'dust'; d.style.left = Math.random() * 1600 + 'px'; d.style.top = 600 + Math.random() * 300 + 'px'; d.style.animationDelay = -Math.random() * 7 + 's'; $('#gate').appendChild(d); }
+
+// ===== التهيئة
+const IDEAS = []; function addIdea() { const v = $('#idea').value.trim(); if (!v) return; IDEAS.push(v); $('#idea').value = ''; $('#ideas').innerHTML = IDEAS.map((t) => `<span class="chip">${t}</span>`).join(''); tone(700, .08); }
+$('#idea').addEventListener('keydown', (e) => { if (e.key === 'Enter') addIdea(); });
+const VOC = [['التربة', 'خليطٌ منْ فتاتِ الصخورِ وبقايا أوْ أجزاءِ نباتاتٍ ومخلوقاتٍ ميتةٍ. (ص١٦٥)'], ['نطاق التربة', 'كلُّ طبقةٍ منْ طبقاتِ التربةِ، منَ السطحِ إلى الصخورِ غيرِ المجوّاةِ. (ص١٦٥)'], ['الدُّبال', 'جزءٌ منَ التربةِ تكوّنَ منَ الموادِّ العضويةِ المتحلّلةِ. (ص١٦٩)'],
+  ['التربة السطحية', 'التربةُ في النطاقِ أ، معظمُ جذورِ النباتاتِ تنمو فيها. (ص١٦٩)'], ['التلوّث', 'إضافةُ موادَّ ضارّةٍ إلى التربةِ أوِ الماءِ أوِ الهواءِ. (ص١٧١)'], ['حفظ التربة', 'حمايةُ التربةِ منَ التلوثِ والانجرافِ. (ص١٦٥)']];
+$('#vocab').innerHTML = VOC.map(([w, d], i) => `<div class="fl" onclick="this.classList.toggle('on');tone(600,.08)"><div><div class="a">${w}<small>اقلبي البطاقة 👆</small></div><div class="b">${d}</div></div></div>`).join('');
+
+// ===== المجهر
+const SAMP = [['sand', '🏖️ العينة ١'], ['loam', '🌱 العينة ٢'], ['clay', '🧱 العينة ٣']];
+const TEX = {};
+function rnd(s) { return () => (s = (s * 9301 + 49297) % 233280) / 233280; }
+function makeTex(t) { const c = document.createElement('canvas'); c.width = 620; c.height = 430; const x = c.getContext('2d'); const R = rnd(t.length * 77);
+  if (t === 'sand') { x.fillStyle = '#d9b77a'; x.fillRect(0, 0, 620, 430); for (let i = 0; i < 900; i++) { const r = 4 + R() * 10, px = R() * 620, py = R() * 430; const col = ['#f3e2bd', '#e6c78e', '#c9a46a', '#efe9df', '#b8956a', '#9c9a95'][Math.floor(R() * 6)];
+      const g = x.createRadialGradient(px - r / 3, py - r / 3, 1, px, py, r); g.addColorStop(0, '#fff8e8'); g.addColorStop(.35, col); g.addColorStop(1, '#8a6a3e'); x.fillStyle = g; x.beginPath(); x.ellipse(px, py, r, r * (.7 + R() * .3), R() * 3, 0, 7); x.fill(); } }
+  if (t === 'clay') { x.fillStyle = '#9c5a33'; x.fillRect(0, 0, 620, 430); for (let i = 0; i < 26000; i++) { x.fillStyle = ['#b06a3e', '#8a4a28', '#a8613a', '#c47c4c'][Math.floor(R() * 4)]; x.fillRect(R() * 620, R() * 430, 1 + R() * 1.6, 1 + R() * 1.6); }
+    x.strokeStyle = 'rgba(70,35,15,.35)'; x.lineWidth = 1.2; for (let i = 0; i < 18; i++) { x.beginPath(); let px = R() * 620, py = R() * 430; x.moveTo(px, py); for (let k = 0; k < 5; k++) { px += R() * 40 - 20; py += R() * 40 - 20; x.lineTo(px, py); } x.stroke(); } }
+  if (t === 'loam') { x.fillStyle = '#5a3b24'; x.fillRect(0, 0, 620, 430); for (let i = 0; i < 3000; i++) { const r = 1.5 + R() * 4; x.fillStyle = ['#7a5434', '#4a2e18', '#8a6a48', '#3b2414', '#a08060'][Math.floor(R() * 5)]; x.beginPath(); x.arc(R() * 620, R() * 430, r, 0, 7); x.fill(); }
+    for (let i = 0; i < 70; i++) { x.strokeStyle = ['#2f4a14', '#6b4a1e', '#8a7a3a'][Math.floor(R() * 3)]; x.lineWidth = 2 + R() * 3; x.beginPath(); const px = R() * 620, py = R() * 430; x.moveTo(px, py); x.quadraticCurveTo(px + R() * 30, py + R() * 30, px + R() * 50 - 25, py + R() * 50 - 25); x.stroke(); }
+    x.strokeStyle = '#e9d3b0'; x.lineWidth = 1; for (let i = 0; i < 25; i++) { x.beginPath(); let px = R() * 620, py = R() * 430; x.moveTo(px, py); for (let k = 0; k < 6; k++) { px += R() * 24 - 12; py += 10; x.lineTo(px, py); } x.stroke(); } }
+  return c; }
+let samp = 'sand';
+function setSample(t) { samp = t; TEX[t] = TEX[t] || makeTex(t); const c = $('#sc').getContext('2d'); c.drawImage(TEX[t], 0, 0); $$('#samples button').forEach((b) => b.classList.toggle('on', b.dataset.t === t)); lensAt(310, 215); tone(500, .07); }
+$('#samples').innerHTML = SAMP.map(([t, n]) => `<button class="btn" data-t="${t}" onclick="setSample('${t}')">${n}</button>`).join('');
+let lx = 310, ly = 215;
+function lensAt(px, py) { lx = px; ly = py; const z = +$('#zoom').value, L = $('#lens'); L.style.left = (px - 115) + 'px'; L.style.top = (py - 115) + 'px';
+  L.style.backgroundImage = `url(${TEX[samp].toDataURL()})`; L.style.backgroundSize = `${620 * z}px ${430 * z}px`; L.style.backgroundPosition = `${-(px * z - 115)}px ${-(py * z - 115)}px`; }
+(function () { const sc = $('#scope'); const mv = (e) => { const r = sc.getBoundingClientRect(), s = r.width / 620; lensAt(Math.max(0, Math.min(620, (e.clientX - r.left) / s)), Math.max(0, Math.min(430, (e.clientY - r.top) / s))); };
+  sc.addEventListener('pointermove', mv); sc.addEventListener('pointerdown', mv); $('#zoom').oninput = () => { $('#zv').textContent = '×' + ar($('#zoom').value); lensAt(lx, ly); }; })();
+const OBS = [['العينة', 'حجم الحبيبات', 'اللون', 'الملمس والمواد'], ['🏖️ ١ (رملية)', 'كبيرة', 'فاتح (أصفر)', 'خشنة، فتات صخور'], ['🌱 ٢ (زراعية)', 'متوسطة ومختلطة', 'بني داكن', 'بقايا نباتات وجذور (دبال)'], ['🧱 ٣ (طينية)', 'دقيقة جدًّا', 'بني محمر', 'ناعمة ولزجة']];
+$('#obs').innerHTML = OBS.map((r, i) => '<tr>' + r.map((c, j) => i === 0 ? `<th>${c}</th>` : j === 0 ? `<th>${c}</th>` : `<td class="sh0" onclick="this.classList.remove('sh0');tone(640,.07);obsCheck()">${c}</td>`).join('') + '</tr>').join('');
+function obsCheck() { if (!$$('#obs td.sh0').length) { star(2); } }
+
+// ===== التسرب
+const DR = [['sand', '🏖️ رملية', '#e6c78e', [18, 30, 36, 39, 40], .35], ['loam', '🌱 زراعية', '#5a3b24', [8, 15, 20, 23, 25], .8], ['clay', '🧱 طينية', '#9c5a33', [2, 4, 6, 7, 8], 2.2]];
+$('#rig').innerHTML = DR.map(([k, n, c, v, sp], i) => `<div class="cup" data-i="${i}"><button class="btn" style="font-size:16px;padding:2px 10px" onclick="predict(${i})">${n}</button><div class="c1"><div class="s" style="background:${c}"></div><div class="w"></div></div><div class="drip" style="--sp:${sp}s"><i></i><i style="animation-delay:${sp / 2}s"></i></div><div class="cyl"><b>٠ مل</b><div class="lv"></div></div></div>`).join('');
+let pr = null; function predict(i) { pr = i; $$('#rig .cup .btn').forEach((b, k) => b.classList.toggle('main', k === i)); $('#pred').textContent = '✍️ توقّعكِ: ' + DR[i][1]; $('#pour').disabled = false; tone(600, .07); }
+function chart(m) { const W = 480, H = 210, px = (t) => 40 + t * 85, py = (v) => 180 - v * 3.6; let s = `<line x1="40" y1="180" x2="470" y2="180" stroke="#6b4226"/><line x1="40" y1="20" x2="40" y2="180" stroke="#6b4226"/>`;
+  for (let t = 1; t <= 5; t++) s += `<text x="${px(t)}" y="200" font-size="13" text-anchor="middle">${ar(t)} د</text>`; for (let v = 0; v <= 40; v += 10) s += `<text x="34" y="${py(v) + 4}" font-size="12" text-anchor="end">${ar(v)}</text><line x1="40" x2="470" y1="${py(v)}" y2="${py(v)}" stroke="#e8d8bd"/>`;
+  DR.forEach(([k, n, c, v]) => { const pts = [[0, 0]].concat(v.slice(0, m).map((x, t) => [t + 1, x])); s += `<polyline fill="none" stroke="${c === '#e6c78e' ? '#c99a40' : c}" stroke-width="4" points="${pts.map(([t, x]) => px(t) + ',' + py(x)).join(' ')}"/>` + pts.slice(1).map(([t, x]) => `<circle cx="${px(t)}" cy="${py(x)}" r="5" fill="${c === '#e6c78e' ? '#c99a40' : c}"/>`).join(''); if (m) s += `<text x="${px(m) + 6}" y="${py(v[m - 1]) - 6}" font-size="14" font-weight="800" fill="#3b2414">${n.split(' ')[1]}</text>`; });
+  $('#chart').innerHTML = s; }
+chart(0);
+function pour() { $('#pour').disabled = true; $('#rigc').classList.add('run'); $$('#rig .w').forEach((w) => w.style.height = '38%'); tone(400, .3, 'triangle');
+  let m = 0; const T = setInterval(() => { m++; $('#clock').textContent = '⏱ ' + ar(m) + ' دقيقة'; DR.forEach(([k, n, c, v], i) => { const cup = $$('#rig .cup')[i]; $('.lv', cup).style.height = (v[m - 1] / 50 * 100) + '%'; $('.cyl b', cup).textContent = ar(v[m - 1]) + ' مل'; $('.w', cup).style.height = Math.max(0, 38 - v[m - 1] * .9) + '%'; }); chart(m); tone(800, .05);
+    if (m === 5) { clearInterval(T); $('#rigc').classList.remove('run'); const fb = pr === 0 ? '✔ توقّعكِ صحيح! الماء تسرّب أسرع خلال التربة الرملية.' : '🔎 النتيجة: التربة الرملية سرّبت أكثر ماء… قارني بتوقّعك!'; $('#pred').textContent = fb; if (pr === 0) { good(); star(); } stamp('exp'); } }, 1300); }
+mcq('q_cmp', 'أقارن', 'أيُّ العيناتِ احتفظَتْ بالماءِ مدّةً أطولَ؟ ولماذا؟', ['الرملية؛ لأنّ حبيباتها كبيرة', 'الطينية؛ لأنّ حبيباتها دقيقة والمسامات بينها صغيرة', 'الزراعية؛ لأنّ لونها داكن'], 1,
+  'التربةُ الطينيةُ ذاتُ الحبيباتِ الدقيقةِ احتفظَتْ بالماءِ مدّةً أطولَ.', 'انظري إلى الرسم البياني: أيّ خطّ بقي منخفضًا؟');
+mcq('q_inf', 'أستنتج • تفكير عليا', 'مزارعةٌ في منطقةٍ قليلةِ المطرِ تريدُ تربةً تحتفظُ بالماءِ وتغذّي النباتَ. أيُّ تربةٍ تنصحينها بها؟', ['الرملية وحدها', 'الزراعية الغنية بالدبال', 'الصخور الكبيرة'], 1,
+  'الدُّبالُ يمتصُّ الماءَ ويحتفظُ بهِ، ويحوي موادَّ مغذّيةً للنباتِ (ص١٦٩). والخصائصُ التي تميّزُ أنواعَ التربةِ: حجمُ الحبيباتِ واللونُ والملمسُ والموادُّ المكوّنةُ وقدرتُها على الاحتفاظِ بالماءِ.', 'تحتاجُ تربةً تحفظُ الماءَ وفيها غذاءٌ للنبات.');
+
+// ===== تكوّن التربة
+const FS = [['🪨 صخور', 'صخرٌ صلبٌ على سطحِ الأرضِ.'], ['⚡ تجوية', 'تتعرّضُ الصخورُ لعواملِ تجويةٍ تؤدّي –على مرِّ السنينَ– إلى تشقّقِها وتكسّرِها.'], ['🦠 مخلوقات مجهرية', 'تنمو مخلوقاتٌ حيّةٌ مجهريةٌ في تلكَ الشقوقِ، وتقومُ بتفكيكِ الصخورِ إلى موادَّ كيميائيةٍ مناسبةٍ لتغذيةِ النباتِ.'],
+  ['🌿 حشائش ثم شجيرات', 'معَ استمرارِ التجويةِ تزدادُ فرصةُ نموِّ أنواعٍ مختلفةٍ منَ النباتاتِ؛ فتنمو الحشائشُ ثمَّ الشجيراتُ.'], ['🐇 حيوانات', 'وتأتي أنواعٌ منَ الحيواناتِ لتتغذّى على النباتاتِ التي نمَتْ.'], ['🍂 دبال وتربة', 'وعندما تموتُ النباتاتُ والحيواناتُ تتحوّلُ إلى موادَّ عضويّةٍ في التربةِ.']];
+$('#fsvg').innerHTML = `<rect width="640" height="330" fill="#cfe6f0"/><circle cx="560" cy="60" r="34" fill="#f2b632"/>
+  <rect y="230" width="640" height="100" fill="#8a7a68"/>
+  <g class="st on" data-s="0"><path d="M120 230 L170 120 L260 90 L360 110 L450 150 L520 230 Z" fill="#9a9186" stroke="#5e5246" stroke-width="3"/></g>
+  <g class="st" data-s="1"><path d="M250 92 L240 150 L265 190 L255 230 M360 112 L340 170 L370 230 M180 160 L215 200" stroke="#3b3530" stroke-width="5" fill="none"/><g fill="#9a9186"><circle cx="150" cy="226" r="12"/><circle cx="470" cy="222" r="9"/><circle cx="500" cy="226" r="6"/></g></g>
+  <g class="st" data-s="2" fill="#7fbf3a">${Array.from({ length: 26 }, (_, i) => `<circle cx="${180 + (i * 37) % 260}" cy="${140 + (i * 23) % 85}" r="3.5"/>`).join('')}</g>
+  <g class="st" data-s="3"><path d="M0 230 Q160 200 320 214 T640 222 L640 232 L0 232 Z" fill="#5a3b24"/><g stroke="#4f8a2a" stroke-width="4">${Array.from({ length: 20 }, (_, i) => `<line x1="${20 + i * 32}" y1="226" x2="${16 + i * 32}" y2="206"/>`).join('')}</g><text x="70" y="214" font-size="48">🌿</text><text x="520" y="222" font-size="56">🌳</text></g>
+  <g class="st" data-s="4"><text x="420" y="226" font-size="44">🐇</text><text x="130" y="228" font-size="36">🐛</text></g>
+  <g class="st" data-s="5"><rect y="232" width="640" height="46" fill="#3b2414"/><g fill="#7a5434">${Array.from({ length: 40 }, (_, i) => `<circle cx="${(i * 53) % 640}" cy="${240 + (i * 13) % 34}" r="4"/>`).join('')}</g><text x="250" y="266" font-size="22" fill="#ffe2a8" font-weight="800">🍂 دُبال + فتات صخور = تربة</text></g>`;
+$('#fsteps').innerHTML = FS.map(([n], i) => `<span data-s="${i}">${n}</span>`).join('');
+let fs_ = 0;
+function fStep(d) { fs_ = d < -1 ? 0 : Math.min(5, fs_ + d); $$('#fsvg .st').forEach((g) => g.classList.toggle('on', +g.dataset.s <= fs_)); $$('#fsteps span').forEach((s, i) => s.classList.toggle('on', i <= fs_)); tone(500 + fs_ * 60, .1);
+  $('#fbook').innerHTML = `<span class="strat">الفهم القرائي – التتابع</span><p style="margin:6px 0"><b>${FS[fs_][0]}:</b> ${FS[fs_][1]}</p>` + (fs_ === 5 ? '<p>إذنْ، <mark class="on">التربةُ خليطٌ منْ فتاتِ الصخورِ وأجزاءِ نباتاتٍ ومخلوقاتٍ ميتةٍ</mark>. وتغطّي التربةُ معظمَ اليابسةِ. ولا تستطيعُ النباتاتُ والحيواناتُ العيشَ منْ دونِها.</p>' : '<p style="color:#8a6a48">▶ اضغطي «المرحلة التالية»…</p>'); }
+fStep(-99);
+(function () { const el = $('#q_ord'); const corr = FS.slice(1).map((x) => x[0]); const sh = [3, 0, 4, 2, 1]; let k = 0;
+  el.innerHTML = `<div class="qt"><span class="tag">أركّب</span>رتّبي مراحل تكوّن التربة بالضغط عليها بالترتيب:</div><div class="order">${sh.map((i) => `<button class="btn" data-i="${i}">${corr[i]}</button>`).join('')}</div><div class="fb"></div>`;
+  $$('.order button', el).forEach((b) => b.onclick = () => { const fb = $('.fb', el); if (b.classList.contains('done')) return;
+    if (+b.dataset.i === k) { b.classList.add('done'); b.textContent = ar(k + 1) + ') ' + b.textContent; k++; good(); if (k === 5) { fb.className = 'fb ok'; fb.textContent = '✔ رائع! صخور ← تجوية ← مخلوقات مجهرية ← نباتات ← حيوانات ← دبال'; star(2); } }
+    else { bad(); fb.className = 'fb no'; fb.textContent = '💡 ماذا يحدث قبلها؟ شاهدي المحاكاة مرة أخرى.'; } }); })();
+mcq('q_ren', 'تفكير ناقد', 'لماذا تُعَدُّ التربةُ موردًا متجدّدًا معَ أنّها تتكوّنُ عبرَ سنينَ طويلةٍ؟', ['لأنّها تتكوّن في يوم واحد', 'لأنّه يمكنُ إعادةُ استخدامِها، وتتجدّدُ بالتجويةِ وتحلّلِ بقايا المخلوقات', 'لأنّها لا تنفدُ مهما أتلفناها'], 1,
+  'تُعَدُّ التربةُ موردًا متجدّدًا؛ لأنّها منَ المواردِ التي يمكنُ إعادةُ استخدامِها، رغمَ أنّها تتكوّنُ عبرَ سنينَ طويلةٍ (ص١٦٨).', 'هل يمكن إتلاف التربة؟ وكيف تتجدّد؟', () => stamp('what'));
+
+// ===== النطاقات
+const HZ = [['🌳 السطح', 85, 'نبدأ رحلتنا منْ سطحِ الأرضِ… كلُّ طبقةٍ منْ طبقاتِ التربةِ تسمّى <mark class="on">نطاقَ التربةِ</mark>. وبغضِّ النظرِ عنْ مكانِ وجودِ التربةِ؛ هناكَ ثلاثةُ نطاقاتٍ للتربةِ.'],
+  ['النطاق أ', 285, 'يحملُ معظمَ المغذّياتِ، ويحوي <mark class="on">الدُّبالَ</mark>: جزءٌ منَ التربةِ تكوّنَ منَ الموادِّ العضويةِ المتحلّلةِ التي حلّلتْها المخلوقاتُ المجهريةُ. يمتصُّ الدُّبالُ الماءَ ويحتفظُ بهِ. وتُسمّى التربةُ في هذا النطاقِ <mark class="on">التربةَ السطحيةَ</mark>، ومعظمُ جذورِ النباتاتِ تنمو فيها.'],
+  ['النطاق ب', 525, 'يُسمّى <mark class="on">التربةَ تحتَ السطحيةِ</mark>، وفيهِ نسبةٌ قليلةٌ منَ الدُّبالِ ونسبةٌ كبيرةٌ منَ الصخورِ المفتّتةِ، وهذهِ الصخورُ تشبهُ الصخورَ التي تكوّنُ الصلصالَ.'],
+  ['النطاق ج', 790, 'معظمُهُ يتكوّنُ منْ <mark class="on">قطعٍ كبيرةٍ منْ صخورِ التجويةِ</mark>. وهذهِ المنطقةُ تكونُ صلبةً، وتقعُ فوقَ الصخورِ غيرِ المجوّاةِ.'],
+  ['🪨 الصخر', 1015, 'وصلنا إلى الصخورِ غيرِ المجوّاةِ. ويختلفُ سُمكُ كلِّ نطاقٍ منْ منطقةٍ إلى أخرى، وقدْ لا تحتوي بعضُ المناطقِ على بعضِ هذهِ النطاقاتِ.']];
+$('#lnav').innerHTML = HZ.map(([n], i) => `<button class="btn" onclick="dig(${i})">${n}</button>`).join('');
+function dig(i) { const y = HZ[i][1]; $('#col2').style.transform = `translateY(${-Math.max(0, y - 300)}px)`; $('#pod').style.top = (Math.min(y, 300) - 40) + 'px';
+  $$('#lnav button').forEach((b, k) => b.classList.toggle('on', k === i)); $('#hcard').innerHTML = `<span class="strat">رحلة افتراضية – أقرأ الشكل</span><h3 style="margin:6px 0;font-family:Q;font-weight:400;font-size:30px;color:var(--soil)">${HZ[i][0]}</h3><p style="margin:0">${HZ[i][2]}</p>`; tone(300 - i * 30, .25, 'triangle', .12); }
+dig(0);
+mcq('q_hor', 'التفكير الناقد', 'لو جرفَتِ التعريةُ النطاقَ (أ) منْ حقلٍ، ماذا يحدثُ للنباتاتِ؟ ولماذا؟', ['ينمو أفضل؛ لأنّ النطاق ج أغنى بالدبال', 'يضعفُ نموُّها؛ لأنّها تفقدُ الدُّبالَ والمغذّياتِ التي في التربةِ السطحيةِ', 'لا يتأثّر؛ لأنّ الجذور تنمو في الصخر'], 1,
+  'تجرفُ التعريةُ التربةَ السطحيةَ (النطاقَ أ) فيقلُّ سمكُها أوْ تختفي، فتفقدُ النباتاتُ الدُّبالَ والمغذّياتِ فيضعفُ نموُّها.', 'أين يوجد معظمُ الدبال والجذور؟', () => stamp('hor'));
+
+// ===== الاستعمالات والتعرية
+const UB = [['forest', '🌳 تربة الغابات', '#3f7d2c', 'roots.jpg'], ['desert', '🏜️ التربة الصحراوية', '#c98a2a', 's_desert.jpg'], ['grass', '🌾 تربة الأراضي العشبية', '#7f9a3a', 'field.jpg']];
+const UC = [['طبقة رقيقة قليلة الدبال', 'forest'], ['الأمطار الغزيرة تحمل المعادن للأعماق', 'forest'], ['رملية غنية بمعادن قريبة من السطح', 'desert'], ['محاصيلها تُروى صناعيًّا غالبًا', 'desert'], ['غنية بالدبال صالحة للزراعة', 'grass'], ['تُزرع فيها الذرة والشعير', 'grass']];
+let usel = null, uok = 0;
+$('#uchips').innerHTML = UC.map(([t, k], i) => `<button class="chip" data-k="${k}" onclick="usel=this;$$('#uchips .chip').forEach(c=>c.classList.remove('sel'));this.classList.add('sel')">${t}</button>`).sort(() => Math.random() - .5).join('');
+$('#usort').innerHTML = UB.map(([k, n, c, im]) => `<div class="bin" style="--c:${c}" onclick="udrop('${k}',this)"><h4>${n}</h4><img src="img/${im}" alt=""><div class="in"></div></div>`).join('');
+function udrop(k, el) { const fb = $('#ufb'); if (!usel) { fb.className = 'fb'; fb.textContent = '👆 اختاري بطاقة أولًا'; return; }
+  if (usel.dataset.k === k) { $('.in', el).insertAdjacentHTML('beforeend', `<span>${usel.textContent}</span>`); usel.classList.add('used'); usel = null; uok++; good(); fb.className = 'fb ok'; fb.textContent = `✔ ${ar(uok)} من ${ar(UC.length)}`; if (uok === UC.length) { fb.textContent = '🌍 ممتاز! لكلِّ نوعٍ منَ التربةِ خصائصُ تناسبُ نباتاتٍ وحيواناتٍ معيّنةً (ص١٧٠).'; star(2); } }
+  else { bad(); fb.className = 'fb no'; fb.textContent = '💡 ارجعي إلى نص ص١٧٠: أيّ تربة تحوي هذه الصفة؟'; } }
+function hillSVG(planted) { let s = `<svg viewBox="0 0 300 260"><g class="rain">${Array.from({ length: 34 }, (_, i) => `<line x1="${(i * 29) % 300}" y1="${(i * 17) % 90}" x2="${(i * 29) % 300 - 4}" y2="${(i * 17) % 90 + 14}" style="animation-delay:${(i % 7) * .1}s"/>`).join('')}</g>
+  <path d="M0 260 L0 230 L40 120 L150 60 L300 230 L300 260 Z" fill="#8a7a68"/><path class="soil" d="M0 230 L40 120 L150 60 L300 230 L292 232 L150 76 L46 132 L8 232 Z" fill="#5a3b24" style="transition:opacity 4s"/>`;
+  if (planted) s += `<text x="60" y="130" font-size="30">🌳</text><text x="120" y="90" font-size="26">🌿</text><text x="180" y="120" font-size="30">🌳</text><text x="232" y="180" font-size="26">🌿</text><g stroke="#e9d3b0" stroke-width="2">${[70, 130, 195, 245].map((x) => `<path d="M${x + 8} ${x < 150 ? 132 - (x - 70) * .6 : 100 + (x - 150) * 1.1} l-6 18 m6 -18 l8 16" />`).join('')}</g>`;
+  return s + `<g class="pts"></g><rect x="0" y="236" width="300" height="24" fill="#6b5a48"/></svg>`; }
+$('#ero').innerHTML = `<div><b>🏜️ منحدر بلا نباتات</b>${hillSVG(false)}<div class="meter"><i id="m0"></i></div></div><div><b>🌳 منحدر مزروع</b>${hillSVG(true)}<div class="meter"><i id="m1"></i></div></div>`;
+let raining = false;
+function rain() { if (raining) return; raining = true; $('#ero').classList.add('raining'); tone(200, 1.2, 'sawtooth', .04);
+  $$('#ero svg').forEach((sv, k) => { const g = $('.pts', sv); const n = k ? 6 : 60; let html = ''; for (let i = 0; i < n; i++) { const t = Math.random(); const x = t < .5 ? 40 + t * 2 * 110 : 150 + (t - .5) * 2 * 150, y = t < .5 ? 120 - t * 2 * 60 : 60 + (t - .5) * 2 * 170;
+      html += `<circle r="3.5" fill="#7a5434" cx="${x}" cy="${y}"><animate attributeName="cy" to="240" dur="${2 + Math.random() * 2}s" begin="${Math.random() * 2}s" fill="freeze"/><animate attributeName="cx" to="${x < 150 ? 10 + Math.random() * 30 : 260 + Math.random() * 35}" dur="${2 + Math.random() * 2}s" begin="${Math.random() * 2}s" fill="freeze"/></circle>`; } g.innerHTML = html;
+    if (!k) $('.soil', sv).style.opacity = .25; });
+  $('#m0').style.width = '85%'; $('#m1').style.width = '10%'; setTimeout(() => { $('#ero').classList.remove('raining'); raining = false; }, 5000); }
+mcq('q_ero', 'أتوقّع • تفكير عليا', 'قطعَ مزارعٌ الأشجارَ منْ أرضٍ منحدرةٍ ليزرعَها. ماذا تتوقّعينَ بعدَ موسمِ أمطارٍ غزيرةٍ؟', ['تزدادُ خصوبةُ التربة', 'تنجرفُ التربةُ السطحيةُ؛ لأنَّ الجذورَ التي كانت تثبّتُها زالت', 'لا يتغيّرُ شيء'], 1,
+  'جذورُ النباتاتِ تثبّتُ التربةَ في مكانِها. وإذا زالتِ النباتاتُ فإنَّ تعريةَ التربةِ تزدادُ، ممّا قدْ يغيّرُ نوعَ التربةِ ونوعَ النباتِ في المنطقةِ (ص١٧٠).', 'شغّلي المطر وقارني بين المنحدرين.');
+
+// ===== وعاء مكونات التربة
+const JC = $('#jc').getContext('2d'); let P = [], showL = false, turb = .7, anim = null;
+const TYPES = [['gravel', 9, '#8f8a84', 26], ['sand', 4, '#d9b77a', 160], ['clay', 1.8, '#a0603a', 700], ['org', 0, '#4f6b1e', 22]];
+function jarInit(mixed) { P = []; TYPES.forEach(([t, r, c, n]) => { for (let i = 0; i < n; i++) P.push({ t, r, c, x: 40 + Math.random() * 220, y: mixed ? 90 + Math.random() * 310 : 0, vy: 0, a: Math.random() * 6 }); }); if (!mixed) settleNow(); }
+const BANDS = { gravel: [370, 405], sand: [322, 370], clay: [292, 322] };
+function settleNow() { P.forEach((p) => { if (p.t === 'org') { p.y = 96 + Math.random() * 10; return; } const [a, b] = BANDS[p.t]; p.y = a + Math.random() * (b - a); }); turb = .08; }
+function jarDraw() { const x = JC; x.clearRect(0, 0, 300, 440); x.fillStyle = '#c9d6dc'; x.fillRect(30, 30, 240, 20); x.fillStyle = 'rgba(200,225,240,.35)'; x.fillRect(30, 50, 240, 360);
+  x.fillStyle = `rgba(140,100,60,${turb})`; x.fillRect(30, 90, 240, 320);
+  P.forEach((p) => { x.fillStyle = p.c; if (p.t === 'org') { x.strokeStyle = p.c; x.lineWidth = 3; x.beginPath(); x.moveTo(p.x - 7, p.y); x.lineTo(p.x + 7, p.y + Math.sin(p.a) * 4); x.stroke(); } else { x.beginPath(); x.arc(p.x, p.y, p.r, 0, 7); x.fill(); } });
+  x.strokeStyle = '#7a8c96'; x.lineWidth = 5; x.strokeRect(30, 50, 240, 362); x.fillStyle = 'rgba(255,255,255,.25)'; x.fillRect(42, 60, 14, 340);
+  if (showL) { x.font = 'bold 17px Z, sans-serif'; x.textAlign = 'center'; x.fillStyle = '#3b2414'; [['🍂 بقايا نباتات (دبال) تطفو', 86], ['💧 ماء', 200], ['طين', 312], ['رمل', 350], ['حصى', 395]].forEach(([t, y]) => { x.fillStyle = 'rgba(255,250,240,.85)'; x.fillRect(80, y - 15, 140, 22); x.fillStyle = '#3b2414'; x.fillText(t, 150, y + 2); }); } }
+function shake() { if (anim) cancelAnimationFrame(anim); const j = $('#jarw'); j.classList.remove('shake'); void j.offsetWidth; j.classList.add('shake'); jarInit(true); turb = .75; showL = false; tone(180, .8, 'sawtooth', .05); const t0 = performance.now();
+  const step = (now) => { const t = (now - t0) / 1000; let moving = false;
+    P.forEach((p) => { if (t < 1.6) { p.x += (Math.random() - .5) * 8; p.y += (Math.random() - .5) * 8; p.x = Math.max(36, Math.min(264, p.x)); p.y = Math.max(92, Math.min(400, p.y)); moving = true; return; }
+      if (p.t === 'org') { if (p.y > 100) { p.y -= 1.6; moving = true; } p.a += .05; return; }
+      if (p.ty == null) { const [a, b] = BANDS[p.t]; p.ty = a + Math.random() * (b - a); }
+      const sp = { gravel: 6, sand: 2.2, clay: .55 }[p.t]; if (p.y < p.ty) { p.y = Math.min(p.ty, p.y + sp); moving = true; } });
+    turb = t < 1.6 ? .75 : Math.max(.08, .75 - (t - 1.6) * .1); jarDraw();
+    if (moving || turb > .09) anim = requestAnimationFrame(step); else { P.forEach((p) => delete p.ty); good(); } };
+  P.forEach((p) => delete p.ty); anim = requestAnimationFrame(step); }
+function labels() { showL = !showL; jarDraw(); }
+jarInit(false); jarDraw();
+mcq('q_jar', 'ألاحظ وأستنتج', 'بعدَ أنْ يصبحَ الماءُ صافيًا، كيفَ تترتّبُ مكوّناتُ التربةِ منْ أسفلَ إلى أعلى؟', ['طين ← رمل ← حصى، وتغوص بقايا النباتات', 'حصى ← رمل ← طين ← ماء، وتطفو فوقه بقايا النباتات (الدبال)', 'تختلط كلها ولا تترتّب'], 1,
+  'الحبيباتُ الأكبرُ (الحصى) تترسّبُ في الأسفلِ، ثمَّ الرملُ، ثمَّ الطينُ الأصغرُ في الأعلى، وتطفو بقايا النباتاتِ. إذنْ تتكوّنُ التربةُ منْ فتاتِ الصخورِ (حصى ورمل وطين) والدُّبالِ والماءِ والهواءِ.', 'رجّي الوعاء وراقبي أيّ الحبيبات تنزل أولًا.');
+const POL = [['🧪 مواد كيميائية', 'تتلوّثُ التربةُ بالموادِّ الكيميائيةِ التي تُلقى في الأرضِ.'], ['✈️ المبيدات', 'الموادُّ الكيميائيةُ التي تُستخدمُ في المبيداتِ الحشريةِ أوْ لقتلِ الحشائشِ والأعشابِ.'], ['🗑️ مكبّات النفايات', 'وبخاصّةٍ غيرِ المتحلّلةِ منها كالبلاستيكِ بأنواعِهِ.']];
+$('#poll').innerHTML = POL.map(([n, d]) => `<div class="pc" onclick="this.classList.add('on');tone(260,.12,'square',.08)">${n}<div>${d}</div></div>`).join('');
+mcq('q_pol', 'التفكير الناقد', 'كيفَ يمكنُ مكافحةُ الحشراتِ والآفاتِ منْ دونِ استخدامِ الموادِّ الكيميائيةِ الملوّثةِ للتربةِ؟', ['رشُّ كمّيّاتٍ أكبرَ منَ المبيدات', 'المكافحةُ الحيويةُ (الأعداء الطبيعية كالطيور)، والدورةُ الزراعيةُ، والأسمدةُ العضويةُ، ونزعُ الأعشابِ يدويًّا', 'حرقُ التربةِ كلَّ موسم'], 1,
+  'هذه طرقٌ تحمي المحصولَ دونَ أنْ تلوّثَ التربةَ التي تحتاجُ النباتاتُ إليها للنموِّ.', 'ابحثي عن حلٍّ لا يضيفُ موادَّ ضارّة.', () => stamp('pol'));
+
+// ===== المحافظة
+const MT = [['🧪 التسميد', 'تحتوي الأسمدةُ على موادَّ مغذّيةٍ، وعندَ إضافتِها تحلُّ محلَّ المغذّياتِ التي استهلكتْها النباتاتُ.'], ['🔁 الدورة الزراعية', 'زراعةُ أنواعٍ مختلفةٍ منَ النباتاتِ في التربةِ نفسِها خلالَ مواسمَ متتاليةٍ، ومنها البقولياتُ التي تثبّتُ النيتروجينَ.'],
+  ['🌾 الأشرطة المتبادلة', 'زراعةُ الأعشابِ بينَ صفوفِ المزروعاتِ الأخرى؛ فجذورُها تمنعُ انجرافَ التربةِ.'], ['〰️ الحراثة الكنتورية', 'حراثةُ الأخاديدِ في منحدراتِ التلالِ بدلَ الحراثةِ في اتجاهِ ميلِ المنحدرِ، فتقلُّ سرعةُ الماءِ.'],
+  ['🪜 المصاطب (المدرجات)', 'مسطحاتٌ مستويةٌ على شكلِ مدرجاتٍ تُقتطعُ منَ التلالِ، تقلّلُ سرعةَ المياهِ المتدفّقةِ.'], ['🌲 مصدّات الرياح', 'أشجارٌ طويلةٌ على حدودِ المزرعةِ تقلّلُ سرعةَ الرياحِ فيقلُّ تأثيرُها في التربةِ السطحيةِ.'],
+  ['⚖️ القوانين', 'تُصدرُ الحكوماتُ قوانينَ للحدِّ منْ تلوّثِ التربةِ.'], ['🧹 الجهود الفردية', 'جمعُ القمامةِ والمساعدةُ على تنظيفِ الأرضِ التي تلوّثتْ.'], ['📢 التعليم', 'إرشادُ الناسِ وتقديمُ معلوماتٍ لهمْ عنْ أهميةِ التربةِ وكيفَ نحافظُ عليها.']];
+$('#methods').innerHTML = MT.map(([n, d]) => `<div class="mth" onclick="this.classList.toggle('on');tone(620,.07)">${n}<div>${d}</div></div>`).join('');
+const ADV = [['⛰️ مزرعةٌ على تلٍّ شديدِ الانحدارِ تجرفُ الأمطارُ تربتَها.', ['المصاطب (المدرجات)', 'التسميد', 'القوانين'], 0], ['💨 رياحٌ قويةٌ تحملُ التربةَ السطحيةَ منْ حقلٍ مكشوفٍ.', ['الدورة الزراعية', 'مصدّات الرياح', 'التعليم'], 1],
+  ['🌱 تربةٌ زُرعَتْ بالمحصولِ نفسِهِ سنواتٍ ففقدَتْ مغذّياتِها.', ['مصدّات الرياح', 'الحراثة الكنتورية', 'الدورة الزراعية والتسميد'], 2], ['🛍️ أكياسُ بلاستيكٍ ونفاياتٌ في حديقةِ الحيّ.', ['الجهود الفردية بجمع القمامة', 'المصاطب', 'التسميد'], 0]];
+(function () { let k = 0; const el = $('#q_adv'); const show = () => { if (k >= ADV.length) { el.innerHTML = '<div class="qt">🛡️ أنتِ مستشارةُ تربةٍ ماهرة! حللتِ كلَّ المشكلات.</div>'; star(2); stamp('save'); return; } const [p, o, a] = ADV[k];
+    el.innerHTML = `<div class="qt"><span class="tag">مستشارة التربة ${ar(k + 1)}/${ar(ADV.length)}</span>${p} ما الحلّ الأنسب؟</div><div class="opts">${o.map((t, i) => `<button data-i="${i}">${t}</button>`).join('')}</div><div class="fb"></div>`;
+    $$('.opts button', el).forEach((b) => b.onclick = () => { if (+b.dataset.i === a) { b.classList.add('ok'); good(); k++; setTimeout(show, 900); } else { b.classList.add('no'); bad(); $('.fb', el).className = 'fb no'; $('.fb', el).textContent = '💡 اقرئي بطاقات الطرق مرة أخرى.'; } }); }; show(); })();
+function hill(m) { $('#hs').classList.toggle('main', !m); $('#hc').classList.toggle('main', !!m); let s = `<path d="M0 250 L0 60 Q270 20 540 210 L540 250 Z" fill="#7f9a3a"/>`;
+  if (!m) { for (let i = 0; i < 9; i++) s += `<path d="M${40 + i * 55} ${50 + i * 4} L${70 + i * 55} 240" stroke="#5a3b24" stroke-width="7"/>`; s += Array.from({ length: 6 }, (_, i) => `<path class="flow" style="--fs:.45s" d="M${60 + i * 80} 60 L${90 + i * 80} 240" stroke="#3e8ed6" stroke-width="5" fill="none"/>`).join('') + `<ellipse cx="300" cy="244" rx="230" ry="10" fill="#5a3b24" opacity=".8"/>`; }
+  else { for (let i = 0; i < 7; i++) s += `<path d="M0 ${80 + i * 26} Q270 ${45 + i * 30} 540 ${215 + i * 4}" stroke="${i % 2 ? '#5a3b24' : '#4f6b1e'}" stroke-width="9" fill="none"/>`; s += Array.from({ length: 5 }, (_, i) => `<path class="flow" style="--fs:3s" d="M${80 + i * 90} ${70 + i * 18} l40 2" stroke="#3e8ed6" stroke-width="5" fill="none"/>`).join(''); }
+  $('#hsvg').innerHTML = s; $('#hfb').className = 'fb ' + (m ? 'ok' : 'no'); $('#hfb').textContent = m ? '✔ الأخاديد عبر المنحدر تبطئ الماء فتبقى التربة السطحية في مكانها.' : '⚠️ الماء يجري بسرعة مع الميل فيجرف التربة السطحية الغنية إلى أسفل التل.'; tone(m ? 700 : 240, .2); }
+hill(0);
+mcq('q_mt', 'التفكير الناقد', 'لماذا لا تحوي قممُ الجبالِ تربةً سطحيةً، أوْ تحوي القليلَ منها فقط؟', ['لأنَّ الصخورَ في الجبالِ لا تتعرّضُ للتجوية', 'لأنَّ شدّةَ انحدارِها تجعلُ الماءَ والرياحَ يجرفانِ فتاتَ الصخورِ إلى الأسفلِ قبلَ تراكمِهِ، وقلّةُ النباتاتِ فيها تزيدُ التعرية', 'لأنَّ الجبالَ باردةٌ فقط'], 1,
+  'شدّةُ الانحدارِ وقلّةُ الجذورِ التي تثبّتُ التربةَ تجعلانِ التعريةَ أقوى منْ تكوّنِ التربةِ.', 'تذكّري محاكاة الحراثة مع الميل.');
+
+// ===== مراجعة الدرس ص١٧٣
+const RV = [['m', 'المفردات', 'نطاقُ التربةِ الذي يحوي معظمَ الموادِّ العضويةِ يسمّى ………', ['التربة تحت السطحية', 'التربة السطحية (النطاق أ)', 'الصخور غير المجوّاة'], 1, 'التربةُ السطحيةُ (النطاقُ أ) غنيةٌ بالدُّبالِ.', 'أين يكثر الدبال؟'],
+  ['r', 'ألخّص', 'أصفُ الطرقَ التي تُحفَظُ بها التربةُ منَ التعريةِ.', 'الحراثةُ الكنتوريةُ، والأشرطةُ المتبادلةُ، والمصاطبُ (المدرجاتُ)، ومصدّاتُ الرياحِ؛ فكلُّها تبطّئُ الماءَ والرياحَ وتثبّتُ التربةَ بالجذورِ.'],
+  ['r', 'التفكير الناقد', 'أقارنُ بينَ تربةِ الغابةِ وتربةِ الصحراءِ.', 'تربةُ الغابةِ رقيقةٌ قليلةُ الدُّبالِ ومعادنُها عميقةٌ لغزارةِ الأمطارِ، وتربةُ الصحراءِ رمليةٌ قليلةُ الدُّبالِ غنيةٌ بمعادنَ قريبةٍ منَ السطحِ.'],
+  ['m', 'أختار (الشكل ص١٦٩)', 'يتكوّنُ نطاقُ التربةِ (ج) منْ:', ['الصلصال', 'الدُّبال', 'الصخور المفتّتة', 'الصخور الكبيرة'], 3, 'النطاقُ ج معظمُهُ قطعٌ كبيرةٌ منْ صخورِ التجويةِ.', 'تذكّري رحلة مركبة الحفر.'],
+  ['m', 'أختار', 'ما الأشرطةُ المتبادلةُ؟', ['إضافة الأسمدة للتربة', 'تقطيع الصخور في التلال', 'زراعة الأعشاب بين صفوف النباتات', 'زراعة الأشجار حول النباتات'], 2, 'تساعدُ جذورُ الأعشابِ بينَ الصفوفِ على عدمِ انجرافِ التربةِ.', 'ارجعي إلى بطاقات طرق الحفظ.'],
+  ['r', 'السؤال الأساسي', 'ممَّ تتكوّنُ التربةُ؟ وكيفَ نحافظُ عليها؟', 'تتكوّنُ منْ فتاتِ الصخورِ وأجزاءِ نباتاتٍ ومخلوقاتٍ ميتةٍ (الدُّبال) والماءِ والهواءِ، ونحافظُ عليها بالتسميدِ والدورةِ الزراعيةِ والحراثةِ الكنتوريةِ ومصدّاتِ الرياحِ وعدمِ تلويثِها.']];
+$('#revg').innerHTML = RV.map((r, i) => `<div class="q" id="rv${i}"></div>`).join('');
+RV.forEach((r, i) => { if (r[0] === 'm') mcq('rv' + i, ar(i + 1) + ' ' + r[1], r[2], r[3], r[4], r[5], r[6]);
+  else $('#rv' + i).innerHTML = `<div class="qt"><span class="tag">${ar(i + 1)} ${r[1]}</span>${r[2]}</div><button class="btn" onclick="rv(this)">💡 تحقّقي من إجابتك</button><div class="reveal">${r[3]}</div>`; });
+
+// ===== الظرف والقرعة
+const MSG = ['💗 أنتِ نجمة تضيء مختبر العلوم!', '🦋 وجودكِ يجعل حصتنا أجمل!', '👑 يا عالمة التربة، فخورة بكِ!', '🌷 ابتسمي، فأنتِ رائعة!', '💎 أنتِ جوهرة ثمينة!', '🌱 مثل البذرة… تنمين كل يوم!', '🌈 قدراتكِ أكبر مما تتخيلين!', '✨ اجتهادكِ اليوم يصنع نجاحكِ غدًا!', '🏆 تستحقين التصفيق يا بطلة!', '💌 رسالة سرية: معلمتكِ تؤمن بكِ!', '🌟 أنتِ قادرة على صنع أشياء مذهلة!', '🎁 مفاجأة! نجمتان إضافيتان ⭐⭐'];
+const PTS = [3, 5, 2, 7, 4, 6, 10, 8, 5, 9, 3, 2].sort(() => Math.random() - .5);
+$('#env').innerHTML = MSG.map((m, i) => `<button onclick="openEnv(${i},this)">✉️<br><span style="font-size:20px;font-weight:800">${ar(i + 1)}</span></button>`).join('');
+function openEnv(i, b) { b.classList.add('used'); $('#msgin').innerHTML = `<b>+${ar(PTS[i])} نقاط</b>${MSG[(i * 5) % MSG.length]}<br><small style="font-size:20px">(اضغطي للإغلاق)</small>`; $('#msgbox').classList.add('on'); good(); confetti(); }
+function drawN() { const n = Math.max(2, +$('#nst').value || 30); let k = 0; const T = setInterval(() => { $('#drawn').textContent = ar(1 + Math.floor(Math.random() * n)); tone(400 + k * 20, .04); if (++k > 22) { clearInterval(T); good(); } }, 70); }
+
+drawStamps(); go(0); SC[0].classList.add('on');
+</script>
+</body>
+</html>
