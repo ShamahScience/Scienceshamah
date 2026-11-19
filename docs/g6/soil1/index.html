@@ -33,7 +33,7 @@ html, body { margin: 0; height: 100%; background: #2a190d; overflow: hidden; fon
 .path { flex: 1; display: flex; align-items: center; justify-content: space-between; position: relative; padding: 0 10px; }
 .path::before { content: ''; position: absolute; left: 24px; right: 24px; top: 50%; height: 6px; margin-top: -3px; border-radius: 4px; background: repeating-linear-gradient(90deg, #8a5a34 0 14px, transparent 14px 22px); }
 .stop { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; cursor: pointer; background: none; border: none; font-family: inherit; color: #cdb08a; font-size: 13px; font-weight: 800; }
-.stop i { font-style: normal; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; background: #4a2e18; border: 3px solid #8a5a34; }
+.stop i { font-style: normal; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; background: #4a2e18; border: 3px solid #8a5a34; }
 .stop.done i { border-color: var(--leaf); } .stop.on i { background: var(--gold); border-color: #fff3d0; transform: scale(1.15); box-shadow: 0 0 18px var(--gold); } .stop.on { color: var(--gold); }
 /* الطالبة */
 #girl { position: absolute; left: 6px; bottom: 74px; width: 200px; z-index: 15; pointer-events: none; transition: transform .5s; filter: drop-shadow(0 8px 10px rgba(0,0,0,.4)); }
@@ -195,35 +195,90 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
 .conf { position: absolute; top: -30px; font-size: 26px; z-index: 40; pointer-events: none; animation: cf 2.4s linear forwards; }
 @keyframes cf { to { transform: translateY(980px) rotate(600deg); } }
 .score { position: absolute; top: 12px; left: 22px; z-index: 21; }
+
+.gdate { display: flex; gap: 14px; justify-content: center; margin-top: 10px; } .gdate span { background: rgba(0,0,0,.35); border: 2px solid var(--gold); border-radius: 16px; padding: 4px 14px; color: #f1dcb8; font-weight: 800; font-size: 20px; } .gdate b { color: var(--gold); }
+.rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.rl { background: #fffaf0; border: 3px solid #c9a06a; border-radius: 22px; padding: 14px; text-align: center; cursor: pointer; box-shadow: 0 6px 0 #b9935f; transition: transform .3s; }
+.rl i { font-style: normal; font-size: 54px; display: block; } .rl b { font-size: 24px; color: var(--soil); } .rl p { display: none; margin: 4px 0 0; font-weight: 700; font-size: 17px; }
+.rl.on { transform: translateY(-4px) rotate(-1deg); background: #f3f0d8; border-color: var(--olive); } .rl.on p { display: block; }
+.outs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.out { background: linear-gradient(160deg, #fffaf0, #f1e3c8); border: 3px solid var(--clay); border-radius: 24px; padding: 16px; text-align: center; cursor: pointer; min-height: 330px; display: flex; flex-direction: column; gap: 8px; align-items: center; transition: transform .4s; perspective: 600px; }
+.out:hover { transform: translateY(-6px) rotateX(6deg); } .out i { font-style: normal; font-size: 64px; } .out b { font-size: 22px; line-height: 1.5; } .out small { display: none; font-weight: 800; color: var(--olive); font-size: 17px; } .out.on small { display: block; }
+.out .n { font-family: Q; font-size: 34px; color: var(--clay); }
+.kb { position: relative; height: 380px; border-radius: 22px; overflow: hidden; border: 5px solid #fffaf0; box-shadow: 0 12px 26px rgba(0,0,0,.3); }
+.kb img { width: 100%; height: 100%; object-fit: cover; animation: kbz 14s ease-in-out infinite alternate; } @keyframes kbz { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.25) translate(4%, 3%); } }
+.kbl { position: absolute; bottom: 12px; right: 12px; background: rgba(59,36,20,.85); color: var(--gold); border-radius: 16px; padding: 4px 14px; font-weight: 800; cursor: pointer; }
+.chip.ok { background: #e7f3dc; border-color: var(--ok); } .chip.no { background: #fbe1da; border-color: var(--red); text-decoration: line-through; }
+.tray { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tray button { font-family: inherit; font-weight: 800; font-size: 18px; border: 3px solid #c9a06a; border-radius: 18px; background: #fffaf0; padding: 0 0 6px; cursor: pointer; overflow: hidden; }
+.tray canvas { width: 100%; height: 120px; display: block; margin-bottom: 4px; }
+#scopeOv, #bagOv, #imgOv { position: absolute; inset: 64px 0 72px 0; z-index: 25; background: rgba(42,25,13,.88); display: none; align-items: center; justify-content: center; }
+#scopeOv.on, #bagOv.on, #imgOv.on { display: flex; animation: zin .6s cubic-bezier(.3,.7,.2,1); } @keyframes zin { from { transform: scale(.6); opacity: 0; } }
+.ovb { background: #fbf3e4; border: 5px solid var(--gold); border-radius: 28px; padding: 14px 18px; display: flex; gap: 16px; max-width: 1500px; max-height: 740px; overflow: auto; position: relative; }
+.ovx { position: absolute; top: 8px; left: 10px; z-index: 3; }
+#scopeOv .samples { flex-direction: column; width: 210px; } #scopeOv .samples button { font-size: 17px; padding: 6px 8px; }
+.scap { width: 330px; font-size: 19px; font-weight: 700; line-height: 1.8; }
+#imgOv img { max-width: 92%; max-height: 92%; border-radius: 18px; border: 5px solid var(--gold); }
+.bags { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.bag { position: relative; background: linear-gradient(170deg, #8a5a34, #5a3820); border-radius: 26px 26px 18px 18px; height: 400px; cursor: pointer; color: #ffe2a8; text-align: center; padding: 70px 14px 14px; box-shadow: 0 10px 0 #3b2414, 0 18px 30px rgba(0,0,0,.35); transition: transform .3s; border: 4px solid #c79b5c; }
+.bag::before { content: ''; position: absolute; top: -34px; left: 50%; width: 120px; height: 60px; margin-left: -60px; border: 10px solid #c79b5c; border-bottom: none; border-radius: 60px 60px 0 0; }
+.bag:hover { transform: translateY(-8px) rotate(-1.5deg); } .bag i { font-style: normal; font-size: 70px; display: block; } .bag b { font-family: Q; font-weight: 400; font-size: 30px; display: block; color: var(--gold); } .bag p { font-weight: 700; font-size: 18px; }
+.bag .lock { position: absolute; top: 30px; left: 50%; margin-left: -18px; font-size: 30px; }
+.bag.done { background: linear-gradient(170deg, #6b7a2a, #3f5a1e); } .bag.done .lock { display: none; } .bag .med { display: none; font-size: 60px; } .bag.done .med { display: block; animation: stp .6s; }
+.dec { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.dc { background: #fffaf0; border: 3px solid #c9a06a; border-radius: 20px; padding: 10px; text-align: center; cursor: pointer; font-weight: 800; font-size: 19px; }
+.dc i { font-style: normal; font-size: 50px; display: block; } .dc p { display: none; font-weight: 700; font-size: 16px; text-align: right; margin: 6px 0 0; }
+.dc.ok { border-color: var(--ok); background: #e7f3dc; } .dc.no { border-color: var(--red); background: #fbe1da; } .dc.ok p, .dc.no p { display: block; }
+.nat { display: flex; gap: 12px; align-items: center; background: #fffaf0; border: 3px solid var(--leaf); border-radius: 20px; padding: 8px 12px; }
+.nat img { width: 210px; height: 120px; object-fit: cover; border-radius: 14px; } .nat b { font-size: 20px; color: var(--olive); } .nat p { margin: 2px 0 0; font-weight: 700; font-size: 17px; }
+.rate { display: flex; gap: 8px; margin-top: 8px; } .rate button { flex: 1; font-family: inherit; font-weight: 800; font-size: 18px; border: 3px solid var(--clay); background: #fff; border-radius: 16px; padding: 8px; cursor: pointer; } .rate button.on { background: var(--gold); }
+.cn { cursor: pointer; } .cn .a { opacity: 0; transition: opacity .6s; } .cn .qm { transition: opacity .4s; } .cn.on .a { opacity: 1; } .cn.on .qm { opacity: 0; }
+.mis { width: 1180px; } .mis h3 { margin: 0 0 6px; font-family: Q; font-weight: 400; font-size: 34px; color: var(--soil); }
 </style>
 </head>
 <body>
 <div id="stage">
   <div id="lab"><div class="jars"></div><div class="jars j2"></div></div>
   <div class="top"><h1>🔬 مختبر التربة الرقمي</h1><span class="t">العلوم • الصف السادس • الفصل السادس – الدرس الأول: التربة • ص١٦٥–١٧٣</span><span class="sp"></span>
-    <button class="pill" id="stars">⭐ نجوم المستكشفة: ٠</button><button class="pill" onclick="goId('pass')">🛂 جوازي</button><span class="pill">💚 أ/ شامه البقمي</span><button class="pill" onclick="fs()">⛶</button></div>
+    <button class="pill" id="stars">⭐ نجوم المستكشفة: ٠</button><button class="pill" onclick="openScope()">🔬 المجهر</button><button class="pill" onclick="goId('pass')">🛂 جوازي</button><span class="pill">💚 أ/ شامه البقمي</span><button class="pill" onclick="fs()">⛶</button></div>
   <img id="girl" src="img/g5.png" alt="">
   <div id="bubble"></div>
   <div class="bot"><button class="nb ghost" onclick="go(cur-1)">→ السابق</button><div class="path" id="path"></div><button class="nb" onclick="go(cur+1)">التالي ←</button></div>
 
   <!-- ١ البوابة -->
   <section class="scene full" id="gate" data-g="gate" data-girl="g5" data-say="مرحبًا يا مستكشفتي! أنا رفيقتكِ في مختبر التربة… جاهزة للدخول؟ 🔑">
-    <div class="gt"><h1>مختبر التربة الرقمي</h1><p>الدرس الأول: التربة • رحلة من حبّة الرمل إلى أعماق الأرض</p></div>
-    <div class="arch" id="arch" style="margin-top:110px"><div class="frame"><div class="glow"></div></div><div class="door l"></div><div class="door r"></div></div>
+    <div class="gt"><h1>مختبر التربة الرقمي</h1><p>الدرس الأول: التربة • رحلة من حبّة الرمل إلى أعماق الأرض</p><div class="gdate"><span>📅 اليوم: <b id="gday"></b></span><span>🗓️ التاريخ: <b id="gdate"></b></span><span>👩‍🏫 المعلمة: <b>أ/ شامه البقمي</b></span></div></div>
+    <div class="arch" id="arch" style="margin-top:230px"><div class="frame"><div class="glow"></div></div><div class="door l"></div><div class="door r"></div></div>
     <button class="nb gbtn" onclick="openGate()">🔑 ادخلي المختبر</button>
   </section>
   <!-- ٢ الافتتاحيات -->
   <section class="scene full" data-g="hall" data-girl="g4" data-say="صباح العلم والعطاء 🌞 اكتبي اليوم والتاريخ في دفترك."><img class="fit" src="img/morning.jpg" alt="صباح العلم والعطاء"></section>
   <section class="scene full" data-g="hall" data-girl="g4" data-say="صباح الخير يا جميلات… يوم علمي جديد ينتظرنا!"><img class="fit" src="img/greet.jpg" alt="صباح الخير"></section>
-  <section class="scene full" data-g="hall" data-girl="g5" data-say="قوانين المختبر قبل أن نلمس أي عينة 👆"><img class="fit" src="img/rules.jpg" alt="القوانين الصفية"></section>
   <section class="scene full" data-g="hall" data-girl="g4" data-say="نقف احترامًا للسلام الوطني 🇸🇦"><video id="v1" src="vid/flag.mp4" poster="img/flag.jpg" controls playsinline preload="none"></video></section>
   <section class="scene full" data-g="hall" data-girl="g4" data-say="وطني أحبك… لا بديل 💚"><video id="v2" src="vid/watan.mp4" poster="img/watan.jpg" controls playsinline preload="none"></video></section>
 
+  <!-- قوانين المختبر -->
+  <section class="scene" data-g="prep" data-girl="g5" data-say="قبل أن نلمس أي عينة… هذه قوانين مختبرنا 👆 اضغطي كل بطاقة">
+    <div class="sh"><span class="badge">القوانين الصفية</span><h2>قوانينُ مختبرِ التربة</h2><button class="btn" style="margin-inline-start:auto" onclick="showImg('img/rules.jpg')">📋 القوانين الصفية كاملة</button></div>
+    <div class="rules" id="rules"></div>
+  </section>
+  <!-- مراجعة المكتسبات -->
+  <section class="scene" data-g="prep" data-girl="g8" data-say="تذكّرين رحلتنا في المناطق الحيوية؟ التربة كانت هناك في كل منطقة! 🌍">
+    <div class="sh"><span class="badge">مراجعة المكتسبات السابقة</span><h2>ماذا تعرفينَ عنِ التربةِ منْ رحلتنا السابقة؟</h2><span class="pg">📖 ص١٥١–١٥٣</span></div>
+    <div class="row"><div class="f1 col"><div class="q" id="q_p1"></div><div class="q" id="q_p2"></div></div><div class="f1 col"><div class="q" id="q_p3"></div>
+      <div class="green" style="font-size:20px">🔗 <b>الرابط:</b> رأينا التربةَ المتجمّدةَ في التندرا، والتربةَ الخصبةَ في الأراضي العشبية، وجذورَ الأعشاب التي تثبّتُ التربة… <b>اليوم ندخلُ إلى داخل التربة نفسِها!</b> 🔬</div></div></div>
+  </section>
+  <!-- نواتج التعلم -->
+  <section class="scene" data-g="prep" data-girl="g5" data-say="هذه المهارات التي سنتقنها اليوم… اضغطي كل مهارة لتعرفي أين سنتدرّب عليها 🎯">
+    <div class="sh"><span class="badge">نواتج التعلم</span><h2>مهاراتي في مختبر التربة</h2></div>
+    <div class="outs" id="outs"></div>
+    <div class="green" style="margin-top:12px;font-size:21px;text-align:center">❓ <b>السؤال الأساسي:</b> ممَّ تتكوّنُ التربةُ؟ وكيفَ نحافظُ عليها؟</div>
+  </section>
   <!-- ٣ أنظر وأتساءل -->
   <section class="scene" data-g="hook" data-girl="g8" data-say="انظري إلى الصورة… لماذا تنمو النباتات هنا جيدًا؟ فكّري أولًا 🤔">
     <div class="sh"><span class="badge">التهيئة</span><h2>أنظرُ وأتساءلُ</h2><span class="pg">📖 ص١٦٦</span></div>
     <div class="row">
-      <div class="f1 col"><img src="img/field.jpg" alt="حقل نباتات حديثة النمو" style="width:100%;height:380px;object-fit:cover;border-radius:22px;border:5px solid #fffaf0;box-shadow:0 12px 26px rgba(0,0,0,.3)">
+      <div class="f1 col"><div class="kb"><img src="img/field.jpg" alt="حقل نباتات حديثة النمو"><span class="kbl" onclick="openScope('loam')">🔬 افحصي تربة الحقل بالمجهر</span></div>
         <div class="card book"><p>هذهِ النباتاتُ حديثةُ النموِّ. تنمو النباتاتُ بشكلٍ جيدٍ في بعضِ أنواعِ التربةِ، لكنَّها لا تنمو في أنواعٍ أخرى منَ التربةِ. <b>ما الموادُّ الموجودةُ في التربةِ التي تساعدُ النباتَ على النموِّ؟</b></p></div></div>
       <div class="col" style="width:520px">
         <div class="card"><span class="strat">العصف الذهني – تقويم المعرفة السابقة</span>
@@ -231,30 +286,20 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
           <div class="chips" id="ideas"></div>
           <div class="row" style="gap:6px;margin-top:6px"><input id="idea" placeholder="فكرة جديدة…" style="flex:1;font:inherit;font-size:18px;border:2px solid #d9c3a0;border-radius:12px;padding:4px 10px"><button class="btn" onclick="addIdea()">➕</button></div>
           <p style="font-size:16px;color:#7a5a3a;margin:6px 0 0">أسئلة مساعدة: ممَّ تتكوّن التربة؟ لماذا هي مهمة؟ ما الذي يضرّها؟</p></div>
-        <div class="card"><button class="btn main" onclick="rv(this)">💡 أظهري الإجابة</button>
+        <div class="card"><b style="font-size:19px">🔮 أتنبّأ: ما الذي يساعد النبات على النمو؟ اختاري توقّعاتك:</b><div class="chips" id="preds" style="margin:6px 0"></div>
+          <button class="btn main" onclick="rv(this);checkPreds()">💡 أظهري الإجابة</button>
           <div class="reveal">الدُّبالُ (الموادُّ العضويةُ من بقايا المخلوقاتِ المتحلّلةِ)، والموادُّ الكيميائيةُ المغذيةُ الناتجةُ من تفكيكِ الصخورِ، والماءُ والهواءُ.</div></div>
       </div>
     </div>
   </section>
 
-  <!-- ٤ الأهداف والمفردات -->
-  <section class="scene" data-g="hook" data-girl="g5" data-say="هذه أهدافنا اليوم… واقلبي البطاقات لتتعرّفي مفردات الدرس 🃏">
-    <div class="sh"><span class="badge">التهيئة</span><h2>أهدافي ومفرداتي</h2><span class="pg">📖 ص١٦٥، ١٦٨</span></div>
-    <div class="row">
-      <div class="card" style="width:470px"><span class="strat">في نهاية الدرس أستطيع أن:</span>
-        <ol style="font-size:21px;font-weight:800;line-height:2;margin:6px 0;padding-inline-start:26px">
-          <li>أصفَ كيفَ تكوّنتِ التربةُ، وأقارنَ بينَ أنواعِها.</li><li>أسمّيَ نطاقاتِ التربةِ وأصفَها.</li><li>أتعرّفَ كيفَ تُستعمَلُ التربةُ، وكيفَ تتلوّثُ.</li><li>أقترحَ طرقًا لحفظِ التربةِ.</li></ol>
-        <div class="green">❓ <b>السؤال الأساسي:</b> ممَّ تتكوّنُ التربةُ؟ وكيفَ نحافظُ عليها؟</div></div>
-      <div class="f1 vocab" id="vocab"></div>
-    </div>
-  </section>
 
   <!-- ٥ أستكشف: المجهر -->
   <section class="scene" data-g="exp" data-girl="g9" data-say="حرّكي العدسة فوق العينة، وغيّري قوة التكبير… ماذا تلاحظين؟ 🔍">
     <div class="sh"><span class="badge">أستكشف ١</span><h2>المجهر الرقمي: فيمَ تختلفُ أنواعُ التربةِ؟</h2><span class="pg">📖 ص١٦٧</span></div>
     <div class="row">
-      <div class="col"><div class="samples" id="samples"></div><div class="scope" id="scope"><canvas id="sc" width="620" height="430"></canvas><div class="lens" id="lens"></div></div>
-        <div class="row" style="align-items:center;gap:8px;font-weight:800">🔎 التكبير <input type="range" id="zoom" min="2" max="8" value="4" style="flex:1"><span id="zv">×٤</span></div></div>
+      <div class="col" style="width:560px"><div class="card" style="text-align:center"><b style="font-size:22px">🔬 المجهر الرقمي للمختبر</b><p style="font-weight:700;margin:4px 0 10px">اختاري العينة لتفتحيها تحت المجهر، وحرّكي العدسة فوقها</p>
+        <div class="tray" id="tray"></div><p style="font-size:16px;color:#7a5a3a;margin:8px 0 0">المجهر أداة ثابتة في المختبر: تجدينه دائمًا في الشريط العلوي 🔬</p></div></div>
       <div class="f1 col">
         <div class="card"><span class="strat">نشاط استقصائي – ١ ألاحظ</span><p style="font-size:19px;font-weight:700;margin:6px 0">أتفحّصُ كمّيّةً صغيرةً منْ كلِّ نوعٍ منَ التربةِ بعدسةٍ مكبّرةٍ، وألاحظُ <mark class="on">حجمَ الحبيباتِ، واللونَ، وأيَّ موادَّ يمكنُني تعرُّفُها</mark>، وأنظّمُ جدولًا أسجّلُ فيهِ ملاحظاتي.</p></div>
         <div class="card"><b style="font-size:19px">📋 جدول ملاحظاتي: لاحظي أولًا… ثم اضغطي الخانة للتحقق</b>
@@ -280,13 +325,18 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
     </div>
   </section>
 
+  <!-- مفردات -->
+  <section class="scene" data-g="know" data-girl="g4" data-say="قبل بناء المعرفة… اقلبي بطاقات مفردات المختبر 🃏">
+    <div class="sh"><span class="badge">بناء المعرفة</span><h2>مفرداتُ مختبرِ التربة</h2><span class="pg">📖 ص١٦٥، ١٦٨–١٧٢</span></div>
+    <div class="vocab" id="vocab"></div>
+  </section>
   <!-- ٧ ما التربة؟ -->
-  <section class="scene" data-g="what" data-girl="g4" data-say="شاهدي كيف تتكوّن التربة خطوة بخطوة… ثم رتّبي المراحل بنفسك! ⏳">
+  <section class="scene" data-g="know" data-girl="g4" data-say="شاهدي كيف تتكوّن التربة خطوة بخطوة… ثم رتّبي المراحل بنفسك! ⏳">
     <div class="sh"><span class="badge">المحطة ١</span><h2>ما التربةُ؟ وكيف تتكوّن؟</h2><span class="pg">📖 ص١٦٨</span></div>
     <div class="row">
       <div class="col" style="width:640px">
         <div class="card form" style="height:330px;padding:0;overflow:hidden"><svg id="fsvg" viewBox="0 0 640 330"></svg></div>
-        <div class="row" style="align-items:center;gap:8px"><button class="btn main" onclick="fStep(1)">▶ المرحلة التالية</button><button class="btn" onclick="fStep(-99)">↺</button><div class="steps f1" id="fsteps"></div></div>
+        <div class="row" style="align-items:center;gap:8px"><button class="btn main" onclick="fStep(1)">▶ المرحلة التالية</button><button class="btn" onclick="fStep(-99)">↺</button><button class="btn" onclick="openScope('humus')">🔬 الدبال</button><div class="steps f1" id="fsteps"></div></div>
         <div class="q" id="q_ord"></div>
       </div>
       <div class="f1 col">
@@ -297,7 +347,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
   </section>
 
   <!-- ٨ النطاقات -->
-  <section class="scene" data-g="hor" data-girl="g9" data-say="اركبي مركبة الحفر 🔦 وانزلي من السطح إلى الصخر… كيف تتغيّر التربة كلما نزلنا؟">
+  <section class="scene" data-g="know" data-girl="g9" data-say="اركبي مركبة الحفر 🔦 وانزلي من السطح إلى الصخر… كيف تتغيّر التربة كلما نزلنا؟">
     <div class="sh"><span class="badge">المحطة ٢</span><h2>رحلةٌ إلى أعماق التربة: نطاقاتُ التربة</h2><span class="pg">📖 ص١٦٩</span></div>
     <div class="row">
       <div class="shaft" id="shaft"><div class="col2" id="col2">
@@ -305,13 +355,19 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
         <svg class="roots" viewBox="0 0 520 330"><g stroke="#e9d3b0" stroke-width="4" fill="none" opacity=".75"><path d="M260 0 C250 80 220 120 200 200 M260 0 C280 90 330 140 340 230 M230 40 C200 70 160 90 130 150 M290 50 C330 80 380 90 410 140 M250 90 C240 160 250 230 240 320"/></g></svg>
       </div><div class="pod" id="pod">🔦</div></div>
       <div class="f1 col">
-        <div class="lnav" id="lnav"></div>
+        <div class="lnav" id="lnav"></div><div class="row" style="gap:6px"><button class="btn" onclick="openScope('A')">🔬 افحصي النطاق أ</button><button class="btn" onclick="openScope('B')">🔬 النطاق ب</button><button class="btn" onclick="openScope('C')">🔬 النطاق ج</button></div>
         <div class="card book" id="hcard" style="font-size:20px;min-height:230px"></div>
         <div class="q" id="q_hor"></div>
       </div>
     </div>
   </section>
 
+  <!-- الحصة الثانية -->
+  <section class="scene" data-g="s2" data-girl="g4" data-say="أهلًا بعودتكن إلى المختبر! نتذكّر قبل أن نكمل 🔁">
+    <div class="sh"><span class="badge">الحصة الثانية</span><h2>نعودُ إلى المختبر: ماذا اكتشفنا؟</h2></div>
+    <div class="row"><div class="f1 col"><div class="q" id="q_s21"></div></div><div class="f1 col"><div class="q" id="q_s22"></div></div></div>
+    <div class="green" style="margin-top:12px;font-size:21px">🧭 في هذه الحصة: كيف نستعمل التربة؟ ← كيف تتلوّث؟ ← كيف نحافظ عليها؟ ← حقائب المهمات العلمية 🎒</div>
+  </section>
   <!-- ٩ استعمالات التربة والتعرية -->
   <section class="scene" data-g="use" data-girl="g5" data-say="لكل تربة صفاتها… صنّفي البطاقات، ثم أمطري على التلّين وقارني! 🌧️">
     <div class="sh"><span class="badge">المحطة ٣</span><h2>كيف تُستعمَلُ التربةُ؟ ولماذا تنجرف؟</h2><span class="pg">📖 ص١٧٠</span></div>
@@ -343,12 +399,12 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
   </section>
 
   <!-- ١١ المحافظة -->
-  <section class="scene" data-g="save" data-girl="g12" data-say="أنتِ الآن «مستشارة التربة» 🛡️ اختاري الحل المناسب لكل مشكلة!">
+  <section class="scene" data-g="save" data-girl="g12" data-say="اقرئي طرق حفظ التربة، وقارني بين نوعَي الحراثة 🛡️">
     <div class="sh"><span class="badge">المحطة ٥</span><h2>كيف تتمُّ المحافظةُ على التربة؟</h2><span class="pg">📖 ص١٧٢</span></div>
     <div class="row">
       <div class="f1 col">
         <div class="card" style="padding:8px 12px"><b style="font-size:19px">حمايةُ الموارد الطبيعية – ومنها التربةُ – والمحافظةُ عليها يسمّى <mark class="on">حفظَ التربة</mark>. اضغطي الطريقة لتقرئي عنها:</b><div class="methods" id="methods" style="margin-top:6px"></div></div>
-        <div class="q" id="q_adv"></div>
+        <div class="q" id="q_rot"></div>
       </div>
       <div class="col" style="width:560px">
         <div class="card hill" style="padding:8px"><div class="row" style="gap:6px;margin-bottom:6px"><button class="btn" id="hs" onclick="hill(0)">⬇️ حراثة مع الميل</button><button class="btn" id="hc" onclick="hill(1)">〰️ حراثة كنتورية</button></div><svg id="hsvg" viewBox="0 0 540 250"></svg><div class="fb" id="hfb"></div></div>
@@ -357,25 +413,67 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
     </div>
   </section>
 
+  <!-- حقائب المهمات -->
+  <section class="scene" data-g="mis" data-girl="g12" data-say="عالماتي، اكتمل الاستكشاف! أمامكن أربع حقائب علمية… اختاري حقيبة مجموعتك 🎒">
+    <div class="sh"><span class="badge">مهمات التعلم النشط</span><h2>🔬 اكتمل الاستكشاف! أربعُ مهمّاتٍ لإثباتِ مهاراتكنّ</h2></div>
+    <div class="bags" id="bags"></div>
+    <div class="green" style="margin-top:12px;text-align:center;font-size:20px">🏅 كل مجموعة تُنهي مهمتها تحصل على وسام علمي ⭐ • <b id="medals">الأوسمة: ٠ / ٤</b></div>
+  </section>
+  <!-- الفهم القرائي -->
+  <section class="scene" data-g="think" data-girl="g9" data-say="اقرئي الفقرة من كتابك… ثم ظلّلي الكلمات المفتاحية ✍️">
+    <div class="sh"><span class="badge">الفهم القرائي</span><h2>أقرأُ وأفهمُ: مغذّياتُ التربة</h2><span class="pg">📖 ص١٧١</span></div>
+    <div class="row"><div class="f1 card book" id="rbook">
+      <p>تُستهلَكُ <mark>المغذّياتُ</mark> في التربةِ بشكلٍ طبيعيٍّ بسببِ النباتاتِ؛ لأنَّ النباتاتِ تحتاجُ إلى هذهِ المغذّياتِ لنموِّها. وهذهِ المغذّياتُ <mark>تتجدّدُ</mark> بشكلٍ طبيعيٍّ عندَ موتِ النباتاتِ وطمرِها <mark>وتحلّلِها</mark> في التربةِ. ماذا يحدثُ إذا أزالَ مزارعٌ جميعَ محصولِهِ منَ الأرضِ، ولمْ يبقَ أيُّ جزءٍ منَ النباتِ ليموتَ ويتحلّلَ؟ ستصبحُ الأرضُ <mark>غيرَ قادرةٍ على إنباتِ نباتاتٍ جديدةٍ</mark>. وقدْ تُستهلَكُ التربةُ عنْ طريقِ <mark>التلوّثِ</mark>.</p>
+      <button class="btn main" onclick="$$('#rbook mark').forEach((m,i)=>setTimeout(()=>m.classList.add('on'),i*350));tone(700,.1)">🖍️ ظلّلي الكلمات المفتاحية</button></div>
+      <div class="col" style="width:600px"><div class="q" id="q_r1"></div><div class="q" id="q_r2"></div><div class="q" id="q_r3"></div></div></div>
+  </section>
+  <!-- التفكير الناقد -->
+  <section class="scene" data-g="think" data-girl="g8" data-say="أنتِ صاحبة القرار اليوم! اختاري… ثم برّري اختيارك 🤔">
+    <div class="sh"><span class="badge">التفكير الناقد</span><h2>قرارُ المستكشفة: مزرعةُ الجبل</h2></div>
+    <div class="row"><div class="f1 col"><div class="card book" style="font-size:21px">⛰️ تملكُ عائلةُ «ريم» مزرعةً على سفحِ جبلٍ شديدِ الانحدار. بعدَ كلِّ موسمِ أمطارٍ تجرفُ المياهُ التربةَ السطحيةَ، فيقلُّ المحصولُ عامًا بعدَ عام. <b>لدى العائلةِ ميزانيةٌ لحلٍّ واحدٍ فقط هذا العام. ماذا تختارين؟</b></div>
+      <div class="dec" id="dec"></div></div>
+      <div class="col" style="width:560px"><div class="card"><b style="font-size:19px">✍️ أبرّرُ اختياري (بالمفردات العلمية):</b><textarea id="why" style="width:100%;height:150px;font:inherit;font-size:19px;border:2px dashed #c9a06a;border-radius:14px;padding:8px;margin-top:6px" placeholder="اخترتُ … لأنّ …"></textarea>
+        <button class="btn" onclick="rv(this)">💡 نموذج تبرير</button><div class="reveal">أختارُ <b>المصاطب (المدرجات)</b>؛ لأنّها مسطحاتٌ مستويةٌ تقلّلُ منْ سرعةِ المياهِ المتدفّقةِ إلى أسفلِ المنحدرِ، فتبقى التربةُ السطحيةُ الغنيةُ بالدُّبالِ في مكانِها ويزدادُ المحصولُ (ص١٧٢).</div></div></div></div>
+  </section>
+  <!-- الربط الوطني -->
+  <section class="scene" data-g="think" data-girl="g4" data-say="تربة وطني أمانة… كيف تحافظ المملكة عليها؟ 🇸🇦">
+    <div class="sh"><span class="badge">الربط الوطني</span><h2>🇸🇦 تربةُ وطني: زراعةٌ وتشجيرٌ ومحافظة</h2></div>
+    <div class="row"><div class="f1 col">
+      <div class="nat"><img src="img/irrig.jpg" alt="الري المحوري"><div><b>💧 الزراعة في التربة الصحراوية</b><p>«لا تنمو المحاصيلُ في التربةِ الصحراويةِ إلّا إذا تمَّ ريُّها صناعيًّا» <small>(ص١٧٠)</small>. وفي وطني تنتشرُ دوائرُ الرّيِّ المحوريِّ في المناطقِ الزراعية.</p></div></div>
+      <div class="nat"><span style="font-size:70px">🌳</span><div><b>مبادرة الشرق الأوسط الأخضر</b><p>أطلقَتِ المملكةُ العربيةُ السعوديةُ مبادرةَ الشرقِ الأوسطِ الأخضرِ… لتنفيذِ أكبرِ برنامجِ إعادةِ تشجيرٍ في العالمِ <small>(ص١٧١)</small>. والأشجارُ تثبّتُ التربةَ بجذورِها وتقلّلُ التعرية.</p></div></div>
+      <div class="nat"><span style="font-size:70px">⛰️</span><div><b>المدرجات الزراعية في جنوب غرب المملكة 🔎</b><p>يزرعُ المزارعونَ في جبالِ الباحةِ وعسيرَ على مدرجاتٍ (مصاطب) تحفظُ التربةَ منَ الانجرافِ. <small>(🔎 معلومة من مصدر إضافي)</small></p></div></div></div>
+      <div class="col" style="width:540px"><div class="q" id="q_nat"></div><div class="card"><b style="font-size:19px">🤝 كيف أشاركُ أنا؟</b><div class="chips" style="margin-top:6px"><span class="chip">🌱 أزرعُ شجرة</span><span class="chip">🗑️ لا أرمي النفايات</span><span class="chip">🧹 أشارك في تنظيف الحيّ</span><span class="chip">📢 أنشرُ الوعي</span></div></div></div></div>
+  </section>
   <!-- ١٢ مراجعة الدرس -->
-  <section class="scene" data-g="rev" data-girl="g8" data-say="مراجعة الدرس من كتابي ص١٧٣… أجيبي ثم تحققي ✍️">
+  <section class="scene" data-g="eval" data-girl="g8" data-say="التقويم الختامي: مراجعة الدرس من كتابي ص١٧٣… أجيبي ثم تحققي ✍️">
     <div class="sh"><span class="badge">التقويم</span><h2>مراجعةُ الدرسِ: أفكّرُ وأتحدّثُ وأكتبُ</h2><span class="pg">📖 ص١٧٣</span></div>
     <div class="revg" id="revg"></div>
   </section>
 
-  <!-- ١٣ بطاقة الخروج والجواز -->
-  <section class="scene" id="pass" data-g="end" data-girl="g12" data-say="رائع! انظري إلى أختام جوازك… وأجيبي بطاقة الخروج 🎫">
-    <div class="sh"><span class="badge">التقويم الختامي</span><h2>بطاقةُ الخروج وجوازُ المستكشفة</h2></div>
+
+  <!-- خريطة المفاهيم -->
+  <section class="scene" data-g="eval" data-girl="g9" data-say="اضغطي كل دائرة ❓ لتكتمل خريطة مفاهيم التربة 🗺️">
+    <div class="sh"><span class="badge">خريطة المفاهيم</span><h2>خريطةُ مفاهيمِ التربة</h2><button class="btn" style="margin-inline-start:auto" onclick="$$('#cmap .cn').forEach(n=>n.classList.add('on'))">💡 أكملي الخريطة</button></div>
+    <div class="card" style="padding:6px"><svg id="cmap" viewBox="0 0 1300 600" style="width:100%;height:600px"></svg></div>
+  </section>
+  <!-- بطاقة الخروج والجواز -->
+  <section class="scene" id="pass" data-g="eval" data-girl="g12" data-say="سؤال واحد قبل الخروج… ثم انظري إلى أختام جوازك 🎫">
+    <div class="sh"><span class="badge">تذكرة الخروج</span><h2>تذكرةُ الخروج وجوازُ المستكشفة</h2></div>
     <div class="row">
-      <div class="f1 col"><div class="card"><b style="font-size:22px">🎫 بطاقة الخروج</b>
-        <div class="q" style="margin-top:8px"><div class="qt">١) لماذا تحتفظُ التربةُ الطينيةُ بالماءِ مدّةً أطولَ منَ التربةِ الرمليةِ؟</div><button class="btn" onclick="rv(this)">💡 الإجابة</button><div class="reveal">لأنَّ حبيباتِها دقيقةٌ جدًّا، فتكونُ المسافاتُ (المسامات) بينها صغيرةً، فيتسرّبُ الماءُ خلالها ببطءٍ.</div></div>
-        <div class="q" style="margin-top:8px"><div class="qt">٢) اقترحي طريقةً لحفظِ تربةِ مزرعةٍ على منحدرٍ، وفسّري اختيارك.</div><button class="btn" onclick="rv(this)">💡 الإجابة</button><div class="reveal">الحراثةُ الكنتوريةُ أوِ المصاطبُ (المدرجات)؛ لأنّها تقلّلُ منْ سرعةِ المياهِ المتدفّقةِ إلى أسفلِ المنحدرِ فلا تجرفُ التربةَ السطحيةَ.</div></div>
-        <p style="font-weight:800;color:#a0452e;font-size:19px">قيّمي فهمك: ⭐⭐⭐ فهمت تمامًا • ⭐⭐ فهمت • ⭐ أحتاج مساعدة</p></div></div>
-      <div class="col" style="width:640px"><div class="card"><b style="font-size:22px">🛂 جواز المستكشفة – أختام مختبر التربة</b><div class="pass" id="stamps" style="margin-top:10px"></div></div>
-        <div class="green">🇸🇦 <b>ربط بالوطن:</b> أطلقَتِ المملكةُ العربيةُ السعوديةُ مبادرةَ الشرقِ الأوسطِ الأخضرِ… لتنفيذِ أكبرِ برنامجِ إعادةِ تشجيرٍ في العالمِ <small>(ص١٧١)</small>. والأشجارُ تثبّتُ التربةَ بجذورِها! 🌳</div></div>
+      <div class="f1 col"><div class="q" id="q_exit"></div>
+        <div class="card"><b style="font-size:20px">⭐ قيّمي إتقانك للدرس:</b><div class="rate" id="rate"><button>⭐⭐⭐ أتقنتُ الدرس</button><button>⭐⭐ فهمتُ معظمه</button><button>⭐ أحتاجُ مساعدة</button></div><div class="fb" id="ratefb"></div></div></div>
+      <div class="col" style="width:640px"><div class="card"><b style="font-size:22px">🛂 جواز المستكشفة – أختام مختبر التربة</b><div class="pass" id="stamps" style="margin-top:10px"></div></div></div>
     </div>
   </section>
-
+  <!-- واجب مدرستي -->
+  <section class="scene" data-g="eval" data-girl="g9" data-say="واجبك على منصة مدرستي… مهمة صغيرة من مختبر بيتك 🏠">
+    <div class="sh"><span class="badge">واجب منصة مدرستي</span><h2>📚 مهمّةُ المختبرِ المنزلي</h2></div>
+    <div class="row"><div class="f1 card book" style="font-size:21px">
+      <p>🏠 <b>المهمة:</b> أجمعُ عيّنةً صغيرةً منْ تربةِ حديقةِ المنزلِ أوِ الحيِّ <b>بإشرافِ أحدِ والديَّ</b>، وأفحصُها بعدسةٍ مكبّرةٍ (أو كاميرا الجوال مع التكبير)، ثمّ:</p>
+      <ol style="margin:0;padding-inline-start:28px;line-height:2"><li>أسجّلُ في جدول: <b>لونَها، وحجمَ حبيباتِها، وهلْ فيها بقايا نباتاتٍ (دُبال)؟</b></li><li>أتوقّعُ: هلْ تحتفظُ بالماءِ طويلًا أمْ يتسرّبُ منها بسرعة؟ ولماذا؟</li><li>أقترحُ طريقةً واحدةً للمحافظةِ عليها.</li><li>أرفعُ صورةَ العيّنةِ والجدولِ في <b>منصّةِ مدرستي</b>.</li></ol></div>
+      <div class="col" style="width:480px"><div class="card"><b style="font-size:20px">✅ معايير التقييم</b><table class="obs" style="margin-top:6px"><tr><th>المعيار</th><th>الدرجة</th></tr><tr><td>جدول الملاحظات كامل (٣ خصائص)</td><td>٢</td></tr><tr><td>توقّع صحيح مع تعليل علمي</td><td>٢</td></tr><tr><td>طريقة حفظ مناسبة</td><td>١</td></tr></table></div>
+        <div class="green">✍️ <b>إثراء (العلوم والكتابة ص١٧٣):</b> أعملُ نشرةً تفسيريةً عنْ كيفيةِ المحافظةِ على التربةِ، وأوزّعُها على الجيران.</div></div></div>
+  </section>
   <!-- ١٤ الظرف والقرعة والختام -->
   <section class="scene" data-g="end" data-girl="g12" data-say="أحسنتنّ يا مستكشفات! افتحي ظرفك… 💌">
     <div class="sh"><span class="badge">التعزيز</span><h2>افتحي ظرفك • القرعة • الختام</h2></div>
@@ -386,6 +484,13 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
     </div>
     <div class="green" style="margin-top:14px;font-size:21px;text-align:center">🌱 تعلّمتُ اليوم: التربةُ خليطٌ منْ فتاتِ الصخورِ وبقايا أوْ أجزاءِ نباتاتٍ ومخلوقاتٍ ميتةٍ • لها ثلاثةُ نطاقات • نحافظُ عليها منَ التعريةِ والتلوّث 💚</div>
   </section>
+  <div id="scopeOv"><div class="ovb"><button class="btn ovx" onclick="closeOv('scopeOv')">✖ إغلاق المجهر</button>
+    <div class="samples" id="samples"></div>
+    <div class="col"><div class="scope" id="scope"><canvas id="sc" width="620" height="430"></canvas><div class="lens" id="lens"></div></div>
+      <div class="row" style="align-items:center;gap:8px;font-weight:800">🔎 التكبير <input type="range" id="zoom" min="2" max="8" value="4" style="flex:1"><span id="zv">×٤</span></div></div>
+    <div class="scap card" id="scap"></div></div></div>
+  <div id="bagOv"><div class="ovb mis" id="bagIn"></div></div>
+  <div id="imgOv" onclick="closeOv('imgOv')"><img id="imgOvI" alt=""></div>
   <div class="msgbox" id="msgbox" onclick="this.classList.remove('on')"><div id="msgin"></div></div>
 </div>
 <script>
@@ -418,7 +523,7 @@ function mcq(id, tag, q, ops, a, why, hint, onok) {
 
 // ===== المشاهد والتنقّل
 const SC = $$('.scene'); let cur = 0;
-const GROUPS = [['gate', '🚪', 'البوابة'], ['hall', '🌞', 'الاستقبال'], ['hook', '💭', 'التهيئة'], ['exp', '🔬', 'أستكشف'], ['what', '🪨', 'ما التربة؟'], ['hor', '🪜', 'النطاقات'], ['use', '🌧️', 'الاستعمال'], ['pol', '🫙', 'التلوث'], ['save', '🛡️', 'المحافظة'], ['rev', '📝', 'المراجعة'], ['end', '🏅', 'الختام']];
+const GROUPS = [['gate', '🚪', 'البوابة'], ['hall', '🌞', 'الاستقبال'], ['prep', '📋', 'القوانين والنواتج'], ['hook', '💭', 'أنظر وأتساءل'], ['exp', '🔬', 'أستكشف'], ['know', '🪨', 'بناء المعرفة'], ['s2', '2️⃣', 'الحصة ٢'], ['use', '🌧️', 'الاستعمال'], ['pol', '🫙', 'التلوث'], ['save', '🛡️', 'المحافظة'], ['mis', '🎒', 'المهمات'], ['think', '🧠', 'أفهم وأفكّر'], ['eval', '📝', 'التقويم'], ['end', '🏅', 'الختام']];
 $('#path').innerHTML = GROUPS.map(([g, e, n]) => `<button class="stop" data-g="${g}" onclick="goG('${g}')"><i>${e}</i>${n}</button>`).join('');
 function goG(g) { go(SC.findIndex((s) => s.dataset.g === g)); }
 function goId(id) { go(SC.findIndex((s) => s.id === id)); }
@@ -447,7 +552,9 @@ const VOC = [['التربة', 'خليطٌ منْ فتاتِ الصخورِ وب�
 $('#vocab').innerHTML = VOC.map(([w, d], i) => `<div class="fl" onclick="this.classList.toggle('on');tone(600,.08)"><div><div class="a">${w}<small>اقلبي البطاقة 👆</small></div><div class="b">${d}</div></div></div>`).join('');
 
 // ===== المجهر
-const SAMP = [['sand', '🏖️ العينة ١'], ['loam', '🌱 العينة ٢'], ['clay', '🧱 العينة ٣']];
+const SAMP = [['sand', '🏖️ العينة ١ (رملية)', 'حبيباتٌ كبيرةٌ فاتحةُ اللون، والمسافاتُ بينها واسعةٌ؛ لذلكَ يتسرّبُ الماءُ خلالها بسرعة.'], ['loam', '🌱 العينة ٢ (زراعية)', 'حبيباتٌ مختلفةُ الأحجام، وبقايا نباتاتٍ وجذورٌ دقيقة؛ لونُها داكنٌ لكثرةِ الدُّبال.'], ['clay', '🧱 العينة ٣ (طينية)', 'حبيباتٌ دقيقةٌ جدًّا ناعمةُ الملمس، والمساماتُ بينها صغيرة؛ لذلكَ تحتفظُ بالماءِ مدّةً أطول.'],
+  ['humus', '🍂 الدُّبال', '«الدُّبالُ جزءٌ منَ التربةِ تكوّنَ منَ الموادِّ العضويةِ المتحلّلةِ… يحوي موادَّ مغذّيةً للنباتِ، ويمتصُّ الماءَ ويحتفظُ بهِ أكثرَ منَ الفتاتِ الصخريِّ.» (ص١٦٩)'], ['A', '🅰️ النطاق أ', 'التربةُ السطحيةُ: داكنةٌ غنيةٌ بالدُّبالِ والمغذّيات، وتنمو فيها معظمُ جذورِ النباتات (ص١٦٩).'],
+  ['B', '🅱️ النطاق ب', 'التربةُ تحتَ السطحية: دُبالٌ قليلٌ ونسبةٌ كبيرةٌ منَ الصخورِ المفتّتة (ص١٦٩).'], ['C', '🅲 النطاق ج', 'قطعٌ كبيرةٌ منْ صخورِ التجويةِ، صلبةٌ فوقَ الصخورِ غيرِ المجوّاة (ص١٦٩).']];
 const TEX = {};
 function rnd(s) { return () => (s = (s * 9301 + 49297) % 233280) / 233280; }
 function makeTex(t) { const c = document.createElement('canvas'); c.width = 620; c.height = 430; const x = c.getContext('2d'); const R = rnd(t.length * 77);
@@ -458,10 +565,19 @@ function makeTex(t) { const c = document.createElement('canvas'); c.width = 620;
   if (t === 'loam') { x.fillStyle = '#5a3b24'; x.fillRect(0, 0, 620, 430); for (let i = 0; i < 3000; i++) { const r = 1.5 + R() * 4; x.fillStyle = ['#7a5434', '#4a2e18', '#8a6a48', '#3b2414', '#a08060'][Math.floor(R() * 5)]; x.beginPath(); x.arc(R() * 620, R() * 430, r, 0, 7); x.fill(); }
     for (let i = 0; i < 70; i++) { x.strokeStyle = ['#2f4a14', '#6b4a1e', '#8a7a3a'][Math.floor(R() * 3)]; x.lineWidth = 2 + R() * 3; x.beginPath(); const px = R() * 620, py = R() * 430; x.moveTo(px, py); x.quadraticCurveTo(px + R() * 30, py + R() * 30, px + R() * 50 - 25, py + R() * 50 - 25); x.stroke(); }
     x.strokeStyle = '#e9d3b0'; x.lineWidth = 1; for (let i = 0; i < 25; i++) { x.beginPath(); let px = R() * 620, py = R() * 430; x.moveTo(px, py); for (let k = 0; k < 6; k++) { px += R() * 24 - 12; py += 10; x.lineTo(px, py); } x.stroke(); } }
+  if (t === 'humus') { x.fillStyle = '#2a190d'; x.fillRect(0, 0, 620, 430); for (let i = 0; i < 260; i++) { x.strokeStyle = ['#5a4a1e', '#6b4a1e', '#3f5a1e', '#8a6a3a'][Math.floor(R() * 4)]; x.lineWidth = 2 + R() * 5; x.beginPath(); const px = R() * 620, py = R() * 430; x.moveTo(px, py); x.bezierCurveTo(px + R() * 40, py - 20, px + R() * 40, py + 30, px + R() * 70 - 35, py + R() * 50 - 25); x.stroke(); }
+    for (let i = 0; i < 120; i++) { x.fillStyle = 'rgba(160,190,90,' + (R() * .6) + ')'; x.beginPath(); x.ellipse(R() * 620, R() * 430, 6 + R() * 10, 3 + R() * 4, R() * 3, 0, 7); x.fill(); } for (let i = 0; i < 400; i++) { x.fillStyle = '#e9e3c0'; x.fillRect(R() * 620, R() * 430, 2, 2); } }
+  if (t === 'A') { const b = makeTex('loam'); x.drawImage(b, 0, 0); x.fillStyle = 'rgba(30,18,8,.35)'; x.fillRect(0, 0, 620, 430); x.strokeStyle = '#efe0c2'; x.lineWidth = 3; for (let i = 0; i < 14; i++) { x.beginPath(); let px = R() * 620, py = 0; x.moveTo(px, py); for (let k = 0; k < 9; k++) { px += R() * 30 - 15; py += 50; x.lineTo(px, py); } x.stroke(); } }
+  if (t === 'B') { x.fillStyle = '#9a6a3c'; x.fillRect(0, 0, 620, 430); for (let i = 0; i < 9000; i++) { x.fillStyle = ['#a8763f', '#8a5a34', '#b88a55'][Math.floor(R() * 3)]; x.fillRect(R() * 620, R() * 430, 2, 2); } for (let i = 0; i < 160; i++) { x.fillStyle = ['#c9c0b0', '#a59a8a', '#d8cbb5'][Math.floor(R() * 3)]; x.beginPath(); const px = R() * 620, py = R() * 430, r = 4 + R() * 9; x.moveTo(px, py - r); x.lineTo(px + r, py); x.lineTo(px + r * .3, py + r); x.lineTo(px - r, py + r * .4); x.closePath(); x.fill(); } }
+  if (t === 'C') { x.fillStyle = '#5e5246'; x.fillRect(0, 0, 620, 430); for (let i = 0; i < 70; i++) { const px = R() * 620, py = R() * 430, r = 20 + R() * 40; const g = x.createRadialGradient(px - r / 3, py - r / 3, 2, px, py, r); g.addColorStop(0, '#d0c8bc'); g.addColorStop(1, '#6e655a'); x.fillStyle = g; x.beginPath(); for (let a = 0; a < 7; a++) { const an = a / 7 * 6.28, rr = r * (.7 + R() * .3); x.lineTo(px + Math.cos(an) * rr, py + Math.sin(an) * rr); } x.closePath(); x.fill(); } }
   return c; }
 let samp = 'sand';
-function setSample(t) { samp = t; TEX[t] = TEX[t] || makeTex(t); const c = $('#sc').getContext('2d'); c.drawImage(TEX[t], 0, 0); $$('#samples button').forEach((b) => b.classList.toggle('on', b.dataset.t === t)); lensAt(310, 215); tone(500, .07); }
+function setSample(t) { samp = t; TEX[t] = TEX[t] || makeTex(t); const c = $('#sc').getContext('2d'); c.drawImage(TEX[t], 0, 0); $$('#samples button').forEach((b) => b.classList.toggle('on', b.dataset.t === t)); lensAt(310, 215); const S = SAMP.find((x) => x[0] === t); $('#scap').innerHTML = `<b style="font-size:24px;color:var(--clay)">${S[1]}</b><p>${S[2]}</p><p style="color:#7a5a3a;font-size:16px">🔎 حرّكي العدسة، وغيّري التكبير من الشريط.</p>`; tone(500, .07); }
 $('#samples').innerHTML = SAMP.map(([t, n]) => `<button class="btn" data-t="${t}" onclick="setSample('${t}')">${n}</button>`).join('');
+function openScope(t) { $('#scopeOv').classList.add('on'); setSample(t || samp); tone(300, .3, 'triangle', .12); }
+function closeOv(id) { $('#' + id).classList.remove('on'); }
+function showImg(src) { $('#imgOvI').src = src; $('#imgOv').classList.add('on'); }
+$('#tray').innerHTML = SAMP.slice(0, 3).map(([t, n]) => `<button onclick="openScope('${t}')"><canvas data-t="${t}" width="300" height="120"></canvas>${n}</button>`).join('');
 let lx = 310, ly = 215;
 function lensAt(px, py) { lx = px; ly = py; const z = +$('#zoom').value, L = $('#lens'); L.style.left = (px - 115) + 'px'; L.style.top = (py - 115) + 'px';
   L.style.backgroundImage = `url(${TEX[samp].toDataURL()})`; L.style.backgroundSize = `${620 * z}px ${430 * z}px`; L.style.backgroundPosition = `${-(px * z - 115)}px ${-(py * z - 115)}px`; }
@@ -583,18 +699,13 @@ const MT = [['🧪 التسميد', 'تحتوي الأسمدةُ على مواد
   ['🪜 المصاطب (المدرجات)', 'مسطحاتٌ مستويةٌ على شكلِ مدرجاتٍ تُقتطعُ منَ التلالِ، تقلّلُ سرعةَ المياهِ المتدفّقةِ.'], ['🌲 مصدّات الرياح', 'أشجارٌ طويلةٌ على حدودِ المزرعةِ تقلّلُ سرعةَ الرياحِ فيقلُّ تأثيرُها في التربةِ السطحيةِ.'],
   ['⚖️ القوانين', 'تُصدرُ الحكوماتُ قوانينَ للحدِّ منْ تلوّثِ التربةِ.'], ['🧹 الجهود الفردية', 'جمعُ القمامةِ والمساعدةُ على تنظيفِ الأرضِ التي تلوّثتْ.'], ['📢 التعليم', 'إرشادُ الناسِ وتقديمُ معلوماتٍ لهمْ عنْ أهميةِ التربةِ وكيفَ نحافظُ عليها.']];
 $('#methods').innerHTML = MT.map(([n, d]) => `<div class="mth" onclick="this.classList.toggle('on');tone(620,.07)">${n}<div>${d}</div></div>`).join('');
-const ADV = [['⛰️ مزرعةٌ على تلٍّ شديدِ الانحدارِ تجرفُ الأمطارُ تربتَها.', ['المصاطب (المدرجات)', 'التسميد', 'القوانين'], 0], ['💨 رياحٌ قويةٌ تحملُ التربةَ السطحيةَ منْ حقلٍ مكشوفٍ.', ['الدورة الزراعية', 'مصدّات الرياح', 'التعليم'], 1],
-  ['🌱 تربةٌ زُرعَتْ بالمحصولِ نفسِهِ سنواتٍ ففقدَتْ مغذّياتِها.', ['مصدّات الرياح', 'الحراثة الكنتورية', 'الدورة الزراعية والتسميد'], 2], ['🛍️ أكياسُ بلاستيكٍ ونفاياتٌ في حديقةِ الحيّ.', ['الجهود الفردية بجمع القمامة', 'المصاطب', 'التسميد'], 0]];
-(function () { let k = 0; const el = $('#q_adv'); const show = () => { if (k >= ADV.length) { el.innerHTML = '<div class="qt">🛡️ أنتِ مستشارةُ تربةٍ ماهرة! حللتِ كلَّ المشكلات.</div>'; star(2); stamp('save'); return; } const [p, o, a] = ADV[k];
-    el.innerHTML = `<div class="qt"><span class="tag">مستشارة التربة ${ar(k + 1)}/${ar(ADV.length)}</span>${p} ما الحلّ الأنسب؟</div><div class="opts">${o.map((t, i) => `<button data-i="${i}">${t}</button>`).join('')}</div><div class="fb"></div>`;
-    $$('.opts button', el).forEach((b) => b.onclick = () => { if (+b.dataset.i === a) { b.classList.add('ok'); good(); k++; setTimeout(show, 900); } else { b.classList.add('no'); bad(); $('.fb', el).className = 'fb no'; $('.fb', el).textContent = '💡 اقرئي بطاقات الطرق مرة أخرى.'; } }); }; show(); })();
 function hill(m) { $('#hs').classList.toggle('main', !m); $('#hc').classList.toggle('main', !!m); let s = `<path d="M0 250 L0 60 Q270 20 540 210 L540 250 Z" fill="#7f9a3a"/>`;
   if (!m) { for (let i = 0; i < 9; i++) s += `<path d="M${40 + i * 55} ${50 + i * 4} L${70 + i * 55} 240" stroke="#5a3b24" stroke-width="7"/>`; s += Array.from({ length: 6 }, (_, i) => `<path class="flow" style="--fs:.45s" d="M${60 + i * 80} 60 L${90 + i * 80} 240" stroke="#3e8ed6" stroke-width="5" fill="none"/>`).join('') + `<ellipse cx="300" cy="244" rx="230" ry="10" fill="#5a3b24" opacity=".8"/>`; }
   else { for (let i = 0; i < 7; i++) s += `<path d="M0 ${80 + i * 26} Q270 ${45 + i * 30} 540 ${215 + i * 4}" stroke="${i % 2 ? '#5a3b24' : '#4f6b1e'}" stroke-width="9" fill="none"/>`; s += Array.from({ length: 5 }, (_, i) => `<path class="flow" style="--fs:3s" d="M${80 + i * 90} ${70 + i * 18} l40 2" stroke="#3e8ed6" stroke-width="5" fill="none"/>`).join(''); }
   $('#hsvg').innerHTML = s; $('#hfb').className = 'fb ' + (m ? 'ok' : 'no'); $('#hfb').textContent = m ? '✔ الأخاديد عبر المنحدر تبطئ الماء فتبقى التربة السطحية في مكانها.' : '⚠️ الماء يجري بسرعة مع الميل فيجرف التربة السطحية الغنية إلى أسفل التل.'; tone(m ? 700 : 240, .2); }
 hill(0);
 mcq('q_mt', 'التفكير الناقد', 'لماذا لا تحوي قممُ الجبالِ تربةً سطحيةً، أوْ تحوي القليلَ منها فقط؟', ['لأنَّ الصخورَ في الجبالِ لا تتعرّضُ للتجوية', 'لأنَّ شدّةَ انحدارِها تجعلُ الماءَ والرياحَ يجرفانِ فتاتَ الصخورِ إلى الأسفلِ قبلَ تراكمِهِ، وقلّةُ النباتاتِ فيها تزيدُ التعرية', 'لأنَّ الجبالَ باردةٌ فقط'], 1,
-  'شدّةُ الانحدارِ وقلّةُ الجذورِ التي تثبّتُ التربةَ تجعلانِ التعريةَ أقوى منْ تكوّنِ التربةِ.', 'تذكّري محاكاة الحراثة مع الميل.');
+  'شدّةُ الانحدارِ وقلّةُ الجذورِ التي تثبّتُ التربةَ تجعلانِ التعريةَ أقوى منْ تكوّنِ التربةِ.', 'تذكّري محاكاة الحراثة مع الميل.', () => stamp('save'));
 
 // ===== مراجعة الدرس ص١٧٣
 const RV = [['m', 'المفردات', 'نطاقُ التربةِ الذي يحوي معظمَ الموادِّ العضويةِ يسمّى ………', ['التربة تحت السطحية', 'التربة السطحية (النطاق أ)', 'الصخور غير المجوّاة'], 1, 'التربةُ السطحيةُ (النطاقُ أ) غنيةٌ بالدُّبالِ.', 'أين يكثر الدبال؟'],
@@ -614,6 +725,78 @@ $('#env').innerHTML = MSG.map((m, i) => `<button onclick="openEnv(${i},this)">�
 function openEnv(i, b) { b.classList.add('used'); $('#msgin').innerHTML = `<b>+${ar(PTS[i])} نقاط</b>${MSG[(i * 5) % MSG.length]}<br><small style="font-size:20px">(اضغطي للإغلاق)</small>`; $('#msgbox').classList.add('on'); good(); confetti(); }
 function drawN() { const n = Math.max(2, +$('#nst').value || 30); let k = 0; const T = setInterval(() => { $('#drawn').textContent = ar(1 + Math.floor(Math.random() * n)); tone(400 + k * 20, .04); if (++k > 22) { clearInterval(T); good(); } }, 70); }
 
+
+// ===== الإضافات: التاريخ، القوانين، المكتسبات، النواتج، التنبؤ
+(function () { const d = new Date(); try { $('#gday').textContent = d.toLocaleDateString('ar-SA', { weekday: 'long' }); $('#gdate').textContent = d.toLocaleDateString('ar-SA-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { $('#gdate').textContent = '……/……/١٤٤٨هـ'; } })();
+$$('#tray canvas').forEach((cv) => { TEX[cv.dataset.t] = TEX[cv.dataset.t] || makeTex(cv.dataset.t); cv.getContext('2d').drawImage(TEX[cv.dataset.t], 0, 0, 620, 250, 0, 0, 300, 120); });
+const RULES = [['⏰', 'أحضرُ في الوقت', 'أدخلُ المختبرَ في الوقتِ المحدّدِ مستعدّةً.'], ['✋', 'أستأذنُ قبلَ المشاركة', 'أرفعُ يدي، وأنتظرُ دوري.'], ['🔬', 'أستخدمُ الأدواتِ بعناية', 'أتّبعُ خطواتِ التجربةِ كما في كتابي.'],
+  ['🤝', 'أتعاونُ معَ مجموعتي', 'لكلِّ عضوةٍ دورٌ في المهمة.'], ['💡', 'أشاركُ أفكاري العلمية', 'أبرّرُ إجابتي بالمفرداتِ العلمية.'], ['💚', 'أحترمُ معلمتي وزميلاتي', 'أستمعُ باهتمامٍ، ولا أقاطعُ غيري.']];
+$('#rules').innerHTML = RULES.map(([e, t, d]) => `<div class="rl" onclick="this.classList.toggle('on');tone(620,.07)"><i>${e}</i><b>${t}</b><p>${d}</p></div>`).join('');
+mcq('q_p1', 'أتذكّر', 'لماذا تُستعمَلُ الأراضي العشبيةُ في الزراعة؟', ['لأنَّ تربتَها منْ أخصبِ أنواعِ التربة', 'لأنَّ تربتَها متجمّدة', 'لأنَّها بلا أعشاب'], 0, 'تربةُ الأراضي العشبيةِ منْ أخصبِ أنواعِ التربة (ص١٥٣).', 'تذكّري درسَ الأراضي العشبية.');
+mcq('q_p2', 'أتذكّر', 'لماذا لا تنمو الأشجارُ الكبيرةُ في التندرا؟', ['لكثرةِ الأمطار', 'لأنَّ طبقاتِ التربةِ دائمةَ التجمّدِ تمنعُ نموَّ الجذورِ العميقة', 'لأنَّها قربَ خطِّ الاستواء'], 1, 'فيها طبقاتٌ ترابيةٌ دائمةُ التجمّد (ص١٥١).', 'فكّري في التربة نفسِها.');
+mcq('q_p3', 'أطبّق', 'ماذا يحدثُ للتربةِ إذا أُزيلتِ الأعشابُ منْ أرضٍ مكشوفة؟', ['تنجرفُ بفعلِ الرياح', 'تزدادُ خصوبةً', 'تتجمّد'], 0, 'جذورُ الأعشابِ هيَ التي تثبّتُ التربةَ في مكانِها (ص١٥٣).', 'ما وظيفةُ الجذور؟');
+const OUTS = [['🔬', 'أصفُ كيفَ تكوّنتِ التربةُ، وأقارنُ بينَ أنواعِها.', 'أستكشف + المجهر + ما التربة؟'], ['🪜', 'أسمّي نطاقاتِ التربةِ وأصفُها.', 'رحلة مركبة الحفر'], ['🌧️', 'أتعرّفُ كيفَ تُستعمَلُ التربةُ، وكيفَ تتلوّث.', 'محاكاة التعرية + وعاء المكوّنات'], ['🛡️', 'أقترحُ طرقًا لحفظِ التربة.', 'الحراثة الكنتورية + قرار المستكشفة']];
+$('#outs').innerHTML = OUTS.map(([e, t, w], i) => `<div class="out" onclick="this.classList.toggle('on');tone(600,.07)"><span class="n">${ar(i + 1)}</span><i>${e}</i><b>${t}</b><small>📍 أتدرّبُ عليها في: ${w}</small></div>`).join('');
+const PREDS = [['الدُّبال', 1], ['الماء', 1], ['الهواء', 1], ['موادّ مغذّية من الصخور', 1], ['البلاستيك', 0], ['الزيت', 0]];
+$('#preds').innerHTML = PREDS.map(([t, k]) => `<button class="chip" data-k="${k}" onclick="this.classList.toggle('sel');tone(600,.06)">${t}</button>`).join('');
+function checkPreds() { let ok = 0; $$('#preds .chip').forEach((c) => { const k = +c.dataset.k, sel = c.classList.contains('sel'); c.classList.add(k ? 'ok' : (sel ? 'no' : 'used')); if (k && sel) ok++; }); if (ok >= 3) { star(); good(); } }
+
+// ===== الحصة الثانية
+mcq('q_s21', 'أتذكّر', 'أيُّ نطاقاتِ التربةِ يحوي معظمَ الدُّبالِ والجذور؟', ['النطاق أ (التربة السطحية)', 'النطاق ب', 'النطاق ج'], 0, 'التربةُ السطحيةُ (النطاقُ أ) غنيةٌ بالدُّبال (ص١٦٩).', 'تذكّري مركبة الحفر.');
+mcq('q_s22', 'أفسّر', 'لماذا احتفظَتِ التربةُ الطينيةُ بالماءِ مدّةً أطولَ في تجربتنا؟', ['لأنَّ لونَها أحمر', 'لأنَّ حبيباتِها دقيقةٌ والمساماتُ بينها صغيرة', 'لأنَّها رملية'], 1, 'كلّما صغرَتِ الحبيباتُ صغرَتِ المسامات فتسرّبَ الماءُ ببطء.', 'تذكّري المجهر الرقمي.');
+mcq('q_rot', 'أفسّر', 'لماذا يزرعُ المزارعونَ البقولياتِ في الدورةِ الزراعية؟', ['لأنّها تثبّتُ النيتروجينَ الذي تستهلكُهُ نباتاتٌ أخرى', 'لأنّها تزيدُ التلوّث', 'لأنّها تقطعُ الرياح'], 0, 'يزرعونَ بينَ موسمٍ وآخرَ أنواعًا تستطيعُ تثبيتَ النيتروجينِ، ومنها البقولياتُ (ص١٧٢).', 'اقرئي بطاقة «الدورة الزراعية».');
+
+// ===== حقائب المهمات الأربع
+function sortGame(el, items, bins, onDone) { let sel = null, ok = 0;
+  el.innerHTML = `<div class="chips" style="margin:8px 0">${items.map(([t, k]) => `<button class="chip" data-k="${k}">${t}</button>`).sort(() => Math.random() - .5).join('')}</div><div class="sort" style="grid-template-columns:repeat(${bins.length},1fr)">${bins.map(([k, n, c]) => `<div class="bin" style="--c:${c}" data-k="${k}"><h4>${n}</h4><div class="in"></div></div>`).join('')}</div><div class="fb"></div>`;
+  const fb = $('.fb', el); $$('.chip', el).forEach((c) => c.onclick = () => { $$('.chip', el).forEach((x) => x.classList.remove('sel')); c.classList.add('sel'); sel = c; });
+  $$('.bin', el).forEach((b) => b.onclick = () => { if (!sel) { fb.className = 'fb'; fb.textContent = '👆 اختاري بطاقة أولًا'; return; }
+    if (sel.dataset.k === b.dataset.k) { $('.in', b).insertAdjacentHTML('beforeend', `<span>${sel.textContent}</span>`); sel.classList.add('used'); sel = null; ok++; good(); fb.className = 'fb ok'; fb.textContent = `✔ ${ar(ok)} من ${ar(items.length)}`; if (ok === items.length) setTimeout(onDone, 600); }
+    else { bad(); fb.className = 'fb no'; fb.textContent = '💡 ليست هنا… ارجعي إلى ما اكتشفتِه.'; } }); }
+function seqMCQ(el, items, onDone) { let k = 0; const show = () => { if (k >= items.length) return onDone(); const [q, o, a, why] = items[k]; el.innerHTML = `<div class="q" id="sq"></div>`; mcq('sq', `${ar(k + 1)}/${ar(items.length)}`, q, o, a, why, 'ارجعي إلى بيانات المختبر.', () => { k++; setTimeout(show, 700); }); }; show(); }
+const BAGS = [
+  ['🟢', 'حقيبة التصنيف', 'أصنّفُ خصائصَ نطاقاتِ التربة', (el, done) => sortGame(el, [['يحوي معظمَ الدُّبال', 'A'], ['تنمو فيه معظمُ الجذور', 'A'], ['التربة السطحية', 'A'], ['التربة تحت السطحية', 'B'], ['دُبالٌ قليلٌ وصخورٌ مفتّتة', 'B'], ['صخورٌ تشبهُ صخورَ الصلصال', 'B'], ['قطعٌ كبيرةٌ منْ صخورِ التجوية', 'C'], ['صلبٌ فوقَ الصخورِ غيرِ المجوّاة', 'C']],
+      [['A', '🅰️ النطاق أ', '#4a2e18'], ['B', '🅱️ النطاق ب', '#8a5a34'], ['C', '🅲 النطاق ج', '#6e655a']], done)],
+  ['🟡', 'حقيبة المقارنة', 'أقارنُ بينَ التربةِ الرمليةِ والطينية', (el, done) => sortGame(el, [['حبيباتٌ كبيرة', 's'], ['يتسرّبُ الماءُ خلالَها بسرعة', 's'], ['لونٌ فاتح', 's'], ['حبيباتٌ دقيقةٌ جدًّا', 'c'], ['تحتفظُ بالماءِ مدّةً أطول', 'c'], ['ناعمةُ الملمس', 'c'], ['تتكوّنُ منْ فتاتِ الصخور', 'b'], ['تنتجُ عنْ تجويةِ الصخور', 'b']],
+      [['s', '🏖️ الرملية', '#c99a40'], ['b', '🤝 كلتاهما', '#6b7a2a'], ['c', '🧱 الطينية', '#9c5a33']], done)],
+  ['🟠', 'حقيبة الاستنتاج', 'أستنتجُ منْ بياناتِ المختبر', (el, done) => seqMCQ(el, [
+      ['في تجربةٍ تسرّبَ منْ عيّنةٍ ٤٠ مل منْ ٥٠ مل خلالَ ٥ دقائق. ماذا تستنتجين عنْ حبيباتِها؟', ['دقيقة جدًّا', 'كبيرةٌ والمساماتُ بينها واسعة', 'لا يمكنُ الاستنتاج'], 1, 'تسرُّبُ معظمِ الماءِ بسرعةٍ يدلُّ على حبيباتٍ كبيرةٍ كالتربةِ الرملية.'],
+      ['بعدَ رجِّ وعاءِ التربةِ استقرَّ الحصى في القاعِ أوّلًا. ماذا تستنتجين؟', ['الحبيباتُ الأكبرُ تترسّبُ أسرع', 'الحصى أخفُّ منَ الطين', 'الماءُ يرفعُ الحصى'], 0, 'تترسّبُ الحبيباتُ الأكبرُ في الأسفل، والأصغرُ في الأعلى (ص١٧١).'],
+      ['نباتٌ قصيرُ الجذورِ ذبُلَ في تربةِ غابةٍ مطيرة. ما السببُ الأرجح؟', ['التربةُ رقيقةٌ والمعادنُ حملَتْها الأمطارُ إلى أعماقٍ لا تصلُها جذوره', 'كثرةُ الدُّبال', 'قلّةُ الأمطار'], 0, 'تربةُ الغاباتِ رقيقةٌ؛ لأنَّ الأمطارَ الغزيرةَ تحملُ المعادنَ إلى أعماقٍ أكبر (ص١٧٠).']], done)],
+  ['🔴', 'حقيبة حلّ المشكلات', 'أنا مستشارةُ التربة', (el, done) => seqMCQ(el, [
+      ['⛰️ مزرعةٌ على تلٍّ شديدِ الانحدارِ تجرفُ الأمطارُ تربتَها. ما الحلُّ الأنسب؟', ['المصاطب (المدرجات)', 'التسميد', 'القوانين'], 0, 'المصاطبُ تقلّلُ سرعةَ المياهِ المتدفّقةِ إلى أسفلِ المنحدر (ص١٧٢).'],
+      ['💨 رياحٌ قويةٌ تحملُ التربةَ السطحيةَ منْ حقلٍ مكشوف.', ['الدورة الزراعية', 'مصدّات الرياح', 'التعليم'], 1, 'الأشجارُ الطويلةُ على حدودِ المزرعةِ تقلّلُ سرعةَ الرياح (ص١٧٢).'],
+      ['🌱 تربةٌ زُرعَتْ بالمحصولِ نفسِهِ سنواتٍ ففقدَتْ مغذّياتِها.', ['مصدّات الرياح', 'الحراثة الكنتورية', 'الدورة الزراعية والتسميد'], 2, 'التسميدُ والدورةُ الزراعيةُ يعيدانِ المغذّياتِ للتربة (ص١٧٢).'],
+      ['🛍️ أكياسُ بلاستيكٍ ونفاياتٌ في حديقةِ الحيّ.', ['الجهود الفردية بجمع القمامة', 'المصاطب', 'التسميد'], 0, 'يمكنُ حمايةُ التربةِ بجمعِ القمامةِ والمساعدةِ على تنظيفِ الأرض (ص١٧٢).']], done)]];
+let MED = new Set();
+$('#bags').innerHTML = BAGS.map(([e, n, d], i) => `<div class="bag" data-i="${i}" onclick="openBag(${i})"><span class="lock">🔒</span><i>${e}</i><b>${n}</b><p>${d}</p><p>المجموعة ${ar(i + 1)}</p><span class="med">🏅</span></div>`).join('');
+function openBag(i) { const [e, n, d, run] = BAGS[i]; $('#bagIn').innerHTML = `<button class="btn ovx" onclick="closeOv('bagOv')">✖ إغلاق</button><div style="width:100%"><h3>${e} ${n}</h3><p style="font-weight:800;font-size:20px;margin:0">🎯 الهدف: ${d}</p><div id="bagBody"></div></div>`; $('#bagOv').classList.add('on'); tone(300, .25, 'triangle', .12);
+  run($('#bagBody'), () => { MED.add(i); $(`.bag[data-i="${i}"]`).classList.add('done'); $('#medals').textContent = `الأوسمة: ${ar(MED.size)} / ٤`; star(3); closeOv('bagOv'); $('#msgin').innerHTML = `<b>🏅 وسام علمي!</b>أنجزت المجموعة ${ar(i + 1)} «${n}» ⭐`; $('#msgbox').classList.add('on'); confetti(); clearTimeout(window._mb); window._mb = setTimeout(() => $('#msgbox').classList.remove('on'), 2600); }); }
+
+// ===== الفهم القرائي
+mcq('q_r1', 'الفكرة الرئيسة', 'ما الفكرةُ الرئيسةُ للفقرة؟', ['النباتاتُ لا تحتاجُ إلى مغذّيات', 'مغذّياتُ التربةِ تُستهلَكُ وتتجدّدُ طبيعيًّا، وقدْ تُستهلَكُ التربةُ بالتلوّث', 'التلوّثُ يزيدُ مغذّياتِ التربة'], 1, 'هذا ما تدورُ حولَهُ الفقرةُ كلُّها.', 'اقرئي الجملةَ الأولى والأخيرة.');
+mcq('q_r2', 'السبب والنتيجة', 'لماذا تصبحُ الأرضُ غيرَ قادرةٍ على إنباتِ نباتاتٍ جديدةٍ إذا أُزيلَ المحصولُ كاملًا؟', ['لأنَّ المغذّياتِ لا تتجدّدُ؛ إذْ لمْ تبقَ نباتاتٌ تموتُ وتتحلّل', 'لأنَّ التربةَ تتجمّد', 'لأنَّ المطرَ يزيد'], 0, 'المغذّياتُ تتجدّدُ عندَ موتِ النباتاتِ وطمرِها وتحلّلِها.', 'ابحثي عن الكلمة المظلّلة «تتجدّد».');
+mcq('q_r3', 'أستنتج • تفكير عليا', 'بناءً على الفقرة، ماذا تنصحينَ المزارعَ بعدَ الحصاد؟', ['حرقَ التربة', 'تركَ بقايا النباتاتِ لتتحلّل، أوِ التسميدَ والدورةَ الزراعية', 'رشَّ المبيداتِ بكثرة'], 1, 'بذلكَ تعودُ المغذّياتُ إلى التربة.', 'ما الذي يُعيدُ المغذّيات؟');
+
+// ===== التفكير الناقد
+const DEC = [['🪜', 'بناءُ المصاطب (المدرجات)', 1, '✔ قرارٌ موفّق! المصاطبُ تقلّلُ سرعةَ المياهِ المتدفّقةِ فتبقى التربةُ السطحيةُ في مكانِها (ص١٧٢).'], ['🧪', 'رشُّ أسمدةٍ كيميائيةٍ بكثرة', 0, '✘ الأسمدةُ لا توقفُ الانجراف، والإفراطُ فيها قدْ يلوّثُ التربة. المشكلةُ هنا هيَ التعرية.'], ['🪓', 'قطعُ الأشجارِ المحيطةِ لتوسيعِ الأرض', 0, '✘ يزيدُ التعرية! جذورُ الأشجارِ تثبّتُ التربةَ في مكانِها (ص١٧٠).']];
+$('#dec').innerHTML = DEC.map(([e, t, k, f]) => `<div class="dc" data-k="${k}" onclick="this.classList.add(${k} ? 'ok' : 'no');${k} ? (good(), star(2)) : bad()"><i>${e}</i>${t}<p>${f}</p></div>`).join('');
+mcq('q_nat', 'أفسّر', 'لماذا تُروى المحاصيلُ في التربةِ الصحراويةِ صناعيًّا؟', ['لأنَّ الأمطارَ قليلةٌ، والتربةَ رمليةٌ لا تحتفظُ بالماء', 'لأنَّ التربةَ الصحراويةَ فقيرةٌ بالمعادن', 'لأنَّها متجمّدة'], 0, 'التربةُ الصحراويةُ رمليةٌ قليلةُ الدُّبال، وأمطارُها قليلة، لكنّها غنيةٌ بالمعادن (ص١٧٠).', 'تذكّري خصائصَ التربةِ الصحراوية.');
+
+// ===== خريطة المفاهيم
+(function () { const N = [['التربة', 650, 300, 0, '#6b4226'],
+  ['تتكوّن من', 260, 90, 'فتات الصخور + الدُّبال + الماء + الهواء', '#b5652b'], ['نطاقاتها', 650, 70, 'أ: التربة السطحية • ب: تحت السطحية • ج: صخور كبيرة', '#8a5a34'], ['أنواعها', 1040, 90, 'رملية • طينية • زراعية (تختلف في حجم الحبيبات والاحتفاظ بالماء)', '#c99a40'],
+  ['تُستعمل', 220, 470, 'الغابات: رقيقة • الصحراء: رملية غنية بالمعادن • العشبية: غنية بالدُّبال', '#7f9a3a'], ['تُهدَّد بـ', 650, 520, 'التعرية بالماء والرياح • التلوّث بالمواد الكيميائية والمبيدات والنفايات', '#b8402d'], ['نحافظ عليها بـ', 1080, 470, 'التسميد • الدورة الزراعية • الأشرطة المتبادلة • الحراثة الكنتورية • المصاطب • مصدّات الرياح', '#3f7d2c']];
+  let h = ''; N.slice(1).forEach(([t, x, y]) => h += `<line x1="650" y1="300" x2="${x}" y2="${y}" stroke="#c9a06a" stroke-width="6" stroke-dasharray="12 8"/>`);
+  N.forEach(([t, x, y, a, c], i) => { if (!i) { h += `<g><circle cx="${x}" cy="${y}" r="90" fill="${c}"/><text x="${x}" y="${y + 14}" text-anchor="middle" font-family="Q" font-size="46" fill="#ffe2a8">${t}</text></g>`; return; }
+    h += `<g class="cn" onclick="this.classList.add('on');tone(640,.08)"><rect x="${x - 190}" y="${y - 52}" width="380" height="104" rx="26" fill="#fffaf0" stroke="${c}" stroke-width="5"/><rect x="${x - 110}" y="${y - 72}" width="220" height="40" rx="20" fill="${c}"/><text x="${x}" y="${y - 44}" text-anchor="middle" font-size="24" font-weight="800" fill="#fff">${t}</text>
+      <text class="qm" x="${x}" y="${y + 30}" text-anchor="middle" font-size="44" fill="${c}">❓</text><foreignObject class="a" x="${x - 180}" y="${y - 28}" width="360" height="78"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:18px;font-weight:800;text-align:center;line-height:1.45;color:#3b2414;font-family:Z,sans-serif">${a}</div></foreignObject></g>`; });
+  $('#cmap').innerHTML = h; })();
+
+// ===== تذكرة الخروج
+mcq('q_exit', 'تذكرة الخروج', 'مزارعةٌ لاحظَتْ أنَّ تربةَ حقلِها المنحدرِ تنجرفُ، وأنَّ نباتاتِها ضعيفة. ما التفسيرُ والحلُّ الأنسب؟', ['فقدَتِ التربةُ السطحيةَ الغنيةَ بالدُّبال؛ والحلُّ الحراثةُ الكنتوريةُ أوِ المصاطب', 'التربةُ فيها دُبالٌ كثير؛ والحلُّ إزالةُ النباتات', 'المشكلةُ في لونِ التربة؛ والحلُّ تغييرُ البذور'], 0, 'أحسنتِ! ربطتِ النطاقَ أ بالتعريةِ وطرقِ الحفظ.', 'فكّري: ماذا تجرفُ التعرية؟ وكيفَ نبطئُ الماء؟');
+$$('#rate button').forEach((b, i) => b.onclick = () => { $$('#rate button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#ratefb').className = 'fb ok'; $('#ratefb').textContent = ['🌟 رائع! أنتِ مستكشفةٌ متقنة.', '👍 جميل! راجعي مخطّطَ المفاهيمِ مرةً أخرى.', '💚 لا بأس! ستساعدكِ معلمتُكِ، وراجعي محطةَ النطاقات.'][i]; tone(600, .1); });
+setSample('sand');
 drawStamps(); go(0); SC[0].classList.add('on');
 </script>
 </body>
