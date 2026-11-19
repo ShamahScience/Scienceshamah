@@ -689,7 +689,7 @@
   .drip { width: 8px; height: 46px; position: relative; } .drip i { position: absolute; left: 0; width: 8px; height: 12px; border-radius: 50%; background: #4ea3e6; opacity: 0; } .run .drip i { animation: ldr var(--sp, 1s) linear infinite; } @keyframes ldr { 0% { top: 0; opacity: 1; } 100% { top: 38px; opacity: 0; } }
   .cyl { width: 60px; height: 100px; border: 3px solid #8aa; border-top: none; border-radius: 0 0 12px 12px; position: relative; background: rgba(255,255,255,.6); } .cyl .lv { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: #4ea3e6; transition: height 1s; } .cyl b { position: absolute; top: -24px; left: -10px; right: -10px; text-align: center; font-size: 15px; }
   .rrow { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; margin: 6px 0; font-size: 18px; } #clock { font-size: 22px; color: var(--leaf); } #chart { width: 100%; height: 200px; } .note { font-size: 14px; color: #8a6a48; margin: 0; text-align: center; }
-  #fsvg { width: 100%; border-radius: 14px; } .st { opacity: 0; transition: opacity 1s; } .st.on { opacity: 1; } #fcap { font-size: 18px; } #fcap span { font-weight: 700; }
+  #fsvg { width: 100%; border-radius: 14px; } #fsvg .fst { opacity: 0; transition: opacity 1s; } #fsvg .fst.on { opacity: 1; } #fcap { font-size: 18px; } #fcap span { font-weight: 700; }
   .prof { position: relative; aspect-ratio: 1672 / 941; overflow: hidden; border-radius: 16px; border: 5px solid #3b2414; } #pimg { position: absolute !important; left: 0; top: 0; width: 1672px !important; height: 941px !important; max-width: none !important; max-height: none !important; transform-origin: 0 0; transition: transform 1.8s cubic-bezier(.4,0,.2,1); cursor: default; }
   .plab { position: absolute; top: 10px; right: 10px; background: rgba(59,36,20,.85); color: var(--gold); font-size: 24px; border-radius: 14px; padding: 2px 14px; }
   .lnav { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; } .lnav .btn { font-size: 16px; padding: 4px 10px; } .hcap { font-size: 19px; margin: 6px 0 0; }
@@ -1040,14 +1040,14 @@ function rigPour() { LQ('#pour').disabled = true; LQ('#rig').classList.add('run'
 // ===== تكوّن التربة
 var FS = [['🪨 صخور', 'صخرٌ صلبٌ على سطحِ الأرض.'], ['⚡ تجوية', 'تتعرّضُ الصخورُ لعواملِ تجويةٍ تؤدّي إلى تشقّقِها وتكسّرِها.'], ['🦠 مخلوقات مجهرية', 'تنمو مخلوقاتٌ حيّةٌ مجهريةٌ في الشقوق، وتفكّكُ الصخورَ إلى موادَّ كيميائيةٍ مناسبةٍ لتغذيةِ النبات.'], ['🌿 حشائش ثم شجيرات', 'تنمو الحشائشُ ثمَّ الشجيرات.'], ['🐇 حيوانات', 'تأتي حيواناتٌ لتتغذّى على النباتاتِ التي نمَت.'], ['🍂 دبال وتربة', 'تموتُ النباتاتُ والحيواناتُ فتتحوّلُ إلى موادَّ عضويّةٍ في التربة.']], fsi = 0;
 function formDraw(id) { document.getElementById(id).innerHTML = `<svg id="fsvg" viewBox="0 0 640 300"><rect width="640" height="300" fill="#cfe6f0"/><circle cx="560" cy="55" r="32" fill="#f2b632"/><rect y="210" width="640" height="90" fill="#8a7a68"/>
-  <g class="st on" data-s="0"><path d="M120 210 L170 110 L260 82 L360 100 L450 138 L520 210 Z" fill="#9a9186" stroke="#5e5246" stroke-width="3"/></g>
-  <g class="st" data-s="1"><path d="M250 84 L240 140 L265 175 L255 210 M360 102 L340 160 L370 210 M180 150 L215 185" stroke="#3b3530" stroke-width="5" fill="none"/></g>
-  <g class="st" data-s="2" fill="#7fbf3a">${Array.from({ length: 26 }, (_, i) => `<circle cx="${180 + (i * 37) % 260}" cy="${128 + (i * 23) % 76}" r="3.5"/>`).join('')}</g>
-  <g class="st" data-s="3"><path d="M0 210 Q160 182 320 194 T640 202 L640 212 L0 212 Z" fill="#5a3b24"/><text x="70" y="196" font-size="44">🌿</text><text x="520" y="204" font-size="52">🌳</text></g>
-  <g class="st" data-s="4"><text x="420" y="206" font-size="40">🐇</text><text x="130" y="208" font-size="32">🐛</text></g>
-  <g class="st" data-s="5"><rect y="212" width="640" height="44" fill="#3b2414"/><text x="200" y="242" font-size="22" fill="#ffe2a8" font-weight="800">🍂 دُبال + فتات صخور = تربة</text></g></svg>
+  <g class="fst on" data-s="0"><path d="M120 210 L170 110 L260 82 L360 100 L450 138 L520 210 Z" fill="#9a9186" stroke="#5e5246" stroke-width="3"/></g>
+  <g class="fst" data-s="1"><path d="M250 84 L240 140 L265 175 L255 210 M360 102 L340 160 L370 210 M180 150 L215 185" stroke="#3b3530" stroke-width="5" fill="none"/></g>
+  <g class="fst" data-s="2" fill="#7fbf3a">${Array.from({ length: 26 }, (_, i) => `<circle cx="${180 + (i * 37) % 260}" cy="${128 + (i * 23) % 76}" r="3.5"/>`).join('')}</g>
+  <g class="fst" data-s="3"><path d="M0 210 Q160 182 320 194 T640 202 L640 212 L0 212 Z" fill="#5a3b24"/><text x="70" y="196" font-size="44">🌿</text><text x="520" y="204" font-size="52">🌳</text></g>
+  <g class="fst" data-s="4"><text x="420" y="206" font-size="40">🐇</text><text x="130" y="208" font-size="32">🐛</text></g>
+  <g class="fst" data-s="5"><rect y="212" width="640" height="44" fill="#3b2414"/><text x="200" y="242" font-size="22" fill="#ffe2a8" font-weight="800">🍂 دُبال + فتات صخور = تربة</text></g></svg>
   <div class="rrow"><button class="btn main" onclick="fStep(1)">▶ المرحلة التالية</button><button class="btn" onclick="fStep(-99)">↺</button><b id="fcap"></b></div>`; fStep(-99); }
-function fStep(d) { fsi = d < -1 ? 0 : Math.min(5, fsi + d); LQA('#fsvg .st').forEach((g) => g.classList.toggle('on', +g.dataset.s <= fsi)); LQ('#fcap').innerHTML = `${lar(fsi + 1)}) ${FS[fsi][0]}: <span>${FS[fsi][1]}</span>`; ltone(500 + fsi * 60, .1); }
+function fStep(d) { fsi = d < -1 ? 0 : Math.min(5, fsi + d); LQA('#fsvg .fst').forEach((g) => g.classList.toggle('on', +g.dataset.s <= fsi)); LQ('#fcap').innerHTML = `${lar(fsi + 1)}) ${FS[fsi][0]}: <span>${FS[fsi][1]}</span>`; ltone(500 + fsi * 60, .1); }
 
 // ===== رحلة داخل نطاقات التربة (الصورة الحقيقية)
 var HZ = [['🌳 السطح', 1050, 330, .62, 'نبدأ منْ سطحِ الأرضِ… كلُّ طبقةٍ منْ طبقاتِ التربةِ تسمّى نطاقَ التربة.'], ['🅰️ النطاق أ', 760, 420, 1.35, 'التربةُ السطحية: يحملُ معظمَ المغذّياتِ ويحوي الدُّبال، وتنمو فيها معظمُ جذورِ النباتات.'],
@@ -1338,6 +1338,7 @@ const MIS = [
   { ic: '🟡', n: 'المهمة الثانية', t: 'أقارن', d: 'رملية أم طينية؟', run: () => m2(0) },
   { ic: '🟠', n: 'المهمة الثالثة', t: 'أصنّف', d: 'نطاقات التربة', run: () => m3() },
   { ic: '🔴', n: 'المهمة الرابعة', t: 'أركّب – المهمة الأدائية', d: 'التكوّن والتعرية', run: () => m4(0) },
+  { ic: '<img class="nlogo" src="img/nafs/logo.png" alt="نافس">', n: 'المهمة الخامسة', t: 'تدريبات نافس', d: 'النشاط الإنساني وحماية التربة', run: () => m5(0) },
 ];
 const mDone = new Set();
 let mCur = 0;
@@ -1378,16 +1379,16 @@ function m1(i, sim) {
   });
 }
 // المهمة الخامسة: تدريبات نافس (منقولة حرفيًا) – ناتج «مكوّنات النظام البيئي»
-const O1 = "وصف مكوّنات التربة ونطاقاتها وطرق المحافظة عليها";
-const M5 = [];
-const SYSR = [['🪨 التربة', /./]];
+const O1 = "استنتاج تأثير النشاط الإنساني في المواطن والجماعات البيئية، وتوقع أثرها، واقتراح الحلول لحمايتها";
+const M5 = [{"o": O1, "k": "معرفة", "q": "الوقود الأحفوري يعد:", "op": ["أ. موردًا غير متجدد", "ب. موردًا متجددًا", "ج. موردًا دائمًا", "د. موردًا يعاد استخدامه"], "a": 0, "hint": "هل يتكوّن الوقود من جديد بسرعة؟", "fix": "الوقود الأحفوري موردٌ غير متجدد؛ أمّا التربة فموردٌ متجدّد لأنّه يمكن إعادة استخدامها (ص١٦٨).", "sim": {"q": "التربة تُعدّ موردًا…", "op": ["أ. متجدّدًا", "ب. غير متجدّد", "ج. لا يُستعمل"], "a": 0}, "pg": "٣٢"}, {"o": O1, "k": "تطبيق", "q": "من طرق حماية التربة:", "op": ["أ. زيادة كمية الماء", "ب. حرق الأشجار", "ج. زراعة المحاصيل في مصاطب", "د. استخدام وقود أكثر"], "a": 2, "hint": "تذكّري طرق حفظ التربة ص١٧٢.", "fix": "المصاطب (المدرجات) تقلّل من سرعة المياه المتدفّقة إلى أسفل المنحدر فتحمي التربة (ص١٧٢).", "sim": {"q": "أشجار طويلة تُزرع على حدود المزرعة لحماية التربة من الرياح تُسمّى…", "op": ["أ. مصدّات الرياح", "ب. الأشرطة المتبادلة", "ج. الدورة الزراعية"], "a": 0}, "pg": "٣٢"}, {"o": O1, "k": "تطبيق", "q": "أي مما يلي من أمثلة الترشيد:", "op": ["أ. حرق المحاصيل", "ب. تقليل كميات الوقود المستخدم في التدفئة", "ج. رمي النفايات في الشوارع", "د. استخدام مزيد من الكهرباء دون حاجة"], "a": 1, "hint": "الترشيد = تقليل الاستهلاك.", "fix": "تقليل كميات الوقود المستخدم في التدفئة من أمثلة الترشيد.", "sim": {"q": "من الجهود الفردية لحماية التربة…", "op": ["أ. جمع القمامة وتنظيف الأرض", "ب. رمي البلاستيك", "ج. حرق الأعشاب"], "a": 0}, "pg": "٣٢"}, {"o": O1, "k": "تحليل", "q": "إذا استمر الناس في قطع الأشجار بكثرة، فما الذي سيحدث للنظام البيئي؟", "op": ["أ. تقل مساكن الحيوانات وتزداد مشكلات التلوث", "ب. تزداد مساكن الحيوانات", "ج. تتحسن التربة", "د. تزيد الأمطار"], "a": 0, "hint": "ماذا تفعل جذور الأشجار للتربة؟", "fix": "تقلّ مساكن الحيوانات وتزداد المشكلات، وتزداد تعرية التربة لأن الجذور كانت تثبّتها (ص١٧٠).", "sim": {"q": "إذا زالت النباتات من منحدر فإن التربة…", "op": ["أ. تنجرف بسهولة", "ب. تصبح أخصب", "ج. تتجمّد"], "a": 0}, "pg": "٣١"}, {"o": O1, "k": "تركيب", "q": "أي الطرق التالية تمثل أفضل خطة متكاملة لحماية الموارد الطبيعية؟", "op": ["أ. التدوير", "ب. إعادة الاستخدام", "ج. الجمع بين الترشيد وإعادة الاستخدام والتدوير", "د. الترشيد فقط"], "a": 2, "hint": "الخطة المتكاملة تجمع أكثر من طريقة.", "fix": "الجمع بين الترشيد وإعادة الاستخدام والتدوير أفضل خطة متكاملة لحماية الموارد، ومنها التربة.", "sim": {"q": "أفضل خطة لحماية تربة مزرعة منحدرة…", "op": ["أ. المصاطب مع مصدّات الرياح والتسميد", "ب. قطع الأشجار", "ج. رشّ المبيدات بكثرة"], "a": 0}, "pg": "٣١"}];
+const SYSR = [['🌍 النشاط الإنساني وحماية البيئة', /./]];
 M5.forEach((q) => { q.sys = 0; });
 const npg = (q) => (M5.find((x) => x.q === q) || {}).pg || '';
 let m5s = 0;
 const shuf0 = (t) => ({ q: t.q, op: t.op, a: t.a });
 function m5(i, sim) {
   if (i === 0 && !sim) m5s = 0;
-  if (i >= M5.length) return mFinish(4, `<p class="score">⭐ ${ar(m5s)} / ${ar(M5.length)}</p><p>تدريبات التربة 💚</p>`);
+  if (i >= M5.length) return mFinish(4, `<p class="score">⭐ ${ar(m5s)} / ${ar(M5.length)}</p><p>تدريبات نافس على ناتج «تأثير النشاط الإنساني واقتراح الحلول» 💚</p>`);
   const it = M5[i], t = shuf0(sim ? it.sim : { q: it.q, op: it.op, a: it.a }); let tries = 0;
   $('#mbody').innerHTML = mHead('نواتج التعلم – اختبار نافس', 'المهمة الخامسة: نافس – نواتج التعلم') + `
     <div class="nhead"><img src="img/nafs/logo.png" alt="نافس"><div><span class="nlab">ناتج التعلم</span> ${it.o} ${npg(it.q) ? `<span class="nlab pg">📄 تدريبات نافس ص${npg(it.q)}</span>` : '<span class="nlab pg mine">✍️ من إعداد المعلمة</span>'}<br><span class="nlab sub">المجال الفرعي</span> علوم الحياة • <span class="nlab sk">${it.k}</span></div></div>
