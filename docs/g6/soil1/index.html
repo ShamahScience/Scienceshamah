@@ -9,32 +9,32 @@
 @font-face { font-family: Z; src: url(img/ZainRounded-VF.ttf); font-weight: 100 900; }
 :root { --soil: #6b4226; --dark: #3b2414; --clay: #b5652b; --sand: #e8c99b; --cream: #fbf3e4; --olive: #6b7a2a; --leaf: #7f9a3a; --gold: #f2b632; --red: #b8402d; --ok: #3f7d2c; }
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; background: #2a190d; overflow: hidden; font-family: Z, 'Noto Naskh Arabic', 'Geeza Pro', 'Noto Color Emoji', sans-serif; color: var(--dark); }
-#stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform: translate(-50%, -50%) scale(var(--s, 1)); overflow: clip; border-radius: 18px; background: #4a2e18; perspective: 1400px; }
+html, body { margin: 0; height: 100%; background: #e9dcc4; overflow: hidden; font-family: Z, 'Noto Naskh Arabic', 'Geeza Pro', 'Noto Color Emoji', sans-serif; color: var(--dark); }
+#stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform: translate(-50%, -50%) scale(var(--s, 1)); overflow: clip; border-radius: 18px; background: #f3e4c8; perspective: 1400px; }
 /* خلفية المختبر */
 #lab { position: absolute; inset: -20px -400px; transition: transform 1.4s cubic-bezier(.3,.7,.2,1);
   background:
     radial-gradient(ellipse at 50% 18%, rgba(255,220,160,.35), transparent 55%),
-    repeating-linear-gradient(90deg, transparent 0 230px, rgba(59,36,20,.35) 230px 238px),
-    linear-gradient(transparent 0 30%, rgba(59,36,20,.55) 30% 31.2%, transparent 31.2% 58%, rgba(59,36,20,.55) 58% 59.2%, transparent 59.2%),
-    linear-gradient(#e9d3b0 0%, #d8b98c 70%, #8a5a34 70%, #6b4226 100%); }
-#lab::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(107,66,38,.25) 1.5px, transparent 1.6px); background-size: 26px 26px; }
-.jars { position: absolute; top: 22%; left: 0; right: 0; height: 9%; background: repeating-linear-gradient(90deg, transparent 0 40px, rgba(181,101,43,.55) 40px 70px, transparent 70px 95px, rgba(232,201,155,.9) 95px 120px, transparent 120px 150px, rgba(107,122,42,.5) 150px 175px, transparent 175px 230px); border-radius: 8px; opacity: .6; }
+    repeating-linear-gradient(90deg, transparent 0 230px, rgba(181,140,90,.18) 230px 238px),
+    linear-gradient(transparent 0 30%, rgba(181,140,90,.3) 30% 31.2%, transparent 31.2% 58%, rgba(181,140,90,.3) 58% 59.2%, transparent 59.2%),
+    linear-gradient(#fbf3e2 0%, #f3e4c8 70%, #dcc19a 70%, #cfae80 100%); }
+#lab::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(107,66,38,.10) 1.5px, transparent 1.6px); background-size: 26px 26px; }
+.jars { position: absolute; top: 22%; left: 0; right: 0; height: 9%; filter: saturate(.7) brightness(1.15); background: repeating-linear-gradient(90deg, transparent 0 40px, rgba(181,101,43,.55) 40px 70px, transparent 70px 95px, rgba(232,201,155,.9) 95px 120px, transparent 120px 150px, rgba(107,122,42,.5) 150px 175px, transparent 175px 230px); border-radius: 8px; opacity: .6; }
 .jars.j2 { top: 50%; }
 /* الإطار */
-.top { position: absolute; top: 0; left: 0; right: 0; height: 64px; display: flex; align-items: center; gap: 14px; padding: 0 22px; background: linear-gradient(#5a3820, #3b2414); color: var(--cream); z-index: 20; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
-.top h1 { margin: 0; font-family: Q; font-weight: 400; font-size: 30px; color: var(--gold); text-shadow: 0 2px 0 #7a4a12, 0 4px 6px #000; }
+.top { position: absolute; top: 0; left: 0; right: 0; height: 64px; display: flex; align-items: center; gap: 8px; padding: 0 14px; background: linear-gradient(#fffaf0, #f3e2c4); color: var(--soil); border-bottom: 4px solid #d9b98a; z-index: 20; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.top h1 { margin: 0; font-family: Q; font-weight: 400; font-size: 28px; color: #a0521e; text-shadow: 0 1px 0 #f7d9a8, 0 2px 0 #e2b67a, 0 4px 6px rgba(0,0,0,.15); white-space: nowrap; }
 .top .t { font-weight: 700; color: #f1dcb8; font-size: 18px; }
 .top .sp { flex: 1; }
-.pill { background: rgba(255,255,255,.12); border: 2px solid rgba(242,182,50,.6); border-radius: 22px; padding: 3px 14px; font-weight: 800; font-size: 17px; cursor: pointer; color: var(--cream); font-family: inherit; }
-.bot { position: absolute; bottom: 0; left: 0; right: 0; height: 72px; display: flex; align-items: center; gap: 10px; padding: 0 18px; background: linear-gradient(#3b2414, #2a190d); z-index: 20; }
+.pill { background: #fff; border: 2px solid #d9b98a; border-radius: 22px; padding: 3px 14px; font-weight: 800; font-size: 16px; cursor: pointer; color: var(--soil); font-family: inherit; white-space: nowrap; }
+.bot { position: absolute; bottom: 0; left: 0; right: 0; height: 72px; display: flex; align-items: center; gap: 10px; padding: 0 18px; background: linear-gradient(#f3e2c4, #e8d1aa); border-top: 4px solid #d9b98a; z-index: 20; }
 .nb { font-family: inherit; font-weight: 800; font-size: 20px; border: none; border-radius: 16px; padding: 8px 18px; cursor: pointer; background: var(--gold); color: var(--dark); box-shadow: 0 4px 0 #9a6a10; }
-.nb.ghost { background: #6b4226; color: var(--cream); box-shadow: 0 4px 0 #2a190d; }
+.nb.ghost { background: #fffaf0; color: var(--soil); border: 2px solid #c9a06a; box-shadow: 0 4px 0 #c9a06a; }
 .path { flex: 1; display: flex; align-items: center; justify-content: space-between; position: relative; padding: 0 10px; }
-.path::before { content: ''; position: absolute; left: 24px; right: 24px; top: 50%; height: 6px; margin-top: -3px; border-radius: 4px; background: repeating-linear-gradient(90deg, #8a5a34 0 14px, transparent 14px 22px); }
-.stop { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; cursor: pointer; background: none; border: none; font-family: inherit; color: #cdb08a; font-size: 13px; font-weight: 800; }
-.stop i { font-style: normal; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; background: #4a2e18; border: 3px solid #8a5a34; }
-.stop.done i { border-color: var(--leaf); } .stop.on i { background: var(--gold); border-color: #fff3d0; transform: scale(1.15); box-shadow: 0 0 18px var(--gold); } .stop.on { color: var(--gold); }
+.path::before { content: ''; position: absolute; left: 24px; right: 24px; top: 50%; height: 6px; margin-top: -3px; border-radius: 4px; background: repeating-linear-gradient(90deg, #c9a06a 0 14px, transparent 14px 22px); }
+.stop { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; cursor: pointer; background: none; border: none; font-family: inherit; color: #7a5434; font-size: 13px; font-weight: 800; }
+.stop i { font-style: normal; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; background: #fffaf0; border: 3px solid #c9a06a; }
+.stop.done i { border-color: var(--leaf); } .stop.on i { background: var(--gold); border-color: #fff3d0; transform: scale(1.15); box-shadow: 0 0 18px var(--gold); } .stop.on { color: #a0521e; }
 /* الطالبة */
 #girl { position: absolute; left: 6px; bottom: 74px; width: 200px; z-index: 15; pointer-events: none; transition: transform .5s; filter: drop-shadow(0 8px 10px rgba(0,0,0,.4)); }
 #girl.hop { animation: hop .6s; } @keyframes hop { 40% { transform: translateY(-14px); } }
@@ -49,7 +49,7 @@ html, body { margin: 0; height: 100%; background: #2a190d; overflow: hidden; fon
 .sh { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .sh .badge { background: var(--clay); color: #fff; border-radius: 16px; padding: 3px 12px; font-weight: 800; font-size: 16px; }
 .sh h2 { margin: 0; font-family: Q; font-weight: 400; font-size: 38px; color: var(--soil); text-shadow: 0 1px 0 #f3dfbd, 0 2px 0 #d7b88a, 0 3px 0 #b9935f, 0 6px 10px rgba(0,0,0,.2); }
-.sh .pg { margin-inline-start: auto; background: #fffaf0; border: 2px solid var(--clay); border-radius: 14px; padding: 2px 12px; font-weight: 800; color: var(--clay); }
+.sh .pg { margin-inline-start: auto; margin-inline-end: 170px; background: #fffaf0; border: 2px solid var(--clay); border-radius: 14px; padding: 2px 12px; font-weight: 800; color: var(--clay); }
 .strat { display: inline-block; font-size: 15px; font-weight: 800; color: var(--olive); background: #f3f0d8; border: 2px dashed var(--olive); border-radius: 12px; padding: 1px 10px; }
 .card { background: rgba(255,250,240,.96); border: 3px solid #c9a06a; border-radius: 22px; padding: 12px 16px; box-shadow: inset 0 2px 0 #fff, 0 10px 24px rgba(59,36,20,.25); }
 .row { display: flex; gap: 16px; } .col { display: flex; flex-direction: column; gap: 12px; }
@@ -98,8 +98,8 @@ mark { background: transparent; transition: background .8s; padding: 0 2px; bord
 .fl > div { position: relative; width: 100%; height: 100%; transition: transform .7s; transform-style: preserve-3d; }
 .fl.on > div { transform: rotateY(180deg); }
 .fl .a, .fl .b { position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; }
-.fl .a { background: linear-gradient(135deg, #8a5a34, #5a3820); color: #ffe2a8; font-family: Q; font-size: 32px; box-shadow: 0 6px 0 #3b2414; flex-direction: column; gap: 4px; }
-.fl .a small { font-family: Z; font-size: 15px; color: #f1dcb8; }
+.fl .a { background: linear-gradient(135deg, #d9a66a, #b5814f); color: #fffaf0; font-family: Q; font-size: 32px; box-shadow: 0 6px 0 #8a5a34; flex-direction: column; gap: 4px; }
+.fl .a small { font-family: Z; font-size: 15px; color: #fff3dc; }
 .fl .b { background: #fffaf0; border: 3px solid var(--clay); transform: rotateY(180deg); font-size: 18px; font-weight: 800; }
 /* المجهر */
 .scope { position: relative; width: 620px; height: 430px; border-radius: 20px; overflow: hidden; border: 6px solid #3b2414; cursor: none; touch-action: none; }
@@ -187,7 +187,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
 .env { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
 .env button { font-size: 46px; background: #fffaf0; border: 3px solid #e3a9a0; border-radius: 16px; cursor: pointer; padding: 10px 0; font-family: inherit; }
 .env button.used { opacity: .35; }
-.msgbox { display: none; position: absolute; inset: 0; background: rgba(42,25,13,.75); z-index: 30; align-items: center; justify-content: center; }
+.msgbox { display: none; position: absolute; inset: 0; background: rgba(90,60,30,.5); z-index: 30; align-items: center; justify-content: center; }
 .msgbox.on { display: flex; }
 .msgbox div { background: #fffaf0; border: 6px solid var(--gold); border-radius: 30px; padding: 30px 50px; text-align: center; font-size: 34px; font-weight: 800; max-width: 900px; animation: fin .5s; }
 .msgbox b { display: block; font-family: Q; font-weight: 400; color: var(--clay); font-size: 70px; }
@@ -212,17 +212,17 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
 .tray { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .tray button { font-family: inherit; font-weight: 800; font-size: 18px; border: 3px solid #c9a06a; border-radius: 18px; background: #fffaf0; padding: 0 0 6px; cursor: pointer; overflow: hidden; }
 .tray canvas { width: 100%; height: 120px; display: block; margin-bottom: 4px; }
-#scopeOv, #bagOv, #imgOv { position: absolute; inset: 64px 0 72px 0; z-index: 25; background: rgba(42,25,13,.88); display: none; align-items: center; justify-content: center; }
-#scopeOv.on, #bagOv.on, #imgOv.on { display: flex; animation: zin .6s cubic-bezier(.3,.7,.2,1); } @keyframes zin { from { transform: scale(.6); opacity: 0; } }
+#scopeOv, #bagOv, #imgOv, #bookOv { position: absolute; inset: 64px 0 72px 0; z-index: 25; background: rgba(90,60,30,.6); display: none; align-items: center; justify-content: center; }
+#scopeOv.on, #bagOv.on, #imgOv.on, #bookOv.on { display: flex; animation: zin .6s cubic-bezier(.3,.7,.2,1); } @keyframes zin { from { transform: scale(.6); opacity: 0; } }
 .ovb { background: #fbf3e4; border: 5px solid var(--gold); border-radius: 28px; padding: 14px 18px; display: flex; gap: 16px; max-width: 1500px; max-height: 740px; overflow: auto; position: relative; }
 .ovx { position: absolute; top: 8px; left: 10px; z-index: 3; }
 #scopeOv .samples { flex-direction: column; width: 210px; } #scopeOv .samples button { font-size: 17px; padding: 6px 8px; }
 .scap { width: 330px; font-size: 19px; font-weight: 700; line-height: 1.8; }
 #imgOv img { max-width: 92%; max-height: 92%; border-radius: 18px; border: 5px solid var(--gold); }
 .bags { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.bag { position: relative; background: linear-gradient(170deg, #8a5a34, #5a3820); border-radius: 26px 26px 18px 18px; height: 400px; cursor: pointer; color: #ffe2a8; text-align: center; padding: 70px 14px 14px; box-shadow: 0 10px 0 #3b2414, 0 18px 30px rgba(0,0,0,.35); transition: transform .3s; border: 4px solid #c79b5c; }
+.bag { position: relative; background: linear-gradient(170deg, #d9a66a, #a8763f); border-radius: 26px 26px 18px 18px; height: 400px; cursor: pointer; color: #fffaf0; text-align: center; padding: 70px 14px 14px; box-shadow: 0 10px 0 #8a5a34, 0 18px 30px rgba(0,0,0,.2); transition: transform .3s; border: 4px solid #f1d4a0; }
 .bag::before { content: ''; position: absolute; top: -34px; left: 50%; width: 120px; height: 60px; margin-left: -60px; border: 10px solid #c79b5c; border-bottom: none; border-radius: 60px 60px 0 0; }
-.bag:hover { transform: translateY(-8px) rotate(-1.5deg); } .bag i { font-style: normal; font-size: 70px; display: block; } .bag b { font-family: Q; font-weight: 400; font-size: 30px; display: block; color: var(--gold); } .bag p { font-weight: 700; font-size: 18px; }
+.bag:hover { transform: translateY(-8px) rotate(-1.5deg); } .bag i { font-style: normal; font-size: 70px; display: block; } .bag b { font-family: Q; font-weight: 400; font-size: 30px; display: block; color: #fffaf0; text-shadow: 0 2px 4px rgba(0,0,0,.3); } .bag p { font-weight: 700; font-size: 18px; }
 .bag .lock { position: absolute; top: 30px; left: 50%; margin-left: -18px; font-size: 30px; }
 .bag.done { background: linear-gradient(170deg, #6b7a2a, #3f5a1e); } .bag.done .lock { display: none; } .bag .med { display: none; font-size: 60px; } .bag.done .med { display: block; animation: stp .6s; }
 .dec { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -253,13 +253,22 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
 .el.l { left: 12px; background: rgba(184,64,45,.9); } .el.r { right: 12px; background: rgba(63,125,44,.9); } .shown .el { opacity: 1; }
 .jreal { display: none; position: relative; border-radius: 16px; overflow: hidden; border: 3px solid var(--gold); cursor: zoom-in; } .jreal.on { display: block; animation: fin .8s; }
 .jreal img { width: 100%; height: 200px; object-fit: cover; display: block; } .jreal span { position: absolute; bottom: 6px; right: 8px; background: rgba(59,36,20,.85); color: var(--gold); border-radius: 12px; padding: 1px 10px; font-weight: 800; font-size: 15px; }
+
+.tabs { flex: 1; display: flex; gap: 6px; justify-content: center; }
+.tabs button { font-family: inherit; font-weight: 800; font-size: 16px; border: 3px solid #d9b98a; background: #fff; color: var(--soil); border-radius: 14px; padding: 4px 9px; cursor: pointer; white-space: nowrap; box-shadow: 0 3px 0 #d9b98a; }
+.tabs button.on { background: var(--clay); color: #fff; border-color: var(--clay); box-shadow: 0 3px 0 #7a4220; transform: translateY(-1px); }
+.bk { position: absolute; top: 8px; left: 18px; width: 150px; z-index: 5; cursor: zoom-in; text-align: center; transform: rotate(-3deg); transition: transform .3s; }
+.bk:hover { transform: rotate(0) scale(1.05); } .bk img { width: 150px; height: 200px; object-fit: cover; object-position: top; border: 4px solid #fff; border-radius: 8px; box-shadow: 0 8px 18px rgba(0,0,0,.3); display: block; }
+.bk span { display: block; margin-top: 4px; background: var(--clay); color: #fff; border-radius: 12px; font-weight: 800; font-size: 15px; padding: 2px 6px; }
+#bookOv .ovb { align-items: flex-start; } #bookOv img { height: 680px; border-radius: 12px; border: 3px solid #d9b98a; display: block; }
+.bkl { display: flex; flex-direction: column; gap: 8px; width: 170px; } .bkl button.on { background: var(--clay); color: #fff; }
 </style>
 </head>
 <body>
 <div id="stage">
   <div id="lab"><div class="jars"></div><div class="jars j2"></div></div>
-  <div class="top"><h1>🔬 مختبر التربة الرقمي</h1><span class="t">العلوم • الصف السادس • الفصل السادس – الدرس الأول: التربة • ص١٦٥–١٧٣</span><span class="sp"></span>
-    <button class="pill" id="stars">⭐ نجوم المستكشفة: ٠</button><button class="pill" onclick="openScope()">🔬 المجهر</button><button class="pill" onclick="goId('pass')">🛂 جوازي</button><span class="pill">💚 أ/ شامه البقمي</span><button class="pill" onclick="fs()">⛶</button></div>
+  <div class="top"><h1>🔬 مختبر التربة الرقمي</h1><nav class="tabs" id="tabs"></nav>
+    <button class="pill" id="stars" title="نجوم المستكشفة">⭐ ٠</button><button class="pill" onclick="openScope()">🔬 المجهر</button><button class="pill" onclick="goId('pass')">🏅 شاراتي</button><button class="pill" onclick="fs()">⛶</button></div>
   <img id="girl" src="img/g5.png" alt="">
   <div id="bubble"></div>
   <div class="bot"><button class="nb ghost" onclick="go(cur-1)">→ السابق</button><div class="path" id="path"></div><button class="nb" onclick="go(cur+1)">التالي ←</button></div>
@@ -293,7 +302,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
     <div class="green" style="margin-top:12px;font-size:21px;text-align:center">❓ <b>السؤال الأساسي:</b> ممَّ تتكوّنُ التربةُ؟ وكيفَ نحافظُ عليها؟</div>
   </section>
   <!-- ٣ أنظر وأتساءل -->
-  <section class="scene" data-g="hook" data-girl="g8" data-say="انظري إلى الصورة… لماذا تنمو النباتات هنا جيدًا؟ فكّري أولًا 🤔">
+  <section data-pg="166" class="scene" data-g="hook" data-girl="g8" data-say="انظري إلى الصورة… لماذا تنمو النباتات هنا جيدًا؟ فكّري أولًا 🤔">
     <div class="sh"><span class="badge">التهيئة</span><h2>أنظرُ وأتساءلُ</h2><span class="pg">📖 ص١٦٦</span></div>
     <div class="row">
       <div class="f1 col"><div class="kb"><img src="img/r_profile.jpg" alt="نباتات حديثة النمو وجذورها في التربة"><span class="kbl" onclick="openScope('loam')">🔬 افحصي تربة الحقل بالمجهر</span></div>
@@ -313,7 +322,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
 
 
   <!-- ٥ أستكشف: المجهر -->
-  <section class="scene" data-g="exp" data-girl="g9" data-say="حرّكي العدسة فوق العينة، وغيّري قوة التكبير… ماذا تلاحظين؟ 🔍">
+  <section data-pg="167" class="scene" data-g="exp" data-girl="g9" data-say="حرّكي العدسة فوق العينة، وغيّري قوة التكبير… ماذا تلاحظين؟ 🔍">
     <div class="sh"><span class="badge">أستكشف ١</span><h2>المجهر الرقمي: فيمَ تختلفُ أنواعُ التربةِ؟</h2><span class="pg">📖 ص١٦٧</span></div>
     <div class="row">
       <div class="col" style="width:560px"><div class="card" style="text-align:center"><b style="font-size:22px">🔬 المجهر الرقمي للمختبر</b><p style="font-weight:700;margin:4px 0 10px">اختاري العينة لتفتحيها تحت المجهر، وحرّكي العدسة فوقها</p>
@@ -327,7 +336,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
   </section>
 
   <!-- ٦ أستكشف: التسرب -->
-  <section class="scene" data-g="exp" data-girl="g8" data-say="توقّعي أولًا: أيّ تربة سيمرّ الماء خلالها أسرع؟ ثم صبّي الماء 💧">
+  <section data-pg="167" class="scene" data-g="exp" data-girl="g8" data-say="توقّعي أولًا: أيّ تربة سيمرّ الماء خلالها أسرع؟ ثم صبّي الماء 💧">
     <div class="sh"><span class="badge">أستكشف ٢</span><h2>تجربة التسرّب: أقيسُ وأقارنُ</h2><span class="pg">📖 ص١٦٧</span></div>
     <div class="row">
       <div class="f1 col">
@@ -344,12 +353,12 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
   </section>
 
   <!-- مفردات -->
-  <section class="scene" data-g="know" data-girl="g4" data-say="قبل بناء المعرفة… اقلبي بطاقات مفردات المختبر 🃏">
+  <section data-pg="165" class="scene" data-g="know" data-girl="g4" data-say="قبل بناء المعرفة… اقلبي بطاقات مفردات المختبر 🃏">
     <div class="sh"><span class="badge">بناء المعرفة</span><h2>مفرداتُ مختبرِ التربة</h2><span class="pg">📖 ص١٦٥، ١٦٨–١٧٢</span></div>
     <div class="vocab" id="vocab"></div>
   </section>
   <!-- ٧ ما التربة؟ -->
-  <section class="scene" data-g="know" data-girl="g4" data-say="شاهدي كيف تتكوّن التربة خطوة بخطوة… ثم رتّبي المراحل بنفسك! ⏳">
+  <section data-pg="168" class="scene" data-g="know" data-girl="g4" data-say="شاهدي كيف تتكوّن التربة خطوة بخطوة… ثم رتّبي المراحل بنفسك! ⏳">
     <div class="sh"><span class="badge">المحطة ١</span><h2>ما التربةُ؟ وكيف تتكوّن؟</h2><span class="pg">📖 ص١٦٨</span></div>
     <div class="row">
       <div class="col" style="width:640px">
@@ -365,7 +374,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
   </section>
 
   <!-- ٨ النطاقات -->
-  <section class="scene" data-g="know" data-girl="g9" data-say="اركبي مركبة الحفر 🔦 وانزلي من السطح إلى الصخر… كيف تتغيّر التربة كلما نزلنا؟">
+  <section data-pg="169" class="scene" data-g="know" data-girl="g9" data-say="اركبي مركبة الحفر 🔦 وانزلي من السطح إلى الصخر… كيف تتغيّر التربة كلما نزلنا؟">
     <div class="sh"><span class="badge">المحطة ٢</span><h2>رحلةٌ إلى أعماق التربة: نطاقاتُ التربة</h2><span class="pg">📖 ص١٦٩</span></div>
     <div class="row">
       <div class="shaft" id="shaft"><img id="pimg" src="img/r_profile.jpg" alt="مقطع حقيقي في التربة"><div class="spot"></div><span class="plab" id="plab"></span></div>
@@ -384,7 +393,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
     <div class="green" style="margin-top:12px;font-size:21px">🧭 في هذه الحصة: كيف نستعمل التربة؟ ← كيف تتلوّث؟ ← كيف نحافظ عليها؟ ← حقائب المهمات العلمية 🎒</div>
   </section>
   <!-- ٩ استعمالات التربة والتعرية -->
-  <section class="scene" data-g="use" data-girl="g5" data-say="لكل تربة صفاتها… صنّفي البطاقات، ثم أمطري على التلّين وقارني! 🌧️">
+  <section data-pg="170" class="scene" data-g="use" data-girl="g5" data-say="لكل تربة صفاتها… صنّفي البطاقات، ثم أمطري على التلّين وقارني! 🌧️">
     <div class="sh"><span class="badge">المحطة ٣</span><h2>كيف تُستعمَلُ التربةُ؟ ولماذا تنجرف؟</h2><span class="pg">📖 ص١٧٠</span></div>
     <div class="row">
       <div class="f1 col">
@@ -399,7 +408,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
   </section>
 
   <!-- ١٠ مكونات التربة والتلوث -->
-  <section class="scene" data-g="pol" data-girl="g8" data-say="رجّي الوعاء وراقبي: أيّ الحبيبات تستقرّ أولًا؟ ثم اكتشفي مصادر التلوث ⚠️">
+  <section data-pg="171" class="scene" data-g="pol" data-girl="g8" data-say="رجّي الوعاء وراقبي: أيّ الحبيبات تستقرّ أولًا؟ ثم اكتشفي مصادر التلوث ⚠️">
     <div class="sh"><span class="badge">المحطة ٤</span><h2>نشاط مكوّنات التربة • تلوّث التربة</h2><span class="pg">📖 ص١٧١</span></div>
     <div class="row">
       <div class="col" style="width:380px"><div class="card" style="padding:6px"><div class="jarw" id="jarw"><canvas id="jc" width="300" height="440"></canvas></div></div>
@@ -414,7 +423,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
   </section>
 
   <!-- ١١ المحافظة -->
-  <section class="scene" data-g="save" data-girl="g12" data-say="اقرئي طرق حفظ التربة، وقارني بين نوعَي الحراثة 🛡️">
+  <section data-pg="172" class="scene" data-g="save" data-girl="g12" data-say="اقرئي طرق حفظ التربة، وقارني بين نوعَي الحراثة 🛡️">
     <div class="sh"><span class="badge">المحطة ٥</span><h2>كيف تتمُّ المحافظةُ على التربة؟</h2><span class="pg">📖 ص١٧٢</span></div>
     <div class="row">
       <div class="f1 col">
@@ -435,7 +444,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
     <div class="green" style="margin-top:12px;text-align:center;font-size:20px">🏅 كل مجموعة تُنهي مهمتها تحصل على وسام علمي ⭐ • <b id="medals">الأوسمة: ٠ / ٤</b></div>
   </section>
   <!-- الفهم القرائي -->
-  <section class="scene" data-g="think" data-girl="g9" data-say="اقرئي الفقرة من كتابك… ثم ظلّلي الكلمات المفتاحية ✍️">
+  <section data-pg="171" data-read="1" class="scene" data-g="think" data-girl="g9" data-say="اقرئي الفقرة من كتابك… ثم ظلّلي الكلمات المفتاحية ✍️">
     <div class="sh"><span class="badge">الفهم القرائي</span><h2>أقرأُ وأفهمُ: مغذّياتُ التربة</h2><span class="pg">📖 ص١٧١</span></div>
     <div class="row"><div class="f1 card book" id="rbook">
       <p>تُستهلَكُ <mark>المغذّياتُ</mark> في التربةِ بشكلٍ طبيعيٍّ بسببِ النباتاتِ؛ لأنَّ النباتاتِ تحتاجُ إلى هذهِ المغذّياتِ لنموِّها. وهذهِ المغذّياتُ <mark>تتجدّدُ</mark> بشكلٍ طبيعيٍّ عندَ موتِ النباتاتِ وطمرِها <mark>وتحلّلِها</mark> في التربةِ. ماذا يحدثُ إذا أزالَ مزارعٌ جميعَ محصولِهِ منَ الأرضِ، ولمْ يبقَ أيُّ جزءٍ منَ النباتِ ليموتَ ويتحلّلَ؟ ستصبحُ الأرضُ <mark>غيرَ قادرةٍ على إنباتِ نباتاتٍ جديدةٍ</mark>. وقدْ تُستهلَكُ التربةُ عنْ طريقِ <mark>التلوّثِ</mark>.</p>
@@ -460,7 +469,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
       <div class="col" style="width:540px"><div class="q" id="q_nat"></div><div class="card"><b style="font-size:19px">🤝 كيف أشاركُ أنا؟</b><div class="chips" style="margin-top:6px"><span class="chip">🌱 أزرعُ شجرة</span><span class="chip">🗑️ لا أرمي النفايات</span><span class="chip">🧹 أشارك في تنظيف الحيّ</span><span class="chip">📢 أنشرُ الوعي</span></div></div></div></div>
   </section>
   <!-- ١٢ مراجعة الدرس -->
-  <section class="scene" data-g="eval" data-girl="g8" data-say="التقويم الختامي: مراجعة الدرس من كتابي ص١٧٣… أجيبي ثم تحققي ✍️">
+  <section data-pg="173" class="scene" data-g="eval" data-girl="g8" data-say="التقويم الختامي: مراجعة الدرس من كتابي ص١٧٣… أجيبي ثم تحققي ✍️">
     <div class="sh"><span class="badge">التقويم</span><h2>مراجعةُ الدرسِ: أفكّرُ وأتحدّثُ وأكتبُ</h2><span class="pg">📖 ص١٧٣</span></div>
     <div class="revg" id="revg"></div>
   </section>
@@ -471,13 +480,13 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
     <div class="sh"><span class="badge">خريطة المفاهيم</span><h2>خريطةُ مفاهيمِ التربة</h2><button class="btn" style="margin-inline-start:auto" onclick="$$('#cmap .cn').forEach(n=>n.classList.add('on'))">💡 أكملي الخريطة</button></div>
     <div class="card" style="padding:6px"><svg id="cmap" viewBox="0 0 1300 600" style="width:100%;height:600px"></svg></div>
   </section>
-  <!-- بطاقة الخروج والجواز -->
-  <section class="scene" id="pass" data-g="eval" data-girl="g12" data-say="سؤال واحد قبل الخروج… ثم انظري إلى أختام جوازك 🎫">
-    <div class="sh"><span class="badge">تذكرة الخروج</span><h2>تذكرةُ الخروج وجوازُ المستكشفة</h2></div>
+  <!-- بطاقة الخروج والشارات -->
+  <section class="scene" id="pass" data-g="eval" data-girl="g12" data-say="سؤال واحد قبل الخروج… ثم انظري إلى شارات خبيرة التربة 🏅">
+    <div class="sh"><span class="badge">تذكرة الخروج</span><h2>تذكرةُ الخروج وشاراتُ خبيرةِ التربة</h2></div>
     <div class="row">
       <div class="f1 col"><div class="q" id="q_exit"></div>
         <div class="card"><b style="font-size:20px">⭐ قيّمي إتقانك للدرس:</b><div class="rate" id="rate"><button>⭐⭐⭐ أتقنتُ الدرس</button><button>⭐⭐ فهمتُ معظمه</button><button>⭐ أحتاجُ مساعدة</button></div><div class="fb" id="ratefb"></div></div></div>
-      <div class="col" style="width:640px"><div class="card"><b style="font-size:22px">🛂 جواز المستكشفة – أختام مختبر التربة</b><div class="pass" id="stamps" style="margin-top:10px"></div></div></div>
+      <div class="col" style="width:640px"><div class="card"><b style="font-size:22px">🏅 شارات خبيرة التربة</b><div class="pass" id="stamps" style="margin-top:10px"></div></div></div>
     </div>
   </section>
   <!-- واجب مدرستي -->
@@ -505,6 +514,7 @@ table.obs { width: 100%; border-collapse: separate; border-spacing: 4px; font-si
       <div class="row" style="align-items:center;gap:8px;font-weight:800">🔎 التكبير <input type="range" id="zoom" min="2" max="8" value="4" style="flex:1"><span id="zv">×٤</span></div></div>
     <div class="scap card" id="scap"></div></div></div>
   <div id="bagOv"><div class="ovb mis" id="bagIn"></div></div>
+  <div id="bookOv"><div class="ovb"><button class="btn ovx" onclick="closeOv('bookOv')">✖ إغلاق الكتاب</button><div class="bkl" id="bkl"></div><img id="bookImg" alt="صفحة من كتابي"></div></div>
   <div id="imgOv" onclick="closeOv('imgOv')"><img id="imgOvI" alt=""></div>
   <div class="msgbox" id="msgbox" onclick="this.classList.remove('on')"><div id="msgin"></div></div>
 </div>
@@ -514,17 +524,17 @@ const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [..
 let AC; function tone(f, d = .14, t = 'sine', v = .18) { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(); o.type = t; o.frequency.value = f; g.gain.setValueAtTime(v, AC.currentTime); g.gain.exponentialRampToValueAtTime(.001, AC.currentTime + d); o.connect(g).connect(AC.destination); o.start(); o.stop(AC.currentTime + d); } catch (e) {} }
 const good = () => { tone(660); setTimeout(() => tone(880), 110); }, bad = () => tone(190, .25, 'square', .1);
 function confetti() { for (let i = 0; i < 36; i++) { const s = document.createElement('span'); s.className = 'conf'; s.textContent = ['⭐', '🌱', '✨', '🏅', '🍂'][i % 5]; s.style.left = Math.random() * 1600 + 'px'; s.style.animationDelay = Math.random() * .7 + 's'; $('#stage').appendChild(s); setTimeout(() => s.remove(), 3300); } }
-let stars = 0; function star(n = 1) { stars += n; $('#stars').textContent = '⭐ نجوم المستكشفة: ' + ar(stars); }
+let stars = 0; function star(n = 1) { stars += n; $('#stars').textContent = '⭐ ' + ar(stars); }
 function fit() { const s = Math.min(innerWidth / 1600, innerHeight / 900); $('#stage').style.setProperty('--s', s); } addEventListener('resize', fit); fit();
 function fs() { const d = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : (d.requestFullscreen || d.webkitRequestFullscreen || (() => {})).call(d)); }
 function rv(b) { const r = b.parentElement.querySelector('.reveal'); r.classList.toggle('on'); if (r.classList.contains('on')) tone(720, .1); }
 
 // ===== الجواز
-const STAMPS = [['exp', '🔬', 'المستكشفة', '#b5652b'], ['what', '🪨', 'مكوّنة التربة', '#8a5a34'], ['hor', '🪜', 'نطاقات التربة', '#6b4226'], ['pol', '🫙', 'محلّلة التربة', '#7f9a3a'], ['save', '🛡️', 'حارسة التربة', '#3f7d2c']];
+const STAMPS = [['exp', '🔬', 'مستكشفة الحبيبات', '#b5652b'], ['what', '🪨', 'خبيرة التكوّن', '#8a5a34'], ['hor', '🪜', 'خبيرة النطاقات', '#6b4226'], ['pol', '🫙', 'محلّلة التربة', '#7f9a3a'], ['save', '🛡️', 'حارسة التربة', '#3f7d2c']];
 let PASS = new Set(); try { JSON.parse(localStorage.getItem('soil1-pass') || '[]').forEach((k) => PASS.add(k)); } catch (e) {}
 function stamp(k) { if (PASS.has(k)) return; PASS.add(k); try { localStorage.setItem('soil1-pass', JSON.stringify([...PASS])); } catch (e) {} drawStamps(); const s = STAMPS.find((x) => x[0] === k);
-  $('#msgin').innerHTML = `<b>${s[1]} ختم جديد!</b>«${s[2]}» في جواز المستكشفة 🛂`; $('#msgbox').classList.add('on'); confetti(); tone(140, .2, 'square', .3); }
-function drawStamps() { $('#stamps').innerHTML = STAMPS.map(([k, e, n, c]) => `<div class="stamp ${PASS.has(k) ? 'got' : ''}" style="--c:${c}"><i>${e}</i>${n}<small>${PASS.has(k) ? '✔ ١٤٤٨هـ' : '🔒'}</small></div>`).join(''); }
+  $('#msgin').innerHTML = `<b>${s[1]} شارة جديدة!</b>«${s[2]}» من شارات خبيرة التربة 🏅`; $('#msgbox').classList.add('on'); confetti(); tone(140, .2, 'square', .3); }
+function drawStamps() { $('#stamps').innerHTML = STAMPS.map(([k, e, n, c]) => `<div class="stamp ${PASS.has(k) ? 'got' : ''}" style="--c:${c}"><i>${e}</i>${n}<small>${PASS.has(k) ? '🏅 خبيرة التربة' : '🔒'}</small></div>`).join(''); }
 
 // ===== سؤال اختيار من متعدد بتغذية راجعة
 function mcq(id, tag, q, ops, a, why, hint, onok) {
@@ -553,7 +563,7 @@ function go(i) { if (i < 0 || i >= SC.length || i === cur && SC[i].classList.con
   const bb = $('#bubble'); bb.style.opacity = 0; setTimeout(() => { bb.textContent = SC[i].dataset.say || ''; bb.style.opacity = SC[i].dataset.say ? 1 : 0; }, 300);
   const full = SC[i].classList.contains('full'); girl.style.display = bb.style.display = full ? 'none' : '';
   if (SC[i].id === 'gate') { $('#gimg').classList.remove('zoom'); }
-  tone(fw ? 520 : 420, .09);
+  tone(fw ? 520 : 420, .09); try { tabSync(); } catch (e) {}
 }
 addEventListener('keydown', (e) => { if (e.target.tagName === 'INPUT') return; if (e.key === 'ArrowLeft' || e.key === ' ') go(cur + 1); if (e.key === 'ArrowRight') go(cur - 1); });
 function openGate() { const a = $('#gimg'); a.classList.add('zoom'); tone(300, .6, 'triangle', .15); setTimeout(() => go(1), 2900); }
@@ -809,6 +819,16 @@ mcq('q_nat', 'أفسّر', 'لماذا تُروى المحاصيلُ في الت
 mcq('q_exit', 'تذكرة الخروج', 'مزارعةٌ لاحظَتْ أنَّ تربةَ حقلِها المنحدرِ تنجرفُ، وأنَّ نباتاتِها ضعيفة. ما التفسيرُ والحلُّ الأنسب؟', ['فقدَتِ التربةُ السطحيةَ الغنيةَ بالدُّبال؛ والحلُّ الحراثةُ الكنتوريةُ أوِ المصاطب', 'التربةُ فيها دُبالٌ كثير؛ والحلُّ إزالةُ النباتات', 'المشكلةُ في لونِ التربة؛ والحلُّ تغييرُ البذور'], 0, 'أحسنتِ! ربطتِ النطاقَ أ بالتعريةِ وطرقِ الحفظ.', 'فكّري: ماذا تجرفُ التعرية؟ وكيفَ نبطئُ الماء؟');
 $$('#rate button').forEach((b, i) => b.onclick = () => { $$('#rate button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); $('#ratefb').className = 'fb ok'; $('#ratefb').textContent = ['🌟 رائع! أنتِ مستكشفةٌ متقنة.', '👍 جميل! راجعي مخطّطَ المفاهيمِ مرةً أخرى.', '💚 لا بأس! ستساعدكِ معلمتُكِ، وراجعي محطةَ النطاقات.'][i]; tone(600, .1); });
 setSample('sand');
+
+// ===== التبويبات العلوية الواضحة
+const TABS = [['🏁 البداية', 'gate'], ['📋 التهيئة', 'prep'], ['🔬 أستكشف', 'exp'], ['📍 المحطات', 'know'], ['🎒 المهمات', 'mis'], ['📖 الفهم القرائي', 'read'], ['📝 التقويم', 'eval'], ['💌 ظرفك والقرعة', 'end']];
+$('#tabs').innerHTML = TABS.map(([n, g]) => `<button data-g="${g}">${n}</button>`).join('');
+$$('#tabs button').forEach((b) => b.onclick = () => b.dataset.g === 'read' ? go(SC.findIndex((x) => x.dataset.read)) : goG(b.dataset.g));
+const TABOF = { gate: 'gate', hall: 'gate', prep: 'prep', hook: 'prep', exp: 'exp', know: 'know', s2: 'know', use: 'know', pol: 'know', save: 'know', mis: 'mis', think: 'read', eval: 'eval', end: 'end' };
+function tabSync() { const s = SC[cur], t = s.dataset.read ? 'read' : TABOF[s.dataset.g]; $$('#tabs button').forEach((b) => b.classList.toggle('on', b.dataset.g === t)); }
+// ===== كتابي: صفحة الكتاب حاضرة في كل محطة
+function openBook(pgs, i) { pgs = String(pgs).split(','); i = i || 0; $('#bkl').innerHTML = pgs.map((p, k) => `<button class="btn ${k === i ? 'on' : ''}" onclick="openBook('${pgs.join(',')}',${k})">📖 ص${ar(p)}</button>`).join('') + '<p style="font-weight:700;font-size:15px">اقرئي من كتابك… الجمل المهمة مظلّلة في المحطة 🖍️</p>'; $('#bookImg').src = 'img/p' + pgs[i] + '.jpg'; $('#bookOv').classList.add('on'); tone(520, .1); }
+SC.forEach((s) => { if (!s.dataset.pg) return; const f = s.dataset.pg.split(',')[0]; s.insertAdjacentHTML('afterbegin', `<div class="bk" onclick="openBook('${s.dataset.pg}')"><img src="img/p${f}.jpg" alt="صفحة ${ar(f)}"><span>📖 كتابي ص${ar(s.dataset.pg.split(',').join('، '))}</span></div>`); });
 drawStamps(); go(0); SC[0].classList.add('on');
 </script>
 </body>
