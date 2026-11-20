@@ -1,0 +1,1521 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>درس اليابسة التفاعلي</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=Tajawal:wght@400;500;700&family=Noto+Naskh+Arabic:wght@500;700&family=Amiri+Quran&display=swap">
+<style>
+/* Layout: classroom board — one lesson stage at a time between a slim top bar (where am I, which strategy) and a bottom bar (move, signature).
+   Palette: the globe's own colour key from the textbook — brown mountains, green plains, yellow deserts, blue water — on a pale sky.
+   Deliberately a single bright classroom look (smart boards, projectors), so every colour is set explicitly. */
+:root{
+  color-scheme:light;
+  --sky:#eaf4fb; --paper:#ffffff; --ink:#1d2a33; --muted:#566874; --line:#cddce6; --wash:#f5f9fc;
+  --mount:#9a5a33; --mount-soft:#f5e6da; --mount-ink:#5b3219;
+  --plain:#3c8a45; --plain-soft:#e1f1dd; --plain-ink:#245a2b;
+  --sand:#d99a1e; --sand-soft:#fcf0d2; --sand-ink:#6e4a05;
+  --water:#2370b3; --water-soft:#dcebf8; --water-ink:#0f3f6a;
+  --ok:#2d8a52; --ok-soft:#dff3e6; --bad:#c2452d; --bad-soft:#fbe4de;
+  --f-display:"Baloo Bhaijaan 2","Tajawal",Tahoma,sans-serif;
+  --f-body:"Tajawal","Segoe UI",Tahoma,sans-serif;
+  --f-book:"Noto Naskh Arabic","Traditional Arabic","Times New Roman",serif;
+  --f-quran:"Amiri Quran","Noto Naskh Arabic","Traditional Arabic",serif;
+  --r:18px;
+}
+[hidden]{display:none!important}
+svg{direction:ltr}
+html,body{height:100%}
+body{background:var(--sky);color:var(--ink);font-family:var(--f-body);font-size:clamp(16px,0.55vw + 12px,22px);line-height:1.7;direction:rtl;overflow:hidden}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--water);outline-offset:3px;border-radius:8px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.3;font-weight:800}
+p{margin:0}
+.book{font-family:var(--f-book);font-weight:500;line-height:2}
+.quran{font-family:var(--f-quran);line-height:2.2}
+
+/* ---------- shell ---------- */
+.app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr)}
+.bar{display:flex;align-items:center;gap:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px;background:var(--paper);border-bottom:2px solid var(--line)}
+.bar .brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.bar .brand b{font-family:var(--f-display);font-size:1.15em;white-space:nowrap}
+.bar .brand small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 12px;font-size:.78em;font-weight:700;background:var(--plain-soft);color:var(--plain-ink);white-space:nowrap}
+.chip.time{background:var(--sand-soft);color:var(--sand-ink)}
+.icon-btn{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.icon-btn:hover{border-color:var(--water);color:var(--water)}
+.icon-btn svg{width:22px;height:22px}
+.icon-btn[aria-pressed="true"]{background:var(--water-soft);border-color:var(--water);color:var(--water-ink)}
+#stage{overflow-y:auto;overflow-x:hidden;position:relative;scroll-behavior:smooth}
+.slide{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:22px 34px;display:flex;flex-direction:column;gap:20px;animation:enter .35s ease both}
+@keyframes enter{from{opacity:.25;transform:translateY(10px)}to{opacity:1;transform:none}}
+.foot{display:flex;align-items:center;gap:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px;background:var(--paper);border-top:2px solid var(--line)}
+.nav-btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:14px;padding:8px 18px;font-weight:700;background:var(--water);color:#fff;min-height:48px}
+.nav-btn.ghost{background:var(--wash);color:var(--ink);border:2px solid var(--line)}
+.nav-btn:disabled{opacity:.35;cursor:default}
+.nav-btn svg{width:20px;height:20px}
+.progress{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.dots button{width:12px;height:12px;border-radius:50%;border:0;padding:0;background:var(--line)}
+.dots button.done{background:var(--plain)}
+.dots button.on{background:var(--water);transform:scale(1.35)}
+.sign{font-family:var(--f-display);font-size:.82em;color:var(--muted);white-space:nowrap}
+.sign b{color:var(--mount)}
+
+/* ---------- menu ---------- */
+.menu{position:fixed;inset:0;z-index:50;background:rgba(18,34,46,.55);display:grid;place-items:center;padding:16px}
+.menu-card{background:var(--paper);border-radius:24px;max-width:1080px;width:100%;max-height:100%;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:16px}
+.menu-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.menu-grid button{display:flex;align-items:center;gap:10px;text-align:right;border:2px solid var(--line);background:var(--wash);border-radius:14px;padding:10px 12px;min-height:58px}
+.menu-grid button:hover{border-color:var(--water)}
+.menu-grid button.on{border-color:var(--water);background:var(--water-soft)}
+.menu-grid .n{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--paper);font-family:var(--f-display);font-weight:800;border:2px solid var(--line)}
+.menu-grid .t{font-weight:700;line-height:1.35}
+.menu-grid .g{display:block;font-size:.75em;color:var(--muted);font-weight:500}
+
+/* ---------- common blocks ---------- */
+.head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.tag{font-family:var(--f-display);font-weight:800;font-size:.9em;padding:4px 16px 6px;border-radius:14px 14px 14px 4px;color:#fff;background:var(--mount)}
+.tag.blue{background:var(--water)}.tag.green{background:var(--plain)}.tag.yellow{background:var(--sand);color:#3a2600}.tag.red{background:var(--bad)}
+.head h2{font-size:clamp(26px,2.6vw,42px)}
+.lead{color:var(--muted);max-width:68ch}
+.card{background:var(--paper);border:2px solid var(--line);border-radius:var(--r);padding:18px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.grid2.split{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+.grid2.split-r{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr)}
+@media (max-width:900px){.grid2,.grid3,.grid2.split,.grid2.split-r{grid-template-columns:minmax(0,1fr)}.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.grid2>*,.grid3>*,.grid4>*,.slide>*,.cmap>*,.branch>*{min-width:0;max-width:100%}
+.pic{display:block;width:100%;height:auto;max-width:100%;border-radius:16px;border:3px solid var(--paper);box-shadow:0 0 0 2px var(--line)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:8px 20px;min-height:48px;font-weight:700;background:var(--water);color:#fff}
+.btn.alt{background:var(--plain)}
+.btn.warm{background:var(--mount)}
+.btn.soft{background:var(--wash);color:var(--ink);border:2px solid var(--line)}
+.btn svg{width:20px;height:20px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.lvl{display:inline-block;font-size:.72em;font-weight:700;border-radius:8px;padding:0 8px;background:var(--water-soft);color:var(--water-ink);vertical-align:middle}
+.lvl.l2{background:var(--plain-soft);color:var(--plain-ink)}
+.lvl.l3{background:var(--sand-soft);color:var(--sand-ink)}
+.lvl.l4{background:var(--mount-soft);color:var(--mount-ink)}
+.lvl.l5{background:var(--bad-soft);color:var(--bad)}
+.note{display:flex;gap:10px;align-items:flex-start;background:var(--sand-soft);color:var(--sand-ink);border-radius:14px;padding:10px 14px;font-size:.9em}
+.note svg{flex:none;width:22px;height:22px;margin-top:4px}
+.hl{background:linear-gradient(transparent 55%,#ffe58a 55%);padding:0 2px}
+
+/* ---------- question widgets ---------- */
+.q{display:flex;flex-direction:column;gap:12px}
+.q .ask{font-weight:700;font-size:1.1em}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{border:3px solid var(--line);background:var(--paper);border-radius:16px;padding:8px 18px;min-height:52px;font-weight:700;transition:transform .15s,border-color .15s}
+.opt:hover:not(:disabled){border-color:var(--water);transform:translateY(-2px)}
+.opt.pic-opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px;width:clamp(120px,14vw,170px)}
+.opt.pic-opt svg{width:100%;height:auto;border-radius:10px}
+.opt.right{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);color:var(--bad);animation:shake .35s}
+.opt:disabled{cursor:default}
+.opt:disabled:not(.right):not(.wrong){opacity:.55}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{border-radius:14px;padding:10px 14px;font-size:.95em}
+.fb.ok{background:var(--ok-soft);color:#17502f}
+.fb.no{background:var(--bad-soft);color:#7a2414}
+
+/* stepper (one question at a time) */
+.stepper{display:flex;flex-direction:column;gap:14px}
+.stepper .stars{display:flex;gap:6px}
+.stepper .stars svg{width:30px;height:30px}
+.stepper .stars .s{fill:var(--line)}
+.stepper .stars .s.on{fill:var(--sand)}
+.step-ctrl{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+
+/* match */
+.match{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:12px}
+.match .col{display:flex;flex-direction:column;gap:10px}
+.m{border:3px solid var(--line);background:var(--paper);border-radius:14px;padding:10px 14px;text-align:right;font-weight:700;min-height:52px}
+.m.def{font-family:var(--f-book);font-weight:500}
+.m.sel{border-color:var(--water);background:var(--water-soft)}
+.m.paired{cursor:default}
+.m.p0{border-color:var(--mount);background:var(--mount-soft)}
+.m.p1{border-color:var(--plain);background:var(--plain-soft)}
+.m.p2{border-color:var(--water);background:var(--water-soft)}
+.m.p3{border-color:var(--sand);background:var(--sand-soft)}
+.m.bad{border-color:var(--bad);animation:shake .35s}
+.swatch{display:inline-block;width:1.4em;height:1.4em;border-radius:6px;vertical-align:middle;margin-inline-end:8px;border:2px solid rgba(0,0,0,.15)}
+@media (max-width:640px){.match{grid-template-columns:minmax(0,1fr)}}
+
+/* timer */
+.timer{display:inline-flex;align-items:center;gap:10px;background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:4px 6px 4px 14px}
+.timer svg{width:42px;height:42px;transform:rotate(-90deg)}
+.timer .tr{fill:none;stroke:var(--line);stroke-width:5}
+.timer .tp{fill:none;stroke:var(--plain);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .9s linear}
+.timer .tt{font-family:var(--f-display);font-weight:800;font-size:1.1em;min-width:3.2ch;text-align:center;font-variant-numeric:tabular-nums}
+.timer button{border:0;border-radius:999px;background:var(--plain);color:#fff;font-weight:700;padding:4px 14px;min-height:40px}
+.timer button.rs{background:var(--wash);color:var(--ink)}
+.timer.end .tp{stroke:var(--bad)}
+
+/* flip cards */
+.flip{position:relative;border:0;padding:0;background:none;text-align:right;perspective:1200px;min-height:340px}
+.flip .in{position:relative;display:block;width:100%;height:100%;min-height:340px;transition:transform .55s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .fa,.flip .fb2{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);border:3px solid var(--line);background:var(--paper);display:flex;flex-direction:column;gap:10px;padding:14px;overflow:hidden}
+.flip .fb2{transform:rotateY(180deg);justify-content:center;overflow:auto}
+.flip .fa svg{width:100%;height:auto;border-radius:12px;flex:1;min-height:0}
+.flip h3{font-size:1.25em}
+.flip .hint{font-size:.8em;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.flip .in{transition:none}.slide{animation:none}}
+
+/* chips adder */
+.adder{display:flex;gap:8px}
+.adder input{flex:1;min-width:0;border:2px solid var(--line);border-radius:12px;padding:6px 12px;background:var(--paper)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;min-height:44px}
+.chips span{background:var(--wash);border:2px solid var(--line);border-radius:999px;padding:2px 12px}
+.chips span button{border:0;background:none;color:var(--muted);margin-inline-start:4px;padding:0 4px}
+
+/* sorter */
+.tray{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;min-height:100px;background:var(--wash);border:2px dashed var(--line);border-radius:var(--r);padding:10px}
+@media (max-width:900px){.tray{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.scard{border:3px solid var(--paper);border-radius:14px;padding:0;background:var(--paper);box-shadow:0 0 0 2px var(--line);overflow:hidden;position:relative;min-width:0}
+.scard svg{display:block;width:100%;height:auto}
+.scard .no{position:absolute;top:6px;inset-inline-start:6px;background:var(--paper);border-radius:8px;font-family:var(--f-display);font-weight:800;width:30px;height:30px;display:grid;place-items:center;font-size:.85em}
+.scard.sel{box-shadow:0 0 0 4px var(--water);transform:translateY(-4px)}
+.bins{display:grid;grid-template-columns:repeat(var(--n,2),minmax(0,1fr));gap:12px}
+@media (max-width:700px){.bins{grid-template-columns:minmax(0,1fr)}}
+.bin{border:3px solid var(--line);border-radius:var(--r);background:var(--paper);padding:10px;display:flex;flex-direction:column;gap:8px;min-height:180px;cursor:pointer;min-width:0}
+.bin:nth-child(1){border-color:var(--mount)}.bin:nth-child(2){border-color:var(--plain)}.bin:nth-child(3){border-color:var(--water)}
+.bin input{border:0;border-bottom:2px dashed var(--line);background:transparent;font-weight:700;padding:2px 4px;width:100%}
+.bin .drop{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ready .bin{box-shadow:0 0 0 4px var(--water-soft)}
+
+/* steps list */
+.steps{display:flex;flex-direction:column;gap:10px;counter-reset:s}
+.steps li{list-style:none;display:flex;gap:10px;align-items:flex-start}
+.steps .num{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--water);color:#fff;font-family:var(--f-display);font-weight:800}
+.steps .verb{color:var(--bad);font-weight:700}
+.steps li.cur .num{background:var(--sand);color:#3a2600;box-shadow:0 0 0 4px var(--sand-soft)}
+.steps{padding:0;margin:0}
+
+/* scenes */
+.scene{width:100%;height:auto;display:block;border-radius:20px;max-width:100%}
+.spot{cursor:pointer}
+.spot .ring{fill:#fff;stroke:var(--ink);stroke-width:3}
+.spot .pulse{fill:none;stroke:#fff;stroke-width:4;opacity:.9;animation:pulse 1.6s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.spot.seen .ring{fill:var(--ok-soft);stroke:var(--ok)}
+.spot.seen .pulse{display:none}
+.spot .lbl{display:none}
+.spot.seen .lbl{display:inline}
+@keyframes pulse{from{transform:scale(1);opacity:.9}to{transform:scale(2);opacity:0}}
+@media (prefers-reduced-motion:reduce){.spot .pulse{animation:none}}
+.info{display:flex;flex-direction:column;gap:10px}
+.info h3{display:flex;align-items:center;gap:10px;font-size:1.4em}
+
+/* spheres / globe highlight */
+.earth [data-l]{transition:opacity .3s}
+.earth[data-show="air"] [data-l]:not([data-l="air"]),
+.earth[data-show="rock"] [data-l]:not([data-l="rock"]),
+.earth[data-show="water"] [data-l]:not([data-l="water"]){opacity:.18}
+.earth[data-show="air"] .air-ring{stroke-width:14}
+.layer-btns{display:flex;flex-wrap:wrap;gap:10px}
+.layer-btns button{border:3px solid var(--line);border-radius:14px;background:var(--paper);padding:6px 16px;min-height:50px;font-weight:700}
+.layer-btns button[aria-pressed="true"]{border-color:var(--water);background:var(--water-soft)}
+.globe [data-c]{transition:opacity .3s}
+.globe[data-show="brown"] [data-c]:not([data-c="brown"]),
+.globe[data-show="green"] [data-c]:not([data-c="green"]),
+.globe[data-show="yellow"] [data-c]:not([data-c="yellow"]),
+.globe[data-show="blue"] [data-c]:not([data-c="blue"]){opacity:.15}
+.globe .glabel{opacity:0;transition:opacity .3s}
+.globe.named .glabel{opacity:1}
+.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.legend button{display:flex;align-items:center;gap:10px;border:3px solid var(--line);border-radius:14px;background:var(--paper);padding:8px 12px;text-align:right;min-height:54px}
+.legend button[aria-pressed="true"]{border-color:var(--ink)}
+.legend .sw{flex:none;width:30px;height:30px;border-radius:8px}
+.legend .mean{display:none;color:var(--muted);font-size:.85em}
+.legend button[aria-pressed="true"] .mean,.legend button.seen .mean{display:inline}
+
+/* table */
+.cmp{width:100%;border-collapse:separate;border-spacing:0;border:2px solid var(--line);border-radius:16px;overflow:hidden;background:var(--paper)}
+.cmp th,.cmp td{padding:10px 14px;border-bottom:2px solid var(--line);text-align:right;vertical-align:top}
+.cmp tr:last-child td{border-bottom:0}
+.cmp thead th{font-family:var(--f-display);font-size:1.1em}
+.cmp thead th:nth-child(2){background:var(--mount-soft);color:var(--mount-ink)}
+.cmp thead th:nth-child(3){background:var(--plain-soft);color:var(--plain-ink)}
+.cmp td:first-child{font-weight:700;color:var(--muted);width:22%}
+.tablewrap{overflow-x:auto}
+
+/* cover */
+.cover{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+@media (max-width:900px){.cover{grid-template-columns:minmax(0,1fr)}}
+.cover h1{font-size:clamp(56px,7.5vw,120px);color:var(--mount);line-height:1.1}
+.cover .unit{font-family:var(--f-display);font-weight:700;color:var(--water)}
+.bigq{display:flex;gap:12px;align-items:center;background:var(--paper);border-radius:20px;border:3px solid var(--sand);padding:12px 16px}
+.bigq .badge{flex:none;width:64px;height:64px;border-radius:50%;background:var(--bad);color:#ffe9a8;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:.75em;line-height:1.1;text-align:center}
+.bigq p{font-family:var(--f-book);font-weight:700;color:var(--bad);font-size:1.15em}
+.lessons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.lessons div{background:var(--paper);border-radius:14px;padding:8px 14px;border:2px solid var(--line)}
+.lessons div.now{border-color:var(--mount);background:var(--mount-soft)}
+.lessons b{font-family:var(--f-display);color:var(--mount)}
+.signature{display:flex;align-items:center;gap:12px;margin-top:6px}
+.signature .line{height:2px;width:56px;background:var(--mount)}
+.signature span{font-family:var(--f-display);font-size:1.25em;font-weight:700;color:var(--mount-ink)}
+.ayah{background:#26302a;color:#f7e27a;border-radius:20px;padding:14px 20px;text-align:center;font-size:1.25em}
+.ayah small{display:block;font-family:var(--f-body);font-size:.6em;color:#d8dfd2}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+@media (max-width:1000px){.rules{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.rule{background:var(--paper);border-radius:22px;border:3px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.rule svg{width:84px;height:84px}
+.rule b{font-family:var(--f-display);font-size:1.1em;line-height:1.35}
+.rule:nth-child(1){border-color:var(--water)}.rule:nth-child(2){border-color:var(--plain)}.rule:nth-child(3){border-color:var(--sand)}.rule:nth-child(4){border-color:var(--mount)}.rule:nth-child(5){border-color:var(--bad)}
+
+/* goals */
+.goals{display:flex;flex-direction:column;gap:12px;padding:0;margin:0}
+.goals li{list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--paper);border:2px solid var(--line);border-radius:18px;padding:12px 16px}
+.goals .gi{width:52px;height:52px}
+.goals .where{font-size:.75em;font-weight:700;color:var(--water-ink);background:var(--water-soft);border-radius:10px;padding:2px 10px;white-space:nowrap}
+@media (max-width:640px){.goals li{grid-template-columns:auto minmax(0,1fr)}.goals .where{grid-column:2}}
+
+/* height compare */
+.heights{display:flex;align-items:flex-end;justify-content:center;gap:28px}
+
+/* game */
+.game{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:20px;align-items:start}
+@media (max-width:900px){.game{grid-template-columns:minmax(0,1fr)}}
+.trail{position:relative}
+.trail svg{width:100%;height:auto;display:block;border-radius:20px}
+.hiker{transition:transform .7s cubic-bezier(.5,1.6,.5,1)}
+.station{fill:var(--paper);stroke:var(--ink);stroke-width:3}
+.station.ok{fill:var(--sand);stroke:var(--sand-ink)}
+.station.miss{fill:var(--water-soft);stroke:var(--water)}
+.gscore{display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-weight:700}
+.result{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.result .big{font-family:var(--f-display);font-size:clamp(40px,5vw,72px);font-weight:800;color:var(--mount)}
+
+/* concept map */
+.cmap{display:flex;flex-direction:column;align-items:center;gap:0}
+.cmap .root{background:var(--ink);color:#fff;font-family:var(--f-display);font-weight:800;font-size:1.3em;padding:8px 28px;border-radius:999px}
+.cmap .arrows{width:100%;max-width:980px;height:56px}
+.cmap .branches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;width:100%}
+@media (max-width:900px){.cmap .branches{grid-template-columns:minmax(0,1fr)}.cmap .arrows{display:none}}
+.branch{border:3px solid;border-radius:22px;padding:14px;background:var(--paper);display:flex;flex-direction:column;gap:10px}
+.branch h3{text-align:center;font-size:1.25em}
+.branch.b1{border-color:var(--water)}.branch.b1 h3{color:var(--water-ink)}
+.branch.b2{border-color:var(--mount)}.branch.b2 h3{color:var(--mount-ink)}
+.branch.b3{border-color:var(--plain)}.branch.b3 h3{color:var(--plain-ink)}
+.leaf{display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;align-items:center;background:var(--wash);border-radius:14px;padding:6px 10px;font-size:.88em;line-height:1.5}
+.leaf svg{width:56px;height:40px;border-radius:8px}
+.leaf b{font-family:var(--f-display);font-size:1.1em}
+.keyrow{display:flex;flex-wrap:wrap;gap:6px}
+.keyrow span{display:inline-flex;align-items:center;gap:6px;font-size:.85em}
+.keyrow i{display:inline-block;width:18px;height:18px;border-radius:5px}
+
+/* burst */
+.burst{position:fixed;pointer-events:none;z-index:80;width:22px;height:22px;margin:-11px 0 0 -11px;animation:fly .8s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(200deg) scale(.4);opacity:0}}
+
+@media (max-width:700px){
+  .bar .brand small,.bar .chip,.sign{display:none}
+  .nav-btn span{display:none}
+}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{overflow:visible;background:#fff}
+  .bar,.foot,.menu,.noprint{display:none!important}
+  .app{display:block;height:auto}
+  #stage{overflow:visible}
+  .slide{display:none!important}
+  .slide.print-me{display:flex!important;animation:none}
+}
+</style>
+
+<!-- ======================= shared drawings ======================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe2f8"/><stop offset="1" stop-color="#f1f9ff"/></linearGradient>
+    <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa6dd"/><stop offset="1" stop-color="#2a6fa8"/></linearGradient>
+    <radialGradient id="gOcean" cx=".38" cy=".35" r=".75"><stop offset="0" stop-color="#5fb0ea"/><stop offset="1" stop-color="#1b5c97"/></radialGradient>
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+
+    <!-- mountain -->
+    <symbol id="lf-mountain" viewBox="0 0 160 110">
+      <rect width="160" height="110" fill="url(#gSky)"/>
+      <g filter="url(#rough)">
+        <path d="M6 98 L64 16 L82 42 L96 28 L154 98Z" fill="#a8663c"/>
+        <path d="M64 16 L56 54 L66 98 L6 98Z" fill="#7d4524" opacity=".55"/>
+        <path d="M96 28 L92 60 L104 98 L154 98Z" fill="#c98a5c" opacity=".5"/>
+        <path d="M6 98 L64 16 L82 42 L96 28 L154 98" fill="none" stroke="#4e2a14" stroke-width="2.6" stroke-linejoin="round"/>
+      </g>
+      <rect y="96" width="160" height="14" fill="#7bb257"/>
+    </symbol>
+    <!-- hill -->
+    <symbol id="lf-hill" viewBox="0 0 160 110">
+      <rect width="160" height="110" fill="url(#gSky)"/>
+      <g filter="url(#rough)">
+        <path d="M0 98 C28 52 112 48 160 94 L160 110 L0 110Z" fill="#71b250" stroke="#336a26" stroke-width="2.6"/>
+        <circle cx="58" cy="70" r="5" fill="#3f7f31"/><circle cx="92" cy="66" r="4" fill="#3f7f31"/><circle cx="120" cy="80" r="5" fill="#3f7f31"/><circle cx="34" cy="88" r="4" fill="#3f7f31"/>
+      </g>
+      <rect y="100" width="160" height="10" fill="#a9d374"/>
+    </symbol>
+    <!-- valley -->
+    <symbol id="lf-valley" viewBox="0 0 160 110">
+      <rect width="160" height="110" fill="url(#gSky)"/>
+      <g filter="url(#rough)">
+        <path d="M0 22 C30 30 50 66 70 100 L0 110Z" fill="#9b6c43" stroke="#5a3a1f" stroke-width="2.4"/>
+        <path d="M160 18 C128 32 108 68 92 100 L160 110Z" fill="#87603a" stroke="#5a3a1f" stroke-width="2.4"/>
+        <path d="M40 110 L66 99 Q81 94 96 99 L122 110Z" fill="#7cb85a"/>
+        <path d="M72 110 Q76 103 80 99 Q84 95 88 97" stroke="#3d8fd6" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+    </symbol>
+    <!-- plain -->
+    <symbol id="lf-plain" viewBox="0 0 160 110">
+      <rect width="160" height="110" fill="url(#gSky)"/>
+      <path d="M0 58 Q40 54 80 57 T160 56 L160 62 L0 62Z" fill="#9fbf8a"/>
+      <rect y="60" width="160" height="50" fill="#b6d36e"/>
+      <g fill="#4d8a35" filter="url(#rough)">
+        <ellipse cx="22" cy="72" rx="9" ry="5"/><ellipse cx="62" cy="68" rx="7" ry="4"/><ellipse cx="104" cy="74" rx="10" ry="5"/><ellipse cx="140" cy="68" rx="7" ry="4"/><ellipse cx="44" cy="92" rx="10" ry="5"/><ellipse cx="124" cy="96" rx="11" ry="6"/>
+      </g>
+      <path d="M0 62 L160 62" stroke="#6c9a3c" stroke-width="2"/>
+    </symbol>
+    <!-- explore extras -->
+    <symbol id="ex-snow" viewBox="0 0 160 110">
+      <rect width="160" height="110" fill="#cfe6fb"/>
+      <g filter="url(#rough)">
+        <path d="M10 96 L82 14 L150 96Z" fill="#6f7f92" stroke="#3b4656" stroke-width="2.4" stroke-linejoin="round"/>
+        <path d="M82 14 L58 42 L68 40 L74 50 L84 40 L92 48 L98 38 L106 42Z" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.5"/>
+        <path d="M50 52 L44 64 L56 58Z M112 54 L120 66 L108 60Z" fill="#fff"/>
+      </g>
+      <g fill="#2b3a2a"><path d="M0 110 L0 92 L8 80 L14 92 L22 78 L30 94 L38 82 L46 94 L56 80 L64 96 L74 84 L84 96 L94 82 L104 96 L114 80 L124 94 L134 82 L144 94 L152 80 L160 92 L160 110Z"/></g>
+    </symbol>
+    <symbol id="ex-arch" viewBox="0 0 160 110">
+      <rect width="160" height="110" fill="#bcdcf5"/>
+      <ellipse cx="40" cy="22" rx="22" ry="7" fill="#fff" opacity=".9"/><ellipse cx="120" cy="30" rx="18" ry="6" fill="#fff" opacity=".8"/>
+      <g filter="url(#rough)">
+        <path d="M14 110 C10 70 22 40 54 34 C82 28 120 36 138 56 C150 70 150 96 146 110 L118 110 C120 90 112 70 92 66 C70 62 52 76 50 110Z" fill="#d79a5a" stroke="#8a5424" stroke-width="2.4"/>
+        <path d="M30 52 C46 44 70 42 90 46" stroke="#b5743a" stroke-width="3" fill="none"/>
+        <path d="M26 80 C30 70 38 64 46 62" stroke="#b5743a" stroke-width="3" fill="none"/>
+      </g>
+    </symbol>
+    <symbol id="ex-river" viewBox="0 0 160 110">
+      <rect width="160" height="110" fill="#d4e8f7"/>
+      <g filter="url(#rough)">
+        <path d="M0 30 L26 18 L48 34 L62 80 L52 110 L0 110Z" fill="#8f7a64" stroke="#4f4030" stroke-width="2.2"/>
+        <path d="M160 26 L132 14 L108 30 L96 82 L110 110 L160 110Z" fill="#7d6a56" stroke="#4f4030" stroke-width="2.2"/>
+        <path d="M52 110 L62 80 Q80 70 96 82 L110 110Z" fill="#9db27a"/>
+        <path d="M70 110 C74 98 92 96 84 86 C80 80 86 76 90 74" stroke="#4d9ad8" stroke-width="7" fill="none" stroke-linecap="round"/>
+      </g>
+      <g fill="#4e7a3a"><circle cx="58" cy="96" r="4"/><circle cx="104" cy="92" r="4"/><circle cx="64" cy="104" r="3"/></g>
+    </symbol>
+    <symbol id="ex-terrace" viewBox="0 0 160 110">
+      <rect width="160" height="110" fill="#d8ecf8"/>
+      <g filter="url(#rough)">
+        <path d="M0 54 C40 30 90 24 160 36 L160 110 L0 110Z" fill="#4f8f3c" stroke="#2c5b20" stroke-width="2.4"/>
+        <g stroke="#9fd27a" stroke-width="3" fill="none"><path d="M10 64 C50 52 100 50 154 56"/><path d="M8 76 C50 66 104 64 156 70"/><path d="M6 88 C52 80 106 78 158 84"/><path d="M4 100 C54 94 108 92 160 98"/></g>
+      </g>
+    </symbol>
+    <!-- Al-Baha scene (rocky mountain, shrubs, water) -->
+    <symbol id="sc-baha" viewBox="0 0 400 240">
+      <rect width="400" height="240" fill="url(#gSky)"/>
+      <g filter="url(#rough)">
+        <path d="M0 150 L36 72 L70 104 L112 36 L160 112 L204 58 L252 122 L300 46 L352 102 L400 66 L400 190 L0 190Z" fill="#8b796b" stroke="#463a30" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M112 36 L100 90 L120 140 M300 46 L286 104 L306 150 M204 58 L196 100" stroke="#5c4d41" stroke-width="2" fill="none"/>
+        <path d="M0 170 L60 128 L110 150 L170 120 L230 152 L290 126 L350 150 L400 132 L400 196 L0 196Z" fill="#6f6157"/>
+        <g fill="#4f8a36"><ellipse cx="40" cy="186" rx="34" ry="16"/><ellipse cx="110" cy="182" rx="30" ry="18"/><ellipse cx="184" cy="188" rx="36" ry="14"/><ellipse cx="262" cy="184" rx="32" ry="17"/><ellipse cx="336" cy="188" rx="40" ry="15"/></g>
+        <g fill="#6fae4d"><ellipse cx="70" cy="192" rx="24" ry="10"/><ellipse cx="222" cy="194" rx="26" ry="9"/><ellipse cx="300" cy="194" rx="22" ry="9"/></g>
+      </g>
+      <rect y="198" width="400" height="42" fill="url(#gWater)"/>
+      <path d="M20 212 h60 M120 222 h80 M240 214 h50 M310 226 h60" stroke="#cfe7fb" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+    </symbol>
+    <!-- faceless learner -->
+    <symbol id="kid" viewBox="0 0 40 56">
+      <path d="M8 54 C8 36 12 28 20 28 C28 28 32 36 32 54Z" fill="#2370b3"/>
+      <path d="M8 20 C8 8 32 8 32 20 C32 30 28 34 20 34 C12 34 8 30 8 20Z" fill="#c64f6b"/>
+      <circle cx="20" cy="20" r="8.5" fill="#f1c9a2"/>
+    </symbol>
+    <symbol id="star" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <header class="bar">
+    <button class="icon-btn" id="btnMenu" aria-label="قائمة الدرس" title="قائمة الدرس">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <div class="brand">
+      <b>اليابسة</b>
+      <small id="curTitle">الواجهة</small>
+      <span class="chip" id="curStrat" hidden></span>
+      <span class="chip time" id="curTime" hidden></span>
+    </div>
+    <button class="icon-btn" id="btnSound" aria-pressed="true" aria-label="الأصوات" title="الأصوات">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path class="wave" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>
+    </button>
+    <button class="icon-btn" id="btnFull" aria-label="ملء الشاشة" title="ملء الشاشة">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+    </button>
+  </header>
+
+  <main id="stage">
+
+<!-- ============ 1. COVER ============ -->
+<section class="slide" id="cover" data-title="واجهة الدرس" data-strat="افتتاح الدرس" data-min="1">
+  <div class="cover">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="unit">الفصل الخامس: اليابسة والماء · الدرس الأول</div>
+      <h1>اليابِسَةُ</h1>
+      <div class="bigq"><div class="badge">الفكرة العامة</div><p>كَيْفَ أَصِفُ اليابِسَةَ وَالماءَ عَلى سَطْحِ الأَرْضِ؟</p></div>
+      <div class="lessons">
+        <div class="now"><b>الدرس الأول</b><br>ما أشكال اليابسة؟</div>
+        <div><b>الدرس الثاني</b><br>كيف تستخدم المخلوقات الحية الماء على سطح الأرض؟</div>
+      </div>
+      <div class="row">
+        <button class="btn" data-go="next">ابدئي الدرس
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="btn soft" data-open-menu>مراحل الدرس</button>
+      </div>
+      <div class="signature"><div class="line"></div><span>إعداد: أ/ شامه البقمي</span></div>
+    </div>
+    <svg class="scene" viewBox="0 0 1000 620" role="img" aria-label="رسم لأشكال اليابسة: جبل وتل ووادٍ يجري فيه الماء وسهل منبسط">
+      <rect width="1000" height="620" fill="url(#gSky)"/>
+      <circle cx="840" cy="110" r="56" fill="#ffd45e"/><circle cx="840" cy="110" r="76" fill="#ffd45e" opacity=".25"/>
+      <g fill="#fff" opacity=".95"><ellipse cx="200" cy="90" rx="70" ry="20"/><ellipse cx="250" cy="76" rx="44" ry="20"/><ellipse cx="600" cy="130" rx="60" ry="16"/></g>
+      <g filter="url(#rough)">
+        <path d="M20 470 L250 100 L300 170 L350 120 L560 470Z" fill="#a8663c" stroke="#4e2a14" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M250 100 L232 250 L262 470 L20 470Z" fill="#7d4524" opacity=".5"/>
+        <path d="M250 100 L226 140 L246 132 L256 148 L270 128Z" fill="#fff"/>
+        <path d="M520 480 C580 300 800 290 900 470Z" fill="#71b250" stroke="#336a26" stroke-width="5"/>
+        <path d="M0 470 L470 470 Q530 470 560 525 L620 525 Q650 470 720 470 L1000 470 L1000 620 L0 620Z" fill="#b6d36e" stroke="#6c9a3c" stroke-width="4"/>
+        <path d="M560 525 L620 525 Q600 560 640 620 L540 620 Q575 560 560 525Z" fill="#4d9ad8"/>
+        <g fill="#4d8a35"><ellipse cx="760" cy="520" rx="34" ry="14"/><ellipse cx="880" cy="560" rx="40" ry="16"/><ellipse cx="140" cy="540" rx="40" ry="15"/><ellipse cx="330" cy="580" rx="46" ry="16"/></g>
+      </g>
+      <use href="#kid" x="420" y="470" width="60" height="84"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ 2. RULES ============ -->
+<section class="slide" id="rules" data-title="قوانيننا الصفية" data-strat="اتفاق صفي" data-min="1" hidden>
+  <div class="head"><span class="tag blue">قبل أن نبدأ</span><h2>قوانيننا في رحلة الاستكشاف</h2></div>
+  <div class="rules">
+    <div class="rule">
+      <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#dcebf8"/><g filter="url(#rough)"><path d="M34 70 V38 a5 5 0 0 1 10 0 V30 a5 5 0 0 1 10 0 V40 a5 5 0 0 1 10 0 v14 c0 10-6 16-16 16z" fill="#f1c9a2" stroke="#0f3f6a" stroke-width="3" stroke-linejoin="round"/><path d="M34 46 a5 5 0 0 0-10 0 v8 c0 6 4 12 10 16" fill="#f1c9a2" stroke="#0f3f6a" stroke-width="3"/><path d="M40 12 v10 M30 16 l4 8 M50 16 l-4 8" stroke="#2370b3" stroke-width="3" stroke-linecap="round"/></g></svg>
+      <b>أرفع يدي قبل أن أتكلم</b></div>
+    <div class="rule">
+      <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#e1f1dd"/><g filter="url(#rough)" fill="none" stroke="#245a2b" stroke-width="3.4" stroke-linecap="round"><path d="M30 36 c0-12 8-18 16-18 s16 6 16 18 c0 8-6 10-8 16 s-2 12-10 12 c-6 0-8-4-8-8"/><path d="M38 38 c0-6 4-8 8-8 s8 4 6 10"/></g><path d="M66 30 q6 10 0 20 M72 24 q10 16 0 32" stroke="#3c8a45" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      <b>أنصت لمعلمتي وزميلاتي</b></div>
+    <div class="rule">
+      <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#fcf0d2"/><use href="#kid" x="10" y="26" width="24" height="34"/><use href="#kid" x="30" y="18" width="24" height="34"/><use href="#kid" x="50" y="26" width="24" height="34"/><path d="M16 66 h52" stroke="#d99a1e" stroke-width="4" stroke-linecap="round"/></svg>
+      <b>أتعاون مع مجموعتي</b></div>
+    <div class="rule">
+      <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#f5e6da"/><g filter="url(#rough)"><rect x="18" y="44" width="14" height="22" rx="4" fill="#e9c94a" stroke="#5b3219" stroke-width="2.5"/><rect x="35" y="36" width="14" height="30" rx="4" fill="#d9534f" stroke="#5b3219" stroke-width="2.5"/><rect x="52" y="40" width="14" height="26" rx="4" fill="#3c8a45" stroke="#5b3219" stroke-width="2.5"/></g><path d="M14 70 h56" stroke="#9a5a33" stroke-width="4" stroke-linecap="round"/></svg>
+      <b>أحافظ على أدوات النشاط</b></div>
+    <div class="rule">
+      <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#fbe4de"/><g filter="url(#rough)"><circle cx="42" cy="44" r="22" fill="#fff" stroke="#7a2414" stroke-width="3.4"/><path d="M42 30 v14 l10 6" stroke="#c2452d" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M36 16 h12" stroke="#7a2414" stroke-width="4" stroke-linecap="round"/></g></svg>
+      <b>أنجز مهمتي في وقتها</b></div>
+  </div>
+  <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg><span>كل قانون نلتزم به يمنح مجموعتنا نجمة في لعبة نهاية الدرس.</span></div>
+</section>
+
+<!-- ============ 3. REVIEW ============ -->
+<section class="slide" id="review" data-title="مراجعة وتهيئة" data-strat="لعبة مراجعة سريعة" data-min="4" hidden>
+  <div class="head"><span class="tag yellow">مراجعة وتهيئة</span><h2>هل تتذكرين مفردات الفكرة العامة؟</h2></div>
+  <p class="lead">أجيبي عن كل سؤال لتجمعي النجوم. إذا أخطأتِ فحاولي مرة أخرى.</p>
+  <div class="card stepper" data-stepper>
+    <div class="step-ctrl"><div class="stars" data-stars></div><span class="lvl" data-count></span></div>
+
+    <div class="q" data-step data-why="الماء العذب ماء غير مالح نستخدمه في الشرب والطبخ.">
+      <p class="ask">ماءٌ غيرُ مالحٍ نستخدمه في الشرب والطبخ. ماذا يُسمّى؟ <span class="lvl">تذكّر</span></p>
+      <div class="opts"><button class="opt" data-hint="ماء المحيط مالح، ونحن نشرب ماءً غير مالح.">ماء المحيط</button><button class="opt" data-ok>الماء العذب</button><button class="opt" data-hint="نحن نبحث عن ماء غير مالح.">الماء المالح</button></div>
+      <div class="fb" hidden></div>
+    </div>
+    <div class="q" data-step hidden data-why="المحيط تجمّع كبير وعميق من الماء المالح.">
+      <p class="ask">تجمّعٌ كبيرٌ وعميقٌ من الماء المالح هو: <span class="lvl">تذكّر</span></p>
+      <div class="opts"><button class="opt" data-ok>المحيط</button><button class="opt" data-hint="الأنهار فيها ماء عذب غير مالح.">النهر</button><button class="opt" data-hint="الماء العذب غير مالح.">الماء العذب</button></div>
+      <div class="fb" hidden></div>
+    </div>
+    <div class="q" data-step hidden data-why="يوجد الماء العذب في الأنهار وبعض البحيرات.">
+      <p class="ask">أين يوجد الماء العذب؟ <span class="lvl l2">فهم</span></p>
+      <div class="opts"><button class="opt" data-hint="ماء المحيطات مالح.">في المحيطات</button><button class="opt" data-ok>في الأنهار وبعض البحيرات</button></div>
+      <div class="fb" hidden></div>
+    </div>
+    <div class="q" data-step hidden data-why="أشكال اليابسة هي الأشكال المختلفة لسطح الأرض، وهي موضوع درسنا اليوم.">
+      <p class="ask">الأشكال المختلفة لسطح الأرض تُسمّى: <span class="lvl">تذكّر</span></p>
+      <div class="opts"><button class="opt" data-hint="المحيط ماء، ونحن نسأل عن سطح الأرض اليابس.">المحيط</button><button class="opt" data-ok>أشكال اليابسة</button><button class="opt" data-hint="الماء العذب ماء غير مالح.">الماء العذب</button></div>
+      <div class="fb" hidden></div>
+    </div>
+
+    <div class="step-ctrl"><button class="btn soft" data-step-reset>إعادة المراجعة</button><button class="btn" data-step-next disabled>السؤال التالي</button></div>
+  </div>
+</section>
+
+<!-- ============ 4. HOOK ============ -->
+<section class="slide" id="hook" data-title="التمهيد: رحلة إلى الباحة" data-strat="إثارة التساؤل" data-min="3" hidden>
+  <div class="head"><span class="tag red">تمهيد</span><h2>رحلة سارة إلى منطقة الباحة</h2></div>
+  <div class="grid2">
+    <svg class="scene" viewBox="0 0 400 240" role="img" aria-label="رسم لمنطقة الباحة: صخور مرتفعة وشجيرات وماء"><use href="#sc-baha"/><use href="#kid" x="40" y="168" width="26" height="36"/><use href="#kid" x="66" y="172" width="22" height="32"/></svg>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <p>زارت سارة مع أسرتها منطقة الباحة. رأت <b class="hl">أرضًا عالية</b> تحيط بها الصخور، ورأت <b class="hl">أرضًا منخفضة</b> يجري فيها الماء بين الأشجار.</p>
+      <div class="card q" data-poll>
+        <p class="ask">هل سطح الأرض الذي رأته سارة كله بالشكل نفسه؟</p>
+        <div class="opts"><button class="opt" data-pick>نعم، كله متشابه</button><button class="opt" data-pick>لا، له أشكال مختلفة</button></div>
+        <div class="fb ok" hidden>شكرًا على توقعك! لنكتشف معًا اليوم: <b>ما أشكال اليابسة؟</b> وماذا نسمّي الأرض العالية والأرض المنخفضة؟</div>
+      </div>
+      <div class="ayah"><span class="quran">قال تعالى: ﴿وَجَعَلْنَا فِيهَا رَوَاسِيَ شَامِخَاتٍ وَأَسْقَيْنَاكُم مَّاءً فُرَاتًا﴾</span><small>[المرسلات: ٢٧] · الرواسي الشامخات: الجبال العالية · ماءً فراتًا: ماءً عذبًا</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. GOALS ============ -->
+<section class="slide" id="goals" data-title="نواتج التعلم" data-strat="وضوح الهدف" data-min="1" hidden>
+  <div class="head"><span class="tag green">نواتج التعلم</span><h2>في نهاية الدرس أستطيع أن:</h2></div>
+  <ul class="goals">
+    <li><svg class="gi" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="url(#gOcean)"/><circle cx="26" cy="26" r="24" fill="none" stroke="#9fd0f5" stroke-width="3" stroke-dasharray="4 4"/><path d="M14 20c6-6 14-4 16 2s-4 10-10 8-8-6-6-10z" fill="#8bc34a"/></svg><span>أسمّي أغلفة الأرض الثلاثة، وأذكر تعريف كل غلاف.</span><span class="where">أغلفة الأرض</span></li>
+    <li><svg class="gi" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="#2370b3"/><path d="M26 26 L26 2 A24 24 0 0 1 49.3 31.8Z" fill="#fff" stroke="#2370b3" stroke-width="2"/></svg><span>أقارن بين مساحة اليابسة ومساحة الماء على الأرض.</span><span class="where">نسبة اليابسة والماء</span></li>
+    <li><svg class="gi" viewBox="0 0 160 110"><use href="#lf-mountain"/></svg><span>أصف أشكال اليابسة: الجبل والتل والوادي والسهل.</span><span class="where">مشهد أشكال اليابسة</span></li>
+    <li><svg class="gi" viewBox="0 0 160 110"><use href="#lf-valley"/></svg><span>أوضّح الفرق بين الجبل والوادي، وبين الجبل والتل.</span><span class="where">المقارنة · من أنا؟</span></li>
+    <li><svg class="gi" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="url(#gOcean)"/><path d="M12 18c8-8 22-6 24 4s-6 16-14 14-14-10-10-18z" fill="#c8a24a"/><circle cx="40" cy="36" r="3" fill="#6fae4d"/></svg><span>أحدّد القارة والجزيرة والمحيط على الكرة الجغرافية، وأقرأ ألوان الخريطة.</span><span class="where">الكرة الجغرافية</span></li>
+  </ul>
+</section>
+
+<!-- ============ 6. VOCAB ============ -->
+<section class="slide" id="vocab" data-title="مفردات الدرس" data-strat="التعلم بالصور: أتوقع ثم أتحقق" data-min="3" hidden>
+  <div class="head"><span class="tag blue">المفردات</span><h2>أتوقع المعنى، ثم أقلب البطاقة</h2></div>
+  <div class="grid4">
+    <button class="flip" aria-label="بطاقة الغلاف الجوي"><span class="in">
+      <span class="fa"><svg viewBox="0 0 160 110"><rect width="160" height="110" fill="#eaf4fb"/><circle cx="80" cy="60" r="44" fill="none" stroke="#9fd0f5" stroke-width="12" opacity=".8"/><circle cx="80" cy="60" r="34" fill="url(#gOcean)"/><path d="M60 46c8-8 20-6 22 2s-4 14-12 12-12-8-10-14z" fill="#8bc34a"/></svg><h3>الغِلافُ الجَوِّيُّ</h3><span class="hint">اضغطي لقلب البطاقة</span></span>
+      <span class="fb2"><h3 style="color:var(--water-ink)">الغلاف الجوي</h3><p class="book">هُوَ الغازاتُ المُحيطَةُ بِالكُرَةِ الأَرْضِيَّةِ.</p></span></span></button>
+    <button class="flip" aria-label="بطاقة الغلاف الصخري"><span class="in">
+      <span class="fa"><svg viewBox="0 0 160 110"><use href="#lf-mountain"/></svg><h3>الغِلافُ الصَّخْرِيُّ</h3><span class="hint">اضغطي لقلب البطاقة</span></span>
+      <span class="fb2"><h3 style="color:var(--mount-ink)">الغلاف الصخري</h3><p class="book">هُوَ نِسْبَةُ اليابِسَةِ عَلى الأَرْضِ وَتُشَكِّلُ جُزْءًا صَغيرًا مِنْ مِساحَةِ الأَرْضِ.</p></span></span></button>
+    <button class="flip" aria-label="بطاقة الغلاف المائي"><span class="in">
+      <span class="fa"><svg viewBox="0 0 160 110"><rect width="160" height="110" fill="url(#gWater)"/><path d="M0 40 q20-10 40 0 t40 0 t40 0 t40 0 M0 70 q20-10 40 0 t40 0 t40 0 t40 0" stroke="#cfe7fb" stroke-width="4" fill="none"/></svg><h3>الغِلافُ المائِيُّ</h3><span class="hint">اضغطي لقلب البطاقة</span></span>
+      <span class="fb2"><h3 style="color:var(--water-ink)">الغلاف المائي</h3><p class="book">هُوَ نِسْبَةُ الماءِ عَلى كَوْكَبِ الأَرْضِ وَيُشَكِّلُ الجُزْءَ الأَكْبَرَ مِنْ مِساحَةِ الأَرْضِ.</p></span></span></button>
+    <button class="flip" aria-label="بطاقة أشكال اليابسة"><span class="in">
+      <span class="fa"><svg viewBox="0 0 160 110"><use href="#lf-valley"/></svg><h3>أَشْكالُ اليابِسَةِ</h3><span class="hint">اضغطي لقلب البطاقة</span></span>
+      <span class="fb2"><h3 style="color:var(--plain-ink)">أشكال اليابسة</h3><p class="book">الأَشْكالُ المُخْتَلِفَةُ لِسَطْحِ الأَرْضِ.</p></span></span></button>
+  </div>
+  <div class="row"><button class="btn soft" data-flip-all>اقلبي جميع البطاقات</button></div>
+</section>
+
+<!-- ============ 7. LOOK & WONDER ============ -->
+<section class="slide" id="wonder" data-title="أنظر وأتساءل" data-strat="التوقع · فكري وشاركي" data-min="3" hidden>
+  <div class="head"><span class="tag blue">أنظر وأتساءل</span><h2>أقارن هذا المكان بمنطقتي</h2></div>
+  <div class="grid2">
+    <svg class="scene" viewBox="0 0 400 240" role="img" aria-label="رسم لأرض منبسطة واسعة ترعى فيها الحيوانات، وخلفها ماء ومناطق مرتفعة">
+      <rect width="400" height="240" fill="#dfe9ee"/>
+      <g filter="url(#rough)">
+        <path d="M0 120 C60 70 120 60 180 96 C230 60 300 40 400 90 L400 150 L0 150Z" fill="#9b8f72"/>
+        <path d="M0 140 C80 110 160 118 240 132 C300 120 360 112 400 120 L400 152 L0 152Z" fill="#b5a77d"/>
+      </g>
+      <rect y="148" width="400" height="16" fill="#9fb6c4"/>
+      <rect y="162" width="400" height="78" fill="#c3b46a"/>
+      <path d="M0 170 Q100 166 200 172 T400 170" stroke="#a7984f" stroke-width="3" fill="none"/>
+      <g fill="#2c2a26">
+        <path d="M70 196 q14-10 34-4 l6-8 6 2-2 10 q4 6 0 10 l-2 18 h-4 l-1-14 h-24 l-2 14 h-4 l-1-16 q-8-4-6-12z"/>
+        <path d="M290 192 q14-10 34-4 l8-10 6 2-4 12 q4 6 0 10 l-2 20 h-4 l-1-14 h-24 l-2 14 h-4 l-1-16 q-8-4-6-14z"/>
+        <path d="M200 178 q10-6 22-2 l4-6 4 2-2 6 q2 4 0 6 l-1 12 h-3 v-9 h-16 l-1 9 h-3 v-10 q-5-3-4-8z"/>
+      </g>
+    </svg>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <p class="book" style="font-size:1.15em;font-weight:700">ما أَوْجُهُ الشَّبَهِ بَيْنَ هَذا المَكانِ وَبَيْنَ المِنْطَقَةِ الَّتي أَعيشُ فيها، وَما أَوْجُهُ الاخْتِلافِ بَيْنَهُما؟</p>
+      <div class="row"><span>فكّري بمفردك:</span><div class="timer" data-sec="45"></div></div>
+      <div class="grid2" style="gap:12px">
+        <div class="card" style="padding:12px;border-color:var(--plain)"><b style="color:var(--plain-ink)">أوجه الشبه</b>
+          <div class="adder"><input id="simIn" aria-label="أضيفي وجه شبه" placeholder="اكتبي هنا…"><button class="btn alt" data-add="#simList" data-from="#simIn">أضيفي</button></div>
+          <div class="chips" id="simList"></div></div>
+        <div class="card" style="padding:12px;border-color:var(--mount)"><b style="color:var(--mount-ink)">أوجه الاختلاف</b>
+          <div class="adder"><input id="difIn" aria-label="أضيفي وجه اختلاف" placeholder="اكتبي هنا…"><button class="btn warm" data-add="#difList" data-from="#difIn">أضيفي</button></div>
+          <div class="chips" id="difList"></div></div>
+      </div>
+      <button class="btn soft" data-reveal="#wonderAns">أظهري ما نلاحظه في الصورة</button>
+      <div class="fb ok" id="wonderAns" hidden>في الصورة <b>أرض منبسطة واسعة</b> ترعى فيها الحيوانات، وخلفها <b>ماء</b> و<b>مناطق مرتفعة</b>. قد تشبه منطقتنا هذا المكان أو تختلف عنه في شكل الأرض ووجود الماء. سنتعرف اليوم أسماء هذه الأشكال.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. EXPLORE ============ -->
+<section class="slide" id="explore" data-title="أستكشف" data-strat="التعلم بالاكتشاف · التصنيف" data-min="7" hidden>
+  <div class="head"><span class="tag blue">أستكشف</span><span class="chip" style="background:var(--sand-soft);color:var(--sand-ink)">نشاط استقصائي</span><h2 class="book" style="font-family:var(--f-book)">فِيمَ تَتَشابَهُ أَجْزاءُ سَطْحِ الأَرْضِ، وَفِيمَ تَخْتَلِفُ؟</h2></div>
+  <div class="grid2 split-r">
+    <div class="card">
+      <ol class="steps" id="exSteps">
+        <li class="cur" data-n="1"><span class="num">١</span><span><span class="verb">أُلاحِظُ.</span> فِيمَ تَتَشابَهُ هَذِهِ الصُّوَرُ، وَفِيمَ تَخْتَلِفُ؟ أَتَحَدَّثُ عَنِ الصُّوَرِ مَعَ زَميلاتي.</span></li>
+        <li data-n="2"><span class="num">٢</span><span><span class="verb">أُصَنِّفُ.</span> أَضَعُ الصُّوَرَ في مَجْموعَتَيْنِ، وَأُبَيِّنُ كَيْفَ صَنَّفْتُها.</span></li>
+        <li data-n="3"><span class="num">٣</span><span><span class="verb">أُصَنِّفُ.</span> أُعيدُ تَصْنيفَ الصُّوَرِ في ثَلاثِ مَجْموعاتٍ.</span></li>
+        <li data-n="4"><span class="num">٤</span><span><b style="color:var(--water)">أستكشف أكثر</b> · <span class="verb">أَتَوَقَّعُ.</span> كَيْفَ يُمْكِنُ أَنْ تَتَغَيَّرَ اليابِسَةُ خِلالَ سَنَةٍ؟</span></li>
+      </ol>
+      <div class="row" style="margin-top:12px"><button class="btn soft" data-exprev>الخطوة السابقة</button><button class="btn" data-exnext>الخطوة التالية</button></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;min-width:0" id="exBoard">
+      <p class="note" id="exHint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg><span id="exHintTxt">لاحظي الصور الست، وتحدثي مع زميلتك: ما الذي يتشابه؟ وما الذي يختلف؟</span></p>
+      <div class="tray" id="tray" aria-label="الصور">
+        <button class="scard" data-card="1" aria-label="صورة ١: تل أخضر"><span class="no">١</span><svg viewBox="0 0 160 110"><use href="#lf-hill"/></svg></button>
+        <button class="scard" data-card="2" aria-label="صورة ٢: صخرة على شكل قوس"><span class="no">٢</span><svg viewBox="0 0 160 110"><use href="#ex-arch"/></svg></button>
+        <button class="scard" data-card="3" aria-label="صورة ٣: جبل يغطي الثلج قمته"><span class="no">٣</span><svg viewBox="0 0 160 110"><use href="#ex-snow"/></svg></button>
+        <button class="scard" data-card="4" aria-label="صورة ٤: وادٍ يجري فيه الماء"><span class="no">٤</span><svg viewBox="0 0 160 110"><use href="#lf-valley"/></svg></button>
+        <button class="scard" data-card="5" aria-label="صورة ٥: نهر بين جبلين"><span class="no">٥</span><svg viewBox="0 0 160 110"><use href="#ex-river"/></svg></button>
+        <button class="scard" data-card="6" aria-label="صورة ٦: جبل أخضر عليه مدرجات زراعية"><span class="no">٦</span><svg viewBox="0 0 160 110"><use href="#ex-terrace"/></svg></button>
+      </div>
+      <div class="bins" id="bins" hidden>
+        <div class="bin" data-bin="1"><input id="bin1" aria-label="اسم المجموعة الأولى" placeholder="اسم المجموعة الأولى"><div class="drop"></div></div>
+        <div class="bin" data-bin="2"><input id="bin2" aria-label="اسم المجموعة الثانية" placeholder="اسم المجموعة الثانية"><div class="drop"></div></div>
+        <div class="bin" data-bin="3" hidden><input id="bin3" aria-label="اسم المجموعة الثالثة" placeholder="اسم المجموعة الثالثة"><div class="drop"></div></div>
+      </div>
+      <div class="card" id="exPredict" hidden style="display:flex;flex-direction:column;gap:10px">
+        <b>توقعاتنا</b>
+        <div class="adder"><input id="predIn" aria-label="اكتبي توقعك" placeholder="أتوقع أن…"><button class="btn" data-add="#predList" data-from="#predIn">أضيفي</button></div>
+        <div class="chips" id="predList"></div>
+        <p class="lead" style="font-size:.9em">ساعدي نفسك: انظري إلى صورة الجبل الذي يغطي الثلج قمته، وإلى صورتي الماء في الوادي. هل تبقى كما هي طوال السنة؟</p>
+      </div>
+      <button class="btn soft" id="exSuggest" hidden data-reveal="#exIdea">طرق ممكنة للتصنيف</button>
+      <div class="fb ok" id="exIdea" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. SPHERES ============ -->
+<section class="slide" id="spheres" data-title="ما أغلفة الأرض؟" data-strat="التفكير البصري · التوقع" data-min="4" hidden>
+  <div class="head"><span class="tag green">أقرأ وأتعلم</span><h2>ما أَغْلِفَةُ الأَرْضِ؟</h2></div>
+  <p class="book" style="font-size:1.1em">تَتَكَوَّنُ الكُرَةُ الأَرْضِيَّةُ مِنَ <b>الغِلافِ الجَوِّيِّ</b> وَ<b>الغِلافِ الصَّخْرِيِّ</b> وَ<b>الغِلافِ المائِيِّ</b>.</p>
+  <div class="grid2">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <svg class="scene earth" style="max-height:44vh" id="earth" viewBox="0 0 400 300" role="img" aria-label="رسم للكرة الأرضية وأغلفتها">
+        <rect width="400" height="300" fill="#f5f9fc"/>
+        <circle data-l="air" class="air-ring" cx="200" cy="150" r="128" fill="#d6ecfb" stroke="#9fd0f5" stroke-width="6" stroke-dasharray="10 8"/>
+        <circle data-l="water" cx="200" cy="150" r="106" fill="url(#gOcean)"/>
+        <g data-l="rock" filter="url(#rough)">
+          <path d="M136 92 C160 64 214 66 226 96 C236 120 214 136 206 160 C198 186 178 206 160 196 C140 184 150 160 132 140 C118 124 120 108 136 92Z" fill="#c9a660" stroke="#6e4a05" stroke-width="2.5"/>
+          <path d="M240 160 C256 148 284 152 290 170 C296 190 276 212 256 206 C238 200 228 176 240 160Z" fill="#8bc34a" stroke="#245a2b" stroke-width="2.5"/>
+          <circle cx="262" cy="104" r="8" fill="#8bc34a" stroke="#245a2b" stroke-width="2"/>
+        </g>
+        <g font-family="Tajawal,Tahoma,sans-serif" font-size="15" font-weight="700" fill="#1d2a33">
+          <text data-l="air" x="345" y="40" text-anchor="middle">الغلاف الجوي</text>
+          <text data-l="rock" x="60" y="250" text-anchor="middle">الغلاف الصخري</text>
+          <text data-l="water" x="340" y="268" text-anchor="middle">الغلاف المائي</text>
+        </g>
+        <g stroke="#1d2a33" stroke-width="1.6" fill="none" stroke-dasharray="4 4">
+          <path data-l="air" d="M330 48 L300 76"/><path data-l="rock" d="M80 238 L150 180"/><path data-l="water" d="M330 254 L280 230"/>
+        </g>
+      </svg>
+      <div class="layer-btns" role="group" aria-label="أغلفة الأرض">
+        <button data-layer="air" aria-pressed="false">الغلاف الجوي</button>
+        <button data-layer="rock" aria-pressed="false">الغلاف الصخري</button>
+        <button data-layer="water" aria-pressed="false">الغلاف المائي</button>
+      </div>
+      <div class="card info" id="layerInfo"><p class="lead">اضغطي على اسم كل غلاف لتظهر صورته وتعريفه.</p></div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;gap:12px">
+      <p class="ask" style="font-weight:700">توقعي: أيهما يشغل مساحة أكبر من سطح الأرض؟ <span class="lvl l3">تطبيق</span></p>
+      <div class="q" data-why="الغلاف المائي يشكّل الجزء الأكبر من مساحة الأرض، أما الغلاف الصخري (اليابسة) فيشكّل جزءًا صغيرًا منها.">
+        <div class="opts"><button class="opt" data-hint="انظري إلى الكرة الأرضية: اللون الأزرق أكثر من لون اليابسة.">اليابسة</button><button class="opt" data-ok>الماء</button></div>
+        <div class="fb" hidden></div>
+      </div>
+      <svg viewBox="0 0 320 210" class="scene" style="max-height:36vh" role="img" aria-label="دائرة توضح أن نسبة المياه أكبر من نسبة اليابسة">
+        <rect width="320" height="210" fill="#ffffff"/>
+        <path d="M110 105 L110 25 A80 80 0 0 1 187.6 124.4Z" fill="#ffffff" stroke="#2370b3" stroke-width="3"/>
+        <path d="M110 105 L187.6 124.4 A80 80 0 1 1 110 25Z" fill="#2f78b7" stroke="#2370b3" stroke-width="3"/>
+        <g font-family="Tajawal,Tahoma,sans-serif" font-size="16" font-weight="700" fill="#1d2a33">
+          <text x="300" y="44" text-anchor="end">نسبة اليابسة</text>
+          <text x="300" y="186" text-anchor="end">نسبة المياه</text>
+        </g>
+        <path d="M174 46 L150 62" stroke="#1d2a33" stroke-width="1.6"/><path d="M184 180 L130 160" stroke="#1d2a33" stroke-width="1.6"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. SPHERES CHECK ============ -->
+<section class="slide" id="spheres-check" data-title="تقويم: أغلفة الأرض" data-strat="تقويم تكويني · التوصيل" data-min="3" hidden>
+  <div class="head"><span class="tag yellow">أتحقق من فهمي</span><h2>أَصِلُ كل غلاف بتعريفه</h2></div>
+  <p class="lead">اضغطي على اسم الغلاف، ثم اضغطي على التعريف المناسب. <span class="lvl">تذكّر</span></p>
+  <div class="card match" data-match>
+    <div class="col">
+      <button class="m term" data-k="w">الغلاف المائي</button>
+      <button class="m term" data-k="a">الغلاف الجوي</button>
+      <button class="m term" data-k="r">الغلاف الصخري</button>
+    </div>
+    <div class="col">
+      <button class="m def" data-k="a">هُوَ الغازاتُ المُحيطَةُ بِالكُرَةِ الأَرْضِيَّةِ.</button>
+      <button class="m def" data-k="r">هُوَ نِسْبَةُ اليابِسَةِ عَلى الأَرْضِ وَتُشَكِّلُ جُزْءًا صَغيرًا مِنْ مِساحَةِ الأَرْضِ.</button>
+      <button class="m def" data-k="w">هُوَ نِسْبَةُ الماءِ عَلى كَوْكَبِ الأَرْضِ وَيُشَكِّلُ الجُزْءَ الأَكْبَرَ مِنْ مِساحَةِ الأَرْضِ.</button>
+    </div>
+    <div class="fb" hidden style="grid-column:1/-1"></div>
+    <div style="grid-column:1/-1"><button class="btn soft" data-match-reset>إعادة المحاولة</button></div>
+  </div>
+  <div class="card q" data-why="الماء يشكّل الجزء الأكبر من مساحة الأرض؛ لذلك يظهر اللون الأزرق في معظم الكرة الأرضية.">
+    <p class="ask">رسمت هند الكرة الأرضية، فلوّنت اليابسة باللون الأخضر في معظم الرسم، ولوّنت الماء في جزء صغير. هل رسمها صحيح؟ <span class="lvl l4">تحليل</span></p>
+    <div class="opts"><button class="opt" data-hint="تذكّري: الغلاف الصخري يشكّل جزءًا صغيرًا من مساحة الأرض.">نعم، صحيح</button><button class="opt" data-ok>لا، الماء يشغل الجزء الأكبر</button></div>
+    <div class="fb" hidden></div>
+  </div>
+</section>
+
+<!-- ============ 11. LANDFORMS ============ -->
+<section class="slide" id="landforms" data-title="ما أشكال اليابسة؟" data-strat="التعلم بالصور · الاستكشاف الموجّه" data-min="5" hidden>
+  <div class="head"><span class="tag green">أقرأ وأتعلم</span><h2>ما أَشْكالُ اليابِسَةِ؟</h2></div>
+  <p class="book">ما شَكْلُ اليابِسَةِ الَّتي نَعيشُ عَلَيْها؟ لِليابِسَةِ الَّتي نَعيشُ عَلَيْها أَشْكالٌ مُخْتَلِفَةٌ؛ فَقَدْ تَكونُ <b>سُهولًا مُنْبَسِطَةً</b>، أَوْ <b>وِدْيانًا مُنْخَفِضَةً</b>، أَوْ <b>جِبالًا وَتِلالًا مُرْتَفِعَةً</b>.</p>
+  <div class="grid2 split">
+    <svg class="scene" id="lfScene" viewBox="0 0 1000 560" role="img" aria-label="مشهد تفاعلي لأشكال اليابسة. اضغطي على الدوائر">
+      <rect width="1000" height="560" fill="url(#gSky)"/>
+      <circle cx="900" cy="80" r="40" fill="#ffd45e"/>
+      <g filter="url(#rough)">
+        <path d="M20 432 L230 92 L272 150 L318 104 L470 455Z" fill="#a8663c" stroke="#4e2a14" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M230 92 L214 240 L240 440 L20 432Z" fill="#7d4524" opacity=".5"/>
+        <path d="M540 462 C580 300 720 280 800 436Z" fill="#71b250" stroke="#336a26" stroke-width="5"/>
+        <path d="M0 432 L410 432 Q470 432 500 480 L540 480 Q560 446 600 440 L800 436 L1000 436 L1000 560 L0 560Z" fill="#b6d36e" stroke="#6c9a3c" stroke-width="4"/>
+        <path d="M500 480 L540 480 Q530 520 560 560 L470 560 Q505 520 500 480Z" fill="#4d9ad8"/>
+        <g fill="#4d8a35"><ellipse cx="860" cy="480" rx="28" ry="11"/><ellipse cx="940" cy="520" rx="32" ry="12"/><ellipse cx="760" cy="510" rx="26" ry="10"/><ellipse cx="160" cy="500" rx="34" ry="12"/></g>
+      </g>
+      <g font-family="Baloo Bhaijaan 2,Tajawal,Tahoma,sans-serif" font-weight="800" font-size="30">
+        <g class="spot" data-spot="mountain" tabindex="0" role="button" aria-label="الجبل"><circle class="pulse" cx="250" cy="200" r="22"/><circle class="ring" cx="250" cy="200" r="22"/><text class="lbl" x="250" y="160" text-anchor="middle" fill="#5b3219" stroke="#fff" stroke-width="6" paint-order="stroke">جبل</text></g>
+        <g class="spot" data-spot="hill" tabindex="0" role="button" aria-label="التل"><circle class="pulse" cx="680" cy="350" r="22"/><circle class="ring" cx="680" cy="350" r="22"/><text class="lbl" x="680" y="310" text-anchor="middle" fill="#245a2b" stroke="#fff" stroke-width="6" paint-order="stroke">تل</text></g>
+        <g class="spot" data-spot="valley" tabindex="0" role="button" aria-label="الوادي"><circle class="pulse" cx="518" cy="456" r="22"/><circle class="ring" cx="518" cy="456" r="22"/><text class="lbl" x="518" y="416" text-anchor="middle" fill="#0f3f6a" stroke="#fff" stroke-width="6" paint-order="stroke">وادٍ</text></g>
+        <g class="spot" data-spot="plain" tabindex="0" role="button" aria-label="السهل"><circle class="pulse" cx="880" cy="470" r="22"/><circle class="ring" cx="880" cy="470" r="22"/><text class="lbl" x="880" y="430" text-anchor="middle" fill="#245a2b" stroke="#fff" stroke-width="6" paint-order="stroke">سهل</text></g>
+      </g>
+    </svg>
+    <div class="card info" id="lfInfo">
+      <h3>استكشفي المشهد</h3>
+      <p>اضغطي على الدوائر البيضاء في الرسم لتتعرفي على كل شكل من أشكال اليابسة.</p>
+      <p class="lead" id="lfCount">اكتشفتِ ٠ من ٤</p>
+    </div>
+  </div>
+  <template id="lfData">
+    <div data-k="mountain"><h3><svg width="64" height="44" viewBox="0 0 160 110"><use href="#lf-mountain"/></svg>الجَبَلُ</h3><p class="book">الجَبَلُ مِنْطَقَةٌ مُرْتَفِعَةٌ مِنَ اليابِسَةِ. قَدْ يَكونُ لِلْجِبالِ قِمَمٌ حادَّةٌ، وَجَوانِبُ شَديدَةُ الانْحِدارِ.</p><p class="note">لاحظي القمة الحادة والجوانب شديدة الانحدار في الرسم.</p></div>
+    <div data-k="hill"><h3><svg width="64" height="44" viewBox="0 0 160 110"><use href="#lf-hill"/></svg>التَّلُّ</h3><p class="book">التِّلالُ مَناطِقُ مُرْتَفِعَةٌ، وَلكِنَّها أَقَلُّ ارْتِفاعًا مِنَ الجِبالِ.</p><p class="note">قارني ارتفاع التل بارتفاع الجبل في الرسم.</p></div>
+    <div data-k="valley"><h3><svg width="64" height="44" viewBox="0 0 160 110"><use href="#lf-valley"/></svg>الوادي</h3><p class="book">الوادي أَرْضٌ مُنْخَفِضَةٌ بَيْنَ الجِبالِ وَالتِّلالِ.</p><p class="note">أين يقع الوادي في الرسم؟ بين الجبل والتل.</p></div>
+    <div data-k="plain"><h3><svg width="64" height="44" viewBox="0 0 160 110"><use href="#lf-plain"/></svg>السَّهْلُ</h3><p class="book">السَّهْلُ مِنْطَقَةٌ مُنْبَسِطَةٌ وَواسِعَةٌ. تَمْتَدُّ بَعْضُ السُّهولِ عِدَّةَ كيلومِتْراتٍ.</p><p class="note">السهل أرض مستوية لا ارتفاع فيها ولا انخفاض.</p></div>
+  </template>
+</section>
+
+<!-- ============ 12. MOUNTAIN vs VALLEY ============ -->
+<section class="slide" id="compare" data-title="فيم يختلف الجبل عن الوادي؟" data-strat="المقارنة · فكري - زاوجي - شاركي" data-min="4" hidden>
+  <div class="head"><span class="tag yellow">أتحقق من فهمي</span><h2 class="book" style="font-family:var(--f-book)">فِيمَ يَخْتَلِفُ الجَبَلُ عَنِ الوادي؟ <span class="lvl l4">تحليل</span></h2></div>
+  <div class="row">
+    <span class="chip">١ فكّري بمفردك</span><span class="chip" style="background:var(--water-soft);color:var(--water-ink)">٢ ناقشي زميلتك</span><span class="chip" style="background:var(--sand-soft);color:var(--sand-ink)">٣ شاركي الصف</span>
+    <div class="timer" data-sec="60"></div>
+  </div>
+  <div class="grid2">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="grid2" style="gap:12px">
+        <svg class="pic" viewBox="0 0 160 110" role="img" aria-label="جبل"><use href="#lf-mountain"/></svg>
+        <svg class="pic" viewBox="0 0 160 110" role="img" aria-label="وادٍ"><use href="#lf-valley"/></svg>
+      </div>
+      <div class="row"><button class="btn" data-reveal-rows="#cmpTable">أظهري المقارنة صفًا صفًا</button></div>
+      <div class="tablewrap"><table class="cmp" id="cmpTable">
+        <thead><tr><th>وجه المقارنة</th><th>الجبل</th><th>الوادي</th></tr></thead>
+        <tbody>
+          <tr hidden><td>الارتفاع</td><td>منطقة مرتفعة من اليابسة</td><td>أرض منخفضة</td></tr>
+          <tr hidden><td>المكان</td><td>جزء من اليابسة المرتفعة</td><td>بين الجبال والتلال</td></tr>
+          <tr hidden><td>الشكل</td><td>قد تكون له قمم حادة وجوانب شديدة الانحدار</td><td>أرض منخفضة تحيط بها المرتفعات</td></tr>
+        </tbody>
+      </table></div>
+      <div class="fb ok" id="cmpAns" hidden><b>الإجابة:</b> الجبل منطقة مرتفعة من اليابسة، أما الوادي فأرض منخفضة بين الجبال والتلال.</div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;gap:14px">
+      <h3>والتل؟ هل هو جبل صغير؟</h3>
+      <p class="book">التِّلالُ مَناطِقُ مُرْتَفِعَةٌ، وَلكِنَّها أَقَلُّ ارْتِفاعًا مِنَ الجِبالِ.</p>
+      <svg viewBox="0 0 360 220" class="scene" role="img" aria-label="مقارنة بين ارتفاع الجبل وارتفاع التل">
+        <rect width="360" height="220" fill="#f5f9fc"/>
+        <g stroke="#cddce6" stroke-width="1.5" stroke-dasharray="5 5"><path d="M20 40 H340"/><path d="M20 110 H340"/></g>
+        <g filter="url(#rough)">
+          <path d="M30 196 L110 40 L190 196Z" fill="#a8663c" stroke="#4e2a14" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M200 196 C220 110 300 104 340 196Z" fill="#71b250" stroke="#336a26" stroke-width="3"/>
+        </g>
+        <path d="M0 196 H360" stroke="#6c9a3c" stroke-width="4"/>
+        <g font-family="Tajawal,Tahoma,sans-serif" font-weight="700" font-size="16">
+          <text x="110" y="215" text-anchor="middle" fill="#5b3219">جبل: أعلى</text>
+          <text x="272" y="215" text-anchor="middle" fill="#245a2b">تل: أقل ارتفاعًا</text>
+        </g>
+      </svg>
+      <div class="q" data-why="التل والجبل كلاهما مرتفع، لكن التل أقل ارتفاعًا من الجبل.">
+        <p class="ask">أيهما أعلى؟ <span class="lvl l2">فهم</span></p>
+        <div class="opts"><button class="opt" data-hint="التلال أقل ارتفاعًا من الجبال.">التل</button><button class="opt" data-ok>الجبل</button></div>
+        <div class="fb" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13. WHO AM I ============ -->
+<section class="slide" id="who-am-i" data-title="لعبة: من أنا؟" data-strat="تقويم تكويني · التعلم بالصور" data-min="4" hidden>
+  <div class="head"><span class="tag yellow">أتحقق من فهمي</span><h2>من أنا؟ اختاري الصورة المناسبة</h2></div>
+  <div class="card stepper" data-stepper>
+    <div class="step-ctrl"><div class="stars" data-stars></div><span class="lvl" data-count></span></div>
+    <div class="q" data-step data-why="السهل منطقة منبسطة وواسعة، وتمتد بعض السهول عدة كيلومترات.">
+      <p class="ask">أنا منطقة منبسطة وواسعة، وقد أمتد عدة كيلومترات. من أنا؟ <span class="lvl">تذكّر</span></p>
+      <div class="opts" data-picopts="plain"></div><div class="fb" hidden></div>
+    </div>
+    <div class="q" data-step hidden data-why="التلال مناطق مرتفعة، ولكنها أقل ارتفاعًا من الجبال.">
+      <p class="ask">أنا منطقة مرتفعة، لكني أقل ارتفاعًا من الجبل. من أنا؟ <span class="lvl l2">فهم</span></p>
+      <div class="opts" data-picopts="hill"></div><div class="fb" hidden></div>
+    </div>
+    <div class="q" data-step hidden data-why="الوادي أرض منخفضة بين الجبال والتلال.">
+      <p class="ask">أنا أرض منخفضة بين الجبال والتلال. من أنا؟ <span class="lvl">تذكّر</span></p>
+      <div class="opts" data-picopts="valley"></div><div class="fb" hidden></div>
+    </div>
+    <div class="q" data-step hidden data-why="الجبل منطقة مرتفعة من اليابسة، وقد تكون له قمم حادة وجوانب شديدة الانحدار.">
+      <p class="ask">قد تكون لي قمة حادة وجوانب شديدة الانحدار. من أنا؟ <span class="lvl l2">فهم</span></p>
+      <div class="opts" data-picopts="mountain"></div><div class="fb" hidden></div>
+    </div>
+    <div class="step-ctrl"><button class="btn soft" data-step-reset>العبي من جديد</button><button class="btn" data-step-next disabled>السؤال التالي</button></div>
+  </div>
+</section>
+
+<!-- ============ 14. CLAY ============ -->
+<section class="slide" id="clay" data-title="نشاط: نموذج أشكال اليابسة" data-strat="التعلم بالعمل · العمل التعاوني" data-min="7" hidden>
+  <div class="head"><span class="tag warm" style="background:var(--mount)">نشاط</span><h2>أَعْمَلُ نَموذَجًا لِأَشْكالِ اليابِسَةِ</h2></div>
+  <p class="book">أَعْمَلُ نَموذَجًا لِأَشْكالِ اليابِسَةِ، مُسْتَخْدِمًا أَصابِعَ الصَّلْصالِ المُلَوَّنِ.</p>
+  <div class="grid2 split">
+    <div class="card">
+      <ol class="steps">
+        <li><span class="num">١</span><span>أشكّل <b>جبلًا</b> عاليًا له قمة حادة وجوانب شديدة الانحدار.</span></li>
+        <li><span class="num">٢</span><span>أشكّل <b>تلًا</b> أقل ارتفاعًا من الجبل.</span></li>
+        <li><span class="num">٣</span><span>أترك <b>واديًا</b> منخفضًا بين الجبل والتل.</span></li>
+        <li><span class="num">٤</span><span>أفرد قطعة مستوية واسعة لتكون <b>سهلًا</b>.</span></li>
+        <li><span class="num">٥</span><span>أضع بطاقة باسم كل شكل، وأعرض نموذجي على زميلاتي.</span></li>
+      </ol>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <svg viewBox="0 0 360 200" class="scene" role="img" aria-label="رسم لنموذج من الصلصال يضم جبلًا وتلًا وواديًا وسهلًا">
+        <rect width="360" height="200" fill="#fff8ec"/>
+        <rect x="10" y="150" width="340" height="40" rx="10" fill="#e9dcc6"/>
+        <g filter="url(#rough)">
+          <path d="M20 156 L90 40 L150 156Z" fill="#b5703f" stroke="#5b3219" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M150 156 Q160 140 175 140 Q190 140 200 156Z" fill="#6aa9de"/>
+          <path d="M196 156 C210 96 268 96 282 156Z" fill="#6cb04a" stroke="#2f6a24" stroke-width="3"/>
+          <rect x="278" y="146" width="66" height="10" rx="4" fill="#a7d36a" stroke="#4d8a35" stroke-width="2"/>
+        </g>
+        <g font-family="Tajawal,Tahoma,sans-serif" font-size="13" font-weight="700">
+          <rect x="66" y="166" width="48" height="20" rx="5" fill="#fff" stroke="#5b3219"/><text x="90" y="181" text-anchor="middle">جبل</text>
+          <rect x="151" y="166" width="48" height="20" rx="5" fill="#fff" stroke="#0f3f6a"/><text x="175" y="181" text-anchor="middle">وادٍ</text>
+          <rect x="215" y="166" width="48" height="20" rx="5" fill="#fff" stroke="#245a2b"/><text x="239" y="181" text-anchor="middle">تل</text>
+          <rect x="287" y="166" width="48" height="20" rx="5" fill="#fff" stroke="#245a2b"/><text x="311" y="181" text-anchor="middle">سهل</text>
+        </g>
+      </svg>
+      <div class="row"><span>وقت النشاط:</span><div class="timer" data-sec="300"></div></div>
+      <div class="card" style="padding:12px">
+        <b>قائمة تحقق المجموعة</b>
+        <div class="layer-btns" style="margin-top:8px" data-checklist>
+          <button aria-pressed="false">الجبل أعلى من التل</button>
+          <button aria-pressed="false">الوادي منخفض بينهما</button>
+          <button aria-pressed="false">السهل منبسط وواسع</button>
+          <button aria-pressed="false">كل شكل عليه اسمه</button>
+        </div>
+      </div>
+      <p class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg><span><b>للمتميزات:</b> أضيفي ماءً يجري في الوادي باستخدام الصلصال الأزرق. <b>للدعم:</b> ابدئي بالجبل والسهل فقط.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15. GLOBE ============ -->
+<section class="slide" id="globe-map" data-title="ما الذي تخبرنا به الخرائط؟" data-strat="قراءة الخريطة · التفكير البصري" data-min="5" hidden>
+  <div class="head"><span class="tag green">أقرأ وأتعلم</span><h2>ما الَّذي تُخْبِرُنا بِهِ الخَرائِطُ عَنِ الأَرْضِ؟</h2></div>
+  <div class="grid2 split">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <p class="book">يُمَثِّلُ مُجَسَّمُ <b>الكُرَةِ الجُغْرافِيَّةِ</b> نَموذَجًا لِلأَرْضِ، وَهِيَ خَريطَةٌ عَلى شَكْلِ كُرَةٍ تُبَيِّنُ أَماكِنَ اليابِسَةِ وَالماءِ عَلى الأَرْضِ.</p>
+      <p class="book">تُسَمَّى الأَجْزاءُ الكَبيرَةُ مِنَ اليابِسَةِ <b class="hl">قارّاتٍ</b>، وَهِيَ مُحاطَةٌ بِالمُحيطاتِ. أَمّا الأَجْزاءُ الصَّغيرَةُ مِنَ اليابِسَةِ المُحاطَةُ بِالماءِ مِنْ جَميعِ الجِهاتِ فَتُسَمَّى <b class="hl">جُزُرًا</b>.</p>
+      <p><b>ألوان الخريطة:</b> اضغطي على كل لون لتعرفي ماذا يبيّن.</p>
+      <div class="legend" id="legend">
+        <button data-col="brown" aria-pressed="false"><span class="sw" style="background:#9a5a33"></span><span>اللون البني <span class="mean">يبيّن الجبال</span></span></button>
+        <button data-col="green" aria-pressed="false"><span class="sw" style="background:#4f9a3e"></span><span>اللون الأخضر <span class="mean">يبيّن السهول المنبسطة</span></span></button>
+        <button data-col="yellow" aria-pressed="false"><span class="sw" style="background:#e3b23c"></span><span>اللون الأصفر <span class="mean">يبيّن الصحارى</span></span></button>
+        <button data-col="blue" aria-pressed="false"><span class="sw" style="background:#2370b3"></span><span>اللون الأزرق <span class="mean">يبيّن الماء على الأرض</span></span></button>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <svg class="scene globe" style="max-height:58vh" id="globe" viewBox="0 0 440 420" role="img" aria-label="رسم للكرة الجغرافية يوضح قارة وجزيرة ومحيطًا">
+        <rect width="440" height="420" fill="#f5f9fc"/>
+        <circle data-c="blue" cx="200" cy="205" r="180" fill="url(#gOcean)"/>
+        <clipPath id="contClip"><path d="M120 96 C170 52 270 60 300 120 C326 172 300 220 262 262 C232 296 200 330 168 314 C136 298 150 250 118 222 C86 194 80 140 120 96Z"/></clipPath>
+        <g clip-path="url(#contClip)" filter="url(#rough)">
+          <rect data-c="green" x="60" y="40" width="300" height="320" fill="#4f9a3e"/>
+          <ellipse data-c="yellow" cx="200" cy="150" rx="78" ry="44" fill="#e3b23c"/>
+          <ellipse data-c="yellow" cx="150" cy="236" rx="34" ry="22" fill="#e3b23c"/>
+          <path data-c="brown" d="M230 80 C260 120 280 160 270 220 L252 226 C258 170 240 124 214 90Z" fill="#9a5a33"/>
+          <path data-c="brown" d="M110 120 C130 116 150 104 170 96 L174 108 C152 118 132 128 112 132Z" fill="#9a5a33"/>
+        </g>
+        <path d="M120 96 C170 52 270 60 300 120 C326 172 300 220 262 262 C232 296 200 330 168 314 C136 298 150 250 118 222 C86 194 80 140 120 96Z" fill="none" stroke="#2f4a20" stroke-width="2"/>
+        <ellipse data-c="green" cx="298" cy="318" rx="20" ry="12" fill="#4f9a3e" stroke="#2f4a20" stroke-width="2" transform="rotate(-30 298 318)"/>
+        <circle cx="200" cy="205" r="180" fill="none" stroke="#0f3f6a" stroke-width="3"/>
+        <g class="glabel" font-family="Tajawal,Tahoma,sans-serif" font-weight="800" font-size="20" fill="#1d2a33">
+          <path d="M250 180 L400 150" stroke="#c2452d" stroke-width="2.5"/><text x="430" y="146" text-anchor="end">قارة</text>
+          <path d="M312 314 L400 300" stroke="#c2452d" stroke-width="2.5"/><text x="430" y="296" text-anchor="end">جزيرة</text>
+          <path d="M240 360 L400 380" stroke="#c2452d" stroke-width="2.5"/><text x="430" y="396" text-anchor="end">محيط</text>
+        </g>
+      </svg>
+      <div class="row"><button class="btn" id="btnNames">أظهري الأسماء</button><button class="btn soft" id="btnAllCols">كل الألوان</button></div>
+      <p class="lead" style="font-size:.85em">رسم توضيحي مبسّط للكرة الجغرافية يوضّح أشكال اليابسة والماء على الأرض.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16. GLOBE CHECK ============ -->
+<section class="slide" id="globe-check" data-title="تقويم: الكرة الجغرافية" data-strat="تقويم تكويني · التوصيل والاختيار" data-min="4" hidden>
+  <div class="head"><span class="tag yellow">أتحقق من فهمي</span><h2>أقرأ الخريطة</h2></div>
+  <div class="grid2">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <p><b>صِلي كل لون بما يبيّنه على الخريطة.</b> <span class="lvl">تذكّر</span></p>
+      <div class="card match" data-match style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+        <div class="col">
+          <button class="m term" data-k="y"><span class="swatch" style="background:#e3b23c"></span>الأصفر</button>
+          <button class="m term" data-k="b"><span class="swatch" style="background:#9a5a33"></span>البني</button>
+          <button class="m term" data-k="u"><span class="swatch" style="background:#2370b3"></span>الأزرق</button>
+          <button class="m term" data-k="g"><span class="swatch" style="background:#4f9a3e"></span>الأخضر</button>
+        </div>
+        <div class="col">
+          <button class="m def" data-k="b">الجبال</button>
+          <button class="m def" data-k="g">السهول المنبسطة</button>
+          <button class="m def" data-k="u">الماء على الأرض</button>
+          <button class="m def" data-k="y">الصحارى</button>
+        </div>
+        <div class="fb" hidden style="grid-column:1/-1"></div>
+        <div style="grid-column:1/-1"><button class="btn soft" data-match-reset>إعادة المحاولة</button></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card q" data-why="الجزيرة جزء صغير من اليابسة يحيط به الماء من جميع الجهات.">
+        <svg viewBox="0 0 200 100" style="width:100%;max-width:280px;height:auto;border-radius:12px"><rect width="200" height="100" fill="#2f78b7"/><path d="M0 60 q25-6 50 0 t50 0 t50 0 t50 0" stroke="#7fb8e6" stroke-width="3" fill="none"/><ellipse cx="100" cy="50" rx="30" ry="16" fill="#4f9a3e" stroke="#2f4a20" stroke-width="2"/></svg>
+        <p class="ask">جزء صغير من اليابسة يحيط به الماء من جميع الجهات. ماذا يُسمّى؟ <span class="lvl l3">تطبيق</span></p>
+        <div class="opts"><button class="opt" data-hint="القارات أجزاء كبيرة من اليابسة.">قارة</button><button class="opt" data-ok>جزيرة</button><button class="opt" data-hint="المحيط ماء، وليس يابسة.">محيط</button></div>
+        <div class="fb" hidden></div>
+      </div>
+      <div class="card q" data-why="الأجزاء الكبيرة من اليابسة تسمى قارات، وهي محاطة بالمحيطات.">
+        <p class="ask">قالت ليان: «كل جزء من اليابسة يحيط به الماء هو جزيرة». ما رأيك؟ <span class="lvl l5">تفكير ناقد</span></p>
+        <div class="opts"><button class="opt" data-hint="القارات أيضًا تحيط بها المحيطات، لكنها أجزاء كبيرة من اليابسة.">رأيها صحيح دائمًا</button><button class="opt" data-ok>غير دقيق؛ فالأجزاء الكبيرة قارات، والصغيرة جزر</button></div>
+        <div class="fb" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 17. LIFE & HOMELAND ============ -->
+<section class="slide" id="life" data-title="أربط بحياتي ووطني" data-strat="الربط بالحياة والوطن" data-min="3" hidden>
+  <div class="head"><span class="tag red">حياتي ووطني</span><h2>أشكال اليابسة من حولي</h2></div>
+  <div class="grid2">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <svg class="scene" viewBox="0 0 400 240" role="img" aria-label="رسم لمنطقة الباحة"><use href="#sc-baha"/></svg>
+      <p><b>منطقة الباحة في وطني</b> فيها جبال عالية، ووديان منخفضة يجري فيها الماء. هذه صورة غلاف فصلنا!</p>
+      <div class="q card" data-why="نرى في منطقة الباحة أرضًا مرتفعة كثيرة الصخور: إنها الجبال، وبينها الوديان.">
+        <p class="ask">الأرض العالية ذات الصخور في صورة الباحة هي: <span class="lvl l3">تطبيق</span></p>
+        <div class="opts"><button class="opt" data-ok>جبال</button><button class="opt" data-hint="السهل منبسط، وليس مرتفعًا.">سهل</button></div>
+        <div class="fb" hidden></div>
+      </div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;gap:12px">
+      <h3>ماذا نرى في منطقتنا؟</h3>
+      <p class="lead">ترفع كل طالبة يدها للشكل الذي رأته في منطقتها أو في رحلة مع أسرتها، وتضغط المعلمة لتسجيل العدد.</p>
+      <div class="grid2" style="gap:10px" id="tally">
+        <button class="opt pic-opt" style="width:auto" data-tally><svg viewBox="0 0 160 110"><use href="#lf-mountain"/></svg><span>جبال · <b>٠</b></span></button>
+        <button class="opt pic-opt" style="width:auto" data-tally><svg viewBox="0 0 160 110"><use href="#lf-hill"/></svg><span>تلال · <b>٠</b></span></button>
+        <button class="opt pic-opt" style="width:auto" data-tally><svg viewBox="0 0 160 110"><use href="#lf-valley"/></svg><span>وديان · <b>٠</b></span></button>
+        <button class="opt pic-opt" style="width:auto" data-tally><svg viewBox="0 0 160 110"><use href="#lf-plain"/></svg><span>سهول · <b>٠</b></span></button>
+      </div>
+      <button class="btn soft" data-tally-reset>تصفير العدّ</button>
+      <p class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 20h16M6 16l4-8 3 5 2-3 3 6"/></svg><span><b>مهمة منزلية:</b> أرسم شكلًا من أشكال اليابسة رأيته في نزهة مع أسرتي، وأكتب اسمه.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 18. SELF TEST ============ -->
+<section class="slide" id="selftest" data-title="أختبر نفسي" data-strat="مراجعة أسئلة الكتاب" data-min="5" hidden>
+  <div class="head"><span class="tag red">أختبر نفسي</span><h2>أفكر أولًا، ثم أكشف الإجابة</h2></div>
+  <div class="grid2">
+    <div class="card" style="display:flex;flex-direction:column;gap:10px">
+      <p class="book" style="font-weight:700;font-size:1.1em">١. ما أَغْلِفَةُ الأَرْضِ؟ <span class="lvl">تذكّر</span></p>
+      <button class="btn soft" data-reveal="#st1">أظهري الإجابة</button>
+      <div class="fb ok" id="st1" hidden>تتكون الكرة الأرضية من <b>الغلاف الجوي</b> وهو الغازات المحيطة بالكرة الأرضية، و<b>الغلاف الصخري</b> وهو اليابسة، و<b>الغلاف المائي</b> وهو الماء. <br><small>التفسير: الماء يشكّل الجزء الأكبر من مساحة الأرض، واليابسة جزءًا صغيرًا.</small></div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;gap:10px">
+      <p class="book" style="font-weight:700;font-size:1.1em">٢. ما أَشْكالُ اليابِسَةِ؟ <span class="lvl l2">فهم</span></p>
+      <button class="btn soft" data-reveal="#st2">أظهري الإجابة</button>
+      <div class="fb ok" id="st2" hidden>لليابسة أشكال مختلفة؛ فقد تكون <b>سهولًا</b> منبسطة، أو <b>وديانًا</b> منخفضة، أو <b>جبالًا وتلالًا</b> مرتفعة.<br><small>التفسير: نصنّف أشكال اليابسة بحسب ارتفاعها: مرتفعة، أو منخفضة، أو منبسطة.</small></div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;gap:10px">
+      <p class="book" style="font-weight:700;font-size:1.1em">٣. فِيمَ يَخْتَلِفُ الجَبَلُ عَنِ الوادي؟ <span class="lvl l4">تحليل</span></p>
+      <button class="btn soft" data-reveal="#st3">أظهري الإجابة</button>
+      <div class="fb ok" id="st3" hidden>الجبل <b>منطقة مرتفعة</b> من اليابسة، قد تكون له قمم حادة وجوانب شديدة الانحدار، أما الوادي فهو <b>أرض منخفضة</b> بين الجبال والتلال.<br><small>التفسير: الفرق الأساسي بينهما هو الارتفاع والانخفاض.</small></div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;gap:10px">
+      <p class="book" style="font-weight:700;font-size:1.1em">٤. ما الَّذي تُخْبِرُنا بِهِ الخَرائِطُ عَنِ الأَرْضِ؟ <span class="lvl l3">تطبيق</span></p>
+      <button class="btn soft" data-reveal="#st4">أظهري الإجابة</button>
+      <div class="fb ok" id="st4" hidden>تبيّن الكرة الجغرافية أماكن اليابسة والماء على الأرض: القارات والجزر والمحيطات. وتبيّن ألوانها أشكال اليابسة: البني للجبال، والأخضر للسهول المنبسطة، والأصفر للصحارى، والأزرق للماء.</div>
+    </div>
+  </div>
+  <div class="row"><button class="btn soft" data-reveal-all="#selftest">أظهري جميع الإجابات</button><button class="btn soft" data-hide-all="#selftest">إخفاء الإجابات</button></div>
+</section>
+
+<!-- ============ 19. FINAL GAME ============ -->
+<section class="slide" id="game" data-title="التقويم الختامي: رحلة المستكشفة" data-strat="تقويم ختامي · لعبة" data-min="7" hidden>
+  <div class="head"><span class="tag red">التقويم الختامي</span><h2>رحلة المستكشفة إلى قمة الجبل</h2></div>
+  <div class="game">
+    <div class="trail card" style="padding:10px">
+      <svg viewBox="0 0 400 420" id="trailSvg" role="img" aria-label="طريق الرحلة من السهل إلى قمة الجبل">
+        <rect width="400" height="420" fill="url(#gSky)"/>
+        <g filter="url(#rough)">
+          <path d="M0 420 L0 300 L60 250 L120 150 L200 30 L280 140 L340 220 L400 260 L400 420Z" fill="#a8663c" stroke="#4e2a14" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M200 30 L184 56 L198 52 L206 64 L216 50Z" fill="#fff"/>
+          <path d="M0 360 C80 330 160 350 260 340 C320 336 360 330 400 334 L400 420 L0 420Z" fill="#b6d36e" stroke="#6c9a3c" stroke-width="3"/>
+        </g>
+        <path id="trailPath" d="M40 392 C120 384 220 380 300 360 C340 340 330 300 280 290 C220 280 150 270 130 236 C112 204 170 190 220 180 C260 170 270 140 240 120 C220 104 200 90 200 46" fill="none" stroke="#fff6dc" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 12"/>
+        <g id="stations"></g>
+        <g id="hiker" class="hiker"><use href="#kid" x="-16" y="-46" width="32" height="46"/></g>
+        <g id="flag" opacity=".35"><path d="M200 12 V46" stroke="#1d2a33" stroke-width="3"/><path d="M200 12 L226 20 L200 28Z" fill="#c2452d"/></g>
+      </svg>
+      <div class="gscore"><span>النجوم: <b id="gStars">٠</b></span><span>السؤال: <b id="gNum">١</b> / <b id="gTot">١٠</b></span></div>
+    </div>
+    <div class="card" id="gPanel" style="display:flex;flex-direction:column;gap:14px;min-height:360px"></div>
+  </div>
+</section>
+
+<!-- ============ 20. CONCEPT MAP ============ -->
+<section class="slide" id="summary-map" data-title="الخريطة الختامية" data-strat="خريطة مفاهيم · التفكير البصري" data-min="3" hidden>
+  <div class="head"><span class="tag green">الخريطة الختامية</span><h2>ما تعلمته في درس اليابسة</h2><button class="btn soft noprint" id="btnPrint" hidden>طباعة الخريطة</button></div>
+  <div class="cmap">
+    <div class="root">الأرض: يابسة وماء</div>
+    <svg class="arrows" viewBox="0 0 980 56" preserveAspectRatio="none" aria-hidden="true">
+      <g fill="none" stroke="#1d2a33" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><path d="M490 4 C490 30 820 20 820 50"/><path d="M490 4 V50"/><path d="M490 4 C490 30 160 20 160 50"/></g>
+    </svg>
+    <div class="branches">
+      <div class="branch b1">
+        <h3>أغلفة الأرض</h3>
+        <div class="leaf"><svg viewBox="0 0 56 40"><rect width="56" height="40" fill="#eaf4fb"/><circle cx="28" cy="20" r="15" fill="none" stroke="#9fd0f5" stroke-width="5"/><circle cx="28" cy="20" r="11" fill="#2f78b7"/></svg><span><b>الغلاف الجوي</b><br>الغازات المحيطة بالكرة الأرضية</span></div>
+        <div class="leaf"><svg viewBox="0 0 160 110"><use href="#lf-mountain"/></svg><span><b>الغلاف الصخري</b><br>اليابسة: جزء صغير من مساحة الأرض</span></div>
+        <div class="leaf"><svg viewBox="0 0 56 40"><rect width="56" height="40" fill="#2f78b7"/><path d="M0 22 q7-5 14 0 t14 0 t14 0 t14 0" stroke="#cfe7fb" stroke-width="3" fill="none"/></svg><span><b>الغلاف المائي</b><br>الماء: الجزء الأكبر من مساحة الأرض</span></div>
+      </div>
+      <div class="branch b2">
+        <h3>أشكال اليابسة</h3>
+        <div class="leaf"><svg viewBox="0 0 160 110"><use href="#lf-mountain"/></svg><span><b>جبل</b> ↑↑<br>منطقة مرتفعة، قمم حادة وجوانب شديدة الانحدار</span></div>
+        <div class="leaf"><svg viewBox="0 0 160 110"><use href="#lf-hill"/></svg><span><b>تل</b> ↑<br>مرتفع، لكنه أقل ارتفاعًا من الجبل</span></div>
+        <div class="leaf"><svg viewBox="0 0 160 110"><use href="#lf-valley"/></svg><span><b>وادٍ</b> ↓<br>أرض منخفضة بين الجبال والتلال</span></div>
+        <div class="leaf"><svg viewBox="0 0 160 110"><use href="#lf-plain"/></svg><span><b>سهل</b> ↔<br>منطقة منبسطة وواسعة</span></div>
+      </div>
+      <div class="branch b3">
+        <h3>الكرة الجغرافية</h3>
+        <div class="leaf"><svg viewBox="0 0 56 40"><rect width="56" height="40" fill="#2f78b7"/><path d="M8 10 C20 2 44 6 46 18 S30 38 18 32 4 20 8 10Z" fill="#4f9a3e"/></svg><span><b>قارة</b><br>جزء كبير من اليابسة تحيط به المحيطات</span></div>
+        <div class="leaf"><svg viewBox="0 0 56 40"><rect width="56" height="40" fill="#2f78b7"/><ellipse cx="28" cy="20" rx="9" ry="6" fill="#4f9a3e"/></svg><span><b>جزيرة</b><br>جزء صغير من اليابسة يحيط به الماء من جميع الجهات</span></div>
+        <div class="leaf"><svg viewBox="0 0 56 40"><rect width="56" height="40" fill="url(#gOcean)"/></svg><span><b>محيط</b><br>ماء يحيط بالقارات</span></div>
+        <div class="keyrow"><span><i style="background:#9a5a33"></i>جبال</span><span><i style="background:#4f9a3e"></i>سهول</span><span><i style="background:#e3b23c"></i>صحارى</span><span><i style="background:#2370b3"></i>ماء</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="signature" style="justify-content:center"><div class="line"></div><span>أ/ شامه البقمي</span><div class="line"></div></div>
+</section>
+
+  </main>
+
+  <footer class="foot">
+    <button class="nav-btn ghost" id="btnPrev" aria-label="السابق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><span>السابق</span></button>
+    <div class="progress"><div class="dots" id="dots"></div></div>
+    <span class="sign">إعداد: <b>أ/ شامه البقمي</b></span>
+    <button class="nav-btn" id="btnNext" aria-label="التالي"><span>التالي</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  </footer>
+</div>
+
+<div class="menu" id="menu" hidden>
+  <div class="menu-card" role="dialog" aria-modal="true" aria-label="مراحل الدرس">
+    <div class="menu-head"><h2>مراحل الدرس</h2><button class="icon-btn" id="btnMenuClose" aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="menu-grid" id="menuGrid"></div>
+    <p class="lead" style="font-size:.85em">التنقل: الأسهم في لوحة المفاتيح، أو أزرار «التالي» و«السابق». زر المربعات في الأعلى لملء الشاشة.</p>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+  const stage = $('#stage');
+  const slides = $$('.slide');
+  let cur = 0;
+  const onShow = {};
+  const visited = new Set([0]);
+
+  /* ---------- sound ---------- */
+  let soundOn = true, actx = null;
+  function tone(freqs, dur = .12, type = 'sine') {
+    if (!soundOn) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      let t = actx.currentTime;
+      freqs.forEach(f => {
+        const o = actx.createOscillator(), g = actx.createGain();
+        o.type = type; o.frequency.value = f;
+        g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.18, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+        o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + dur + .02); t += dur * .85;
+      });
+    } catch (e) {}
+  }
+  const good = () => tone([660, 880, 1175], .13);
+  const bad = () => tone([220, 180], .16, 'triangle');
+  $('#btnSound').addEventListener('click', e => {
+    soundOn = !soundOn; e.currentTarget.setAttribute('aria-pressed', soundOn);
+    $('.wave', e.currentTarget).style.opacity = soundOn ? 1 : 0;
+  });
+
+  function burst(el) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    const cols = ['#d99a1e', '#3c8a45', '#2370b3', '#9a5a33', '#c2452d'];
+    for (let i = 0; i < 10; i++) {
+      const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      s.setAttribute('viewBox', '0 0 24 24'); s.classList.add('burst');
+      s.innerHTML = '<use href="#star"/>'; s.style.fill = cols[i % cols.length];
+      const a = (Math.PI * 2 * i) / 10, d = 70 + Math.random() * 50;
+      s.style.left = cx + 'px'; s.style.top = cy + 'px';
+      s.style.setProperty('--dx', Math.cos(a) * d + 'px'); s.style.setProperty('--dy', Math.sin(a) * d + 'px');
+      document.body.appendChild(s); setTimeout(() => s.remove(), 850);
+    }
+  }
+  const PRAISE = ['أحسنتِ!', 'رائع!', 'إجابة صحيحة!', 'ممتاز!', 'بارك الله فيك!'];
+  const praise = () => PRAISE[Math.floor(Math.random() * PRAISE.length)];
+
+  /* ---------- navigation ---------- */
+  const dots = $('#dots'), grid = $('#menuGrid');
+  slides.forEach((s, i) => {
+    const d = document.createElement('button');
+    d.setAttribute('aria-label', s.dataset.title); d.title = s.dataset.title;
+    d.addEventListener('click', () => go(i)); dots.appendChild(d);
+    const b = document.createElement('button');
+    b.innerHTML = `<span class="n">${AR(i + 1)}</span><span class="t">${s.dataset.title}<span class="g">${s.dataset.strat || ''}</span></span>`;
+    b.addEventListener('click', () => { closeMenu(); go(i); }); grid.appendChild(b);
+  });
+  function go(i, fromHash) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    stopTimers();
+    slides[cur].hidden = true; cur = i; slides[i].hidden = false;
+    visited.add(i); stage.scrollTop = 0;
+    const s = slides[i];
+    $('#curTitle').textContent = s.dataset.title;
+    const st = $('#curStrat'); st.hidden = !s.dataset.strat; st.textContent = s.dataset.strat || '';
+    const tm = $('#curTime'); tm.hidden = !s.dataset.min; tm.textContent = AR(s.dataset.min || '') + ' د';
+    $$('button', dots).forEach((d, k) => { d.classList.toggle('on', k === i); d.classList.toggle('done', visited.has(k) && k !== i); });
+    $$('button', grid).forEach((d, k) => d.classList.toggle('on', k === i));
+    $('#btnPrev').disabled = i === 0; $('#btnNext').disabled = i === slides.length - 1;
+    if (onShow[s.id]) onShow[s.id]();
+    if (!fromHash && location.hash.slice(1) !== s.id) { try { history.replaceState(null, '', '#' + s.id); } catch (e) { location.hash = s.id; } }
+  }
+  $('#btnPrev').addEventListener('click', () => go(cur - 1));
+  $('#btnNext').addEventListener('click', () => go(cur + 1));
+  document.addEventListener('keydown', e => {
+    if (e.target.matches('input,textarea')) return;
+    if (!$('#menu').hidden) { if (e.key === 'Escape') closeMenu(); return; }
+    if (e.key === 'ArrowLeft' || e.key === 'PageDown') { e.preventDefault(); go(cur + 1); }
+    else if (e.key === 'ArrowRight' || e.key === 'PageUp') { e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home') go(0);
+  });
+  const openMenu = () => { $('#menu').hidden = false; $('#btnMenuClose').focus(); };
+  const closeMenu = () => { $('#menu').hidden = true; };
+  $('#btnMenu').addEventListener('click', openMenu);
+  $('#btnMenuClose').addEventListener('click', closeMenu);
+  $('#menu').addEventListener('click', e => { if (e.target.id === 'menu') closeMenu(); });
+  window.addEventListener('hashchange', () => { const k = slides.findIndex(s => '#' + s.id === location.hash); if (k >= 0 && k !== cur) go(k, true); });
+  $('#btnFull').addEventListener('click', () => {
+    try {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else { const p = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(() => {}); }
+    } catch (e) {}
+  });
+
+  /* ---------- generic clicks ---------- */
+  document.addEventListener('click', e => {
+    const t = e.target;
+    const goBtn = t.closest('[data-go]'); if (goBtn) { go(goBtn.dataset.go === 'next' ? cur + 1 : +goBtn.dataset.go); return; }
+    if (t.closest('[data-open-menu]')) { openMenu(); return; }
+    const opt = t.closest('.opt');
+    if (opt && !opt.disabled && opt.closest('.q') && !opt.hasAttribute('data-tally') && !opt.closest('#gPanel')) { answer(opt); return; }
+    const rv = t.closest('[data-reveal]');
+    if (rv) { const el = $(rv.dataset.reveal); el.hidden = !el.hidden; if (!el.hidden && rv.dataset.reveal !== '#exIdea') { good(); } return; }
+    const ra = t.closest('[data-reveal-all]'); if (ra) { $$('.fb[id]', $(ra.dataset.revealAll)).forEach(x => x.hidden = false); return; }
+    const ha = t.closest('[data-hide-all]'); if (ha) { $$('.fb[id]', $(ha.dataset.hideAll)).forEach(x => x.hidden = true); return; }
+    const rr = t.closest('[data-reveal-rows]');
+    if (rr) { const rows = $$('tbody tr', $(rr.dataset.revealRows)); const next = rows.find(r => r.hidden);
+      if (next) { next.hidden = false; tone([520], .1); if (!rows.some(r => r.hidden)) { $('#cmpAns').hidden = false; rr.textContent = 'إخفاء المقارنة'; good(); } }
+      else { rows.forEach(r => r.hidden = true); $('#cmpAns').hidden = true; rr.textContent = 'أظهري المقارنة صفًا صفًا'; }
+      return; }
+    const fl = t.closest('.flip'); if (fl) { fl.classList.toggle('on'); return; }
+    if (t.closest('[data-flip-all]')) { const fs = $$('#vocab .flip'); const all = fs.every(f => f.classList.contains('on')); fs.forEach(f => f.classList.toggle('on', !all)); return; }
+    const add = t.closest('[data-add]'); if (add) { addChip($(add.dataset.from), $(add.dataset.add)); return; }
+    const ck = t.closest('[data-checklist] button'); if (ck) { const on = ck.getAttribute('aria-pressed') !== 'true'; ck.setAttribute('aria-pressed', on); if (on) { tone([700], .08); const all = $$('button', ck.parentElement).every(b => b.getAttribute('aria-pressed') === 'true'); if (all) { good(); burst(ck); } } return; }
+    const ty = t.closest('[data-tally]'); if (ty) { const b = $('b', ty); ty.dataset.n = (+ty.dataset.n || 0) + 1; b.textContent = AR(ty.dataset.n); tone([600], .07); return; }
+    if (t.closest('[data-tally-reset]')) { $$('[data-tally]').forEach(x => { x.dataset.n = 0; $('b', x).textContent = '٠'; }); return; }
+  });
+  $$('input[id]').forEach(inp => inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { const b = $(`[data-from="#${inp.id}"]`); if (b) addChip(inp, $(b.dataset.add)); }
+  }));
+  function addChip(inp, list) {
+    const v = inp.value.trim(); if (!v) { inp.focus(); return; }
+    const c = document.createElement('span'); c.textContent = v;
+    const x = document.createElement('button'); x.textContent = '×'; x.setAttribute('aria-label', 'حذف'); x.onclick = () => c.remove();
+    c.appendChild(x); list.appendChild(c); inp.value = ''; inp.focus(); tone([640], .07);
+  }
+
+  /* ---------- multiple choice ---------- */
+  function answer(opt) {
+    const q = opt.closest('.q'), fb = $('.fb', q);
+    if (q.hasAttribute('data-poll')) {
+      $$('.opt', q).forEach(b => { b.disabled = true; }); opt.classList.add('right'); fb.hidden = false; good(); return;
+    }
+    if (opt.hasAttribute('data-ok')) {
+      opt.classList.add('right'); $$('.opt', q).forEach(b => b.disabled = true);
+      fb.className = 'fb ok'; fb.innerHTML = `<b>${praise()}</b> ${q.dataset.why || ''}`;
+      good(); burst(opt);
+    } else {
+      opt.classList.add('wrong'); opt.disabled = true; q.dataset.miss = '1';
+      fb.className = 'fb no'; fb.innerHTML = `<b>حاولي مرة أخرى.</b> ${opt.dataset.hint || ''}`;
+      bad();
+    }
+    fb.hidden = false;
+    q.dispatchEvent(new CustomEvent('answered', { bubbles: true, detail: { ok: opt.hasAttribute('data-ok') } }));
+  }
+  function resetQ(q) {
+    $$('.opt', q).forEach(b => { b.disabled = false; b.classList.remove('right', 'wrong'); });
+    const fb = $('.fb', q); if (fb) fb.hidden = true; delete q.dataset.miss;
+  }
+
+  /* picture options for "who am I" */
+  const LF = { mountain: 'جبل', hill: 'تل', valley: 'وادٍ', plain: 'سهل' };
+  const HINT = { mountain: 'الجبل منطقة مرتفعة جدًا.', hill: 'التل مرتفع لكنه أقل ارتفاعًا من الجبل.', valley: 'الوادي أرض منخفضة.', plain: 'السهل أرض منبسطة واسعة.' };
+  $$('[data-picopts]').forEach(box => {
+    const ans = box.dataset.picopts;
+    ['mountain', 'hill', 'valley', 'plain'].forEach(k => {
+      const b = document.createElement('button'); b.className = 'opt pic-opt';
+      if (k === ans) b.setAttribute('data-ok', ''); else b.dataset.hint = HINT[k];
+      b.innerHTML = `<svg viewBox="0 0 160 110"><use href="#lf-${k}"/></svg><span>${LF[k]}</span>`;
+      box.appendChild(b);
+    });
+  });
+
+  /* ---------- steppers ---------- */
+  $$('[data-stepper]').forEach(sp => {
+    const steps = $$('[data-step]', sp), stars = $('[data-stars]', sp), count = $('[data-count]', sp), next = $('[data-step-next]', sp);
+    let i = 0;
+    steps.forEach(() => { stars.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 24 24"><use class="s" href="#star"/></svg>'); });
+    const starEls = $$('use', stars);
+    const fin = document.createElement('div'); fin.className = 'fb ok'; fin.hidden = true; sp.insertBefore(fin, next.parentElement);
+    function show() {
+      steps.forEach((s, k) => s.hidden = k !== i);
+      count.textContent = `السؤال ${AR(i + 1)} من ${AR(steps.length)}`;
+      next.disabled = !steps[i].querySelector('.opt.right');
+      next.textContent = i === steps.length - 1 ? 'إنهاء' : 'السؤال التالي';
+    }
+    sp.addEventListener('answered', e => {
+      if (!e.detail.ok) return;
+      const q = steps[i]; if (!q.dataset.miss) starEls[i].classList.add('on');
+      next.disabled = false;
+    });
+    next.addEventListener('click', () => {
+      if (i < steps.length - 1) { i++; show(); return; }
+      const n = starEls.filter(s => s.classList.contains('on')).length;
+      steps.forEach(s => s.hidden = true); fin.hidden = false; next.disabled = true;
+      fin.innerHTML = `<b>انتهت الأسئلة!</b> جمعتِ ${AR(n)} من ${AR(steps.length)} نجوم. ${n === steps.length ? 'أداء رائع!' : 'يمكنك اللعب من جديد لجمع كل النجوم.'}`;
+      good(); burst(next);
+    });
+    $('[data-step-reset]', sp).addEventListener('click', () => { i = 0; steps.forEach(resetQ); starEls.forEach(s => s.classList.remove('on')); fin.hidden = true; show(); });
+    show();
+  });
+
+  /* ---------- matching ---------- */
+  $$('[data-match]').forEach(m => {
+    let sel = null, pairs = 0;
+    const total = $$('.term', m).length, fb = $('.fb', m);
+    m.addEventListener('click', e => {
+      const b = e.target.closest('.m'); if (!b || b.classList.contains('paired')) return;
+      if (!sel) { sel = b; b.classList.add('sel'); return; }
+      if (sel === b) { b.classList.remove('sel'); sel = null; return; }
+      if (sel.classList.contains('term') === b.classList.contains('term')) { sel.classList.remove('sel'); sel = b; b.classList.add('sel'); return; }
+      if (sel.dataset.k === b.dataset.k) {
+        const c = 'p' + (pairs % 4); [sel, b].forEach(x => { x.classList.remove('sel'); x.classList.add('paired', c); x.setAttribute('aria-disabled', 'true'); });
+        pairs++; good();
+        if (pairs === total) { fb.hidden = false; fb.className = 'fb ok'; fb.innerHTML = `<b>${praise()}</b> وصلتِ جميع البطاقات بشكل صحيح.`; burst(b); }
+        else { fb.hidden = false; fb.className = 'fb ok'; fb.textContent = 'توصيل صحيح، أكملي.'; }
+      } else {
+        const a = sel; [a, b].forEach(x => { x.classList.remove('sel'); x.classList.add('bad'); });
+        setTimeout(() => [a, b].forEach(x => x.classList.remove('bad')), 400);
+        fb.hidden = false; fb.className = 'fb no'; fb.innerHTML = '<b>ليس هذا التوصيل.</b> اقرئي التعريف مرة أخرى وحاولي.'; bad();
+      }
+      sel = null;
+    });
+    $('[data-match-reset]', m).addEventListener('click', ev => {
+      ev.stopPropagation(); pairs = 0; sel = null; fb.hidden = true;
+      $$('.m', m).forEach(x => { x.className = x.className.replace(/\b(paired|sel|bad|p\d)\b/g, '').trim(); x.removeAttribute('aria-disabled'); });
+      shuffle($$('.col', m)[1]);
+    });
+  });
+  function shuffle(col) { const kids = [...col.children]; for (let i = kids.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [kids[i], kids[j]] = [kids[j], kids[i]]; } kids.forEach(k => col.appendChild(k)); }
+
+  /* ---------- timers ---------- */
+  const running = new Set();
+  $$('.timer').forEach(tm => {
+    const total = +tm.dataset.sec; let left = total, h = null;
+    const C = 2 * Math.PI * 18;
+    tm.innerHTML = `<svg viewBox="0 0 42 42"><circle class="tr" cx="21" cy="21" r="18"/><circle class="tp" cx="21" cy="21" r="18" stroke-dasharray="${C}" stroke-dashoffset="0"/></svg><span class="tt"></span><button type="button" class="go">ابدئي</button><button type="button" class="rs" aria-label="إعادة المؤقت">↺</button>`;
+    const tt = $('.tt', tm), tp = $('.tp', tm), gob = $('.go', tm);
+    const fmt = s => AR(Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'));
+    const draw = () => { tt.textContent = fmt(left); tp.style.strokeDashoffset = C * (1 - left / total); tm.classList.toggle('end', left === 0); };
+    const stop = () => { clearInterval(h); h = null; gob.textContent = left === 0 ? 'انتهى' : 'تابعي'; running.delete(stop); };
+    gob.addEventListener('click', () => {
+      if (h) { stop(); return; }
+      if (left === 0) { left = total; draw(); }
+      gob.textContent = 'إيقاف'; running.add(stop);
+      h = setInterval(() => { left--; draw(); if (left <= 0) { left = 0; draw(); stop(); tone([880, 660, 880], .18); } }, 1000);
+    });
+    $('.rs', tm).addEventListener('click', () => { if (h) stop(); left = total; draw(); gob.textContent = 'ابدئي'; });
+    draw();
+  });
+  function stopTimers() { [...running].forEach(f => f()); }
+
+  /* ---------- explore (sorting) ---------- */
+  const tray = $('#tray'), bins = $('#bins');
+  let exStep = 1, selCard = null;
+  const exHints = {
+    1: 'لاحظي الصور الست، وتحدثي مع زميلتك: ما الذي يتشابه؟ وما الذي يختلف؟',
+    2: 'اكتبي اسمًا لكل مجموعة، ثم اضغطي على الصورة ثم على المجموعة التي تناسبها.',
+    3: 'أعيدي التصنيف في ثلاث مجموعات. اختاري اسمًا جديدًا لكل مجموعة.',
+    4: 'اكتبي توقعاتك، وشاركيها مع زميلاتك.'
+  };
+  const exIdeas = {
+    2: '<b>من طرق التصنيف الممكنة:</b> أرض <b>مرتفعة</b> (الصور ١، ٢، ٣، ٦) وأرض <b>منخفضة يجري فيها الماء</b> (الصورتان ٤، ٥). أو: صور <b>فيها ماء</b> وصور <b>ليس فيها ماء</b>. المهم أن تبيّني سبب تصنيفك.',
+    3: '<b>من طرق التصنيف الممكنة:</b> حسب لون الأرض: <b>خضراء</b> (١، ٦)، <b>صخرية</b> (٢، ٣)، <b>فيها ماء</b> (٤، ٥). أو حسب الارتفاع: <b>جبال</b> (٣، ٦)، <b>تلال وصخور</b> (١، ٢)، <b>وديان</b> (٤، ٥). تقبل المعلمة أي تصنيف له سبب واضح.'
+  };
+  function setExStep(n) {
+    exStep = Math.max(1, Math.min(4, n));
+    $$('#exSteps li').forEach(li => li.classList.toggle('cur', +li.dataset.n === exStep));
+    $('#exHintTxt').textContent = exHints[exStep];
+    bins.hidden = exStep < 2 || exStep > 3;
+    tray.hidden = exStep === 4;
+    $('#exPredict').hidden = exStep !== 4;
+    const b3 = $('[data-bin="3"]', bins);
+    if (exStep === 2) { b3.hidden = true; bins.style.setProperty('--n', 2); }
+    if (exStep === 3) { b3.hidden = false; bins.style.setProperty('--n', 3); }
+    if (exStep === 2 || exStep === 3) { $$('.scard', bins).forEach(c => tray.appendChild(c)); sortTray(); }
+    $('#exSuggest').hidden = !(exStep === 2 || exStep === 3);
+    $('#exIdea').hidden = true; $('#exIdea').innerHTML = exIdeas[exStep] || '';
+    $('[data-exprev]').disabled = exStep === 1; $('[data-exnext]').disabled = exStep === 4;
+    selectCard(null);
+  }
+  function sortTray() { $$('.scard', tray).sort((a, b) => a.dataset.card - b.dataset.card).forEach(c => tray.appendChild(c)); }
+  function selectCard(c) { if (selCard) selCard.classList.remove('sel'); selCard = c; if (c) c.classList.add('sel'); $('#exBoard').classList.toggle('ready', !!c); }
+  $('[data-exnext]').addEventListener('click', () => setExStep(exStep + 1));
+  $('[data-exprev]').addEventListener('click', () => setExStep(exStep - 1));
+  $('#exBoard').addEventListener('click', e => {
+    const card = e.target.closest('.scard');
+    if (card) { if (exStep === 1) { tone([560], .06); return; } selectCard(selCard === card ? null : card); return; }
+    if (e.target.closest('input')) return;
+    const bin = e.target.closest('.bin');
+    if (bin && selCard) { $('.drop', bin).appendChild(selCard); tone([620], .07); selectCard(null); return; }
+    if (e.target.closest('#tray') && selCard) { tray.appendChild(selCard); sortTray(); selectCard(null); }
+  });
+  setExStep(1);
+
+  /* ---------- spheres ---------- */
+  const LAYERS = {
+    air: ['الغِلافُ الجَوِّيُّ', 'هُوَ الغازاتُ المُحيطَةُ بِالكُرَةِ الأَرْضِيَّةِ.', 'var(--water-ink)'],
+    rock: ['الغِلافُ الصَّخْرِيُّ', 'هُوَ نِسْبَةُ اليابِسَةِ عَلى الأَرْضِ وَتُشَكِّلُ جُزْءًا صَغيرًا مِنْ مِساحَةِ الأَرْضِ.', 'var(--mount-ink)'],
+    water: ['الغِلافُ المائِيُّ', 'هُوَ نِسْبَةُ الماءِ عَلى كَوْكَبِ الأَرْضِ وَيُشَكِّلُ الجُزْءَ الأَكْبَرَ مِنْ مِساحَةِ الأَرْضِ.', 'var(--water-ink)']
+  };
+  $$('[data-layer]').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.layer, on = b.getAttribute('aria-pressed') !== 'true';
+    $$('[data-layer]').forEach(x => x.setAttribute('aria-pressed', 'false'));
+    const earth = $('#earth');
+    if (on) { b.setAttribute('aria-pressed', 'true'); earth.dataset.show = k; const [h, d, c] = LAYERS[k];
+      $('#layerInfo').innerHTML = `<h3 style="color:${c}">${h}</h3><p class="book">${d}</p>`; tone([600], .08); }
+    else { delete earth.dataset.show; $('#layerInfo').innerHTML = '<p class="lead">اضغطي على اسم كل غلاف لتظهر صورته وتعريفه.</p>'; }
+  }));
+
+  /* ---------- landform hotspots ---------- */
+  const lfData = {}; $$('div[data-k]', $('#lfData').content).forEach(d => lfData[d.dataset.k] = d.innerHTML);
+  const seen = new Set();
+  function openSpot(sp) {
+    const k = sp.dataset.spot; sp.classList.add('seen'); seen.add(k);
+    $('#lfInfo').innerHTML = lfData[k] + `<p class="lead">اكتشفتِ ${AR(seen.size)} من ٤</p>` + (seen.size === 4 ? '<div class="fb ok"><b>أحسنتِ!</b> تعرّفتِ على أشكال اليابسة الأربعة.</div>' : '');
+    good(); if (seen.size === 4) burst(sp);
+  }
+  $$('.spot').forEach(sp => {
+    sp.addEventListener('click', () => openSpot(sp));
+    sp.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSpot(sp); } });
+  });
+
+  /* ---------- globe ---------- */
+  const globe = $('#globe');
+  $$('#legend button').forEach(b => b.addEventListener('click', () => {
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    $$('#legend button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+    b.classList.add('seen');
+    if (on) { b.setAttribute('aria-pressed', 'true'); globe.dataset.show = b.dataset.col; tone([600], .08); } else delete globe.dataset.show;
+  }));
+  $('#btnAllCols').addEventListener('click', () => { delete globe.dataset.show; $$('#legend button').forEach(x => x.setAttribute('aria-pressed', 'false')); });
+  $('#btnNames').addEventListener('click', e => { const on = globe.classList.toggle('named'); e.currentTarget.textContent = on ? 'إخفاء الأسماء' : 'أظهري الأسماء'; if (on) tone([600, 800], .08); });
+
+  /* ---------- final game ---------- */
+  const pic = k => `<svg viewBox="0 0 160 110" style="width:100%;max-width:260px;height:auto;border-radius:14px"><use href="#${k}"/></svg>`;
+  const G = [
+    { lv: 'تذكّر', c: '', q: 'الغازات المحيطة بالكرة الأرضية هي:', o: ['الغلاف المائي', 'الغلاف الجوي', 'الغلاف الصخري'], a: 1, why: 'الغلاف الجوي هو الغازات المحيطة بالكرة الأرضية.' },
+    { lv: 'فهم', c: 'l2', q: 'أيهما يشكّل الجزء الأكبر من مساحة الأرض؟', o: ['الغلاف المائي', 'الغلاف الصخري'], a: 0, why: 'الغلاف المائي يشكّل الجزء الأكبر من مساحة الأرض، والغلاف الصخري جزءًا صغيرًا.' },
+    { lv: 'تذكّر', c: '', img: 'lf-mountain', q: 'ما اسم هذا الشكل من أشكال اليابسة؟', o: ['سهل', 'وادٍ', 'جبل'], a: 2, why: 'الجبل منطقة مرتفعة من اليابسة، له قمة حادة وجوانب شديدة الانحدار.' },
+    { lv: 'فهم', c: 'l2', img: 'lf-valley', q: 'الأرض المنخفضة في هذه الصورة تُسمّى:', o: ['واديًا', 'تلًا', 'جزيرة'], a: 0, why: 'الوادي أرض منخفضة بين الجبال والتلال.' },
+    { lv: 'تطبيق', c: 'l3', q: 'سارت ريم في أرض منبسطة وواسعة تمتد عدة كيلومترات. أين كانت؟', o: ['في جبل', 'في سهل', 'في وادٍ'], a: 1, why: 'السهل منطقة منبسطة وواسعة، وتمتد بعض السهول عدة كيلومترات.' },
+    { lv: 'تحليل', c: 'l4', q: 'التل والجبل كلاهما مرتفع. فما الفرق بينهما؟', o: ['التل أعلى من الجبل', 'التل أقل ارتفاعًا من الجبل', 'لا فرق بينهما'], a: 1, why: 'التلال مناطق مرتفعة، ولكنها أقل ارتفاعًا من الجبال.' },
+    { lv: 'تطبيق', c: 'l3', q: 'رأت نوف على الكرة الجغرافية منطقة لونها أصفر. ماذا يبيّن هذا اللون؟', o: ['الصحارى', 'الماء', 'الجبال'], a: 0, why: 'اللون الأصفر على الخريطة يبيّن الصحارى.' },
+    { lv: 'فهم', c: 'l2', q: 'جزء صغير من اليابسة يحيط به الماء من جميع الجهات هو:', o: ['قارة', 'محيط', 'جزيرة'], a: 2, why: 'الأجزاء الصغيرة من اليابسة المحاطة بالماء من جميع الجهات تسمى جزرًا.' },
+    { lv: 'تحليل', c: 'l4', q: 'صواب أم خطأ: «القارات أجزاء صغيرة من اليابسة».', o: ['صواب', 'خطأ'], a: 1, why: 'خطأ؛ القارات أجزاء كبيرة من اليابسة، وهي محاطة بالمحيطات.' },
+    { lv: 'تفكير ناقد', c: 'l5', q: 'تريد مجموعة أن تصنع بالصلصال أرضًا منخفضة بين جبلين. ماذا تصنع؟', o: ['سهلًا', 'واديًا', 'تلًا'], a: 1, why: 'الأرض المنخفضة بين الجبال والتلال هي الوادي.' }
+  ];
+  const panel = $('#gPanel'), path = $('#trailPath'), hiker = $('#hiker'), stationsG = $('#stations');
+  let L = 0, stEls = [];
+  const ptAt = k => { try { return path.getPointAtLength(L * k / G.length); } catch (e) { return { x: 40, y: 392 }; } };
+  function layoutTrail() {
+    try { L = path.getTotalLength(); } catch (e) { L = 0; }
+    stationsG.innerHTML = '';
+    G.forEach((_, k) => { const p = ptAt(k + 1); stationsG.insertAdjacentHTML('beforeend', `<circle class="station" cx="${p.x}" cy="${p.y}" r="9"/>`); });
+    stEls = $$('circle', stationsG);
+  }
+  let gi = 0, gStars = 0, gMiss = false;
+  $('#gTot').textContent = AR(G.length);
+  function moveHiker(k) { const p = ptAt(k); hiker.setAttribute('transform', `translate(${p.x} ${p.y})`); }
+  function gStart() {
+    layoutTrail(); gi = 0; gStars = 0; stEls.forEach(s => s.setAttribute('class', 'station')); $('#flag').setAttribute('opacity', '.35');
+    moveHiker(0); $('#gStars').textContent = '٠'; gRender();
+  }
+  function gRender() {
+    gMiss = false; const it = G[gi];
+    $('#gNum').textContent = AR(gi + 1);
+    panel.innerHTML = `<div class="q" data-game><p class="ask"><span class="lvl ${it.c}">${it.lv}</span> ${it.q}</p>${it.img ? pic(it.img) : ''}<div class="opts">${it.o.map((o, k) => `<button class="opt" data-k="${k}">${o}</button>`).join('')}</div><div class="fb" hidden></div><div class="row"><button class="btn" data-gnext hidden>${gi === G.length - 1 ? 'النتيجة' : 'تابعي الصعود'}</button></div></div>`;
+  }
+  function gResult() {
+    $('#flag').setAttribute('opacity', '1');
+    const msg = gStars >= 9 ? 'وصلتِ إلى القمة بتفوق! أنتِ مستكشفة ماهرة.' : gStars >= 7 ? 'أحسنتِ! وصلتِ إلى القمة، وجمعتِ نجومًا كثيرة.' : 'وصلتِ إلى القمة! راجعي الخريطة الختامية، ثم العبي مرة أخرى لتجمعي نجومًا أكثر.';
+    panel.innerHTML = `<div class="result"><svg viewBox="0 0 160 110" style="width:180px"><use href="#lf-mountain"/></svg><div class="big">${AR(gStars)} من ${AR(G.length)}</div><div class="stars" style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center">${G.map((_, k) => `<svg viewBox="0 0 24 24" width="30" height="30" style="fill:${k < gStars ? 'var(--sand)' : 'var(--line)'}"><use href="#star"/></svg>`).join('')}</div><p style="font-weight:700">${msg}</p><button class="btn" data-grestart>العبي مرة أخرى</button></div>`;
+    good(); burst($('.big', panel));
+  }
+  panel.addEventListener('click', e => {
+    if (e.target.closest('[data-grestart]')) { gStart(); return; }
+    if (e.target.closest('[data-gnext]')) { gi++; if (gi >= G.length) gResult(); else gRender(); return; }
+    const b = e.target.closest('.opt'); if (!b || b.disabled) return;
+    const it = G[gi], fb = $('.fb', panel), q = $('.q', panel);
+    if (+b.dataset.k === it.a) {
+      b.classList.add('right'); $$('.opt', q).forEach(x => x.disabled = true);
+      if (!gMiss) { gStars++; stEls[gi].setAttribute('class', 'station ok'); } else stEls[gi].setAttribute('class', 'station miss');
+      $('#gStars').textContent = AR(gStars);
+      fb.className = 'fb ok'; fb.innerHTML = `<b>${gMiss ? 'صحيح بعد المحاولة!' : praise() + ' +نجمة'}</b> ${it.why}`;
+      moveHiker(gi + 1); $('[data-gnext]', panel).hidden = false; good(); burst(b);
+    } else {
+      gMiss = true; b.classList.add('wrong'); b.disabled = true;
+      fb.className = 'fb no'; fb.innerHTML = '<b>ليست هذه الإجابة.</b> فكّري مرة أخرى واختاري إجابة أخرى.'; bad();
+    }
+    fb.hidden = false;
+  });
+  let gameReady = false;
+  onShow.game = () => { if (!gameReady) { gameReady = true; gStart(); } };
+
+  /* ---------- print (works when opened as a file, not inside a sandbox frame) ---------- */
+  let framed = true; try { framed = window.self !== window.top; } catch (e) {}
+  if (!framed) {
+    const pb = $('#btnPrint'); pb.hidden = false;
+    pb.addEventListener('click', () => { const s = $('#summary-map'); s.classList.add('print-me'); window.print(); setTimeout(() => s.classList.remove('print-me'), 500); });
+  }
+
+  /* ---------- start ---------- */
+  const start = slides.findIndex(s => '#' + s.id === location.hash);
+  slides.forEach(s => s.hidden = true); cur = 0;
+  go(start >= 0 ? start : 0, true);
+})();
+</script>
+</body></html>
