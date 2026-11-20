@@ -15,7 +15,7 @@
   img { max-width: 100%; display: block; }
   header { max-width: 1180px; margin: 0 auto; padding: 8px 14px 0; display: flex; align-items: center; gap: 12px; }
   header img.girl { width: 64px; height: 64px; object-fit: cover; object-position: center 12%; border-radius: 50%; border: 3px solid var(--leaf); background: #fff; }
-  header img.nl { height: 58px; width: auto; }
+  header img.nl { height: 62px; width: auto; } .who { display: flex; align-items: center; gap: 6px; }
   header h1 { margin: 0; font-size: 26px; color: var(--green); line-height: 1.4; }
   header p { margin: 0; font-size: 16px; color: #4a5468; }
   header .sp { flex: 1; }
@@ -90,7 +90,7 @@
   .fin .big { font-size: 60px; }
   footer { text-align: center; color: #6b7a66; font-size: 14px; padding: 6px 0 20px; }
   @media (max-width: 760px) {
-    header h1 { font-size: 20px; } header p { font-size: 13px; } header img.nl, .hb.fs { display: none; } header { flex-wrap: wrap; } .teacher { font-size: 14px; padding: 3px 10px; } header img.girl { width: 48px; height: 48px; }
+    header h1 { font-size: 20px; } header p { font-size: 13px; } header img.nl { height: 42px; } .hb.fs { display: none; } header { flex-wrap: wrap; } .teacher { font-size: 14px; padding: 3px 10px; } header img.girl { width: 48px; height: 48px; }
     .tab { min-width: 46%; font-size: 16px; }
     .qtext { font-size: 24px; } .opts { grid-template-columns: 1fr; } .opt { font-size: 21px; min-height: 60px; }
     .qrow { flex-direction: column-reverse; align-items: flex-start; } .qimg { max-height: 140px; }
@@ -102,9 +102,8 @@
   <img class="girl" src="img/girl.jpg" alt="">
   <div><h1>مراجعة نافس – علوم الحياة</h1><p>العلوم – الصف السادس الابتدائي • مذكرة نافس ١٤٤٨هـ • ١٥٣ سؤالًا مصنّفة حسب الموضوع</p></div>
   <span class="sp"></span>
-  <img class="nl" src="img/nafs.png" alt="نافس">
   <button class="hb" id="sndBtn" onclick="toggleSound()" title="صوت التعزيز">🔔</button>
-  <span class="teacher">💚 إعداد: أ/ شامه البقمي</span>
+  <span class="who"><img class="nl" src="img/nafs.png" alt="نافس"><span class="teacher">💚 إعداد: أ/ شامه البقمي</span></span>
   <button class="hb fs" onclick="fullscreen()">⛶ ملء الشاشة</button>
 </header>
 <nav class="tabs">
